@@ -60,7 +60,7 @@ public struct CreateSavingsPlanInput: Swift.Equatable {
     /// The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is supported only if the payment option is Partial Upfront.
     public var upfrontPaymentAmount: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         commitment: Swift.String? = nil,
         purchaseTime: ClientRuntime.Date? = nil,
@@ -97,7 +97,7 @@ extension CreateSavingsPlanInputBody: Swift.Decodable {
         case upfrontPaymentAmount
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .savingsPlanOfferingId)
         savingsPlanOfferingId = savingsPlanOfferingIdDecoded
@@ -123,37 +123,23 @@ extension CreateSavingsPlanInputBody: Swift.Decodable {
     }
 }
 
-extension CreateSavingsPlanOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateSavingsPlanOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateSavingsPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateSavingsPlanOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateSavingsPlanOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSavingsPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.savingsPlanId = output.savingsPlanId
@@ -167,7 +153,7 @@ public struct CreateSavingsPlanOutputResponse: Swift.Equatable {
     /// The ID of the Savings Plan.
     public var savingsPlanId: Swift.String?
 
-    public init (
+    public init(
         savingsPlanId: Swift.String? = nil
     )
     {
@@ -184,7 +170,7 @@ extension CreateSavingsPlanOutputResponseBody: Swift.Decodable {
         case savingsPlanId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .savingsPlanId)
         savingsPlanId = savingsPlanIdDecoded
@@ -247,7 +233,7 @@ public struct DeleteQueuedSavingsPlanInput: Swift.Equatable {
     /// This member is required.
     public var savingsPlanId: Swift.String?
 
-    public init (
+    public init(
         savingsPlanId: Swift.String? = nil
     )
     {
@@ -264,49 +250,35 @@ extension DeleteQueuedSavingsPlanInputBody: Swift.Decodable {
         case savingsPlanId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .savingsPlanId)
         savingsPlanId = savingsPlanIdDecoded
     }
 }
 
-extension DeleteQueuedSavingsPlanOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteQueuedSavingsPlanOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteQueuedSavingsPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteQueuedSavingsPlanOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteQueuedSavingsPlanOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteQueuedSavingsPlanOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeSavingsPlanRatesInput: Swift.Encodable {
@@ -354,7 +326,7 @@ public struct DescribeSavingsPlanRatesInput: Swift.Equatable {
     /// This member is required.
     public var savingsPlanId: Swift.String?
 
-    public init (
+    public init(
         filters: [SavingsplansClientTypes.SavingsPlanRateFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -383,7 +355,7 @@ extension DescribeSavingsPlanRatesInputBody: Swift.Decodable {
         case savingsPlanId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .savingsPlanId)
         savingsPlanId = savingsPlanIdDecoded
@@ -405,33 +377,21 @@ extension DescribeSavingsPlanRatesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeSavingsPlanRatesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSavingsPlanRatesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSavingsPlanRatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSavingsPlanRatesOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSavingsPlanRatesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSavingsPlanRatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -453,7 +413,7 @@ public struct DescribeSavingsPlanRatesOutputResponse: Swift.Equatable {
     /// Information about the Savings Plans rates.
     public var searchResults: [SavingsplansClientTypes.SavingsPlanRate]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         savingsPlanId: Swift.String? = nil,
         searchResults: [SavingsplansClientTypes.SavingsPlanRate]? = nil
@@ -478,7 +438,7 @@ extension DescribeSavingsPlanRatesOutputResponseBody: Swift.Decodable {
         case searchResults
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .savingsPlanId)
         savingsPlanId = savingsPlanIdDecoded
@@ -563,7 +523,7 @@ public struct DescribeSavingsPlansInput: Swift.Equatable {
     /// The states.
     public var states: [SavingsplansClientTypes.SavingsPlanState]?
 
-    public init (
+    public init(
         filters: [SavingsplansClientTypes.SavingsPlanFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -600,7 +560,7 @@ extension DescribeSavingsPlansInputBody: Swift.Decodable {
         case states
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .savingsPlanArns)
         var savingsPlanArnsDecoded0:[Swift.String]? = nil
@@ -754,7 +714,7 @@ public struct DescribeSavingsPlansOfferingRatesInput: Swift.Equatable {
     /// The usage details of the line item in the billing report.
     public var usageTypes: [Swift.String]?
 
-    public init (
+    public init(
         filters: [SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement]? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil,
@@ -807,7 +767,7 @@ extension DescribeSavingsPlansOfferingRatesInputBody: Swift.Decodable {
         case usageTypes
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanOfferingIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .savingsPlanOfferingIds)
         var savingsPlanOfferingIdsDecoded0:[Swift.String]? = nil
@@ -904,33 +864,21 @@ extension DescribeSavingsPlansOfferingRatesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeSavingsPlansOfferingRatesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSavingsPlansOfferingRatesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSavingsPlansOfferingRatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSavingsPlansOfferingRatesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSavingsPlansOfferingRatesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSavingsPlansOfferingRatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -948,7 +896,7 @@ public struct DescribeSavingsPlansOfferingRatesOutputResponse: Swift.Equatable {
     /// Information about the Savings Plans offering rates.
     public var searchResults: [SavingsplansClientTypes.SavingsPlanOfferingRate]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         searchResults: [SavingsplansClientTypes.SavingsPlanOfferingRate]? = nil
     )
@@ -969,7 +917,7 @@ extension DescribeSavingsPlansOfferingRatesOutputResponseBody: Swift.Decodable {
         case searchResults
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let searchResultsContainer = try containerValues.decodeIfPresent([SavingsplansClientTypes.SavingsPlanOfferingRate?].self, forKey: .searchResults)
         var searchResultsDecoded0:[SavingsplansClientTypes.SavingsPlanOfferingRate]? = nil
@@ -1112,7 +1060,7 @@ public struct DescribeSavingsPlansOfferingsInput: Swift.Equatable {
     /// The usage details of the line item in the billing report.
     public var usageTypes: [Swift.String]?
 
-    public init (
+    public init(
         currencies: [SavingsplansClientTypes.CurrencyCode]? = nil,
         descriptions: [Swift.String]? = nil,
         durations: [Swift.Int]? = nil,
@@ -1177,7 +1125,7 @@ extension DescribeSavingsPlansOfferingsInputBody: Swift.Decodable {
         case usageTypes
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let offeringIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .offeringIds)
         var offeringIdsDecoded0:[Swift.String]? = nil
@@ -1298,33 +1246,21 @@ extension DescribeSavingsPlansOfferingsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeSavingsPlansOfferingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSavingsPlansOfferingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSavingsPlansOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSavingsPlansOfferingsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSavingsPlansOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSavingsPlansOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -1342,7 +1278,7 @@ public struct DescribeSavingsPlansOfferingsOutputResponse: Swift.Equatable {
     /// Information about the Savings Plans offerings.
     public var searchResults: [SavingsplansClientTypes.SavingsPlanOffering]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         searchResults: [SavingsplansClientTypes.SavingsPlanOffering]? = nil
     )
@@ -1363,7 +1299,7 @@ extension DescribeSavingsPlansOfferingsOutputResponseBody: Swift.Decodable {
         case searchResults
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let searchResultsContainer = try containerValues.decodeIfPresent([SavingsplansClientTypes.SavingsPlanOffering?].self, forKey: .searchResults)
         var searchResultsDecoded0:[SavingsplansClientTypes.SavingsPlanOffering]? = nil
@@ -1381,33 +1317,21 @@ extension DescribeSavingsPlansOfferingsOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension DescribeSavingsPlansOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSavingsPlansOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSavingsPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSavingsPlansOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSavingsPlansOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSavingsPlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -1425,7 +1349,7 @@ public struct DescribeSavingsPlansOutputResponse: Swift.Equatable {
     /// Information about the Savings Plans.
     public var savingsPlans: [SavingsplansClientTypes.SavingsPlan]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         savingsPlans: [SavingsplansClientTypes.SavingsPlan]? = nil
     )
@@ -1446,7 +1370,7 @@ extension DescribeSavingsPlansOutputResponseBody: Swift.Decodable {
         case savingsPlans
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlansContainer = try containerValues.decodeIfPresent([SavingsplansClientTypes.SavingsPlan?].self, forKey: .savingsPlans)
         var savingsPlansDecoded0:[SavingsplansClientTypes.SavingsPlan]? = nil
@@ -1465,38 +1389,42 @@ extension DescribeSavingsPlansOutputResponseBody: Swift.Decodable {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An unexpected error occurred.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// This member is required.
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1509,7 +1437,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1540,7 +1468,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -1557,42 +1485,29 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -1606,7 +1521,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// Information about the tags.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1623,7 +1538,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -1671,7 +1586,7 @@ extension SavingsplansClientTypes.ParentSavingsPlanOffering: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let offeringIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringId)
         offeringId = offeringIdDecoded
@@ -1704,7 +1619,7 @@ extension SavingsplansClientTypes {
         /// The plan type.
         public var planType: SavingsplansClientTypes.SavingsPlanType?
 
-        public init (
+        public init(
             currency: SavingsplansClientTypes.CurrencyCode? = nil,
             durationSeconds: Swift.Int = 0,
             offeringId: Swift.String? = nil,
@@ -1725,38 +1640,42 @@ extension SavingsplansClientTypes {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1769,7 +1688,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1862,7 +1781,7 @@ extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let offeringIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringId)
         offeringId = offeringIdDecoded
@@ -1961,7 +1880,7 @@ extension SavingsplansClientTypes {
         /// The up-front payment amount.
         public var upfrontPaymentAmount: Swift.String?
 
-        public init (
+        public init(
             commitment: Swift.String? = nil,
             currency: SavingsplansClientTypes.CurrencyCode? = nil,
             description: Swift.String? = nil,
@@ -2024,7 +1943,7 @@ extension SavingsplansClientTypes.SavingsPlanFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(SavingsplansClientTypes.SavingsPlansFilterName.self, forKey: .name)
         name = nameDecoded
@@ -2050,7 +1969,7 @@ extension SavingsplansClientTypes {
         /// The filter value.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: SavingsplansClientTypes.SavingsPlansFilterName? = nil,
             values: [Swift.String]? = nil
         )
@@ -2120,7 +2039,7 @@ extension SavingsplansClientTypes.SavingsPlanOffering: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let offeringIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringId)
         offeringId = offeringIdDecoded
@@ -2191,7 +2110,7 @@ extension SavingsplansClientTypes {
         /// The usage details of the line item in the billing report.
         public var usageType: Swift.String?
 
-        public init (
+        public init(
             currency: SavingsplansClientTypes.CurrencyCode? = nil,
             description: Swift.String? = nil,
             durationSeconds: Swift.Int = 0,
@@ -2272,7 +2191,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingFilterElement: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(SavingsplansClientTypes.SavingsPlanOfferingFilterAttribute.self, forKey: .name)
         name = nameDecoded
@@ -2298,7 +2217,7 @@ extension SavingsplansClientTypes {
         /// The filter values.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: SavingsplansClientTypes.SavingsPlanOfferingFilterAttribute? = nil,
             values: [Swift.String]? = nil
         )
@@ -2326,7 +2245,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingProperty: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(SavingsplansClientTypes.SavingsPlanOfferingPropertyKey.self, forKey: .name)
         name = nameDecoded
@@ -2343,7 +2262,7 @@ extension SavingsplansClientTypes {
         /// The property value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: SavingsplansClientTypes.SavingsPlanOfferingPropertyKey? = nil,
             value: Swift.String? = nil
         )
@@ -2430,7 +2349,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanOfferingDecoded = try containerValues.decodeIfPresent(SavingsplansClientTypes.ParentSavingsPlanOffering.self, forKey: .savingsPlanOffering)
         savingsPlanOffering = savingsPlanOfferingDecoded
@@ -2480,7 +2399,7 @@ extension SavingsplansClientTypes {
         /// The usage details of the line item in the billing report.
         public var usageType: Swift.String?
 
-        public init (
+        public init(
             operation: Swift.String? = nil,
             productType: SavingsplansClientTypes.SavingsPlanProductType? = nil,
             properties: [SavingsplansClientTypes.SavingsPlanOfferingRateProperty]? = nil,
@@ -2523,7 +2442,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(SavingsplansClientTypes.SavingsPlanRateFilterAttribute.self, forKey: .name)
         name = nameDecoded
@@ -2549,7 +2468,7 @@ extension SavingsplansClientTypes {
         /// The filter values.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: SavingsplansClientTypes.SavingsPlanRateFilterAttribute? = nil,
             values: [Swift.String]? = nil
         )
@@ -2577,7 +2496,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRateProperty: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2594,7 +2513,7 @@ extension SavingsplansClientTypes {
         /// The property value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -2722,7 +2641,7 @@ extension SavingsplansClientTypes.SavingsPlanRate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rate)
         rate = rateDecoded
@@ -2772,7 +2691,7 @@ extension SavingsplansClientTypes {
         /// The usage details of the line item in the billing report.
         public var usageType: Swift.String?
 
-        public init (
+        public init(
             currency: SavingsplansClientTypes.CurrencyCode? = nil,
             operation: Swift.String? = nil,
             productType: SavingsplansClientTypes.SavingsPlanProductType? = nil,
@@ -2815,7 +2734,7 @@ extension SavingsplansClientTypes.SavingsPlanRateFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(SavingsplansClientTypes.SavingsPlanRateFilterName.self, forKey: .name)
         name = nameDecoded
@@ -2841,7 +2760,7 @@ extension SavingsplansClientTypes {
         /// The filter values.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: SavingsplansClientTypes.SavingsPlanRateFilterName? = nil,
             values: [Swift.String]? = nil
         )
@@ -2963,7 +2882,7 @@ extension SavingsplansClientTypes.SavingsPlanRateProperty: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(SavingsplansClientTypes.SavingsPlanRatePropertyKey.self, forKey: .name)
         name = nameDecoded
@@ -2980,7 +2899,7 @@ extension SavingsplansClientTypes {
         /// The property value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: SavingsplansClientTypes.SavingsPlanRatePropertyKey? = nil,
             value: Swift.String? = nil
         )
@@ -3242,38 +3161,42 @@ extension SavingsplansClientTypes {
 }
 
 extension ServiceQuotaExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A service quota has been exceeded.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3286,7 +3209,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3327,7 +3250,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -3348,7 +3271,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -3366,42 +3289,28 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UntagResourceInput: Swift.Encodable {
@@ -3438,7 +3347,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -3459,7 +3368,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -3477,75 +3386,66 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One of the input parameters is not valid.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3558,7 +3458,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded

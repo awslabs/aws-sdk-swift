@@ -62,7 +62,7 @@ extension ChimeSDKIdentityClientTypes.AppInstance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -96,7 +96,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The name of an AppInstance.
         public var name: Swift.String?
 
-        public init (
+        public init(
             appInstanceArn: Swift.String? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil,
@@ -134,7 +134,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceAdmin: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adminDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.Identity.self, forKey: .admin)
         admin = adminDecoded
@@ -155,7 +155,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The time at which an administrator was created.
         public var createdTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             admin: ChimeSDKIdentityClientTypes.Identity? = nil,
             appInstanceArn: Swift.String? = nil,
             createdTimestamp: ClientRuntime.Date? = nil
@@ -181,7 +181,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceAdminSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adminDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.Identity.self, forKey: .admin)
         admin = adminDecoded
@@ -194,7 +194,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The details of the AppInstanceAdmin.
         public var admin: ChimeSDKIdentityClientTypes.Identity?
 
-        public init (
+        public init(
             admin: ChimeSDKIdentityClientTypes.Identity? = nil
         )
         {
@@ -236,7 +236,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceBot: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceBotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceBotArn)
         appInstanceBotArn = appInstanceBotArnDecoded
@@ -274,7 +274,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The name of the AppInstanceBot.
         public var name: Swift.String?
 
-        public init (
+        public init(
             appInstanceBotArn: Swift.String? = nil,
             configuration: ChimeSDKIdentityClientTypes.Configuration? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
@@ -314,7 +314,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceBotSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceBotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceBotArn)
         appInstanceBotArn = appInstanceBotArnDecoded
@@ -340,7 +340,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The name of the AppInstanceBox.
         public var name: Swift.String?
 
-        public init (
+        public init(
             appInstanceBotArn: Swift.String? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
@@ -366,7 +366,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelRetentionSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ChannelRetentionSettings.self, forKey: .channelRetentionSettings)
         channelRetentionSettings = channelRetentionSettingsDecoded
@@ -379,7 +379,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The length of time in days to retain the messages in a channel.
         public var channelRetentionSettings: ChimeSDKIdentityClientTypes.ChannelRetentionSettings?
 
-        public init (
+        public init(
             channelRetentionSettings: ChimeSDKIdentityClientTypes.ChannelRetentionSettings? = nil
         )
         {
@@ -409,7 +409,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -435,7 +435,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The name of the AppInstance.
         public var name: Swift.String?
 
-        public init (
+        public init(
             appInstanceArn: Swift.String? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
@@ -481,7 +481,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUser: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded
@@ -519,7 +519,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The name of the AppInstanceUser.
         public var name: Swift.String?
 
-        public init (
+        public init(
             appInstanceUserArn: Swift.String? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
             expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil,
@@ -587,7 +587,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded
@@ -649,7 +649,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The type of the AppInstanceUserEndpoint.
         public var type: ChimeSDKIdentityClientTypes.AppInstanceUserEndpointType?
 
-        public init (
+        public init(
             allowMessages: ChimeSDKIdentityClientTypes.AllowMessages? = nil,
             appInstanceUserArn: Swift.String? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
@@ -709,7 +709,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded
@@ -747,7 +747,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The type of the AppInstanceUserEndpoint.
         public var type: ChimeSDKIdentityClientTypes.AppInstanceUserEndpointType?
 
-        public init (
+        public init(
             allowMessages: ChimeSDKIdentityClientTypes.AllowMessages? = nil,
             appInstanceUserArn: Swift.String? = nil,
             endpointId: Swift.String? = nil,
@@ -822,7 +822,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded
@@ -848,7 +848,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The name of an AppInstanceUser.
         public var name: Swift.String?
 
-        public init (
+        public init(
             appInstanceUserArn: Swift.String? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
@@ -863,42 +863,46 @@ extension ChimeSDKIdentityClientTypes {
 }
 
 extension BadRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input parameters don't match the service's restrictions.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -913,7 +917,7 @@ extension BadRequestExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -934,7 +938,7 @@ extension ChimeSDKIdentityClientTypes.ChannelRetentionSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retentionDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionDays)
         retentionDays = retentionDaysDecoded
@@ -947,7 +951,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The time in days to retain the messages in a channel.
         public var retentionDays: Swift.Int?
 
-        public init (
+        public init(
             retentionDays: Swift.Int? = nil
         )
         {
@@ -969,7 +973,7 @@ extension ChimeSDKIdentityClientTypes.Configuration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lexDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.LexConfiguration.self, forKey: .lex)
         lex = lexDecoded
@@ -983,7 +987,7 @@ extension ChimeSDKIdentityClientTypes {
         /// This member is required.
         public var lex: ChimeSDKIdentityClientTypes.LexConfiguration?
 
-        public init (
+        public init(
             lex: ChimeSDKIdentityClientTypes.LexConfiguration? = nil
         )
         {
@@ -994,42 +998,46 @@ extension ChimeSDKIdentityClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request could not be processed because of conflict in the current state of the resource.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -1044,7 +1052,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -1083,7 +1091,7 @@ public struct CreateAppInstanceAdminInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
     )
@@ -1102,52 +1110,34 @@ extension CreateAppInstanceAdminInputBody: Swift.Decodable {
         case appInstanceAdminArn = "AppInstanceAdminArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceAdminArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceAdminArn)
         appInstanceAdminArn = appInstanceAdminArnDecoded
     }
 }
 
-extension CreateAppInstanceAdminOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAppInstanceAdminOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAppInstanceAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAppInstanceAdminOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAppInstanceAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAppInstanceAdminOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceAdmin = output.appInstanceAdmin
@@ -1165,7 +1155,7 @@ public struct CreateAppInstanceAdminOutputResponse: Swift.Equatable {
     /// The ARN of the of the admin for the AppInstance.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceAdmin: ChimeSDKIdentityClientTypes.Identity? = nil,
         appInstanceArn: Swift.String? = nil
     )
@@ -1186,7 +1176,7 @@ extension CreateAppInstanceAdminOutputResponseBody: Swift.Decodable {
         case appInstanceArn = "AppInstanceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceAdminDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.Identity.self, forKey: .appInstanceAdmin)
         appInstanceAdmin = appInstanceAdminDecoded
@@ -1259,7 +1249,7 @@ public struct CreateAppInstanceBotInput: Swift.Equatable {
     /// The tags assigned to the AppInstanceBot.
     public var tags: [ChimeSDKIdentityClientTypes.Tag]?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         configuration: ChimeSDKIdentityClientTypes.Configuration? = nil,
@@ -1296,7 +1286,7 @@ extension CreateAppInstanceBotInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -1322,45 +1312,27 @@ extension CreateAppInstanceBotInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAppInstanceBotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAppInstanceBotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAppInstanceBotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAppInstanceBotOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAppInstanceBotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAppInstanceBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceBotArn = output.appInstanceBotArn
@@ -1374,7 +1346,7 @@ public struct CreateAppInstanceBotOutputResponse: Swift.Equatable {
     /// The ARN of the AppinstanceBot.
     public var appInstanceBotArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceBotArn: Swift.String? = nil
     )
     {
@@ -1391,7 +1363,7 @@ extension CreateAppInstanceBotOutputResponseBody: Swift.Decodable {
         case appInstanceBotArn = "AppInstanceBotArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceBotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceBotArn)
         appInstanceBotArn = appInstanceBotArnDecoded
@@ -1449,7 +1421,7 @@ public struct CreateAppInstanceInput: Swift.Equatable {
     /// Tags assigned to the AppInstance.
     public var tags: [ChimeSDKIdentityClientTypes.Tag]?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1478,7 +1450,7 @@ extension CreateAppInstanceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1500,45 +1472,27 @@ extension CreateAppInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAppInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAppInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAppInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAppInstanceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAppInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAppInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceArn = output.appInstanceArn
@@ -1552,7 +1506,7 @@ public struct CreateAppInstanceOutputResponse: Swift.Equatable {
     /// The Amazon Resource Number (ARN) of the AppInstance.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil
     )
     {
@@ -1569,7 +1523,7 @@ extension CreateAppInstanceOutputResponseBody: Swift.Decodable {
         case appInstanceArn = "AppInstanceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -1647,7 +1601,7 @@ public struct CreateAppInstanceUserInput: Swift.Equatable {
     /// Tags assigned to the AppInstanceUser.
     public var tags: [ChimeSDKIdentityClientTypes.Tag]?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         appInstanceUserId: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
@@ -1688,7 +1642,7 @@ extension CreateAppInstanceUserInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -1716,45 +1670,27 @@ extension CreateAppInstanceUserInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAppInstanceUserOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAppInstanceUserOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAppInstanceUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAppInstanceUserOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAppInstanceUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceUserArn = output.appInstanceUserArn
@@ -1768,7 +1704,7 @@ public struct CreateAppInstanceUserOutputResponse: Swift.Equatable {
     /// The user's ARN.
     public var appInstanceUserArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil
     )
     {
@@ -1785,7 +1721,7 @@ extension CreateAppInstanceUserOutputResponseBody: Swift.Decodable {
         case appInstanceUserArn = "AppInstanceUserArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded
@@ -1812,7 +1748,7 @@ public struct DeleteAppInstanceAdminInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
     )
@@ -1827,54 +1763,36 @@ struct DeleteAppInstanceAdminInputBody: Swift.Equatable {
 
 extension DeleteAppInstanceAdminInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteAppInstanceAdminOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAppInstanceAdminOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAppInstanceAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAppInstanceAdminOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAppInstanceAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAppInstanceAdminOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteAppInstanceBotInput: ClientRuntime.URLPathProvider {
@@ -1891,7 +1809,7 @@ public struct DeleteAppInstanceBotInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceBotArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceBotArn: Swift.String? = nil
     )
     {
@@ -1904,54 +1822,36 @@ struct DeleteAppInstanceBotInputBody: Swift.Equatable {
 
 extension DeleteAppInstanceBotInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteAppInstanceBotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAppInstanceBotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAppInstanceBotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAppInstanceBotOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAppInstanceBotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAppInstanceBotOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteAppInstanceInput: ClientRuntime.URLPathProvider {
@@ -1968,7 +1868,7 @@ public struct DeleteAppInstanceInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil
     )
     {
@@ -1981,52 +1881,35 @@ struct DeleteAppInstanceInputBody: Swift.Equatable {
 
 extension DeleteAppInstanceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteAppInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAppInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAppInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAppInstanceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAppInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAppInstanceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteAppInstanceUserInput: ClientRuntime.URLPathProvider {
@@ -2043,7 +1926,7 @@ public struct DeleteAppInstanceUserInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil
     )
     {
@@ -2056,54 +1939,36 @@ struct DeleteAppInstanceUserInputBody: Swift.Equatable {
 
 extension DeleteAppInstanceUserInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteAppInstanceUserOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAppInstanceUserOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAppInstanceUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAppInstanceUserOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAppInstanceUserOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeregisterAppInstanceUserEndpointInput: Swift.CustomDebugStringConvertible {
@@ -2131,7 +1996,7 @@ public struct DeregisterAppInstanceUserEndpointInput: Swift.Equatable {
     /// This member is required.
     public var endpointId: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
     )
@@ -2146,50 +2011,34 @@ struct DeregisterAppInstanceUserEndpointInputBody: Swift.Equatable {
 
 extension DeregisterAppInstanceUserEndpointInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeregisterAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeregisterAppInstanceUserEndpointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeregisterAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeregisterAppInstanceUserEndpointOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeregisterAppInstanceUserEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeregisterAppInstanceUserEndpointOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeAppInstanceAdminInput: ClientRuntime.URLPathProvider {
@@ -2212,7 +2061,7 @@ public struct DescribeAppInstanceAdminInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
     )
@@ -2227,45 +2076,29 @@ struct DescribeAppInstanceAdminInputBody: Swift.Equatable {
 
 extension DescribeAppInstanceAdminInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeAppInstanceAdminOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAppInstanceAdminOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAppInstanceAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAppInstanceAdminOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAppInstanceAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAppInstanceAdminOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceAdmin = output.appInstanceAdmin
@@ -2279,7 +2112,7 @@ public struct DescribeAppInstanceAdminOutputResponse: Swift.Equatable {
     /// The ARN and name of the AppInstanceUser, the ARN of the AppInstance, and the created and last-updated timestamps. All timestamps use epoch milliseconds.
     public var appInstanceAdmin: ChimeSDKIdentityClientTypes.AppInstanceAdmin?
 
-    public init (
+    public init(
         appInstanceAdmin: ChimeSDKIdentityClientTypes.AppInstanceAdmin? = nil
     )
     {
@@ -2296,7 +2129,7 @@ extension DescribeAppInstanceAdminOutputResponseBody: Swift.Decodable {
         case appInstanceAdmin = "AppInstanceAdmin"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceAdminDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceAdmin.self, forKey: .appInstanceAdmin)
         appInstanceAdmin = appInstanceAdminDecoded
@@ -2317,7 +2150,7 @@ public struct DescribeAppInstanceBotInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceBotArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceBotArn: Swift.String? = nil
     )
     {
@@ -2330,47 +2163,30 @@ struct DescribeAppInstanceBotInputBody: Swift.Equatable {
 
 extension DescribeAppInstanceBotInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeAppInstanceBotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAppInstanceBotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAppInstanceBotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAppInstanceBotOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAppInstanceBotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAppInstanceBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceBot = output.appInstanceBot
@@ -2384,7 +2200,7 @@ public struct DescribeAppInstanceBotOutputResponse: Swift.Equatable {
     /// The detials of the AppInstanceBot.
     public var appInstanceBot: ChimeSDKIdentityClientTypes.AppInstanceBot?
 
-    public init (
+    public init(
         appInstanceBot: ChimeSDKIdentityClientTypes.AppInstanceBot? = nil
     )
     {
@@ -2401,7 +2217,7 @@ extension DescribeAppInstanceBotOutputResponseBody: Swift.Decodable {
         case appInstanceBot = "AppInstanceBot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceBotDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceBot.self, forKey: .appInstanceBot)
         appInstanceBot = appInstanceBotDecoded
@@ -2422,7 +2238,7 @@ public struct DescribeAppInstanceInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil
     )
     {
@@ -2435,45 +2251,29 @@ struct DescribeAppInstanceInputBody: Swift.Equatable {
 
 extension DescribeAppInstanceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeAppInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAppInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAppInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAppInstanceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAppInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAppInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstance = output.appInstance
@@ -2487,7 +2287,7 @@ public struct DescribeAppInstanceOutputResponse: Swift.Equatable {
     /// The ARN, metadata, created and last-updated timestamps, and the name of the AppInstance. All timestamps use epoch milliseconds.
     public var appInstance: ChimeSDKIdentityClientTypes.AppInstance?
 
-    public init (
+    public init(
         appInstance: ChimeSDKIdentityClientTypes.AppInstance? = nil
     )
     {
@@ -2504,7 +2304,7 @@ extension DescribeAppInstanceOutputResponseBody: Swift.Decodable {
         case appInstance = "AppInstance"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstance.self, forKey: .appInstance)
         appInstance = appInstanceDecoded
@@ -2536,7 +2336,7 @@ public struct DescribeAppInstanceUserEndpointInput: Swift.Equatable {
     /// This member is required.
     public var endpointId: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
     )
@@ -2551,45 +2351,29 @@ struct DescribeAppInstanceUserEndpointInputBody: Swift.Equatable {
 
 extension DescribeAppInstanceUserEndpointInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAppInstanceUserEndpointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAppInstanceUserEndpointOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAppInstanceUserEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAppInstanceUserEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceUserEndpoint = output.appInstanceUserEndpoint
@@ -2603,7 +2387,7 @@ public struct DescribeAppInstanceUserEndpointOutputResponse: Swift.Equatable {
     /// The full details of an AppInstanceUserEndpoint: the AppInstanceUserArn, ID, name, type, resource ARN, attributes, allow messages, state, and created and last updated timestamps. All timestamps use epoch milliseconds.
     public var appInstanceUserEndpoint: ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint?
 
-    public init (
+    public init(
         appInstanceUserEndpoint: ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint? = nil
     )
     {
@@ -2620,7 +2404,7 @@ extension DescribeAppInstanceUserEndpointOutputResponseBody: Swift.Decodable {
         case appInstanceUserEndpoint = "AppInstanceUserEndpoint"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserEndpointDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint.self, forKey: .appInstanceUserEndpoint)
         appInstanceUserEndpoint = appInstanceUserEndpointDecoded
@@ -2641,7 +2425,7 @@ public struct DescribeAppInstanceUserInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil
     )
     {
@@ -2654,45 +2438,29 @@ struct DescribeAppInstanceUserInputBody: Swift.Equatable {
 
 extension DescribeAppInstanceUserInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeAppInstanceUserOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAppInstanceUserOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAppInstanceUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAppInstanceUserOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAppInstanceUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceUser = output.appInstanceUser
@@ -2706,7 +2474,7 @@ public struct DescribeAppInstanceUserOutputResponse: Swift.Equatable {
     /// The name of the AppInstanceUser.
     public var appInstanceUser: ChimeSDKIdentityClientTypes.AppInstanceUser?
 
-    public init (
+    public init(
         appInstanceUser: ChimeSDKIdentityClientTypes.AppInstanceUser? = nil
     )
     {
@@ -2723,7 +2491,7 @@ extension DescribeAppInstanceUserOutputResponseBody: Swift.Decodable {
         case appInstanceUser = "AppInstanceUser"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceUser.self, forKey: .appInstanceUser)
         appInstanceUser = appInstanceUserDecoded
@@ -2746,7 +2514,7 @@ extension ChimeSDKIdentityClientTypes.EndpointAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deviceTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceToken)
         deviceToken = deviceTokenDecoded
@@ -2769,7 +2537,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The VOIP device token for the APNS and APNS_SANDBOX endpoint types.
         public var voipDeviceToken: Swift.String?
 
-        public init (
+        public init(
             deviceToken: Swift.String? = nil,
             voipDeviceToken: Swift.String? = nil
         )
@@ -2797,7 +2565,7 @@ extension ChimeSDKIdentityClientTypes.EndpointState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.EndpointStatus.self, forKey: .status)
         status = statusDecoded
@@ -2823,7 +2591,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The reason for the EndpointStatus.
         public var statusReason: ChimeSDKIdentityClientTypes.EndpointStatusReason?
 
-        public init (
+        public init(
             status: ChimeSDKIdentityClientTypes.EndpointStatus? = nil,
             statusReason: ChimeSDKIdentityClientTypes.EndpointStatusReason? = nil
         )
@@ -3015,7 +2783,7 @@ extension ChimeSDKIdentityClientTypes.ExpirationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let expirationDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expirationDays)
         expirationDays = expirationDaysDecoded
@@ -3034,7 +2802,7 @@ extension ChimeSDKIdentityClientTypes {
         /// This member is required.
         public var expirationDays: Swift.Int?
 
-        public init (
+        public init(
             expirationCriterion: ChimeSDKIdentityClientTypes.ExpirationCriterion? = nil,
             expirationDays: Swift.Int? = nil
         )
@@ -3047,42 +2815,46 @@ extension ChimeSDKIdentityClientTypes {
 }
 
 extension ForbiddenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The client is permanently forbidden from making the request.
-public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ForbiddenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -3097,7 +2869,7 @@ extension ForbiddenExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -3120,7 +2892,7 @@ public struct GetAppInstanceRetentionSettingsInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil
     )
     {
@@ -3133,45 +2905,29 @@ struct GetAppInstanceRetentionSettingsInputBody: Swift.Equatable {
 
 extension GetAppInstanceRetentionSettingsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetAppInstanceRetentionSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAppInstanceRetentionSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAppInstanceRetentionSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAppInstanceRetentionSettingsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAppInstanceRetentionSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAppInstanceRetentionSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceRetentionSettings = output.appInstanceRetentionSettings
@@ -3189,7 +2945,7 @@ public struct GetAppInstanceRetentionSettingsOutputResponse: Swift.Equatable {
     /// The timestamp representing the time at which the specified items are retained, in Epoch Seconds.
     public var initiateDeletionTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings? = nil,
         initiateDeletionTimestamp: ClientRuntime.Date? = nil
     )
@@ -3210,7 +2966,7 @@ extension GetAppInstanceRetentionSettingsOutputResponseBody: Swift.Decodable {
         case initiateDeletionTimestamp = "InitiateDeletionTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceRetentionSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings.self, forKey: .appInstanceRetentionSettings)
         appInstanceRetentionSettings = appInstanceRetentionSettingsDecoded
@@ -3235,7 +2991,7 @@ extension ChimeSDKIdentityClientTypes.Identity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3257,7 +3013,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The name in an Identity.
         public var name: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -3293,7 +3049,7 @@ extension ChimeSDKIdentityClientTypes.LexConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let respondsToDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.RespondsTo.self, forKey: .respondsTo)
         respondsTo = respondsToDecoded
@@ -3321,7 +3077,7 @@ extension ChimeSDKIdentityClientTypes {
         /// The name of the welcome intent configured in the Amazon Lex V2 bot.
         public var welcomeIntent: Swift.String?
 
-        public init (
+        public init(
             lexBotAliasArn: Swift.String? = nil,
             localeId: Swift.String? = nil,
             respondsTo: ChimeSDKIdentityClientTypes.RespondsTo? = nil,
@@ -3377,7 +3133,7 @@ public struct ListAppInstanceAdminsInput: Swift.Equatable {
     /// The token returned from previous API requests until the number of administrators is reached.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3394,42 +3150,25 @@ struct ListAppInstanceAdminsInputBody: Swift.Equatable {
 
 extension ListAppInstanceAdminsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListAppInstanceAdminsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAppInstanceAdminsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAppInstanceAdminsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum ListAppInstanceAdminsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension ListAppInstanceAdminsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -3438,8 +3177,8 @@ extension ListAppInstanceAdminsOutputResponse: Swift.CustomDebugStringConvertibl
 }
 
 extension ListAppInstanceAdminsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAppInstanceAdminsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceAdmins = output.appInstanceAdmins
@@ -3461,7 +3200,7 @@ public struct ListAppInstanceAdminsOutputResponse: Swift.Equatable {
     /// The token returned from previous API requests until the number of administrators is reached.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstanceAdmins: [ChimeSDKIdentityClientTypes.AppInstanceAdminSummary]? = nil,
         appInstanceArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -3486,7 +3225,7 @@ extension ListAppInstanceAdminsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -3525,7 +3264,7 @@ extension ListAppInstanceBotsInput: ClientRuntime.QueryItemProvider {
             }
             guard let appInstanceArn = appInstanceArn else {
                 let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
             items.append(appInstanceArnQueryItem)
@@ -3549,7 +3288,7 @@ public struct ListAppInstanceBotsInput: Swift.Equatable {
     /// The token passed by previous API calls until all requested bots are returned.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3566,42 +3305,25 @@ struct ListAppInstanceBotsInputBody: Swift.Equatable {
 
 extension ListAppInstanceBotsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListAppInstanceBotsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAppInstanceBotsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAppInstanceBotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum ListAppInstanceBotsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension ListAppInstanceBotsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -3610,8 +3332,8 @@ extension ListAppInstanceBotsOutputResponse: Swift.CustomDebugStringConvertible 
 }
 
 extension ListAppInstanceBotsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAppInstanceBotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceArn = output.appInstanceArn
@@ -3633,7 +3355,7 @@ public struct ListAppInstanceBotsOutputResponse: Swift.Equatable {
     /// The token passed by previous API calls until all requested bots are returned.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         appInstanceBots: [ChimeSDKIdentityClientTypes.AppInstanceBotSummary]? = nil,
         nextToken: Swift.String? = nil
@@ -3658,7 +3380,7 @@ extension ListAppInstanceBotsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -3718,7 +3440,7 @@ public struct ListAppInstanceUserEndpointsInput: Swift.Equatable {
     /// The token passed by previous API calls until all requested endpoints are returned.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3735,40 +3457,24 @@ struct ListAppInstanceUserEndpointsInputBody: Swift.Equatable {
 
 extension ListAppInstanceUserEndpointsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListAppInstanceUserEndpointsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAppInstanceUserEndpointsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAppInstanceUserEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum ListAppInstanceUserEndpointsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension ListAppInstanceUserEndpointsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -3777,8 +3483,8 @@ extension ListAppInstanceUserEndpointsOutputResponse: Swift.CustomDebugStringCon
 }
 
 extension ListAppInstanceUserEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAppInstanceUserEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceUserEndpoints = output.appInstanceUserEndpoints
@@ -3796,7 +3502,7 @@ public struct ListAppInstanceUserEndpointsOutputResponse: Swift.Equatable {
     /// The token passed by previous API calls until all requested endpoints are returned.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserEndpoints: [ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3817,7 +3523,7 @@ extension ListAppInstanceUserEndpointsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserEndpointsContainer = try containerValues.decodeIfPresent([ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary?].self, forKey: .appInstanceUserEndpoints)
         var appInstanceUserEndpointsDecoded0:[ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary]? = nil
@@ -3854,7 +3560,7 @@ extension ListAppInstanceUsersInput: ClientRuntime.QueryItemProvider {
             }
             guard let appInstanceArn = appInstanceArn else {
                 let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
             items.append(appInstanceArnQueryItem)
@@ -3878,7 +3584,7 @@ public struct ListAppInstanceUsersInput: Swift.Equatable {
     /// The token passed by previous API calls until all requested users are returned.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3895,40 +3601,24 @@ struct ListAppInstanceUsersInputBody: Swift.Equatable {
 
 extension ListAppInstanceUsersInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListAppInstanceUsersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAppInstanceUsersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAppInstanceUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum ListAppInstanceUsersOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension ListAppInstanceUsersOutputResponse: Swift.CustomDebugStringConvertible {
@@ -3937,8 +3627,8 @@ extension ListAppInstanceUsersOutputResponse: Swift.CustomDebugStringConvertible
 }
 
 extension ListAppInstanceUsersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAppInstanceUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceArn = output.appInstanceArn
@@ -3960,7 +3650,7 @@ public struct ListAppInstanceUsersOutputResponse: Swift.Equatable {
     /// The token passed by previous API calls until all requested users are returned.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         appInstanceUsers: [ChimeSDKIdentityClientTypes.AppInstanceUserSummary]? = nil,
         nextToken: Swift.String? = nil
@@ -3985,7 +3675,7 @@ extension ListAppInstanceUsersOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -4039,7 +3729,7 @@ public struct ListAppInstancesInput: Swift.Equatable {
     /// The token passed by previous API requests until you reach the maximum number of AppInstances.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4054,40 +3744,24 @@ struct ListAppInstancesInputBody: Swift.Equatable {
 
 extension ListAppInstancesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListAppInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAppInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAppInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum ListAppInstancesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension ListAppInstancesOutputResponse: Swift.CustomDebugStringConvertible {
@@ -4096,8 +3770,8 @@ extension ListAppInstancesOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension ListAppInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAppInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstances = output.appInstances
@@ -4115,7 +3789,7 @@ public struct ListAppInstancesOutputResponse: Swift.Equatable {
     /// The token passed by previous API requests until the maximum number of AppInstances is reached.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         appInstances: [ChimeSDKIdentityClientTypes.AppInstanceSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4136,7 +3810,7 @@ extension ListAppInstancesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstancesContainer = try containerValues.decodeIfPresent([ChimeSDKIdentityClientTypes.AppInstanceSummary?].self, forKey: .appInstances)
         var appInstancesDecoded0:[ChimeSDKIdentityClientTypes.AppInstanceSummary]? = nil
@@ -4160,7 +3834,7 @@ extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let resourceARN = resourceARN else {
                 let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
             items.append(resourceARNQueryItem)
@@ -4180,7 +3854,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil
     )
     {
@@ -4193,45 +3867,29 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -4245,7 +3903,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The tag key-value pairs.
     public var tags: [ChimeSDKIdentityClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
     )
     {
@@ -4262,7 +3920,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKIdentityClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[ChimeSDKIdentityClientTypes.Tag]? = nil
@@ -4279,42 +3937,46 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 }
 
 extension NotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more of the resources in the request does not exist in the system.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -4329,7 +3991,7 @@ extension NotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -4368,7 +4030,7 @@ public struct PutAppInstanceRetentionSettingsInput: Swift.Equatable {
     /// This member is required.
     public var appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings? = nil
     )
@@ -4387,48 +4049,32 @@ extension PutAppInstanceRetentionSettingsInputBody: Swift.Decodable {
         case appInstanceRetentionSettings = "AppInstanceRetentionSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceRetentionSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings.self, forKey: .appInstanceRetentionSettings)
         appInstanceRetentionSettings = appInstanceRetentionSettingsDecoded
     }
 }
 
-extension PutAppInstanceRetentionSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutAppInstanceRetentionSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutAppInstanceRetentionSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutAppInstanceRetentionSettingsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutAppInstanceRetentionSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutAppInstanceRetentionSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceRetentionSettings = output.appInstanceRetentionSettings
@@ -4446,7 +4092,7 @@ public struct PutAppInstanceRetentionSettingsOutputResponse: Swift.Equatable {
     /// The time at which the API deletes data.
     public var initiateDeletionTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings? = nil,
         initiateDeletionTimestamp: ClientRuntime.Date? = nil
     )
@@ -4467,7 +4113,7 @@ extension PutAppInstanceRetentionSettingsOutputResponseBody: Swift.Decodable {
         case initiateDeletionTimestamp = "InitiateDeletionTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceRetentionSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings.self, forKey: .appInstanceRetentionSettings)
         appInstanceRetentionSettings = appInstanceRetentionSettingsDecoded
@@ -4505,7 +4151,7 @@ public struct PutAppInstanceUserExpirationSettingsInput: Swift.Equatable {
     /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
     public var expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil,
         expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil
     )
@@ -4524,50 +4170,33 @@ extension PutAppInstanceUserExpirationSettingsInputBody: Swift.Decodable {
         case expirationSettings = "ExpirationSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
         expirationSettings = expirationSettingsDecoded
     }
 }
 
-extension PutAppInstanceUserExpirationSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutAppInstanceUserExpirationSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutAppInstanceUserExpirationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutAppInstanceUserExpirationSettingsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutAppInstanceUserExpirationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutAppInstanceUserExpirationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceUserArn = output.appInstanceUserArn
@@ -4585,7 +4214,7 @@ public struct PutAppInstanceUserExpirationSettingsOutputResponse: Swift.Equatabl
     /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
     public var expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil,
         expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil
     )
@@ -4606,7 +4235,7 @@ extension PutAppInstanceUserExpirationSettingsOutputResponseBody: Swift.Decodabl
         case expirationSettings = "ExpirationSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded
@@ -4692,7 +4321,7 @@ public struct RegisterAppInstanceUserEndpointInput: Swift.Equatable {
     /// This member is required.
     public var type: ChimeSDKIdentityClientTypes.AppInstanceUserEndpointType?
 
-    public init (
+    public init(
         allowMessages: ChimeSDKIdentityClientTypes.AllowMessages? = nil,
         appInstanceUserArn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
@@ -4731,7 +4360,7 @@ extension RegisterAppInstanceUserEndpointInputBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4748,40 +4377,22 @@ extension RegisterAppInstanceUserEndpointInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterAppInstanceUserEndpointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum RegisterAppInstanceUserEndpointOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension RegisterAppInstanceUserEndpointOutputResponse: Swift.CustomDebugStringConvertible {
@@ -4790,8 +4401,8 @@ extension RegisterAppInstanceUserEndpointOutputResponse: Swift.CustomDebugString
 }
 
 extension RegisterAppInstanceUserEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RegisterAppInstanceUserEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceUserArn = output.appInstanceUserArn
@@ -4809,7 +4420,7 @@ public struct RegisterAppInstanceUserEndpointOutputResponse: Swift.Equatable {
     /// The unique identifier of the AppInstanceUserEndpoint.
     public var endpointId: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
     )
@@ -4830,7 +4441,7 @@ extension RegisterAppInstanceUserEndpointOutputResponseBody: Swift.Decodable {
         case endpointId = "EndpointId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded
@@ -4840,42 +4451,46 @@ extension RegisterAppInstanceUserEndpointOutputResponseBody: Swift.Decodable {
 }
 
 extension ResourceLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request exceeds the resource limit.
-public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -4890,7 +4505,7 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -4929,42 +4544,46 @@ extension ChimeSDKIdentityClientTypes {
 }
 
 extension ServiceFailureException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceFailureExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service encountered an unexpected error.
-public struct ServiceFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceFailureException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -4979,7 +4598,7 @@ extension ServiceFailureExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -4989,42 +4608,46 @@ extension ServiceFailureExceptionBody: Swift.Decodable {
 }
 
 extension ServiceUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service is currently unavailable.
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -5039,7 +4662,7 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -5064,7 +4687,7 @@ extension ChimeSDKIdentityClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -5088,7 +4711,7 @@ extension ChimeSDKIdentityClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -5144,7 +4767,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [ChimeSDKIdentityClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
     )
@@ -5165,7 +4788,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -5183,87 +4806,74 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ThrottledClientException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottledClientExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The client exceeded its request rate limit.
-public struct ThrottledClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottledClientException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -5278,7 +4888,7 @@ extension ThrottledClientExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -5288,42 +4898,46 @@ extension ThrottledClientExceptionBody: Swift.Decodable {
 }
 
 extension UnauthorizedClientException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnauthorizedClientExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The client is not currently authorized to make the request.
-public struct UnauthorizedClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
-    public var message: Swift.String?
+public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKIdentityClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnauthorizedClientException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -5338,7 +4952,7 @@ extension UnauthorizedClientExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -5391,7 +5005,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -5412,7 +5026,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -5430,46 +5044,30 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateAppInstanceBotInput: Swift.CustomDebugStringConvertible {
@@ -5514,7 +5112,7 @@ public struct UpdateAppInstanceBotInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         appInstanceBotArn: Swift.String? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
@@ -5537,7 +5135,7 @@ extension UpdateAppInstanceBotInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5546,45 +5144,27 @@ extension UpdateAppInstanceBotInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAppInstanceBotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAppInstanceBotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAppInstanceBotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAppInstanceBotOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAppInstanceBotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAppInstanceBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceBotArn = output.appInstanceBotArn
@@ -5598,7 +5178,7 @@ public struct UpdateAppInstanceBotOutputResponse: Swift.Equatable {
     /// The ARN of the AppInstanceBot.
     public var appInstanceBotArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceBotArn: Swift.String? = nil
     )
     {
@@ -5615,7 +5195,7 @@ extension UpdateAppInstanceBotOutputResponseBody: Swift.Decodable {
         case appInstanceBotArn = "AppInstanceBotArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceBotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceBotArn)
         appInstanceBotArn = appInstanceBotArnDecoded
@@ -5664,7 +5244,7 @@ public struct UpdateAppInstanceInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
@@ -5687,7 +5267,7 @@ extension UpdateAppInstanceInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5696,43 +5276,26 @@ extension UpdateAppInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAppInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAppInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAppInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAppInstanceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAppInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAppInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceArn = output.appInstanceArn
@@ -5746,7 +5309,7 @@ public struct UpdateAppInstanceOutputResponse: Swift.Equatable {
     /// The ARN of the AppInstance.
     public var appInstanceArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceArn: Swift.String? = nil
     )
     {
@@ -5763,7 +5326,7 @@ extension UpdateAppInstanceOutputResponseBody: Swift.Decodable {
         case appInstanceArn = "AppInstanceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
         appInstanceArn = appInstanceArnDecoded
@@ -5816,7 +5379,7 @@ public struct UpdateAppInstanceUserEndpointInput: Swift.Equatable {
     /// The name of the AppInstanceUserEndpoint.
     public var name: Swift.String?
 
-    public init (
+    public init(
         allowMessages: ChimeSDKIdentityClientTypes.AllowMessages? = nil,
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil,
@@ -5841,7 +5404,7 @@ extension UpdateAppInstanceUserEndpointInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5850,38 +5413,21 @@ extension UpdateAppInstanceUserEndpointInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAppInstanceUserEndpointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum UpdateAppInstanceUserEndpointOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension UpdateAppInstanceUserEndpointOutputResponse: Swift.CustomDebugStringConvertible {
@@ -5890,8 +5436,8 @@ extension UpdateAppInstanceUserEndpointOutputResponse: Swift.CustomDebugStringCo
 }
 
 extension UpdateAppInstanceUserEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAppInstanceUserEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceUserArn = output.appInstanceUserArn
@@ -5909,7 +5455,7 @@ public struct UpdateAppInstanceUserEndpointOutputResponse: Swift.Equatable {
     /// The unique identifier of the AppInstanceUserEndpoint.
     public var endpointId: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
     )
@@ -5930,7 +5476,7 @@ extension UpdateAppInstanceUserEndpointOutputResponseBody: Swift.Decodable {
         case endpointId = "EndpointId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded
@@ -5981,7 +5527,7 @@ public struct UpdateAppInstanceUserInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
@@ -6004,7 +5550,7 @@ extension UpdateAppInstanceUserInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6013,45 +5559,27 @@ extension UpdateAppInstanceUserInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAppInstanceUserOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAppInstanceUserOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAppInstanceUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAppInstanceUserOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAppInstanceUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appInstanceUserArn = output.appInstanceUserArn
@@ -6065,7 +5593,7 @@ public struct UpdateAppInstanceUserOutputResponse: Swift.Equatable {
     /// The ARN of the AppInstanceUser.
     public var appInstanceUserArn: Swift.String?
 
-    public init (
+    public init(
         appInstanceUserArn: Swift.String? = nil
     )
     {
@@ -6082,7 +5610,7 @@ extension UpdateAppInstanceUserOutputResponseBody: Swift.Decodable {
         case appInstanceUserArn = "AppInstanceUserArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
         appInstanceUserArn = appInstanceUserArnDecoded

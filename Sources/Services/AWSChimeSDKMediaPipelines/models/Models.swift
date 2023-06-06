@@ -65,7 +65,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeCallAnalyticsProcess
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let languageCodeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode.self, forKey: .languageCode)
         languageCode = languageCodeDecoded
@@ -136,7 +136,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// Specifies the name of the custom vocabulary to use when processing a transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html) in the Amazon Transcribe Developer Guide. Length Constraints: Minimum length of 1. Maximum length of 200.
         public var vocabularyName: Swift.String?
 
-        public init (
+        public init(
             callAnalyticsStreamCategories: [Swift.String]? = nil,
             contentIdentificationType: ChimeSDKMediaPipelinesClientTypes.ContentType? = nil,
             contentRedactionType: ChimeSDKMediaPipelinesClientTypes.ContentType? = nil,
@@ -226,7 +226,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfigurati
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let languageCodeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode.self, forKey: .languageCode)
         languageCode = languageCodeDecoded
@@ -284,7 +284,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The name of the custom vocabulary that you specified in your Call Analytics request. Length Constraints: Minimum length of 1. Maximum length of 200.
         public var vocabularyName: Swift.String?
 
-        public init (
+        public init(
             contentIdentificationType: ChimeSDKMediaPipelinesClientTypes.ContentType? = nil,
             contentRedactionType: ChimeSDKMediaPipelinesClientTypes.ContentType? = nil,
             enablePartialResultsStabilization: Swift.Bool = false,
@@ -352,7 +352,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationConfiguration:
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.AudioConcatenationConfiguration.self, forKey: .audio)
         audio = audioDecoded
@@ -396,7 +396,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var video: ChimeSDKMediaPipelinesClientTypes.VideoConcatenationConfiguration?
 
-        public init (
+        public init(
             audio: ChimeSDKMediaPipelinesClientTypes.AudioConcatenationConfiguration? = nil,
             compositedVideo: ChimeSDKMediaPipelinesClientTypes.CompositedVideoConcatenationConfiguration? = nil,
             content: ChimeSDKMediaPipelinesClientTypes.ContentConcatenationConfiguration? = nil,
@@ -474,7 +474,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ArtifactsConfiguration: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConfiguration.self, forKey: .audio)
         audio = audioDecoded
@@ -502,7 +502,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var video: ChimeSDKMediaPipelinesClientTypes.VideoArtifactsConfiguration?
 
-        public init (
+        public init(
             audio: ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConfiguration? = nil,
             compositedVideo: ChimeSDKMediaPipelinesClientTypes.CompositedVideoArtifactsConfiguration? = nil,
             content: ChimeSDKMediaPipelinesClientTypes.ContentArtifactsConfiguration? = nil,
@@ -591,7 +591,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConfiguration: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let muxTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.AudioMuxType.self, forKey: .muxType)
         muxType = muxTypeDecoded
@@ -605,7 +605,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var muxType: ChimeSDKMediaPipelinesClientTypes.AudioMuxType?
 
-        public init (
+        public init(
             muxType: ChimeSDKMediaPipelinesClientTypes.AudioMuxType? = nil
         )
         {
@@ -659,7 +659,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AudioConcatenationConfiguration: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConcatenationState.self, forKey: .state)
         state = stateDecoded
@@ -673,7 +673,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConcatenationState?
 
-        public init (
+        public init(
             state: ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConcatenationState? = nil
         )
         {
@@ -719,48 +719,52 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension BadRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input parameters don't match the service's restrictions.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request ID associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request ID associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -777,7 +781,7 @@ extension BadRequestExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -857,7 +861,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ChannelDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .channelId) ?? 0
         channelId = channelIdDecoded
@@ -875,7 +879,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// Specifies whether the audio in a channel belongs to the AGENT or CUSTOMER.
         public var participantRole: ChimeSDKMediaPipelinesClientTypes.ParticipantRole?
 
-        public init (
+        public init(
             channelId: Swift.Int = 0,
             participantRole: ChimeSDKMediaPipelinesClientTypes.ParticipantRole? = nil
         )
@@ -899,7 +903,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConcatenationConfigur
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let artifactsConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationConfiguration.self, forKey: .artifactsConfiguration)
         artifactsConfiguration = artifactsConfigurationDecoded
@@ -913,7 +917,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var artifactsConfiguration: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationConfiguration?
 
-        public init (
+        public init(
             artifactsConfiguration: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationConfiguration? = nil
         )
         {
@@ -939,7 +943,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConfiguration: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.SourceConfiguration.self, forKey: .sourceConfiguration)
         sourceConfiguration = sourceConfigurationDecoded
@@ -956,7 +960,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The source configuration for a specified media pipeline.
         public var sourceConfiguration: ChimeSDKMediaPipelinesClientTypes.SourceConfiguration?
 
-        public init (
+        public init(
             artifactsConfiguration: ChimeSDKMediaPipelinesClientTypes.ArtifactsConfiguration? = nil,
             sourceConfiguration: ChimeSDKMediaPipelinesClientTypes.SourceConfiguration? = nil
         )
@@ -992,7 +996,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingLiveConnectorConfigur
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -1024,7 +1028,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The source configuration settings of the media pipeline's configuration object.
         public var sourceConfiguration: ChimeSDKMediaPipelinesClientTypes.SourceConfiguration?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             compositedVideo: ChimeSDKMediaPipelinesClientTypes.CompositedVideoArtifactsConfiguration? = nil,
             muxType: ChimeSDKMediaPipelinesClientTypes.LiveConnectorMuxType? = nil,
@@ -1060,7 +1064,7 @@ extension ChimeSDKMediaPipelinesClientTypes.CompositedVideoArtifactsConfiguratio
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let layoutDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.LayoutOption.self, forKey: .layout)
         layout = layoutDecoded
@@ -1082,7 +1086,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The video resolution setting in the configuration object. Default: HD at 1280 x 720. FHD resolution: 1920 x 1080.
         public var resolution: ChimeSDKMediaPipelinesClientTypes.ResolutionOption?
 
-        public init (
+        public init(
             gridViewConfiguration: ChimeSDKMediaPipelinesClientTypes.GridViewConfiguration? = nil,
             layout: ChimeSDKMediaPipelinesClientTypes.LayoutOption? = nil,
             resolution: ChimeSDKMediaPipelinesClientTypes.ResolutionOption? = nil
@@ -1108,7 +1112,7 @@ extension ChimeSDKMediaPipelinesClientTypes.CompositedVideoConcatenationConfigur
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState.self, forKey: .state)
         state = stateDecoded
@@ -1122,7 +1126,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState?
 
-        public init (
+        public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
         )
         {
@@ -1148,7 +1152,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ConcatenationSink: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ConcatenationSinkType.self, forKey: .type)
         type = typeDecoded
@@ -1167,7 +1171,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var type: ChimeSDKMediaPipelinesClientTypes.ConcatenationSinkType?
 
-        public init (
+        public init(
             s3BucketSinkConfiguration: ChimeSDKMediaPipelinesClientTypes.S3BucketSinkConfiguration? = nil,
             type: ChimeSDKMediaPipelinesClientTypes.ConcatenationSinkType? = nil
         )
@@ -1224,7 +1228,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ConcatenationSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ConcatenationSourceType.self, forKey: .type)
         type = typeDecoded
@@ -1243,7 +1247,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var type: ChimeSDKMediaPipelinesClientTypes.ConcatenationSourceType?
 
-        public init (
+        public init(
             mediaCapturePipelineSourceConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSourceConfiguration? = nil,
             type: ChimeSDKMediaPipelinesClientTypes.ConcatenationSourceType? = nil
         )
@@ -1285,48 +1289,52 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request could not be processed because of conflict in the current state of the resource.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request ID associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request ID associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -1343,7 +1351,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -1370,7 +1378,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ContentArtifactsConfiguration: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsState.self, forKey: .state)
         state = stateDecoded
@@ -1388,7 +1396,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.ArtifactsState?
 
-        public init (
+        public init(
             muxType: ChimeSDKMediaPipelinesClientTypes.ContentMuxType? = nil,
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsState? = nil
         )
@@ -1412,7 +1420,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ContentConcatenationConfiguration: S
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState.self, forKey: .state)
         state = stateDecoded
@@ -1426,7 +1434,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState?
 
-        public init (
+        public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
         )
         {
@@ -1632,7 +1640,7 @@ public struct CreateMediaCapturePipelineInput: Swift.Equatable {
     /// The tag key-value pairs.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
 
-    public init (
+    public init(
         chimeSdkMeetingConfiguration: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConfiguration? = nil,
         clientRequestToken: Swift.String? = nil,
         sinkArn: Swift.String? = nil,
@@ -1673,7 +1681,7 @@ extension CreateMediaCapturePipelineInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaPipelineSourceType.self, forKey: .sourceType)
         sourceType = sourceTypeDecoded
@@ -1701,43 +1709,26 @@ extension CreateMediaCapturePipelineInputBody: Swift.Decodable {
     }
 }
 
-extension CreateMediaCapturePipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateMediaCapturePipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateMediaCapturePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateMediaCapturePipelineOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateMediaCapturePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateMediaCapturePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaCapturePipeline = output.mediaCapturePipeline
@@ -1751,7 +1742,7 @@ public struct CreateMediaCapturePipelineOutputResponse: Swift.Equatable {
     /// A media pipeline object, the ID, source type, source ARN, sink type, and sink ARN of a media pipeline object.
     public var mediaCapturePipeline: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline?
 
-    public init (
+    public init(
         mediaCapturePipeline: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline? = nil
     )
     {
@@ -1768,7 +1759,7 @@ extension CreateMediaCapturePipelineOutputResponseBody: Swift.Decodable {
         case mediaCapturePipeline = "MediaCapturePipeline"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaCapturePipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline.self, forKey: .mediaCapturePipeline)
         mediaCapturePipeline = mediaCapturePipelineDecoded
@@ -1832,7 +1823,7 @@ public struct CreateMediaConcatenationPipelineInput: Swift.Equatable {
     /// The tags associated with the media concatenation pipeline.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         sinks: [ChimeSDKMediaPipelinesClientTypes.ConcatenationSink]? = nil,
         sources: [ChimeSDKMediaPipelinesClientTypes.ConcatenationSource]? = nil,
@@ -1861,7 +1852,7 @@ extension CreateMediaConcatenationPipelineInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourcesContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.ConcatenationSource?].self, forKey: .sources)
         var sourcesDecoded0:[ChimeSDKMediaPipelinesClientTypes.ConcatenationSource]? = nil
@@ -1901,43 +1892,26 @@ extension CreateMediaConcatenationPipelineInputBody: Swift.Decodable {
     }
 }
 
-extension CreateMediaConcatenationPipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateMediaConcatenationPipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateMediaConcatenationPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateMediaConcatenationPipelineOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateMediaConcatenationPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateMediaConcatenationPipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaConcatenationPipeline = output.mediaConcatenationPipeline
@@ -1951,7 +1925,7 @@ public struct CreateMediaConcatenationPipelineOutputResponse: Swift.Equatable {
     /// A media concatenation pipeline object, the ID, source type, MediaPipelineARN, and sink of a media concatenation pipeline object.
     public var mediaConcatenationPipeline: ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline?
 
-    public init (
+    public init(
         mediaConcatenationPipeline: ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline? = nil
     )
     {
@@ -1968,7 +1942,7 @@ extension CreateMediaConcatenationPipelineOutputResponseBody: Swift.Decodable {
         case mediaConcatenationPipeline = "MediaConcatenationPipeline"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaConcatenationPipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline.self, forKey: .mediaConcatenationPipeline)
         mediaConcatenationPipeline = mediaConcatenationPipelineDecoded
@@ -2042,7 +2016,7 @@ public struct CreateMediaInsightsPipelineConfigurationInput: Swift.Equatable {
     /// The tags assigned to the media insights pipeline configuration.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         elements: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElement]? = nil,
         mediaInsightsPipelineConfigurationName: Swift.String? = nil,
@@ -2079,7 +2053,7 @@ extension CreateMediaInsightsPipelineConfigurationInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaInsightsPipelineConfigurationName)
         mediaInsightsPipelineConfigurationName = mediaInsightsPipelineConfigurationNameDecoded
@@ -2114,45 +2088,27 @@ extension CreateMediaInsightsPipelineConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateMediaInsightsPipelineConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateMediaInsightsPipelineConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateMediaInsightsPipelineConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateMediaInsightsPipelineConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaInsightsPipelineConfiguration = output.mediaInsightsPipelineConfiguration
@@ -2166,7 +2122,7 @@ public struct CreateMediaInsightsPipelineConfigurationOutputResponse: Swift.Equa
     /// The configuration settings for the media insights pipeline.
     public var mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration?
 
-    public init (
+    public init(
         mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration? = nil
     )
     {
@@ -2183,7 +2139,7 @@ extension CreateMediaInsightsPipelineConfigurationOutputResponseBody: Swift.Deco
         case mediaInsightsPipelineConfiguration = "MediaInsightsPipelineConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration.self, forKey: .mediaInsightsPipelineConfiguration)
         mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfigurationDecoded
@@ -2261,7 +2217,7 @@ public struct CreateMediaInsightsPipelineInput: Swift.Equatable {
     /// The tags assigned to the media insights pipeline.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         kinesisVideoStreamRecordingSourceRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamRecordingSourceRuntimeConfiguration? = nil,
         kinesisVideoStreamSourceRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceRuntimeConfiguration? = nil,
@@ -2302,7 +2258,7 @@ extension CreateMediaInsightsPipelineInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaInsightsPipelineConfigurationArn)
         mediaInsightsPipelineConfigurationArn = mediaInsightsPipelineConfigurationArnDecoded
@@ -2339,45 +2295,27 @@ extension CreateMediaInsightsPipelineInputBody: Swift.Decodable {
     }
 }
 
-extension CreateMediaInsightsPipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateMediaInsightsPipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateMediaInsightsPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateMediaInsightsPipelineOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateMediaInsightsPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateMediaInsightsPipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaInsightsPipeline = output.mediaInsightsPipeline
@@ -2392,7 +2330,7 @@ public struct CreateMediaInsightsPipelineOutputResponse: Swift.Equatable {
     /// This member is required.
     public var mediaInsightsPipeline: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline?
 
-    public init (
+    public init(
         mediaInsightsPipeline: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline? = nil
     )
     {
@@ -2409,7 +2347,7 @@ extension CreateMediaInsightsPipelineOutputResponseBody: Swift.Decodable {
         case mediaInsightsPipeline = "MediaInsightsPipeline"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline.self, forKey: .mediaInsightsPipeline)
         mediaInsightsPipeline = mediaInsightsPipelineDecoded
@@ -2473,7 +2411,7 @@ public struct CreateMediaLiveConnectorPipelineInput: Swift.Equatable {
     /// The tags associated with the media live connector pipeline.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         sinks: [ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkConfiguration]? = nil,
         sources: [ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration]? = nil,
@@ -2502,7 +2440,7 @@ extension CreateMediaLiveConnectorPipelineInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourcesContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration?].self, forKey: .sources)
         var sourcesDecoded0:[ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration]? = nil
@@ -2542,43 +2480,26 @@ extension CreateMediaLiveConnectorPipelineInputBody: Swift.Decodable {
     }
 }
 
-extension CreateMediaLiveConnectorPipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateMediaLiveConnectorPipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateMediaLiveConnectorPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateMediaLiveConnectorPipelineOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateMediaLiveConnectorPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateMediaLiveConnectorPipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaLiveConnectorPipeline = output.mediaLiveConnectorPipeline
@@ -2592,7 +2513,7 @@ public struct CreateMediaLiveConnectorPipelineOutputResponse: Swift.Equatable {
     /// The new media live connector pipeline.
     public var mediaLiveConnectorPipeline: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline?
 
-    public init (
+    public init(
         mediaLiveConnectorPipeline: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline? = nil
     )
     {
@@ -2609,7 +2530,7 @@ extension CreateMediaLiveConnectorPipelineOutputResponseBody: Swift.Decodable {
         case mediaLiveConnectorPipeline = "MediaLiveConnectorPipeline"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaLiveConnectorPipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline.self, forKey: .mediaLiveConnectorPipeline)
         mediaLiveConnectorPipeline = mediaLiveConnectorPipelineDecoded
@@ -2628,7 +2549,7 @@ extension ChimeSDKMediaPipelinesClientTypes.DataChannelConcatenationConfiguratio
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState.self, forKey: .state)
         state = stateDecoded
@@ -2642,7 +2563,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState?
 
-        public init (
+        public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
         )
         {
@@ -2666,7 +2587,7 @@ public struct DeleteMediaCapturePipelineInput: Swift.Equatable {
     /// This member is required.
     public var mediaPipelineId: Swift.String?
 
-    public init (
+    public init(
         mediaPipelineId: Swift.String? = nil
     )
     {
@@ -2679,52 +2600,35 @@ struct DeleteMediaCapturePipelineInputBody: Swift.Equatable {
 
 extension DeleteMediaCapturePipelineInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteMediaCapturePipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteMediaCapturePipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteMediaCapturePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteMediaCapturePipelineOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteMediaCapturePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteMediaCapturePipelineOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteMediaInsightsPipelineConfigurationInput: ClientRuntime.URLPathProvider {
@@ -2741,7 +2645,7 @@ public struct DeleteMediaInsightsPipelineConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var identifier: Swift.String?
 
-    public init (
+    public init(
         identifier: Swift.String? = nil
     )
     {
@@ -2754,54 +2658,36 @@ struct DeleteMediaInsightsPipelineConfigurationInputBody: Swift.Equatable {
 
 extension DeleteMediaInsightsPipelineConfigurationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteMediaInsightsPipelineConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteMediaInsightsPipelineConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteMediaInsightsPipelineConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteMediaInsightsPipelineConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteMediaPipelineInput: ClientRuntime.URLPathProvider {
@@ -2818,7 +2704,7 @@ public struct DeleteMediaPipelineInput: Swift.Equatable {
     /// This member is required.
     public var mediaPipelineId: Swift.String?
 
-    public init (
+    public init(
         mediaPipelineId: Swift.String? = nil
     )
     {
@@ -2831,52 +2717,35 @@ struct DeleteMediaPipelineInputBody: Swift.Equatable {
 
 extension DeleteMediaPipelineInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteMediaPipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteMediaPipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteMediaPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteMediaPipelineOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteMediaPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteMediaPipelineOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
@@ -2927,48 +2796,52 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ForbiddenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The client is permanently forbidden from making the request.
-public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request id associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request id associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ForbiddenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -2985,7 +2858,7 @@ extension ForbiddenExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -3012,7 +2885,7 @@ extension ChimeSDKMediaPipelinesClientTypes.FragmentSelector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fragmentSelectorTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.FragmentSelectorType.self, forKey: .fragmentSelectorType)
         fragmentSelectorType = fragmentSelectorTypeDecoded
@@ -3042,7 +2915,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var timestampRange: ChimeSDKMediaPipelinesClientTypes.TimestampRange?
 
-        public init (
+        public init(
             fragmentSelectorType: ChimeSDKMediaPipelinesClientTypes.FragmentSelectorType? = nil,
             timestampRange: ChimeSDKMediaPipelinesClientTypes.TimestampRange? = nil
         )
@@ -3100,7 +2973,7 @@ public struct GetMediaCapturePipelineInput: Swift.Equatable {
     /// This member is required.
     public var mediaPipelineId: Swift.String?
 
-    public init (
+    public init(
         mediaPipelineId: Swift.String? = nil
     )
     {
@@ -3113,47 +2986,30 @@ struct GetMediaCapturePipelineInputBody: Swift.Equatable {
 
 extension GetMediaCapturePipelineInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetMediaCapturePipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetMediaCapturePipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetMediaCapturePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetMediaCapturePipelineOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetMediaCapturePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetMediaCapturePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaCapturePipeline = output.mediaCapturePipeline
@@ -3167,7 +3023,7 @@ public struct GetMediaCapturePipelineOutputResponse: Swift.Equatable {
     /// The media pipeline object.
     public var mediaCapturePipeline: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline?
 
-    public init (
+    public init(
         mediaCapturePipeline: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline? = nil
     )
     {
@@ -3184,7 +3040,7 @@ extension GetMediaCapturePipelineOutputResponseBody: Swift.Decodable {
         case mediaCapturePipeline = "MediaCapturePipeline"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaCapturePipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline.self, forKey: .mediaCapturePipeline)
         mediaCapturePipeline = mediaCapturePipelineDecoded
@@ -3205,7 +3061,7 @@ public struct GetMediaInsightsPipelineConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var identifier: Swift.String?
 
-    public init (
+    public init(
         identifier: Swift.String? = nil
     )
     {
@@ -3218,47 +3074,30 @@ struct GetMediaInsightsPipelineConfigurationInputBody: Swift.Equatable {
 
 extension GetMediaInsightsPipelineConfigurationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetMediaInsightsPipelineConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetMediaInsightsPipelineConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetMediaInsightsPipelineConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetMediaInsightsPipelineConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaInsightsPipelineConfiguration = output.mediaInsightsPipelineConfiguration
@@ -3272,7 +3111,7 @@ public struct GetMediaInsightsPipelineConfigurationOutputResponse: Swift.Equatab
     /// The requested media insights pipeline configuration.
     public var mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration?
 
-    public init (
+    public init(
         mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration? = nil
     )
     {
@@ -3289,7 +3128,7 @@ extension GetMediaInsightsPipelineConfigurationOutputResponseBody: Swift.Decodab
         case mediaInsightsPipelineConfiguration = "MediaInsightsPipelineConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration.self, forKey: .mediaInsightsPipelineConfiguration)
         mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfigurationDecoded
@@ -3310,7 +3149,7 @@ public struct GetMediaPipelineInput: Swift.Equatable {
     /// This member is required.
     public var mediaPipelineId: Swift.String?
 
-    public init (
+    public init(
         mediaPipelineId: Swift.String? = nil
     )
     {
@@ -3323,47 +3162,30 @@ struct GetMediaPipelineInputBody: Swift.Equatable {
 
 extension GetMediaPipelineInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetMediaPipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetMediaPipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetMediaPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetMediaPipelineOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetMediaPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetMediaPipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaPipeline = output.mediaPipeline
@@ -3377,7 +3199,7 @@ public struct GetMediaPipelineOutputResponse: Swift.Equatable {
     /// The media pipeline object.
     public var mediaPipeline: ChimeSDKMediaPipelinesClientTypes.MediaPipeline?
 
-    public init (
+    public init(
         mediaPipeline: ChimeSDKMediaPipelinesClientTypes.MediaPipeline? = nil
     )
     {
@@ -3394,7 +3216,7 @@ extension GetMediaPipelineOutputResponseBody: Swift.Decodable {
         case mediaPipeline = "MediaPipeline"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaPipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaPipeline.self, forKey: .mediaPipeline)
         mediaPipeline = mediaPipelineDecoded
@@ -3417,7 +3239,7 @@ extension ChimeSDKMediaPipelinesClientTypes.GridViewConfiguration: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentShareLayoutDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ContentShareLayoutOption.self, forKey: .contentShareLayout)
         contentShareLayout = contentShareLayoutDecoded
@@ -3435,7 +3257,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// Defines the configuration options for a presenter only video tile.
         public var presenterOnlyConfiguration: ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration?
 
-        public init (
+        public init(
             contentShareLayout: ChimeSDKMediaPipelinesClientTypes.ContentShareLayoutOption? = nil,
             presenterOnlyConfiguration: ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration? = nil
         )
@@ -3459,7 +3281,7 @@ extension ChimeSDKMediaPipelinesClientTypes.IssueDetectionConfiguration: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
         ruleName = ruleNameDecoded
@@ -3473,7 +3295,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var ruleName: Swift.String?
 
-        public init (
+        public init(
             ruleName: Swift.String? = nil
         )
         {
@@ -3506,7 +3328,7 @@ extension ChimeSDKMediaPipelinesClientTypes.KeywordMatchConfiguration: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
         ruleName = ruleNameDecoded
@@ -3538,7 +3360,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var ruleName: Swift.String?
 
-        public init (
+        public init(
             keywords: [Swift.String]? = nil,
             negate: Swift.Bool = false,
             ruleName: Swift.String? = nil
@@ -3564,7 +3386,7 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisDataStreamSinkConfiguration: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let insightsTargetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightsTarget)
         insightsTarget = insightsTargetDecoded
@@ -3582,7 +3404,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The ARN of the sink.
         public var insightsTarget: Swift.String?
 
-        public init (
+        public init(
             insightsTarget: Swift.String? = nil
         )
         {
@@ -3611,7 +3433,7 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamRecordingSourceRun
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamsContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration?].self, forKey: .streams)
         var streamsDecoded0:[ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration]? = nil
@@ -3639,7 +3461,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var streams: [ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration]?
 
-        public init (
+        public init(
             fragmentSelector: ChimeSDKMediaPipelinesClientTypes.FragmentSelector? = nil,
             streams: [ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration]? = nil
         )
@@ -3674,7 +3496,7 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceRuntimeConfi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamsContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.StreamConfiguration?].self, forKey: .streams)
         var streamsDecoded0:[ChimeSDKMediaPipelinesClientTypes.StreamConfiguration]? = nil
@@ -3707,7 +3529,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var streams: [ChimeSDKMediaPipelinesClientTypes.StreamConfiguration]?
 
-        public init (
+        public init(
             mediaEncoding: ChimeSDKMediaPipelinesClientTypes.MediaEncoding? = nil,
             mediaSampleRate: Swift.Int? = nil,
             streams: [ChimeSDKMediaPipelinesClientTypes.StreamConfiguration]? = nil
@@ -3733,7 +3555,7 @@ extension ChimeSDKMediaPipelinesClientTypes.LambdaFunctionSinkConfiguration: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let insightsTargetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightsTarget)
         insightsTarget = insightsTargetDecoded
@@ -3751,7 +3573,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The ARN of the sink.
         public var insightsTarget: Swift.String?
 
-        public init (
+        public init(
             insightsTarget: Swift.String? = nil
         )
         {
@@ -3819,7 +3641,7 @@ public struct ListMediaCapturePipelinesInput: Swift.Equatable {
     /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3834,47 +3656,30 @@ struct ListMediaCapturePipelinesInputBody: Swift.Equatable {
 
 extension ListMediaCapturePipelinesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListMediaCapturePipelinesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListMediaCapturePipelinesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListMediaCapturePipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListMediaCapturePipelinesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListMediaCapturePipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMediaCapturePipelinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaCapturePipelines = output.mediaCapturePipelines
@@ -3892,7 +3697,7 @@ public struct ListMediaCapturePipelinesOutputResponse: Swift.Equatable {
     /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         mediaCapturePipelines: [ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3913,7 +3718,7 @@ extension ListMediaCapturePipelinesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaCapturePipelinesContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary?].self, forKey: .mediaCapturePipelines)
         var mediaCapturePipelinesDecoded0:[ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary]? = nil
@@ -3960,7 +3765,7 @@ public struct ListMediaInsightsPipelineConfigurationsInput: Swift.Equatable {
     /// The token used to return the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3975,47 +3780,30 @@ struct ListMediaInsightsPipelineConfigurationsInputBody: Swift.Equatable {
 
 extension ListMediaInsightsPipelineConfigurationsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListMediaInsightsPipelineConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListMediaInsightsPipelineConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListMediaInsightsPipelineConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListMediaInsightsPipelineConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListMediaInsightsPipelineConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMediaInsightsPipelineConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaInsightsPipelineConfigurations = output.mediaInsightsPipelineConfigurations
@@ -4033,7 +3821,7 @@ public struct ListMediaInsightsPipelineConfigurationsOutputResponse: Swift.Equat
     /// The token used to return the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         mediaInsightsPipelineConfigurations: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4054,7 +3842,7 @@ extension ListMediaInsightsPipelineConfigurationsOutputResponseBody: Swift.Decod
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineConfigurationsContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSummary?].self, forKey: .mediaInsightsPipelineConfigurations)
         var mediaInsightsPipelineConfigurationsDecoded0:[ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSummary]? = nil
@@ -4101,7 +3889,7 @@ public struct ListMediaPipelinesInput: Swift.Equatable {
     /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4116,47 +3904,30 @@ struct ListMediaPipelinesInputBody: Swift.Equatable {
 
 extension ListMediaPipelinesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListMediaPipelinesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListMediaPipelinesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListMediaPipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListMediaPipelinesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListMediaPipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMediaPipelinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaPipelines = output.mediaPipelines
@@ -4174,7 +3945,7 @@ public struct ListMediaPipelinesOutputResponse: Swift.Equatable {
     /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         mediaPipelines: [ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4195,7 +3966,7 @@ extension ListMediaPipelinesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaPipelinesContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary?].self, forKey: .mediaPipelines)
         var mediaPipelinesDecoded0:[ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary]? = nil
@@ -4219,7 +3990,7 @@ extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let resourceARN = resourceARN else {
                 let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
             items.append(resourceARNQueryItem)
@@ -4239,7 +4010,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil
     )
     {
@@ -4252,47 +4023,30 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -4306,7 +4060,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The tags associated with the specified media pipeline.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
     )
     {
@@ -4323,7 +4077,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
@@ -4391,7 +4145,7 @@ extension ChimeSDKMediaPipelinesClientTypes.LiveConnectorRTMPConfiguration: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
         url = urlDecoded
@@ -4418,7 +4172,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var url: Swift.String?
 
-        public init (
+        public init(
             audioChannels: ChimeSDKMediaPipelinesClientTypes.AudioChannelsOption? = nil,
             audioSampleRate: Swift.String? = nil,
             url: Swift.String? = nil
@@ -4448,7 +4202,7 @@ extension ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkConfiguration: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sinkTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkType.self, forKey: .sinkType)
         sinkType = sinkTypeDecoded
@@ -4467,7 +4221,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var sinkType: ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkType?
 
-        public init (
+        public init(
             rtmpConfiguration: ChimeSDKMediaPipelinesClientTypes.LiveConnectorRTMPConfiguration? = nil,
             sinkType: ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkType? = nil
         )
@@ -4524,7 +4278,7 @@ extension ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceType.self, forKey: .sourceType)
         sourceType = sourceTypeDecoded
@@ -4543,7 +4297,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var sourceType: ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceType?
 
-        public init (
+        public init(
             chimeSdkMeetingLiveConnectorConfiguration: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingLiveConnectorConfiguration? = nil,
             sourceType: ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceType? = nil
         )
@@ -4632,7 +4386,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaPipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaPipelineId)
         mediaPipelineId = mediaPipelineIdDecoded
@@ -4686,7 +4440,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The time at which the pipeline was updated, in ISO 8601 format.
         public var updatedTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             chimeSdkMeetingConfiguration: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConfiguration? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
             mediaPipelineArn: Swift.String? = nil,
@@ -4730,7 +4484,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSourceConfigurat
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaPipelineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaPipelineArn)
         mediaPipelineArn = mediaPipelineArnDecoded
@@ -4754,7 +4508,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var mediaPipelineArn: Swift.String?
 
-        public init (
+        public init(
             chimeSdkMeetingConfiguration: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConcatenationConfiguration? = nil,
             mediaPipelineArn: Swift.String? = nil
         )
@@ -4782,7 +4536,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaPipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaPipelineId)
         mediaPipelineId = mediaPipelineIdDecoded
@@ -4799,7 +4553,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The ID of the media pipeline in the summary.
         public var mediaPipelineId: Swift.String?
 
-        public init (
+        public init(
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil
         )
@@ -4853,7 +4607,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaPipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaPipelineId)
         mediaPipelineId = mediaPipelineIdDecoded
@@ -4908,7 +4662,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The time at which the concatenation pipeline was last updated.
         public var updatedTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdTimestamp: ClientRuntime.Date? = nil,
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil,
@@ -5006,7 +4760,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaPipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaPipelineId)
         mediaPipelineId = mediaPipelineIdDecoded
@@ -5065,7 +4819,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The status of a media insights pipeline.
         public var status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus?
 
-        public init (
+        public init(
             createdTimestamp: ClientRuntime.Date? = nil,
             kinesisVideoStreamRecordingSourceRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamRecordingSourceRuntimeConfiguration? = nil,
             kinesisVideoStreamSourceRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceRuntimeConfiguration? = nil,
@@ -5134,7 +4888,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaInsightsPipelineConfigurationName)
         mediaInsightsPipelineConfigurationName = mediaInsightsPipelineConfigurationNameDecoded
@@ -5189,7 +4943,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The time at which the configuration was last updated.
         public var updatedTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdTimestamp: ClientRuntime.Date? = nil,
             elements: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElement]? = nil,
             mediaInsightsPipelineConfigurationArn: Swift.String? = nil,
@@ -5257,7 +5011,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationEl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElementType.self, forKey: .type)
         type = typeDecoded
@@ -5303,7 +5057,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The voice analytics configuration settings in a media insights pipeline configuration element.
         public var voiceAnalyticsProcessorConfiguration: ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsProcessorConfiguration?
 
-        public init (
+        public init(
             amazonTranscribeCallAnalyticsProcessorConfiguration: ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeCallAnalyticsProcessorConfiguration? = nil,
             amazonTranscribeProcessorConfiguration: ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfiguration? = nil,
             kinesisDataStreamSinkConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisDataStreamSinkConfiguration? = nil,
@@ -5399,7 +5153,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSu
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaInsightsPipelineConfigurationName)
         mediaInsightsPipelineConfigurationName = mediaInsightsPipelineConfigurationNameDecoded
@@ -5425,7 +5179,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The name of the media insights pipeline configuration.
         public var mediaInsightsPipelineConfigurationName: Swift.String?
 
-        public init (
+        public init(
             mediaInsightsPipelineConfigurationArn: Swift.String? = nil,
             mediaInsightsPipelineConfigurationId: Swift.String? = nil,
             mediaInsightsPipelineConfigurationName: Swift.String? = nil
@@ -5481,7 +5235,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourcesContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration?].self, forKey: .sources)
         var sourcesDecoded0:[ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration]? = nil
@@ -5536,7 +5290,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The time at which the connector pipeline was last updated.
         public var updatedTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdTimestamp: ClientRuntime.Date? = nil,
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil,
@@ -5582,7 +5336,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaPipeline: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaCapturePipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline.self, forKey: .mediaCapturePipeline)
         mediaCapturePipeline = mediaCapturePipelineDecoded
@@ -5607,7 +5361,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The connector pipeline of the media pipeline.
         public var mediaLiveConnectorPipeline: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline?
 
-        public init (
+        public init(
             mediaCapturePipeline: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline? = nil,
             mediaConcatenationPipeline: ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline? = nil,
             mediaInsightsPipeline: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline? = nil,
@@ -5773,7 +5527,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaPipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaPipelineId)
         mediaPipelineId = mediaPipelineIdDecoded
@@ -5790,7 +5544,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The ID of the media pipeline in the summary.
         public var mediaPipelineId: Swift.String?
 
-        public init (
+        public init(
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil
         )
@@ -5814,7 +5568,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MeetingEventsConcatenationConfigurat
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState.self, forKey: .state)
         state = stateDecoded
@@ -5828,7 +5582,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState?
 
-        public init (
+        public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
         )
         {
@@ -5839,48 +5593,52 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension NotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more of the resources in the request does not exist in the system.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request ID associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request ID associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -5897,7 +5655,7 @@ extension NotFoundExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -5999,7 +5757,7 @@ extension ChimeSDKMediaPipelinesClientTypes.PostCallAnalyticsSettings: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputLocation)
         outputLocation = outputLocationDecoded
@@ -6026,7 +5784,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var outputLocation: Swift.String?
 
-        public init (
+        public init(
             contentRedactionOutput: ChimeSDKMediaPipelinesClientTypes.ContentRedactionOutput? = nil,
             dataAccessRoleArn: Swift.String? = nil,
             outputEncryptionKMSKeyId: Swift.String? = nil,
@@ -6054,7 +5812,7 @@ extension ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let presenterPositionDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.PresenterPosition.self, forKey: .presenterPosition)
         presenterPosition = presenterPositionDecoded
@@ -6067,7 +5825,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// Defines the position of the presenter video tile. Default: TopRight.
         public var presenterPosition: ChimeSDKMediaPipelinesClientTypes.PresenterPosition?
 
-        public init (
+        public init(
             presenterPosition: ChimeSDKMediaPipelinesClientTypes.PresenterPosition? = nil
         )
         {
@@ -6134,7 +5892,7 @@ extension ChimeSDKMediaPipelinesClientTypes.RealTimeAlertConfiguration: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let disabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disabled) ?? false
         disabled = disabledDecoded
@@ -6160,7 +5918,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The rules in the alert. Rules specify the words or phrases that you want to be notified about.
         public var rules: [ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRule]?
 
-        public init (
+        public init(
             disabled: Swift.Bool = false,
             rules: [ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRule]? = nil
         )
@@ -6196,7 +5954,7 @@ extension ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRuleType.self, forKey: .type)
         type = typeDecoded
@@ -6222,7 +5980,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var type: ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRuleType?
 
-        public init (
+        public init(
             issueDetectionConfiguration: ChimeSDKMediaPipelinesClientTypes.IssueDetectionConfiguration? = nil,
             keywordMatchConfiguration: ChimeSDKMediaPipelinesClientTypes.KeywordMatchConfiguration? = nil,
             sentimentConfiguration: ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration? = nil,
@@ -6317,7 +6075,7 @@ extension ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
@@ -6330,7 +6088,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The ARN of the recording stream.
         public var streamArn: Swift.String?
 
-        public init (
+        public init(
             streamArn: Swift.String? = nil
         )
         {
@@ -6373,48 +6131,52 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ResourceLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request exceeds the resource limit.
-public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request ID associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request ID associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -6431,7 +6193,7 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -6454,7 +6216,7 @@ extension ChimeSDKMediaPipelinesClientTypes.S3BucketSinkConfiguration: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
         destination = destinationDecoded
@@ -6473,7 +6235,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var destination: Swift.String?
 
-        public init (
+        public init(
             destination: Swift.String? = nil
         )
         {
@@ -6499,7 +6261,7 @@ extension ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkConfiguration: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
         destination = destinationDecoded
@@ -6521,7 +6283,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The default file format for the media files sent to the Amazon S3 bucket.
         public var recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat?
 
-        public init (
+        public init(
             destination: Swift.String? = nil,
             recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat? = nil
         )
@@ -6549,7 +6311,7 @@ extension ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration:
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
         destination = destinationDecoded
@@ -6573,7 +6335,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat?
 
-        public init (
+        public init(
             destination: Swift.String? = nil,
             recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat? = nil
         )
@@ -6607,7 +6369,7 @@ extension ChimeSDKMediaPipelinesClientTypes.SelectedVideoStreams: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attendeeIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attendeeIds)
         var attendeeIdsDecoded0:[Swift.String]? = nil
@@ -6642,7 +6404,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The external user IDs of the streams selected for a media pipeline.
         public var externalUserIds: [Swift.String]?
 
-        public init (
+        public init(
             attendeeIds: [Swift.String]? = nil,
             externalUserIds: [Swift.String]? = nil
         )
@@ -6674,7 +6436,7 @@ extension ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
         ruleName = ruleNameDecoded
@@ -6698,7 +6460,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var timePeriod: Swift.Int
 
-        public init (
+        public init(
             ruleName: Swift.String? = nil,
             sentimentType: ChimeSDKMediaPipelinesClientTypes.SentimentType? = nil,
             timePeriod: Swift.Int = 0
@@ -6742,48 +6504,52 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ServiceFailureException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceFailureExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service encountered an unexpected error.
-public struct ServiceFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request ID associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request ID associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceFailureException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -6800,7 +6566,7 @@ extension ServiceFailureExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -6812,48 +6578,52 @@ extension ServiceFailureExceptionBody: Swift.Decodable {
 }
 
 extension ServiceUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service is currently unavailable.
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request ID associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request ID associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -6870,7 +6640,7 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -6893,7 +6663,7 @@ extension ChimeSDKMediaPipelinesClientTypes.SnsTopicSinkConfiguration: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let insightsTargetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightsTarget)
         insightsTarget = insightsTargetDecoded
@@ -6911,7 +6681,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The ARN of the SNS sink.
         public var insightsTarget: Swift.String?
 
-        public init (
+        public init(
             insightsTarget: Swift.String? = nil
         )
         {
@@ -6933,7 +6703,7 @@ extension ChimeSDKMediaPipelinesClientTypes.SourceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let selectedVideoStreamsDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.SelectedVideoStreams.self, forKey: .selectedVideoStreams)
         selectedVideoStreams = selectedVideoStreamsDecoded
@@ -6946,7 +6716,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The selected video streams for a specified media pipeline. The number of video streams can't exceed 25.
         public var selectedVideoStreams: ChimeSDKMediaPipelinesClientTypes.SelectedVideoStreams?
 
-        public init (
+        public init(
             selectedVideoStreams: ChimeSDKMediaPipelinesClientTypes.SelectedVideoStreams? = nil
         )
         {
@@ -6968,7 +6738,7 @@ extension ChimeSDKMediaPipelinesClientTypes.SqsQueueSinkConfiguration: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let insightsTargetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightsTarget)
         insightsTarget = insightsTargetDecoded
@@ -6986,7 +6756,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The ARN of the SQS sink.
         public var insightsTarget: Swift.String?
 
-        public init (
+        public init(
             insightsTarget: Swift.String? = nil
         )
         {
@@ -7015,7 +6785,7 @@ extension ChimeSDKMediaPipelinesClientTypes.StreamChannelDefinition: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let numberOfChannelsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfChannels)
         numberOfChannels = numberOfChannelsDecoded
@@ -7042,7 +6812,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var numberOfChannels: Swift.Int?
 
-        public init (
+        public init(
             channelDefinitions: [ChimeSDKMediaPipelinesClientTypes.ChannelDefinition]? = nil,
             numberOfChannels: Swift.Int? = nil
         )
@@ -7074,7 +6844,7 @@ extension ChimeSDKMediaPipelinesClientTypes.StreamConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
@@ -7097,7 +6867,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var streamChannelDefinition: ChimeSDKMediaPipelinesClientTypes.StreamChannelDefinition?
 
-        public init (
+        public init(
             fragmentNumber: Swift.String? = nil,
             streamArn: Swift.String? = nil,
             streamChannelDefinition: ChimeSDKMediaPipelinesClientTypes.StreamChannelDefinition? = nil
@@ -7127,7 +6897,7 @@ extension ChimeSDKMediaPipelinesClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -7146,7 +6916,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -7202,7 +6972,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
     )
@@ -7223,7 +6993,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7241,93 +7011,80 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ThrottledClientException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottledClientExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The client exceeded its request rate limit.
-public struct ThrottledClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request ID associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request ID associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottledClientException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -7344,7 +7101,7 @@ extension ThrottledClientExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -7371,7 +7128,7 @@ extension ChimeSDKMediaPipelinesClientTypes.TimestampRange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTimestamp)
         startTimestamp = startTimestampDecoded
@@ -7390,7 +7147,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var startTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             endTimestamp: ClientRuntime.Date? = nil,
             startTimestamp: ClientRuntime.Date? = nil
         )
@@ -7414,7 +7171,7 @@ extension ChimeSDKMediaPipelinesClientTypes.TranscriptionMessagesConcatenationCo
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState.self, forKey: .state)
         state = stateDecoded
@@ -7428,7 +7185,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState?
 
-        public init (
+        public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
         )
         {
@@ -7439,48 +7196,52 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension UnauthorizedClientException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnauthorizedClientExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.requestId = output.requestId
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
-            self.code = nil
-            self.message = nil
-            self.requestId = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.requestId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The client is not currently authorized to make the request.
-public struct UnauthorizedClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
-    public var message: Swift.String?
-    /// The request ID associated with the call responsible for the exception.
-    public var requestId: Swift.String?
+public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request ID associated with the call responsible for the exception.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnauthorizedClientException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.requestId = requestId
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
@@ -7497,7 +7258,7 @@ extension UnauthorizedClientExceptionBody: Swift.Decodable {
         case requestId = "RequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -7552,7 +7313,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -7573,7 +7334,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7591,48 +7352,31 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateMediaInsightsPipelineConfigurationInput: Swift.CustomDebugStringConvertible {
@@ -7686,7 +7430,7 @@ public struct UpdateMediaInsightsPipelineConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var resourceAccessRoleArn: Swift.String?
 
-    public init (
+    public init(
         elements: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElement]? = nil,
         identifier: Swift.String? = nil,
         realTimeAlertConfiguration: ChimeSDKMediaPipelinesClientTypes.RealTimeAlertConfiguration? = nil,
@@ -7713,7 +7457,7 @@ extension UpdateMediaInsightsPipelineConfigurationInputBody: Swift.Decodable {
         case resourceAccessRoleArn = "ResourceAccessRoleArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceAccessRoleArn)
         resourceAccessRoleArn = resourceAccessRoleArnDecoded
@@ -7733,45 +7477,27 @@ extension UpdateMediaInsightsPipelineConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateMediaInsightsPipelineConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateMediaInsightsPipelineConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateMediaInsightsPipelineConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateMediaInsightsPipelineConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mediaInsightsPipelineConfiguration = output.mediaInsightsPipelineConfiguration
@@ -7785,7 +7511,7 @@ public struct UpdateMediaInsightsPipelineConfigurationOutputResponse: Swift.Equa
     /// The updated configuration settings.
     public var mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration?
 
-    public init (
+    public init(
         mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration? = nil
     )
     {
@@ -7802,7 +7528,7 @@ extension UpdateMediaInsightsPipelineConfigurationOutputResponseBody: Swift.Deco
         case mediaInsightsPipelineConfiguration = "MediaInsightsPipelineConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaInsightsPipelineConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration.self, forKey: .mediaInsightsPipelineConfiguration)
         mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfigurationDecoded
@@ -7839,7 +7565,7 @@ public struct UpdateMediaInsightsPipelineStatusInput: Swift.Equatable {
     /// This member is required.
     public var updateStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatusUpdate?
 
-    public init (
+    public init(
         identifier: Swift.String? = nil,
         updateStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatusUpdate? = nil
     )
@@ -7858,57 +7584,39 @@ extension UpdateMediaInsightsPipelineStatusInputBody: Swift.Decodable {
         case updateStatus = "UpdateStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let updateStatusDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatusUpdate.self, forKey: .updateStatus)
         updateStatus = updateStatusDecoded
     }
 }
 
-extension UpdateMediaInsightsPipelineStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateMediaInsightsPipelineStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateMediaInsightsPipelineStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateMediaInsightsPipelineStatusOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case notFoundException(NotFoundException)
-    case serviceFailureException(ServiceFailureException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case throttledClientException(ThrottledClientException)
-    case unauthorizedClientException(UnauthorizedClientException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateMediaInsightsPipelineStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateMediaInsightsPipelineStatusOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.VideoArtifactsConfiguration: Swift.Codable {
@@ -7927,7 +7635,7 @@ extension ChimeSDKMediaPipelinesClientTypes.VideoArtifactsConfiguration: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsState.self, forKey: .state)
         state = stateDecoded
@@ -7945,7 +7653,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.ArtifactsState?
 
-        public init (
+        public init(
             muxType: ChimeSDKMediaPipelinesClientTypes.VideoMuxType? = nil,
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsState? = nil
         )
@@ -7969,7 +7677,7 @@ extension ChimeSDKMediaPipelinesClientTypes.VideoConcatenationConfiguration: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stateDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState.self, forKey: .state)
         state = stateDecoded
@@ -7983,7 +7691,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// This member is required.
         public var state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState?
 
-        public init (
+        public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
         )
         {
@@ -8105,7 +7813,7 @@ extension ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsProcessorConfiguration
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let speakerSearchStatusDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsConfigurationStatus.self, forKey: .speakerSearchStatus)
         speakerSearchStatus = speakerSearchStatusDecoded
@@ -8122,7 +7830,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The status of the voice tone analysis task.
         public var voiceToneAnalysisStatus: ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsConfigurationStatus?
 
-        public init (
+        public init(
             speakerSearchStatus: ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsConfigurationStatus? = nil,
             voiceToneAnalysisStatus: ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsConfigurationStatus? = nil
         )

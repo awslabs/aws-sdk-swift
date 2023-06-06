@@ -24,7 +24,7 @@ object AWSClientRuntimeTypes {
         val RestXMLError = runtimeSymbol("RestXMLError")
         val ErrorResponseContainer = runtimeSymbol("ErrorResponseContainer")
         object S3 {
-            val S3HttpServiceError = runtimeSymbol("S3HttpServiceError")
+            val AWSS3ServiceError = runtimeSymbol("AWSS3ServiceError")
         }
     }
 
@@ -45,8 +45,8 @@ object AWSClientRuntimeTypes {
         val Partition = runtimeSymbol("Partition")
         val ServiceEndpointMetadata = runtimeSymbol("ServiceEndpointMetadata")
         val CredentialScope = runtimeSymbol("CredentialScope")
-        val UnknownAWSHttpServiceError = runtimeSymbol("UnknownAWSHttpServiceError")
-        val AWSHttpServiceError = runtimeSymbol("AWSHttpServiceError")
+        val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError")
+        val AWSServiceError = runtimeSymbol("AWSServiceError")
         val RegionResolver = runtimeSymbol("RegionResolver")
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")
         val AWSEndpointsRuleEngine = runtimeSymbol("AWSEndpointsRuleEngine")

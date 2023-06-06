@@ -26,7 +26,7 @@ extension Route53RecoveryControlConfigClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerException"
+                return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
         return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -52,7 +52,7 @@ extension Route53RecoveryControlConfigClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
             .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status"
@@ -65,7 +65,7 @@ extension Route53RecoveryControlConfigClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerException"
+                return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
         return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -109,7 +109,7 @@ extension Route53RecoveryControlConfigClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerException"
+                return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
         return try WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -135,7 +135,7 @@ extension Route53RecoveryControlConfigClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
             .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "ControlPanel.Status"
@@ -148,7 +148,7 @@ extension Route53RecoveryControlConfigClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerException"
+                return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
         return try WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -192,7 +192,7 @@ extension Route53RecoveryControlConfigClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerException"
+                return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
         return try WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -218,7 +218,7 @@ extension Route53RecoveryControlConfigClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
             .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "RoutingControl.Status"
@@ -231,7 +231,7 @@ extension Route53RecoveryControlConfigClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerException"
+                return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
         return try WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)

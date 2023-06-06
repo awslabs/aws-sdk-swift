@@ -113,7 +113,7 @@ extension RDSClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "DBClusterNotFoundFault"
+                return (error as? ServiceError)?.typeName == "DBClusterNotFoundFault"
             }),
             .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
@@ -292,7 +292,7 @@ extension RDSClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "DBClusterSnapshotNotFoundFault"
+                return (error as? ServiceError)?.typeName == "DBClusterSnapshotNotFoundFault"
             }),
             .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
@@ -471,7 +471,7 @@ extension RDSClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "DBInstanceNotFound"
+                return (error as? ServiceError)?.typeName == "DBInstanceNotFound"
             }),
             .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
@@ -650,7 +650,7 @@ extension RDSClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "DBSnapshotNotFound"
+                return (error as? ServiceError)?.typeName == "DBSnapshotNotFound"
             }),
             .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"

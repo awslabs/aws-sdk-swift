@@ -52,7 +52,7 @@ extension ACMPCAClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: GetCertificateInput, result: Result<GetCertificateOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "RequestInProgressException"
+                return (error as? ServiceError)?.typeName == "RequestInProgressException"
             }),
         ]
         return try WaiterConfiguration<GetCertificateInput, GetCertificateOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
@@ -84,7 +84,7 @@ extension ACMPCAClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: GetCertificateAuthorityCsrInput, result: Result<GetCertificateAuthorityCsrOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "RequestInProgressException"
+                return (error as? ServiceError)?.typeName == "RequestInProgressException"
             }),
         ]
         return try WaiterConfiguration<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)

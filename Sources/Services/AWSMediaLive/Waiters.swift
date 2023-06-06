@@ -24,7 +24,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeChannelInput, result: Result<DescribeChannelOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
             .init(state: .failure, matcher: { (input: DescribeChannelInput, result: Result<DescribeChannelOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "State"
@@ -74,7 +74,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeChannelInput, result: Result<DescribeChannelOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeChannelInput, DescribeChannelOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -116,7 +116,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeChannelInput, result: Result<DescribeChannelOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeChannelInput, DescribeChannelOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -158,7 +158,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeChannelInput, result: Result<DescribeChannelOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeChannelInput, DescribeChannelOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -200,7 +200,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeInputInput, result: Result<DescribeInputOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeInputInput, DescribeInputOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -242,7 +242,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeInputInput, result: Result<DescribeInputOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeInputInput, DescribeInputOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -292,7 +292,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeInputInput, result: Result<DescribeInputOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeInputInput, DescribeInputOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -334,7 +334,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeMultiplexInput, result: Result<DescribeMultiplexOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
             .init(state: .failure, matcher: { (input: DescribeMultiplexInput, result: Result<DescribeMultiplexOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "State"
@@ -384,7 +384,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeMultiplexInput, result: Result<DescribeMultiplexOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeMultiplexInput, DescribeMultiplexOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -426,7 +426,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeMultiplexInput, result: Result<DescribeMultiplexOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeMultiplexInput, DescribeMultiplexOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -468,7 +468,7 @@ extension MediaLiveClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeMultiplexInput, result: Result<DescribeMultiplexOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
         ]
         return try WaiterConfiguration<DescribeMultiplexInput, DescribeMultiplexOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)

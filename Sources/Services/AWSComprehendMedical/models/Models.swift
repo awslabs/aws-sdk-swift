@@ -53,7 +53,7 @@ extension ComprehendMedicalClientTypes.Attribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.EntitySubType.self, forKey: .type)
         type = typeDecoded
@@ -111,7 +111,7 @@ extension ComprehendMedicalClientTypes {
         /// The type of attribute.
         public var type: ComprehendMedicalClientTypes.EntitySubType?
 
-        public init (
+        public init(
             beginOffset: Swift.Int? = nil,
             category: ComprehendMedicalClientTypes.EntityType? = nil,
             endOffset: Swift.Int? = nil,
@@ -204,7 +204,7 @@ extension ComprehendMedicalClientTypes.Characters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originalTextCharactersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .originalTextCharacters)
         originalTextCharacters = originalTextCharactersDecoded
@@ -217,7 +217,7 @@ extension ComprehendMedicalClientTypes {
         /// The number of characters present in the input text document as processed by Comprehend Medical.
         public var originalTextCharacters: Swift.Int?
 
-        public init (
+        public init(
             originalTextCharacters: Swift.Int? = nil
         )
         {
@@ -251,7 +251,7 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
         jobName = jobNameDecoded
@@ -276,7 +276,7 @@ extension ComprehendMedicalClientTypes {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public var submitTimeBefore: ClientRuntime.Date?
 
-        public init (
+        public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendMedicalClientTypes.JobStatus? = nil,
             submitTimeAfter: ClientRuntime.Date? = nil,
@@ -356,7 +356,7 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -421,7 +421,7 @@ extension ComprehendMedicalClientTypes {
         /// The time that the detection job was submitted for processing.
         public var submitTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             dataAccessRoleArn: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
             expirationTime: ClientRuntime.Date? = nil,
@@ -481,7 +481,7 @@ public struct DescribeEntitiesDetectionV2JobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -498,44 +498,30 @@ extension DescribeEntitiesDetectionV2JobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension DescribeEntitiesDetectionV2JobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeEntitiesDetectionV2JobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEntitiesDetectionV2JobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEntitiesDetectionV2JobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
@@ -549,7 +535,7 @@ public struct DescribeEntitiesDetectionV2JobOutputResponse: Swift.Equatable {
     /// An object that contains the properties associated with a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
     )
     {
@@ -566,7 +552,7 @@ extension DescribeEntitiesDetectionV2JobOutputResponseBody: Swift.Decodable {
         case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.self, forKey: .comprehendMedicalAsyncJobProperties)
         comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobPropertiesDecoded
@@ -597,7 +583,7 @@ public struct DescribeICD10CMInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -614,44 +600,30 @@ extension DescribeICD10CMInferenceJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension DescribeICD10CMInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeICD10CMInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeICD10CMInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeICD10CMInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
@@ -665,7 +637,7 @@ public struct DescribeICD10CMInferenceJobOutputResponse: Swift.Equatable {
     /// An object that contains the properties associated with a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
     )
     {
@@ -682,7 +654,7 @@ extension DescribeICD10CMInferenceJobOutputResponseBody: Swift.Decodable {
         case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.self, forKey: .comprehendMedicalAsyncJobProperties)
         comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobPropertiesDecoded
@@ -713,7 +685,7 @@ public struct DescribePHIDetectionJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -730,44 +702,30 @@ extension DescribePHIDetectionJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension DescribePHIDetectionJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribePHIDetectionJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribePHIDetectionJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribePHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribePHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribePHIDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
@@ -781,7 +739,7 @@ public struct DescribePHIDetectionJobOutputResponse: Swift.Equatable {
     /// An object that contains the properties associated with a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
     )
     {
@@ -798,7 +756,7 @@ extension DescribePHIDetectionJobOutputResponseBody: Swift.Decodable {
         case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.self, forKey: .comprehendMedicalAsyncJobProperties)
         comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobPropertiesDecoded
@@ -829,7 +787,7 @@ public struct DescribeRxNormInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -846,44 +804,30 @@ extension DescribeRxNormInferenceJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension DescribeRxNormInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeRxNormInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeRxNormInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeRxNormInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
@@ -897,7 +841,7 @@ public struct DescribeRxNormInferenceJobOutputResponse: Swift.Equatable {
     /// An object that contains the properties associated with a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
     )
     {
@@ -914,7 +858,7 @@ extension DescribeRxNormInferenceJobOutputResponseBody: Swift.Decodable {
         case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.self, forKey: .comprehendMedicalAsyncJobProperties)
         comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobPropertiesDecoded
@@ -945,7 +889,7 @@ public struct DescribeSNOMEDCTInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -962,44 +906,30 @@ extension DescribeSNOMEDCTInferenceJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension DescribeSNOMEDCTInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSNOMEDCTInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSNOMEDCTInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSNOMEDCTInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
@@ -1013,7 +943,7 @@ public struct DescribeSNOMEDCTInferenceJobOutputResponse: Swift.Equatable {
     /// Provides information about a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
     )
     {
@@ -1030,7 +960,7 @@ extension DescribeSNOMEDCTInferenceJobOutputResponseBody: Swift.Decodable {
         case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.self, forKey: .comprehendMedicalAsyncJobProperties)
         comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobPropertiesDecoded
@@ -1061,7 +991,7 @@ public struct DetectEntitiesInput: Swift.Equatable {
     /// This member is required.
     public var text: Swift.String?
 
-    public init (
+    public init(
         text: Swift.String? = nil
     )
     {
@@ -1078,48 +1008,32 @@ extension DetectEntitiesInputBody: Swift.Decodable {
         case text = "Text"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
     }
 }
 
-extension DetectEntitiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DetectEntitiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEncodingException" : self = .invalidEncodingException(try InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TextSizeLimitExceededException" : self = .textSizeLimitExceededException(try TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetectEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEncodingException": return try await InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DetectEntitiesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidEncodingException(InvalidEncodingException)
-    case invalidRequestException(InvalidRequestException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case textSizeLimitExceededException(TextSizeLimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetectEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetectEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
@@ -1147,7 +1061,7 @@ public struct DetectEntitiesOutputResponse: Swift.Equatable {
     /// Attributes extracted from the input text that we were unable to relate to an entity.
     public var unmappedAttributes: [ComprehendMedicalClientTypes.UnmappedAttribute]?
 
-    public init (
+    public init(
         entities: [ComprehendMedicalClientTypes.Entity]? = nil,
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil,
@@ -1176,7 +1090,7 @@ extension DetectEntitiesOutputResponseBody: Swift.Decodable {
         case unmappedAttributes = "UnmappedAttributes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entitiesContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.Entity?].self, forKey: .entities)
         var entitiesDecoded0:[ComprehendMedicalClientTypes.Entity]? = nil
@@ -1231,7 +1145,7 @@ public struct DetectEntitiesV2Input: Swift.Equatable {
     /// This member is required.
     public var text: Swift.String?
 
-    public init (
+    public init(
         text: Swift.String? = nil
     )
     {
@@ -1248,48 +1162,32 @@ extension DetectEntitiesV2InputBody: Swift.Decodable {
         case text = "Text"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
     }
 }
 
-extension DetectEntitiesV2OutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DetectEntitiesV2OutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEncodingException" : self = .invalidEncodingException(try InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TextSizeLimitExceededException" : self = .textSizeLimitExceededException(try TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetectEntitiesV2OutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEncodingException": return try await InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DetectEntitiesV2OutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidEncodingException(InvalidEncodingException)
-    case invalidRequestException(InvalidRequestException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case textSizeLimitExceededException(TextSizeLimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetectEntitiesV2OutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetectEntitiesV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
@@ -1317,7 +1215,7 @@ public struct DetectEntitiesV2OutputResponse: Swift.Equatable {
     /// Attributes extracted from the input text that couldn't be related to an entity.
     public var unmappedAttributes: [ComprehendMedicalClientTypes.UnmappedAttribute]?
 
-    public init (
+    public init(
         entities: [ComprehendMedicalClientTypes.Entity]? = nil,
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil,
@@ -1346,7 +1244,7 @@ extension DetectEntitiesV2OutputResponseBody: Swift.Decodable {
         case unmappedAttributes = "UnmappedAttributes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entitiesContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.Entity?].self, forKey: .entities)
         var entitiesDecoded0:[ComprehendMedicalClientTypes.Entity]? = nil
@@ -1401,7 +1299,7 @@ public struct DetectPHIInput: Swift.Equatable {
     /// This member is required.
     public var text: Swift.String?
 
-    public init (
+    public init(
         text: Swift.String? = nil
     )
     {
@@ -1418,48 +1316,32 @@ extension DetectPHIInputBody: Swift.Decodable {
         case text = "Text"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
     }
 }
 
-extension DetectPHIOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DetectPHIOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEncodingException" : self = .invalidEncodingException(try InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TextSizeLimitExceededException" : self = .textSizeLimitExceededException(try TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetectPHIOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEncodingException": return try await InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DetectPHIOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidEncodingException(InvalidEncodingException)
-    case invalidRequestException(InvalidRequestException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case textSizeLimitExceededException(TextSizeLimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetectPHIOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetectPHIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
@@ -1483,7 +1365,7 @@ public struct DetectPHIOutputResponse: Swift.Equatable {
     /// If the result of the previous request to DetectPHI was truncated, include the PaginationToken to fetch the next page of PHI entities.
     public var paginationToken: Swift.String?
 
-    public init (
+    public init(
         entities: [ComprehendMedicalClientTypes.Entity]? = nil,
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil
@@ -1508,7 +1390,7 @@ extension DetectPHIOutputResponseBody: Swift.Decodable {
         case paginationToken = "PaginationToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entitiesContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.Entity?].self, forKey: .entities)
         var entitiesDecoded0:[ComprehendMedicalClientTypes.Entity]? = nil
@@ -1578,7 +1460,7 @@ extension ComprehendMedicalClientTypes.Entity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id)
         id = idDecoded
@@ -1641,7 +1523,7 @@ extension ComprehendMedicalClientTypes {
         /// Describes the specific type of entity with category of entities.
         public var type: ComprehendMedicalClientTypes.EntitySubType?
 
-        public init (
+        public init(
             attributes: [ComprehendMedicalClientTypes.Attribute]? = nil,
             beginOffset: Swift.Int? = nil,
             category: ComprehendMedicalClientTypes.EntityType? = nil,
@@ -1926,7 +1808,7 @@ extension ComprehendMedicalClientTypes.ICD10CMAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ICD10CMAttributeType.self, forKey: .type)
         type = typeDecoded
@@ -1984,7 +1866,7 @@ extension ComprehendMedicalClientTypes {
         /// The type of attribute. InferICD10CM detects entities of the type DX_NAME.
         public var type: ComprehendMedicalClientTypes.ICD10CMAttributeType?
 
-        public init (
+        public init(
             beginOffset: Swift.Int? = nil,
             category: ComprehendMedicalClientTypes.ICD10CMEntityType? = nil,
             endOffset: Swift.Int? = nil,
@@ -2079,7 +1961,7 @@ extension ComprehendMedicalClientTypes.ICD10CMConcept: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -2100,7 +1982,7 @@ extension ComprehendMedicalClientTypes {
         /// The level of confidence that Amazon Comprehend Medical has that the entity is accurately linked to an ICD-10-CM concept.
         public var score: Swift.Float?
 
-        public init (
+        public init(
             code: Swift.String? = nil,
             description: Swift.String? = nil,
             score: Swift.Float? = nil
@@ -2171,7 +2053,7 @@ extension ComprehendMedicalClientTypes.ICD10CMEntity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id)
         id = idDecoded
@@ -2247,7 +2129,7 @@ extension ComprehendMedicalClientTypes {
         /// Describes the specific type of entity with category of entities. InferICD10CM detects entities of the type DX_NAME and TIME_EXPRESSION.
         public var type: ComprehendMedicalClientTypes.ICD10CMEntityType?
 
-        public init (
+        public init(
             attributes: [ComprehendMedicalClientTypes.ICD10CMAttribute]? = nil,
             beginOffset: Swift.Int? = nil,
             category: ComprehendMedicalClientTypes.ICD10CMEntityCategory? = nil,
@@ -2384,7 +2266,7 @@ extension ComprehendMedicalClientTypes.ICD10CMTrait: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ICD10CMTraitName.self, forKey: .name)
         name = nameDecoded
@@ -2401,7 +2283,7 @@ extension ComprehendMedicalClientTypes {
         /// The level of confidence that Comprehend Medical; has that the segment of text is correctly recognized as a trait.
         public var score: Swift.Float?
 
-        public init (
+        public init(
             name: ComprehendMedicalClientTypes.ICD10CMTraitName? = nil,
             score: Swift.Float? = nil
         )
@@ -2484,7 +2366,7 @@ public struct InferICD10CMInput: Swift.Equatable {
     /// This member is required.
     public var text: Swift.String?
 
-    public init (
+    public init(
         text: Swift.String? = nil
     )
     {
@@ -2501,48 +2383,32 @@ extension InferICD10CMInputBody: Swift.Decodable {
         case text = "Text"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
     }
 }
 
-extension InferICD10CMOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension InferICD10CMOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEncodingException" : self = .invalidEncodingException(try InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TextSizeLimitExceededException" : self = .textSizeLimitExceededException(try TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum InferICD10CMOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEncodingException": return try await InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum InferICD10CMOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidEncodingException(InvalidEncodingException)
-    case invalidRequestException(InvalidRequestException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case textSizeLimitExceededException(TextSizeLimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension InferICD10CMOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InferICD10CMOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
@@ -2565,7 +2431,7 @@ public struct InferICD10CMOutputResponse: Swift.Equatable {
     /// If the result of the previous request to InferICD10CM was truncated, include the PaginationToken to fetch the next page of medical condition entities.
     public var paginationToken: Swift.String?
 
-    public init (
+    public init(
         entities: [ComprehendMedicalClientTypes.ICD10CMEntity]? = nil,
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil
@@ -2590,7 +2456,7 @@ extension InferICD10CMOutputResponseBody: Swift.Decodable {
         case paginationToken = "PaginationToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entitiesContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.ICD10CMEntity?].self, forKey: .entities)
         var entitiesDecoded0:[ComprehendMedicalClientTypes.ICD10CMEntity]? = nil
@@ -2634,7 +2500,7 @@ public struct InferRxNormInput: Swift.Equatable {
     /// This member is required.
     public var text: Swift.String?
 
-    public init (
+    public init(
         text: Swift.String? = nil
     )
     {
@@ -2651,48 +2517,32 @@ extension InferRxNormInputBody: Swift.Decodable {
         case text = "Text"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
     }
 }
 
-extension InferRxNormOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension InferRxNormOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEncodingException" : self = .invalidEncodingException(try InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TextSizeLimitExceededException" : self = .textSizeLimitExceededException(try TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum InferRxNormOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEncodingException": return try await InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum InferRxNormOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidEncodingException(InvalidEncodingException)
-    case invalidRequestException(InvalidRequestException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case textSizeLimitExceededException(TextSizeLimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension InferRxNormOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InferRxNormOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
@@ -2715,7 +2565,7 @@ public struct InferRxNormOutputResponse: Swift.Equatable {
     /// If the result of the previous request to InferRxNorm was truncated, include the PaginationToken to fetch the next page of medication entities.
     public var paginationToken: Swift.String?
 
-    public init (
+    public init(
         entities: [ComprehendMedicalClientTypes.RxNormEntity]? = nil,
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil
@@ -2740,7 +2590,7 @@ extension InferRxNormOutputResponseBody: Swift.Decodable {
         case paginationToken = "PaginationToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entitiesContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.RxNormEntity?].self, forKey: .entities)
         var entitiesDecoded0:[ComprehendMedicalClientTypes.RxNormEntity]? = nil
@@ -2784,7 +2634,7 @@ public struct InferSNOMEDCTInput: Swift.Equatable {
     /// This member is required.
     public var text: Swift.String?
 
-    public init (
+    public init(
         text: Swift.String? = nil
     )
     {
@@ -2801,48 +2651,32 @@ extension InferSNOMEDCTInputBody: Swift.Decodable {
         case text = "Text"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
     }
 }
 
-extension InferSNOMEDCTOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension InferSNOMEDCTOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEncodingException" : self = .invalidEncodingException(try InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TextSizeLimitExceededException" : self = .textSizeLimitExceededException(try TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum InferSNOMEDCTOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEncodingException": return try await InvalidEncodingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum InferSNOMEDCTOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidEncodingException(InvalidEncodingException)
-    case invalidRequestException(InvalidRequestException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case textSizeLimitExceededException(TextSizeLimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension InferSNOMEDCTOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InferSNOMEDCTOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.characters = output.characters
@@ -2873,7 +2707,7 @@ public struct InferSNOMEDCTOutputResponse: Swift.Equatable {
     /// The details of the SNOMED-CT revision, including the edition, language, and version date.
     public var snomedctDetails: ComprehendMedicalClientTypes.SNOMEDCTDetails?
 
-    public init (
+    public init(
         characters: ComprehendMedicalClientTypes.Characters? = nil,
         entities: [ComprehendMedicalClientTypes.SNOMEDCTEntity]? = nil,
         modelVersion: Swift.String? = nil,
@@ -2906,7 +2740,7 @@ extension InferSNOMEDCTOutputResponseBody: Swift.Decodable {
         case snomedctDetails = "SNOMEDCTDetails"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entitiesContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.SNOMEDCTEntity?].self, forKey: .entities)
         var entitiesDecoded0:[ComprehendMedicalClientTypes.SNOMEDCTEntity]? = nil
@@ -2946,7 +2780,7 @@ extension ComprehendMedicalClientTypes.InputDataConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
         s3Bucket = s3BucketDecoded
@@ -2964,7 +2798,7 @@ extension ComprehendMedicalClientTypes {
         /// The path to the input data files in the S3 bucket.
         public var s3Key: Swift.String?
 
-        public init (
+        public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
         )
@@ -2977,37 +2811,41 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal server error occurred. Retry your request.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3020,7 +2858,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3028,37 +2866,41 @@ extension InternalServerExceptionBody: Swift.Decodable {
 }
 
 extension InvalidEncodingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidEncodingExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
-public struct InvalidEncodingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidEncodingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEncodingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3071,7 +2913,7 @@ extension InvalidEncodingExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3079,37 +2921,41 @@ extension InvalidEncodingExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3122,7 +2968,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3240,7 +3086,7 @@ public struct ListEntitiesDetectionV2JobsInput: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3265,7 +3111,7 @@ extension ListEntitiesDetectionV2JobsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -3276,37 +3122,23 @@ extension ListEntitiesDetectionV2JobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListEntitiesDetectionV2JobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListEntitiesDetectionV2JobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListEntitiesDetectionV2JobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListEntitiesDetectionV2JobsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListEntitiesDetectionV2JobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListEntitiesDetectionV2JobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
@@ -3324,7 +3156,7 @@ public struct ListEntitiesDetectionV2JobsOutputResponse: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3345,7 +3177,7 @@ extension ListEntitiesDetectionV2JobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesListContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?].self, forKey: .comprehendMedicalAsyncJobPropertiesList)
         var comprehendMedicalAsyncJobPropertiesListDecoded0:[ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil
@@ -3398,7 +3230,7 @@ public struct ListICD10CMInferenceJobsInput: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3423,7 +3255,7 @@ extension ListICD10CMInferenceJobsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -3434,37 +3266,23 @@ extension ListICD10CMInferenceJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListICD10CMInferenceJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListICD10CMInferenceJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListICD10CMInferenceJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListICD10CMInferenceJobsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListICD10CMInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListICD10CMInferenceJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
@@ -3482,7 +3300,7 @@ public struct ListICD10CMInferenceJobsOutputResponse: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3503,7 +3321,7 @@ extension ListICD10CMInferenceJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesListContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?].self, forKey: .comprehendMedicalAsyncJobPropertiesList)
         var comprehendMedicalAsyncJobPropertiesListDecoded0:[ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil
@@ -3556,7 +3374,7 @@ public struct ListPHIDetectionJobsInput: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3581,7 +3399,7 @@ extension ListPHIDetectionJobsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -3592,37 +3410,23 @@ extension ListPHIDetectionJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListPHIDetectionJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListPHIDetectionJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListPHIDetectionJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListPHIDetectionJobsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListPHIDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListPHIDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
@@ -3640,7 +3444,7 @@ public struct ListPHIDetectionJobsOutputResponse: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3661,7 +3465,7 @@ extension ListPHIDetectionJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesListContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?].self, forKey: .comprehendMedicalAsyncJobPropertiesList)
         var comprehendMedicalAsyncJobPropertiesListDecoded0:[ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil
@@ -3714,7 +3518,7 @@ public struct ListRxNormInferenceJobsInput: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3739,7 +3543,7 @@ extension ListRxNormInferenceJobsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -3750,37 +3554,23 @@ extension ListRxNormInferenceJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListRxNormInferenceJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListRxNormInferenceJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListRxNormInferenceJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListRxNormInferenceJobsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListRxNormInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListRxNormInferenceJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
@@ -3798,7 +3588,7 @@ public struct ListRxNormInferenceJobsOutputResponse: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3819,7 +3609,7 @@ extension ListRxNormInferenceJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesListContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?].self, forKey: .comprehendMedicalAsyncJobPropertiesList)
         var comprehendMedicalAsyncJobPropertiesListDecoded0:[ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil
@@ -3872,7 +3662,7 @@ public struct ListSNOMEDCTInferenceJobsInput: Swift.Equatable {
     /// Identifies the next page of InferSNOMEDCT results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3897,7 +3687,7 @@ extension ListSNOMEDCTInferenceJobsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -3908,37 +3698,23 @@ extension ListSNOMEDCTInferenceJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListSNOMEDCTInferenceJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSNOMEDCTInferenceJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSNOMEDCTInferenceJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSNOMEDCTInferenceJobsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSNOMEDCTInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSNOMEDCTInferenceJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
@@ -3956,7 +3732,7 @@ public struct ListSNOMEDCTInferenceJobsOutputResponse: Swift.Equatable {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3977,7 +3753,7 @@ extension ListSNOMEDCTInferenceJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comprehendMedicalAsyncJobPropertiesListContainer = try containerValues.decodeIfPresent([ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?].self, forKey: .comprehendMedicalAsyncJobPropertiesList)
         var comprehendMedicalAsyncJobPropertiesListDecoded0:[ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil
@@ -4011,7 +3787,7 @@ extension ComprehendMedicalClientTypes.OutputDataConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
         s3Bucket = s3BucketDecoded
@@ -4029,7 +3805,7 @@ extension ComprehendMedicalClientTypes {
         /// The path to the output data files in the S3 bucket. Comprehend Medical; creates an output directory using the job ID so that the output from one job does not overwrite the output of another.
         public var s3Key: Swift.String?
 
-        public init (
+        public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
         )
@@ -4128,37 +3904,41 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4171,7 +3951,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4221,7 +4001,7 @@ extension ComprehendMedicalClientTypes.RxNormAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.RxNormAttributeType.self, forKey: .type)
         type = typeDecoded
@@ -4271,7 +4051,7 @@ extension ComprehendMedicalClientTypes {
         /// The type of attribute. The types of attributes recognized by InferRxNorm are BRAND_NAME and GENERIC_NAME.
         public var type: ComprehendMedicalClientTypes.RxNormAttributeType?
 
-        public init (
+        public init(
             beginOffset: Swift.Int? = nil,
             endOffset: Swift.Int? = nil,
             id: Swift.Int? = nil,
@@ -4362,7 +4142,7 @@ extension ComprehendMedicalClientTypes.RxNormConcept: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -4383,7 +4163,7 @@ extension ComprehendMedicalClientTypes {
         /// The level of confidence that Amazon Comprehend Medical has that the entity is accurately linked to the reported RxNorm concept.
         public var score: Swift.Float?
 
-        public init (
+        public init(
             code: Swift.String? = nil,
             description: Swift.String? = nil,
             score: Swift.Float? = nil
@@ -4454,7 +4234,7 @@ extension ComprehendMedicalClientTypes.RxNormEntity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id)
         id = idDecoded
@@ -4530,7 +4310,7 @@ extension ComprehendMedicalClientTypes {
         /// Describes the specific type of entity. For InferRxNorm, the recognized entity type is MEDICATION.
         public var type: ComprehendMedicalClientTypes.RxNormEntityType?
 
-        public init (
+        public init(
             attributes: [ComprehendMedicalClientTypes.RxNormAttribute]? = nil,
             beginOffset: Swift.Int? = nil,
             category: ComprehendMedicalClientTypes.RxNormEntityCategory? = nil,
@@ -4635,7 +4415,7 @@ extension ComprehendMedicalClientTypes.RxNormTrait: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.RxNormTraitName.self, forKey: .name)
         name = nameDecoded
@@ -4652,7 +4432,7 @@ extension ComprehendMedicalClientTypes {
         /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detected trait.
         public var score: Swift.Float?
 
-        public init (
+        public init(
             name: ComprehendMedicalClientTypes.RxNormTraitName? = nil,
             score: Swift.Float? = nil
         )
@@ -4751,7 +4531,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let categoryDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.SNOMEDCTEntityCategory.self, forKey: .category)
         category = categoryDecoded
@@ -4822,7 +4602,7 @@ extension ComprehendMedicalClientTypes {
         /// The type of attribute. Possible types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE,TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, and TREATMENT_NAME.
         public var type: ComprehendMedicalClientTypes.SNOMEDCTAttributeType?
 
-        public init (
+        public init(
             beginOffset: Swift.Int? = nil,
             category: ComprehendMedicalClientTypes.SNOMEDCTEntityCategory? = nil,
             endOffset: Swift.Int? = nil,
@@ -4916,7 +4696,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTConcept: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -4937,7 +4717,7 @@ extension ComprehendMedicalClientTypes {
         /// The level of confidence Comprehend Medical has that the entity should be linked to the identified SNOMED-CT concept.
         public var score: Swift.Float?
 
-        public init (
+        public init(
             code: Swift.String? = nil,
             description: Swift.String? = nil,
             score: Swift.Float? = nil
@@ -4971,7 +4751,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let editionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .edition)
         edition = editionDecoded
@@ -4992,7 +4772,7 @@ extension ComprehendMedicalClientTypes {
         /// The version date of the SNOMED-CT ontology used.
         public var versionDate: Swift.String?
 
-        public init (
+        public init(
             edition: Swift.String? = nil,
             language: Swift.String? = nil,
             versionDate: Swift.String? = nil
@@ -5063,7 +4843,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTEntity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id)
         id = idDecoded
@@ -5139,7 +4919,7 @@ extension ComprehendMedicalClientTypes {
         /// Describes the specific type of entity with category of entities. Possible types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE, TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, or TREATMENT_NAME.
         public var type: ComprehendMedicalClientTypes.SNOMEDCTEntityType?
 
-        public init (
+        public init(
             attributes: [ComprehendMedicalClientTypes.SNOMEDCTAttribute]? = nil,
             beginOffset: Swift.Int? = nil,
             category: ComprehendMedicalClientTypes.SNOMEDCTEntityCategory? = nil,
@@ -5300,7 +5080,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTTrait: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.SNOMEDCTTraitName.self, forKey: .name)
         name = nameDecoded
@@ -5317,7 +5097,7 @@ extension ComprehendMedicalClientTypes {
         /// The level of confidence that Comprehend Medical has in the accuracy of a detected trait.
         public var score: Swift.Float?
 
-        public init (
+        public init(
             name: ComprehendMedicalClientTypes.SNOMEDCTTraitName? = nil,
             score: Swift.Float? = nil
         )
@@ -5383,37 +5163,41 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ServiceUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Comprehend Medical; service is temporarily unavailable. Please wait and then retry your request.
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5426,7 +5210,7 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5496,7 +5280,7 @@ public struct StartEntitiesDetectionV2JobInput: Swift.Equatable {
     /// This member is required.
     public var outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig? = nil,
@@ -5537,7 +5321,7 @@ extension StartEntitiesDetectionV2JobInputBody: Swift.Decodable {
         case outputDataConfig = "OutputDataConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.InputDataConfig.self, forKey: .inputDataConfig)
         inputDataConfig = inputDataConfigDecoded
@@ -5556,37 +5340,23 @@ extension StartEntitiesDetectionV2JobInputBody: Swift.Decodable {
     }
 }
 
-extension StartEntitiesDetectionV2JobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartEntitiesDetectionV2JobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartEntitiesDetectionV2JobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartEntitiesDetectionV2JobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -5600,7 +5370,7 @@ public struct StartEntitiesDetectionV2JobOutputResponse: Swift.Equatable {
     /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribeEntitiesDetectionV2Job operation.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -5617,7 +5387,7 @@ extension StartEntitiesDetectionV2JobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -5687,7 +5457,7 @@ public struct StartICD10CMInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig? = nil,
@@ -5728,7 +5498,7 @@ extension StartICD10CMInferenceJobInputBody: Swift.Decodable {
         case outputDataConfig = "OutputDataConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.InputDataConfig.self, forKey: .inputDataConfig)
         inputDataConfig = inputDataConfigDecoded
@@ -5747,37 +5517,23 @@ extension StartICD10CMInferenceJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartICD10CMInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartICD10CMInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartICD10CMInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartICD10CMInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -5791,7 +5547,7 @@ public struct StartICD10CMInferenceJobOutputResponse: Swift.Equatable {
     /// The identifier generated for the job. To get the status of a job, use this identifier with the StartICD10CMInferenceJob operation.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -5808,7 +5564,7 @@ extension StartICD10CMInferenceJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -5878,7 +5634,7 @@ public struct StartPHIDetectionJobInput: Swift.Equatable {
     /// This member is required.
     public var outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig? = nil,
@@ -5919,7 +5675,7 @@ extension StartPHIDetectionJobInputBody: Swift.Decodable {
         case outputDataConfig = "OutputDataConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.InputDataConfig.self, forKey: .inputDataConfig)
         inputDataConfig = inputDataConfigDecoded
@@ -5938,37 +5694,23 @@ extension StartPHIDetectionJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartPHIDetectionJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartPHIDetectionJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartPHIDetectionJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartPHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartPHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartPHIDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -5982,7 +5724,7 @@ public struct StartPHIDetectionJobOutputResponse: Swift.Equatable {
     /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribePHIDetectionJob operation.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -5999,7 +5741,7 @@ extension StartPHIDetectionJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6069,7 +5811,7 @@ public struct StartRxNormInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig? = nil,
@@ -6110,7 +5852,7 @@ extension StartRxNormInferenceJobInputBody: Swift.Decodable {
         case outputDataConfig = "OutputDataConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.InputDataConfig.self, forKey: .inputDataConfig)
         inputDataConfig = inputDataConfigDecoded
@@ -6129,37 +5871,23 @@ extension StartRxNormInferenceJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartRxNormInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartRxNormInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartRxNormInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartRxNormInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -6173,7 +5901,7 @@ public struct StartRxNormInferenceJobOutputResponse: Swift.Equatable {
     /// The identifier of the job.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6190,7 +5918,7 @@ extension StartRxNormInferenceJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6260,7 +5988,7 @@ public struct StartSNOMEDCTInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig? = nil,
@@ -6301,7 +6029,7 @@ extension StartSNOMEDCTInferenceJobInputBody: Swift.Decodable {
         case outputDataConfig = "OutputDataConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.InputDataConfig.self, forKey: .inputDataConfig)
         inputDataConfig = inputDataConfigDecoded
@@ -6320,37 +6048,23 @@ extension StartSNOMEDCTInferenceJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartSNOMEDCTInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartSNOMEDCTInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartSNOMEDCTInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartSNOMEDCTInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -6364,7 +6078,7 @@ public struct StartSNOMEDCTInferenceJobOutputResponse: Swift.Equatable {
     /// The identifier generated for the job. To get the status of a job, use this identifier with the StartSNOMEDCTInferenceJob operation.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6381,7 +6095,7 @@ extension StartSNOMEDCTInferenceJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6412,7 +6126,7 @@ public struct StopEntitiesDetectionV2JobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6429,42 +6143,29 @@ extension StopEntitiesDetectionV2JobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension StopEntitiesDetectionV2JobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopEntitiesDetectionV2JobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopEntitiesDetectionV2JobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopEntitiesDetectionV2JobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -6478,7 +6179,7 @@ public struct StopEntitiesDetectionV2JobOutputResponse: Swift.Equatable {
     /// The identifier of the medical entities detection job that was stopped.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6495,7 +6196,7 @@ extension StopEntitiesDetectionV2JobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6526,7 +6227,7 @@ public struct StopICD10CMInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6543,42 +6244,29 @@ extension StopICD10CMInferenceJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension StopICD10CMInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopICD10CMInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopICD10CMInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopICD10CMInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -6592,7 +6280,7 @@ public struct StopICD10CMInferenceJobOutputResponse: Swift.Equatable {
     /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeICD10CMInferenceJob operation.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6609,7 +6297,7 @@ extension StopICD10CMInferenceJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6640,7 +6328,7 @@ public struct StopPHIDetectionJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6657,42 +6345,29 @@ extension StopPHIDetectionJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension StopPHIDetectionJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopPHIDetectionJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopPHIDetectionJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopPHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopPHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopPHIDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -6706,7 +6381,7 @@ public struct StopPHIDetectionJobOutputResponse: Swift.Equatable {
     /// The identifier of the PHI detection job that was stopped.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6723,7 +6398,7 @@ extension StopPHIDetectionJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6754,7 +6429,7 @@ public struct StopRxNormInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6771,42 +6446,29 @@ extension StopRxNormInferenceJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension StopRxNormInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopRxNormInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopRxNormInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopRxNormInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -6820,7 +6482,7 @@ public struct StopRxNormInferenceJobOutputResponse: Swift.Equatable {
     /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeRxNormInferenceJob operation.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6837,7 +6499,7 @@ extension StopRxNormInferenceJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6868,7 +6530,7 @@ public struct StopSNOMEDCTInferenceJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6885,44 +6547,30 @@ extension StopSNOMEDCTInferenceJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension StopSNOMEDCTInferenceJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopSNOMEDCTInferenceJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopSNOMEDCTInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopSNOMEDCTInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -6936,7 +6584,7 @@ public struct StopSNOMEDCTInferenceJobOutputResponse: Swift.Equatable {
     /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeSNOMEDCTInferenceJob operation.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -6953,7 +6601,7 @@ extension StopSNOMEDCTInferenceJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6961,37 +6609,41 @@ extension StopSNOMEDCTInferenceJobOutputResponseBody: Swift.Decodable {
 }
 
 extension TextSizeLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TextSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
-public struct TextSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TextSizeLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7004,7 +6656,7 @@ extension TextSizeLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7012,37 +6664,41 @@ extension TextSizeLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension TooManyRequestsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7055,7 +6711,7 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7078,7 +6734,7 @@ extension ComprehendMedicalClientTypes.Trait: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.AttributeName.self, forKey: .name)
         name = nameDecoded
@@ -7095,7 +6751,7 @@ extension ComprehendMedicalClientTypes {
         /// The level of confidence that Comprehend Medical; has in the accuracy of this trait.
         public var score: Swift.Float?
 
-        public init (
+        public init(
             name: ComprehendMedicalClientTypes.AttributeName? = nil,
             score: Swift.Float? = nil
         )
@@ -7123,7 +6779,7 @@ extension ComprehendMedicalClientTypes.UnmappedAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ComprehendMedicalClientTypes.EntityType.self, forKey: .type)
         type = typeDecoded
@@ -7140,7 +6796,7 @@ extension ComprehendMedicalClientTypes {
         /// The type of the unmapped attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PROTECTED_HEALTH_INFORMATION".
         public var type: ComprehendMedicalClientTypes.EntityType?
 
-        public init (
+        public init(
             attribute: ComprehendMedicalClientTypes.Attribute? = nil,
             type: ComprehendMedicalClientTypes.EntityType? = nil
         )
@@ -7153,37 +6809,41 @@ extension ComprehendMedicalClientTypes {
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7196,7 +6856,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded

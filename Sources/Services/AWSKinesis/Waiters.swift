@@ -39,7 +39,7 @@ extension KinesisClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeStreamInput, DescribeStreamOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeStreamInput, result: Result<DescribeStreamOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeStreamInput, DescribeStreamOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)

@@ -36,7 +36,7 @@ public struct AddTagsToResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagList: [CloudHSMClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagList: [CloudHSMClientTypes.Tag]? = nil
     )
@@ -57,7 +57,7 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
         case tagList = "TagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -75,35 +75,22 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
-extension AddTagsToResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddTagsToResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddTagsToResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -118,7 +105,7 @@ public struct AddTagsToResourceOutputResponse: Swift.Equatable {
     /// This member is required.
     public var status: Swift.String?
 
-    public init (
+    public init(
         status: Swift.String? = nil
     )
     {
@@ -135,7 +122,7 @@ extension AddTagsToResourceOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -175,44 +162,48 @@ extension CloudHSMClientTypes {
 }
 
 extension CloudHsmInternalException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CloudHsmInternalExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.retryable = output.retryable
+            self.properties.message = output.message
+            self.properties.retryable = output.retryable
         } else {
-            self.message = nil
-            self.retryable = false
+            self.properties.message = nil
+            self.properties.retryable = false
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Indicates that an internal error occurred.
-public struct CloudHsmInternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// Additional information about the error.
-    public var message: Swift.String?
-    /// Indicates if the action can be retried.
-    public var retryable: Swift.Bool
+public struct CloudHsmInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Additional information about the error.
+        public internal(set) var message: Swift.String? = nil
+        /// Indicates if the action can be retried.
+        public internal(set) var retryable: Swift.Bool = false
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CloudHsmInternalException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         retryable: Swift.Bool = false
     )
     {
-        self.message = message
-        self.retryable = retryable
+        self.properties.message = message
+        self.properties.retryable = retryable
     }
 }
 
@@ -227,7 +218,7 @@ extension CloudHsmInternalExceptionBody: Swift.Decodable {
         case retryable
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -272,44 +263,48 @@ extension CloudHSMClientTypes {
 }
 
 extension CloudHsmServiceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CloudHsmServiceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.retryable = output.retryable
+            self.properties.message = output.message
+            self.properties.retryable = output.retryable
         } else {
-            self.message = nil
-            self.retryable = false
+            self.properties.message = nil
+            self.properties.retryable = false
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Indicates that an exception occurred in the AWS CloudHSM service.
-public struct CloudHsmServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Additional information about the error.
-    public var message: Swift.String?
-    /// Indicates if the action can be retried.
-    public var retryable: Swift.Bool
+public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Additional information about the error.
+        public internal(set) var message: Swift.String? = nil
+        /// Indicates if the action can be retried.
+        public internal(set) var retryable: Swift.Bool = false
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CloudHsmServiceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         retryable: Swift.Bool = false
     )
     {
-        self.message = message
-        self.retryable = retryable
+        self.properties.message = message
+        self.properties.retryable = retryable
     }
 }
 
@@ -324,7 +319,7 @@ extension CloudHsmServiceExceptionBody: Swift.Decodable {
         case retryable
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -358,7 +353,7 @@ public struct CreateHapgInput: Swift.Equatable {
     /// This member is required.
     public var label: Swift.String?
 
-    public init (
+    public init(
         label: Swift.String? = nil
     )
     {
@@ -375,42 +370,29 @@ extension CreateHapgInputBody: Swift.Decodable {
         case label = "Label"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
         label = labelDecoded
     }
 }
 
-extension CreateHapgOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateHapgOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateHapgOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateHapgOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateHapgOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateHapgOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hapgArn = output.hapgArn
@@ -425,7 +407,7 @@ public struct CreateHapgOutputResponse: Swift.Equatable {
     /// The ARN of the high-availability partition group.
     public var hapgArn: Swift.String?
 
-    public init (
+    public init(
         hapgArn: Swift.String? = nil
     )
     {
@@ -442,7 +424,7 @@ extension CreateHapgOutputResponseBody: Swift.Decodable {
         case hapgArn = "HapgArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hapgArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hapgArn)
         hapgArn = hapgArnDecoded
@@ -523,7 +505,7 @@ public struct CreateHsmInput: Swift.Equatable {
     /// The IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
     public var syslogIp: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         eniIp: Swift.String? = nil,
         externalId: Swift.String? = nil,
@@ -568,7 +550,7 @@ extension CreateHsmInputBody: Swift.Decodable {
         case syslogIp = "SyslogIp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetId)
         subnetId = subnetIdDecoded
@@ -589,35 +571,22 @@ extension CreateHsmInputBody: Swift.Decodable {
     }
 }
 
-extension CreateHsmOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateHsmOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateHsmOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateHsmOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateHsmOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateHsmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmArn = output.hsmArn
@@ -632,7 +601,7 @@ public struct CreateHsmOutputResponse: Swift.Equatable {
     /// The ARN of the HSM.
     public var hsmArn: Swift.String?
 
-    public init (
+    public init(
         hsmArn: Swift.String? = nil
     )
     {
@@ -649,7 +618,7 @@ extension CreateHsmOutputResponseBody: Swift.Decodable {
         case hsmArn = "HsmArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hsmArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hsmArn)
         hsmArn = hsmArnDecoded
@@ -687,7 +656,7 @@ public struct CreateLunaClientInput: Swift.Equatable {
     /// The label for the client.
     public var label: Swift.String?
 
-    public init (
+    public init(
         certificate: Swift.String? = nil,
         label: Swift.String? = nil
     )
@@ -708,7 +677,7 @@ extension CreateLunaClientInputBody: Swift.Decodable {
         case label = "Label"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
         label = labelDecoded
@@ -717,35 +686,22 @@ extension CreateLunaClientInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLunaClientOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLunaClientOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLunaClientOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLunaClientOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLunaClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientArn = output.clientArn
@@ -760,7 +716,7 @@ public struct CreateLunaClientOutputResponse: Swift.Equatable {
     /// The ARN of the client.
     public var clientArn: Swift.String?
 
-    public init (
+    public init(
         clientArn: Swift.String? = nil
     )
     {
@@ -777,7 +733,7 @@ extension CreateLunaClientOutputResponseBody: Swift.Decodable {
         case clientArn = "ClientArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientArn)
         clientArn = clientArnDecoded
@@ -809,7 +765,7 @@ public struct DeleteHapgInput: Swift.Equatable {
     /// This member is required.
     public var hapgArn: Swift.String?
 
-    public init (
+    public init(
         hapgArn: Swift.String? = nil
     )
     {
@@ -826,42 +782,29 @@ extension DeleteHapgInputBody: Swift.Decodable {
         case hapgArn = "HapgArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hapgArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hapgArn)
         hapgArn = hapgArnDecoded
     }
 }
 
-extension DeleteHapgOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteHapgOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteHapgOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteHapgOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteHapgOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteHapgOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -877,7 +820,7 @@ public struct DeleteHapgOutputResponse: Swift.Equatable {
     /// This member is required.
     public var status: Swift.String?
 
-    public init (
+    public init(
         status: Swift.String? = nil
     )
     {
@@ -894,7 +837,7 @@ extension DeleteHapgOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -926,7 +869,7 @@ public struct DeleteHsmInput: Swift.Equatable {
     /// This member is required.
     public var hsmArn: Swift.String?
 
-    public init (
+    public init(
         hsmArn: Swift.String? = nil
     )
     {
@@ -943,42 +886,29 @@ extension DeleteHsmInputBody: Swift.Decodable {
         case hsmArn = "HsmArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hsmArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hsmArn)
         hsmArn = hsmArnDecoded
     }
 }
 
-extension DeleteHsmOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteHsmOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteHsmOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteHsmOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteHsmOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteHsmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -994,7 +924,7 @@ public struct DeleteHsmOutputResponse: Swift.Equatable {
     /// This member is required.
     public var status: Swift.String?
 
-    public init (
+    public init(
         status: Swift.String? = nil
     )
     {
@@ -1011,7 +941,7 @@ extension DeleteHsmOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -1042,7 +972,7 @@ public struct DeleteLunaClientInput: Swift.Equatable {
     /// This member is required.
     public var clientArn: Swift.String?
 
-    public init (
+    public init(
         clientArn: Swift.String? = nil
     )
     {
@@ -1059,42 +989,29 @@ extension DeleteLunaClientInputBody: Swift.Decodable {
         case clientArn = "ClientArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientArn)
         clientArn = clientArnDecoded
     }
 }
 
-extension DeleteLunaClientOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteLunaClientOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLunaClientOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteLunaClientOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteLunaClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -1109,7 +1026,7 @@ public struct DeleteLunaClientOutputResponse: Swift.Equatable {
     /// This member is required.
     public var status: Swift.String?
 
-    public init (
+    public init(
         status: Swift.String? = nil
     )
     {
@@ -1126,7 +1043,7 @@ extension DeleteLunaClientOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -1158,7 +1075,7 @@ public struct DescribeHapgInput: Swift.Equatable {
     /// This member is required.
     public var hapgArn: Swift.String?
 
-    public init (
+    public init(
         hapgArn: Swift.String? = nil
     )
     {
@@ -1175,42 +1092,29 @@ extension DescribeHapgInputBody: Swift.Decodable {
         case hapgArn = "HapgArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hapgArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hapgArn)
         hapgArn = hapgArnDecoded
     }
 }
 
-extension DescribeHapgOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeHapgOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeHapgOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeHapgOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeHapgOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeHapgOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hapgArn = output.hapgArn
@@ -1257,7 +1161,7 @@ public struct DescribeHapgOutputResponse: Swift.Equatable {
     /// The state of the high-availability partition group.
     public var state: CloudHSMClientTypes.CloudHsmObjectState?
 
-    public init (
+    public init(
         hapgArn: Swift.String? = nil,
         hapgSerial: Swift.String? = nil,
         hsmsLastActionFailed: [Swift.String]? = nil,
@@ -1306,7 +1210,7 @@ extension DescribeHapgOutputResponseBody: Swift.Decodable {
         case state = "State"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hapgArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hapgArn)
         hapgArn = hapgArnDecoded
@@ -1395,7 +1299,7 @@ public struct DescribeHsmInput: Swift.Equatable {
     /// The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
     public var hsmSerialNumber: Swift.String?
 
-    public init (
+    public init(
         hsmArn: Swift.String? = nil,
         hsmSerialNumber: Swift.String? = nil
     )
@@ -1416,7 +1320,7 @@ extension DescribeHsmInputBody: Swift.Decodable {
         case hsmSerialNumber = "HsmSerialNumber"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hsmArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hsmArn)
         hsmArn = hsmArnDecoded
@@ -1425,35 +1329,22 @@ extension DescribeHsmInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeHsmOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeHsmOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeHsmOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeHsmOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeHsmOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeHsmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availabilityZone = output.availabilityZone
@@ -1552,7 +1443,7 @@ public struct DescribeHsmOutputResponse: Swift.Equatable {
     /// The identifier of the VPC that the HSM is in.
     public var vpcId: Swift.String?
 
-    public init (
+    public init(
         availabilityZone: Swift.String? = nil,
         eniId: Swift.String? = nil,
         eniIp: Swift.String? = nil,
@@ -1649,7 +1540,7 @@ extension DescribeHsmOutputResponseBody: Swift.Decodable {
         case vpcId = "VpcId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hsmArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hsmArn)
         hsmArn = hsmArnDecoded
@@ -1734,7 +1625,7 @@ public struct DescribeLunaClientInput: Swift.Equatable {
     /// The ARN of the client.
     public var clientArn: Swift.String?
 
-    public init (
+    public init(
         certificateFingerprint: Swift.String? = nil,
         clientArn: Swift.String? = nil
     )
@@ -1755,7 +1646,7 @@ extension DescribeLunaClientInputBody: Swift.Decodable {
         case clientArn = "ClientArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientArn)
         clientArn = clientArnDecoded
@@ -1764,35 +1655,22 @@ extension DescribeLunaClientInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeLunaClientOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLunaClientOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLunaClientOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLunaClientOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLunaClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificate = output.certificate
@@ -1822,7 +1700,7 @@ public struct DescribeLunaClientOutputResponse: Swift.Equatable {
     /// The date and time the client was last modified.
     public var lastModifiedTimestamp: Swift.String?
 
-    public init (
+    public init(
         certificate: Swift.String? = nil,
         certificateFingerprint: Swift.String? = nil,
         clientArn: Swift.String? = nil,
@@ -1855,7 +1733,7 @@ extension DescribeLunaClientOutputResponseBody: Swift.Decodable {
         case lastModifiedTimestamp = "LastModifiedTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientArn)
         clientArn = clientArnDecoded
@@ -1911,7 +1789,7 @@ public struct GetConfigInput: Swift.Equatable {
     /// This member is required.
     public var hapgList: [Swift.String]?
 
-    public init (
+    public init(
         clientArn: Swift.String? = nil,
         clientVersion: CloudHSMClientTypes.ClientVersion? = nil,
         hapgList: [Swift.String]? = nil
@@ -1936,7 +1814,7 @@ extension GetConfigInputBody: Swift.Decodable {
         case hapgList = "HapgList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientArn)
         clientArn = clientArnDecoded
@@ -1956,35 +1834,22 @@ extension GetConfigInputBody: Swift.Decodable {
     }
 }
 
-extension GetConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetConfigOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configCred = output.configCred
@@ -2006,7 +1871,7 @@ public struct GetConfigOutputResponse: Swift.Equatable {
     /// The type of credentials.
     public var configType: Swift.String?
 
-    public init (
+    public init(
         configCred: Swift.String? = nil,
         configFile: Swift.String? = nil,
         configType: Swift.String? = nil
@@ -2031,7 +1896,7 @@ extension GetConfigOutputResponseBody: Swift.Decodable {
         case configType = "ConfigType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configType)
         configType = configTypeDecoded
@@ -2090,44 +1955,48 @@ extension CloudHSMClientTypes {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.retryable = output.retryable
+            self.properties.message = output.message
+            self.properties.retryable = output.retryable
         } else {
-            self.message = nil
-            self.retryable = false
+            self.properties.message = nil
+            self.properties.retryable = false
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Indicates that one or more of the request parameters are not valid.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Additional information about the error.
-    public var message: Swift.String?
-    /// Indicates if the action can be retried.
-    public var retryable: Swift.Bool
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Additional information about the error.
+        public internal(set) var message: Swift.String? = nil
+        /// Indicates if the action can be retried.
+        public internal(set) var retryable: Swift.Bool = false
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         retryable: Swift.Bool = false
     )
     {
-        self.message = message
-        self.retryable = retryable
+        self.properties.message = message
+        self.properties.retryable = retryable
     }
 }
 
@@ -2142,7 +2011,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case retryable
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2168,7 +2037,7 @@ extension ListAvailableZonesInput: ClientRuntime.URLPathProvider {
 /// Contains the inputs for the [ListAvailableZones] action.
 public struct ListAvailableZonesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct ListAvailableZonesInputBody: Swift.Equatable {
@@ -2176,39 +2045,26 @@ struct ListAvailableZonesInputBody: Swift.Equatable {
 
 extension ListAvailableZonesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListAvailableZonesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAvailableZonesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAvailableZonesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAvailableZonesOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAvailableZonesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAvailableZonesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.azList = output.azList
@@ -2222,7 +2078,7 @@ public struct ListAvailableZonesOutputResponse: Swift.Equatable {
     /// The list of Availability Zones that have available AWS CloudHSM capacity.
     public var azList: [Swift.String]?
 
-    public init (
+    public init(
         azList: [Swift.String]? = nil
     )
     {
@@ -2239,7 +2095,7 @@ extension ListAvailableZonesOutputResponseBody: Swift.Decodable {
         case azList = "AZList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let azListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .azList)
         var azListDecoded0:[Swift.String]? = nil
@@ -2278,7 +2134,7 @@ public struct ListHapgsInput: Swift.Equatable {
     /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -2295,42 +2151,29 @@ extension ListHapgsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListHapgsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListHapgsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListHapgsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListHapgsOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListHapgsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListHapgsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hapgList = output.hapgList
@@ -2349,7 +2192,7 @@ public struct ListHapgsOutputResponse: Swift.Equatable {
     /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         hapgList: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2370,7 +2213,7 @@ extension ListHapgsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hapgListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .hapgList)
         var hapgListDecoded0:[Swift.String]? = nil
@@ -2411,7 +2254,7 @@ public struct ListHsmsInput: Swift.Equatable {
     /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -2428,42 +2271,29 @@ extension ListHsmsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListHsmsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListHsmsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListHsmsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListHsmsOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListHsmsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListHsmsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmList = output.hsmList
@@ -2482,7 +2312,7 @@ public struct ListHsmsOutputResponse: Swift.Equatable {
     /// If not null, more results are available. Pass this value to ListHsms to retrieve the next set of items.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         hsmList: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2503,7 +2333,7 @@ extension ListHsmsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hsmListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .hsmList)
         var hsmListDecoded0:[Swift.String]? = nil
@@ -2544,7 +2374,7 @@ public struct ListLunaClientsInput: Swift.Equatable {
     /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -2561,42 +2391,29 @@ extension ListLunaClientsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListLunaClientsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLunaClientsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLunaClientsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLunaClientsOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLunaClientsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLunaClientsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientList = output.clientList
@@ -2615,7 +2432,7 @@ public struct ListLunaClientsOutputResponse: Swift.Equatable {
     /// If not null, more results are available. Pass this to ListLunaClients to retrieve the next set of items.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         clientList: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2636,7 +2453,7 @@ extension ListLunaClientsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .clientList)
         var clientListDecoded0:[Swift.String]? = nil
@@ -2678,7 +2495,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -2695,42 +2512,29 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
@@ -2745,7 +2549,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// This member is required.
     public var tagList: [CloudHSMClientTypes.Tag]?
 
-    public init (
+    public init(
         tagList: [CloudHSMClientTypes.Tag]? = nil
     )
     {
@@ -2762,7 +2566,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tagList = "TagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagListContainer = try containerValues.decodeIfPresent([CloudHSMClientTypes.Tag?].self, forKey: .tagList)
         var tagListDecoded0:[CloudHSMClientTypes.Tag]? = nil
@@ -2817,7 +2621,7 @@ public struct ModifyHapgInput: Swift.Equatable {
     /// The list of partition serial numbers to make members of the high-availability partition group.
     public var partitionSerialList: [Swift.String]?
 
-    public init (
+    public init(
         hapgArn: Swift.String? = nil,
         label: Swift.String? = nil,
         partitionSerialList: [Swift.String]? = nil
@@ -2842,7 +2646,7 @@ extension ModifyHapgInputBody: Swift.Decodable {
         case partitionSerialList = "PartitionSerialList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hapgArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hapgArn)
         hapgArn = hapgArnDecoded
@@ -2862,35 +2666,22 @@ extension ModifyHapgInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyHapgOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyHapgOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyHapgOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyHapgOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyHapgOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyHapgOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hapgArn = output.hapgArn
@@ -2904,7 +2695,7 @@ public struct ModifyHapgOutputResponse: Swift.Equatable {
     /// The ARN of the high-availability partition group.
     public var hapgArn: Swift.String?
 
-    public init (
+    public init(
         hapgArn: Swift.String? = nil
     )
     {
@@ -2921,7 +2712,7 @@ extension ModifyHapgOutputResponseBody: Swift.Decodable {
         case hapgArn = "HapgArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hapgArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hapgArn)
         hapgArn = hapgArnDecoded
@@ -2983,7 +2774,7 @@ public struct ModifyHsmInput: Swift.Equatable {
     /// The new IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
     public var syslogIp: Swift.String?
 
-    public init (
+    public init(
         eniIp: Swift.String? = nil,
         externalId: Swift.String? = nil,
         hsmArn: Swift.String? = nil,
@@ -3020,7 +2811,7 @@ extension ModifyHsmInputBody: Swift.Decodable {
         case syslogIp = "SyslogIp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hsmArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hsmArn)
         hsmArn = hsmArnDecoded
@@ -3037,35 +2828,22 @@ extension ModifyHsmInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyHsmOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyHsmOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyHsmOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyHsmOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyHsmOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyHsmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmArn = output.hsmArn
@@ -3080,7 +2858,7 @@ public struct ModifyHsmOutputResponse: Swift.Equatable {
     /// The ARN of the HSM.
     public var hsmArn: Swift.String?
 
-    public init (
+    public init(
         hsmArn: Swift.String? = nil
     )
     {
@@ -3097,7 +2875,7 @@ extension ModifyHsmOutputResponseBody: Swift.Decodable {
         case hsmArn = "HsmArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hsmArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hsmArn)
         hsmArn = hsmArnDecoded
@@ -3135,7 +2913,7 @@ public struct ModifyLunaClientInput: Swift.Equatable {
     /// This member is required.
     public var clientArn: Swift.String?
 
-    public init (
+    public init(
         certificate: Swift.String? = nil,
         clientArn: Swift.String? = nil
     )
@@ -3156,7 +2934,7 @@ extension ModifyLunaClientInputBody: Swift.Decodable {
         case clientArn = "ClientArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientArn)
         clientArn = clientArnDecoded
@@ -3165,31 +2943,20 @@ extension ModifyLunaClientInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyLunaClientOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyLunaClientOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyLunaClientOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyLunaClientOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyLunaClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientArn = output.clientArn
@@ -3203,7 +2970,7 @@ public struct ModifyLunaClientOutputResponse: Swift.Equatable {
     /// The ARN of the client.
     public var clientArn: Swift.String?
 
-    public init (
+    public init(
         clientArn: Swift.String? = nil
     )
     {
@@ -3220,7 +2987,7 @@ extension ModifyLunaClientOutputResponseBody: Swift.Decodable {
         case clientArn = "ClientArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientArn)
         clientArn = clientArnDecoded
@@ -3261,7 +3028,7 @@ public struct RemoveTagsFromResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeyList: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeyList: [Swift.String]? = nil
     )
@@ -3282,7 +3049,7 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
         case tagKeyList = "TagKeyList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -3300,35 +3067,22 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RemoveTagsFromResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudHsmInternalException": return try await CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudHsmServiceException": return try await CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
-    case cloudHsmInternalException(CloudHsmInternalException)
-    case cloudHsmServiceException(CloudHsmServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RemoveTagsFromResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -3343,7 +3097,7 @@ public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
     /// This member is required.
     public var status: Swift.String?
 
-    public init (
+    public init(
         status: Swift.String? = nil
     )
     {
@@ -3360,7 +3114,7 @@ extension RemoveTagsFromResourceOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -3417,7 +3171,7 @@ extension CloudHSMClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -3436,7 +3190,7 @@ extension CloudHSMClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )

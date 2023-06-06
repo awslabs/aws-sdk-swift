@@ -43,7 +43,7 @@ extension ACMClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeCertificateInput, result: Result<DescribeCertificateOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)

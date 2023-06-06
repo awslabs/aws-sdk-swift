@@ -37,7 +37,7 @@ extension SESv2ClientTypes.AccountDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mailTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.MailType.self, forKey: .mailType)
         mailType = mailTypeDecoded
@@ -88,7 +88,7 @@ extension SESv2ClientTypes {
         /// The URL of your website. This information helps us better understand the type of content that you plan to send.
         public var websiteURL: Swift.String?
 
-        public init (
+        public init(
             additionalContactEmailAddresses: [Swift.String]? = nil,
             contactLanguage: SESv2ClientTypes.ContactLanguage? = nil,
             mailType: SESv2ClientTypes.MailType? = nil,
@@ -109,37 +109,41 @@ extension SESv2ClientTypes {
 }
 
 extension AccountSuspendedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccountSuspendedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The message can't be sent because the account's ability to send email has been permanently restricted.
-public struct AccountSuspendedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AccountSuspendedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccountSuspendedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -152,7 +156,7 @@ extension AccountSuspendedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -160,37 +164,41 @@ extension AccountSuspendedExceptionBody: Swift.Decodable {
 }
 
 extension AlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource specified in your request already exists.
-public struct AlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -203,7 +211,7 @@ extension AlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -211,37 +219,41 @@ extension AlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension BadRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input you provided is invalid.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -254,7 +266,7 @@ extension BadRequestExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -289,7 +301,7 @@ public struct BatchGetMetricDataInput: Swift.Equatable {
     /// This member is required.
     public var queries: [SESv2ClientTypes.BatchGetMetricDataQuery]?
 
-    public init (
+    public init(
         queries: [SESv2ClientTypes.BatchGetMetricDataQuery]? = nil
     )
     {
@@ -306,7 +318,7 @@ extension BatchGetMetricDataInputBody: Swift.Decodable {
         case queries = "Queries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queriesContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.BatchGetMetricDataQuery?].self, forKey: .queries)
         var queriesDecoded0:[SESv2ClientTypes.BatchGetMetricDataQuery]? = nil
@@ -322,37 +334,23 @@ extension BatchGetMetricDataInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetMetricDataOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetMetricDataOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServiceErrorException" : self = .internalServiceErrorException(try InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetMetricDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetMetricDataOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case internalServiceErrorException(InternalServiceErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetMetricDataOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetMetricDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
@@ -371,7 +369,7 @@ public struct BatchGetMetricDataOutputResponse: Swift.Equatable {
     /// A list of successfully retrieved MetricDataResult.
     public var results: [SESv2ClientTypes.MetricDataResult]?
 
-    public init (
+    public init(
         errors: [SESv2ClientTypes.MetricDataError]? = nil,
         results: [SESv2ClientTypes.MetricDataResult]? = nil
     )
@@ -392,7 +390,7 @@ extension BatchGetMetricDataOutputResponseBody: Swift.Decodable {
         case results = "Results"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.MetricDataResult?].self, forKey: .results)
         var resultsDecoded0:[SESv2ClientTypes.MetricDataResult]? = nil
@@ -454,7 +452,7 @@ extension SESv2ClientTypes.BatchGetMetricDataQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -521,7 +519,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var startDate: ClientRuntime.Date?
 
-        public init (
+        public init(
             dimensions: [Swift.String:Swift.String]? = nil,
             endDate: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
@@ -594,7 +592,7 @@ extension SESv2ClientTypes.BlacklistEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rblNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rblName)
         rblName = rblNameDecoded
@@ -615,7 +613,7 @@ extension SESv2ClientTypes {
         /// The name of the blacklist that the IP address appears on.
         public var rblName: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             listingTime: ClientRuntime.Date? = nil,
             rblName: Swift.String? = nil
@@ -645,7 +643,7 @@ extension SESv2ClientTypes.Body: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Content.self, forKey: .text)
         text = textDecoded
@@ -662,7 +660,7 @@ extension SESv2ClientTypes {
         /// An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering.
         public var text: SESv2ClientTypes.Content?
 
-        public init (
+        public init(
             html: SESv2ClientTypes.Content? = nil,
             text: SESv2ClientTypes.Content? = nil
         )
@@ -686,7 +684,7 @@ extension SESv2ClientTypes.BulkEmailContent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Template.self, forKey: .template)
         template = templateDecoded
@@ -699,7 +697,7 @@ extension SESv2ClientTypes {
         /// The template to use for the bulk email message.
         public var template: SESv2ClientTypes.Template?
 
-        public init (
+        public init(
             template: SESv2ClientTypes.Template? = nil
         )
         {
@@ -732,7 +730,7 @@ extension SESv2ClientTypes.BulkEmailEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Destination.self, forKey: .destination)
         destination = destinationDecoded
@@ -762,7 +760,7 @@ extension SESv2ClientTypes {
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkTemplatedEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
         public var replacementTags: [SESv2ClientTypes.MessageTag]?
 
-        public init (
+        public init(
             destination: SESv2ClientTypes.Destination? = nil,
             replacementEmailContent: SESv2ClientTypes.ReplacementEmailContent? = nil,
             replacementTags: [SESv2ClientTypes.MessageTag]? = nil
@@ -796,7 +794,7 @@ extension SESv2ClientTypes.BulkEmailEntryResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.BulkEmailStatus.self, forKey: .status)
         status = statusDecoded
@@ -845,7 +843,7 @@ extension SESv2ClientTypes {
         /// * FAILED: Amazon SES was unable to process your request. See the error message for additional information.
         public var status: SESv2ClientTypes.BulkEmailStatus?
 
-        public init (
+        public init(
             error: Swift.String? = nil,
             messageId: Swift.String? = nil,
             status: SESv2ClientTypes.BulkEmailStatus? = nil
@@ -942,7 +940,7 @@ extension SESv2ClientTypes.CloudWatchDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dimensionConfigurationsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.CloudWatchDimensionConfiguration?].self, forKey: .dimensionConfigurations)
         var dimensionConfigurationsDecoded0:[SESv2ClientTypes.CloudWatchDimensionConfiguration]? = nil
@@ -965,7 +963,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var dimensionConfigurations: [SESv2ClientTypes.CloudWatchDimensionConfiguration]?
 
-        public init (
+        public init(
             dimensionConfigurations: [SESv2ClientTypes.CloudWatchDimensionConfiguration]? = nil
         )
         {
@@ -995,7 +993,7 @@ extension SESv2ClientTypes.CloudWatchDimensionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dimensionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dimensionName)
         dimensionName = dimensionNameDecoded
@@ -1027,7 +1025,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var dimensionValueSource: SESv2ClientTypes.DimensionValueSource?
 
-        public init (
+        public init(
             defaultDimensionValue: Swift.String? = nil,
             dimensionName: Swift.String? = nil,
             dimensionValueSource: SESv2ClientTypes.DimensionValueSource? = nil
@@ -1042,37 +1040,41 @@ extension SESv2ClientTypes {
 }
 
 extension ConcurrentModificationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource is being modified by another operation or thread.
-public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1085,7 +1087,7 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1093,37 +1095,41 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// If there is already an ongoing account details update under review.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1136,7 +1142,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1177,7 +1183,7 @@ extension SESv2ClientTypes.Contact: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
@@ -1224,7 +1230,7 @@ extension SESv2ClientTypes {
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
         public var unsubscribeAll: Swift.Bool
 
-        public init (
+        public init(
             emailAddress: Swift.String? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil,
             topicDefaultPreferences: [SESv2ClientTypes.TopicPreference]? = nil,
@@ -1290,7 +1296,7 @@ extension SESv2ClientTypes.ContactList: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactListName)
         contactListName = contactListNameDecoded
@@ -1307,7 +1313,7 @@ extension SESv2ClientTypes {
         /// A timestamp noting the last time the contact list was updated.
         public var lastUpdatedTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             contactListName: Swift.String? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil
         )
@@ -1335,7 +1341,7 @@ extension SESv2ClientTypes.ContactListDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactListName)
         contactListName = contactListNameDecoded
@@ -1358,7 +1364,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var contactListName: Swift.String?
 
-        public init (
+        public init(
             contactListImportAction: SESv2ClientTypes.ContactListImportAction? = nil,
             contactListName: Swift.String? = nil
         )
@@ -1418,7 +1424,7 @@ extension SESv2ClientTypes.Content: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .data)
         data = dataDecoded
@@ -1436,7 +1442,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var data: Swift.String?
 
-        public init (
+        public init(
             charset: Swift.String? = nil,
             data: Swift.String? = nil
         )
@@ -1486,7 +1492,7 @@ public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
     /// This member is required.
     public var eventDestinationName: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         eventDestination: SESv2ClientTypes.EventDestinationDefinition? = nil,
         eventDestinationName: Swift.String? = nil
@@ -1509,7 +1515,7 @@ extension CreateConfigurationSetEventDestinationInputBody: Swift.Decodable {
         case eventDestinationName = "EventDestinationName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDestinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDestinationName)
         eventDestinationName = eventDestinationNameDecoded
@@ -1518,45 +1524,30 @@ extension CreateConfigurationSetEventDestinationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateConfigurationSetEventDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateConfigurationSetEventDestinationOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct CreateConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateConfigurationSetInput: Swift.Encodable {
@@ -1629,7 +1620,7 @@ public struct CreateConfigurationSetInput: Swift.Equatable {
     /// An object that defines the VDM options for emails that you send using the configuration set.
     public var vdmOptions: SESv2ClientTypes.VdmOptions?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         deliveryOptions: SESv2ClientTypes.DeliveryOptions? = nil,
         reputationOptions: SESv2ClientTypes.ReputationOptions? = nil,
@@ -1674,7 +1665,7 @@ extension CreateConfigurationSetInputBody: Swift.Decodable {
         case vdmOptions = "VdmOptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationSetName)
         configurationSetName = configurationSetNameDecoded
@@ -1704,47 +1695,31 @@ extension CreateConfigurationSetInputBody: Swift.Decodable {
     }
 }
 
-extension CreateConfigurationSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateConfigurationSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateConfigurationSetOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case limitExceededException(LimitExceededException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct CreateConfigurationSetOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateContactInput: Swift.Encodable {
@@ -1798,7 +1773,7 @@ public struct CreateContactInput: Swift.Equatable {
     /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
     public var unsubscribeAll: Swift.Bool?
 
-    public init (
+    public init(
         attributesData: Swift.String? = nil,
         contactListName: Swift.String? = nil,
         emailAddress: Swift.String? = nil,
@@ -1829,7 +1804,7 @@ extension CreateContactInputBody: Swift.Decodable {
         case unsubscribeAll = "UnsubscribeAll"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
@@ -1899,7 +1874,7 @@ public struct CreateContactListInput: Swift.Equatable {
     /// An interest group, theme, or label within a list. A contact list can have multiple topics.
     public var topics: [SESv2ClientTypes.Topic]?
 
-    public init (
+    public init(
         contactListName: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [SESv2ClientTypes.Tag]? = nil,
@@ -1928,7 +1903,7 @@ extension CreateContactListInputBody: Swift.Decodable {
         case topics = "Topics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactListName)
         contactListName = contactListNameDecoded
@@ -1959,80 +1934,52 @@ extension CreateContactListInputBody: Swift.Decodable {
     }
 }
 
-extension CreateContactListOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateContactListOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateContactListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateContactListOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateContactListOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CreateContactListOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension CreateContactOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateContactOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateContactOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateContactOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CreateContactOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateCustomVerificationEmailTemplateInput: Swift.Encodable {
@@ -2095,7 +2042,7 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateSubject: Swift.String?
 
-    public init (
+    public init(
         failureRedirectionURL: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         successRedirectionURL: Swift.String? = nil,
@@ -2132,7 +2079,7 @@ extension CreateCustomVerificationEmailTemplateInputBody: Swift.Decodable {
         case templateSubject = "TemplateSubject"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
         templateName = templateNameDecoded
@@ -2149,45 +2096,30 @@ extension CreateCustomVerificationEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateCustomVerificationEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateCustomVerificationEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
 public struct CreateCustomVerificationEmailTemplateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateDedicatedIpPoolInput: Swift.Encodable {
@@ -2230,7 +2162,7 @@ public struct CreateDedicatedIpPoolInput: Swift.Equatable {
     /// An object that defines the tags (keys and values) that you want to associate with the pool.
     public var tags: [SESv2ClientTypes.Tag]?
 
-    public init (
+    public init(
         poolName: Swift.String? = nil,
         scalingMode: SESv2ClientTypes.ScalingMode? = nil,
         tags: [SESv2ClientTypes.Tag]? = nil
@@ -2255,7 +2187,7 @@ extension CreateDedicatedIpPoolInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolName)
         poolName = poolNameDecoded
@@ -2275,45 +2207,30 @@ extension CreateDedicatedIpPoolInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDedicatedIpPoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDedicatedIpPoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDedicatedIpPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDedicatedIpPoolOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case limitExceededException(LimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDedicatedIpPoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct CreateDedicatedIpPoolOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateDeliverabilityTestReportInput: Swift.Encodable {
@@ -2363,7 +2280,7 @@ public struct CreateDeliverabilityTestReportInput: Swift.Equatable {
     /// An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test.
     public var tags: [SESv2ClientTypes.Tag]?
 
-    public init (
+    public init(
         content: SESv2ClientTypes.EmailContent? = nil,
         fromEmailAddress: Swift.String? = nil,
         reportName: Swift.String? = nil,
@@ -2392,7 +2309,7 @@ extension CreateDeliverabilityTestReportInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportName)
         reportName = reportNameDecoded
@@ -2414,47 +2331,28 @@ extension CreateDeliverabilityTestReportInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDeliverabilityTestReportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDeliverabilityTestReportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountSuspendedException" : self = .accountSuspendedException(try AccountSuspendedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MailFromDomainNotVerifiedException" : self = .mailFromDomainNotVerifiedException(try MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SendingPausedException" : self = .sendingPausedException(try SendingPausedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDeliverabilityTestReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountSuspendedException": return try await AccountSuspendedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SendingPausedException": return try await SendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDeliverabilityTestReportOutputError: Swift.Error, Swift.Equatable {
-    case accountSuspendedException(AccountSuspendedException)
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case limitExceededException(LimitExceededException)
-    case mailFromDomainNotVerifiedException(MailFromDomainNotVerifiedException)
-    case messageRejected(MessageRejected)
-    case notFoundException(NotFoundException)
-    case sendingPausedException(SendingPausedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDeliverabilityTestReportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDeliverabilityTestReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliverabilityTestStatus = output.deliverabilityTestStatus
@@ -2475,7 +2373,7 @@ public struct CreateDeliverabilityTestReportOutputResponse: Swift.Equatable {
     /// This member is required.
     public var reportId: Swift.String?
 
-    public init (
+    public init(
         deliverabilityTestStatus: SESv2ClientTypes.DeliverabilityTestStatus? = nil,
         reportId: Swift.String? = nil
     )
@@ -2496,7 +2394,7 @@ extension CreateDeliverabilityTestReportOutputResponseBody: Swift.Decodable {
         case reportId = "ReportId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
         reportId = reportIdDecoded
@@ -2551,7 +2449,7 @@ public struct CreateEmailIdentityInput: Swift.Equatable {
     /// An array of objects that define the tags (keys and values) to associate with the email identity.
     public var tags: [SESv2ClientTypes.Tag]?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         dkimSigningAttributes: SESv2ClientTypes.DkimSigningAttributes? = nil,
         emailIdentity: Swift.String? = nil,
@@ -2580,7 +2478,7 @@ extension CreateEmailIdentityInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailIdentity)
         emailIdentity = emailIdentityDecoded
@@ -2602,41 +2500,25 @@ extension CreateEmailIdentityInputBody: Swift.Decodable {
     }
 }
 
-extension CreateEmailIdentityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateEmailIdentityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateEmailIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateEmailIdentityOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case limitExceededException(LimitExceededException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateEmailIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateEmailIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dkimAttributes = output.dkimAttributes
@@ -2659,7 +2541,7 @@ public struct CreateEmailIdentityOutputResponse: Swift.Equatable {
     /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the [Amazon Pinpoint User Guide](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-email-manage-verify.html).
     public var verifiedForSendingStatus: Swift.Bool
 
-    public init (
+    public init(
         dkimAttributes: SESv2ClientTypes.DkimAttributes? = nil,
         identityType: SESv2ClientTypes.IdentityType? = nil,
         verifiedForSendingStatus: Swift.Bool = false
@@ -2684,7 +2566,7 @@ extension CreateEmailIdentityOutputResponseBody: Swift.Decodable {
         case verifiedForSendingStatus = "VerifiedForSendingStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.IdentityType.self, forKey: .identityType)
         identityType = identityTypeDecoded
@@ -2732,7 +2614,7 @@ public struct CreateEmailIdentityPolicyInput: Swift.Equatable {
     /// This member is required.
     public var policyName: Swift.String?
 
-    public init (
+    public init(
         emailIdentity: Swift.String? = nil,
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
@@ -2753,52 +2635,37 @@ extension CreateEmailIdentityPolicyInputBody: Swift.Decodable {
         case policy = "Policy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
     }
 }
 
-extension CreateEmailIdentityPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateEmailIdentityPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateEmailIdentityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateEmailIdentityPolicyOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateEmailIdentityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct CreateEmailIdentityPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateEmailTemplateInput: Swift.Encodable {
@@ -2833,7 +2700,7 @@ public struct CreateEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
         templateName: Swift.String? = nil
     )
@@ -2854,7 +2721,7 @@ extension CreateEmailTemplateInputBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
         templateName = templateNameDecoded
@@ -2863,43 +2730,29 @@ extension CreateEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
-extension CreateEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
 public struct CreateEmailTemplateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateImportJobInput: Swift.Encodable {
@@ -2934,7 +2787,7 @@ public struct CreateImportJobInput: Swift.Equatable {
     /// This member is required.
     public var importDestination: SESv2ClientTypes.ImportDestination?
 
-    public init (
+    public init(
         importDataSource: SESv2ClientTypes.ImportDataSource? = nil,
         importDestination: SESv2ClientTypes.ImportDestination? = nil
     )
@@ -2955,7 +2808,7 @@ extension CreateImportJobInputBody: Swift.Decodable {
         case importDestination = "ImportDestination"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importDestinationDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ImportDestination.self, forKey: .importDestination)
         importDestination = importDestinationDecoded
@@ -2964,35 +2817,22 @@ extension CreateImportJobInputBody: Swift.Decodable {
     }
 }
 
-extension CreateImportJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateImportJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateImportJobOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -3007,7 +2847,7 @@ public struct CreateImportJobOutputResponse: Swift.Equatable {
     /// A string that represents the import job ID.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -3024,7 +2864,7 @@ extension CreateImportJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -3059,7 +2899,7 @@ extension SESv2ClientTypes.CustomVerificationEmailTemplateMetadata: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
         templateName = templateNameDecoded
@@ -3088,7 +2928,7 @@ extension SESv2ClientTypes {
         /// The subject line of the custom verification email.
         public var templateSubject: Swift.String?
 
-        public init (
+        public init(
             failureRedirectionURL: Swift.String? = nil,
             fromEmailAddress: Swift.String? = nil,
             successRedirectionURL: Swift.String? = nil,
@@ -3129,7 +2969,7 @@ extension SESv2ClientTypes.DailyVolume: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDate)
         startDate = startDateDecoded
@@ -3159,7 +2999,7 @@ extension SESv2ClientTypes {
         /// An object that contains inbox placement metrics for a specific day in the analysis period.
         public var volumeStatistics: SESv2ClientTypes.VolumeStatistics?
 
-        public init (
+        public init(
             domainIspPlacements: [SESv2ClientTypes.DomainIspPlacement]? = nil,
             startDate: ClientRuntime.Date? = nil,
             volumeStatistics: SESv2ClientTypes.VolumeStatistics? = nil
@@ -3185,7 +3025,7 @@ extension SESv2ClientTypes.DashboardAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engagementMetricsDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.FeatureStatus.self, forKey: .engagementMetrics)
         engagementMetrics = engagementMetricsDecoded
@@ -3202,7 +3042,7 @@ extension SESv2ClientTypes {
         /// * DISABLED – Amazon SES disables engagement metrics for your account.
         public var engagementMetrics: SESv2ClientTypes.FeatureStatus?
 
-        public init (
+        public init(
             engagementMetrics: SESv2ClientTypes.FeatureStatus? = nil
         )
         {
@@ -3224,7 +3064,7 @@ extension SESv2ClientTypes.DashboardOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engagementMetricsDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.FeatureStatus.self, forKey: .engagementMetrics)
         engagementMetrics = engagementMetricsDecoded
@@ -3241,7 +3081,7 @@ extension SESv2ClientTypes {
         /// * DISABLED – Amazon SES disables engagement metrics for the configuration set.
         public var engagementMetrics: SESv2ClientTypes.FeatureStatus?
 
-        public init (
+        public init(
             engagementMetrics: SESv2ClientTypes.FeatureStatus? = nil
         )
         {
@@ -3308,7 +3148,7 @@ extension SESv2ClientTypes.DedicatedIp: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ip)
         ip = ipDecoded
@@ -3340,7 +3180,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var warmupStatus: SESv2ClientTypes.WarmupStatus?
 
-        public init (
+        public init(
             ip: Swift.String? = nil,
             poolName: Swift.String? = nil,
             warmupPercentage: Swift.Int? = nil,
@@ -3372,7 +3212,7 @@ extension SESv2ClientTypes.DedicatedIpPool: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolName)
         poolName = poolNameDecoded
@@ -3395,7 +3235,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var scalingMode: SESv2ClientTypes.ScalingMode?
 
-        public init (
+        public init(
             poolName: Swift.String? = nil,
             scalingMode: SESv2ClientTypes.ScalingMode? = nil
         )
@@ -3428,7 +3268,7 @@ public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
     /// This member is required.
     public var eventDestinationName: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil
     )
@@ -3443,45 +3283,32 @@ struct DeleteConfigurationSetEventDestinationInputBody: Swift.Equatable {
 
 extension DeleteConfigurationSetEventDestinationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConfigurationSetEventDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConfigurationSetEventDestinationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct DeleteConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteConfigurationSetInput: ClientRuntime.URLPathProvider {
@@ -3499,7 +3326,7 @@ public struct DeleteConfigurationSetInput: Swift.Equatable {
     /// This member is required.
     public var configurationSetName: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil
     )
     {
@@ -3512,47 +3339,33 @@ struct DeleteConfigurationSetInputBody: Swift.Equatable {
 
 extension DeleteConfigurationSetInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConfigurationSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConfigurationSetOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct DeleteConfigurationSetOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteContactInput: ClientRuntime.URLPathProvider {
@@ -3575,7 +3388,7 @@ public struct DeleteContactInput: Swift.Equatable {
     /// This member is required.
     public var emailAddress: Swift.String?
 
-    public init (
+    public init(
         contactListName: Swift.String? = nil,
         emailAddress: Swift.String? = nil
     )
@@ -3590,7 +3403,7 @@ struct DeleteContactInputBody: Swift.Equatable {
 
 extension DeleteContactInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -3608,7 +3421,7 @@ public struct DeleteContactListInput: Swift.Equatable {
     /// This member is required.
     public var contactListName: Swift.String?
 
-    public init (
+    public init(
         contactListName: Swift.String? = nil
     )
     {
@@ -3621,82 +3434,55 @@ struct DeleteContactListInputBody: Swift.Equatable {
 
 extension DeleteContactListInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteContactListOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteContactListOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteContactListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteContactListOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteContactListOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteContactListOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DeleteContactOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteContactOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteContactOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteContactOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteContactOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
@@ -3714,7 +3500,7 @@ public struct DeleteCustomVerificationEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         templateName: Swift.String? = nil
     )
     {
@@ -3727,45 +3513,32 @@ struct DeleteCustomVerificationEmailTemplateInputBody: Swift.Equatable {
 
 extension DeleteCustomVerificationEmailTemplateInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteCustomVerificationEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteCustomVerificationEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
 public struct DeleteCustomVerificationEmailTemplateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteDedicatedIpPoolInput: ClientRuntime.URLPathProvider {
@@ -3783,7 +3556,7 @@ public struct DeleteDedicatedIpPoolInput: Swift.Equatable {
     /// This member is required.
     public var poolName: Swift.String?
 
-    public init (
+    public init(
         poolName: Swift.String? = nil
     )
     {
@@ -3796,47 +3569,33 @@ struct DeleteDedicatedIpPoolInputBody: Swift.Equatable {
 
 extension DeleteDedicatedIpPoolInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteDedicatedIpPoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDedicatedIpPoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDedicatedIpPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDedicatedIpPoolOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDedicatedIpPoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct DeleteDedicatedIpPoolOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteEmailIdentityInput: ClientRuntime.URLPathProvider {
@@ -3854,7 +3613,7 @@ public struct DeleteEmailIdentityInput: Swift.Equatable {
     /// This member is required.
     public var emailIdentity: Swift.String?
 
-    public init (
+    public init(
         emailIdentity: Swift.String? = nil
     )
     {
@@ -3867,47 +3626,33 @@ struct DeleteEmailIdentityInputBody: Swift.Equatable {
 
 extension DeleteEmailIdentityInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteEmailIdentityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteEmailIdentityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEmailIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteEmailIdentityOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEmailIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct DeleteEmailIdentityOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteEmailIdentityPolicyInput: ClientRuntime.URLPathProvider {
@@ -3931,7 +3676,7 @@ public struct DeleteEmailIdentityPolicyInput: Swift.Equatable {
     /// This member is required.
     public var policyName: Swift.String?
 
-    public init (
+    public init(
         emailIdentity: Swift.String? = nil,
         policyName: Swift.String? = nil
     )
@@ -3946,45 +3691,32 @@ struct DeleteEmailIdentityPolicyInputBody: Swift.Equatable {
 
 extension DeleteEmailIdentityPolicyInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteEmailIdentityPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteEmailIdentityPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEmailIdentityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteEmailIdentityPolicyOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEmailIdentityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct DeleteEmailIdentityPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteEmailTemplateInput: ClientRuntime.URLPathProvider {
@@ -4002,7 +3734,7 @@ public struct DeleteEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         templateName: Swift.String? = nil
     )
     {
@@ -4015,45 +3747,32 @@ struct DeleteEmailTemplateInputBody: Swift.Equatable {
 
 extension DeleteEmailTemplateInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
 public struct DeleteEmailTemplateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteSuppressedDestinationInput: ClientRuntime.URLPathProvider {
@@ -4071,7 +3790,7 @@ public struct DeleteSuppressedDestinationInput: Swift.Equatable {
     /// This member is required.
     public var emailAddress: Swift.String?
 
-    public init (
+    public init(
         emailAddress: Swift.String? = nil
     )
     {
@@ -4084,45 +3803,32 @@ struct DeleteSuppressedDestinationInputBody: Swift.Equatable {
 
 extension DeleteSuppressedDestinationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteSuppressedDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteSuppressedDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteSuppressedDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteSuppressedDestinationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteSuppressedDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct DeleteSuppressedDestinationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SESv2ClientTypes {
@@ -4193,7 +3899,7 @@ extension SESv2ClientTypes.DeliverabilityTestReport: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
         reportId = reportIdDecoded
@@ -4226,7 +3932,7 @@ extension SESv2ClientTypes {
         /// The subject line for an email that you submitted in a predictive inbox placement test.
         public var subject: Swift.String?
 
-        public init (
+        public init(
             createDate: ClientRuntime.Date? = nil,
             deliverabilityTestStatus: SESv2ClientTypes.DeliverabilityTestStatus? = nil,
             fromEmailAddress: Swift.String? = nil,
@@ -4295,7 +4001,7 @@ extension SESv2ClientTypes.DeliveryOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tlsPolicyDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.TlsPolicy.self, forKey: .tlsPolicy)
         tlsPolicy = tlsPolicyDecoded
@@ -4312,7 +4018,7 @@ extension SESv2ClientTypes {
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public var tlsPolicy: SESv2ClientTypes.TlsPolicy?
 
-        public init (
+        public init(
             sendingPoolName: Swift.String? = nil,
             tlsPolicy: SESv2ClientTypes.TlsPolicy? = nil
         )
@@ -4353,7 +4059,7 @@ extension SESv2ClientTypes.Destination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let toAddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .toAddresses)
         var toAddressesDecoded0:[Swift.String]? = nil
@@ -4401,7 +4107,7 @@ extension SESv2ClientTypes {
         /// An array that contains the email addresses of the "To" recipients for the email.
         public var toAddresses: [Swift.String]?
 
-        public init (
+        public init(
             bccAddresses: [Swift.String]? = nil,
             ccAddresses: [Swift.String]? = nil,
             toAddresses: [Swift.String]? = nil
@@ -4490,7 +4196,7 @@ extension SESv2ClientTypes.DkimAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let signingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .signingEnabled) ?? false
         signingEnabled = signingEnabledDecoded
@@ -4550,7 +4256,7 @@ extension SESv2ClientTypes {
         /// If you used [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html) to configure DKIM authentication for the domain, then this object contains a set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon SES detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. If you configured DKIM authentication for the domain by providing your own public-private key pair, then this object contains the selector for the public key. Regardless of the DKIM authentication method you use, Amazon SES searches for the appropriate records in the DNS configuration of the domain for up to 72 hours.
         public var tokens: [Swift.String]?
 
-        public init (
+        public init(
             currentSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength? = nil,
             lastKeyGenerationTimestamp: ClientRuntime.Date? = nil,
             nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength? = nil,
@@ -4592,7 +4298,7 @@ extension SESv2ClientTypes.DkimSigningAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainSigningSelectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainSigningSelector)
         domainSigningSelector = domainSigningSelectorDecoded
@@ -4618,7 +4324,7 @@ extension SESv2ClientTypes {
         /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.
         public var nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength?
 
-        public init (
+        public init(
             domainSigningPrivateKey: Swift.String? = nil,
             domainSigningSelector: Swift.String? = nil,
             nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength? = nil
@@ -4818,7 +4524,7 @@ extension SESv2ClientTypes.DomainDeliverabilityCampaign: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let campaignIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .campaignId)
         campaignId = campaignIdDecoded
@@ -4901,7 +4607,7 @@ extension SESv2ClientTypes {
         /// The subject line, or title, of the email message.
         public var subject: Swift.String?
 
-        public init (
+        public init(
             campaignId: Swift.String? = nil,
             deleteRate: Swift.Double? = nil,
             esps: [Swift.String]? = nil,
@@ -4957,7 +4663,7 @@ extension SESv2ClientTypes.DomainDeliverabilityTrackingOption: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -4978,7 +4684,7 @@ extension SESv2ClientTypes {
         /// The date when you enabled the Deliverability dashboard for the domain.
         public var subscriptionStartDate: ClientRuntime.Date?
 
-        public init (
+        public init(
             domain: Swift.String? = nil,
             inboxPlacementTrackingOption: SESv2ClientTypes.InboxPlacementTrackingOption? = nil,
             subscriptionStartDate: ClientRuntime.Date? = nil
@@ -5020,7 +4726,7 @@ extension SESv2ClientTypes.DomainIspPlacement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ispNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ispName)
         ispName = ispNameDecoded
@@ -5049,7 +4755,7 @@ extension SESv2ClientTypes {
         /// The total number of messages that were sent from the selected domain to the specified email provider that arrived in recipients' spam or junk mail folders.
         public var spamRawCount: Swift.Int?
 
-        public init (
+        public init(
             inboxPercentage: Swift.Double? = nil,
             inboxRawCount: Swift.Int? = nil,
             ispName: Swift.String? = nil,
@@ -5087,7 +4793,7 @@ extension SESv2ClientTypes.EmailContent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let simpleDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Message.self, forKey: .simple)
         simple = simpleDecoded
@@ -5122,7 +4828,7 @@ extension SESv2ClientTypes {
         /// The template to use for the email message.
         public var template: SESv2ClientTypes.Template?
 
-        public init (
+        public init(
             raw: SESv2ClientTypes.RawMessage? = nil,
             simple: SESv2ClientTypes.Message? = nil,
             template: SESv2ClientTypes.Template? = nil
@@ -5156,7 +4862,7 @@ extension SESv2ClientTypes.EmailTemplateContent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subjectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subject)
         subject = subjectDecoded
@@ -5177,7 +4883,7 @@ extension SESv2ClientTypes {
         /// The email body that will be visible to recipients whose email clients do not display HTML.
         public var text: Swift.String?
 
-        public init (
+        public init(
             html: Swift.String? = nil,
             subject: Swift.String? = nil,
             text: Swift.String? = nil
@@ -5207,7 +4913,7 @@ extension SESv2ClientTypes.EmailTemplateMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
         templateName = templateNameDecoded
@@ -5224,7 +4930,7 @@ extension SESv2ClientTypes {
         /// The name of the template.
         public var templateName: Swift.String?
 
-        public init (
+        public init(
             createdTimestamp: ClientRuntime.Date? = nil,
             templateName: Swift.String? = nil
         )
@@ -5275,7 +4981,7 @@ extension SESv2ClientTypes.EventDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5343,7 +5049,7 @@ extension SESv2ClientTypes {
         /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
         public var snsDestination: SESv2ClientTypes.SnsDestination?
 
-        public init (
+        public init(
             cloudWatchDestination: SESv2ClientTypes.CloudWatchDestination? = nil,
             enabled: Swift.Bool = false,
             kinesisFirehoseDestination: SESv2ClientTypes.KinesisFirehoseDestination? = nil,
@@ -5400,7 +5106,7 @@ extension SESv2ClientTypes.EventDestinationDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
@@ -5442,7 +5148,7 @@ extension SESv2ClientTypes {
         /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
         public var snsDestination: SESv2ClientTypes.SnsDestination?
 
-        public init (
+        public init(
             cloudWatchDestination: SESv2ClientTypes.CloudWatchDestination? = nil,
             enabled: Swift.Bool = false,
             kinesisFirehoseDestination: SESv2ClientTypes.KinesisFirehoseDestination? = nil,
@@ -5535,7 +5241,7 @@ extension SESv2ClientTypes.FailureInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedRecordsS3UrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failedRecordsS3Url)
         failedRecordsS3Url = failedRecordsS3UrlDecoded
@@ -5552,7 +5258,7 @@ extension SESv2ClientTypes {
         /// An Amazon S3 presigned URL that contains all the failed records and related information.
         public var failedRecordsS3Url: Swift.String?
 
-        public init (
+        public init(
             errorMessage: Swift.String? = nil,
             failedRecordsS3Url: Swift.String? = nil
         )
@@ -5605,7 +5311,7 @@ extension GetAccountInput: ClientRuntime.URLPathProvider {
 /// A request to obtain information about the email-sending capabilities of your Amazon SES account.
 public struct GetAccountInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetAccountInputBody: Swift.Equatable {
@@ -5613,37 +5319,25 @@ struct GetAccountInputBody: Swift.Equatable {
 
 extension GetAccountInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAccountOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dedicatedIpAutoWarmupEnabled = output.dedicatedIpAutoWarmupEnabled
@@ -5692,7 +5386,7 @@ public struct GetAccountOutputResponse: Swift.Equatable {
     /// The VDM attributes that apply to your Amazon SES account.
     public var vdmAttributes: SESv2ClientTypes.VdmAttributes?
 
-    public init (
+    public init(
         dedicatedIpAutoWarmupEnabled: Swift.Bool = false,
         details: SESv2ClientTypes.AccountDetails? = nil,
         enforcementStatus: Swift.String? = nil,
@@ -5737,7 +5431,7 @@ extension GetAccountOutputResponseBody: Swift.Decodable {
         case vdmAttributes = "VdmAttributes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dedicatedIpAutoWarmupEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedIpAutoWarmupEnabled) ?? false
         dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabledDecoded
@@ -5764,7 +5458,7 @@ extension GetBlacklistReportsInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let blacklistItemNames = blacklistItemNames else {
                 let message = "Creating a URL Query Item failed. blacklistItemNames is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             blacklistItemNames.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "BlacklistItemNames".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -5787,7 +5481,7 @@ public struct GetBlacklistReportsInput: Swift.Equatable {
     /// This member is required.
     public var blacklistItemNames: [Swift.String]?
 
-    public init (
+    public init(
         blacklistItemNames: [Swift.String]? = nil
     )
     {
@@ -5800,39 +5494,26 @@ struct GetBlacklistReportsInputBody: Swift.Equatable {
 
 extension GetBlacklistReportsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetBlacklistReportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetBlacklistReportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetBlacklistReportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetBlacklistReportsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetBlacklistReportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetBlacklistReportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blacklistReport = output.blacklistReport
@@ -5848,7 +5529,7 @@ public struct GetBlacklistReportsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var blacklistReport: [Swift.String:[SESv2ClientTypes.BlacklistEntry]]?
 
-    public init (
+    public init(
         blacklistReport: [Swift.String:[SESv2ClientTypes.BlacklistEntry]]? = nil
     )
     {
@@ -5865,7 +5546,7 @@ extension GetBlacklistReportsOutputResponseBody: Swift.Decodable {
         case blacklistReport = "BlacklistReport"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blacklistReportContainer = try containerValues.decodeIfPresent([Swift.String: [SESv2ClientTypes.BlacklistEntry?]?].self, forKey: .blacklistReport)
         var blacklistReportDecoded0: [Swift.String:[SESv2ClientTypes.BlacklistEntry]]? = nil
@@ -5903,7 +5584,7 @@ public struct GetConfigurationSetEventDestinationsInput: Swift.Equatable {
     /// This member is required.
     public var configurationSetName: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil
     )
     {
@@ -5916,39 +5597,26 @@ struct GetConfigurationSetEventDestinationsInputBody: Swift.Equatable {
 
 extension GetConfigurationSetEventDestinationsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetConfigurationSetEventDestinationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetConfigurationSetEventDestinationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetConfigurationSetEventDestinationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetConfigurationSetEventDestinationsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetConfigurationSetEventDestinationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetConfigurationSetEventDestinationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventDestinations = output.eventDestinations
@@ -5963,7 +5631,7 @@ public struct GetConfigurationSetEventDestinationsOutputResponse: Swift.Equatabl
     /// An array that includes all of the events destinations that have been configured for the configuration set.
     public var eventDestinations: [SESv2ClientTypes.EventDestination]?
 
-    public init (
+    public init(
         eventDestinations: [SESv2ClientTypes.EventDestination]? = nil
     )
     {
@@ -5980,7 +5648,7 @@ extension GetConfigurationSetEventDestinationsOutputResponseBody: Swift.Decodabl
         case eventDestinations = "EventDestinations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDestinationsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.EventDestination?].self, forKey: .eventDestinations)
         var eventDestinationsDecoded0:[SESv2ClientTypes.EventDestination]? = nil
@@ -6011,7 +5679,7 @@ public struct GetConfigurationSetInput: Swift.Equatable {
     /// This member is required.
     public var configurationSetName: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil
     )
     {
@@ -6024,39 +5692,26 @@ struct GetConfigurationSetInputBody: Swift.Equatable {
 
 extension GetConfigurationSetInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetConfigurationSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetConfigurationSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetConfigurationSetOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetConfigurationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.configurationSetName
@@ -6099,7 +5754,7 @@ public struct GetConfigurationSetOutputResponse: Swift.Equatable {
     /// An object that contains information about the VDM preferences for your configuration set.
     public var vdmOptions: SESv2ClientTypes.VdmOptions?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         deliveryOptions: SESv2ClientTypes.DeliveryOptions? = nil,
         reputationOptions: SESv2ClientTypes.ReputationOptions? = nil,
@@ -6144,7 +5799,7 @@ extension GetConfigurationSetOutputResponseBody: Swift.Decodable {
         case vdmOptions = "VdmOptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationSetName)
         configurationSetName = configurationSetNameDecoded
@@ -6194,7 +5849,7 @@ public struct GetContactInput: Swift.Equatable {
     /// This member is required.
     public var emailAddress: Swift.String?
 
-    public init (
+    public init(
         contactListName: Swift.String? = nil,
         emailAddress: Swift.String? = nil
     )
@@ -6209,7 +5864,7 @@ struct GetContactInputBody: Swift.Equatable {
 
 extension GetContactInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -6227,7 +5882,7 @@ public struct GetContactListInput: Swift.Equatable {
     /// This member is required.
     public var contactListName: Swift.String?
 
-    public init (
+    public init(
         contactListName: Swift.String? = nil
     )
     {
@@ -6240,39 +5895,26 @@ struct GetContactListInputBody: Swift.Equatable {
 
 extension GetContactListInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetContactListOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetContactListOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetContactListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetContactListOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetContactListOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetContactListOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contactListName = output.contactListName
@@ -6306,7 +5948,7 @@ public struct GetContactListOutputResponse: Swift.Equatable {
     /// An interest group, theme, or label within a list. A contact list can have multiple topics.
     public var topics: [SESv2ClientTypes.Topic]?
 
-    public init (
+    public init(
         contactListName: Swift.String? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
@@ -6343,7 +5985,7 @@ extension GetContactListOutputResponseBody: Swift.Decodable {
         case topics = "Topics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactListName)
         contactListName = contactListNameDecoded
@@ -6378,35 +6020,22 @@ extension GetContactListOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension GetContactOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetContactOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetContactOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetContactOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributesData = output.attributesData
@@ -6448,7 +6077,7 @@ public struct GetContactOutputResponse: Swift.Equatable {
     /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
     public var unsubscribeAll: Swift.Bool
 
-    public init (
+    public init(
         attributesData: Swift.String? = nil,
         contactListName: Swift.String? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
@@ -6493,7 +6122,7 @@ extension GetContactOutputResponseBody: Swift.Decodable {
         case unsubscribeAll = "UnsubscribeAll"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactListName)
         contactListName = contactListNameDecoded
@@ -6547,7 +6176,7 @@ public struct GetCustomVerificationEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         templateName: Swift.String? = nil
     )
     {
@@ -6560,39 +6189,26 @@ struct GetCustomVerificationEmailTemplateInputBody: Swift.Equatable {
 
 extension GetCustomVerificationEmailTemplateInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetCustomVerificationEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetCustomVerificationEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetCustomVerificationEmailTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failureRedirectionURL = output.failureRedirectionURL
@@ -6627,7 +6243,7 @@ public struct GetCustomVerificationEmailTemplateOutputResponse: Swift.Equatable 
     /// The subject line of the custom verification email.
     public var templateSubject: Swift.String?
 
-    public init (
+    public init(
         failureRedirectionURL: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         successRedirectionURL: Swift.String? = nil,
@@ -6664,7 +6280,7 @@ extension GetCustomVerificationEmailTemplateOutputResponseBody: Swift.Decodable 
         case templateSubject = "TemplateSubject"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
         templateName = templateNameDecoded
@@ -6696,7 +6312,7 @@ public struct GetDedicatedIpInput: Swift.Equatable {
     /// This member is required.
     public var ip: Swift.String?
 
-    public init (
+    public init(
         ip: Swift.String? = nil
     )
     {
@@ -6709,39 +6325,26 @@ struct GetDedicatedIpInputBody: Swift.Equatable {
 
 extension GetDedicatedIpInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDedicatedIpOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDedicatedIpOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDedicatedIpOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDedicatedIpOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDedicatedIpOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDedicatedIpOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dedicatedIp = output.dedicatedIp
@@ -6756,7 +6359,7 @@ public struct GetDedicatedIpOutputResponse: Swift.Equatable {
     /// An object that contains information about a dedicated IP address.
     public var dedicatedIp: SESv2ClientTypes.DedicatedIp?
 
-    public init (
+    public init(
         dedicatedIp: SESv2ClientTypes.DedicatedIp? = nil
     )
     {
@@ -6773,7 +6376,7 @@ extension GetDedicatedIpOutputResponseBody: Swift.Decodable {
         case dedicatedIp = "DedicatedIp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dedicatedIpDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.DedicatedIp.self, forKey: .dedicatedIp)
         dedicatedIp = dedicatedIpDecoded
@@ -6795,7 +6398,7 @@ public struct GetDedicatedIpPoolInput: Swift.Equatable {
     /// This member is required.
     public var poolName: Swift.String?
 
-    public init (
+    public init(
         poolName: Swift.String? = nil
     )
     {
@@ -6808,39 +6411,26 @@ struct GetDedicatedIpPoolInputBody: Swift.Equatable {
 
 extension GetDedicatedIpPoolInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDedicatedIpPoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDedicatedIpPoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDedicatedIpPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDedicatedIpPoolOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDedicatedIpPoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDedicatedIpPoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dedicatedIpPool = output.dedicatedIpPool
@@ -6855,7 +6445,7 @@ public struct GetDedicatedIpPoolOutputResponse: Swift.Equatable {
     /// An object that contains information about a dedicated IP pool.
     public var dedicatedIpPool: SESv2ClientTypes.DedicatedIpPool?
 
-    public init (
+    public init(
         dedicatedIpPool: SESv2ClientTypes.DedicatedIpPool? = nil
     )
     {
@@ -6872,7 +6462,7 @@ extension GetDedicatedIpPoolOutputResponseBody: Swift.Decodable {
         case dedicatedIpPool = "DedicatedIpPool"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dedicatedIpPoolDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.DedicatedIpPool.self, forKey: .dedicatedIpPool)
         dedicatedIpPool = dedicatedIpPoolDecoded
@@ -6915,7 +6505,7 @@ public struct GetDedicatedIpsInput: Swift.Equatable {
     /// The name of the IP pool that the dedicated IP address is associated with.
     public var poolName: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         poolName: Swift.String? = nil
@@ -6932,39 +6522,26 @@ struct GetDedicatedIpsInputBody: Swift.Equatable {
 
 extension GetDedicatedIpsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDedicatedIpsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDedicatedIpsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDedicatedIpsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDedicatedIpsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDedicatedIpsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDedicatedIpsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dedicatedIps = output.dedicatedIps
@@ -6983,7 +6560,7 @@ public struct GetDedicatedIpsOutputResponse: Swift.Equatable {
     /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         dedicatedIps: [SESv2ClientTypes.DedicatedIp]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7004,7 +6581,7 @@ extension GetDedicatedIpsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dedicatedIpsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.DedicatedIp?].self, forKey: .dedicatedIps)
         var dedicatedIpsDecoded0:[SESv2ClientTypes.DedicatedIp]? = nil
@@ -7031,7 +6608,7 @@ extension GetDeliverabilityDashboardOptionsInput: ClientRuntime.URLPathProvider 
 /// Retrieve information about the status of the Deliverability dashboard for your Amazon Web Services account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for your domains. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
 public struct GetDeliverabilityDashboardOptionsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetDeliverabilityDashboardOptionsInputBody: Swift.Equatable {
@@ -7039,39 +6616,26 @@ struct GetDeliverabilityDashboardOptionsInputBody: Swift.Equatable {
 
 extension GetDeliverabilityDashboardOptionsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDeliverabilityDashboardOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeliverabilityDashboardOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeliverabilityDashboardOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeliverabilityDashboardOptionsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeliverabilityDashboardOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeliverabilityDashboardOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountStatus = output.accountStatus
@@ -7103,7 +6667,7 @@ public struct GetDeliverabilityDashboardOptionsOutputResponse: Swift.Equatable {
     /// The date when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.
     public var subscriptionExpiryDate: ClientRuntime.Date?
 
-    public init (
+    public init(
         accountStatus: SESv2ClientTypes.DeliverabilityDashboardAccountStatus? = nil,
         activeSubscribedDomains: [SESv2ClientTypes.DomainDeliverabilityTrackingOption]? = nil,
         dashboardEnabled: Swift.Bool = false,
@@ -7136,7 +6700,7 @@ extension GetDeliverabilityDashboardOptionsOutputResponseBody: Swift.Decodable {
         case subscriptionExpiryDate = "SubscriptionExpiryDate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dashboardEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dashboardEnabled) ?? false
         dashboardEnabled = dashboardEnabledDecoded
@@ -7184,7 +6748,7 @@ public struct GetDeliverabilityTestReportInput: Swift.Equatable {
     /// This member is required.
     public var reportId: Swift.String?
 
-    public init (
+    public init(
         reportId: Swift.String? = nil
     )
     {
@@ -7197,39 +6761,26 @@ struct GetDeliverabilityTestReportInputBody: Swift.Equatable {
 
 extension GetDeliverabilityTestReportInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDeliverabilityTestReportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeliverabilityTestReportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeliverabilityTestReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeliverabilityTestReportOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeliverabilityTestReportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeliverabilityTestReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliverabilityTestReport = output.deliverabilityTestReport
@@ -7263,7 +6814,7 @@ public struct GetDeliverabilityTestReportOutputResponse: Swift.Equatable {
     /// An array of objects that define the tags (keys and values) that are associated with the predictive inbox placement test.
     public var tags: [SESv2ClientTypes.Tag]?
 
-    public init (
+    public init(
         deliverabilityTestReport: SESv2ClientTypes.DeliverabilityTestReport? = nil,
         ispPlacements: [SESv2ClientTypes.IspPlacement]? = nil,
         message: Swift.String? = nil,
@@ -7296,7 +6847,7 @@ extension GetDeliverabilityTestReportOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliverabilityTestReportDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.DeliverabilityTestReport.self, forKey: .deliverabilityTestReport)
         deliverabilityTestReport = deliverabilityTestReportDecoded
@@ -7344,7 +6895,7 @@ public struct GetDomainDeliverabilityCampaignInput: Swift.Equatable {
     /// This member is required.
     public var campaignId: Swift.String?
 
-    public init (
+    public init(
         campaignId: Swift.String? = nil
     )
     {
@@ -7357,39 +6908,26 @@ struct GetDomainDeliverabilityCampaignInputBody: Swift.Equatable {
 
 extension GetDomainDeliverabilityCampaignInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDomainDeliverabilityCampaignOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDomainDeliverabilityCampaignOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDomainDeliverabilityCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDomainDeliverabilityCampaignOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDomainDeliverabilityCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDomainDeliverabilityCampaignOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainDeliverabilityCampaign = output.domainDeliverabilityCampaign
@@ -7405,7 +6943,7 @@ public struct GetDomainDeliverabilityCampaignOutputResponse: Swift.Equatable {
     /// This member is required.
     public var domainDeliverabilityCampaign: SESv2ClientTypes.DomainDeliverabilityCampaign?
 
-    public init (
+    public init(
         domainDeliverabilityCampaign: SESv2ClientTypes.DomainDeliverabilityCampaign? = nil
     )
     {
@@ -7422,7 +6960,7 @@ extension GetDomainDeliverabilityCampaignOutputResponseBody: Swift.Decodable {
         case domainDeliverabilityCampaign = "DomainDeliverabilityCampaign"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDeliverabilityCampaignDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.DomainDeliverabilityCampaign.self, forKey: .domainDeliverabilityCampaign)
         domainDeliverabilityCampaign = domainDeliverabilityCampaignDecoded
@@ -7435,13 +6973,13 @@ extension GetDomainStatisticsReportInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let startDate = startDate else {
                 let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let startDateQueryItem = ClientRuntime.URLQueryItem(name: "StartDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
             items.append(startDateQueryItem)
             guard let endDate = endDate else {
                 let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let endDateQueryItem = ClientRuntime.URLQueryItem(name: "EndDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
             items.append(endDateQueryItem)
@@ -7471,7 +7009,7 @@ public struct GetDomainStatisticsReportInput: Swift.Equatable {
     /// This member is required.
     public var startDate: ClientRuntime.Date?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         endDate: ClientRuntime.Date? = nil,
         startDate: ClientRuntime.Date? = nil
@@ -7488,39 +7026,26 @@ struct GetDomainStatisticsReportInputBody: Swift.Equatable {
 
 extension GetDomainStatisticsReportInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDomainStatisticsReportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDomainStatisticsReportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDomainStatisticsReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDomainStatisticsReportOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDomainStatisticsReportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDomainStatisticsReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dailyVolumes = output.dailyVolumes
@@ -7541,7 +7066,7 @@ public struct GetDomainStatisticsReportOutputResponse: Swift.Equatable {
     /// This member is required.
     public var overallVolume: SESv2ClientTypes.OverallVolume?
 
-    public init (
+    public init(
         dailyVolumes: [SESv2ClientTypes.DailyVolume]? = nil,
         overallVolume: SESv2ClientTypes.OverallVolume? = nil
     )
@@ -7562,7 +7087,7 @@ extension GetDomainStatisticsReportOutputResponseBody: Swift.Decodable {
         case overallVolume = "OverallVolume"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let overallVolumeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.OverallVolume.self, forKey: .overallVolume)
         overallVolume = overallVolumeDecoded
@@ -7595,7 +7120,7 @@ public struct GetEmailIdentityInput: Swift.Equatable {
     /// This member is required.
     public var emailIdentity: Swift.String?
 
-    public init (
+    public init(
         emailIdentity: Swift.String? = nil
     )
     {
@@ -7608,39 +7133,26 @@ struct GetEmailIdentityInputBody: Swift.Equatable {
 
 extension GetEmailIdentityInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetEmailIdentityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetEmailIdentityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetEmailIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetEmailIdentityOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetEmailIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetEmailIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.configurationSetName
@@ -7697,7 +7209,7 @@ public struct GetEmailIdentityOutputResponse: Swift.Equatable {
     /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the [Amazon Pinpoint User Guide](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-email-manage-verify.html).
     public var verifiedForSendingStatus: Swift.Bool
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         dkimAttributes: SESv2ClientTypes.DkimAttributes? = nil,
         feedbackForwardingStatus: Swift.Bool = false,
@@ -7746,7 +7258,7 @@ extension GetEmailIdentityOutputResponseBody: Swift.Decodable {
         case verifiedForSendingStatus = "VerifiedForSendingStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.IdentityType.self, forKey: .identityType)
         identityType = identityTypeDecoded
@@ -7802,7 +7314,7 @@ public struct GetEmailIdentityPoliciesInput: Swift.Equatable {
     /// This member is required.
     public var emailIdentity: Swift.String?
 
-    public init (
+    public init(
         emailIdentity: Swift.String? = nil
     )
     {
@@ -7815,39 +7327,26 @@ struct GetEmailIdentityPoliciesInputBody: Swift.Equatable {
 
 extension GetEmailIdentityPoliciesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetEmailIdentityPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetEmailIdentityPoliciesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetEmailIdentityPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetEmailIdentityPoliciesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetEmailIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetEmailIdentityPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policies = output.policies
@@ -7862,7 +7361,7 @@ public struct GetEmailIdentityPoliciesOutputResponse: Swift.Equatable {
     /// A map of policy names to policies.
     public var policies: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         policies: [Swift.String:Swift.String]? = nil
     )
     {
@@ -7879,7 +7378,7 @@ extension GetEmailIdentityPoliciesOutputResponseBody: Swift.Decodable {
         case policies = "Policies"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policiesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .policies)
         var policiesDecoded0: [Swift.String:Swift.String]? = nil
@@ -7910,7 +7409,7 @@ public struct GetEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         templateName: Swift.String? = nil
     )
     {
@@ -7923,39 +7422,26 @@ struct GetEmailTemplateInputBody: Swift.Equatable {
 
 extension GetEmailTemplateInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetEmailTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.templateContent = output.templateContent
@@ -7976,7 +7462,7 @@ public struct GetEmailTemplateOutputResponse: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
         templateName: Swift.String? = nil
     )
@@ -7997,7 +7483,7 @@ extension GetEmailTemplateOutputResponseBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
         templateName = templateNameDecoded
@@ -8021,7 +7507,7 @@ public struct GetImportJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -8034,39 +7520,26 @@ struct GetImportJobInputBody: Swift.Equatable {
 
 extension GetImportJobInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetImportJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetImportJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetImportJobOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.completedTimestamp = output.completedTimestamp
@@ -8113,7 +7586,7 @@ public struct GetImportJobOutputResponse: Swift.Equatable {
     /// The current number of records processed.
     public var processedRecordsCount: Swift.Int?
 
-    public init (
+    public init(
         completedTimestamp: ClientRuntime.Date? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         failedRecordsCount: Swift.Int? = nil,
@@ -8162,7 +7635,7 @@ extension GetImportJobOutputResponseBody: Swift.Decodable {
         case processedRecordsCount = "ProcessedRecordsCount"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -8200,7 +7673,7 @@ public struct GetSuppressedDestinationInput: Swift.Equatable {
     /// This member is required.
     public var emailAddress: Swift.String?
 
-    public init (
+    public init(
         emailAddress: Swift.String? = nil
     )
     {
@@ -8213,39 +7686,26 @@ struct GetSuppressedDestinationInputBody: Swift.Equatable {
 
 extension GetSuppressedDestinationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetSuppressedDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSuppressedDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSuppressedDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSuppressedDestinationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSuppressedDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSuppressedDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suppressedDestination = output.suppressedDestination
@@ -8261,7 +7721,7 @@ public struct GetSuppressedDestinationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var suppressedDestination: SESv2ClientTypes.SuppressedDestination?
 
-    public init (
+    public init(
         suppressedDestination: SESv2ClientTypes.SuppressedDestination? = nil
     )
     {
@@ -8278,7 +7738,7 @@ extension GetSuppressedDestinationOutputResponseBody: Swift.Decodable {
         case suppressedDestination = "SuppressedDestination"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suppressedDestinationDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.SuppressedDestination.self, forKey: .suppressedDestination)
         suppressedDestination = suppressedDestinationDecoded
@@ -8297,7 +7757,7 @@ extension SESv2ClientTypes.GuardianAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let optimizedSharedDeliveryDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.FeatureStatus.self, forKey: .optimizedSharedDelivery)
         optimizedSharedDelivery = optimizedSharedDeliveryDecoded
@@ -8314,7 +7774,7 @@ extension SESv2ClientTypes {
         /// * DISABLED – Amazon SES disables optimized shared delivery for your account.
         public var optimizedSharedDelivery: SESv2ClientTypes.FeatureStatus?
 
-        public init (
+        public init(
             optimizedSharedDelivery: SESv2ClientTypes.FeatureStatus? = nil
         )
         {
@@ -8336,7 +7796,7 @@ extension SESv2ClientTypes.GuardianOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let optimizedSharedDeliveryDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.FeatureStatus.self, forKey: .optimizedSharedDelivery)
         optimizedSharedDelivery = optimizedSharedDeliveryDecoded
@@ -8353,7 +7813,7 @@ extension SESv2ClientTypes {
         /// * DISABLED – Amazon SES disables optimized shared delivery for the configuration set.
         public var optimizedSharedDelivery: SESv2ClientTypes.FeatureStatus?
 
-        public init (
+        public init(
             optimizedSharedDelivery: SESv2ClientTypes.FeatureStatus? = nil
         )
         {
@@ -8387,7 +7847,7 @@ extension SESv2ClientTypes.IdentityInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.IdentityType.self, forKey: .identityType)
         identityType = identityTypeDecoded
@@ -8422,7 +7882,7 @@ extension SESv2ClientTypes {
         /// * NOT_STARTED – The verification process hasn't been initiated for the identity.
         public var verificationStatus: SESv2ClientTypes.VerificationStatus?
 
-        public init (
+        public init(
             identityName: Swift.String? = nil,
             identityType: SESv2ClientTypes.IdentityType? = nil,
             sendingEnabled: Swift.Bool = false,
@@ -8489,7 +7949,7 @@ extension SESv2ClientTypes.ImportDataSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3UrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Url)
         s3Url = s3UrlDecoded
@@ -8508,7 +7968,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var s3Url: Swift.String?
 
-        public init (
+        public init(
             dataFormat: SESv2ClientTypes.DataFormat? = nil,
             s3Url: Swift.String? = nil
         )
@@ -8536,7 +7996,7 @@ extension SESv2ClientTypes.ImportDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suppressionListDestinationDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.SuppressionListDestination.self, forKey: .suppressionListDestination)
         suppressionListDestination = suppressionListDestinationDecoded
@@ -8553,7 +8013,7 @@ extension SESv2ClientTypes {
         /// An object that contains the action of the import job towards suppression list.
         public var suppressionListDestination: SESv2ClientTypes.SuppressionListDestination?
 
-        public init (
+        public init(
             contactListDestination: SESv2ClientTypes.ContactListDestination? = nil,
             suppressionListDestination: SESv2ClientTypes.SuppressionListDestination? = nil
         )
@@ -8630,7 +8090,7 @@ extension SESv2ClientTypes.ImportJobSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -8663,7 +8123,7 @@ extension SESv2ClientTypes {
         /// The current number of records processed.
         public var processedRecordsCount: Swift.Int?
 
-        public init (
+        public init(
             createdTimestamp: ClientRuntime.Date? = nil,
             failedRecordsCount: Swift.Int? = nil,
             importDestination: SESv2ClientTypes.ImportDestination? = nil,
@@ -8702,7 +8162,7 @@ extension SESv2ClientTypes.InboxPlacementTrackingOption: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .global) ?? false
         global = globalDecoded
@@ -8728,7 +8188,7 @@ extension SESv2ClientTypes {
         /// An array of strings, one for each major email provider that the inbox placement data applies to.
         public var trackedIsps: [Swift.String]?
 
-        public init (
+        public init(
             global: Swift.Bool = false,
             trackedIsps: [Swift.String]? = nil
         )
@@ -8741,37 +8201,41 @@ extension SESv2ClientTypes {
 }
 
 extension InternalServiceErrorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServiceErrorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request couldn't be processed because an error occurred with the Amazon SES API v2.
-public struct InternalServiceErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceErrorException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8784,7 +8248,7 @@ extension InternalServiceErrorExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8792,37 +8256,41 @@ extension InternalServiceErrorExceptionBody: Swift.Decodable {
 }
 
 extension InvalidNextTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified request includes an invalid or expired token.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextTokenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8835,7 +8303,7 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8858,7 +8326,7 @@ extension SESv2ClientTypes.IspPlacement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ispNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ispName)
         ispName = ispNameDecoded
@@ -8875,7 +8343,7 @@ extension SESv2ClientTypes {
         /// An object that contains inbox placement metrics for a specific email provider.
         public var placementStatistics: SESv2ClientTypes.PlacementStatistics?
 
-        public init (
+        public init(
             ispName: Swift.String? = nil,
             placementStatistics: SESv2ClientTypes.PlacementStatistics? = nil
         )
@@ -8942,7 +8410,7 @@ extension SESv2ClientTypes.KinesisFirehoseDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
         iamRoleArn = iamRoleArnDecoded
@@ -8961,7 +8429,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var iamRoleArn: Swift.String?
 
-        public init (
+        public init(
             deliveryStreamArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil
         )
@@ -8974,37 +8442,41 @@ extension SESv2ClientTypes {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There are too many instances of the specified resource type.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9017,7 +8489,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9054,7 +8526,7 @@ public struct ListConfigurationSetsInput: Swift.Equatable {
     /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -9069,37 +8541,25 @@ struct ListConfigurationSetsInputBody: Swift.Equatable {
 
 extension ListConfigurationSetsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListConfigurationSetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListConfigurationSetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListConfigurationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListConfigurationSetsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListConfigurationSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSets = output.configurationSets
@@ -9118,7 +8578,7 @@ public struct ListConfigurationSetsOutputResponse: Swift.Equatable {
     /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationSets: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9139,7 +8599,7 @@ extension ListConfigurationSetsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationSetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configurationSets)
         var configurationSetsDecoded0:[Swift.String]? = nil
@@ -9186,7 +8646,7 @@ public struct ListContactListsInput: Swift.Equatable {
     /// Maximum number of contact lists to return at once. Use this parameter to paginate results. If additional contact lists exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional lists.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -9201,37 +8661,25 @@ struct ListContactListsInputBody: Swift.Equatable {
 
 extension ListContactListsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListContactListsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListContactListsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListContactListsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListContactListsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListContactListsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListContactListsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contactLists = output.contactLists
@@ -9249,7 +8697,7 @@ public struct ListContactListsOutputResponse: Swift.Equatable {
     /// A string token indicating that there might be additional contact lists available to be listed. Copy this token to a subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         contactLists: [SESv2ClientTypes.ContactList]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9270,7 +8718,7 @@ extension ListContactListsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactListsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.ContactList?].self, forKey: .contactLists)
         var contactListsDecoded0:[SESv2ClientTypes.ContactList]? = nil
@@ -9304,7 +8752,7 @@ extension SESv2ClientTypes.ListContactsFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filteredStatusDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.SubscriptionStatus.self, forKey: .filteredStatus)
         filteredStatus = filteredStatusDecoded
@@ -9321,7 +8769,7 @@ extension SESv2ClientTypes {
         /// Used for filtering by a specific topic preference.
         public var topicFilter: SESv2ClientTypes.TopicFilter?
 
-        public init (
+        public init(
             filteredStatus: SESv2ClientTypes.SubscriptionStatus? = nil,
             topicFilter: SESv2ClientTypes.TopicFilter? = nil
         )
@@ -9383,7 +8831,7 @@ public struct ListContactsInput: Swift.Equatable {
     /// The number of contacts that may be returned at once, which is dependent on if there are more or less contacts than the value of the PageSize. Use this parameter to paginate results. If additional contacts exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional contacts.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         contactListName: Swift.String? = nil,
         filter: SESv2ClientTypes.ListContactsFilter? = nil,
         nextToken: Swift.String? = nil,
@@ -9406,42 +8854,29 @@ extension ListContactsInputBody: Swift.Decodable {
         case filter = "Filter"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ListContactsFilter.self, forKey: .filter)
         filter = filterDecoded
     }
 }
 
-extension ListContactsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListContactsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListContactsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListContactsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListContactsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListContactsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contacts = output.contacts
@@ -9459,7 +8894,7 @@ public struct ListContactsOutputResponse: Swift.Equatable {
     /// A string token indicating that there might be additional contacts available to be listed. Copy this token to a subsequent call to ListContacts with the same parameters to retrieve the next page of contacts.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         contacts: [SESv2ClientTypes.Contact]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9480,7 +8915,7 @@ extension ListContactsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.Contact?].self, forKey: .contacts)
         var contactsDecoded0:[SESv2ClientTypes.Contact]? = nil
@@ -9528,7 +8963,7 @@ public struct ListCustomVerificationEmailTemplatesInput: Swift.Equatable {
     /// The number of results to show in a single call to ListCustomVerificationEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -9543,37 +8978,25 @@ struct ListCustomVerificationEmailTemplatesInputBody: Swift.Equatable {
 
 extension ListCustomVerificationEmailTemplatesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListCustomVerificationEmailTemplatesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListCustomVerificationEmailTemplatesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListCustomVerificationEmailTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListCustomVerificationEmailTemplatesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListCustomVerificationEmailTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListCustomVerificationEmailTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customVerificationEmailTemplates = output.customVerificationEmailTemplates
@@ -9592,7 +9015,7 @@ public struct ListCustomVerificationEmailTemplatesOutputResponse: Swift.Equatabl
     /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListCustomVerificationEmailTemplates to retrieve the next 50 custom verification email templates.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         customVerificationEmailTemplates: [SESv2ClientTypes.CustomVerificationEmailTemplateMetadata]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9613,7 +9036,7 @@ extension ListCustomVerificationEmailTemplatesOutputResponseBody: Swift.Decodabl
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customVerificationEmailTemplatesContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.CustomVerificationEmailTemplateMetadata?].self, forKey: .customVerificationEmailTemplates)
         var customVerificationEmailTemplatesDecoded0:[SESv2ClientTypes.CustomVerificationEmailTemplateMetadata]? = nil
@@ -9661,7 +9084,7 @@ public struct ListDedicatedIpPoolsInput: Swift.Equatable {
     /// The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -9676,37 +9099,25 @@ struct ListDedicatedIpPoolsInputBody: Swift.Equatable {
 
 extension ListDedicatedIpPoolsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListDedicatedIpPoolsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDedicatedIpPoolsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDedicatedIpPoolsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDedicatedIpPoolsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDedicatedIpPoolsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDedicatedIpPoolsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dedicatedIpPools = output.dedicatedIpPools
@@ -9725,7 +9136,7 @@ public struct ListDedicatedIpPoolsOutputResponse: Swift.Equatable {
     /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         dedicatedIpPools: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9746,7 +9157,7 @@ extension ListDedicatedIpPoolsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dedicatedIpPoolsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dedicatedIpPools)
         var dedicatedIpPoolsDecoded0:[Swift.String]? = nil
@@ -9794,7 +9205,7 @@ public struct ListDeliverabilityTestReportsInput: Swift.Equatable {
     /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -9809,39 +9220,26 @@ struct ListDeliverabilityTestReportsInputBody: Swift.Equatable {
 
 extension ListDeliverabilityTestReportsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListDeliverabilityTestReportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDeliverabilityTestReportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDeliverabilityTestReportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDeliverabilityTestReportsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDeliverabilityTestReportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDeliverabilityTestReportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliverabilityTestReports = output.deliverabilityTestReports
@@ -9861,7 +9259,7 @@ public struct ListDeliverabilityTestReportsOutputResponse: Swift.Equatable {
     /// A token that indicates that there are additional predictive inbox placement tests to list. To view additional predictive inbox placement tests, issue another request to ListDeliverabilityTestReports, and pass this token in the NextToken parameter.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         deliverabilityTestReports: [SESv2ClientTypes.DeliverabilityTestReport]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9882,7 +9280,7 @@ extension ListDeliverabilityTestReportsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliverabilityTestReportsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.DeliverabilityTestReport?].self, forKey: .deliverabilityTestReports)
         var deliverabilityTestReportsDecoded0:[SESv2ClientTypes.DeliverabilityTestReport]? = nil
@@ -9906,7 +9304,7 @@ extension ListDomainDeliverabilityCampaignsInput: ClientRuntime.QueryItemProvide
             var items = [ClientRuntime.URLQueryItem]()
             guard let startDate = startDate else {
                 let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let startDateQueryItem = ClientRuntime.URLQueryItem(name: "StartDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
             items.append(startDateQueryItem)
@@ -9920,7 +9318,7 @@ extension ListDomainDeliverabilityCampaignsInput: ClientRuntime.QueryItemProvide
             }
             guard let endDate = endDate else {
                 let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let endDateQueryItem = ClientRuntime.URLQueryItem(name: "EndDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
             items.append(endDateQueryItem)
@@ -9954,7 +9352,7 @@ public struct ListDomainDeliverabilityCampaignsInput: Swift.Equatable {
     /// This member is required.
     public var subscribedDomain: Swift.String?
 
-    public init (
+    public init(
         endDate: ClientRuntime.Date? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
@@ -9975,39 +9373,26 @@ struct ListDomainDeliverabilityCampaignsInputBody: Swift.Equatable {
 
 extension ListDomainDeliverabilityCampaignsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListDomainDeliverabilityCampaignsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDomainDeliverabilityCampaignsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDomainDeliverabilityCampaignsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDomainDeliverabilityCampaignsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDomainDeliverabilityCampaignsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDomainDeliverabilityCampaignsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainDeliverabilityCampaigns = output.domainDeliverabilityCampaigns
@@ -10027,7 +9412,7 @@ public struct ListDomainDeliverabilityCampaignsOutputResponse: Swift.Equatable {
     /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of the campaign in the list of campaigns.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         domainDeliverabilityCampaigns: [SESv2ClientTypes.DomainDeliverabilityCampaign]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10048,7 +9433,7 @@ extension ListDomainDeliverabilityCampaignsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDeliverabilityCampaignsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.DomainDeliverabilityCampaign?].self, forKey: .domainDeliverabilityCampaigns)
         var domainDeliverabilityCampaignsDecoded0:[SESv2ClientTypes.DomainDeliverabilityCampaign]? = nil
@@ -10096,7 +9481,7 @@ public struct ListEmailIdentitiesInput: Swift.Equatable {
     /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -10111,37 +9496,25 @@ struct ListEmailIdentitiesInputBody: Swift.Equatable {
 
 extension ListEmailIdentitiesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListEmailIdentitiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListEmailIdentitiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListEmailIdentitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListEmailIdentitiesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListEmailIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListEmailIdentitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.emailIdentities = output.emailIdentities
@@ -10160,7 +9533,7 @@ public struct ListEmailIdentitiesOutputResponse: Swift.Equatable {
     /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListEmailIdentities, and pass this token in the NextToken parameter.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         emailIdentities: [SESv2ClientTypes.IdentityInfo]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10181,7 +9554,7 @@ extension ListEmailIdentitiesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailIdentitiesContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.IdentityInfo?].self, forKey: .emailIdentities)
         var emailIdentitiesDecoded0:[SESv2ClientTypes.IdentityInfo]? = nil
@@ -10229,7 +9602,7 @@ public struct ListEmailTemplatesInput: Swift.Equatable {
     /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 10.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -10244,37 +9617,25 @@ struct ListEmailTemplatesInputBody: Swift.Equatable {
 
 extension ListEmailTemplatesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListEmailTemplatesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListEmailTemplatesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListEmailTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListEmailTemplatesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListEmailTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListEmailTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10293,7 +9654,7 @@ public struct ListEmailTemplatesOutputResponse: Swift.Equatable {
     /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
     public var templatesMetadata: [SESv2ClientTypes.EmailTemplateMetadata]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         templatesMetadata: [SESv2ClientTypes.EmailTemplateMetadata]? = nil
     )
@@ -10314,7 +9675,7 @@ extension ListEmailTemplatesOutputResponseBody: Swift.Decodable {
         case templatesMetadata = "TemplatesMetadata"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templatesMetadataContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.EmailTemplateMetadata?].self, forKey: .templatesMetadata)
         var templatesMetadataDecoded0:[SESv2ClientTypes.EmailTemplateMetadata]? = nil
@@ -10377,7 +9738,7 @@ public struct ListImportJobsInput: Swift.Equatable {
     /// Maximum number of import jobs to return at once. Use this parameter to paginate results. If additional import jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional addresses.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         importDestinationType: SESv2ClientTypes.ImportDestinationType? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
@@ -10398,40 +9759,28 @@ extension ListImportJobsInputBody: Swift.Decodable {
         case importDestinationType = "ImportDestinationType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importDestinationTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ImportDestinationType.self, forKey: .importDestinationType)
         importDestinationType = importDestinationTypeDecoded
     }
 }
 
-extension ListImportJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListImportJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListImportJobsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListImportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importJobs = output.importJobs
@@ -10450,7 +9799,7 @@ public struct ListImportJobsOutputResponse: Swift.Equatable {
     /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         importJobs: [SESv2ClientTypes.ImportJobSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10471,7 +9820,7 @@ extension ListImportJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importJobsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.ImportJobSummary?].self, forKey: .importJobs)
         var importJobsDecoded0:[SESv2ClientTypes.ImportJobSummary]? = nil
@@ -10505,7 +9854,7 @@ extension SESv2ClientTypes.ListManagementOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactListNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactListName)
         contactListName = contactListNameDecoded
@@ -10523,7 +9872,7 @@ extension SESv2ClientTypes {
         /// The name of the topic.
         public var topicName: Swift.String?
 
-        public init (
+        public init(
             contactListName: Swift.String? = nil,
             topicName: Swift.String? = nil
         )
@@ -10621,7 +9970,7 @@ public struct ListRecommendationsInput: Swift.Equatable {
     /// The number of results to show in a single call to ListRecommendations. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
     public var pageSize: Swift.Int?
 
-    public init (
+    public init(
         filter: [Swift.String:Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
@@ -10646,7 +9995,7 @@ extension ListRecommendationsInputBody: Swift.Decodable {
         case pageSize = "PageSize"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .filter)
         var filterDecoded0: [Swift.String:Swift.String]? = nil
@@ -10666,35 +10015,22 @@ extension ListRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListRecommendationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListRecommendationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListRecommendationsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10713,7 +10049,7 @@ public struct ListRecommendationsOutputResponse: Swift.Equatable {
     /// The recommendations applicable to your account.
     public var recommendations: [SESv2ClientTypes.Recommendation]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         recommendations: [SESv2ClientTypes.Recommendation]? = nil
     )
@@ -10734,7 +10070,7 @@ extension ListRecommendationsOutputResponseBody: Swift.Decodable {
         case recommendations = "Recommendations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recommendationsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.Recommendation?].self, forKey: .recommendations)
         var recommendationsDecoded0:[SESv2ClientTypes.Recommendation]? = nil
@@ -10802,7 +10138,7 @@ public struct ListSuppressedDestinationsInput: Swift.Equatable {
     /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date.
     public var startDate: ClientRuntime.Date?
 
-    public init (
+    public init(
         endDate: ClientRuntime.Date? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
@@ -10823,39 +10159,26 @@ struct ListSuppressedDestinationsInputBody: Swift.Equatable {
 
 extension ListSuppressedDestinationsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListSuppressedDestinationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSuppressedDestinationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSuppressedDestinationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSuppressedDestinationsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSuppressedDestinationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSuppressedDestinationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10874,7 +10197,7 @@ public struct ListSuppressedDestinationsOutputResponse: Swift.Equatable {
     /// A list of summaries, each containing a summary for a suppressed email destination.
     public var suppressedDestinationSummaries: [SESv2ClientTypes.SuppressedDestinationSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         suppressedDestinationSummaries: [SESv2ClientTypes.SuppressedDestinationSummary]? = nil
     )
@@ -10895,7 +10218,7 @@ extension ListSuppressedDestinationsOutputResponseBody: Swift.Decodable {
         case suppressedDestinationSummaries = "SuppressedDestinationSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suppressedDestinationSummariesContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.SuppressedDestinationSummary?].self, forKey: .suppressedDestinationSummaries)
         var suppressedDestinationSummariesDecoded0:[SESv2ClientTypes.SuppressedDestinationSummary]? = nil
@@ -10919,7 +10242,7 @@ extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let resourceArn = resourceArn else {
                 let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "ResourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
             items.append(resourceArnQueryItem)
@@ -10939,7 +10262,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -10952,39 +10275,26 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -10999,7 +10309,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// This member is required.
     public var tags: [SESv2ClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [SESv2ClientTypes.Tag]? = nil
     )
     {
@@ -11016,7 +10326,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[SESv2ClientTypes.Tag]? = nil
@@ -11052,7 +10362,7 @@ extension SESv2ClientTypes.MailFromAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mailFromDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mailFromDomain)
         mailFromDomain = mailFromDomainDecoded
@@ -11084,7 +10394,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var mailFromDomainStatus: SESv2ClientTypes.MailFromDomainStatus?
 
-        public init (
+        public init(
             behaviorOnMxFailure: SESv2ClientTypes.BehaviorOnMxFailure? = nil,
             mailFromDomain: Swift.String? = nil,
             mailFromDomainStatus: SESv2ClientTypes.MailFromDomainStatus? = nil
@@ -11099,37 +10409,41 @@ extension SESv2ClientTypes {
 }
 
 extension MailFromDomainNotVerifiedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MailFromDomainNotVerifiedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The message can't be sent because the sending domain isn't verified.
-public struct MailFromDomainNotVerifiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct MailFromDomainNotVerifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MailFromDomainNotVerifiedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11142,7 +10456,7 @@ extension MailFromDomainNotVerifiedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11244,7 +10558,7 @@ extension SESv2ClientTypes.Message: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subjectDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Content.self, forKey: .subject)
         subject = subjectDecoded
@@ -11263,7 +10577,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var subject: SESv2ClientTypes.Content?
 
-        public init (
+        public init(
             body: SESv2ClientTypes.Body? = nil,
             subject: SESv2ClientTypes.Content? = nil
         )
@@ -11276,37 +10590,41 @@ extension SESv2ClientTypes {
 }
 
 extension MessageRejected {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MessageRejectedBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The message can't be sent because it contains invalid content.
-public struct MessageRejected: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MessageRejected" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11319,7 +10637,7 @@ extension MessageRejectedBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11342,7 +10660,7 @@ extension SESv2ClientTypes.MessageTag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -11369,7 +10687,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -11457,7 +10775,7 @@ extension SESv2ClientTypes.MetricDataError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -11482,7 +10800,7 @@ extension SESv2ClientTypes {
         /// The error message associated with the current query error.
         public var message: Swift.String?
 
-        public init (
+        public init(
             code: SESv2ClientTypes.QueryErrorCode? = nil,
             id: Swift.String? = nil,
             message: Swift.String? = nil
@@ -11522,7 +10840,7 @@ extension SESv2ClientTypes.MetricDataResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -11561,7 +10879,7 @@ extension SESv2ClientTypes {
         /// A list of values (cumulative / sum) for the metric data results.
         public var values: [Swift.Int]?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             timestamps: [ClientRuntime.Date]? = nil,
             values: [Swift.Int]? = nil
@@ -11647,37 +10965,41 @@ extension SESv2ClientTypes {
 }
 
 extension NotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource you attempted to access doesn't exist.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11690,7 +11012,7 @@ extension NotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11720,7 +11042,7 @@ extension SESv2ClientTypes.OverallVolume: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeStatisticsDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.VolumeStatistics.self, forKey: .volumeStatistics)
         volumeStatistics = volumeStatisticsDecoded
@@ -11750,7 +11072,7 @@ extension SESv2ClientTypes {
         /// An object that contains information about the numbers of messages that arrived in recipients' inboxes and junk mail folders.
         public var volumeStatistics: SESv2ClientTypes.VolumeStatistics?
 
-        public init (
+        public init(
             domainIspPlacements: [SESv2ClientTypes.DomainIspPlacement]? = nil,
             readRatePercent: Swift.Double? = nil,
             volumeStatistics: SESv2ClientTypes.VolumeStatistics? = nil
@@ -11776,7 +11098,7 @@ extension SESv2ClientTypes.PinpointDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
         applicationArn = applicationArnDecoded
@@ -11789,7 +11111,7 @@ extension SESv2ClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send email events to.
         public var applicationArn: Swift.String?
 
-        public init (
+        public init(
             applicationArn: Swift.String? = nil
         )
         {
@@ -11827,7 +11149,7 @@ extension SESv2ClientTypes.PlacementStatistics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inboxPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .inboxPercentage)
         inboxPercentage = inboxPercentageDecoded
@@ -11856,7 +11178,7 @@ extension SESv2ClientTypes {
         /// The percentage of emails that were authenticated by using Sender Policy Framework (SPF) during the predictive inbox placement test.
         public var spfPercentage: Swift.Double?
 
-        public init (
+        public init(
             dkimPercentage: Swift.Double? = nil,
             inboxPercentage: Swift.Double? = nil,
             missingPercentage: Swift.Double? = nil,
@@ -11898,7 +11220,7 @@ public struct PutAccountDedicatedIpWarmupAttributesInput: Swift.Equatable {
     /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
     public var autoWarmupEnabled: Swift.Bool?
 
-    public init (
+    public init(
         autoWarmupEnabled: Swift.Bool? = nil
     )
     {
@@ -11915,46 +11237,34 @@ extension PutAccountDedicatedIpWarmupAttributesInputBody: Swift.Decodable {
         case autoWarmupEnabled = "AutoWarmupEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoWarmupEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoWarmupEnabled)
         autoWarmupEnabled = autoWarmupEnabledDecoded
     }
 }
 
-extension PutAccountDedicatedIpWarmupAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutAccountDedicatedIpWarmupAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutAccountDedicatedIpWarmupAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutAccountDedicatedIpWarmupAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutAccountDedicatedIpWarmupAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutAccountDedicatedIpWarmupAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutAccountDetailsInput: Swift.CustomDebugStringConvertible {
@@ -12022,7 +11332,7 @@ public struct PutAccountDetailsInput: Swift.Equatable {
     /// This member is required.
     public var websiteURL: Swift.String?
 
-    public init (
+    public init(
         additionalContactEmailAddresses: [Swift.String]? = nil,
         contactLanguage: SESv2ClientTypes.ContactLanguage? = nil,
         mailType: SESv2ClientTypes.MailType? = nil,
@@ -12059,7 +11369,7 @@ extension PutAccountDetailsInputBody: Swift.Decodable {
         case websiteURL = "WebsiteURL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mailTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.MailType.self, forKey: .mailType)
         mailType = mailTypeDecoded
@@ -12085,41 +11395,28 @@ extension PutAccountDetailsInputBody: Swift.Decodable {
     }
 }
 
-extension PutAccountDetailsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutAccountDetailsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutAccountDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutAccountDetailsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutAccountDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutAccountDetailsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutAccountSendingAttributesInput: Swift.Encodable {
@@ -12146,7 +11443,7 @@ public struct PutAccountSendingAttributesInput: Swift.Equatable {
     /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending. If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
     public var sendingEnabled: Swift.Bool?
 
-    public init (
+    public init(
         sendingEnabled: Swift.Bool? = nil
     )
     {
@@ -12163,46 +11460,34 @@ extension PutAccountSendingAttributesInputBody: Swift.Decodable {
         case sendingEnabled = "SendingEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sendingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendingEnabled)
         sendingEnabled = sendingEnabledDecoded
     }
 }
 
-extension PutAccountSendingAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutAccountSendingAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutAccountSendingAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutAccountSendingAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutAccountSendingAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutAccountSendingAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutAccountSuppressionAttributesInput: Swift.Encodable {
@@ -12236,7 +11521,7 @@ public struct PutAccountSuppressionAttributesInput: Swift.Equatable {
     /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
     public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
 
-    public init (
+    public init(
         suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
     )
     {
@@ -12253,7 +11538,7 @@ extension PutAccountSuppressionAttributesInputBody: Swift.Decodable {
         case suppressedReasons = "SuppressedReasons"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suppressedReasonsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.SuppressionListReason?].self, forKey: .suppressedReasons)
         var suppressedReasonsDecoded0:[SESv2ClientTypes.SuppressionListReason]? = nil
@@ -12269,39 +11554,27 @@ extension PutAccountSuppressionAttributesInputBody: Swift.Decodable {
     }
 }
 
-extension PutAccountSuppressionAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutAccountSuppressionAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutAccountSuppressionAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutAccountSuppressionAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutAccountSuppressionAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutAccountSuppressionAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutAccountVdmAttributesInput: Swift.Encodable {
@@ -12329,7 +11602,7 @@ public struct PutAccountVdmAttributesInput: Swift.Equatable {
     /// This member is required.
     public var vdmAttributes: SESv2ClientTypes.VdmAttributes?
 
-    public init (
+    public init(
         vdmAttributes: SESv2ClientTypes.VdmAttributes? = nil
     )
     {
@@ -12346,45 +11619,33 @@ extension PutAccountVdmAttributesInputBody: Swift.Decodable {
         case vdmAttributes = "VdmAttributes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vdmAttributesDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.VdmAttributes.self, forKey: .vdmAttributes)
         vdmAttributes = vdmAttributesDecoded
     }
 }
 
-extension PutAccountVdmAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutAccountVdmAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutAccountVdmAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutAccountVdmAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutAccountVdmAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutAccountVdmAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutConfigurationSetDeliveryOptionsInput: Swift.Encodable {
@@ -12423,7 +11684,7 @@ public struct PutConfigurationSetDeliveryOptionsInput: Swift.Equatable {
     /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
     public var tlsPolicy: SESv2ClientTypes.TlsPolicy?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         sendingPoolName: Swift.String? = nil,
         tlsPolicy: SESv2ClientTypes.TlsPolicy? = nil
@@ -12446,7 +11707,7 @@ extension PutConfigurationSetDeliveryOptionsInputBody: Swift.Decodable {
         case tlsPolicy = "TlsPolicy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tlsPolicyDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.TlsPolicy.self, forKey: .tlsPolicy)
         tlsPolicy = tlsPolicyDecoded
@@ -12455,41 +11716,28 @@ extension PutConfigurationSetDeliveryOptionsInputBody: Swift.Decodable {
     }
 }
 
-extension PutConfigurationSetDeliveryOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigurationSetDeliveryOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigurationSetDeliveryOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigurationSetDeliveryOptionsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigurationSetDeliveryOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutConfigurationSetDeliveryOptionsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutConfigurationSetReputationOptionsInput: Swift.Encodable {
@@ -12522,7 +11770,7 @@ public struct PutConfigurationSetReputationOptionsInput: Swift.Equatable {
     /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
     public var reputationMetricsEnabled: Swift.Bool?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         reputationMetricsEnabled: Swift.Bool? = nil
     )
@@ -12541,48 +11789,35 @@ extension PutConfigurationSetReputationOptionsInputBody: Swift.Decodable {
         case reputationMetricsEnabled = "ReputationMetricsEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reputationMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reputationMetricsEnabled)
         reputationMetricsEnabled = reputationMetricsEnabledDecoded
     }
 }
 
-extension PutConfigurationSetReputationOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigurationSetReputationOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigurationSetReputationOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigurationSetReputationOptionsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigurationSetReputationOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutConfigurationSetReputationOptionsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutConfigurationSetSendingOptionsInput: Swift.Encodable {
@@ -12615,7 +11850,7 @@ public struct PutConfigurationSetSendingOptionsInput: Swift.Equatable {
     /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
     public var sendingEnabled: Swift.Bool?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         sendingEnabled: Swift.Bool? = nil
     )
@@ -12634,48 +11869,35 @@ extension PutConfigurationSetSendingOptionsInputBody: Swift.Decodable {
         case sendingEnabled = "SendingEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sendingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendingEnabled)
         sendingEnabled = sendingEnabledDecoded
     }
 }
 
-extension PutConfigurationSetSendingOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigurationSetSendingOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigurationSetSendingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigurationSetSendingOptionsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigurationSetSendingOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutConfigurationSetSendingOptionsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutConfigurationSetSuppressionOptionsInput: Swift.Encodable {
@@ -12715,7 +11937,7 @@ public struct PutConfigurationSetSuppressionOptionsInput: Swift.Equatable {
     /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
     public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
     )
@@ -12734,7 +11956,7 @@ extension PutConfigurationSetSuppressionOptionsInputBody: Swift.Decodable {
         case suppressedReasons = "SuppressedReasons"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suppressedReasonsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.SuppressionListReason?].self, forKey: .suppressedReasons)
         var suppressedReasonsDecoded0:[SESv2ClientTypes.SuppressionListReason]? = nil
@@ -12750,41 +11972,28 @@ extension PutConfigurationSetSuppressionOptionsInputBody: Swift.Decodable {
     }
 }
 
-extension PutConfigurationSetSuppressionOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigurationSetSuppressionOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigurationSetSuppressionOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigurationSetSuppressionOptionsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigurationSetSuppressionOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutConfigurationSetSuppressionOptionsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutConfigurationSetTrackingOptionsInput: Swift.Encodable {
@@ -12817,7 +12026,7 @@ public struct PutConfigurationSetTrackingOptionsInput: Swift.Equatable {
     /// The domain to use to track open and click events.
     public var customRedirectDomain: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         customRedirectDomain: Swift.String? = nil
     )
@@ -12836,48 +12045,35 @@ extension PutConfigurationSetTrackingOptionsInputBody: Swift.Decodable {
         case customRedirectDomain = "CustomRedirectDomain"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customRedirectDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customRedirectDomain)
         customRedirectDomain = customRedirectDomainDecoded
     }
 }
 
-extension PutConfigurationSetTrackingOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigurationSetTrackingOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigurationSetTrackingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigurationSetTrackingOptionsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigurationSetTrackingOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutConfigurationSetTrackingOptionsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutConfigurationSetVdmOptionsInput: Swift.Encodable {
@@ -12910,7 +12106,7 @@ public struct PutConfigurationSetVdmOptionsInput: Swift.Equatable {
     /// The VDM options to apply to the configuration set.
     public var vdmOptions: SESv2ClientTypes.VdmOptions?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         vdmOptions: SESv2ClientTypes.VdmOptions? = nil
     )
@@ -12929,48 +12125,35 @@ extension PutConfigurationSetVdmOptionsInputBody: Swift.Decodable {
         case vdmOptions = "VdmOptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vdmOptionsDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.VdmOptions.self, forKey: .vdmOptions)
         vdmOptions = vdmOptionsDecoded
     }
 }
 
-extension PutConfigurationSetVdmOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigurationSetVdmOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigurationSetVdmOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigurationSetVdmOptionsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigurationSetVdmOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutConfigurationSetVdmOptionsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutDedicatedIpInPoolInput: Swift.Encodable {
@@ -13004,7 +12187,7 @@ public struct PutDedicatedIpInPoolInput: Swift.Equatable {
     /// This member is required.
     public var ip: Swift.String?
 
-    public init (
+    public init(
         destinationPoolName: Swift.String? = nil,
         ip: Swift.String? = nil
     )
@@ -13023,48 +12206,35 @@ extension PutDedicatedIpInPoolInputBody: Swift.Decodable {
         case destinationPoolName = "DestinationPoolName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationPoolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationPoolName)
         destinationPoolName = destinationPoolNameDecoded
     }
 }
 
-extension PutDedicatedIpInPoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutDedicatedIpInPoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutDedicatedIpInPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutDedicatedIpInPoolOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutDedicatedIpInPoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutDedicatedIpInPoolOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutDedicatedIpPoolScalingAttributesInput: Swift.Encodable {
@@ -13098,7 +12268,7 @@ public struct PutDedicatedIpPoolScalingAttributesInput: Swift.Equatable {
     /// This member is required.
     public var scalingMode: SESv2ClientTypes.ScalingMode?
 
-    public init (
+    public init(
         poolName: Swift.String? = nil,
         scalingMode: SESv2ClientTypes.ScalingMode? = nil
     )
@@ -13117,50 +12287,36 @@ extension PutDedicatedIpPoolScalingAttributesInputBody: Swift.Decodable {
         case scalingMode = "ScalingMode"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scalingModeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ScalingMode.self, forKey: .scalingMode)
         scalingMode = scalingModeDecoded
     }
 }
 
-extension PutDedicatedIpPoolScalingAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutDedicatedIpPoolScalingAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutDedicatedIpPoolScalingAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutDedicatedIpPoolScalingAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutDedicatedIpPoolScalingAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutDedicatedIpPoolScalingAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutDedicatedIpWarmupAttributesInput: Swift.Encodable {
@@ -13194,7 +12350,7 @@ public struct PutDedicatedIpWarmupAttributesInput: Swift.Equatable {
     /// This member is required.
     public var warmupPercentage: Swift.Int?
 
-    public init (
+    public init(
         ip: Swift.String? = nil,
         warmupPercentage: Swift.Int? = nil
     )
@@ -13213,48 +12369,35 @@ extension PutDedicatedIpWarmupAttributesInputBody: Swift.Decodable {
         case warmupPercentage = "WarmupPercentage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let warmupPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .warmupPercentage)
         warmupPercentage = warmupPercentageDecoded
     }
 }
 
-extension PutDedicatedIpWarmupAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutDedicatedIpWarmupAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutDedicatedIpWarmupAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutDedicatedIpWarmupAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutDedicatedIpWarmupAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutDedicatedIpWarmupAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutDeliverabilityDashboardOptionInput: Swift.Encodable {
@@ -13291,7 +12434,7 @@ public struct PutDeliverabilityDashboardOptionInput: Swift.Equatable {
     /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
     public var subscribedDomains: [SESv2ClientTypes.DomainDeliverabilityTrackingOption]?
 
-    public init (
+    public init(
         dashboardEnabled: Swift.Bool? = nil,
         subscribedDomains: [SESv2ClientTypes.DomainDeliverabilityTrackingOption]? = nil
     )
@@ -13312,7 +12455,7 @@ extension PutDeliverabilityDashboardOptionInputBody: Swift.Decodable {
         case subscribedDomains = "SubscribedDomains"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dashboardEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dashboardEnabled)
         dashboardEnabled = dashboardEnabledDecoded
@@ -13330,45 +12473,30 @@ extension PutDeliverabilityDashboardOptionInputBody: Swift.Decodable {
     }
 }
 
-extension PutDeliverabilityDashboardOptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutDeliverabilityDashboardOptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutDeliverabilityDashboardOptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutDeliverabilityDashboardOptionOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutDeliverabilityDashboardOptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// A response that indicates whether the Deliverability dashboard is enabled.
 public struct PutDeliverabilityDashboardOptionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutEmailIdentityConfigurationSetAttributesInput: Swift.Encodable {
@@ -13401,7 +12529,7 @@ public struct PutEmailIdentityConfigurationSetAttributesInput: Swift.Equatable {
     /// This member is required.
     public var emailIdentity: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         emailIdentity: Swift.String? = nil
     )
@@ -13420,48 +12548,35 @@ extension PutEmailIdentityConfigurationSetAttributesInputBody: Swift.Decodable {
         case configurationSetName = "ConfigurationSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationSetName)
         configurationSetName = configurationSetNameDecoded
     }
 }
 
-extension PutEmailIdentityConfigurationSetAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutEmailIdentityConfigurationSetAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutEmailIdentityConfigurationSetAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutEmailIdentityConfigurationSetAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutEmailIdentityConfigurationSetAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
 public struct PutEmailIdentityConfigurationSetAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutEmailIdentityDkimAttributesInput: Swift.Encodable {
@@ -13494,7 +12609,7 @@ public struct PutEmailIdentityDkimAttributesInput: Swift.Equatable {
     /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing.
     public var signingEnabled: Swift.Bool?
 
-    public init (
+    public init(
         emailIdentity: Swift.String? = nil,
         signingEnabled: Swift.Bool? = nil
     )
@@ -13513,48 +12628,35 @@ extension PutEmailIdentityDkimAttributesInputBody: Swift.Decodable {
         case signingEnabled = "SigningEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let signingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .signingEnabled)
         signingEnabled = signingEnabledDecoded
     }
 }
 
-extension PutEmailIdentityDkimAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutEmailIdentityDkimAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutEmailIdentityDkimAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutEmailIdentityDkimAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutEmailIdentityDkimAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutEmailIdentityDkimAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutEmailIdentityDkimSigningAttributesInput: Swift.Encodable {
@@ -13598,7 +12700,7 @@ public struct PutEmailIdentityDkimSigningAttributesInput: Swift.Equatable {
     /// This member is required.
     public var signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
 
-    public init (
+    public init(
         emailIdentity: Swift.String? = nil,
         signingAttributes: SESv2ClientTypes.DkimSigningAttributes? = nil,
         signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin? = nil
@@ -13621,7 +12723,7 @@ extension PutEmailIdentityDkimSigningAttributesInputBody: Swift.Decodable {
         case signingAttributesOrigin = "SigningAttributesOrigin"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let signingAttributesOriginDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.DkimSigningAttributesOrigin.self, forKey: .signingAttributesOrigin)
         signingAttributesOrigin = signingAttributesOriginDecoded
@@ -13630,35 +12732,22 @@ extension PutEmailIdentityDkimSigningAttributesInputBody: Swift.Decodable {
     }
 }
 
-extension PutEmailIdentityDkimSigningAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutEmailIdentityDkimSigningAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutEmailIdentityDkimSigningAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutEmailIdentityDkimSigningAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutEmailIdentityDkimSigningAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutEmailIdentityDkimSigningAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dkimStatus = output.dkimStatus
@@ -13687,7 +12776,7 @@ public struct PutEmailIdentityDkimSigningAttributesOutputResponse: Swift.Equatab
     /// If you used [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html) to configure DKIM authentication for the domain, then this object contains a set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon SES detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. If you configured DKIM authentication for the domain by providing your own public-private key pair, then this object contains the selector that's associated with your public key. Regardless of the DKIM authentication method you use, Amazon SES searches for the appropriate records in the DNS configuration of the domain for up to 72 hours.
     public var dkimTokens: [Swift.String]?
 
-    public init (
+    public init(
         dkimStatus: SESv2ClientTypes.DkimStatus? = nil,
         dkimTokens: [Swift.String]? = nil
     )
@@ -13708,7 +12797,7 @@ extension PutEmailIdentityDkimSigningAttributesOutputResponseBody: Swift.Decodab
         case dkimTokens = "DkimTokens"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dkimStatusDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.DkimStatus.self, forKey: .dkimStatus)
         dkimStatus = dkimStatusDecoded
@@ -13756,7 +12845,7 @@ public struct PutEmailIdentityFeedbackAttributesInput: Swift.Equatable {
     /// This member is required.
     public var emailIdentity: Swift.String?
 
-    public init (
+    public init(
         emailForwardingEnabled: Swift.Bool? = nil,
         emailIdentity: Swift.String? = nil
     )
@@ -13775,48 +12864,35 @@ extension PutEmailIdentityFeedbackAttributesInputBody: Swift.Decodable {
         case emailForwardingEnabled = "EmailForwardingEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailForwardingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .emailForwardingEnabled)
         emailForwardingEnabled = emailForwardingEnabledDecoded
     }
 }
 
-extension PutEmailIdentityFeedbackAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutEmailIdentityFeedbackAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutEmailIdentityFeedbackAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutEmailIdentityFeedbackAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutEmailIdentityFeedbackAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutEmailIdentityFeedbackAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutEmailIdentityMailFromAttributesInput: Swift.Encodable {
@@ -13861,7 +12937,7 @@ public struct PutEmailIdentityMailFromAttributesInput: Swift.Equatable {
     /// * It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.
     public var mailFromDomain: Swift.String?
 
-    public init (
+    public init(
         behaviorOnMxFailure: SESv2ClientTypes.BehaviorOnMxFailure? = nil,
         emailIdentity: Swift.String? = nil,
         mailFromDomain: Swift.String? = nil
@@ -13884,7 +12960,7 @@ extension PutEmailIdentityMailFromAttributesInputBody: Swift.Decodable {
         case mailFromDomain = "MailFromDomain"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mailFromDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mailFromDomain)
         mailFromDomain = mailFromDomainDecoded
@@ -13893,41 +12969,28 @@ extension PutEmailIdentityMailFromAttributesInputBody: Swift.Decodable {
     }
 }
 
-extension PutEmailIdentityMailFromAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutEmailIdentityMailFromAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutEmailIdentityMailFromAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutEmailIdentityMailFromAttributesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutEmailIdentityMailFromAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutEmailIdentityMailFromAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutSuppressedDestinationInput: Swift.Encodable {
@@ -13962,7 +13025,7 @@ public struct PutSuppressedDestinationInput: Swift.Equatable {
     /// This member is required.
     public var reason: SESv2ClientTypes.SuppressionListReason?
 
-    public init (
+    public init(
         emailAddress: Swift.String? = nil,
         reason: SESv2ClientTypes.SuppressionListReason? = nil
     )
@@ -13983,7 +13046,7 @@ extension PutSuppressedDestinationInputBody: Swift.Decodable {
         case reason = "Reason"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
@@ -13992,39 +13055,27 @@ extension PutSuppressedDestinationInputBody: Swift.Decodable {
     }
 }
 
-extension PutSuppressedDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutSuppressedDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutSuppressedDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutSuppressedDestinationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutSuppressedDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutSuppressedDestinationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SESv2ClientTypes {
@@ -14071,7 +13122,7 @@ extension SESv2ClientTypes.RawMessage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .data)
         data = dataDecoded
@@ -14099,7 +13150,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var data: ClientRuntime.Data?
 
-        public init (
+        public init(
             data: ClientRuntime.Data? = nil
         )
         {
@@ -14145,7 +13196,7 @@ extension SESv2ClientTypes.Recommendation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -14182,7 +13233,7 @@ extension SESv2ClientTypes {
         /// The recommendation type, with values like DKIM, SPF, DMARC or BIMI.
         public var type: SESv2ClientTypes.RecommendationType?
 
-        public init (
+        public init(
             createdTimestamp: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             impact: SESv2ClientTypes.RecommendationImpact? = nil,
@@ -14318,7 +13369,7 @@ extension SESv2ClientTypes.ReplacementEmailContent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replacementTemplateDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ReplacementTemplate.self, forKey: .replacementTemplate)
         replacementTemplate = replacementTemplateDecoded
@@ -14331,7 +13382,7 @@ extension SESv2ClientTypes {
         /// The ReplacementTemplate associated with ReplacementEmailContent.
         public var replacementTemplate: SESv2ClientTypes.ReplacementTemplate?
 
-        public init (
+        public init(
             replacementTemplate: SESv2ClientTypes.ReplacementTemplate? = nil
         )
         {
@@ -14353,7 +13404,7 @@ extension SESv2ClientTypes.ReplacementTemplate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replacementTemplateDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replacementTemplateData)
         replacementTemplateData = replacementTemplateDataDecoded
@@ -14366,7 +13417,7 @@ extension SESv2ClientTypes {
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public var replacementTemplateData: Swift.String?
 
-        public init (
+        public init(
             replacementTemplateData: Swift.String? = nil
         )
         {
@@ -14392,7 +13443,7 @@ extension SESv2ClientTypes.ReputationOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reputationMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reputationMetricsEnabled) ?? false
         reputationMetricsEnabled = reputationMetricsEnabledDecoded
@@ -14409,7 +13460,7 @@ extension SESv2ClientTypes {
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
         public var reputationMetricsEnabled: Swift.Bool
 
-        public init (
+        public init(
             lastFreshStart: ClientRuntime.Date? = nil,
             reputationMetricsEnabled: Swift.Bool = false
         )
@@ -14437,7 +13488,7 @@ extension SESv2ClientTypes.ReviewDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ReviewStatus.self, forKey: .status)
         status = statusDecoded
@@ -14462,7 +13513,7 @@ extension SESv2ClientTypes {
         /// * FAILED – An internal error occurred and we didn't receive your appeal. You can submit your appeal again.
         public var status: SESv2ClientTypes.ReviewStatus?
 
-        public init (
+        public init(
             caseId: Swift.String? = nil,
             status: SESv2ClientTypes.ReviewStatus? = nil
         )
@@ -14627,7 +13678,7 @@ public struct SendBulkEmailInput: Swift.Equatable {
     /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
     public var replyToAddresses: [Swift.String]?
 
-    public init (
+    public init(
         bulkEmailEntries: [SESv2ClientTypes.BulkEmailEntry]? = nil,
         configurationSetName: Swift.String? = nil,
         defaultContent: SESv2ClientTypes.BulkEmailContent? = nil,
@@ -14676,7 +13727,7 @@ extension SendBulkEmailInputBody: Swift.Decodable {
         case replyToAddresses = "ReplyToAddresses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fromEmailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromEmailAddress)
         fromEmailAddress = fromEmailAddressDecoded
@@ -14726,45 +13777,27 @@ extension SendBulkEmailInputBody: Swift.Decodable {
     }
 }
 
-extension SendBulkEmailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SendBulkEmailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountSuspendedException" : self = .accountSuspendedException(try AccountSuspendedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MailFromDomainNotVerifiedException" : self = .mailFromDomainNotVerifiedException(try MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SendingPausedException" : self = .sendingPausedException(try SendingPausedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SendBulkEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountSuspendedException": return try await AccountSuspendedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SendingPausedException": return try await SendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SendBulkEmailOutputError: Swift.Error, Swift.Equatable {
-    case accountSuspendedException(AccountSuspendedException)
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case mailFromDomainNotVerifiedException(MailFromDomainNotVerifiedException)
-    case messageRejected(MessageRejected)
-    case notFoundException(NotFoundException)
-    case sendingPausedException(SendingPausedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SendBulkEmailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SendBulkEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bulkEmailEntryResults = output.bulkEmailEntryResults
@@ -14780,7 +13813,7 @@ public struct SendBulkEmailOutputResponse: Swift.Equatable {
     /// This member is required.
     public var bulkEmailEntryResults: [SESv2ClientTypes.BulkEmailEntryResult]?
 
-    public init (
+    public init(
         bulkEmailEntryResults: [SESv2ClientTypes.BulkEmailEntryResult]? = nil
     )
     {
@@ -14797,7 +13830,7 @@ extension SendBulkEmailOutputResponseBody: Swift.Decodable {
         case bulkEmailEntryResults = "BulkEmailEntryResults"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bulkEmailEntryResultsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.BulkEmailEntryResult?].self, forKey: .bulkEmailEntryResults)
         var bulkEmailEntryResultsDecoded0:[SESv2ClientTypes.BulkEmailEntryResult]? = nil
@@ -14851,7 +13884,7 @@ public struct SendCustomVerificationEmailInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         emailAddress: Swift.String? = nil,
         templateName: Swift.String? = nil
@@ -14876,7 +13909,7 @@ extension SendCustomVerificationEmailInputBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
@@ -14887,43 +13920,26 @@ extension SendCustomVerificationEmailInputBody: Swift.Decodable {
     }
 }
 
-extension SendCustomVerificationEmailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SendCustomVerificationEmailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MailFromDomainNotVerifiedException" : self = .mailFromDomainNotVerifiedException(try MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SendingPausedException" : self = .sendingPausedException(try SendingPausedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SendCustomVerificationEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SendingPausedException": return try await SendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SendCustomVerificationEmailOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case mailFromDomainNotVerifiedException(MailFromDomainNotVerifiedException)
-    case messageRejected(MessageRejected)
-    case notFoundException(NotFoundException)
-    case sendingPausedException(SendingPausedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SendCustomVerificationEmailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SendCustomVerificationEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
@@ -14938,7 +13954,7 @@ public struct SendCustomVerificationEmailOutputResponse: Swift.Equatable {
     /// The unique message identifier returned from the SendCustomVerificationEmail operation.
     public var messageId: Swift.String?
 
-    public init (
+    public init(
         messageId: Swift.String? = nil
     )
     {
@@ -14955,7 +13971,7 @@ extension SendCustomVerificationEmailOutputResponseBody: Swift.Decodable {
         case messageId = "MessageId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
@@ -15047,7 +14063,7 @@ public struct SendEmailInput: Swift.Equatable {
     /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
     public var replyToAddresses: [Swift.String]?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         content: SESv2ClientTypes.EmailContent? = nil,
         destination: SESv2ClientTypes.Destination? = nil,
@@ -15100,7 +14116,7 @@ extension SendEmailInputBody: Swift.Decodable {
         case replyToAddresses = "ReplyToAddresses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fromEmailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromEmailAddress)
         fromEmailAddress = fromEmailAddressDecoded
@@ -15143,45 +14159,27 @@ extension SendEmailInputBody: Swift.Decodable {
     }
 }
 
-extension SendEmailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SendEmailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountSuspendedException" : self = .accountSuspendedException(try AccountSuspendedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MailFromDomainNotVerifiedException" : self = .mailFromDomainNotVerifiedException(try MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SendingPausedException" : self = .sendingPausedException(try SendingPausedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SendEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountSuspendedException": return try await AccountSuspendedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MailFromDomainNotVerifiedException": return try await MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MessageRejected": return try await MessageRejected(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SendingPausedException": return try await SendingPausedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SendEmailOutputError: Swift.Error, Swift.Equatable {
-    case accountSuspendedException(AccountSuspendedException)
-    case badRequestException(BadRequestException)
-    case limitExceededException(LimitExceededException)
-    case mailFromDomainNotVerifiedException(MailFromDomainNotVerifiedException)
-    case messageRejected(MessageRejected)
-    case notFoundException(NotFoundException)
-    case sendingPausedException(SendingPausedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SendEmailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SendEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
@@ -15196,7 +14194,7 @@ public struct SendEmailOutputResponse: Swift.Equatable {
     /// A unique identifier for the message that is generated when the message is accepted. It's possible for Amazon SES to accept a message without sending it. This can happen when the message that you're trying to send has an attachment contains a virus, or when you send a templated email that contains invalid personalization content, for example.
     public var messageId: Swift.String?
 
-    public init (
+    public init(
         messageId: Swift.String? = nil
     )
     {
@@ -15213,7 +14211,7 @@ extension SendEmailOutputResponseBody: Swift.Decodable {
         case messageId = "MessageId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
@@ -15240,7 +14238,7 @@ extension SESv2ClientTypes.SendQuota: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let max24HourSendDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max24HourSend) ?? 0.0
         max24HourSend = max24HourSendDecoded
@@ -15261,7 +14259,7 @@ extension SESv2ClientTypes {
         /// The number of emails sent from your Amazon SES account in the current Amazon Web Services Region over the past 24 hours.
         public var sentLast24Hours: Swift.Double
 
-        public init (
+        public init(
             max24HourSend: Swift.Double = 0.0,
             maxSendRate: Swift.Double = 0.0,
             sentLast24Hours: Swift.Double = 0.0
@@ -15287,7 +14285,7 @@ extension SESv2ClientTypes.SendingOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sendingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendingEnabled) ?? false
         sendingEnabled = sendingEnabledDecoded
@@ -15300,7 +14298,7 @@ extension SESv2ClientTypes {
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public var sendingEnabled: Swift.Bool
 
-        public init (
+        public init(
             sendingEnabled: Swift.Bool = false
         )
         {
@@ -15311,37 +14309,41 @@ extension SESv2ClientTypes {
 }
 
 extension SendingPausedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SendingPausedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The message can't be sent because the account's ability to send email is currently paused.
-public struct SendingPausedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SendingPausedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SendingPausedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15354,7 +14356,7 @@ extension SendingPausedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15373,7 +14375,7 @@ extension SESv2ClientTypes.SnsDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
         topicArn = topicArnDecoded
@@ -15387,7 +14389,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var topicArn: Swift.String?
 
-        public init (
+        public init(
             topicArn: Swift.String? = nil
         )
         {
@@ -15453,7 +14455,7 @@ extension SESv2ClientTypes.SuppressedDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
@@ -15481,7 +14483,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var reason: SESv2ClientTypes.SuppressionListReason?
 
-        public init (
+        public init(
             attributes: SESv2ClientTypes.SuppressedDestinationAttributes? = nil,
             emailAddress: Swift.String? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
@@ -15513,7 +14515,7 @@ extension SESv2ClientTypes.SuppressedDestinationAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
@@ -15530,7 +14532,7 @@ extension SESv2ClientTypes {
         /// The unique identifier of the email message that caused the email address to be added to the suppression list for your account.
         public var messageId: Swift.String?
 
-        public init (
+        public init(
             feedbackId: Swift.String? = nil,
             messageId: Swift.String? = nil
         )
@@ -15562,7 +14564,7 @@ extension SESv2ClientTypes.SuppressedDestinationSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
@@ -15586,7 +14588,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var reason: SESv2ClientTypes.SuppressionListReason?
 
-        public init (
+        public init(
             emailAddress: Swift.String? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
             reason: SESv2ClientTypes.SuppressionListReason? = nil
@@ -15615,7 +14617,7 @@ extension SESv2ClientTypes.SuppressionAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suppressedReasonsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.SuppressionListReason?].self, forKey: .suppressedReasons)
         var suppressedReasonsDecoded0:[SESv2ClientTypes.SuppressionListReason]? = nil
@@ -15641,7 +14643,7 @@ extension SESv2ClientTypes {
         /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
 
-        public init (
+        public init(
             suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
         )
         {
@@ -15663,7 +14665,7 @@ extension SESv2ClientTypes.SuppressionListDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suppressionListImportActionDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.SuppressionListImportAction.self, forKey: .suppressionListImportAction)
         suppressionListImportAction = suppressionListImportActionDecoded
@@ -15681,7 +14683,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var suppressionListImportAction: SESv2ClientTypes.SuppressionListImportAction?
 
-        public init (
+        public init(
             suppressionListImportAction: SESv2ClientTypes.SuppressionListImportAction? = nil
         )
         {
@@ -15780,7 +14782,7 @@ extension SESv2ClientTypes.SuppressionOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suppressedReasonsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.SuppressionListReason?].self, forKey: .suppressedReasons)
         var suppressedReasonsDecoded0:[SESv2ClientTypes.SuppressionListReason]? = nil
@@ -15806,7 +14808,7 @@ extension SESv2ClientTypes {
         /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
 
-        public init (
+        public init(
             suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
         )
         {
@@ -15832,7 +14834,7 @@ extension SESv2ClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -15859,7 +14861,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -15905,7 +14907,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [SESv2ClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [SESv2ClientTypes.Tag]? = nil
     )
@@ -15926,7 +14928,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -15944,42 +14946,28 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SESv2ClientTypes.Template: Swift.Codable {
@@ -16002,7 +14990,7 @@ extension SESv2ClientTypes.Template: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
         templateName = templateNameDecoded
@@ -16023,7 +15011,7 @@ extension SESv2ClientTypes {
         /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
         public var templateName: Swift.String?
 
-        public init (
+        public init(
             templateArn: Swift.String? = nil,
             templateData: Swift.String? = nil,
             templateName: Swift.String? = nil
@@ -16068,7 +15056,7 @@ public struct TestRenderEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         templateData: Swift.String? = nil,
         templateName: Swift.String? = nil
     )
@@ -16087,42 +15075,29 @@ extension TestRenderEmailTemplateInputBody: Swift.Decodable {
         case templateData = "TemplateData"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateData)
         templateData = templateDataDecoded
     }
 }
 
-extension TestRenderEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TestRenderEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TestRenderEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TestRenderEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TestRenderEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TestRenderEmailTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.renderedTemplate = output.renderedTemplate
@@ -16138,7 +15113,7 @@ public struct TestRenderEmailTemplateOutputResponse: Swift.Equatable {
     /// This member is required.
     public var renderedTemplate: Swift.String?
 
-    public init (
+    public init(
         renderedTemplate: Swift.String? = nil
     )
     {
@@ -16155,7 +15130,7 @@ extension TestRenderEmailTemplateOutputResponseBody: Swift.Decodable {
         case renderedTemplate = "RenderedTemplate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let renderedTemplateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .renderedTemplate)
         renderedTemplate = renderedTemplateDecoded
@@ -16196,37 +15171,41 @@ extension SESv2ClientTypes {
 }
 
 extension TooManyRequestsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Too many requests have been made to the operation.
-public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16239,7 +15218,7 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16270,7 +15249,7 @@ extension SESv2ClientTypes.Topic: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let topicNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicName)
         topicName = topicNameDecoded
@@ -16298,7 +15277,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var topicName: Swift.String?
 
-        public init (
+        public init(
             defaultSubscriptionStatus: SESv2ClientTypes.SubscriptionStatus? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
@@ -16330,7 +15309,7 @@ extension SESv2ClientTypes.TopicFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let topicNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicName)
         topicName = topicNameDecoded
@@ -16347,7 +15326,7 @@ extension SESv2ClientTypes {
         /// Notes that the default subscription status should be applied to a contact because the contact has not noted their preference for subscribing to a topic.
         public var useDefaultIfPreferenceUnavailable: Swift.Bool
 
-        public init (
+        public init(
             topicName: Swift.String? = nil,
             useDefaultIfPreferenceUnavailable: Swift.Bool = false
         )
@@ -16375,7 +15354,7 @@ extension SESv2ClientTypes.TopicPreference: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let topicNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicName)
         topicName = topicNameDecoded
@@ -16394,7 +15373,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var topicName: Swift.String?
 
-        public init (
+        public init(
             subscriptionStatus: SESv2ClientTypes.SubscriptionStatus? = nil,
             topicName: Swift.String? = nil
         )
@@ -16418,7 +15397,7 @@ extension SESv2ClientTypes.TrackingOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customRedirectDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customRedirectDomain)
         customRedirectDomain = customRedirectDomainDecoded
@@ -16432,7 +15411,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var customRedirectDomain: Swift.String?
 
-        public init (
+        public init(
             customRedirectDomain: Swift.String? = nil
         )
         {
@@ -16448,13 +15427,13 @@ extension UntagResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let resourceArn = resourceArn else {
                 let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "ResourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
             items.append(resourceArnQueryItem)
             guard let tagKeys = tagKeys else {
                 let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -16479,7 +15458,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -16494,46 +15473,32 @@ struct UntagResourceInputBody: Swift.Equatable {
 
 extension UntagResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateConfigurationSetEventDestinationInput: Swift.Encodable {
@@ -16573,7 +15538,7 @@ public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
     /// This member is required.
     public var eventDestinationName: Swift.String?
 
-    public init (
+    public init(
         configurationSetName: Swift.String? = nil,
         eventDestination: SESv2ClientTypes.EventDestinationDefinition? = nil,
         eventDestinationName: Swift.String? = nil
@@ -16594,48 +15559,35 @@ extension UpdateConfigurationSetEventDestinationInputBody: Swift.Decodable {
         case eventDestination = "EventDestination"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDestinationDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.EventDestinationDefinition.self, forKey: .eventDestination)
         eventDestination = eventDestinationDecoded
     }
 }
 
-extension UpdateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateConfigurationSetEventDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateConfigurationSetEventDestinationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct UpdateConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateContactInput: Swift.Encodable {
@@ -16688,7 +15640,7 @@ public struct UpdateContactInput: Swift.Equatable {
     /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
     public var unsubscribeAll: Swift.Bool?
 
-    public init (
+    public init(
         attributesData: Swift.String? = nil,
         contactListName: Swift.String? = nil,
         emailAddress: Swift.String? = nil,
@@ -16717,7 +15669,7 @@ extension UpdateContactInputBody: Swift.Decodable {
         case unsubscribeAll = "UnsubscribeAll"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let topicPreferencesContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.TopicPreference?].self, forKey: .topicPreferences)
         var topicPreferencesDecoded0:[SESv2ClientTypes.TopicPreference]? = nil
@@ -16775,7 +15727,7 @@ public struct UpdateContactListInput: Swift.Equatable {
     /// An interest group, theme, or label within a list. A contact list can have multiple topics.
     public var topics: [SESv2ClientTypes.Topic]?
 
-    public init (
+    public init(
         contactListName: Swift.String? = nil,
         description: Swift.String? = nil,
         topics: [SESv2ClientTypes.Topic]? = nil
@@ -16798,7 +15750,7 @@ extension UpdateContactListInputBody: Swift.Decodable {
         case topics = "Topics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let topicsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.Topic?].self, forKey: .topics)
         var topicsDecoded0:[SESv2ClientTypes.Topic]? = nil
@@ -16816,80 +15768,52 @@ extension UpdateContactListInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateContactListOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateContactListOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateContactListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateContactListOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateContactListOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateContactListOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension UpdateContactOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateContactOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateContactOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateContactOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateContactOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateCustomVerificationEmailTemplateInput: Swift.Encodable {
@@ -16951,7 +15875,7 @@ public struct UpdateCustomVerificationEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateSubject: Swift.String?
 
-    public init (
+    public init(
         failureRedirectionURL: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         successRedirectionURL: Swift.String? = nil,
@@ -16986,7 +15910,7 @@ extension UpdateCustomVerificationEmailTemplateInputBody: Swift.Decodable {
         case templateSubject = "TemplateSubject"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fromEmailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromEmailAddress)
         fromEmailAddress = fromEmailAddressDecoded
@@ -17001,41 +15925,28 @@ extension UpdateCustomVerificationEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateCustomVerificationEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateCustomVerificationEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
 public struct UpdateCustomVerificationEmailTemplateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateEmailIdentityPolicyInput: Swift.Encodable {
@@ -17075,7 +15986,7 @@ public struct UpdateEmailIdentityPolicyInput: Swift.Equatable {
     /// This member is required.
     public var policyName: Swift.String?
 
-    public init (
+    public init(
         emailIdentity: Swift.String? = nil,
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
@@ -17096,48 +16007,35 @@ extension UpdateEmailIdentityPolicyInputBody: Swift.Decodable {
         case policy = "Policy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
     }
 }
 
-extension UpdateEmailIdentityPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateEmailIdentityPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateEmailIdentityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateEmailIdentityPolicyOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateEmailIdentityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct UpdateEmailIdentityPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateEmailTemplateInput: Swift.Encodable {
@@ -17171,7 +16069,7 @@ public struct UpdateEmailTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
         templateName: Swift.String? = nil
     )
@@ -17190,48 +16088,35 @@ extension UpdateEmailTemplateInputBody: Swift.Decodable {
         case templateContent = "TemplateContent"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateContentDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.EmailTemplateContent.self, forKey: .templateContent)
         templateContent = templateContentDecoded
     }
 }
 
-extension UpdateEmailTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateEmailTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateEmailTemplateOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
 public struct UpdateEmailTemplateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SESv2ClientTypes.VdmAttributes: Swift.Codable {
@@ -17254,7 +16139,7 @@ extension SESv2ClientTypes.VdmAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vdmEnabledDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.FeatureStatus.self, forKey: .vdmEnabled)
         vdmEnabled = vdmEnabledDecoded
@@ -17280,7 +16165,7 @@ extension SESv2ClientTypes {
         /// This member is required.
         public var vdmEnabled: SESv2ClientTypes.FeatureStatus?
 
-        public init (
+        public init(
             dashboardAttributes: SESv2ClientTypes.DashboardAttributes? = nil,
             guardianAttributes: SESv2ClientTypes.GuardianAttributes? = nil,
             vdmEnabled: SESv2ClientTypes.FeatureStatus? = nil
@@ -17310,7 +16195,7 @@ extension SESv2ClientTypes.VdmOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dashboardOptionsDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.DashboardOptions.self, forKey: .dashboardOptions)
         dashboardOptions = dashboardOptionsDecoded
@@ -17327,7 +16212,7 @@ extension SESv2ClientTypes {
         /// Specifies additional settings for your VDM configuration as applicable to the Guardian.
         public var guardianOptions: SESv2ClientTypes.GuardianOptions?
 
-        public init (
+        public init(
             dashboardOptions: SESv2ClientTypes.DashboardOptions? = nil,
             guardianOptions: SESv2ClientTypes.GuardianOptions? = nil
         )
@@ -17404,7 +16289,7 @@ extension SESv2ClientTypes.VolumeStatistics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inboxRawCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inboxRawCount)
         inboxRawCount = inboxRawCountDecoded
@@ -17429,7 +16314,7 @@ extension SESv2ClientTypes {
         /// The total number of emails that arrived in recipients' spam or junk mail folders.
         public var spamRawCount: Swift.Int?
 
-        public init (
+        public init(
             inboxRawCount: Swift.Int? = nil,
             projectedInbox: Swift.Int? = nil,
             projectedSpam: Swift.Int? = nil,

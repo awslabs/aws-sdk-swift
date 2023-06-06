@@ -15,10 +15,10 @@ extension RestXMLError {
     /// - Returns: A`RestXMLError` instance with an error code of "NotFound" if the response body is empty and the status code is 404. Otherwise returns a `RestXMLError` by calling ``RestXMLError.init(httpResponse: HttpResponse)``.
     ///
     /// - Throws: An error if it fails to decode the response body.
-    public static func makeError(from response: HttpResponse) throws -> RestXMLError {
+    public static func makeError(from response: HttpResponse) async throws -> RestXMLError {
         response.statusCodeIsNotFoundAndBodyIsEmpty
             ? .makeNotFoundError(requestID: response.requestId)
-            : try .init(httpResponse: response)
+            : try await .init(httpResponse: response)
     }
 
     static func makeNotFoundError(requestID: String?) -> RestXMLError {

@@ -5,16 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSClientRuntime
 import ClientRuntime
 
-public struct ComplexXMLErrorNoErrorWrapping: ClientRuntime.ServiceError, Equatable {
-    public var _isThrottling: Bool = false
-    public var _headers: Headers?
-    public var _statusCode: HttpStatusCode?
-    public var _message: String?
-    public var _requestID: String?
-    public var _retryable: Bool = false
-    public var _type: ErrorType = .client
+public struct ComplexXMLErrorNoErrorWrapping: AWSServiceError, HTTPError, Error {
+    public var typeName: String?
+    public var message: String?
+    public var httpResponse = HttpResponse()
+    public var requestID: String?
     public var header: String?
     public var nested: ComplexXMLNestedErrorData?
     public var topLevel: String?

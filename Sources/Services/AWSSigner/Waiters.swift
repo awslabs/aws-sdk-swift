@@ -24,7 +24,7 @@ extension SignerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeSigningJobInput, result: Result<DescribeSigningJobOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)

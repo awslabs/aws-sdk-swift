@@ -36,9 +36,9 @@ import software.amazon.smithy.swift.codegen.testModuleName
 
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
 
-    override var serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSHttpServiceError
+    override var serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSServiceError
 
-    override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHttpServiceError
+    override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
     override val httpProtocolClientGeneratorFactory = AWSHttpProtocolClientGeneratorFactory()
 
     val serdeContextJSON = HttpProtocolUnitTestGenerator.SerdeContext("JSONEncoder()", "JSONDecoder()", ".secondsSince1970")

@@ -39,7 +39,7 @@ public struct AddSourceIdentifierToSubscriptionInput: Swift.Equatable {
     /// This member is required.
     public var subscriptionName: Swift.String?
 
-    public init (
+    public init(
         sourceIdentifier: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
     )
@@ -60,7 +60,7 @@ extension AddSourceIdentifierToSubscriptionInputBody: Swift.Decodable {
         case subscriptionName = "SubscriptionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionName)
         subscriptionName = subscriptionNameDecoded
@@ -69,32 +69,20 @@ extension AddSourceIdentifierToSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-extension AddSourceIdentifierToSubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AddSourceIdentifierToSubscriptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "SourceNotFound" : self = .sourceNotFoundFault(try SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddSourceIdentifierToSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AddSourceIdentifierToSubscriptionOutputError: Swift.Error, Swift.Equatable {
-    case sourceNotFoundFault(SourceNotFoundFault)
-    case subscriptionNotFoundFault(SubscriptionNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddSourceIdentifierToSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddSourceIdentifierToSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
@@ -108,7 +96,7 @@ public struct AddSourceIdentifierToSubscriptionOutputResponse: Swift.Equatable {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
-    public init (
+    public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
     )
     {
@@ -125,7 +113,7 @@ extension AddSourceIdentifierToSubscriptionOutputResponseBody: Swift.Decodable {
         case eventSubscription = "EventSubscription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AddSourceIdentifierToSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
@@ -171,7 +159,7 @@ public struct AddTagsToResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [DocDBClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceName: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil
     )
@@ -192,7 +180,7 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
@@ -218,39 +206,26 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
-extension AddTagsToResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AddTagsToResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
-    case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AddTagsToResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DocDBClientTypes {
@@ -326,7 +301,7 @@ public struct ApplyPendingMaintenanceActionInput: Swift.Equatable {
     /// This member is required.
     public var resourceIdentifier: Swift.String?
 
-    public init (
+    public init(
         applyAction: Swift.String? = nil,
         optInType: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
@@ -351,7 +326,7 @@ extension ApplyPendingMaintenanceActionInputBody: Swift.Decodable {
         case resourceIdentifier = "ResourceIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceIdentifier)
         resourceIdentifier = resourceIdentifierDecoded
@@ -362,34 +337,21 @@ extension ApplyPendingMaintenanceActionInputBody: Swift.Decodable {
     }
 }
 
-extension ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ApplyPendingMaintenanceActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ApplyPendingMaintenanceActionOutputError: Swift.Error, Swift.Equatable {
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case resourceNotFoundFault(ResourceNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ApplyPendingMaintenanceActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ApplyPendingMaintenanceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourcePendingMaintenanceActions = output.resourcePendingMaintenanceActions
@@ -403,7 +365,7 @@ public struct ApplyPendingMaintenanceActionOutputResponse: Swift.Equatable {
     /// Represents the output of [ApplyPendingMaintenanceAction].
     public var resourcePendingMaintenanceActions: DocDBClientTypes.ResourcePendingMaintenanceActions?
 
-    public init (
+    public init(
         resourcePendingMaintenanceActions: DocDBClientTypes.ResourcePendingMaintenanceActions? = nil
     )
     {
@@ -420,7 +382,7 @@ extension ApplyPendingMaintenanceActionOutputResponseBody: Swift.Decodable {
         case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ApplyPendingMaintenanceActionResult"))
         let resourcePendingMaintenanceActionsDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.ResourcePendingMaintenanceActions.self, forKey: .resourcePendingMaintenanceActions)
@@ -429,37 +391,40 @@ extension ApplyPendingMaintenanceActionOutputResponseBody: Swift.Decodable {
 }
 
 extension AuthorizationNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified CIDR IP or Amazon EC2 security group isn't authorized for the specified security group. Amazon DocumentDB also might not be authorized to perform necessary actions on your behalf using IAM.
-public struct AuthorizationNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AuthorizationNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -472,7 +437,7 @@ extension AuthorizationNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -491,7 +456,7 @@ extension DocDBClientTypes.AvailabilityZone: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -504,7 +469,7 @@ extension DocDBClientTypes {
         /// The name of the Availability Zone.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -546,7 +511,7 @@ extension DocDBClientTypes.Certificate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let certificateIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateIdentifier)
         certificateIdentifier = certificateIdentifierDecoded
@@ -579,7 +544,7 @@ extension DocDBClientTypes {
         /// The date-time after which the certificate is no longer valid. Example: 2024-07-31T17:57:09Z
         public var validTill: ClientRuntime.Date?
 
-        public init (
+        public init(
             certificateArn: Swift.String? = nil,
             certificateIdentifier: Swift.String? = nil,
             certificateType: Swift.String? = nil,
@@ -600,37 +565,40 @@ extension DocDBClientTypes {
 }
 
 extension CertificateNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CertificateNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// CertificateIdentifier doesn't refer to an existing certificate.
-public struct CertificateNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CertificateNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -643,7 +611,7 @@ extension CertificateNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -684,7 +652,7 @@ extension DocDBClientTypes.CloudwatchLogsExportConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.enableLogTypes) {
             struct KeyVal0{struct member{}}
@@ -735,7 +703,7 @@ extension DocDBClientTypes {
         /// The list of log types to enable.
         public var enableLogTypes: [Swift.String]?
 
-        public init (
+        public init(
             disableLogTypes: [Swift.String]? = nil,
             enableLogTypes: [Swift.String]? = nil
         )
@@ -813,7 +781,7 @@ public struct CopyDBClusterParameterGroupInput: Swift.Equatable {
     /// This member is required.
     public var targetDBClusterParameterGroupIdentifier: Swift.String?
 
-    public init (
+    public init(
         sourceDBClusterParameterGroupIdentifier: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
         targetDBClusterParameterGroupDescription: Swift.String? = nil,
@@ -842,7 +810,7 @@ extension CopyDBClusterParameterGroupInputBody: Swift.Decodable {
         case targetDBClusterParameterGroupIdentifier = "TargetDBClusterParameterGroupIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceDBClusterParameterGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDBClusterParameterGroupIdentifier)
         sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifierDecoded
@@ -872,34 +840,21 @@ extension CopyDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CopyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CopyDBClusterParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBParameterGroupAlreadyExists" : self = .dBParameterGroupAlreadyExistsFault(try DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBParameterGroupQuotaExceeded" : self = .dBParameterGroupQuotaExceededFault(try DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CopyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CopyDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case dBParameterGroupAlreadyExistsFault(DBParameterGroupAlreadyExistsFault)
-    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
-    case dBParameterGroupQuotaExceededFault(DBParameterGroupQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CopyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CopyDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroup = output.dbClusterParameterGroup
@@ -913,7 +868,7 @@ public struct CopyDBClusterParameterGroupOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster parameter group.
     public var dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup?
 
-    public init (
+    public init(
         dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup? = nil
     )
     {
@@ -930,7 +885,7 @@ extension CopyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         case dbClusterParameterGroup = "DBClusterParameterGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBClusterParameterGroupResult"))
         let dbClusterParameterGroupDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterParameterGroup.self, forKey: .dbClusterParameterGroup)
@@ -1020,7 +975,7 @@ public struct CopyDBClusterSnapshotInput: Swift.Equatable {
     /// This member is required.
     public var targetDBClusterSnapshotIdentifier: Swift.String?
 
-    public init (
+    public init(
         copyTags: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         preSignedUrl: Swift.String? = nil,
@@ -1057,7 +1012,7 @@ extension CopyDBClusterSnapshotInputBody: Swift.Decodable {
         case targetDBClusterSnapshotIdentifier = "TargetDBClusterSnapshotIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceDBClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDBClusterSnapshotIdentifier)
         sourceDBClusterSnapshotIdentifier = sourceDBClusterSnapshotIdentifierDecoded
@@ -1091,40 +1046,24 @@ extension CopyDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension CopyDBClusterSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CopyDBClusterSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterSnapshotAlreadyExistsFault" : self = .dBClusterSnapshotAlreadyExistsFault(try DBClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CopyDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotAlreadyExistsFault": return try await DBClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CopyDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterSnapshotAlreadyExistsFault(DBClusterSnapshotAlreadyExistsFault)
-    case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
-    case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
-    case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CopyDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CopyDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshot = output.dbClusterSnapshot
@@ -1138,7 +1077,7 @@ public struct CopyDBClusterSnapshotOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster snapshot.
     public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
 
-    public init (
+    public init(
         dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
     )
     {
@@ -1155,7 +1094,7 @@ extension CopyDBClusterSnapshotOutputResponseBody: Swift.Decodable {
         case dbClusterSnapshot = "DBClusterSnapshot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyDBClusterSnapshotResult"))
         let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
@@ -1348,7 +1287,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     /// A list of EC2 VPC security groups to associate with this cluster.
     public var vpcSecurityGroupIds: [Swift.String]?
 
-    public init (
+    public init(
         availabilityZones: [Swift.String]? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
         dbClusterIdentifier: Swift.String? = nil,
@@ -1441,7 +1380,7 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.availabilityZones) {
             struct KeyVal0{struct AvailabilityZone{}}
@@ -1554,62 +1493,35 @@ extension CreateDBClusterInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDBClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateDBClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterAlreadyExistsFault" : self = .dBClusterAlreadyExistsFault(try DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterParameterGroupNotFound" : self = .dBClusterParameterGroupNotFoundFault(try DBClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterQuotaExceededFault" : self = .dBClusterQuotaExceededFault(try DBClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupDoesNotCoverEnoughAZs" : self = .dBSubnetGroupDoesNotCoverEnoughAZs(try DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientStorageClusterCapacity" : self = .insufficientStorageClusterCapacityFault(try InsufficientStorageClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBSubnetGroupStateFault" : self = .invalidDBSubnetGroupStateFault(try InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalClusterStateFault" : self = .invalidGlobalClusterStateFault(try InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterAlreadyExistsFault": return try await DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterParameterGroupNotFound": return try await DBClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterQuotaExceededFault": return try await DBClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientStorageClusterCapacity": return try await InsufficientStorageClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSubnetGroupStateFault": return try await InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateDBClusterOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterAlreadyExistsFault(DBClusterAlreadyExistsFault)
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBClusterParameterGroupNotFoundFault(DBClusterParameterGroupNotFoundFault)
-    case dBClusterQuotaExceededFault(DBClusterQuotaExceededFault)
-    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
-    case dBSubnetGroupDoesNotCoverEnoughAZs(DBSubnetGroupDoesNotCoverEnoughAZs)
-    case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
-    case globalClusterNotFoundFault(GlobalClusterNotFoundFault)
-    case insufficientStorageClusterCapacityFault(InsufficientStorageClusterCapacityFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case invalidDBSubnetGroupStateFault(InvalidDBSubnetGroupStateFault)
-    case invalidGlobalClusterStateFault(InvalidGlobalClusterStateFault)
-    case invalidSubnet(InvalidSubnet)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
-    case storageQuotaExceededFault(StorageQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
@@ -1623,7 +1535,7 @@ public struct CreateDBClusterOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
-    public init (
+    public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
     )
     {
@@ -1640,7 +1552,7 @@ extension CreateDBClusterOutputResponseBody: Swift.Decodable {
         case dbCluster = "DBCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
@@ -1702,7 +1614,7 @@ public struct CreateDBClusterParameterGroupInput: Swift.Equatable {
     /// The tags to be assigned to the cluster parameter group.
     public var tags: [DocDBClientTypes.Tag]?
 
-    public init (
+    public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         dbParameterGroupFamily: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -1731,7 +1643,7 @@ extension CreateDBClusterParameterGroupInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
@@ -1761,32 +1673,20 @@ extension CreateDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateDBClusterParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBParameterGroupAlreadyExists" : self = .dBParameterGroupAlreadyExistsFault(try DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBParameterGroupQuotaExceeded" : self = .dBParameterGroupQuotaExceededFault(try DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupQuotaExceeded": return try await DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case dBParameterGroupAlreadyExistsFault(DBParameterGroupAlreadyExistsFault)
-    case dBParameterGroupQuotaExceededFault(DBParameterGroupQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroup = output.dbClusterParameterGroup
@@ -1800,7 +1700,7 @@ public struct CreateDBClusterParameterGroupOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster parameter group.
     public var dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup?
 
-    public init (
+    public init(
         dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup? = nil
     )
     {
@@ -1817,7 +1717,7 @@ extension CreateDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         case dbClusterParameterGroup = "DBClusterParameterGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterParameterGroupResult"))
         let dbClusterParameterGroupDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterParameterGroup.self, forKey: .dbClusterParameterGroup)
@@ -1882,7 +1782,7 @@ public struct CreateDBClusterSnapshotInput: Swift.Equatable {
     /// The tags to be assigned to the cluster snapshot.
     public var tags: [DocDBClientTypes.Tag]?
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil
@@ -1907,7 +1807,7 @@ extension CreateDBClusterSnapshotInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterSnapshotIdentifier)
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
@@ -1935,38 +1835,23 @@ extension CreateDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateDBClusterSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterSnapshotAlreadyExistsFault" : self = .dBClusterSnapshotAlreadyExistsFault(try DBClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterSnapshotAlreadyExistsFault": return try await DBClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBClusterSnapshotAlreadyExistsFault(DBClusterSnapshotAlreadyExistsFault)
-    case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshot = output.dbClusterSnapshot
@@ -1980,7 +1865,7 @@ public struct CreateDBClusterSnapshotOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster snapshot.
     public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
 
-    public init (
+    public init(
         dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
     )
     {
@@ -1997,7 +1882,7 @@ extension CreateDBClusterSnapshotOutputResponseBody: Swift.Decodable {
         case dbClusterSnapshot = "DBClusterSnapshot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterSnapshotResult"))
         let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
@@ -2104,7 +1989,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// The tags to be assigned to the instance. You can assign up to 10 tags to an instance.
     public var tags: [DocDBClientTypes.Tag]?
 
-    public init (
+    public init(
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -2165,7 +2050,7 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
@@ -2211,58 +2096,33 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDBInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateDBInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AuthorizationNotFound" : self = .authorizationNotFoundFault(try AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBInstanceAlreadyExists" : self = .dBInstanceAlreadyExistsFault(try DBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSecurityGroupNotFound" : self = .dBSecurityGroupNotFoundFault(try DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupDoesNotCoverEnoughAZs" : self = .dBSubnetGroupDoesNotCoverEnoughAZs(try DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceQuotaExceeded" : self = .instanceQuotaExceededFault(try InstanceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDBInstanceCapacity" : self = .insufficientDBInstanceCapacityFault(try InsufficientDBInstanceCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AuthorizationNotFound": return try await AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceAlreadyExists": return try await DBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSecurityGroupNotFound": return try await DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InstanceQuotaExceeded": return try await InstanceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientDBInstanceCapacity": return try await InsufficientDBInstanceCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateDBInstanceOutputError: Swift.Error, Swift.Equatable {
-    case authorizationNotFoundFault(AuthorizationNotFoundFault)
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBInstanceAlreadyExistsFault(DBInstanceAlreadyExistsFault)
-    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
-    case dBSecurityGroupNotFoundFault(DBSecurityGroupNotFoundFault)
-    case dBSubnetGroupDoesNotCoverEnoughAZs(DBSubnetGroupDoesNotCoverEnoughAZs)
-    case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
-    case instanceQuotaExceededFault(InstanceQuotaExceededFault)
-    case insufficientDBInstanceCapacityFault(InsufficientDBInstanceCapacityFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidSubnet(InvalidSubnet)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
-    case storageQuotaExceededFault(StorageQuotaExceededFault)
-    case storageTypeNotSupportedFault(StorageTypeNotSupportedFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
@@ -2276,7 +2136,7 @@ public struct CreateDBInstanceOutputResponse: Swift.Equatable {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
-    public init (
+    public init(
         dbInstance: DocDBClientTypes.DBInstance? = nil
     )
     {
@@ -2293,7 +2153,7 @@ extension CreateDBInstanceOutputResponseBody: Swift.Decodable {
         case dbInstance = "DBInstance"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBInstanceResult"))
         let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
@@ -2359,7 +2219,7 @@ public struct CreateDBSubnetGroupInput: Swift.Equatable {
     /// The tags to be assigned to the subnet group.
     public var tags: [DocDBClientTypes.Tag]?
 
-    public init (
+    public init(
         dbSubnetGroupDescription: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -2388,7 +2248,7 @@ extension CreateDBSubnetGroupInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSubnetGroupName)
         dbSubnetGroupName = dbSubnetGroupNameDecoded
@@ -2435,38 +2295,23 @@ extension CreateDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDBSubnetGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateDBSubnetGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBSubnetGroupAlreadyExists" : self = .dBSubnetGroupAlreadyExistsFault(try DBSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupDoesNotCoverEnoughAZs" : self = .dBSubnetGroupDoesNotCoverEnoughAZs(try DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupQuotaExceeded" : self = .dBSubnetGroupQuotaExceededFault(try DBSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetQuotaExceededFault" : self = .dBSubnetQuotaExceededFault(try DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupAlreadyExists": return try await DBSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupQuotaExceeded": return try await DBSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateDBSubnetGroupOutputError: Swift.Error, Swift.Equatable {
-    case dBSubnetGroupAlreadyExistsFault(DBSubnetGroupAlreadyExistsFault)
-    case dBSubnetGroupDoesNotCoverEnoughAZs(DBSubnetGroupDoesNotCoverEnoughAZs)
-    case dBSubnetGroupQuotaExceededFault(DBSubnetGroupQuotaExceededFault)
-    case dBSubnetQuotaExceededFault(DBSubnetQuotaExceededFault)
-    case invalidSubnet(InvalidSubnet)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDBSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroup = output.dbSubnetGroup
@@ -2480,7 +2325,7 @@ public struct CreateDBSubnetGroupOutputResponse: Swift.Equatable {
     /// Detailed information about a subnet group.
     public var dbSubnetGroup: DocDBClientTypes.DBSubnetGroup?
 
-    public init (
+    public init(
         dbSubnetGroup: DocDBClientTypes.DBSubnetGroup? = nil
     )
     {
@@ -2497,7 +2342,7 @@ extension CreateDBSubnetGroupOutputResponseBody: Swift.Decodable {
         case dbSubnetGroup = "DBSubnetGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBSubnetGroupResult"))
         let dbSubnetGroupDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBSubnetGroup.self, forKey: .dbSubnetGroup)
@@ -2596,7 +2441,7 @@ public struct CreateEventSubscriptionInput: Swift.Equatable {
     /// The tags to be assigned to the event subscription.
     public var tags: [DocDBClientTypes.Tag]?
 
-    public init (
+    public init(
         enabled: Swift.Bool? = nil,
         eventCategories: [Swift.String]? = nil,
         snsTopicArn: Swift.String? = nil,
@@ -2637,7 +2482,7 @@ extension CreateEventSubscriptionInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionName)
         subscriptionName = subscriptionNameDecoded
@@ -2707,42 +2552,25 @@ extension CreateEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-extension CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateEventSubscriptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "EventSubscriptionQuotaExceeded" : self = .eventSubscriptionQuotaExceededFault(try EventSubscriptionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SNSInvalidTopic" : self = .sNSInvalidTopicFault(try SNSInvalidTopicFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SNSNoAuthorization" : self = .sNSNoAuthorizationFault(try SNSNoAuthorizationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SNSTopicArnNotFound" : self = .sNSTopicArnNotFoundFault(try SNSTopicArnNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SourceNotFound" : self = .sourceNotFoundFault(try SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubscriptionAlreadyExist" : self = .subscriptionAlreadyExistFault(try SubscriptionAlreadyExistFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubscriptionCategoryNotFound" : self = .subscriptionCategoryNotFoundFault(try SubscriptionCategoryNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "EventSubscriptionQuotaExceeded": return try await EventSubscriptionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SNSInvalidTopic": return try await SNSInvalidTopicFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SNSNoAuthorization": return try await SNSNoAuthorizationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SNSTopicArnNotFound": return try await SNSTopicArnNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionAlreadyExist": return try await SubscriptionAlreadyExistFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionCategoryNotFound": return try await SubscriptionCategoryNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
-    case eventSubscriptionQuotaExceededFault(EventSubscriptionQuotaExceededFault)
-    case sNSInvalidTopicFault(SNSInvalidTopicFault)
-    case sNSNoAuthorizationFault(SNSNoAuthorizationFault)
-    case sNSTopicArnNotFoundFault(SNSTopicArnNotFoundFault)
-    case sourceNotFoundFault(SourceNotFoundFault)
-    case subscriptionAlreadyExistFault(SubscriptionAlreadyExistFault)
-    case subscriptionCategoryNotFoundFault(SubscriptionCategoryNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
@@ -2756,7 +2584,7 @@ public struct CreateEventSubscriptionOutputResponse: Swift.Equatable {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
-    public init (
+    public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
     )
     {
@@ -2773,7 +2601,7 @@ extension CreateEventSubscriptionOutputResponseBody: Swift.Decodable {
         case eventSubscription = "EventSubscription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateEventSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
@@ -2834,7 +2662,7 @@ public struct CreateGlobalClusterInput: Swift.Equatable {
     /// The storage encryption setting for the new global cluster.
     public var storageEncrypted: Swift.Bool?
 
-    public init (
+    public init(
         databaseName: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
         engine: Swift.String? = nil,
@@ -2875,7 +2703,7 @@ extension CreateGlobalClusterInputBody: Swift.Decodable {
         case storageEncrypted = "StorageEncrypted"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
@@ -2894,36 +2722,22 @@ extension CreateGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-extension CreateGlobalClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateGlobalClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GlobalClusterAlreadyExistsFault" : self = .globalClusterAlreadyExistsFault(try GlobalClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GlobalClusterQuotaExceededFault" : self = .globalClusterQuotaExceededFault(try GlobalClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterAlreadyExistsFault": return try await GlobalClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterQuotaExceededFault": return try await GlobalClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateGlobalClusterOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case globalClusterAlreadyExistsFault(GlobalClusterAlreadyExistsFault)
-    case globalClusterQuotaExceededFault(GlobalClusterQuotaExceededFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
@@ -2937,7 +2751,7 @@ public struct CreateGlobalClusterOutputResponse: Swift.Equatable {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
-    public init (
+    public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
     )
     {
@@ -2954,7 +2768,7 @@ extension CreateGlobalClusterOutputResponseBody: Swift.Decodable {
         case globalCluster = "GlobalCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.GlobalCluster.self, forKey: .globalCluster)
@@ -3152,7 +2966,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.availabilityZones) {
             struct KeyVal0{struct AvailabilityZone{}}
@@ -3391,7 +3205,7 @@ extension DocDBClientTypes {
         /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
 
-        public init (
+        public init(
             associatedRoles: [DocDBClientTypes.DBClusterRole]? = nil,
             availabilityZones: [Swift.String]? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
@@ -3464,37 +3278,40 @@ extension DocDBClientTypes {
 }
 
 extension DBClusterAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You already have a cluster with the given identifier.
-public struct DBClusterAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBClusterAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3507,7 +3324,7 @@ extension DBClusterAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3538,7 +3355,7 @@ extension DocDBClientTypes.DBClusterMember: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
@@ -3563,7 +3380,7 @@ extension DocDBClientTypes {
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance.
         public var promotionTier: Swift.Int?
 
-        public init (
+        public init(
             dbClusterParameterGroupStatus: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             isClusterWriter: Swift.Bool = false,
@@ -3580,37 +3397,40 @@ extension DocDBClientTypes {
 }
 
 extension DBClusterNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBClusterIdentifier doesn't refer to an existing cluster.
-public struct DBClusterNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBClusterNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3623,7 +3443,7 @@ extension DBClusterNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3654,7 +3474,7 @@ extension DocDBClientTypes.DBClusterParameterGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
@@ -3679,7 +3499,7 @@ extension DocDBClientTypes {
         /// Provides the customer-specified description for this cluster parameter group.
         public var description: Swift.String?
 
-        public init (
+        public init(
             dbClusterParameterGroupArn: Swift.String? = nil,
             dbClusterParameterGroupName: Swift.String? = nil,
             dbParameterGroupFamily: Swift.String? = nil,
@@ -3696,37 +3516,40 @@ extension DocDBClientTypes {
 }
 
 extension DBClusterParameterGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterParameterGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBClusterParameterGroupName doesn't refer to an existing cluster parameter group.
-public struct DBClusterParameterGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBClusterParameterGroupNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3739,7 +3562,7 @@ extension DBClusterParameterGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3747,37 +3570,40 @@ extension DBClusterParameterGroupNotFoundFaultBody: Swift.Decodable {
 }
 
 extension DBClusterQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The cluster can't be created because you have reached the maximum allowed quota of clusters.
-public struct DBClusterQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBClusterQuotaExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3790,7 +3616,7 @@ extension DBClusterQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3813,7 +3639,7 @@ extension DocDBClientTypes.DBClusterRole: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
@@ -3836,7 +3662,7 @@ extension DocDBClientTypes {
         /// * INVALID - The IAMrole ARN is associated with the cluster, but the cluster cannot assume the IAMrole to access other Amazon Web Services services on your behalf.
         public var status: Swift.String?
 
-        public init (
+        public init(
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -3933,7 +3759,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.availabilityZones) {
             struct KeyVal0{struct AvailabilityZone{}}
@@ -4027,7 +3853,7 @@ extension DocDBClientTypes {
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             availabilityZones: [Swift.String]? = nil,
             clusterCreateTime: ClientRuntime.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -4070,37 +3896,40 @@ extension DocDBClientTypes {
 }
 
 extension DBClusterSnapshotAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterSnapshotAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You already have a cluster snapshot with the given identifier.
-public struct DBClusterSnapshotAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBClusterSnapshotAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4113,7 +3942,7 @@ extension DBClusterSnapshotAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4145,7 +3974,7 @@ extension DocDBClientTypes.DBClusterSnapshotAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
         attributeName = attributeNameDecoded
@@ -4179,7 +4008,7 @@ extension DocDBClientTypes {
         /// The values for the manual cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If a value of all is in the list, then the manual cluster snapshot is public and available for any Amazon Web Services account to copy or restore.
         public var attributeValues: [Swift.String]?
 
-        public init (
+        public init(
             attributeName: Swift.String? = nil,
             attributeValues: [Swift.String]? = nil
         )
@@ -4216,7 +4045,7 @@ extension DocDBClientTypes.DBClusterSnapshotAttributesResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterSnapshotIdentifier)
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
@@ -4250,7 +4079,7 @@ extension DocDBClientTypes {
         /// The identifier of the cluster snapshot that the attributes apply to.
         public var dbClusterSnapshotIdentifier: Swift.String?
 
-        public init (
+        public init(
             dbClusterSnapshotAttributes: [DocDBClientTypes.DBClusterSnapshotAttribute]? = nil,
             dbClusterSnapshotIdentifier: Swift.String? = nil
         )
@@ -4263,37 +4092,40 @@ extension DocDBClientTypes {
 }
 
 extension DBClusterSnapshotNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterSnapshotNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBClusterSnapshotIdentifier doesn't refer to an existing cluster snapshot.
-public struct DBClusterSnapshotNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBClusterSnapshotNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4306,7 +4138,7 @@ extension DBClusterSnapshotNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4371,7 +4203,7 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -4446,7 +4278,7 @@ extension DocDBClientTypes {
         /// A list of engine versions that this database engine version can be upgraded to.
         public var validUpgradeTarget: [DocDBClientTypes.UpgradeTarget]?
 
-        public init (
+        public init(
             dbEngineDescription: Swift.String? = nil,
             dbEngineVersionDescription: Swift.String? = nil,
             dbParameterGroupFamily: Swift.String? = nil,
@@ -4613,7 +4445,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
@@ -4781,7 +4613,7 @@ extension DocDBClientTypes {
         /// Provides a list of VPC security group elements that the instance belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
 
-        public init (
+        public init(
             autoMinorVersionUpgrade: Swift.Bool = false,
             availabilityZone: Swift.String? = nil,
             backupRetentionPeriod: Swift.Int = 0,
@@ -4844,37 +4676,40 @@ extension DocDBClientTypes {
 }
 
 extension DBInstanceAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBInstanceAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You already have a instance with the given identifier.
-public struct DBInstanceAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBInstanceAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4887,7 +4722,7 @@ extension DBInstanceAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4895,37 +4730,40 @@ extension DBInstanceAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension DBInstanceNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBInstanceNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBInstanceIdentifier doesn't refer to an existing instance.
-public struct DBInstanceNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBInstanceNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4938,7 +4776,7 @@ extension DBInstanceNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4969,7 +4807,7 @@ extension DocDBClientTypes.DBInstanceStatusInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
         statusType = statusTypeDecoded
@@ -4994,7 +4832,7 @@ extension DocDBClientTypes {
         /// This value is currently "read replication."
         public var statusType: Swift.String?
 
-        public init (
+        public init(
             message: Swift.String? = nil,
             normal: Swift.Bool = false,
             status: Swift.String? = nil,
@@ -5011,37 +4849,40 @@ extension DocDBClientTypes {
 }
 
 extension DBParameterGroupAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBParameterGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A parameter group with the same name already exists.
-public struct DBParameterGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBParameterGroupAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5054,7 +4895,7 @@ extension DBParameterGroupAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5062,37 +4903,40 @@ extension DBParameterGroupAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension DBParameterGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBParameterGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBParameterGroupName doesn't refer to an existing parameter group.
-public struct DBParameterGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBParameterGroupNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5105,7 +4949,7 @@ extension DBParameterGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5113,37 +4957,40 @@ extension DBParameterGroupNotFoundFaultBody: Swift.Decodable {
 }
 
 extension DBParameterGroupQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBParameterGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This request would cause you to exceed the allowed number of parameter groups.
-public struct DBParameterGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBParameterGroupQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5156,7 +5003,7 @@ extension DBParameterGroupQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5164,37 +5011,40 @@ extension DBParameterGroupQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension DBSecurityGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSecurityGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBSecurityGroupName doesn't refer to an existing security group.
-public struct DBSecurityGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSecurityGroupNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5207,7 +5057,7 @@ extension DBSecurityGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5215,37 +5065,40 @@ extension DBSecurityGroupNotFoundFaultBody: Swift.Decodable {
 }
 
 extension DBSnapshotAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSnapshotAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBSnapshotIdentifier is already being used by an existing snapshot.
-public struct DBSnapshotAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSnapshotAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5258,7 +5111,7 @@ extension DBSnapshotAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5266,37 +5119,40 @@ extension DBSnapshotAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension DBSnapshotNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSnapshotNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBSnapshotIdentifier doesn't refer to an existing snapshot.
-public struct DBSnapshotNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSnapshotNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5309,7 +5165,7 @@ extension DBSnapshotNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5357,7 +5213,7 @@ extension DocDBClientTypes.DBSubnetGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSubnetGroupName)
         dbSubnetGroupName = dbSubnetGroupNameDecoded
@@ -5407,7 +5263,7 @@ extension DocDBClientTypes {
         /// Provides the virtual private cloud (VPC) ID of the subnet group.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             dbSubnetGroupArn: Swift.String? = nil,
             dbSubnetGroupDescription: Swift.String? = nil,
             dbSubnetGroupName: Swift.String? = nil,
@@ -5428,37 +5284,40 @@ extension DocDBClientTypes {
 }
 
 extension DBSubnetGroupAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBSubnetGroupName is already being used by an existing subnet group.
-public struct DBSubnetGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSubnetGroupAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5471,7 +5330,7 @@ extension DBSubnetGroupAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5479,37 +5338,40 @@ extension DBSubnetGroupAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension DBSubnetGroupDoesNotCoverEnoughAZs {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetGroupDoesNotCoverEnoughAZsBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Subnets in the subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
-public struct DBSubnetGroupDoesNotCoverEnoughAZs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSubnetGroupDoesNotCoverEnoughAZs" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5522,7 +5384,7 @@ extension DBSubnetGroupDoesNotCoverEnoughAZsBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5530,37 +5392,40 @@ extension DBSubnetGroupDoesNotCoverEnoughAZsBody: Swift.Decodable {
 }
 
 extension DBSubnetGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DBSubnetGroupName doesn't refer to an existing subnet group.
-public struct DBSubnetGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSubnetGroupNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5573,7 +5438,7 @@ extension DBSubnetGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5581,37 +5446,40 @@ extension DBSubnetGroupNotFoundFaultBody: Swift.Decodable {
 }
 
 extension DBSubnetGroupQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request would cause you to exceed the allowed number of subnet groups.
-public struct DBSubnetGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSubnetGroupQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5624,7 +5492,7 @@ extension DBSubnetGroupQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5632,37 +5500,40 @@ extension DBSubnetGroupQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension DBSubnetQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request would cause you to exceed the allowed number of subnets in a subnet group.
-public struct DBSubnetQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSubnetQuotaExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5675,7 +5546,7 @@ extension DBSubnetQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5683,37 +5554,40 @@ extension DBSubnetQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension DBUpgradeDependencyFailureFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBUpgradeDependencyFailureFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The upgrade failed because a resource that the depends on can't be modified.
-public struct DBUpgradeDependencyFailureFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBUpgradeDependencyFailure" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5726,7 +5600,7 @@ extension DBUpgradeDependencyFailureFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5774,7 +5648,7 @@ public struct DeleteDBClusterInput: Swift.Equatable {
     /// Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted. If SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter. Default: false
     public var skipFinalSnapshot: Swift.Bool
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool = false
@@ -5799,7 +5673,7 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
         case skipFinalSnapshot = "SkipFinalSnapshot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
@@ -5810,38 +5684,23 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteDBClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteDBClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterSnapshotAlreadyExistsFault" : self = .dBClusterSnapshotAlreadyExistsFault(try DBClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterSnapshotAlreadyExistsFault": return try await DBClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteDBClusterOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBClusterSnapshotAlreadyExistsFault(DBClusterSnapshotAlreadyExistsFault)
-    case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
@@ -5855,7 +5714,7 @@ public struct DeleteDBClusterOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
-    public init (
+    public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
     )
     {
@@ -5872,7 +5731,7 @@ extension DeleteDBClusterOutputResponseBody: Swift.Decodable {
         case dbCluster = "DBCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
@@ -5909,7 +5768,7 @@ public struct DeleteDBClusterParameterGroupInput: Swift.Equatable {
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
 
-    public init (
+    public init(
         dbClusterParameterGroupName: Swift.String? = nil
     )
     {
@@ -5926,44 +5785,32 @@ extension DeleteDBClusterParameterGroupInputBody: Swift.Decodable {
         case dbClusterParameterGroupName = "DBClusterParameterGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
     }
 }
 
-extension DeleteDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteDBClusterParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
-    case invalidDBParameterGroupStateFault(InvalidDBParameterGroupStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteDBClusterParameterGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteDBClusterSnapshotInput: Swift.Encodable {
@@ -5989,7 +5836,7 @@ public struct DeleteDBClusterSnapshotInput: Swift.Equatable {
     /// This member is required.
     public var dbClusterSnapshotIdentifier: Swift.String?
 
-    public init (
+    public init(
         dbClusterSnapshotIdentifier: Swift.String? = nil
     )
     {
@@ -6006,39 +5853,27 @@ extension DeleteDBClusterSnapshotInputBody: Swift.Decodable {
         case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterSnapshotIdentifier)
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
     }
 }
 
-extension DeleteDBClusterSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteDBClusterSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
-    case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshot = output.dbClusterSnapshot
@@ -6052,7 +5887,7 @@ public struct DeleteDBClusterSnapshotOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster snapshot.
     public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
 
-    public init (
+    public init(
         dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
     )
     {
@@ -6069,7 +5904,7 @@ extension DeleteDBClusterSnapshotOutputResponseBody: Swift.Decodable {
         case dbClusterSnapshot = "DBClusterSnapshot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBClusterSnapshotResult"))
         let dbClusterSnapshotDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshot.self, forKey: .dbClusterSnapshot)
@@ -6102,7 +5937,7 @@ public struct DeleteDBInstanceInput: Swift.Equatable {
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
 
-    public init (
+    public init(
         dbInstanceIdentifier: Swift.String? = nil
     )
     {
@@ -6119,45 +5954,30 @@ extension DeleteDBInstanceInputBody: Swift.Decodable {
         case dbInstanceIdentifier = "DBInstanceIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
     }
 }
 
-extension DeleteDBInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteDBInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSnapshotAlreadyExists" : self = .dBSnapshotAlreadyExistsFault(try DBSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotAlreadyExists": return try await DBSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceeded": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteDBInstanceOutputError: Swift.Error, Swift.Equatable {
-    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
-    case dBSnapshotAlreadyExistsFault(DBSnapshotAlreadyExistsFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
@@ -6171,7 +5991,7 @@ public struct DeleteDBInstanceOutputResponse: Swift.Equatable {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
-    public init (
+    public init(
         dbInstance: DocDBClientTypes.DBInstance? = nil
     )
     {
@@ -6188,7 +6008,7 @@ extension DeleteDBInstanceOutputResponseBody: Swift.Decodable {
         case dbInstance = "DBInstance"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteDBInstanceResult"))
         let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
@@ -6219,7 +6039,7 @@ public struct DeleteDBSubnetGroupInput: Swift.Equatable {
     /// This member is required.
     public var dbSubnetGroupName: Swift.String?
 
-    public init (
+    public init(
         dbSubnetGroupName: Swift.String? = nil
     )
     {
@@ -6236,46 +6056,33 @@ extension DeleteDBSubnetGroupInputBody: Swift.Decodable {
         case dbSubnetGroupName = "DBSubnetGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSubnetGroupName)
         dbSubnetGroupName = dbSubnetGroupNameDecoded
     }
 }
 
-extension DeleteDBSubnetGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteDBSubnetGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBSubnetGroupStateFault" : self = .invalidDBSubnetGroupStateFault(try InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBSubnetStateFault" : self = .invalidDBSubnetStateFault(try InvalidDBSubnetStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSubnetGroupStateFault": return try await InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSubnetStateFault": return try await InvalidDBSubnetStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteDBSubnetGroupOutputError: Swift.Error, Swift.Equatable {
-    case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
-    case invalidDBSubnetGroupStateFault(InvalidDBSubnetGroupStateFault)
-    case invalidDBSubnetStateFault(InvalidDBSubnetStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteDBSubnetGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteEventSubscriptionInput: Swift.Encodable {
@@ -6301,7 +6108,7 @@ public struct DeleteEventSubscriptionInput: Swift.Equatable {
     /// This member is required.
     public var subscriptionName: Swift.String?
 
-    public init (
+    public init(
         subscriptionName: Swift.String? = nil
     )
     {
@@ -6318,39 +6125,27 @@ extension DeleteEventSubscriptionInputBody: Swift.Decodable {
         case subscriptionName = "SubscriptionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionName)
         subscriptionName = subscriptionNameDecoded
     }
 }
 
-extension DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteEventSubscriptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidEventSubscriptionState" : self = .invalidEventSubscriptionStateFault(try InvalidEventSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidEventSubscriptionState": return try await InvalidEventSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
-    case invalidEventSubscriptionStateFault(InvalidEventSubscriptionStateFault)
-    case subscriptionNotFoundFault(SubscriptionNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
@@ -6364,7 +6159,7 @@ public struct DeleteEventSubscriptionOutputResponse: Swift.Equatable {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
-    public init (
+    public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
     )
     {
@@ -6381,7 +6176,7 @@ extension DeleteEventSubscriptionOutputResponseBody: Swift.Decodable {
         case eventSubscription = "EventSubscription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteEventSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
@@ -6412,7 +6207,7 @@ public struct DeleteGlobalClusterInput: Swift.Equatable {
     /// This member is required.
     public var globalClusterIdentifier: Swift.String?
 
-    public init (
+    public init(
         globalClusterIdentifier: Swift.String? = nil
     )
     {
@@ -6429,39 +6224,27 @@ extension DeleteGlobalClusterInputBody: Swift.Decodable {
         case globalClusterIdentifier = "GlobalClusterIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
     }
 }
 
-extension DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteGlobalClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalClusterStateFault" : self = .invalidGlobalClusterStateFault(try InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteGlobalClusterOutputError: Swift.Error, Swift.Equatable {
-    case globalClusterNotFoundFault(GlobalClusterNotFoundFault)
-    case invalidGlobalClusterStateFault(InvalidGlobalClusterStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
@@ -6475,7 +6258,7 @@ public struct DeleteGlobalClusterOutputResponse: Swift.Equatable {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
-    public init (
+    public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
     )
     {
@@ -6492,7 +6275,7 @@ extension DeleteGlobalClusterOutputResponseBody: Swift.Decodable {
         case globalCluster = "GlobalCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.GlobalCluster.self, forKey: .globalCluster)
@@ -6551,7 +6334,7 @@ public struct DescribeCertificatesInput: Swift.Equatable {
     /// * Maximum: 100
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         certificateIdentifier: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
@@ -6580,7 +6363,7 @@ extension DescribeCertificatesInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let certificateIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateIdentifier)
         certificateIdentifier = certificateIdentifierDecoded
@@ -6610,30 +6393,19 @@ extension DescribeCertificatesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCertificatesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeCertificatesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CertificateNotFound" : self = .certificateNotFoundFault(try CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CertificateNotFound": return try await CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeCertificatesOutputError: Swift.Error, Swift.Equatable {
-    case certificateNotFoundFault(CertificateNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificates = output.certificates
@@ -6651,7 +6423,7 @@ public struct DescribeCertificatesOutputResponse: Swift.Equatable {
     /// An optional pagination token provided if the number of records retrieved is greater than MaxRecords. If this parameter is specified, the marker specifies the next record in the list. Including the value of Marker in the next call to DescribeCertificates results in the next page of certificates.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         certificates: [DocDBClientTypes.Certificate]? = nil,
         marker: Swift.String? = nil
     )
@@ -6672,7 +6444,7 @@ extension DescribeCertificatesOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeCertificatesResult"))
         if containerValues.contains(.certificates) {
@@ -6747,7 +6519,7 @@ public struct DescribeDBClusterParameterGroupsInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
@@ -6776,7 +6548,7 @@ extension DescribeDBClusterParameterGroupsInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
@@ -6806,30 +6578,19 @@ extension DescribeDBClusterParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDBClusterParameterGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeDBClusterParameterGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDBClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeDBClusterParameterGroupsOutputError: Swift.Error, Swift.Equatable {
-    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDBClusterParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDBClusterParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroups = output.dbClusterParameterGroups
@@ -6848,7 +6609,7 @@ public struct DescribeDBClusterParameterGroupsOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         dbClusterParameterGroups: [DocDBClientTypes.DBClusterParameterGroup]? = nil,
         marker: Swift.String? = nil
     )
@@ -6869,7 +6630,7 @@ extension DescribeDBClusterParameterGroupsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBClusterParameterGroupsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -6950,7 +6711,7 @@ public struct DescribeDBClusterParametersInput: Swift.Equatable {
     /// A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer.
     public var source: Swift.String?
 
-    public init (
+    public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
@@ -6983,7 +6744,7 @@ extension DescribeDBClusterParametersInputBody: Swift.Decodable {
         case source = "Source"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
@@ -7015,30 +6776,19 @@ extension DescribeDBClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDBClusterParametersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeDBClusterParametersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDBClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeDBClusterParametersOutputError: Swift.Error, Swift.Equatable {
-    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDBClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDBClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -7057,7 +6807,7 @@ public struct DescribeDBClusterParametersOutputResponse: Swift.Equatable {
     /// Provides a list of parameters for the cluster parameter group.
     public var parameters: [DocDBClientTypes.Parameter]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         parameters: [DocDBClientTypes.Parameter]? = nil
     )
@@ -7078,7 +6828,7 @@ extension DescribeDBClusterParametersOutputResponseBody: Swift.Decodable {
         case parameters = "Parameters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBClusterParametersResult"))
         if containerValues.contains(.parameters) {
@@ -7128,7 +6878,7 @@ public struct DescribeDBClusterSnapshotAttributesInput: Swift.Equatable {
     /// This member is required.
     public var dbClusterSnapshotIdentifier: Swift.String?
 
-    public init (
+    public init(
         dbClusterSnapshotIdentifier: Swift.String? = nil
     )
     {
@@ -7145,37 +6895,26 @@ extension DescribeDBClusterSnapshotAttributesInputBody: Swift.Decodable {
         case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterSnapshotIdentifier)
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
     }
 }
 
-extension DescribeDBClusterSnapshotAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeDBClusterSnapshotAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDBClusterSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeDBClusterSnapshotAttributesOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDBClusterSnapshotAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDBClusterSnapshotAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
@@ -7189,7 +6928,7 @@ public struct DescribeDBClusterSnapshotAttributesOutputResponse: Swift.Equatable
     /// Detailed information about the attributes that are associated with a cluster snapshot.
     public var dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult?
 
-    public init (
+    public init(
         dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult? = nil
     )
     {
@@ -7206,7 +6945,7 @@ extension DescribeDBClusterSnapshotAttributesOutputResponseBody: Swift.Decodable
         case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBClusterSnapshotAttributesResult"))
         let dbClusterSnapshotAttributesResultDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshotAttributesResult.self, forKey: .dbClusterSnapshotAttributesResult)
@@ -7297,7 +7036,7 @@ public struct DescribeDBClusterSnapshotsInput: Swift.Equatable {
     /// If you don't specify a SnapshotType value, then both automated and manual cluster snapshots are returned. You can include shared cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public cluster snapshots with these results by setting theIncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
     public var snapshotType: Swift.String?
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
@@ -7342,7 +7081,7 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
         case snapshotType = "SnapshotType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
@@ -7380,30 +7119,19 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDBClusterSnapshotsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeDBClusterSnapshotsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDBClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeDBClusterSnapshotsOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDBClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDBClusterSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshots = output.dbClusterSnapshots
@@ -7422,7 +7150,7 @@ public struct DescribeDBClusterSnapshotsOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         dbClusterSnapshots: [DocDBClientTypes.DBClusterSnapshot]? = nil,
         marker: Swift.String? = nil
     )
@@ -7443,7 +7171,7 @@ extension DescribeDBClusterSnapshotsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBClusterSnapshotsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -7520,7 +7248,7 @@ public struct DescribeDBClustersInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
@@ -7549,7 +7277,7 @@ extension DescribeDBClustersInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
@@ -7579,30 +7307,19 @@ extension DescribeDBClustersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDBClustersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeDBClustersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDBClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeDBClustersOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDBClustersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDBClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusters = output.dbClusters
@@ -7621,7 +7338,7 @@ public struct DescribeDBClustersOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         dbClusters: [DocDBClientTypes.DBCluster]? = nil,
         marker: Swift.String? = nil
     )
@@ -7642,7 +7359,7 @@ extension DescribeDBClustersOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBClustersResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -7742,7 +7459,7 @@ public struct DescribeDBEngineVersionsInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         dbParameterGroupFamily: Swift.String? = nil,
         defaultOnly: Swift.Bool = false,
         engine: Swift.String? = nil,
@@ -7791,7 +7508,7 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -7831,28 +7548,18 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeDBEngineVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeDBEngineVersionsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDBEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDBEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbEngineVersions = output.dbEngineVersions
@@ -7871,7 +7578,7 @@ public struct DescribeDBEngineVersionsOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         dbEngineVersions: [DocDBClientTypes.DBEngineVersion]? = nil,
         marker: Swift.String? = nil
     )
@@ -7892,7 +7599,7 @@ extension DescribeDBEngineVersionsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBEngineVersionsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -7971,7 +7678,7 @@ public struct DescribeDBInstancesInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         dbInstanceIdentifier: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
@@ -8000,7 +7707,7 @@ extension DescribeDBInstancesInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
@@ -8030,42 +7737,19 @@ extension DescribeDBInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDBInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeDBInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDBInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DescribeDBInstancesOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .dBInstanceNotFoundFault: return "DBInstanceNotFound"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeDBInstancesOutputError: Swift.Error, Swift.Equatable {
-    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeDBInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDBInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstances = output.dbInstances
@@ -8084,7 +7768,7 @@ public struct DescribeDBInstancesOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         dbInstances: [DocDBClientTypes.DBInstance]? = nil,
         marker: Swift.String? = nil
     )
@@ -8105,7 +7789,7 @@ extension DescribeDBInstancesOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBInstancesResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -8178,7 +7862,7 @@ public struct DescribeDBSubnetGroupsInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         dbSubnetGroupName: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
@@ -8207,7 +7891,7 @@ extension DescribeDBSubnetGroupsInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSubnetGroupName)
         dbSubnetGroupName = dbSubnetGroupNameDecoded
@@ -8237,30 +7921,19 @@ extension DescribeDBSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDBSubnetGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeDBSubnetGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDBSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeDBSubnetGroupsOutputError: Swift.Error, Swift.Equatable {
-    case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDBSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDBSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroups = output.dbSubnetGroups
@@ -8279,7 +7952,7 @@ public struct DescribeDBSubnetGroupsOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         dbSubnetGroups: [DocDBClientTypes.DBSubnetGroup]? = nil,
         marker: Swift.String? = nil
     )
@@ -8300,7 +7973,7 @@ extension DescribeDBSubnetGroupsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBSubnetGroupsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -8374,7 +8047,7 @@ public struct DescribeEngineDefaultClusterParametersInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         dbParameterGroupFamily: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
@@ -8403,7 +8076,7 @@ extension DescribeEngineDefaultClusterParametersInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbParameterGroupFamilyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbParameterGroupFamily)
         dbParameterGroupFamily = dbParameterGroupFamilyDecoded
@@ -8433,28 +8106,18 @@ extension DescribeEngineDefaultClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEngineDefaultClusterParametersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEngineDefaultClusterParametersOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEngineDefaultClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEngineDefaultClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.engineDefaults = output.engineDefaults
@@ -8468,7 +8131,7 @@ public struct DescribeEngineDefaultClusterParametersOutputResponse: Swift.Equata
     /// Contains the result of a successful invocation of the DescribeEngineDefaultClusterParameters operation.
     public var engineDefaults: DocDBClientTypes.EngineDefaults?
 
-    public init (
+    public init(
         engineDefaults: DocDBClientTypes.EngineDefaults? = nil
     )
     {
@@ -8485,7 +8148,7 @@ extension DescribeEngineDefaultClusterParametersOutputResponseBody: Swift.Decoda
         case engineDefaults = "EngineDefaults"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEngineDefaultClusterParametersResult"))
         let engineDefaultsDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EngineDefaults.self, forKey: .engineDefaults)
@@ -8529,7 +8192,7 @@ public struct DescribeEventCategoriesInput: Swift.Equatable {
     /// The type of source that is generating the events. Valid values: db-instance, db-parameter-group, db-security-group
     public var sourceType: Swift.String?
 
-    public init (
+    public init(
         filters: [DocDBClientTypes.Filter]? = nil,
         sourceType: Swift.String? = nil
     )
@@ -8550,7 +8213,7 @@ extension DescribeEventCategoriesInputBody: Swift.Decodable {
         case sourceType = "SourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceType)
         sourceType = sourceTypeDecoded
@@ -8576,28 +8239,18 @@ extension DescribeEventCategoriesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEventCategoriesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEventCategoriesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEventCategoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventCategoriesMapList = output.eventCategoriesMapList
@@ -8612,7 +8265,7 @@ public struct DescribeEventCategoriesOutputResponse: Swift.Equatable {
     /// A list of event category maps.
     public var eventCategoriesMapList: [DocDBClientTypes.EventCategoriesMap]?
 
-    public init (
+    public init(
         eventCategoriesMapList: [DocDBClientTypes.EventCategoriesMap]? = nil
     )
     {
@@ -8629,7 +8282,7 @@ extension DescribeEventCategoriesOutputResponseBody: Swift.Decodable {
         case eventCategoriesMapList = "EventCategoriesMapList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEventCategoriesResult"))
         if containerValues.contains(.eventCategoriesMapList) {
@@ -8700,7 +8353,7 @@ public struct DescribeEventSubscriptionsInput: Swift.Equatable {
     /// The name of the Amazon DocumentDB event notification subscription that you want to describe.
     public var subscriptionName: Swift.String?
 
-    public init (
+    public init(
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
@@ -8729,7 +8382,7 @@ extension DescribeEventSubscriptionsInputBody: Swift.Decodable {
         case subscriptionName = "SubscriptionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionName)
         subscriptionName = subscriptionNameDecoded
@@ -8759,30 +8412,19 @@ extension DescribeEventSubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEventSubscriptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEventSubscriptionsOutputError: Swift.Error, Swift.Equatable {
-    case subscriptionNotFoundFault(SubscriptionNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEventSubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscriptionsList = output.eventSubscriptionsList
@@ -8801,7 +8443,7 @@ public struct DescribeEventSubscriptionsOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         eventSubscriptionsList: [DocDBClientTypes.EventSubscription]? = nil,
         marker: Swift.String? = nil
     )
@@ -8822,7 +8464,7 @@ extension DescribeEventSubscriptionsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEventSubscriptionsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -8941,7 +8583,7 @@ public struct DescribeEventsInput: Swift.Equatable {
     /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. Example: 2009-07-08T18:00Z
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         duration: Swift.Int? = nil,
         endTime: ClientRuntime.Date? = nil,
         eventCategories: [Swift.String]? = nil,
@@ -8990,7 +8632,7 @@ extension DescribeEventsInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentifier)
         sourceIdentifier = sourceIdentifierDecoded
@@ -9047,28 +8689,18 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEventsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEventsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
@@ -9087,7 +8719,7 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         events: [DocDBClientTypes.Event]? = nil,
         marker: Swift.String? = nil
     )
@@ -9108,7 +8740,7 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEventsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -9180,7 +8812,7 @@ public struct DescribeGlobalClustersInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         filters: [DocDBClientTypes.Filter]? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         marker: Swift.String? = nil,
@@ -9209,7 +8841,7 @@ extension DescribeGlobalClustersInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
@@ -9239,30 +8871,19 @@ extension DescribeGlobalClustersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeGlobalClustersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeGlobalClustersOutputError: Swift.Error, Swift.Equatable {
-    case globalClusterNotFoundFault(GlobalClusterNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeGlobalClustersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeGlobalClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalClusters = output.globalClusters
@@ -9280,7 +8901,7 @@ public struct DescribeGlobalClustersOutputResponse: Swift.Equatable {
     ///
     public var marker: Swift.String?
 
-    public init (
+    public init(
         globalClusters: [DocDBClientTypes.GlobalCluster]? = nil,
         marker: Swift.String? = nil
     )
@@ -9301,7 +8922,7 @@ extension DescribeGlobalClustersOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeGlobalClustersResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -9395,7 +9016,7 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Equatable {
     /// The virtual private cloud (VPC) filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
     public var vpc: Swift.Bool?
 
-    public init (
+    public init(
         dbInstanceClass: Swift.String? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
@@ -9440,7 +9061,7 @@ extension DescribeOrderableDBInstanceOptionsInputBody: Swift.Decodable {
         case vpc = "Vpc"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -9478,28 +9099,18 @@ extension DescribeOrderableDBInstanceOptionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeOrderableDBInstanceOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeOrderableDBInstanceOptionsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeOrderableDBInstanceOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeOrderableDBInstanceOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -9518,7 +9129,7 @@ public struct DescribeOrderableDBInstanceOptionsOutputResponse: Swift.Equatable 
     /// The options that are available for a particular orderable instance.
     public var orderableDBInstanceOptions: [DocDBClientTypes.OrderableDBInstanceOption]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         orderableDBInstanceOptions: [DocDBClientTypes.OrderableDBInstanceOption]? = nil
     )
@@ -9539,7 +9150,7 @@ extension DescribeOrderableDBInstanceOptionsOutputResponseBody: Swift.Decodable 
         case orderableDBInstanceOptions = "OrderableDBInstanceOptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeOrderableDBInstanceOptionsResult"))
         if containerValues.contains(.orderableDBInstanceOptions) {
@@ -9616,7 +9227,7 @@ public struct DescribePendingMaintenanceActionsInput: Swift.Equatable {
     /// The ARN of a resource to return pending maintenance actions for.
     public var resourceIdentifier: Swift.String?
 
-    public init (
+    public init(
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
@@ -9645,7 +9256,7 @@ extension DescribePendingMaintenanceActionsInputBody: Swift.Decodable {
         case resourceIdentifier = "ResourceIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceIdentifier)
         resourceIdentifier = resourceIdentifierDecoded
@@ -9675,30 +9286,19 @@ extension DescribePendingMaintenanceActionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribePendingMaintenanceActionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribePendingMaintenanceActionsOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundFault(ResourceNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribePendingMaintenanceActionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribePendingMaintenanceActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -9717,7 +9317,7 @@ public struct DescribePendingMaintenanceActionsOutputResponse: Swift.Equatable {
     /// The maintenance actions to be applied.
     public var pendingMaintenanceActions: [DocDBClientTypes.ResourcePendingMaintenanceActions]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         pendingMaintenanceActions: [DocDBClientTypes.ResourcePendingMaintenanceActions]? = nil
     )
@@ -9738,7 +9338,7 @@ extension DescribePendingMaintenanceActionsOutputResponseBody: Swift.Decodable {
         case pendingMaintenanceActions = "PendingMaintenanceActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribePendingMaintenanceActionsResult"))
         if containerValues.contains(.pendingMaintenanceActions) {
@@ -9785,7 +9385,7 @@ extension DocDBClientTypes.Endpoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -9806,7 +9406,7 @@ extension DocDBClientTypes {
         /// Specifies the port that the database engine is listening on.
         public var port: Swift.Int
 
-        public init (
+        public init(
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             port: Swift.Int = 0
@@ -9849,7 +9449,7 @@ extension DocDBClientTypes.EngineDefaults: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbParameterGroupFamilyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbParameterGroupFamily)
         dbParameterGroupFamily = dbParameterGroupFamilyDecoded
@@ -9887,7 +9487,7 @@ extension DocDBClientTypes {
         /// The parameters of a particular cluster parameter group family.
         public var parameters: [DocDBClientTypes.Parameter]?
 
-        public init (
+        public init(
             dbParameterGroupFamily: Swift.String? = nil,
             marker: Swift.String? = nil,
             parameters: [DocDBClientTypes.Parameter]? = nil
@@ -9942,7 +9542,7 @@ extension DocDBClientTypes.Event: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentifier)
         sourceIdentifier = sourceIdentifierDecoded
@@ -9992,7 +9592,7 @@ extension DocDBClientTypes {
         /// Specifies the source type for this event.
         public var sourceType: DocDBClientTypes.SourceType?
 
-        public init (
+        public init(
             date: ClientRuntime.Date? = nil,
             eventCategories: [Swift.String]? = nil,
             message: Swift.String? = nil,
@@ -10037,7 +9637,7 @@ extension DocDBClientTypes.EventCategoriesMap: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceType)
         sourceType = sourceTypeDecoded
@@ -10071,7 +9671,7 @@ extension DocDBClientTypes {
         /// The source type that the returned categories belong to.
         public var sourceType: Swift.String?
 
-        public init (
+        public init(
             eventCategories: [Swift.String]? = nil,
             sourceType: Swift.String? = nil
         )
@@ -10149,7 +9749,7 @@ extension DocDBClientTypes.EventSubscription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customerAwsIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerAwsId)
         customerAwsId = customerAwsIdDecoded
@@ -10232,7 +9832,7 @@ extension DocDBClientTypes {
         /// The time at which the Amazon DocumentDB event notification subscription was created.
         public var subscriptionCreationTime: Swift.String?
 
-        public init (
+        public init(
             custSubscriptionId: Swift.String? = nil,
             customerAwsId: Swift.String? = nil,
             enabled: Swift.Bool = false,
@@ -10261,37 +9861,40 @@ extension DocDBClientTypes {
 }
 
 extension EventSubscriptionQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EventSubscriptionQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have reached the maximum number of event subscriptions.
-public struct EventSubscriptionQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventSubscriptionQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10304,7 +9907,7 @@ extension EventSubscriptionQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10340,7 +9943,7 @@ public struct FailoverDBClusterInput: Swift.Equatable {
     /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Amazon DocumentDB replica in the cluster. For example, mydbcluster-replica1.
     public var targetDBInstanceIdentifier: Swift.String?
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil,
         targetDBInstanceIdentifier: Swift.String? = nil
     )
@@ -10361,7 +9964,7 @@ extension FailoverDBClusterInputBody: Swift.Decodable {
         case targetDBInstanceIdentifier = "TargetDBInstanceIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
@@ -10370,34 +9973,21 @@ extension FailoverDBClusterInputBody: Swift.Decodable {
     }
 }
 
-extension FailoverDBClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension FailoverDBClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum FailoverDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum FailoverDBClusterOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension FailoverDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: FailoverDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
@@ -10411,7 +10001,7 @@ public struct FailoverDBClusterOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
-    public init (
+    public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
     )
     {
@@ -10428,7 +10018,7 @@ extension FailoverDBClusterOutputResponseBody: Swift.Decodable {
         case dbCluster = "DBCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FailoverDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
@@ -10461,7 +10051,7 @@ extension DocDBClientTypes.Filter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -10497,7 +10087,7 @@ extension DocDBClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
         )
@@ -10566,7 +10156,7 @@ extension DocDBClientTypes.GlobalCluster: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
@@ -10632,7 +10222,7 @@ extension DocDBClientTypes {
         /// The storage encryption setting for the global cluster.
         public var storageEncrypted: Swift.Bool?
 
-        public init (
+        public init(
             databaseName: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
             engine: Swift.String? = nil,
@@ -10661,37 +10251,40 @@ extension DocDBClientTypes {
 }
 
 extension GlobalClusterAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalClusterAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The GlobalClusterIdentifier already exists. Choose a new global cluster identifier (unique name) to create a new global cluster.
-public struct GlobalClusterAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GlobalClusterAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10704,7 +10297,7 @@ extension GlobalClusterAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10740,7 +10333,7 @@ extension DocDBClientTypes.GlobalClusterMember: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterArn)
         dbClusterArn = dbClusterArnDecoded
@@ -10778,7 +10371,7 @@ extension DocDBClientTypes {
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global cluster.
         public var readers: [Swift.String]?
 
-        public init (
+        public init(
             dbClusterArn: Swift.String? = nil,
             isWriter: Swift.Bool = false,
             readers: [Swift.String]? = nil
@@ -10793,37 +10386,40 @@ extension DocDBClientTypes {
 }
 
 extension GlobalClusterNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalClusterNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The GlobalClusterIdentifier doesn't refer to an existing global cluster.
-public struct GlobalClusterNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GlobalClusterNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10836,7 +10432,7 @@ extension GlobalClusterNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10844,37 +10440,40 @@ extension GlobalClusterNotFoundFaultBody: Swift.Decodable {
 }
 
 extension GlobalClusterQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalClusterQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of global clusters for this account is already at the maximum allowed.
-public struct GlobalClusterQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GlobalClusterQuotaExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10887,7 +10486,7 @@ extension GlobalClusterQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10895,37 +10494,40 @@ extension GlobalClusterQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension InstanceQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InstanceQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request would cause you to exceed the allowed number of instances.
-public struct InstanceQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10938,7 +10540,7 @@ extension InstanceQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10946,37 +10548,40 @@ extension InstanceQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension InsufficientDBClusterCapacityFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientDBClusterCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The cluster doesn't have enough capacity for the current operation.
-public struct InsufficientDBClusterCapacityFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientDBClusterCapacityFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10989,7 +10594,7 @@ extension InsufficientDBClusterCapacityFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10997,37 +10602,40 @@ extension InsufficientDBClusterCapacityFaultBody: Swift.Decodable {
 }
 
 extension InsufficientDBInstanceCapacityFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientDBInstanceCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified instance class isn't available in the specified Availability Zone.
-public struct InsufficientDBInstanceCapacityFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientDBInstanceCapacity" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11040,7 +10648,7 @@ extension InsufficientDBInstanceCapacityFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11048,37 +10656,40 @@ extension InsufficientDBInstanceCapacityFaultBody: Swift.Decodable {
 }
 
 extension InsufficientStorageClusterCapacityFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientStorageClusterCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There is not enough storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
-public struct InsufficientStorageClusterCapacityFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientStorageClusterCapacity" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11091,7 +10702,7 @@ extension InsufficientStorageClusterCapacityFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11099,37 +10710,40 @@ extension InsufficientStorageClusterCapacityFaultBody: Swift.Decodable {
 }
 
 extension InvalidDBClusterSnapshotStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBClusterSnapshotStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The provided value isn't a valid cluster snapshot state.
-public struct InvalidDBClusterSnapshotStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBClusterSnapshotStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11142,7 +10756,7 @@ extension InvalidDBClusterSnapshotStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11150,37 +10764,40 @@ extension InvalidDBClusterSnapshotStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidDBClusterStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBClusterStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The cluster isn't in a valid state.
-public struct InvalidDBClusterStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBClusterStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11193,7 +10810,7 @@ extension InvalidDBClusterStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11201,37 +10818,40 @@ extension InvalidDBClusterStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidDBInstanceStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBInstanceStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified instance isn't in the available state.
-public struct InvalidDBInstanceStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBInstanceState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11244,7 +10864,7 @@ extension InvalidDBInstanceStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11252,37 +10872,40 @@ extension InvalidDBInstanceStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidDBParameterGroupStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBParameterGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The parameter group is in use, or it is in a state that is not valid. If you are trying to delete the parameter group, you can't delete it when the parameter group is in this state.
-public struct InvalidDBParameterGroupStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBParameterGroupState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11295,7 +10918,7 @@ extension InvalidDBParameterGroupStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11303,37 +10926,40 @@ extension InvalidDBParameterGroupStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidDBSecurityGroupStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBSecurityGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The state of the security group doesn't allow deletion.
-public struct InvalidDBSecurityGroupStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBSecurityGroupState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11346,7 +10972,7 @@ extension InvalidDBSecurityGroupStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11354,37 +10980,40 @@ extension InvalidDBSecurityGroupStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidDBSnapshotStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBSnapshotStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The state of the snapshot doesn't allow deletion.
-public struct InvalidDBSnapshotStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBSnapshotState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11397,7 +11026,7 @@ extension InvalidDBSnapshotStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11405,37 +11034,40 @@ extension InvalidDBSnapshotStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidDBSubnetGroupStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBSubnetGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The subnet group can't be deleted because it's in use.
-public struct InvalidDBSubnetGroupStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBSubnetGroupStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11448,7 +11080,7 @@ extension InvalidDBSubnetGroupStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11456,37 +11088,40 @@ extension InvalidDBSubnetGroupStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidDBSubnetStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBSubnetStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The subnet isn't in the available state.
-public struct InvalidDBSubnetStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBSubnetStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11499,7 +11134,7 @@ extension InvalidDBSubnetStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11507,37 +11142,40 @@ extension InvalidDBSubnetStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidEventSubscriptionStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidEventSubscriptionStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Someone else might be modifying a subscription. Wait a few seconds, and try again.
-public struct InvalidEventSubscriptionStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEventSubscriptionState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11550,7 +11188,7 @@ extension InvalidEventSubscriptionStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11558,37 +11196,40 @@ extension InvalidEventSubscriptionStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidGlobalClusterStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidGlobalClusterStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested operation can't be performed while the cluster is in this state.
-public struct InvalidGlobalClusterStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidGlobalClusterStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11601,7 +11242,7 @@ extension InvalidGlobalClusterStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11609,37 +11250,40 @@ extension InvalidGlobalClusterStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidRestoreFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRestoreFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You cannot restore from a virtual private cloud (VPC) backup to a non-VPC DB instance.
-public struct InvalidRestoreFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRestoreFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11652,7 +11296,7 @@ extension InvalidRestoreFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11660,37 +11304,40 @@ extension InvalidRestoreFaultBody: Swift.Decodable {
 }
 
 extension InvalidSubnet {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSubnetBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
-public struct InvalidSubnet: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSubnet" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11703,7 +11350,7 @@ extension InvalidSubnetBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11711,37 +11358,40 @@ extension InvalidSubnetBody: Swift.Decodable {
 }
 
 extension InvalidVPCNetworkStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidVPCNetworkStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
-public struct InvalidVPCNetworkStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidVPCNetworkStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11754,7 +11404,7 @@ extension InvalidVPCNetworkStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11762,37 +11412,40 @@ extension InvalidVPCNetworkStateFaultBody: Swift.Decodable {
 }
 
 extension KMSKeyNotAccessibleFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<KMSKeyNotAccessibleFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error occurred when accessing an KMS key.
-public struct KMSKeyNotAccessibleFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSKeyNotAccessibleFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11805,7 +11458,7 @@ extension KMSKeyNotAccessibleFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11849,7 +11502,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         filters: [DocDBClientTypes.Filter]? = nil,
         resourceName: Swift.String? = nil
     )
@@ -11870,7 +11523,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceName = "ResourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
@@ -11896,34 +11549,21 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
-    case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
@@ -11938,7 +11578,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// A list of one or more tags.
     public var tagList: [DocDBClientTypes.Tag]?
 
-    public init (
+    public init(
         tagList: [DocDBClientTypes.Tag]? = nil
     )
     {
@@ -11955,7 +11595,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tagList = "TagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListTagsForResourceResult"))
         if containerValues.contains(.tagList) {
@@ -12093,7 +11733,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     /// A list of virtual private cloud (VPC) security groups that the cluster will belong to.
     public var vpcSecurityGroupIds: [Swift.String]?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         backupRetentionPeriod: Swift.Int? = nil,
         cloudwatchLogsExportConfiguration: DocDBClientTypes.CloudwatchLogsExportConfiguration? = nil,
@@ -12158,7 +11798,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
@@ -12206,50 +11846,29 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyDBClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyDBClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterAlreadyExistsFault" : self = .dBClusterAlreadyExistsFault(try DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterParameterGroupNotFound" : self = .dBClusterParameterGroupNotFoundFault(try DBClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBSecurityGroupState" : self = .invalidDBSecurityGroupStateFault(try InvalidDBSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBSubnetGroupStateFault" : self = .invalidDBSubnetGroupStateFault(try InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterAlreadyExistsFault": return try await DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterParameterGroupNotFound": return try await DBClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSecurityGroupState": return try await InvalidDBSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSubnetGroupStateFault": return try await InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyDBClusterOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterAlreadyExistsFault(DBClusterAlreadyExistsFault)
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBClusterParameterGroupNotFoundFault(DBClusterParameterGroupNotFoundFault)
-    case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case invalidDBSecurityGroupStateFault(InvalidDBSecurityGroupStateFault)
-    case invalidDBSubnetGroupStateFault(InvalidDBSubnetGroupStateFault)
-    case invalidSubnet(InvalidSubnet)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case storageQuotaExceededFault(StorageQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
@@ -12263,7 +11882,7 @@ public struct ModifyDBClusterOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
-    public init (
+    public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
     )
     {
@@ -12280,7 +11899,7 @@ extension ModifyDBClusterOutputResponseBody: Swift.Decodable {
         case dbCluster = "DBCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
@@ -12326,7 +11945,7 @@ public struct ModifyDBClusterParameterGroupInput: Swift.Equatable {
     /// This member is required.
     public var parameters: [DocDBClientTypes.Parameter]?
 
-    public init (
+    public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [DocDBClientTypes.Parameter]? = nil
     )
@@ -12347,7 +11966,7 @@ extension ModifyDBClusterParameterGroupInputBody: Swift.Decodable {
         case parameters = "Parameters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
@@ -12373,32 +11992,20 @@ extension ModifyDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyDBClusterParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
-    case invalidDBParameterGroupStateFault(InvalidDBParameterGroupStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroupName = output.dbClusterParameterGroupName
@@ -12422,7 +12029,7 @@ public struct ModifyDBClusterParameterGroupOutputResponse: Swift.Equatable {
     /// This value is stored as a lowercase string.
     public var dbClusterParameterGroupName: Swift.String?
 
-    public init (
+    public init(
         dbClusterParameterGroupName: Swift.String? = nil
     )
     {
@@ -12439,7 +12046,7 @@ extension ModifyDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         case dbClusterParameterGroupName = "DBClusterParameterGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterParameterGroupResult"))
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
@@ -12504,7 +12111,7 @@ public struct ModifyDBClusterSnapshotAttributeInput: Swift.Equatable {
     /// A list of cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this list to include one or more Amazon Web Services account identifiers. To remove authorization for any Amazon Web Services account to copy or restore the cluster snapshot, set it to all . If you specify all, an Amazon Web Services account whose account ID is explicitly added to the restore attribute can still copy or restore a manual cluster snapshot.
     public var valuesToRemove: [Swift.String]?
 
-    public init (
+    public init(
         attributeName: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         valuesToAdd: [Swift.String]? = nil,
@@ -12533,7 +12140,7 @@ extension ModifyDBClusterSnapshotAttributeInputBody: Swift.Decodable {
         case valuesToRemove = "ValuesToRemove"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterSnapshotIdentifier)
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
@@ -12580,34 +12187,21 @@ extension ModifyDBClusterSnapshotAttributeInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyDBClusterSnapshotAttributeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SharedSnapshotQuotaExceeded" : self = .sharedSnapshotQuotaExceededFault(try SharedSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SharedSnapshotQuotaExceeded": return try await SharedSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyDBClusterSnapshotAttributeOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
-    case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
-    case sharedSnapshotQuotaExceededFault(SharedSnapshotQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyDBClusterSnapshotAttributeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyDBClusterSnapshotAttributeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
@@ -12621,7 +12215,7 @@ public struct ModifyDBClusterSnapshotAttributeOutputResponse: Swift.Equatable {
     /// Detailed information about the attributes that are associated with a cluster snapshot.
     public var dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult?
 
-    public init (
+    public init(
         dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult? = nil
     )
     {
@@ -12638,7 +12232,7 @@ extension ModifyDBClusterSnapshotAttributeOutputResponseBody: Swift.Decodable {
         case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterSnapshotAttributeResult"))
         let dbClusterSnapshotAttributesResultDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBClusterSnapshotAttributesResult.self, forKey: .dbClusterSnapshotAttributesResult)
@@ -12730,7 +12324,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
     public var promotionTier: Swift.Int?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         caCertificateIdentifier: Swift.String? = nil,
@@ -12787,7 +12381,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case promotionTier = "PromotionTier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
@@ -12814,54 +12408,31 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyDBInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyDBInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AuthorizationNotFound" : self = .authorizationNotFoundFault(try AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CertificateNotFound" : self = .certificateNotFoundFault(try CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBInstanceAlreadyExists" : self = .dBInstanceAlreadyExistsFault(try DBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSecurityGroupNotFound" : self = .dBSecurityGroupNotFoundFault(try DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBUpgradeDependencyFailure" : self = .dBUpgradeDependencyFailureFault(try DBUpgradeDependencyFailureFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDBInstanceCapacity" : self = .insufficientDBInstanceCapacityFault(try InsufficientDBInstanceCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBSecurityGroupState" : self = .invalidDBSecurityGroupStateFault(try InvalidDBSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AuthorizationNotFound": return try await AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CertificateNotFound": return try await CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceAlreadyExists": return try await DBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSecurityGroupNotFound": return try await DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBUpgradeDependencyFailure": return try await DBUpgradeDependencyFailureFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientDBInstanceCapacity": return try await InsufficientDBInstanceCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSecurityGroupState": return try await InvalidDBSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyDBInstanceOutputError: Swift.Error, Swift.Equatable {
-    case authorizationNotFoundFault(AuthorizationNotFoundFault)
-    case certificateNotFoundFault(CertificateNotFoundFault)
-    case dBInstanceAlreadyExistsFault(DBInstanceAlreadyExistsFault)
-    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
-    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
-    case dBSecurityGroupNotFoundFault(DBSecurityGroupNotFoundFault)
-    case dBUpgradeDependencyFailureFault(DBUpgradeDependencyFailureFault)
-    case insufficientDBInstanceCapacityFault(InsufficientDBInstanceCapacityFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case invalidDBSecurityGroupStateFault(InvalidDBSecurityGroupStateFault)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case storageQuotaExceededFault(StorageQuotaExceededFault)
-    case storageTypeNotSupportedFault(StorageTypeNotSupportedFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
@@ -12875,7 +12446,7 @@ public struct ModifyDBInstanceOutputResponse: Swift.Equatable {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
-    public init (
+    public init(
         dbInstance: DocDBClientTypes.DBInstance? = nil
     )
     {
@@ -12892,7 +12463,7 @@ extension ModifyDBInstanceOutputResponseBody: Swift.Decodable {
         case dbInstance = "DBInstance"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBInstanceResult"))
         let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
@@ -12943,7 +12514,7 @@ public struct ModifyDBSubnetGroupInput: Swift.Equatable {
     /// This member is required.
     public var subnetIds: [Swift.String]?
 
-    public init (
+    public init(
         dbSubnetGroupDescription: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
@@ -12968,7 +12539,7 @@ extension ModifyDBSubnetGroupInputBody: Swift.Decodable {
         case subnetIds = "SubnetIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSubnetGroupName)
         dbSubnetGroupName = dbSubnetGroupNameDecoded
@@ -12996,38 +12567,23 @@ extension ModifyDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyDBSubnetGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyDBSubnetGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBSubnetGroupDoesNotCoverEnoughAZs" : self = .dBSubnetGroupDoesNotCoverEnoughAZs(try DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetQuotaExceededFault" : self = .dBSubnetQuotaExceededFault(try DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubnetAlreadyInUse" : self = .subnetAlreadyInUse(try SubnetAlreadyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetQuotaExceededFault": return try await DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetAlreadyInUse": return try await SubnetAlreadyInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyDBSubnetGroupOutputError: Swift.Error, Swift.Equatable {
-    case dBSubnetGroupDoesNotCoverEnoughAZs(DBSubnetGroupDoesNotCoverEnoughAZs)
-    case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
-    case dBSubnetQuotaExceededFault(DBSubnetQuotaExceededFault)
-    case invalidSubnet(InvalidSubnet)
-    case subnetAlreadyInUse(SubnetAlreadyInUse)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyDBSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroup = output.dbSubnetGroup
@@ -13041,7 +12597,7 @@ public struct ModifyDBSubnetGroupOutputResponse: Swift.Equatable {
     /// Detailed information about a subnet group.
     public var dbSubnetGroup: DocDBClientTypes.DBSubnetGroup?
 
-    public init (
+    public init(
         dbSubnetGroup: DocDBClientTypes.DBSubnetGroup? = nil
     )
     {
@@ -13058,7 +12614,7 @@ extension ModifyDBSubnetGroupOutputResponseBody: Swift.Decodable {
         case dbSubnetGroup = "DBSubnetGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBSubnetGroupResult"))
         let dbSubnetGroupDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBSubnetGroup.self, forKey: .dbSubnetGroup)
@@ -13118,7 +12674,7 @@ public struct ModifyEventSubscriptionInput: Swift.Equatable {
     /// This member is required.
     public var subscriptionName: Swift.String?
 
-    public init (
+    public init(
         enabled: Swift.Bool? = nil,
         eventCategories: [Swift.String]? = nil,
         snsTopicArn: Swift.String? = nil,
@@ -13151,7 +12707,7 @@ extension ModifyEventSubscriptionInputBody: Swift.Decodable {
         case subscriptionName = "SubscriptionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionName)
         subscriptionName = subscriptionNameDecoded
@@ -13183,40 +12739,24 @@ extension ModifyEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyEventSubscriptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "EventSubscriptionQuotaExceeded" : self = .eventSubscriptionQuotaExceededFault(try EventSubscriptionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SNSInvalidTopic" : self = .sNSInvalidTopicFault(try SNSInvalidTopicFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SNSNoAuthorization" : self = .sNSNoAuthorizationFault(try SNSNoAuthorizationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SNSTopicArnNotFound" : self = .sNSTopicArnNotFoundFault(try SNSTopicArnNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubscriptionCategoryNotFound" : self = .subscriptionCategoryNotFoundFault(try SubscriptionCategoryNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "EventSubscriptionQuotaExceeded": return try await EventSubscriptionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SNSInvalidTopic": return try await SNSInvalidTopicFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SNSNoAuthorization": return try await SNSNoAuthorizationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SNSTopicArnNotFound": return try await SNSTopicArnNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionCategoryNotFound": return try await SubscriptionCategoryNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
-    case eventSubscriptionQuotaExceededFault(EventSubscriptionQuotaExceededFault)
-    case sNSInvalidTopicFault(SNSInvalidTopicFault)
-    case sNSNoAuthorizationFault(SNSNoAuthorizationFault)
-    case sNSTopicArnNotFoundFault(SNSTopicArnNotFoundFault)
-    case subscriptionCategoryNotFoundFault(SubscriptionCategoryNotFoundFault)
-    case subscriptionNotFoundFault(SubscriptionNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
@@ -13230,7 +12770,7 @@ public struct ModifyEventSubscriptionOutputResponse: Swift.Equatable {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
-    public init (
+    public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
     )
     {
@@ -13247,7 +12787,7 @@ extension ModifyEventSubscriptionOutputResponseBody: Swift.Decodable {
         case eventSubscription = "EventSubscription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyEventSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
@@ -13295,7 +12835,7 @@ public struct ModifyGlobalClusterInput: Swift.Equatable {
     /// Example: my-cluster2
     public var newGlobalClusterIdentifier: Swift.String?
 
-    public init (
+    public init(
         deletionProtection: Swift.Bool? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         newGlobalClusterIdentifier: Swift.String? = nil
@@ -13320,7 +12860,7 @@ extension ModifyGlobalClusterInputBody: Swift.Decodable {
         case newGlobalClusterIdentifier = "NewGlobalClusterIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
@@ -13331,32 +12871,20 @@ extension ModifyGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyGlobalClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalClusterStateFault" : self = .invalidGlobalClusterStateFault(try InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyGlobalClusterOutputError: Swift.Error, Swift.Equatable {
-    case globalClusterNotFoundFault(GlobalClusterNotFoundFault)
-    case invalidGlobalClusterStateFault(InvalidGlobalClusterStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
@@ -13370,7 +12898,7 @@ public struct ModifyGlobalClusterOutputResponse: Swift.Equatable {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
-    public init (
+    public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
     )
     {
@@ -13387,7 +12915,7 @@ extension ModifyGlobalClusterOutputResponseBody: Swift.Decodable {
         case globalCluster = "GlobalCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.GlobalCluster.self, forKey: .globalCluster)
@@ -13436,7 +12964,7 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -13486,7 +13014,7 @@ extension DocDBClientTypes {
         /// Indicates whether an instance is in a virtual private cloud (VPC).
         public var vpc: Swift.Bool
 
-        public init (
+        public init(
             availabilityZones: [DocDBClientTypes.AvailabilityZone]? = nil,
             dbInstanceClass: Swift.String? = nil,
             engine: Swift.String? = nil,
@@ -13554,7 +13082,7 @@ extension DocDBClientTypes.Parameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterName)
         parameterName = parameterNameDecoded
@@ -13603,7 +13131,7 @@ extension DocDBClientTypes {
         /// Indicates the source of the parameter value.
         public var source: Swift.String?
 
-        public init (
+        public init(
             allowedValues: Swift.String? = nil,
             applyMethod: DocDBClientTypes.ApplyMethod? = nil,
             applyType: Swift.String? = nil,
@@ -13665,7 +13193,7 @@ extension DocDBClientTypes.PendingCloudwatchLogsExports: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.logTypesToEnable) {
             struct KeyVal0{struct member{}}
@@ -13716,7 +13244,7 @@ extension DocDBClientTypes {
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
         public var logTypesToEnable: [Swift.String]?
 
-        public init (
+        public init(
             logTypesToDisable: [Swift.String]? = nil,
             logTypesToEnable: [Swift.String]? = nil
         )
@@ -13760,7 +13288,7 @@ extension DocDBClientTypes.PendingMaintenanceAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
         action = actionDecoded
@@ -13793,7 +13321,7 @@ extension DocDBClientTypes {
         /// Indicates the type of opt-in request that has been received for the resource.
         public var optInStatus: Swift.String?
 
-        public init (
+        public init(
             action: Swift.String? = nil,
             autoAppliedAfterDate: ClientRuntime.Date? = nil,
             currentApplyDate: ClientRuntime.Date? = nil,
@@ -13877,7 +13405,7 @@ extension DocDBClientTypes.PendingModifiedValues: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceClass)
         dbInstanceClass = dbInstanceClassDecoded
@@ -13942,7 +13470,7 @@ extension DocDBClientTypes {
         /// Specifies the storage type to be associated with the instance.
         public var storageType: Swift.String?
 
-        public init (
+        public init(
             allocatedStorage: Swift.Int? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
@@ -14008,7 +13536,7 @@ public struct RebootDBInstanceInput: Swift.Equatable {
     /// When true, the reboot is conducted through a Multi-AZ failover. Constraint: You can't specify true if the instance is not configured for Multi-AZ.
     public var forceFailover: Swift.Bool?
 
-    public init (
+    public init(
         dbInstanceIdentifier: Swift.String? = nil,
         forceFailover: Swift.Bool? = nil
     )
@@ -14029,7 +13557,7 @@ extension RebootDBInstanceInputBody: Swift.Decodable {
         case forceFailover = "ForceFailover"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
@@ -14038,32 +13566,20 @@ extension RebootDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension RebootDBInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RebootDBInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RebootDBInstanceOutputError: Swift.Error, Swift.Equatable {
-    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RebootDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RebootDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
@@ -14077,7 +13593,7 @@ public struct RebootDBInstanceOutputResponse: Swift.Equatable {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
-    public init (
+    public init(
         dbInstance: DocDBClientTypes.DBInstance? = nil
     )
     {
@@ -14094,7 +13610,7 @@ extension RebootDBInstanceOutputResponseBody: Swift.Decodable {
         case dbInstance = "DBInstance"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RebootDBInstanceResult"))
         let dbInstanceDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBInstance.self, forKey: .dbInstance)
@@ -14131,7 +13647,7 @@ public struct RemoveFromGlobalClusterInput: Swift.Equatable {
     /// This member is required.
     public var globalClusterIdentifier: Swift.String?
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil
     )
@@ -14152,7 +13668,7 @@ extension RemoveFromGlobalClusterInputBody: Swift.Decodable {
         case globalClusterIdentifier = "GlobalClusterIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
@@ -14161,34 +13677,21 @@ extension RemoveFromGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveFromGlobalClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RemoveFromGlobalClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalClusterStateFault" : self = .invalidGlobalClusterStateFault(try InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveFromGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RemoveFromGlobalClusterOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case globalClusterNotFoundFault(GlobalClusterNotFoundFault)
-    case invalidGlobalClusterStateFault(InvalidGlobalClusterStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveFromGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RemoveFromGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
@@ -14202,7 +13705,7 @@ public struct RemoveFromGlobalClusterOutputResponse: Swift.Equatable {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
-    public init (
+    public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
     )
     {
@@ -14219,7 +13722,7 @@ extension RemoveFromGlobalClusterOutputResponseBody: Swift.Decodable {
         case globalCluster = "GlobalCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RemoveFromGlobalClusterResult"))
         let globalClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.GlobalCluster.self, forKey: .globalCluster)
@@ -14256,7 +13759,7 @@ public struct RemoveSourceIdentifierFromSubscriptionInput: Swift.Equatable {
     /// This member is required.
     public var subscriptionName: Swift.String?
 
-    public init (
+    public init(
         sourceIdentifier: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
     )
@@ -14277,7 +13780,7 @@ extension RemoveSourceIdentifierFromSubscriptionInputBody: Swift.Decodable {
         case subscriptionName = "SubscriptionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionName)
         subscriptionName = subscriptionNameDecoded
@@ -14286,32 +13789,20 @@ extension RemoveSourceIdentifierFromSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveSourceIdentifierFromSubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RemoveSourceIdentifierFromSubscriptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "SourceNotFound" : self = .sourceNotFoundFault(try SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveSourceIdentifierFromSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RemoveSourceIdentifierFromSubscriptionOutputError: Swift.Error, Swift.Equatable {
-    case sourceNotFoundFault(SourceNotFoundFault)
-    case subscriptionNotFoundFault(SubscriptionNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveSourceIdentifierFromSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RemoveSourceIdentifierFromSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
@@ -14325,7 +13816,7 @@ public struct RemoveSourceIdentifierFromSubscriptionOutputResponse: Swift.Equata
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
-    public init (
+    public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
     )
     {
@@ -14342,7 +13833,7 @@ extension RemoveSourceIdentifierFromSubscriptionOutputResponseBody: Swift.Decoda
         case eventSubscription = "EventSubscription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RemoveSourceIdentifierFromSubscriptionResult"))
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.EventSubscription.self, forKey: .eventSubscription)
@@ -14388,7 +13879,7 @@ public struct RemoveTagsFromResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -14409,7 +13900,7 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
@@ -14435,39 +13926,26 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RemoveTagsFromResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
-    case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ResetDBClusterParameterGroupInput: Swift.Encodable {
@@ -14512,7 +13990,7 @@ public struct ResetDBClusterParameterGroupInput: Swift.Equatable {
     /// A value that is set to true to reset all parameters in the cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
     public var resetAllParameters: Swift.Bool
 
-    public init (
+    public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [DocDBClientTypes.Parameter]? = nil,
         resetAllParameters: Swift.Bool = false
@@ -14537,7 +14015,7 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
         case resetAllParameters = "ResetAllParameters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
@@ -14565,32 +14043,20 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ResetDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ResetDBClusterParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ResetDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBParameterGroupState": return try await InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ResetDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
-    case invalidDBParameterGroupStateFault(InvalidDBParameterGroupStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ResetDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResetDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroupName = output.dbClusterParameterGroupName
@@ -14614,7 +14080,7 @@ public struct ResetDBClusterParameterGroupOutputResponse: Swift.Equatable {
     /// This value is stored as a lowercase string.
     public var dbClusterParameterGroupName: Swift.String?
 
-    public init (
+    public init(
         dbClusterParameterGroupName: Swift.String? = nil
     )
     {
@@ -14631,7 +14097,7 @@ extension ResetDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
         case dbClusterParameterGroupName = "DBClusterParameterGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ResetDBClusterParameterGroupResult"))
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
@@ -14640,37 +14106,40 @@ extension ResetDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource ID was not found.
-public struct ResourceNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14683,7 +14152,7 @@ extension ResourceNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14715,7 +14184,7 @@ extension DocDBClientTypes.ResourcePendingMaintenanceActions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceIdentifier)
         resourceIdentifier = resourceIdentifierDecoded
@@ -14749,7 +14218,7 @@ extension DocDBClientTypes {
         /// The Amazon Resource Name (ARN) of the resource that has pending maintenance actions.
         public var resourceIdentifier: Swift.String?
 
-        public init (
+        public init(
             pendingMaintenanceActionDetails: [DocDBClientTypes.PendingMaintenanceAction]? = nil,
             resourceIdentifier: Swift.String? = nil
         )
@@ -14897,7 +14366,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     /// A list of virtual private cloud (VPC) security groups that the new cluster will belong to.
     public var vpcSecurityGroupIds: [Swift.String]?
 
-    public init (
+    public init(
         availabilityZones: [Swift.String]? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterParameterGroupName: Swift.String? = nil,
@@ -14962,7 +14431,7 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.availabilityZones) {
             struct KeyVal0{struct AvailabilityZone{}}
@@ -15061,56 +14530,32 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RestoreDBClusterFromSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterAlreadyExistsFault" : self = .dBClusterAlreadyExistsFault(try DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterQuotaExceededFault" : self = .dBClusterQuotaExceededFault(try DBClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDBClusterCapacityFault" : self = .insufficientDBClusterCapacityFault(try InsufficientDBClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientStorageClusterCapacity" : self = .insufficientStorageClusterCapacityFault(try InsufficientStorageClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBSnapshotState" : self = .invalidDBSnapshotStateFault(try InvalidDBSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRestoreFault" : self = .invalidRestoreFault(try InvalidRestoreFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterAlreadyExistsFault": return try await DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterQuotaExceededFault": return try await DBClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientDBClusterCapacityFault": return try await InsufficientDBClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientStorageClusterCapacity": return try await InsufficientStorageClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSnapshotState": return try await InvalidDBSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidRestoreFault": return try await InvalidRestoreFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RestoreDBClusterFromSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterAlreadyExistsFault(DBClusterAlreadyExistsFault)
-    case dBClusterQuotaExceededFault(DBClusterQuotaExceededFault)
-    case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
-    case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
-    case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
-    case insufficientDBClusterCapacityFault(InsufficientDBClusterCapacityFault)
-    case insufficientStorageClusterCapacityFault(InsufficientStorageClusterCapacityFault)
-    case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
-    case invalidDBSnapshotStateFault(InvalidDBSnapshotStateFault)
-    case invalidRestoreFault(InvalidRestoreFault)
-    case invalidSubnet(InvalidSubnet)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
-    case storageQuotaExceededFault(StorageQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RestoreDBClusterFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RestoreDBClusterFromSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
@@ -15124,7 +14569,7 @@ public struct RestoreDBClusterFromSnapshotOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
-    public init (
+    public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
     )
     {
@@ -15141,7 +14586,7 @@ extension RestoreDBClusterFromSnapshotOutputResponseBody: Swift.Decodable {
         case dbCluster = "DBCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterFromSnapshotResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
@@ -15288,7 +14733,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     /// A list of VPC security groups that the new cluster belongs to.
     public var vpcSecurityGroupIds: [Swift.String]?
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
@@ -15349,7 +14794,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
@@ -15429,58 +14874,33 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
     }
 }
 
-extension RestoreDBClusterToPointInTimeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RestoreDBClusterToPointInTimeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterAlreadyExistsFault" : self = .dBClusterAlreadyExistsFault(try DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterQuotaExceededFault" : self = .dBClusterQuotaExceededFault(try DBClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDBClusterCapacityFault" : self = .insufficientDBClusterCapacityFault(try InsufficientDBClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientStorageClusterCapacity" : self = .insufficientStorageClusterCapacityFault(try InsufficientStorageClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBSnapshotState" : self = .invalidDBSnapshotStateFault(try InvalidDBSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRestoreFault" : self = .invalidRestoreFault(try InvalidRestoreFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RestoreDBClusterToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterAlreadyExistsFault": return try await DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterQuotaExceededFault": return try await DBClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientDBClusterCapacityFault": return try await InsufficientDBClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientStorageClusterCapacity": return try await InsufficientStorageClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSnapshotState": return try await InvalidDBSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidRestoreFault": return try await InvalidRestoreFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RestoreDBClusterToPointInTimeOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterAlreadyExistsFault(DBClusterAlreadyExistsFault)
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case dBClusterQuotaExceededFault(DBClusterQuotaExceededFault)
-    case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
-    case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
-    case insufficientDBClusterCapacityFault(InsufficientDBClusterCapacityFault)
-    case insufficientStorageClusterCapacityFault(InsufficientStorageClusterCapacityFault)
-    case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidDBSnapshotStateFault(InvalidDBSnapshotStateFault)
-    case invalidRestoreFault(InvalidRestoreFault)
-    case invalidSubnet(InvalidSubnet)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
-    case storageQuotaExceededFault(StorageQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RestoreDBClusterToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RestoreDBClusterToPointInTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
@@ -15494,7 +14914,7 @@ public struct RestoreDBClusterToPointInTimeOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
-    public init (
+    public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
     )
     {
@@ -15511,7 +14931,7 @@ extension RestoreDBClusterToPointInTimeOutputResponseBody: Swift.Decodable {
         case dbCluster = "DBCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterToPointInTimeResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
@@ -15520,37 +14940,40 @@ extension RestoreDBClusterToPointInTimeOutputResponseBody: Swift.Decodable {
 }
 
 extension SNSInvalidTopicFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSInvalidTopicFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Amazon SNS has responded that there is a problem with the specified topic.
-public struct SNSInvalidTopicFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SNSInvalidTopic" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15563,7 +14986,7 @@ extension SNSInvalidTopicFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15571,37 +14994,40 @@ extension SNSInvalidTopicFaultBody: Swift.Decodable {
 }
 
 extension SNSNoAuthorizationFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSNoAuthorizationFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You do not have permission to publish to the SNS topic Amazon Resource Name (ARN).
-public struct SNSNoAuthorizationFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SNSNoAuthorization" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15614,7 +15040,7 @@ extension SNSNoAuthorizationFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15622,37 +15048,40 @@ extension SNSNoAuthorizationFaultBody: Swift.Decodable {
 }
 
 extension SNSTopicArnNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSTopicArnNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The SNS topic Amazon Resource Name (ARN) does not exist.
-public struct SNSTopicArnNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SNSTopicArnNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15665,7 +15094,7 @@ extension SNSTopicArnNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15673,37 +15102,40 @@ extension SNSTopicArnNotFoundFaultBody: Swift.Decodable {
 }
 
 extension SharedSnapshotQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SharedSnapshotQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
-public struct SharedSnapshotQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SharedSnapshotQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15716,7 +15148,7 @@ extension SharedSnapshotQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15724,37 +15156,40 @@ extension SharedSnapshotQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension SnapshotQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request would cause you to exceed the allowed number of snapshots.
-public struct SnapshotQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapshotQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15767,7 +15202,7 @@ extension SnapshotQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15775,37 +15210,40 @@ extension SnapshotQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension SourceNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SourceNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested source could not be found.
-public struct SourceNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SourceNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15818,7 +15256,7 @@ extension SourceNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15891,7 +15329,7 @@ public struct StartDBClusterInput: Swift.Equatable {
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil
     )
     {
@@ -15908,41 +15346,28 @@ extension StartDBClusterInputBody: Swift.Decodable {
         case dbClusterIdentifier = "DBClusterIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
     }
 }
 
-extension StartDBClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension StartDBClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum StartDBClusterOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
@@ -15956,7 +15381,7 @@ public struct StartDBClusterOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
-    public init (
+    public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
     )
     {
@@ -15973,7 +15398,7 @@ extension StartDBClusterOutputResponseBody: Swift.Decodable {
         case dbCluster = "DBCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
@@ -16003,7 +15428,7 @@ public struct StopDBClusterInput: Swift.Equatable {
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
 
-    public init (
+    public init(
         dbClusterIdentifier: Swift.String? = nil
     )
     {
@@ -16020,41 +15445,28 @@ extension StopDBClusterInputBody: Swift.Decodable {
         case dbClusterIdentifier = "DBClusterIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
     }
 }
 
-extension StopDBClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension StopDBClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum StopDBClusterOutputError: Swift.Error, Swift.Equatable {
-    case dBClusterNotFoundFault(DBClusterNotFoundFault)
-    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
-    case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
@@ -16068,7 +15480,7 @@ public struct StopDBClusterOutputResponse: Swift.Equatable {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
-    public init (
+    public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
     )
     {
@@ -16085,7 +15497,7 @@ extension StopDBClusterOutputResponseBody: Swift.Decodable {
         case dbCluster = "DBCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StopDBClusterResult"))
         let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
@@ -16094,37 +15506,40 @@ extension StopDBClusterOutputResponseBody: Swift.Decodable {
 }
 
 extension StorageQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StorageQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request would cause you to exceed the allowed amount of storage available across all instances.
-public struct StorageQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StorageQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16137,7 +15552,7 @@ extension StorageQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16145,37 +15560,40 @@ extension StorageQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension StorageTypeNotSupportedFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StorageTypeNotSupportedFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Storage of the specified StorageType can't be associated with the DB instance.
-public struct StorageTypeNotSupportedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StorageTypeNotSupported" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16188,7 +15606,7 @@ extension StorageTypeNotSupportedFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16215,7 +15633,7 @@ extension DocDBClientTypes.Subnet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetIdentifier)
         subnetIdentifier = subnetIdentifierDecoded
@@ -16236,7 +15654,7 @@ extension DocDBClientTypes {
         /// Specifies the status of the subnet.
         public var subnetStatus: Swift.String?
 
-        public init (
+        public init(
             subnetAvailabilityZone: DocDBClientTypes.AvailabilityZone? = nil,
             subnetIdentifier: Swift.String? = nil,
             subnetStatus: Swift.String? = nil
@@ -16251,37 +15669,40 @@ extension DocDBClientTypes {
 }
 
 extension SubnetAlreadyInUse {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubnetAlreadyInUseBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The subnet is already in use in the Availability Zone.
-public struct SubnetAlreadyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubnetAlreadyInUse" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16294,7 +15715,7 @@ extension SubnetAlreadyInUseBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16302,37 +15723,40 @@ extension SubnetAlreadyInUseBody: Swift.Decodable {
 }
 
 extension SubscriptionAlreadyExistFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionAlreadyExistFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The provided subscription name already exists.
-public struct SubscriptionAlreadyExistFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubscriptionAlreadyExist" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16345,7 +15769,7 @@ extension SubscriptionAlreadyExistFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16353,37 +15777,40 @@ extension SubscriptionAlreadyExistFaultBody: Swift.Decodable {
 }
 
 extension SubscriptionCategoryNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionCategoryNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The provided category does not exist.
-public struct SubscriptionCategoryNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubscriptionCategoryNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16396,7 +15823,7 @@ extension SubscriptionCategoryNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16404,37 +15831,40 @@ extension SubscriptionCategoryNotFoundFaultBody: Swift.Decodable {
 }
 
 extension SubscriptionNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The subscription name does not exist.
-public struct SubscriptionNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubscriptionNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16447,7 +15877,7 @@ extension SubscriptionNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16470,7 +15900,7 @@ extension DocDBClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -16487,7 +15917,7 @@ extension DocDBClientTypes {
         /// The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -16527,7 +15957,7 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -16556,7 +15986,7 @@ extension DocDBClientTypes {
         /// A value that indicates whether a database engine is upgraded to a major version.
         public var isMajorVersionUpgrade: Swift.Bool
 
-        public init (
+        public init(
             autoUpgrade: Swift.Bool = false,
             description: Swift.String? = nil,
             engine: Swift.String? = nil,
@@ -16590,7 +16020,7 @@ extension DocDBClientTypes.VpcSecurityGroupMembership: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vpcSecurityGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcSecurityGroupId)
         vpcSecurityGroupId = vpcSecurityGroupIdDecoded
@@ -16607,7 +16037,7 @@ extension DocDBClientTypes {
         /// The name of the VPC security group.
         public var vpcSecurityGroupId: Swift.String?
 
-        public init (
+        public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
         )

@@ -10,14 +10,10 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public struct InvalidGreeting: ClientRuntime.ServiceError, Equatable {
-    public var _isThrottling: Bool = false
-    public var _headers: Headers?
-    public var _statusCode: HttpStatusCode?
-    public var _message: String?
-    public var _requestID: String?
-    public var _retryable: Bool = false
-    public var _type: ErrorType = .client
+public struct InvalidGreeting: AWSServiceError, HTTPError, Error {
+    public var typeName: String?
+    public var httpResponse = HttpResponse()
+    public var requestID: String?
     public var message: String?
 
     public init (

@@ -223,7 +223,7 @@ extension MediaLiveClientTypes.AacSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bitrateDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .bitrate)
         bitrate = bitrateDecoded
@@ -268,7 +268,7 @@ extension MediaLiveClientTypes {
         /// VBR Quality Level - Only used if rateControlMode is VBR.
         public var vbrQuality: MediaLiveClientTypes.AacVbrQuality?
 
-        public init (
+        public init(
             bitrate: Swift.Double? = nil,
             codingMode: MediaLiveClientTypes.AacCodingMode? = nil,
             inputType: MediaLiveClientTypes.AacInputType? = nil,
@@ -591,7 +591,7 @@ extension MediaLiveClientTypes.Ac3Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bitrateDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .bitrate)
         bitrate = bitrateDecoded
@@ -628,7 +628,7 @@ extension MediaLiveClientTypes {
         /// When set to "followInput", encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
         public var metadataControl: MediaLiveClientTypes.Ac3MetadataControl?
 
-        public init (
+        public init(
             bitrate: Swift.Double? = nil,
             bitstreamMode: MediaLiveClientTypes.Ac3BitstreamMode? = nil,
             codingMode: MediaLiveClientTypes.Ac3CodingMode? = nil,
@@ -695,7 +695,7 @@ public struct AcceptInputDeviceTransferInput: Swift.Equatable {
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
-    public init (
+    public init(
         inputDeviceId: Swift.String? = nil
     )
     {
@@ -708,57 +708,38 @@ struct AcceptInputDeviceTransferInputBody: Swift.Equatable {
 
 extension AcceptInputDeviceTransferInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension AcceptInputDeviceTransferOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AcceptInputDeviceTransferOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AcceptInputDeviceTransferOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AcceptInputDeviceTransferOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AcceptInputDeviceTransferOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for AcceptInputDeviceTransferResponse
 public struct AcceptInputDeviceTransferOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension MediaLiveClientTypes {
@@ -842,7 +823,7 @@ extension MediaLiveClientTypes.AncillarySourceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceAncillaryChannelNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sourceAncillaryChannelNumber)
         sourceAncillaryChannelNumber = sourceAncillaryChannelNumberDecoded
@@ -855,7 +836,7 @@ extension MediaLiveClientTypes {
         /// Specifies the number (1 to 4) of the captions channel you want to extract from the ancillary captions. If you plan to convert the ancillary captions to another format, complete this field. If you plan to choose Embedded as the captions destination in the output (to pass through all the channels in the ancillary captions), leave this field blank because MediaLive ignores the field.
         public var sourceAncillaryChannelNumber: Swift.Int?
 
-        public init (
+        public init(
             sourceAncillaryChannelNumber: Swift.Int? = nil
         )
         {
@@ -877,7 +858,7 @@ extension MediaLiveClientTypes.ArchiveCdnSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let archiveS3SettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ArchiveS3Settings.self, forKey: .archiveS3Settings)
         archiveS3Settings = archiveS3SettingsDecoded
@@ -890,7 +871,7 @@ extension MediaLiveClientTypes {
         /// Archive S3 Settings
         public var archiveS3Settings: MediaLiveClientTypes.ArchiveS3Settings?
 
-        public init (
+        public init(
             archiveS3Settings: MediaLiveClientTypes.ArchiveS3Settings? = nil
         )
         {
@@ -916,7 +897,7 @@ extension MediaLiveClientTypes.ArchiveContainerSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let m2tsSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.M2tsSettings.self, forKey: .m2tsSettings)
         m2tsSettings = m2tsSettingsDecoded
@@ -933,7 +914,7 @@ extension MediaLiveClientTypes {
         /// Raw Settings
         public var rawSettings: MediaLiveClientTypes.RawSettings?
 
-        public init (
+        public init(
             m2tsSettings: MediaLiveClientTypes.M2tsSettings? = nil,
             rawSettings: MediaLiveClientTypes.RawSettings? = nil
         )
@@ -965,7 +946,7 @@ extension MediaLiveClientTypes.ArchiveGroupSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let archiveCdnSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ArchiveCdnSettings.self, forKey: .archiveCdnSettings)
         archiveCdnSettings = archiveCdnSettingsDecoded
@@ -987,7 +968,7 @@ extension MediaLiveClientTypes {
         /// Number of seconds to write to archive file before closing and starting a new one.
         public var rolloverInterval: Swift.Int?
 
-        public init (
+        public init(
             archiveCdnSettings: MediaLiveClientTypes.ArchiveCdnSettings? = nil,
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
             rolloverInterval: Swift.Int? = nil
@@ -1021,7 +1002,7 @@ extension MediaLiveClientTypes.ArchiveOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containerSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ArchiveContainerSettings.self, forKey: .containerSettings)
         containerSettings = containerSettingsDecoded
@@ -1043,7 +1024,7 @@ extension MediaLiveClientTypes {
         /// String concatenated to the end of the destination filename. Required for multiple outputs of the same type.
         public var nameModifier: Swift.String?
 
-        public init (
+        public init(
             containerSettings: MediaLiveClientTypes.ArchiveContainerSettings? = nil,
             `extension`: Swift.String? = nil,
             nameModifier: Swift.String? = nil
@@ -1069,7 +1050,7 @@ extension MediaLiveClientTypes.ArchiveS3Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cannedAclDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.S3CannedAcl.self, forKey: .cannedAcl)
         cannedAcl = cannedAclDecoded
@@ -1082,7 +1063,7 @@ extension MediaLiveClientTypes {
         /// Specify the canned ACL to apply to each S3 request. Defaults to none.
         public var cannedAcl: MediaLiveClientTypes.S3CannedAcl?
 
-        public init (
+        public init(
             cannedAcl: MediaLiveClientTypes.S3CannedAcl? = nil
         )
         {
@@ -1099,7 +1080,7 @@ extension MediaLiveClientTypes.AribDestinationSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -1107,7 +1088,7 @@ extension MediaLiveClientTypes {
     /// Arib Destination Settings
     public struct AribDestinationSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -1119,7 +1100,7 @@ extension MediaLiveClientTypes.AribSourceSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -1127,7 +1108,7 @@ extension MediaLiveClientTypes {
     /// Arib Source Settings
     public struct AribSourceSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -1151,7 +1132,7 @@ extension MediaLiveClientTypes.AudioChannelMapping: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputChannelLevelsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.InputChannelLevel?].self, forKey: .inputChannelLevels)
         var inputChannelLevelsDecoded0:[MediaLiveClientTypes.InputChannelLevel]? = nil
@@ -1179,7 +1160,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var outputChannel: Swift.Int?
 
-        public init (
+        public init(
             inputChannelLevels: [MediaLiveClientTypes.InputChannelLevel]? = nil,
             outputChannel: Swift.Int? = nil
         )
@@ -1227,7 +1208,7 @@ extension MediaLiveClientTypes.AudioCodecSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aacSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AacSettings.self, forKey: .aacSettings)
         aacSettings = aacSettingsDecoded
@@ -1264,7 +1245,7 @@ extension MediaLiveClientTypes {
         /// Wav Settings
         public var wavSettings: MediaLiveClientTypes.WavSettings?
 
-        public init (
+        public init(
             aacSettings: MediaLiveClientTypes.AacSettings? = nil,
             ac3Settings: MediaLiveClientTypes.Ac3Settings? = nil,
             eac3AtmosSettings: MediaLiveClientTypes.Eac3AtmosSettings? = nil,
@@ -1338,7 +1319,7 @@ extension MediaLiveClientTypes.AudioDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioNormalizationSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AudioNormalizationSettings.self, forKey: .audioNormalizationSettings)
         audioNormalizationSettings = audioNormalizationSettingsDecoded
@@ -1393,7 +1374,7 @@ extension MediaLiveClientTypes {
         /// Used for MS Smooth and Apple HLS outputs. Indicates the name displayed by the player (eg. English, or Director Commentary).
         public var streamName: Swift.String?
 
-        public init (
+        public init(
             audioNormalizationSettings: MediaLiveClientTypes.AudioNormalizationSettings? = nil,
             audioSelectorName: Swift.String? = nil,
             audioType: MediaLiveClientTypes.AudioType? = nil,
@@ -1501,7 +1482,7 @@ extension MediaLiveClientTypes.AudioDolbyEDecode: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let programSelectionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.DolbyEProgramSelection.self, forKey: .programSelection)
         programSelection = programSelectionDecoded
@@ -1515,7 +1496,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var programSelection: MediaLiveClientTypes.DolbyEProgramSelection?
 
-        public init (
+        public init(
             programSelection: MediaLiveClientTypes.DolbyEProgramSelection? = nil
         )
         {
@@ -1541,7 +1522,7 @@ extension MediaLiveClientTypes.AudioHlsRenditionSelection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -1560,7 +1541,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             groupId: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -1588,7 +1569,7 @@ extension MediaLiveClientTypes.AudioLanguageSelection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let languageCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .languageCode)
         languageCode = languageCodeDecoded
@@ -1606,7 +1587,7 @@ extension MediaLiveClientTypes {
         /// When set to "strict", the transport stream demux strictly identifies audio streams by their language descriptor. If a PMT update occurs such that an audio stream matching the initially selected language is no longer present then mute will be encoded until the language returns. If "loose", then on a PMT update the demux will choose another audio stream in the program with the same stream type if it can't find one with the same language.
         public var languageSelectionPolicy: MediaLiveClientTypes.AudioLanguageSelectionPolicy?
 
-        public init (
+        public init(
             languageCode: Swift.String? = nil,
             languageSelectionPolicy: MediaLiveClientTypes.AudioLanguageSelectionPolicy? = nil
         )
@@ -1734,7 +1715,7 @@ extension MediaLiveClientTypes.AudioNormalizationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let algorithmDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AudioNormalizationAlgorithm.self, forKey: .algorithm)
         algorithm = algorithmDecoded
@@ -1755,7 +1736,7 @@ extension MediaLiveClientTypes {
         /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm. The CALM Act (1770-1) recommends a target of -24 LKFS. The EBU R-128 specification (1770-2) recommends a target of -23 LKFS.
         public var targetLkfs: Swift.Double?
 
-        public init (
+        public init(
             algorithm: MediaLiveClientTypes.AudioNormalizationAlgorithm? = nil,
             algorithmControl: MediaLiveClientTypes.AudioNormalizationAlgorithmControl? = nil,
             targetLkfs: Swift.Double? = nil
@@ -1826,7 +1807,7 @@ extension MediaLiveClientTypes.AudioOnlyHlsSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audioGroupId)
         audioGroupId = audioGroupIdDecoded
@@ -1851,7 +1832,7 @@ extension MediaLiveClientTypes {
         /// Specifies the segment type.
         public var segmentType: MediaLiveClientTypes.AudioOnlyHlsSegmentType?
 
-        public init (
+        public init(
             audioGroupId: Swift.String? = nil,
             audioOnlyImage: MediaLiveClientTypes.InputLocation? = nil,
             audioTrackType: MediaLiveClientTypes.AudioOnlyHlsTrackType? = nil,
@@ -1918,7 +1899,7 @@ extension MediaLiveClientTypes.AudioPidSelection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
         pid = pidDecoded
@@ -1932,7 +1913,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var pid: Swift.Int?
 
-        public init (
+        public init(
             pid: Swift.Int? = nil
         )
         {
@@ -1958,7 +1939,7 @@ extension MediaLiveClientTypes.AudioSelector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1976,7 +1957,7 @@ extension MediaLiveClientTypes {
         /// The audio selector settings.
         public var selectorSettings: MediaLiveClientTypes.AudioSelectorSettings?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             selectorSettings: MediaLiveClientTypes.AudioSelectorSettings? = nil
         )
@@ -2012,7 +1993,7 @@ extension MediaLiveClientTypes.AudioSelectorSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioHlsRenditionSelectionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AudioHlsRenditionSelection.self, forKey: .audioHlsRenditionSelection)
         audioHlsRenditionSelection = audioHlsRenditionSelectionDecoded
@@ -2037,7 +2018,7 @@ extension MediaLiveClientTypes {
         /// Audio Track Selection
         public var audioTrackSelection: MediaLiveClientTypes.AudioTrackSelection?
 
-        public init (
+        public init(
             audioHlsRenditionSelection: MediaLiveClientTypes.AudioHlsRenditionSelection? = nil,
             audioLanguageSelection: MediaLiveClientTypes.AudioLanguageSelection? = nil,
             audioPidSelection: MediaLiveClientTypes.AudioPidSelection? = nil,
@@ -2069,7 +2050,7 @@ extension MediaLiveClientTypes.AudioSilenceFailoverSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioSelectorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audioSelectorName)
         audioSelectorName = audioSelectorNameDecoded
@@ -2087,7 +2068,7 @@ extension MediaLiveClientTypes {
         /// The amount of time (in milliseconds) that the active input must be silent before automatic input failover occurs. Silence is defined as audio loss or audio quieter than -50 dBFS.
         public var audioSilenceThresholdMsec: Swift.Int?
 
-        public init (
+        public init(
             audioSelectorName: Swift.String? = nil,
             audioSilenceThresholdMsec: Swift.Int? = nil
         )
@@ -2111,7 +2092,7 @@ extension MediaLiveClientTypes.AudioTrack: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trackDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .track)
         track = trackDecoded
@@ -2125,7 +2106,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var track: Swift.Int?
 
-        public init (
+        public init(
             track: Swift.Int? = nil
         )
         {
@@ -2154,7 +2135,7 @@ extension MediaLiveClientTypes.AudioTrackSelection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tracksContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.AudioTrack?].self, forKey: .tracks)
         var tracksDecoded0:[MediaLiveClientTypes.AudioTrack]? = nil
@@ -2181,7 +2162,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var tracks: [MediaLiveClientTypes.AudioTrack]?
 
-        public init (
+        public init(
             dolbyEDecode: MediaLiveClientTypes.AudioDolbyEDecode? = nil,
             tracks: [MediaLiveClientTypes.AudioTrack]? = nil
         )
@@ -2244,7 +2225,7 @@ extension MediaLiveClientTypes.AudioWatermarkSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nielsenWatermarksSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.NielsenWatermarksSettings.self, forKey: .nielsenWatermarksSettings)
         nielsenWatermarksSettings = nielsenWatermarksSettingsDecoded
@@ -2257,7 +2238,7 @@ extension MediaLiveClientTypes {
         /// Settings to configure Nielsen Watermarks in the audio encode
         public var nielsenWatermarksSettings: MediaLiveClientTypes.NielsenWatermarksSettings?
 
-        public init (
+        public init(
             nielsenWatermarksSettings: MediaLiveClientTypes.NielsenWatermarksSettings? = nil
         )
         {
@@ -2327,7 +2308,7 @@ extension MediaLiveClientTypes.AutomaticInputFailoverSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorClearTimeMsecDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .errorClearTimeMsec)
         errorClearTimeMsec = errorClearTimeMsecDecoded
@@ -2362,7 +2343,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var secondaryInputId: Swift.String?
 
-        public init (
+        public init(
             errorClearTimeMsec: Swift.Int? = nil,
             failoverConditions: [MediaLiveClientTypes.FailoverCondition]? = nil,
             inputPreference: MediaLiveClientTypes.InputPreference? = nil,
@@ -2394,7 +2375,7 @@ extension MediaLiveClientTypes.AvailBlanking: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let availBlankingImageDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputLocation.self, forKey: .availBlankingImage)
         availBlankingImage = availBlankingImageDecoded
@@ -2411,7 +2392,7 @@ extension MediaLiveClientTypes {
         /// When set to enabled, causes video, audio and captions to be blanked when insertion metadata is added.
         public var state: MediaLiveClientTypes.AvailBlankingState?
 
-        public init (
+        public init(
             availBlankingImage: MediaLiveClientTypes.InputLocation? = nil,
             state: MediaLiveClientTypes.AvailBlankingState? = nil
         )
@@ -2468,7 +2449,7 @@ extension MediaLiveClientTypes.AvailConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let availSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AvailSettings.self, forKey: .availSettings)
         availSettings = availSettingsDecoded
@@ -2481,7 +2462,7 @@ extension MediaLiveClientTypes {
         /// Controls how SCTE-35 messages create cues. Splice Insert mode treats all segmentation signals traditionally. With Time Signal APOS mode only Time Signal Placement Opportunity and Break messages create segment breaks. With ESAM mode, signals are forwarded to an ESAM server for possible update.
         public var availSettings: MediaLiveClientTypes.AvailSettings?
 
-        public init (
+        public init(
             availSettings: MediaLiveClientTypes.AvailSettings? = nil
         )
         {
@@ -2511,7 +2492,7 @@ extension MediaLiveClientTypes.AvailSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let esamDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Esam.self, forKey: .esam)
         esam = esamDecoded
@@ -2532,7 +2513,7 @@ extension MediaLiveClientTypes {
         /// Atypical configuration that applies segment breaks only on SCTE-35 time signal placement opportunities and breaks.
         public var scte35TimeSignalApos: MediaLiveClientTypes.Scte35TimeSignalApos?
 
-        public init (
+        public init(
             esam: MediaLiveClientTypes.Esam? = nil,
             scte35SpliceInsert: MediaLiveClientTypes.Scte35SpliceInsert? = nil,
             scte35TimeSignalApos: MediaLiveClientTypes.Scte35TimeSignalApos? = nil
@@ -2547,38 +2528,42 @@ extension MediaLiveClientTypes {
 }
 
 extension BadGatewayException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadGatewayExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for BadGatewayException
-public struct BadGatewayException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// Placeholder documentation for __string
-    public var message: Swift.String?
+public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Placeholder documentation for __string
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadGatewayException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2591,7 +2576,7 @@ extension BadGatewayExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2599,38 +2584,42 @@ extension BadGatewayExceptionBody: Swift.Decodable {
 }
 
 extension BadRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for BadRequestException
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Placeholder documentation for __string
-    public var message: Swift.String?
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Placeholder documentation for __string
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2643,7 +2632,7 @@ extension BadRequestExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2704,7 +2693,7 @@ public struct BatchDeleteInput: Swift.Equatable {
     /// List of multiplex IDs
     public var multiplexIds: [Swift.String]?
 
-    public init (
+    public init(
         channelIds: [Swift.String]? = nil,
         inputIds: [Swift.String]? = nil,
         inputSecurityGroupIds: [Swift.String]? = nil,
@@ -2733,7 +2722,7 @@ extension BatchDeleteInputBody: Swift.Decodable {
         case multiplexIds = "multiplexIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .channelIds)
         var channelIdsDecoded0:[Swift.String]? = nil
@@ -2782,45 +2771,27 @@ extension BatchDeleteInputBody: Swift.Decodable {
     }
 }
 
-extension BatchDeleteOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchDeleteOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchDeleteOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchDeleteOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchDeleteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchDeleteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
@@ -2839,7 +2810,7 @@ public struct BatchDeleteOutputResponse: Swift.Equatable {
     /// List of successful operations
     public var successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]?
 
-    public init (
+    public init(
         failed: [MediaLiveClientTypes.BatchFailedResultModel]? = nil,
         successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]? = nil
     )
@@ -2860,7 +2831,7 @@ extension BatchDeleteOutputResponseBody: Swift.Decodable {
         case successful = "successful"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.BatchFailedResultModel?].self, forKey: .failed)
         var failedDecoded0:[MediaLiveClientTypes.BatchFailedResultModel]? = nil
@@ -2911,7 +2882,7 @@ extension MediaLiveClientTypes.BatchFailedResultModel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -2936,7 +2907,7 @@ extension MediaLiveClientTypes {
         /// Error message for the failed operation
         public var message: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             code: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -2967,7 +2938,7 @@ extension MediaLiveClientTypes.BatchScheduleActionCreateRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduleActionsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.ScheduleAction?].self, forKey: .scheduleActions)
         var scheduleActionsDecoded0:[MediaLiveClientTypes.ScheduleAction]? = nil
@@ -2990,7 +2961,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var scheduleActions: [MediaLiveClientTypes.ScheduleAction]?
 
-        public init (
+        public init(
             scheduleActions: [MediaLiveClientTypes.ScheduleAction]? = nil
         )
         {
@@ -3015,7 +2986,7 @@ extension MediaLiveClientTypes.BatchScheduleActionCreateResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduleActionsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.ScheduleAction?].self, forKey: .scheduleActions)
         var scheduleActionsDecoded0:[MediaLiveClientTypes.ScheduleAction]? = nil
@@ -3038,7 +3009,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var scheduleActions: [MediaLiveClientTypes.ScheduleAction]?
 
-        public init (
+        public init(
             scheduleActions: [MediaLiveClientTypes.ScheduleAction]? = nil
         )
         {
@@ -3063,7 +3034,7 @@ extension MediaLiveClientTypes.BatchScheduleActionDeleteRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .actionNames)
         var actionNamesDecoded0:[Swift.String]? = nil
@@ -3086,7 +3057,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var actionNames: [Swift.String]?
 
-        public init (
+        public init(
             actionNames: [Swift.String]? = nil
         )
         {
@@ -3111,7 +3082,7 @@ extension MediaLiveClientTypes.BatchScheduleActionDeleteResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduleActionsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.ScheduleAction?].self, forKey: .scheduleActions)
         var scheduleActionsDecoded0:[MediaLiveClientTypes.ScheduleAction]? = nil
@@ -3134,7 +3105,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var scheduleActions: [MediaLiveClientTypes.ScheduleAction]?
 
-        public init (
+        public init(
             scheduleActions: [MediaLiveClientTypes.ScheduleAction]? = nil
         )
         {
@@ -3180,7 +3151,7 @@ public struct BatchStartInput: Swift.Equatable {
     /// List of multiplex IDs
     public var multiplexIds: [Swift.String]?
 
-    public init (
+    public init(
         channelIds: [Swift.String]? = nil,
         multiplexIds: [Swift.String]? = nil
     )
@@ -3201,7 +3172,7 @@ extension BatchStartInputBody: Swift.Decodable {
         case multiplexIds = "multiplexIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .channelIds)
         var channelIdsDecoded0:[Swift.String]? = nil
@@ -3228,45 +3199,27 @@ extension BatchStartInputBody: Swift.Decodable {
     }
 }
 
-extension BatchStartOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchStartOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchStartOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchStartOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchStartOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchStartOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
@@ -3285,7 +3238,7 @@ public struct BatchStartOutputResponse: Swift.Equatable {
     /// List of successful operations
     public var successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]?
 
-    public init (
+    public init(
         failed: [MediaLiveClientTypes.BatchFailedResultModel]? = nil,
         successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]? = nil
     )
@@ -3306,7 +3259,7 @@ extension BatchStartOutputResponseBody: Swift.Decodable {
         case successful = "successful"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.BatchFailedResultModel?].self, forKey: .failed)
         var failedDecoded0:[MediaLiveClientTypes.BatchFailedResultModel]? = nil
@@ -3369,7 +3322,7 @@ public struct BatchStopInput: Swift.Equatable {
     /// List of multiplex IDs
     public var multiplexIds: [Swift.String]?
 
-    public init (
+    public init(
         channelIds: [Swift.String]? = nil,
         multiplexIds: [Swift.String]? = nil
     )
@@ -3390,7 +3343,7 @@ extension BatchStopInputBody: Swift.Decodable {
         case multiplexIds = "multiplexIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .channelIds)
         var channelIdsDecoded0:[Swift.String]? = nil
@@ -3417,45 +3370,27 @@ extension BatchStopInputBody: Swift.Decodable {
     }
 }
 
-extension BatchStopOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchStopOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchStopOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchStopOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchStopOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchStopOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
@@ -3474,7 +3409,7 @@ public struct BatchStopOutputResponse: Swift.Equatable {
     /// List of successful operations
     public var successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]?
 
-    public init (
+    public init(
         failed: [MediaLiveClientTypes.BatchFailedResultModel]? = nil,
         successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]? = nil
     )
@@ -3495,7 +3430,7 @@ extension BatchStopOutputResponseBody: Swift.Decodable {
         case successful = "successful"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.BatchFailedResultModel?].self, forKey: .failed)
         var failedDecoded0:[MediaLiveClientTypes.BatchFailedResultModel]? = nil
@@ -3542,7 +3477,7 @@ extension MediaLiveClientTypes.BatchSuccessfulResultModel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3563,7 +3498,7 @@ extension MediaLiveClientTypes {
         /// Current state of the resource
         public var state: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             state: Swift.String? = nil
@@ -3613,7 +3548,7 @@ public struct BatchUpdateScheduleInput: Swift.Equatable {
     /// Schedule actions to delete from the schedule.
     public var deletes: MediaLiveClientTypes.BatchScheduleActionDeleteRequest?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil,
         creates: MediaLiveClientTypes.BatchScheduleActionCreateRequest? = nil,
         deletes: MediaLiveClientTypes.BatchScheduleActionDeleteRequest? = nil
@@ -3636,7 +3571,7 @@ extension BatchUpdateScheduleInputBody: Swift.Decodable {
         case deletes = "deletes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let createsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.BatchScheduleActionCreateRequest.self, forKey: .creates)
         creates = createsDecoded
@@ -3645,45 +3580,27 @@ extension BatchUpdateScheduleInputBody: Swift.Decodable {
     }
 }
 
-extension BatchUpdateScheduleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchUpdateScheduleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchUpdateScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchUpdateScheduleOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchUpdateScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchUpdateScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creates = output.creates
@@ -3702,7 +3619,7 @@ public struct BatchUpdateScheduleOutputResponse: Swift.Equatable {
     /// Schedule actions deleted from the schedule.
     public var deletes: MediaLiveClientTypes.BatchScheduleActionDeleteResult?
 
-    public init (
+    public init(
         creates: MediaLiveClientTypes.BatchScheduleActionCreateResult? = nil,
         deletes: MediaLiveClientTypes.BatchScheduleActionDeleteResult? = nil
     )
@@ -3723,7 +3640,7 @@ extension BatchUpdateScheduleOutputResponseBody: Swift.Decodable {
         case deletes = "deletes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let createsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.BatchScheduleActionCreateResult.self, forKey: .creates)
         creates = createsDecoded
@@ -3760,7 +3677,7 @@ extension MediaLiveClientTypes.BlackoutSlate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blackoutSlateImageDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputLocation.self, forKey: .blackoutSlateImage)
         blackoutSlateImage = blackoutSlateImageDecoded
@@ -3789,7 +3706,7 @@ extension MediaLiveClientTypes {
         /// When set to enabled, causes video, audio and captions to be blanked when indicated by program metadata.
         public var state: MediaLiveClientTypes.BlackoutSlateState?
 
-        public init (
+        public init(
             blackoutSlateImage: MediaLiveClientTypes.InputLocation? = nil,
             networkEndBlackout: MediaLiveClientTypes.BlackoutSlateNetworkEndBlackout? = nil,
             networkEndBlackoutImage: MediaLiveClientTypes.InputLocation? = nil,
@@ -4021,7 +3938,7 @@ extension MediaLiveClientTypes.BurnInDestinationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let alignmentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.BurnInAlignment.self, forKey: .alignment)
         alignment = alignmentDecoded
@@ -4098,7 +4015,7 @@ extension MediaLiveClientTypes {
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output. All burn-in and DVB-Sub font settings must match.
         public var yPosition: Swift.Int?
 
-        public init (
+        public init(
             alignment: MediaLiveClientTypes.BurnInAlignment? = nil,
             backgroundColor: MediaLiveClientTypes.BurnInBackgroundColor? = nil,
             backgroundOpacity: Swift.Int? = nil,
@@ -4314,7 +4231,7 @@ public struct CancelInputDeviceTransferInput: Swift.Equatable {
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
-    public init (
+    public init(
         inputDeviceId: Swift.String? = nil
     )
     {
@@ -4327,57 +4244,38 @@ struct CancelInputDeviceTransferInputBody: Swift.Equatable {
 
 extension CancelInputDeviceTransferInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension CancelInputDeviceTransferOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelInputDeviceTransferOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelInputDeviceTransferOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelInputDeviceTransferOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelInputDeviceTransferOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for CancelInputDeviceTransferResponse
 public struct CancelInputDeviceTransferOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension MediaLiveClientTypes.CaptionDescription: Swift.Codable {
@@ -4412,7 +4310,7 @@ extension MediaLiveClientTypes.CaptionDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessibilityDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AccessibilityType.self, forKey: .accessibility)
         accessibility = accessibilityDecoded
@@ -4447,7 +4345,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             accessibility: MediaLiveClientTypes.AccessibilityType? = nil,
             captionSelectorName: Swift.String? = nil,
             destinationSettings: MediaLiveClientTypes.CaptionDestinationSettings? = nil,
@@ -4527,7 +4425,7 @@ extension MediaLiveClientTypes.CaptionDestinationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aribDestinationSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AribDestinationSettings.self, forKey: .aribDestinationSettings)
         aribDestinationSettings = aribDestinationSettingsDecoded
@@ -4588,7 +4486,7 @@ extension MediaLiveClientTypes {
         /// Webvtt Destination Settings
         public var webvttDestinationSettings: MediaLiveClientTypes.WebvttDestinationSettings?
 
-        public init (
+        public init(
             aribDestinationSettings: MediaLiveClientTypes.AribDestinationSettings? = nil,
             burnInDestinationSettings: MediaLiveClientTypes.BurnInDestinationSettings? = nil,
             dvbSubDestinationSettings: MediaLiveClientTypes.DvbSubDestinationSettings? = nil,
@@ -4642,7 +4540,7 @@ extension MediaLiveClientTypes.CaptionLanguageMapping: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let captionChannelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .captionChannel)
         captionChannel = captionChannelDecoded
@@ -4666,7 +4564,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var languageDescription: Swift.String?
 
-        public init (
+        public init(
             captionChannel: Swift.Int? = nil,
             languageCode: Swift.String? = nil,
             languageDescription: Swift.String? = nil
@@ -4704,7 +4602,7 @@ extension MediaLiveClientTypes.CaptionRectangle: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let heightDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .height)
         height = heightDecoded
@@ -4733,7 +4631,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var width: Swift.Double?
 
-        public init (
+        public init(
             height: Swift.Double? = nil,
             leftOffset: Swift.Double? = nil,
             topOffset: Swift.Double? = nil,
@@ -4769,7 +4667,7 @@ extension MediaLiveClientTypes.CaptionSelector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let languageCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .languageCode)
         languageCode = languageCodeDecoded
@@ -4791,7 +4689,7 @@ extension MediaLiveClientTypes {
         /// Caption selector settings.
         public var selectorSettings: MediaLiveClientTypes.CaptionSelectorSettings?
 
-        public init (
+        public init(
             languageCode: Swift.String? = nil,
             name: Swift.String? = nil,
             selectorSettings: MediaLiveClientTypes.CaptionSelectorSettings? = nil
@@ -4841,7 +4739,7 @@ extension MediaLiveClientTypes.CaptionSelectorSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ancillarySourceSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AncillarySourceSettings.self, forKey: .ancillarySourceSettings)
         ancillarySourceSettings = ancillarySourceSettingsDecoded
@@ -4878,7 +4776,7 @@ extension MediaLiveClientTypes {
         /// Teletext Source Settings
         public var teletextSourceSettings: MediaLiveClientTypes.TeletextSourceSettings?
 
-        public init (
+        public init(
             ancillarySourceSettings: MediaLiveClientTypes.AncillarySourceSettings? = nil,
             aribSourceSettings: MediaLiveClientTypes.AribSourceSettings? = nil,
             dvbSubSourceSettings: MediaLiveClientTypes.DvbSubSourceSettings? = nil,
@@ -4951,7 +4849,7 @@ extension MediaLiveClientTypes.CdiInputSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resolutionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CdiInputResolution.self, forKey: .resolution)
         resolution = resolutionDecoded
@@ -4964,7 +4862,7 @@ extension MediaLiveClientTypes {
         /// Maximum CDI input resolution
         public var resolution: MediaLiveClientTypes.CdiInputResolution?
 
-        public init (
+        public init(
             resolution: MediaLiveClientTypes.CdiInputResolution? = nil
         )
         {
@@ -5069,7 +4967,7 @@ extension MediaLiveClientTypes.Channel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -5195,7 +5093,7 @@ extension MediaLiveClientTypes {
         /// Settings for VPC output
         public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -5284,7 +5182,7 @@ extension MediaLiveClientTypes.ChannelEgressEndpoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceIpDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIp)
         sourceIp = sourceIpDecoded
@@ -5297,7 +5195,7 @@ extension MediaLiveClientTypes {
         /// Public IP of where a channel's output comes from
         public var sourceIp: Swift.String?
 
-        public init (
+        public init(
             sourceIp: Swift.String? = nil
         )
         {
@@ -5451,7 +5349,7 @@ extension MediaLiveClientTypes.ChannelSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -5560,7 +5458,7 @@ extension MediaLiveClientTypes {
         /// Settings for any VPC outputs.
         public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -5624,7 +5522,7 @@ public struct ClaimDeviceInput: Swift.Equatable {
     /// The id of the device you want to claim.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -5641,58 +5539,40 @@ extension ClaimDeviceInputBody: Swift.Decodable {
         case id = "id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension ClaimDeviceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ClaimDeviceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ClaimDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ClaimDeviceOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ClaimDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for ClaimDeviceResponse
 public struct ClaimDeviceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension MediaLiveClientTypes.ColorSpacePassthroughSettings: Swift.Codable {
@@ -5702,7 +5582,7 @@ extension MediaLiveClientTypes.ColorSpacePassthroughSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -5710,44 +5590,48 @@ extension MediaLiveClientTypes {
     /// Passthrough applies no color space conversion to the output
     public struct ColorSpacePassthroughSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for ConflictException
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Placeholder documentation for __string
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Placeholder documentation for __string
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5760,7 +5644,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5909,7 +5793,7 @@ public struct CreateChannelInput: Swift.Equatable {
     /// Settings for the VPC outputs
     public var vpc: MediaLiveClientTypes.VpcOutputSettings?
 
-    public init (
+    public init(
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
@@ -5978,7 +5862,7 @@ extension CreateChannelInputBody: Swift.Decodable {
         case vpc = "vpc"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cdiInputSpecificationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CdiInputSpecification.self, forKey: .cdiInputSpecification)
         cdiInputSpecification = cdiInputSpecificationDecoded
@@ -6038,45 +5922,27 @@ extension CreateChannelInputBody: Swift.Decodable {
     }
 }
 
-extension CreateChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateChannelOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channel = output.channel
@@ -6091,7 +5957,7 @@ public struct CreateChannelOutputResponse: Swift.Equatable {
     /// Placeholder documentation for Channel
     public var channel: MediaLiveClientTypes.Channel?
 
-    public init (
+    public init(
         channel: MediaLiveClientTypes.Channel? = nil
     )
     {
@@ -6108,7 +5974,7 @@ extension CreateChannelOutputResponseBody: Swift.Decodable {
         case channel = "channel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Channel.self, forKey: .channel)
         channel = channelDecoded
@@ -6217,7 +6083,7 @@ public struct CreateInputInput: Swift.Equatable {
     /// Settings for a private VPC Input. When this property is specified, the input destination addresses will be created in a VPC rather than with public Internet addresses. This property requires setting the roleArn property on Input creation. Not compatible with the inputSecurityGroups property.
     public var vpc: MediaLiveClientTypes.InputVpcRequest?
 
-    public init (
+    public init(
         destinations: [MediaLiveClientTypes.InputDestinationRequest]? = nil,
         inputDevices: [MediaLiveClientTypes.InputDeviceSettings]? = nil,
         inputSecurityGroups: [Swift.String]? = nil,
@@ -6274,7 +6140,7 @@ extension CreateInputInputBody: Swift.Decodable {
         case vpc = "vpc"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.InputDestinationRequest?].self, forKey: .destinations)
         var destinationsDecoded0:[MediaLiveClientTypes.InputDestinationRequest]? = nil
@@ -6355,41 +6221,25 @@ extension CreateInputInputBody: Swift.Decodable {
     }
 }
 
-extension CreateInputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateInputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateInputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateInputOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateInputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateInputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.input = output.input
@@ -6404,7 +6254,7 @@ public struct CreateInputOutputResponse: Swift.Equatable {
     /// Placeholder documentation for Input
     public var input: MediaLiveClientTypes.Input?
 
-    public init (
+    public init(
         input: MediaLiveClientTypes.Input? = nil
     )
     {
@@ -6421,7 +6271,7 @@ extension CreateInputOutputResponseBody: Swift.Decodable {
         case input = "input"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Input.self, forKey: .input)
         input = inputDecoded
@@ -6464,7 +6314,7 @@ public struct CreateInputSecurityGroupInput: Swift.Equatable {
     /// List of IPv4 CIDR addresses to whitelist
     public var whitelistRules: [MediaLiveClientTypes.InputWhitelistRuleCidr]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil,
         whitelistRules: [MediaLiveClientTypes.InputWhitelistRuleCidr]? = nil
     )
@@ -6485,7 +6335,7 @@ extension CreateInputSecurityGroupInputBody: Swift.Decodable {
         case whitelistRules = "whitelistRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -6512,41 +6362,25 @@ extension CreateInputSecurityGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateInputSecurityGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateInputSecurityGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateInputSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateInputSecurityGroupOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateInputSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateInputSecurityGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityGroup = output.securityGroup
@@ -6561,7 +6395,7 @@ public struct CreateInputSecurityGroupOutputResponse: Swift.Equatable {
     /// An Input Security Group
     public var securityGroup: MediaLiveClientTypes.InputSecurityGroup?
 
-    public init (
+    public init(
         securityGroup: MediaLiveClientTypes.InputSecurityGroup? = nil
     )
     {
@@ -6578,7 +6412,7 @@ extension CreateInputSecurityGroupOutputResponseBody: Swift.Decodable {
         case securityGroup = "securityGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityGroupDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputSecurityGroup.self, forKey: .securityGroup)
         securityGroup = securityGroupDecoded
@@ -6643,7 +6477,7 @@ public struct CreateMultiplexInput: Swift.Equatable {
     /// A collection of key-value pairs.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         availabilityZones: [Swift.String]? = nil,
         multiplexSettings: MediaLiveClientTypes.MultiplexSettings? = nil,
         name: Swift.String? = nil,
@@ -6676,7 +6510,7 @@ extension CreateMultiplexInputBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let availabilityZonesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZones)
         var availabilityZonesDecoded0:[Swift.String]? = nil
@@ -6709,45 +6543,27 @@ extension CreateMultiplexInputBody: Swift.Decodable {
     }
 }
 
-extension CreateMultiplexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateMultiplexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateMultiplexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateMultiplexOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateMultiplexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateMultiplexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.multiplex = output.multiplex
@@ -6762,7 +6578,7 @@ public struct CreateMultiplexOutputResponse: Swift.Equatable {
     /// The newly created multiplex.
     public var multiplex: MediaLiveClientTypes.Multiplex?
 
-    public init (
+    public init(
         multiplex: MediaLiveClientTypes.Multiplex? = nil
     )
     {
@@ -6779,7 +6595,7 @@ extension CreateMultiplexOutputResponseBody: Swift.Decodable {
         case multiplex = "multiplex"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Multiplex.self, forKey: .multiplex)
         multiplex = multiplexDecoded
@@ -6831,7 +6647,7 @@ public struct CreateMultiplexProgramInput: Swift.Equatable {
     /// This member is required.
     public var requestId: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil,
         multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings? = nil,
         programName: Swift.String? = nil,
@@ -6858,7 +6674,7 @@ extension CreateMultiplexProgramInputBody: Swift.Decodable {
         case requestId = "requestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexProgramSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MultiplexProgramSettings.self, forKey: .multiplexProgramSettings)
         multiplexProgramSettings = multiplexProgramSettingsDecoded
@@ -6869,45 +6685,27 @@ extension CreateMultiplexProgramInputBody: Swift.Decodable {
     }
 }
 
-extension CreateMultiplexProgramOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateMultiplexProgramOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateMultiplexProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateMultiplexProgramOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateMultiplexProgramOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateMultiplexProgramOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.multiplexProgram = output.multiplexProgram
@@ -6922,7 +6720,7 @@ public struct CreateMultiplexProgramOutputResponse: Swift.Equatable {
     /// The newly created multiplex program.
     public var multiplexProgram: MediaLiveClientTypes.MultiplexProgram?
 
-    public init (
+    public init(
         multiplexProgram: MediaLiveClientTypes.MultiplexProgram? = nil
     )
     {
@@ -6939,7 +6737,7 @@ extension CreateMultiplexProgramOutputResponseBody: Swift.Decodable {
         case multiplexProgram = "multiplexProgram"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexProgramDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MultiplexProgram.self, forKey: .multiplexProgram)
         multiplexProgram = multiplexProgramDecoded
@@ -6985,7 +6783,7 @@ public struct CreatePartnerInputInput: Swift.Equatable {
     /// A collection of key-value pairs.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         inputId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -7008,7 +6806,7 @@ extension CreatePartnerInputInputBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
@@ -7026,41 +6824,25 @@ extension CreatePartnerInputInputBody: Swift.Decodable {
     }
 }
 
-extension CreatePartnerInputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreatePartnerInputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreatePartnerInputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreatePartnerInputOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreatePartnerInputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreatePartnerInputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.input = output.input
@@ -7075,7 +6857,7 @@ public struct CreatePartnerInputOutputResponse: Swift.Equatable {
     /// Placeholder documentation for Input
     public var input: MediaLiveClientTypes.Input?
 
-    public init (
+    public init(
         input: MediaLiveClientTypes.Input? = nil
     )
     {
@@ -7092,7 +6874,7 @@ extension CreatePartnerInputOutputResponseBody: Swift.Decodable {
         case input = "input"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Input.self, forKey: .input)
         input = inputDecoded
@@ -7132,7 +6914,7 @@ public struct CreateTagsInput: Swift.Equatable {
     /// Placeholder documentation for Tags
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -7151,7 +6933,7 @@ extension CreateTagsInputBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -7167,42 +6949,28 @@ extension CreateTagsInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTagsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CreateTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteChannelInput: ClientRuntime.URLPathProvider {
@@ -7220,7 +6988,7 @@ public struct DeleteChannelInput: Swift.Equatable {
     /// This member is required.
     public var channelId: Swift.String?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil
     )
     {
@@ -7233,49 +7001,31 @@ struct DeleteChannelInputBody: Swift.Equatable {
 
 extension DeleteChannelInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteChannelOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -7358,7 +7108,7 @@ public struct DeleteChannelOutputResponse: Swift.Equatable {
     /// Settings for VPC output
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -7443,7 +7193,7 @@ extension DeleteChannelOutputResponseBody: Swift.Decodable {
         case vpc = "vpc"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -7544,7 +7294,7 @@ public struct DeleteInputInput: Swift.Equatable {
     /// This member is required.
     public var inputId: Swift.String?
 
-    public init (
+    public init(
         inputId: Swift.String? = nil
     )
     {
@@ -7557,55 +7307,37 @@ struct DeleteInputInputBody: Swift.Equatable {
 
 extension DeleteInputInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteInputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteInputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteInputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteInputOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteInputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for DeleteInputResponse
 public struct DeleteInputOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteInputSecurityGroupInput: ClientRuntime.URLPathProvider {
@@ -7623,7 +7355,7 @@ public struct DeleteInputSecurityGroupInput: Swift.Equatable {
     /// This member is required.
     public var inputSecurityGroupId: Swift.String?
 
-    public init (
+    public init(
         inputSecurityGroupId: Swift.String? = nil
     )
     {
@@ -7636,53 +7368,36 @@ struct DeleteInputSecurityGroupInputBody: Swift.Equatable {
 
 extension DeleteInputSecurityGroupInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteInputSecurityGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteInputSecurityGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteInputSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteInputSecurityGroupOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteInputSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for DeleteInputSecurityGroupResponse
 public struct DeleteInputSecurityGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteMultiplexInput: ClientRuntime.URLPathProvider {
@@ -7700,7 +7415,7 @@ public struct DeleteMultiplexInput: Swift.Equatable {
     /// This member is required.
     public var multiplexId: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil
     )
     {
@@ -7713,49 +7428,31 @@ struct DeleteMultiplexInputBody: Swift.Equatable {
 
 extension DeleteMultiplexInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteMultiplexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteMultiplexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteMultiplexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteMultiplexOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteMultiplexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteMultiplexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -7806,7 +7503,7 @@ public struct DeleteMultiplexOutputResponse: Swift.Equatable {
     /// A collection of key-value pairs.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         availabilityZones: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.MultiplexOutputDestination]? = nil,
@@ -7859,7 +7556,7 @@ extension DeleteMultiplexOutputResponseBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -7932,7 +7629,7 @@ public struct DeleteMultiplexProgramInput: Swift.Equatable {
     /// This member is required.
     public var programName: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil,
         programName: Swift.String? = nil
     )
@@ -7947,49 +7644,31 @@ struct DeleteMultiplexProgramInputBody: Swift.Equatable {
 
 extension DeleteMultiplexProgramInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteMultiplexProgramOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteMultiplexProgramOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteMultiplexProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteMultiplexProgramOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteMultiplexProgramOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteMultiplexProgramOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelId = output.channelId
@@ -8020,7 +7699,7 @@ public struct DeleteMultiplexProgramOutputResponse: Swift.Equatable {
     /// The name of the multiplex program.
     public var programName: Swift.String?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil,
         multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings? = nil,
         packetIdentifiersMap: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap? = nil,
@@ -8053,7 +7732,7 @@ extension DeleteMultiplexProgramOutputResponseBody: Swift.Decodable {
         case programName = "programName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelId)
         channelId = channelIdDecoded
@@ -8092,7 +7771,7 @@ public struct DeleteReservationInput: Swift.Equatable {
     /// This member is required.
     public var reservationId: Swift.String?
 
-    public init (
+    public init(
         reservationId: Swift.String? = nil
     )
     {
@@ -8105,49 +7784,31 @@ struct DeleteReservationInputBody: Swift.Equatable {
 
 extension DeleteReservationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteReservationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteReservationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteReservationOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteReservationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteReservationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -8234,7 +7895,7 @@ public struct DeleteReservationOutputResponse: Swift.Equatable {
     /// Recurring usage charge for each reserved resource, e.g. '157.0'
     public var usagePrice: Swift.Double?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         count: Swift.Int? = nil,
         currencyCode: Swift.String? = nil,
@@ -8323,7 +7984,7 @@ extension DeleteReservationOutputResponseBody: Swift.Decodable {
         case usagePrice = "usagePrice"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -8390,7 +8051,7 @@ public struct DeleteScheduleInput: Swift.Equatable {
     /// This member is required.
     public var channelId: Swift.String?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil
     )
     {
@@ -8403,53 +8064,36 @@ struct DeleteScheduleInputBody: Swift.Equatable {
 
 extension DeleteScheduleInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteScheduleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteScheduleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteScheduleOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for DeleteScheduleResponse
 public struct DeleteScheduleOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteTagsInput: ClientRuntime.QueryItemProvider {
@@ -8458,7 +8102,7 @@ extension DeleteTagsInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let tagKeys = tagKeys else {
                 let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -8487,7 +8131,7 @@ public struct DeleteTagsInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -8502,46 +8146,32 @@ struct DeleteTagsInputBody: Swift.Equatable {
 
 extension DeleteTagsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTagsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeChannelInput: ClientRuntime.URLPathProvider {
@@ -8559,7 +8189,7 @@ public struct DescribeChannelInput: Swift.Equatable {
     /// This member is required.
     public var channelId: Swift.String?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil
     )
     {
@@ -8572,65 +8202,30 @@ struct DescribeChannelInputBody: Swift.Equatable {
 
 extension DescribeChannelInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DescribeChannelOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .badGatewayException: return "BadGatewayException"
-        case .badRequestException: return "BadRequestException"
-        case .forbiddenException: return "ForbiddenException"
-        case .gatewayTimeoutException: return "GatewayTimeoutException"
-        case .internalServerErrorException: return "InternalServerErrorException"
-        case .notFoundException: return "NotFoundException"
-        case .tooManyRequestsException: return "TooManyRequestsException"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeChannelOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -8713,7 +8308,7 @@ public struct DescribeChannelOutputResponse: Swift.Equatable {
     /// Settings for VPC output
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -8798,7 +8393,7 @@ extension DescribeChannelOutputResponseBody: Swift.Decodable {
         case vpc = "vpc"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -8899,7 +8494,7 @@ public struct DescribeInputDeviceInput: Swift.Equatable {
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
-    public init (
+    public init(
         inputDeviceId: Swift.String? = nil
     )
     {
@@ -8912,47 +8507,30 @@ struct DescribeInputDeviceInputBody: Swift.Equatable {
 
 extension DescribeInputDeviceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeInputDeviceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeInputDeviceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeInputDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeInputDeviceOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeInputDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -9015,7 +8593,7 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
     /// Settings that describe an input device that is type UHD.
     public var uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
         deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
@@ -9080,7 +8658,7 @@ extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
         case uhdDeviceSettings = "uhdDeviceSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -9148,7 +8726,7 @@ public struct DescribeInputDeviceThumbnailInput: Swift.Equatable {
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
-    public init (
+    public init(
         accept: MediaLiveClientTypes.AcceptHeader? = nil,
         inputDeviceId: Swift.String? = nil
     )
@@ -9163,46 +8741,29 @@ struct DescribeInputDeviceThumbnailInputBody: Swift.Equatable {
 
 extension DescribeInputDeviceThumbnailInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeInputDeviceThumbnailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeInputDeviceThumbnailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeInputDeviceThumbnailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeInputDeviceThumbnailOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeInputDeviceThumbnailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentLengthHeaderValue = httpResponse.headers.value(for: "Content-Length") {
             self.contentLength = Swift.Int(contentLengthHeaderValue) ?? 0
         } else {
@@ -9247,7 +8808,7 @@ public struct DescribeInputDeviceThumbnailOutputResponse: Swift.Equatable {
     /// The date and time the thumbnail was last updated at the device.
     public var lastModified: ClientRuntime.Date?
 
-    public init (
+    public init(
         body: ClientRuntime.ByteStream? = nil,
         contentLength: Swift.Int? = nil,
         contentType: MediaLiveClientTypes.ContentType? = nil,
@@ -9272,7 +8833,7 @@ extension DescribeInputDeviceThumbnailOutputResponseBody: Swift.Decodable {
         case body = "body"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
         body = bodyDecoded
@@ -9294,7 +8855,7 @@ public struct DescribeInputInput: Swift.Equatable {
     /// This member is required.
     public var inputId: Swift.String?
 
-    public init (
+    public init(
         inputId: Swift.String? = nil
     )
     {
@@ -9307,65 +8868,30 @@ struct DescribeInputInputBody: Swift.Equatable {
 
 extension DescribeInputInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeInputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeInputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeInputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DescribeInputOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .badGatewayException: return "BadGatewayException"
-        case .badRequestException: return "BadRequestException"
-        case .forbiddenException: return "ForbiddenException"
-        case .gatewayTimeoutException: return "GatewayTimeoutException"
-        case .internalServerErrorException: return "InternalServerErrorException"
-        case .notFoundException: return "NotFoundException"
-        case .tooManyRequestsException: return "TooManyRequestsException"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeInputOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeInputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeInputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -9440,7 +8966,7 @@ public struct DescribeInputOutputResponse: Swift.Equatable {
     /// The different types of inputs that AWS Elemental MediaLive supports.
     public var type: MediaLiveClientTypes.InputType?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         attachedChannels: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.InputDestination]? = nil,
@@ -9517,7 +9043,7 @@ extension DescribeInputOutputResponseBody: Swift.Decodable {
         case type = "type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -9641,7 +9167,7 @@ public struct DescribeInputSecurityGroupInput: Swift.Equatable {
     /// This member is required.
     public var inputSecurityGroupId: Swift.String?
 
-    public init (
+    public init(
         inputSecurityGroupId: Swift.String? = nil
     )
     {
@@ -9654,47 +9180,30 @@ struct DescribeInputSecurityGroupInputBody: Swift.Equatable {
 
 extension DescribeInputSecurityGroupInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeInputSecurityGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeInputSecurityGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeInputSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeInputSecurityGroupOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeInputSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeInputSecurityGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -9729,7 +9238,7 @@ public struct DescribeInputSecurityGroupOutputResponse: Swift.Equatable {
     /// Whitelist rules and their sync status
     public var whitelistRules: [MediaLiveClientTypes.InputWhitelistRule]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         inputs: [Swift.String]? = nil,
@@ -9766,7 +9275,7 @@ extension DescribeInputSecurityGroupOutputResponseBody: Swift.Decodable {
         case whitelistRules = "whitelistRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -9825,7 +9334,7 @@ public struct DescribeMultiplexInput: Swift.Equatable {
     /// This member is required.
     public var multiplexId: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil
     )
     {
@@ -9838,65 +9347,30 @@ struct DescribeMultiplexInputBody: Swift.Equatable {
 
 extension DescribeMultiplexInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeMultiplexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeMultiplexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeMultiplexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DescribeMultiplexOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .badGatewayException: return "BadGatewayException"
-        case .badRequestException: return "BadRequestException"
-        case .forbiddenException: return "ForbiddenException"
-        case .gatewayTimeoutException: return "GatewayTimeoutException"
-        case .internalServerErrorException: return "InternalServerErrorException"
-        case .notFoundException: return "NotFoundException"
-        case .tooManyRequestsException: return "TooManyRequestsException"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeMultiplexOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeMultiplexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeMultiplexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -9947,7 +9421,7 @@ public struct DescribeMultiplexOutputResponse: Swift.Equatable {
     /// A collection of key-value pairs.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         availabilityZones: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.MultiplexOutputDestination]? = nil,
@@ -10000,7 +9474,7 @@ extension DescribeMultiplexOutputResponseBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -10073,7 +9547,7 @@ public struct DescribeMultiplexProgramInput: Swift.Equatable {
     /// This member is required.
     public var programName: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil,
         programName: Swift.String? = nil
     )
@@ -10088,47 +9562,30 @@ struct DescribeMultiplexProgramInputBody: Swift.Equatable {
 
 extension DescribeMultiplexProgramInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeMultiplexProgramOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeMultiplexProgramOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeMultiplexProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeMultiplexProgramOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeMultiplexProgramOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeMultiplexProgramOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelId = output.channelId
@@ -10159,7 +9616,7 @@ public struct DescribeMultiplexProgramOutputResponse: Swift.Equatable {
     /// The name of the multiplex program.
     public var programName: Swift.String?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil,
         multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings? = nil,
         packetIdentifiersMap: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap? = nil,
@@ -10192,7 +9649,7 @@ extension DescribeMultiplexProgramOutputResponseBody: Swift.Decodable {
         case programName = "programName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelId)
         channelId = channelIdDecoded
@@ -10231,7 +9688,7 @@ public struct DescribeOfferingInput: Swift.Equatable {
     /// This member is required.
     public var offeringId: Swift.String?
 
-    public init (
+    public init(
         offeringId: Swift.String? = nil
     )
     {
@@ -10244,47 +9701,30 @@ struct DescribeOfferingInputBody: Swift.Equatable {
 
 extension DescribeOfferingInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeOfferingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeOfferingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeOfferingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeOfferingOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -10339,7 +9779,7 @@ public struct DescribeOfferingOutputResponse: Swift.Equatable {
     /// Recurring usage charge for each reserved resource, e.g. '157.0'
     public var usagePrice: Swift.Double?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         currencyCode: Swift.String? = nil,
         duration: Swift.Int? = nil,
@@ -10396,7 +9836,7 @@ extension DescribeOfferingOutputResponseBody: Swift.Decodable {
         case usagePrice = "usagePrice"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -10438,7 +9878,7 @@ public struct DescribeReservationInput: Swift.Equatable {
     /// This member is required.
     public var reservationId: Swift.String?
 
-    public init (
+    public init(
         reservationId: Swift.String? = nil
     )
     {
@@ -10451,47 +9891,30 @@ struct DescribeReservationInputBody: Swift.Equatable {
 
 extension DescribeReservationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeReservationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeReservationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeReservationOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeReservationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeReservationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -10578,7 +10001,7 @@ public struct DescribeReservationOutputResponse: Swift.Equatable {
     /// Recurring usage charge for each reserved resource, e.g. '157.0'
     public var usagePrice: Swift.Double?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         count: Swift.Int? = nil,
         currencyCode: Swift.String? = nil,
@@ -10667,7 +10090,7 @@ extension DescribeReservationOutputResponseBody: Swift.Decodable {
         case usagePrice = "usagePrice"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -10755,7 +10178,7 @@ public struct DescribeScheduleInput: Swift.Equatable {
     /// Placeholder documentation for __string
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -10772,47 +10195,30 @@ struct DescribeScheduleInputBody: Swift.Equatable {
 
 extension DescribeScheduleInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeScheduleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeScheduleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeScheduleOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10831,7 +10237,7 @@ public struct DescribeScheduleOutputResponse: Swift.Equatable {
     /// The list of actions in the schedule.
     public var scheduleActions: [MediaLiveClientTypes.ScheduleAction]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         scheduleActions: [MediaLiveClientTypes.ScheduleAction]? = nil
     )
@@ -10852,7 +10258,7 @@ extension DescribeScheduleOutputResponseBody: Swift.Decodable {
         case scheduleActions = "scheduleActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -11000,7 +10406,7 @@ extension MediaLiveClientTypes.DolbyVision81Settings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -11008,7 +10414,7 @@ extension MediaLiveClientTypes {
     /// Dolby Vision81 Settings
     public struct DolbyVision81Settings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -11033,7 +10439,7 @@ extension MediaLiveClientTypes.DvbNitSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let networkIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .networkId)
         networkId = networkIdDecoded
@@ -11056,7 +10462,7 @@ extension MediaLiveClientTypes {
         /// The number of milliseconds between instances of this table in the output transport stream.
         public var repInterval: Swift.Int?
 
-        public init (
+        public init(
             networkId: Swift.Int? = nil,
             networkName: Swift.String? = nil,
             repInterval: Swift.Int? = nil
@@ -11133,7 +10539,7 @@ extension MediaLiveClientTypes.DvbSdtSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputSdtDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.DvbSdtOutputSdt.self, forKey: .outputSdt)
         outputSdt = outputSdtDecoded
@@ -11158,7 +10564,7 @@ extension MediaLiveClientTypes {
         /// The service provider name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
         public var serviceProviderName: Swift.String?
 
-        public init (
+        public init(
             outputSdt: MediaLiveClientTypes.DvbSdtOutputSdt? = nil,
             repInterval: Swift.Int? = nil,
             serviceName: Swift.String? = nil,
@@ -11412,7 +10818,7 @@ extension MediaLiveClientTypes.DvbSubDestinationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let alignmentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.DvbSubDestinationAlignment.self, forKey: .alignment)
         alignment = alignmentDecoded
@@ -11489,7 +10895,7 @@ extension MediaLiveClientTypes {
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public var yPosition: Swift.Int?
 
-        public init (
+        public init(
             alignment: MediaLiveClientTypes.DvbSubDestinationAlignment? = nil,
             backgroundColor: MediaLiveClientTypes.DvbSubDestinationBackgroundColor? = nil,
             backgroundOpacity: Swift.Int? = nil,
@@ -11661,7 +11067,7 @@ extension MediaLiveClientTypes.DvbSubSourceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ocrLanguageDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.DvbSubOcrLanguage.self, forKey: .ocrLanguage)
         ocrLanguage = ocrLanguageDecoded
@@ -11678,7 +11084,7 @@ extension MediaLiveClientTypes {
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public var pid: Swift.Int?
 
-        public init (
+        public init(
             ocrLanguage: MediaLiveClientTypes.DvbSubOcrLanguage? = nil,
             pid: Swift.Int? = nil
         )
@@ -11702,7 +11108,7 @@ extension MediaLiveClientTypes.DvbTdtSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .repInterval)
         repInterval = repIntervalDecoded
@@ -11715,7 +11121,7 @@ extension MediaLiveClientTypes {
         /// The number of milliseconds between instances of this table in the output transport stream.
         public var repInterval: Swift.Int?
 
-        public init (
+        public init(
             repInterval: Swift.Int? = nil
         )
         {
@@ -11887,7 +11293,7 @@ extension MediaLiveClientTypes.Eac3AtmosSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bitrateDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .bitrate)
         bitrate = bitrateDecoded
@@ -11924,7 +11330,7 @@ extension MediaLiveClientTypes {
         /// Surround dimensional trim. Sets the maximum amount to attenuate the surround channels when the downstream player isn't configured to handle Dolby Digital Plus with Dolby Atmos and must remix the channels.
         public var surroundTrim: Swift.Double?
 
-        public init (
+        public init(
             bitrate: Swift.Double? = nil,
             codingMode: MediaLiveClientTypes.Eac3AtmosCodingMode? = nil,
             dialnorm: Swift.Int? = nil,
@@ -12433,7 +11839,7 @@ extension MediaLiveClientTypes.Eac3Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attenuationControlDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Eac3AttenuationControl.self, forKey: .attenuationControl)
         attenuationControl = attenuationControlDecoded
@@ -12522,7 +11928,7 @@ extension MediaLiveClientTypes {
         /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into the two channels.
         public var surroundMode: MediaLiveClientTypes.Eac3SurroundMode?
 
-        public init (
+        public init(
             attenuationControl: MediaLiveClientTypes.Eac3AttenuationControl? = nil,
             bitrate: Swift.Double? = nil,
             bitstreamMode: MediaLiveClientTypes.Eac3BitstreamMode? = nil,
@@ -12705,7 +12111,7 @@ extension MediaLiveClientTypes.EbuTtDDestinationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let copyrightHolderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .copyrightHolder)
         copyrightHolder = copyrightHolderDecoded
@@ -12742,7 +12148,7 @@ extension MediaLiveClientTypes {
         /// * exclude: In the font data attached to the EBU-TT captions, set the font family to "monospaced". Do not include any other style information.
         public var styleControl: MediaLiveClientTypes.EbuTtDDestinationStyleControl?
 
-        public init (
+        public init(
             copyrightHolder: Swift.String? = nil,
             fillLineGap: MediaLiveClientTypes.EbuTtDFillLineGapControl? = nil,
             fontFamily: Swift.String? = nil,
@@ -12864,7 +12270,7 @@ extension MediaLiveClientTypes.EmbeddedDestinationSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12872,7 +12278,7 @@ extension MediaLiveClientTypes {
     /// Embedded Destination Settings
     public struct EmbeddedDestinationSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12884,7 +12290,7 @@ extension MediaLiveClientTypes.EmbeddedPlusScte20DestinationSettings: Swift.Coda
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12892,7 +12298,7 @@ extension MediaLiveClientTypes {
     /// Embedded Plus Scte20 Destination Settings
     public struct EmbeddedPlusScte20DestinationSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12954,7 +12360,7 @@ extension MediaLiveClientTypes.EmbeddedSourceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let convert608To708Decoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EmbeddedConvert608To708.self, forKey: .convert608To708)
         convert608To708 = convert608To708Decoded
@@ -12979,7 +12385,7 @@ extension MediaLiveClientTypes {
         /// This field is unused and deprecated.
         public var source608TrackNumber: Swift.Int?
 
-        public init (
+        public init(
             convert608To708: MediaLiveClientTypes.EmbeddedConvert608To708? = nil,
             scte20Detection: MediaLiveClientTypes.EmbeddedScte20Detection? = nil,
             source608ChannelNumber: Swift.Int? = nil,
@@ -13063,7 +12469,7 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioDescriptionsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.AudioDescription?].self, forKey: .audioDescriptions)
         var audioDescriptionsDecoded0:[MediaLiveClientTypes.AudioDescription]? = nil
@@ -13160,7 +12566,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var videoDescriptions: [MediaLiveClientTypes.VideoDescription]?
 
-        public init (
+        public init(
             audioDescriptions: [MediaLiveClientTypes.AudioDescription]? = nil,
             availBlanking: MediaLiveClientTypes.AvailBlanking? = nil,
             availConfiguration: MediaLiveClientTypes.AvailConfiguration? = nil,
@@ -13224,7 +12630,7 @@ extension MediaLiveClientTypes.Esam: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acquisitionPointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acquisitionPointId)
         acquisitionPointId = acquisitionPointIdDecoded
@@ -13259,7 +12665,7 @@ extension MediaLiveClientTypes {
         /// Optional data sent as zoneIdentity to identify the MediaLive channel to the POIS.
         public var zoneIdentity: Swift.String?
 
-        public init (
+        public init(
             acquisitionPointId: Swift.String? = nil,
             adAvailOffset: Swift.Int? = nil,
             passwordParam: Swift.String? = nil,
@@ -13291,7 +12697,7 @@ extension MediaLiveClientTypes.FailoverCondition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failoverConditionSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FailoverConditionSettings.self, forKey: .failoverConditionSettings)
         failoverConditionSettings = failoverConditionSettingsDecoded
@@ -13304,7 +12710,7 @@ extension MediaLiveClientTypes {
         /// Failover condition type-specific settings.
         public var failoverConditionSettings: MediaLiveClientTypes.FailoverConditionSettings?
 
-        public init (
+        public init(
             failoverConditionSettings: MediaLiveClientTypes.FailoverConditionSettings? = nil
         )
         {
@@ -13334,7 +12740,7 @@ extension MediaLiveClientTypes.FailoverConditionSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioSilenceSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AudioSilenceFailoverSettings.self, forKey: .audioSilenceSettings)
         audioSilenceSettings = audioSilenceSettingsDecoded
@@ -13355,7 +12761,7 @@ extension MediaLiveClientTypes {
         /// MediaLive will perform a failover if content is considered black for the specified period.
         public var videoBlackSettings: MediaLiveClientTypes.VideoBlackFailoverSettings?
 
-        public init (
+        public init(
             audioSilenceSettings: MediaLiveClientTypes.AudioSilenceFailoverSettings? = nil,
             inputLossSettings: MediaLiveClientTypes.InputLossFailoverSettings? = nil,
             videoBlackSettings: MediaLiveClientTypes.VideoBlackFailoverSettings? = nil
@@ -13381,7 +12787,7 @@ extension MediaLiveClientTypes.FeatureActivations: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputPrepareScheduleActionsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FeatureActivationsInputPrepareScheduleActions.self, forKey: .inputPrepareScheduleActions)
         inputPrepareScheduleActions = inputPrepareScheduleActionsDecoded
@@ -13394,7 +12800,7 @@ extension MediaLiveClientTypes {
         /// Enables the Input Prepare feature. You can create Input Prepare actions in the schedule only if this feature is enabled. If you disable the feature on an existing schedule, make sure that you first delete all input prepare actions from the schedule.
         public var inputPrepareScheduleActions: MediaLiveClientTypes.FeatureActivationsInputPrepareScheduleActions?
 
-        public init (
+        public init(
             inputPrepareScheduleActions: MediaLiveClientTypes.FeatureActivationsInputPrepareScheduleActions? = nil
         )
         {
@@ -13490,7 +12896,7 @@ extension MediaLiveClientTypes.FecOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let columnDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .columnDepth)
         columnDepth = columnDepthDecoded
@@ -13511,7 +12917,7 @@ extension MediaLiveClientTypes {
         /// Parameter L from SMPTE 2022-1. The width of the FEC protection matrix. Must be between 1 and 20, inclusive. If only Column FEC is used, then larger values increase robustness. If Row FEC is used, then this is the number of transport stream packets per row error correction packet, and the value must be between 4 and 20, inclusive, if includeFec is columnAndRow. If includeFec is column, this value must be 1 to 20, inclusive.
         public var rowLength: Swift.Int?
 
-        public init (
+        public init(
             columnDepth: Swift.Int? = nil,
             includeFec: MediaLiveClientTypes.FecOutputIncludeFec? = nil,
             rowLength: Swift.Int? = nil
@@ -13597,7 +13003,7 @@ extension MediaLiveClientTypes.FixedModeScheduleActionStartSettings: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .time)
         time = timeDecoded
@@ -13611,7 +13017,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var time: Swift.String?
 
-        public init (
+        public init(
             time: Swift.String? = nil
         )
         {
@@ -13641,7 +13047,7 @@ extension MediaLiveClientTypes.Fmp4HlsSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioRenditionSetsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audioRenditionSets)
         audioRenditionSets = audioRenditionSetsDecoded
@@ -13662,7 +13068,7 @@ extension MediaLiveClientTypes {
         /// When set to passthrough, timed metadata is passed through from input to output.
         public var timedMetadataBehavior: MediaLiveClientTypes.Fmp4TimedMetadataBehavior?
 
-        public init (
+        public init(
             audioRenditionSets: Swift.String? = nil,
             nielsenId3Behavior: MediaLiveClientTypes.Fmp4NielsenId3Behavior? = nil,
             timedMetadataBehavior: MediaLiveClientTypes.Fmp4TimedMetadataBehavior? = nil
@@ -13758,7 +13164,7 @@ extension MediaLiveClientTypes.FollowModeScheduleActionStartSettings: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let followPointDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FollowPoint.self, forKey: .followPoint)
         followPoint = followPointDecoded
@@ -13777,7 +13183,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var referenceActionName: Swift.String?
 
-        public init (
+        public init(
             followPoint: MediaLiveClientTypes.FollowPoint? = nil,
             referenceActionName: Swift.String? = nil
         )
@@ -13823,38 +13229,42 @@ extension MediaLiveClientTypes {
 }
 
 extension ForbiddenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for ForbiddenException
-public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Placeholder documentation for __string
-    public var message: Swift.String?
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Placeholder documentation for __string
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ForbiddenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13867,7 +13277,7 @@ extension ForbiddenExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13886,7 +13296,7 @@ extension MediaLiveClientTypes.FrameCaptureCdnSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let frameCaptureS3SettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FrameCaptureS3Settings.self, forKey: .frameCaptureS3Settings)
         frameCaptureS3Settings = frameCaptureS3SettingsDecoded
@@ -13899,7 +13309,7 @@ extension MediaLiveClientTypes {
         /// Frame Capture S3 Settings
         public var frameCaptureS3Settings: MediaLiveClientTypes.FrameCaptureS3Settings?
 
-        public init (
+        public init(
             frameCaptureS3Settings: MediaLiveClientTypes.FrameCaptureS3Settings? = nil
         )
         {
@@ -13925,7 +13335,7 @@ extension MediaLiveClientTypes.FrameCaptureGroupSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.OutputLocationRef.self, forKey: .destination)
         destination = destinationDecoded
@@ -13943,7 +13353,7 @@ extension MediaLiveClientTypes {
         /// Parameters that control interactions with the CDN.
         public var frameCaptureCdnSettings: MediaLiveClientTypes.FrameCaptureCdnSettings?
 
-        public init (
+        public init(
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
             frameCaptureCdnSettings: MediaLiveClientTypes.FrameCaptureCdnSettings? = nil
         )
@@ -13962,7 +13372,7 @@ extension MediaLiveClientTypes.FrameCaptureHlsSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -13970,7 +13380,7 @@ extension MediaLiveClientTypes {
     /// Frame Capture Hls Settings
     public struct FrameCaptureHlsSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -14020,7 +13430,7 @@ extension MediaLiveClientTypes.FrameCaptureOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameModifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nameModifier)
         nameModifier = nameModifierDecoded
@@ -14033,7 +13443,7 @@ extension MediaLiveClientTypes {
         /// Required if the output group contains more than one output. This modifier forms part of the output file name.
         public var nameModifier: Swift.String?
 
-        public init (
+        public init(
             nameModifier: Swift.String? = nil
         )
         {
@@ -14055,7 +13465,7 @@ extension MediaLiveClientTypes.FrameCaptureS3Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cannedAclDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.S3CannedAcl.self, forKey: .cannedAcl)
         cannedAcl = cannedAclDecoded
@@ -14068,7 +13478,7 @@ extension MediaLiveClientTypes {
         /// Specify the canned ACL to apply to each S3 request. Defaults to none.
         public var cannedAcl: MediaLiveClientTypes.S3CannedAcl?
 
-        public init (
+        public init(
             cannedAcl: MediaLiveClientTypes.S3CannedAcl? = nil
         )
         {
@@ -14098,7 +13508,7 @@ extension MediaLiveClientTypes.FrameCaptureSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let captureIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .captureInterval)
         captureInterval = captureIntervalDecoded
@@ -14119,7 +13529,7 @@ extension MediaLiveClientTypes {
         /// Timecode burn-in settings
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
 
-        public init (
+        public init(
             captureInterval: Swift.Int? = nil,
             captureIntervalUnits: MediaLiveClientTypes.FrameCaptureIntervalUnit? = nil,
             timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil
@@ -14134,38 +13544,42 @@ extension MediaLiveClientTypes {
 }
 
 extension GatewayTimeoutException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GatewayTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for GatewayTimeoutException
-public struct GatewayTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// Placeholder documentation for __string
-    public var message: Swift.String?
+public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Placeholder documentation for __string
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GatewayTimeoutException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14178,7 +13592,7 @@ extension GatewayTimeoutExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14217,7 +13631,7 @@ extension MediaLiveClientTypes.GlobalConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let initialAudioGainDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .initialAudioGain)
         initialAudioGain = initialAudioGainDecoded
@@ -14250,7 +13664,7 @@ extension MediaLiveClientTypes {
         /// Adjusts video input buffer for streams with very low video framerates. This is commonly set to enabled for music channels with less than one video frame per second.
         public var supportLowFramerateInputs: MediaLiveClientTypes.GlobalConfigurationLowFramerateInputs?
 
-        public init (
+        public init(
             initialAudioGain: Swift.Int? = nil,
             inputEndAction: MediaLiveClientTypes.GlobalConfigurationInputEndAction? = nil,
             inputLossBehavior: MediaLiveClientTypes.InputLossBehavior? = nil,
@@ -14503,7 +13917,7 @@ extension MediaLiveClientTypes.H264ColorSpaceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let colorSpacePassthroughSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ColorSpacePassthroughSettings.self, forKey: .colorSpacePassthroughSettings)
         colorSpacePassthroughSettings = colorSpacePassthroughSettingsDecoded
@@ -14524,7 +13938,7 @@ extension MediaLiveClientTypes {
         /// Rec709 Settings
         public var rec709Settings: MediaLiveClientTypes.Rec709Settings?
 
-        public init (
+        public init(
             colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings? = nil,
             rec601Settings: MediaLiveClientTypes.Rec601Settings? = nil,
             rec709Settings: MediaLiveClientTypes.Rec709Settings? = nil
@@ -14583,7 +13997,7 @@ extension MediaLiveClientTypes.H264FilterSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let temporalFilterSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TemporalFilterSettings.self, forKey: .temporalFilterSettings)
         temporalFilterSettings = temporalFilterSettingsDecoded
@@ -14596,7 +14010,7 @@ extension MediaLiveClientTypes {
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
-        public init (
+        public init(
             temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings? = nil
         )
         {
@@ -15277,7 +14691,7 @@ extension MediaLiveClientTypes.H264Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adaptiveQuantizationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H264AdaptiveQuantization.self, forKey: .adaptiveQuantization)
         adaptiveQuantization = adaptiveQuantizationDecoded
@@ -15472,7 +14886,7 @@ extension MediaLiveClientTypes {
         /// * 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public var timecodeInsertion: MediaLiveClientTypes.H264TimecodeInsertionBehavior?
 
-        public init (
+        public init(
             adaptiveQuantization: MediaLiveClientTypes.H264AdaptiveQuantization? = nil,
             afdSignaling: MediaLiveClientTypes.AfdSignaling? = nil,
             bitrate: Swift.Int? = nil,
@@ -15871,7 +15285,7 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let colorSpacePassthroughSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ColorSpacePassthroughSettings.self, forKey: .colorSpacePassthroughSettings)
         colorSpacePassthroughSettings = colorSpacePassthroughSettingsDecoded
@@ -15900,7 +15314,7 @@ extension MediaLiveClientTypes {
         /// Rec709 Settings
         public var rec709Settings: MediaLiveClientTypes.Rec709Settings?
 
-        public init (
+        public init(
             colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings? = nil,
             dolbyVision81Settings: MediaLiveClientTypes.DolbyVision81Settings? = nil,
             hdr10Settings: MediaLiveClientTypes.Hdr10Settings? = nil,
@@ -15930,7 +15344,7 @@ extension MediaLiveClientTypes.H265FilterSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let temporalFilterSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TemporalFilterSettings.self, forKey: .temporalFilterSettings)
         temporalFilterSettings = temporalFilterSettingsDecoded
@@ -15943,7 +15357,7 @@ extension MediaLiveClientTypes {
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
-        public init (
+        public init(
             temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings? = nil
         )
         {
@@ -16387,7 +15801,7 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adaptiveQuantizationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265AdaptiveQuantization.self, forKey: .adaptiveQuantization)
         adaptiveQuantization = adaptiveQuantizationDecoded
@@ -16528,7 +15942,7 @@ extension MediaLiveClientTypes {
         /// * 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public var timecodeInsertion: MediaLiveClientTypes.H265TimecodeInsertionBehavior?
 
-        public init (
+        public init(
             adaptiveQuantization: MediaLiveClientTypes.H265AdaptiveQuantization? = nil,
             afdSignaling: MediaLiveClientTypes.AfdSignaling? = nil,
             alternativeTransferFunction: MediaLiveClientTypes.H265AlternativeTransferFunction? = nil,
@@ -16678,7 +16092,7 @@ extension MediaLiveClientTypes.Hdr10Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxCllDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCll)
         maxCll = maxCllDecoded
@@ -16695,7 +16109,7 @@ extension MediaLiveClientTypes {
         /// Maximum Frame Average Light Level An integer metadata value defining the maximum average light level, in nits, for any single frame within an encoded HDR video stream or file.
         public var maxFall: Swift.Int?
 
-        public init (
+        public init(
             maxCll: Swift.Int? = nil,
             maxFall: Swift.Int? = nil
         )
@@ -16812,7 +16226,7 @@ extension MediaLiveClientTypes.HlsAkamaiSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionRetryIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .connectionRetryInterval)
         connectionRetryInterval = connectionRetryIntervalDecoded
@@ -16849,7 +16263,7 @@ extension MediaLiveClientTypes {
         /// Token parameter for authenticated akamai. If not specified, gda is used.
         public var token: Swift.String?
 
-        public init (
+        public init(
             connectionRetryInterval: Swift.Int? = nil,
             filecacheDuration: Swift.Int? = nil,
             httpTransferMode: MediaLiveClientTypes.HlsAkamaiHttpTransferMode? = nil,
@@ -16895,7 +16309,7 @@ extension MediaLiveClientTypes.HlsBasicPutSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionRetryIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .connectionRetryInterval)
         connectionRetryInterval = connectionRetryIntervalDecoded
@@ -16920,7 +16334,7 @@ extension MediaLiveClientTypes {
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public var restartDelay: Swift.Int?
 
-        public init (
+        public init(
             connectionRetryInterval: Swift.Int? = nil,
             filecacheDuration: Swift.Int? = nil,
             numRetries: Swift.Int? = nil,
@@ -17000,7 +16414,7 @@ extension MediaLiveClientTypes.HlsCdnSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hlsAkamaiSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.HlsAkamaiSettings.self, forKey: .hlsAkamaiSettings)
         hlsAkamaiSettings = hlsAkamaiSettingsDecoded
@@ -17029,7 +16443,7 @@ extension MediaLiveClientTypes {
         /// Hls Webdav Settings
         public var hlsWebdavSettings: MediaLiveClientTypes.HlsWebdavSettings?
 
-        public init (
+        public init(
             hlsAkamaiSettings: MediaLiveClientTypes.HlsAkamaiSettings? = nil,
             hlsBasicPutSettings: MediaLiveClientTypes.HlsBasicPutSettings? = nil,
             hlsMediaStoreSettings: MediaLiveClientTypes.HlsMediaStoreSettings? = nil,
@@ -17398,7 +16812,7 @@ extension MediaLiveClientTypes.HlsGroupSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adMarkersContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.HlsAdMarkers?].self, forKey: .adMarkers)
         var adMarkersDecoded0:[MediaLiveClientTypes.HlsAdMarkers]? = nil
@@ -17598,7 +17012,7 @@ extension MediaLiveClientTypes {
         /// SEGMENTED_FILES: Emit the program as segments - multiple .ts media files. SINGLE_FILE: Applies only if Mode field is VOD. Emit the program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index segments for playback. A typical use for this value is when sending the output to AWS Elemental MediaConvert, which can accept only a single media file. Playback while the channel is running is not guaranteed due to HTTP server caching.
         public var tsFileMode: MediaLiveClientTypes.HlsTsFileMode?
 
-        public init (
+        public init(
             adMarkers: [MediaLiveClientTypes.HlsAdMarkers]? = nil,
             baseUrlContent: Swift.String? = nil,
             baseUrlContent1: Swift.String? = nil,
@@ -17741,7 +17155,7 @@ extension MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tag)
         tag = tagDecoded
@@ -17758,7 +17172,7 @@ extension MediaLiveClientTypes {
         /// ID3 tag to insert into each segment. Supports special keyword identifiers to substitute in segment-related values.\nSupported keyword identifiers: https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
         public var tag: Swift.String?
 
-        public init (
+        public init(
             id3: Swift.String? = nil,
             tag: Swift.String? = nil
         )
@@ -17864,7 +17278,7 @@ extension MediaLiveClientTypes.HlsInputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bandwidthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bandwidth)
         bandwidth = bandwidthDecoded
@@ -17893,7 +17307,7 @@ extension MediaLiveClientTypes {
         /// Identifies the source for the SCTE-35 messages that MediaLive will ingest. Messages can be ingested from the content segments (in the stream) or from tags in the playlist (the HLS manifest). MediaLive ignores SCTE-35 information in the source that is not selected.
         public var scte35Source: MediaLiveClientTypes.HlsScte35SourceType?
 
-        public init (
+        public init(
             bandwidth: Swift.Int? = nil,
             bufferSegments: Swift.Int? = nil,
             retries: Swift.Int? = nil,
@@ -18071,7 +17485,7 @@ extension MediaLiveClientTypes.HlsMediaStoreSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionRetryIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .connectionRetryInterval)
         connectionRetryInterval = connectionRetryIntervalDecoded
@@ -18100,7 +17514,7 @@ extension MediaLiveClientTypes {
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public var restartDelay: Swift.Int?
 
-        public init (
+        public init(
             connectionRetryInterval: Swift.Int? = nil,
             filecacheDuration: Swift.Int? = nil,
             mediaStoreStorageClass: MediaLiveClientTypes.HlsMediaStoreStorageClass? = nil,
@@ -18241,7 +17655,7 @@ extension MediaLiveClientTypes.HlsOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let h265PackagingTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.HlsH265PackagingType.self, forKey: .h265PackagingType)
         h265PackagingType = h265PackagingTypeDecoded
@@ -18267,7 +17681,7 @@ extension MediaLiveClientTypes {
         /// String concatenated to end of segment filenames.
         public var segmentModifier: Swift.String?
 
-        public init (
+        public init(
             h265PackagingType: MediaLiveClientTypes.HlsH265PackagingType? = nil,
             hlsSettings: MediaLiveClientTypes.HlsSettings? = nil,
             nameModifier: Swift.String? = nil,
@@ -18394,7 +17808,7 @@ extension MediaLiveClientTypes.HlsS3Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cannedAclDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.S3CannedAcl.self, forKey: .cannedAcl)
         cannedAcl = cannedAclDecoded
@@ -18407,7 +17821,7 @@ extension MediaLiveClientTypes {
         /// Specify the canned ACL to apply to each S3 request. Defaults to none.
         public var cannedAcl: MediaLiveClientTypes.S3CannedAcl?
 
-        public init (
+        public init(
             cannedAcl: MediaLiveClientTypes.S3CannedAcl? = nil
         )
         {
@@ -18507,7 +17921,7 @@ extension MediaLiveClientTypes.HlsSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioOnlyHlsSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AudioOnlyHlsSettings.self, forKey: .audioOnlyHlsSettings)
         audioOnlyHlsSettings = audioOnlyHlsSettingsDecoded
@@ -18532,7 +17946,7 @@ extension MediaLiveClientTypes {
         /// Standard Hls Settings
         public var standardHlsSettings: MediaLiveClientTypes.StandardHlsSettings?
 
-        public init (
+        public init(
             audioOnlyHlsSettings: MediaLiveClientTypes.AudioOnlyHlsSettings? = nil,
             fmp4HlsSettings: MediaLiveClientTypes.Fmp4HlsSettings? = nil,
             frameCaptureHlsSettings: MediaLiveClientTypes.FrameCaptureHlsSettings? = nil,
@@ -18629,7 +18043,7 @@ extension MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let id3Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id3)
         id3 = id3Decoded
@@ -18643,7 +18057,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var id3: Swift.String?
 
-        public init (
+        public init(
             id3: Swift.String? = nil
         )
         {
@@ -18747,7 +18161,7 @@ extension MediaLiveClientTypes.HlsWebdavSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionRetryIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .connectionRetryInterval)
         connectionRetryInterval = connectionRetryIntervalDecoded
@@ -18776,7 +18190,7 @@ extension MediaLiveClientTypes {
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public var restartDelay: Swift.Int?
 
-        public init (
+        public init(
             connectionRetryInterval: Swift.Int? = nil,
             filecacheDuration: Swift.Int? = nil,
             httpTransferMode: MediaLiveClientTypes.HlsWebdavHttpTransferMode? = nil,
@@ -18801,7 +18215,7 @@ extension MediaLiveClientTypes.HtmlMotionGraphicsSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -18809,7 +18223,7 @@ extension MediaLiveClientTypes {
     /// Html Motion Graphics Settings
     public struct HtmlMotionGraphicsSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -18854,7 +18268,7 @@ extension MediaLiveClientTypes.ImmediateModeScheduleActionStartSettings: Swift.C
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -18862,7 +18276,7 @@ extension MediaLiveClientTypes {
     /// Settings to configure an action so that it occurs as soon as possible.
     public struct ImmediateModeScheduleActionStartSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -18963,7 +18377,7 @@ extension MediaLiveClientTypes.Input: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -19108,7 +18522,7 @@ extension MediaLiveClientTypes {
         /// The different types of inputs that AWS Elemental MediaLive supports.
         public var type: MediaLiveClientTypes.InputType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             attachedChannels: [Swift.String]? = nil,
             destinations: [MediaLiveClientTypes.InputDestination]? = nil,
@@ -19172,7 +18586,7 @@ extension MediaLiveClientTypes.InputAttachment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let automaticInputFailoverSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AutomaticInputFailoverSettings.self, forKey: .automaticInputFailoverSettings)
         automaticInputFailoverSettings = automaticInputFailoverSettingsDecoded
@@ -19197,7 +18611,7 @@ extension MediaLiveClientTypes {
         /// Settings of an input (caption selector, etc.)
         public var inputSettings: MediaLiveClientTypes.InputSettings?
 
-        public init (
+        public init(
             automaticInputFailoverSettings: MediaLiveClientTypes.AutomaticInputFailoverSettings? = nil,
             inputAttachmentName: Swift.String? = nil,
             inputId: Swift.String? = nil,
@@ -19229,7 +18643,7 @@ extension MediaLiveClientTypes.InputChannelLevel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gainDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gain)
         gain = gainDecoded
@@ -19248,7 +18662,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var inputChannel: Swift.Int?
 
-        public init (
+        public init(
             gain: Swift.Int? = nil,
             inputChannel: Swift.Int? = nil
         )
@@ -19313,7 +18727,7 @@ extension MediaLiveClientTypes.InputClippingSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputTimecodeSourceDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputTimecodeSource.self, forKey: .inputTimecodeSource)
         inputTimecodeSource = inputTimecodeSourceDecoded
@@ -19335,7 +18749,7 @@ extension MediaLiveClientTypes {
         /// Settings to identify the end of the clip.
         public var stopTimecode: MediaLiveClientTypes.StopTimecode?
 
-        public init (
+        public init(
             inputTimecodeSource: MediaLiveClientTypes.InputTimecodeSource? = nil,
             startTimecode: MediaLiveClientTypes.StartTimecode? = nil,
             stopTimecode: MediaLiveClientTypes.StopTimecode? = nil
@@ -19475,7 +18889,7 @@ extension MediaLiveClientTypes.InputDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ip)
         ip = ipDecoded
@@ -19500,7 +18914,7 @@ extension MediaLiveClientTypes {
         /// The properties for a VPC type input destination.
         public var vpc: MediaLiveClientTypes.InputDestinationVpc?
 
-        public init (
+        public init(
             ip: Swift.String? = nil,
             port: Swift.String? = nil,
             url: Swift.String? = nil,
@@ -19528,7 +18942,7 @@ extension MediaLiveClientTypes.InputDestinationRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
         streamName = streamNameDecoded
@@ -19541,7 +18955,7 @@ extension MediaLiveClientTypes {
         /// A unique name for the location the RTMP stream is being pushed to.
         public var streamName: Swift.String?
 
-        public init (
+        public init(
             streamName: Swift.String? = nil
         )
         {
@@ -19567,7 +18981,7 @@ extension MediaLiveClientTypes.InputDestinationVpc: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
@@ -19584,7 +18998,7 @@ extension MediaLiveClientTypes {
         /// The network interface ID of the Input destination in the VPC.
         public var networkInterfaceId: Swift.String?
 
-        public init (
+        public init(
             availabilityZone: Swift.String? = nil,
             networkInterfaceId: Swift.String? = nil
         )
@@ -19649,7 +19063,7 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configuredInputDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceConfiguredInput.self, forKey: .configuredInput)
         configuredInput = configuredInputDecoded
@@ -19670,7 +19084,7 @@ extension MediaLiveClientTypes {
         /// The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.
         public var maxBitrate: Swift.Int?
 
-        public init (
+        public init(
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
             latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil
@@ -19797,7 +19211,7 @@ extension MediaLiveClientTypes.InputDeviceHdSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activeInputDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceActiveInput.self, forKey: .activeInput)
         activeInput = activeInputDecoded
@@ -19842,7 +19256,7 @@ extension MediaLiveClientTypes {
         /// The width of the video source, in pixels.
         public var width: Swift.Int?
 
-        public init (
+        public init(
             activeInput: MediaLiveClientTypes.InputDeviceActiveInput? = nil,
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
             deviceState: MediaLiveClientTypes.InputDeviceState? = nil,
@@ -19932,7 +19346,7 @@ extension MediaLiveClientTypes.InputDeviceNetworkSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dnsAddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsAddresses)
         var dnsAddressesDecoded0:[Swift.String]? = nil
@@ -19970,7 +19384,7 @@ extension MediaLiveClientTypes {
         /// The subnet mask of the input device.
         public var subnetMask: Swift.String?
 
-        public init (
+        public init(
             dnsAddresses: [Swift.String]? = nil,
             gateway: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
@@ -20000,7 +19414,7 @@ extension MediaLiveClientTypes.InputDeviceRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -20013,7 +19427,7 @@ extension MediaLiveClientTypes {
         /// The unique ID for the device.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -20068,7 +19482,7 @@ extension MediaLiveClientTypes.InputDeviceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -20081,7 +19495,7 @@ extension MediaLiveClientTypes {
         /// The unique ID for the device.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -20187,7 +19601,7 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -20257,7 +19671,7 @@ extension MediaLiveClientTypes {
         /// Settings that describe an input device that is type UHD.
         public var uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
             deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
@@ -20401,7 +19815,7 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activeInputDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceActiveInput.self, forKey: .activeInput)
         activeInput = activeInputDecoded
@@ -20446,7 +19860,7 @@ extension MediaLiveClientTypes {
         /// The width of the video source, in pixels.
         public var width: Swift.Int?
 
-        public init (
+        public init(
             activeInput: MediaLiveClientTypes.InputDeviceActiveInput? = nil,
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
             deviceState: MediaLiveClientTypes.InputDeviceState? = nil,
@@ -20528,7 +19942,7 @@ extension MediaLiveClientTypes.InputLocation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let passwordParamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .passwordParam)
         passwordParam = passwordParamDecoded
@@ -20550,7 +19964,7 @@ extension MediaLiveClientTypes {
         /// Documentation update needed
         public var username: Swift.String?
 
-        public init (
+        public init(
             passwordParam: Swift.String? = nil,
             uri: Swift.String? = nil,
             username: Swift.String? = nil
@@ -20727,7 +20141,7 @@ extension MediaLiveClientTypes.InputLossBehavior: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blackFrameMsecDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .blackFrameMsec)
         blackFrameMsec = blackFrameMsecDecoded
@@ -20756,7 +20170,7 @@ extension MediaLiveClientTypes {
         /// Documentation update needed
         public var repeatFrameMsec: Swift.Int?
 
-        public init (
+        public init(
             blackFrameMsec: Swift.Int? = nil,
             inputLossImageColor: Swift.String? = nil,
             inputLossImageSlate: MediaLiveClientTypes.InputLocation? = nil,
@@ -20786,7 +20200,7 @@ extension MediaLiveClientTypes.InputLossFailoverSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputLossThresholdMsecDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inputLossThresholdMsec)
         inputLossThresholdMsec = inputLossThresholdMsecDecoded
@@ -20799,7 +20213,7 @@ extension MediaLiveClientTypes {
         /// The amount of time (in milliseconds) that no input is detected. After that time, an input failover will occur.
         public var inputLossThresholdMsec: Swift.Int?
 
-        public init (
+        public init(
             inputLossThresholdMsec: Swift.Int? = nil
         )
         {
@@ -20934,7 +20348,7 @@ extension MediaLiveClientTypes.InputPrepareScheduleActionSettings: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputAttachmentNameReferenceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputAttachmentNameReference)
         inputAttachmentNameReference = inputAttachmentNameReferenceDecoded
@@ -20964,7 +20378,7 @@ extension MediaLiveClientTypes {
         /// The value for the variable portion of the URL for the dynamic input, for this instance of the input. Each time you use the same dynamic input in an input switch action, you can provide a different value, in order to connect the input to a different content source.
         public var urlPath: [Swift.String]?
 
-        public init (
+        public init(
             inputAttachmentNameReference: Swift.String? = nil,
             inputClippingSettings: MediaLiveClientTypes.InputClippingSettings? = nil,
             urlPath: [Swift.String]? = nil
@@ -21055,7 +20469,7 @@ extension MediaLiveClientTypes.InputSecurityGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -21115,7 +20529,7 @@ extension MediaLiveClientTypes {
         /// Whitelist rules and their sync status
         public var whitelistRules: [MediaLiveClientTypes.InputWhitelistRule]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             inputs: [Swift.String]? = nil,
@@ -21232,7 +20646,7 @@ extension MediaLiveClientTypes.InputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioSelectorsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.AudioSelector?].self, forKey: .audioSelectors)
         var audioSelectorsDecoded0:[MediaLiveClientTypes.AudioSelector]? = nil
@@ -21313,7 +20727,7 @@ extension MediaLiveClientTypes {
         /// Informs which video elementary stream to decode for input types that have multiple available.
         public var videoSelector: MediaLiveClientTypes.VideoSelector?
 
-        public init (
+        public init(
             audioSelectors: [MediaLiveClientTypes.AudioSelector]? = nil,
             captionSelectors: [MediaLiveClientTypes.CaptionSelector]? = nil,
             deblockFilter: MediaLiveClientTypes.InputDeblockFilter? = nil,
@@ -21363,7 +20777,7 @@ extension MediaLiveClientTypes.InputSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let passwordParamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .passwordParam)
         passwordParam = passwordParamDecoded
@@ -21384,7 +20798,7 @@ extension MediaLiveClientTypes {
         /// The username for the input source.
         public var username: Swift.String?
 
-        public init (
+        public init(
             passwordParam: Swift.String? = nil,
             url: Swift.String? = nil,
             username: Swift.String? = nil
@@ -21451,7 +20865,7 @@ extension MediaLiveClientTypes.InputSourceRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let passwordParamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .passwordParam)
         passwordParam = passwordParamDecoded
@@ -21472,7 +20886,7 @@ extension MediaLiveClientTypes {
         /// The username for the input source.
         public var username: Swift.String?
 
-        public init (
+        public init(
             passwordParam: Swift.String? = nil,
             url: Swift.String? = nil,
             username: Swift.String? = nil
@@ -21539,7 +20953,7 @@ extension MediaLiveClientTypes.InputSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codecDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputCodec.self, forKey: .codec)
         codec = codecDecoded
@@ -21560,7 +20974,7 @@ extension MediaLiveClientTypes {
         /// Input resolution, categorized coarsely
         public var resolution: MediaLiveClientTypes.InputResolution?
 
-        public init (
+        public init(
             codec: MediaLiveClientTypes.InputCodec? = nil,
             maximumBitrate: MediaLiveClientTypes.InputMaximumBitrate? = nil,
             resolution: MediaLiveClientTypes.InputResolution? = nil
@@ -21639,7 +21053,7 @@ extension MediaLiveClientTypes.InputSwitchScheduleActionSettings: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputAttachmentNameReferenceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputAttachmentNameReference)
         inputAttachmentNameReference = inputAttachmentNameReferenceDecoded
@@ -21670,7 +21084,7 @@ extension MediaLiveClientTypes {
         /// The value for the variable portion of the URL for the dynamic input, for this instance of the input. Each time you use the same dynamic input in an input switch action, you can provide a different value, in order to connect the input to a different content source.
         public var urlPath: [Swift.String]?
 
-        public init (
+        public init(
             inputAttachmentNameReference: Swift.String? = nil,
             inputClippingSettings: MediaLiveClientTypes.InputClippingSettings? = nil,
             urlPath: [Swift.String]? = nil
@@ -21796,7 +21210,7 @@ extension MediaLiveClientTypes.InputVpcRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
         var securityGroupIdsDecoded0:[Swift.String]? = nil
@@ -21832,7 +21246,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var subnetIds: [Swift.String]?
 
-        public init (
+        public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         )
@@ -21856,7 +21270,7 @@ extension MediaLiveClientTypes.InputWhitelistRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidr)
         cidr = cidrDecoded
@@ -21869,7 +21283,7 @@ extension MediaLiveClientTypes {
         /// The IPv4 CIDR that's whitelisted.
         public var cidr: Swift.String?
 
-        public init (
+        public init(
             cidr: Swift.String? = nil
         )
         {
@@ -21891,7 +21305,7 @@ extension MediaLiveClientTypes.InputWhitelistRuleCidr: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidr)
         cidr = cidrDecoded
@@ -21904,7 +21318,7 @@ extension MediaLiveClientTypes {
         /// The IPv4 CIDR to whitelist.
         public var cidr: Swift.String?
 
-        public init (
+        public init(
             cidr: Swift.String? = nil
         )
         {
@@ -21915,38 +21329,42 @@ extension MediaLiveClientTypes {
 }
 
 extension InternalServerErrorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for InternalServerErrorException
-public struct InternalServerErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// Placeholder documentation for __string
-    public var message: Swift.String?
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Placeholder documentation for __string
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerErrorException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -21959,7 +21377,7 @@ extension InternalServerErrorExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -21978,7 +21396,7 @@ extension MediaLiveClientTypes.KeyProviderSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let staticKeySettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.StaticKeySettings.self, forKey: .staticKeySettings)
         staticKeySettings = staticKeySettingsDecoded
@@ -21991,7 +21409,7 @@ extension MediaLiveClientTypes {
         /// Static Key Settings
         public var staticKeySettings: MediaLiveClientTypes.StaticKeySettings?
 
-        public init (
+        public init(
             staticKeySettings: MediaLiveClientTypes.StaticKeySettings? = nil
         )
         {
@@ -22064,7 +21482,7 @@ public struct ListChannelsInput: Swift.Equatable {
     /// Placeholder documentation for __string
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22079,45 +21497,29 @@ struct ListChannelsInputBody: Swift.Equatable {
 
 extension ListChannelsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListChannelsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListChannelsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListChannelsOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channels = output.channels
@@ -22136,7 +21538,7 @@ public struct ListChannelsOutputResponse: Swift.Equatable {
     /// Placeholder documentation for __string
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         channels: [MediaLiveClientTypes.ChannelSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22157,7 +21559,7 @@ extension ListChannelsOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.ChannelSummary?].self, forKey: .channels)
         var channelsDecoded0:[MediaLiveClientTypes.ChannelSummary]? = nil
@@ -22189,7 +21591,7 @@ extension ListInputDeviceTransfersInput: ClientRuntime.QueryItemProvider {
             }
             guard let transferType = transferType else {
                 let message = "Creating a URL Query Item failed. transferType is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let transferTypeQueryItem = ClientRuntime.URLQueryItem(name: "transferType".urlPercentEncoding(), value: Swift.String(transferType).urlPercentEncoding())
             items.append(transferTypeQueryItem)
@@ -22214,7 +21616,7 @@ public struct ListInputDeviceTransfersInput: Swift.Equatable {
     /// This member is required.
     public var transferType: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         transferType: Swift.String? = nil
@@ -22231,47 +21633,30 @@ struct ListInputDeviceTransfersInputBody: Swift.Equatable {
 
 extension ListInputDeviceTransfersInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListInputDeviceTransfersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListInputDeviceTransfersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListInputDeviceTransfersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListInputDeviceTransfersOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListInputDeviceTransfersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListInputDeviceTransfersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inputDeviceTransfers = output.inputDeviceTransfers
@@ -22290,7 +21675,7 @@ public struct ListInputDeviceTransfersOutputResponse: Swift.Equatable {
     /// A token to get additional list results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         inputDeviceTransfers: [MediaLiveClientTypes.TransferringInputDeviceSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22311,7 +21696,7 @@ extension ListInputDeviceTransfersOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDeviceTransfersContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.TransferringInputDeviceSummary?].self, forKey: .inputDeviceTransfers)
         var inputDeviceTransfersDecoded0:[MediaLiveClientTypes.TransferringInputDeviceSummary]? = nil
@@ -22359,7 +21744,7 @@ public struct ListInputDevicesInput: Swift.Equatable {
     /// Placeholder documentation for __string
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22374,45 +21759,29 @@ struct ListInputDevicesInputBody: Swift.Equatable {
 
 extension ListInputDevicesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListInputDevicesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListInputDevicesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListInputDevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListInputDevicesOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListInputDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListInputDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inputDevices = output.inputDevices
@@ -22431,7 +21800,7 @@ public struct ListInputDevicesOutputResponse: Swift.Equatable {
     /// A token to get additional list results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         inputDevices: [MediaLiveClientTypes.InputDeviceSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22452,7 +21821,7 @@ extension ListInputDevicesOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDevicesContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.InputDeviceSummary?].self, forKey: .inputDevices)
         var inputDevicesDecoded0:[MediaLiveClientTypes.InputDeviceSummary]? = nil
@@ -22500,7 +21869,7 @@ public struct ListInputSecurityGroupsInput: Swift.Equatable {
     /// Placeholder documentation for __string
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22515,45 +21884,29 @@ struct ListInputSecurityGroupsInputBody: Swift.Equatable {
 
 extension ListInputSecurityGroupsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListInputSecurityGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListInputSecurityGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListInputSecurityGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListInputSecurityGroupsOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListInputSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListInputSecurityGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inputSecurityGroups = output.inputSecurityGroups
@@ -22572,7 +21925,7 @@ public struct ListInputSecurityGroupsOutputResponse: Swift.Equatable {
     /// Placeholder documentation for __string
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         inputSecurityGroups: [MediaLiveClientTypes.InputSecurityGroup]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22593,7 +21946,7 @@ extension ListInputSecurityGroupsOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputSecurityGroupsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.InputSecurityGroup?].self, forKey: .inputSecurityGroups)
         var inputSecurityGroupsDecoded0:[MediaLiveClientTypes.InputSecurityGroup]? = nil
@@ -22641,7 +21994,7 @@ public struct ListInputsInput: Swift.Equatable {
     /// Placeholder documentation for __string
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22656,45 +22009,29 @@ struct ListInputsInputBody: Swift.Equatable {
 
 extension ListInputsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListInputsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListInputsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListInputsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListInputsOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListInputsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListInputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inputs = output.inputs
@@ -22713,7 +22050,7 @@ public struct ListInputsOutputResponse: Swift.Equatable {
     /// Placeholder documentation for __string
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         inputs: [MediaLiveClientTypes.Input]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22734,7 +22071,7 @@ extension ListInputsOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.Input?].self, forKey: .inputs)
         var inputsDecoded0:[MediaLiveClientTypes.Input]? = nil
@@ -22788,7 +22125,7 @@ public struct ListMultiplexProgramsInput: Swift.Equatable {
     /// The token to retrieve the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         multiplexId: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -22805,47 +22142,30 @@ struct ListMultiplexProgramsInputBody: Swift.Equatable {
 
 extension ListMultiplexProgramsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListMultiplexProgramsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListMultiplexProgramsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListMultiplexProgramsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListMultiplexProgramsOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListMultiplexProgramsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMultiplexProgramsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.multiplexPrograms = output.multiplexPrograms
@@ -22864,7 +22184,7 @@ public struct ListMultiplexProgramsOutputResponse: Swift.Equatable {
     /// Token for the next ListMultiplexProgram request.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         multiplexPrograms: [MediaLiveClientTypes.MultiplexProgramSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22885,7 +22205,7 @@ extension ListMultiplexProgramsOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexProgramsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.MultiplexProgramSummary?].self, forKey: .multiplexPrograms)
         var multiplexProgramsDecoded0:[MediaLiveClientTypes.MultiplexProgramSummary]? = nil
@@ -22933,7 +22253,7 @@ public struct ListMultiplexesInput: Swift.Equatable {
     /// The token to retrieve the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -22948,45 +22268,29 @@ struct ListMultiplexesInputBody: Swift.Equatable {
 
 extension ListMultiplexesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListMultiplexesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListMultiplexesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListMultiplexesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListMultiplexesOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListMultiplexesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMultiplexesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.multiplexes = output.multiplexes
@@ -23005,7 +22309,7 @@ public struct ListMultiplexesOutputResponse: Swift.Equatable {
     /// Token for the next ListMultiplexes request.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         multiplexes: [MediaLiveClientTypes.MultiplexSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -23026,7 +22330,7 @@ extension ListMultiplexesOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexesContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.MultiplexSummary?].self, forKey: .multiplexes)
         var multiplexesDecoded0:[MediaLiveClientTypes.MultiplexSummary]? = nil
@@ -23134,7 +22438,7 @@ public struct ListOfferingsInput: Swift.Equatable {
     /// Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
     public var videoQuality: Swift.String?
 
-    public init (
+    public init(
         channelClass: Swift.String? = nil,
         channelConfiguration: Swift.String? = nil,
         codec: Swift.String? = nil,
@@ -23169,45 +22473,29 @@ struct ListOfferingsInputBody: Swift.Equatable {
 
 extension ListOfferingsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListOfferingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListOfferingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListOfferingsOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -23226,7 +22514,7 @@ public struct ListOfferingsOutputResponse: Swift.Equatable {
     /// List of offerings
     public var offerings: [MediaLiveClientTypes.Offering]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         offerings: [MediaLiveClientTypes.Offering]? = nil
     )
@@ -23247,7 +22535,7 @@ extension ListOfferingsOutputResponseBody: Swift.Decodable {
         case offerings = "offerings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -23343,7 +22631,7 @@ public struct ListReservationsInput: Swift.Equatable {
     /// Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
     public var videoQuality: Swift.String?
 
-    public init (
+    public init(
         channelClass: Swift.String? = nil,
         codec: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -23374,45 +22662,29 @@ struct ListReservationsInputBody: Swift.Equatable {
 
 extension ListReservationsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListReservationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListReservationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListReservationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListReservationsOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListReservationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListReservationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -23431,7 +22703,7 @@ public struct ListReservationsOutputResponse: Swift.Equatable {
     /// List of reservations
     public var reservations: [MediaLiveClientTypes.Reservation]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         reservations: [MediaLiveClientTypes.Reservation]? = nil
     )
@@ -23452,7 +22724,7 @@ extension ListReservationsOutputResponseBody: Swift.Decodable {
         case reservations = "reservations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -23485,7 +22757,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -23498,41 +22770,27 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -23547,7 +22805,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// Placeholder documentation for Tags
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -23564,7 +22822,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -24428,7 +23686,7 @@ extension MediaLiveClientTypes.M2tsSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let absentInputAudioBehaviorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.M2tsAbsentInputAudioBehavior.self, forKey: .absentInputAudioBehavior)
         absentInputAudioBehavior = absentInputAudioBehaviorDecoded
@@ -24629,7 +23887,7 @@ extension MediaLiveClientTypes {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value. Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public var videoPid: Swift.String?
 
-        public init (
+        public init(
             absentInputAudioBehavior: MediaLiveClientTypes.M2tsAbsentInputAudioBehavior? = nil,
             arib: MediaLiveClientTypes.M2tsArib? = nil,
             aribCaptionsPid: Swift.String? = nil,
@@ -24941,7 +24199,7 @@ extension MediaLiveClientTypes.M3u8Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioFramesPerPesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .audioFramesPerPes)
         audioFramesPerPes = audioFramesPerPesDecoded
@@ -25018,7 +24276,7 @@ extension MediaLiveClientTypes {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.
         public var videoPid: Swift.String?
 
-        public init (
+        public init(
             audioFramesPerPes: Swift.Int? = nil,
             audioPids: Swift.String? = nil,
             ecmPid: Swift.String? = nil,
@@ -25109,7 +24367,7 @@ extension MediaLiveClientTypes.MaintenanceCreateSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maintenanceDayDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MaintenanceDay.self, forKey: .maintenanceDay)
         maintenanceDay = maintenanceDayDecoded
@@ -25126,7 +24384,7 @@ extension MediaLiveClientTypes {
         /// Choose the hour that maintenance will start. The chosen time is used for all future maintenance windows.
         public var maintenanceStartTime: Swift.String?
 
-        public init (
+        public init(
             maintenanceDay: MediaLiveClientTypes.MaintenanceDay? = nil,
             maintenanceStartTime: Swift.String? = nil
         )
@@ -25210,7 +24468,7 @@ extension MediaLiveClientTypes.MaintenanceStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maintenanceDayDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MaintenanceDay.self, forKey: .maintenanceDay)
         maintenanceDay = maintenanceDayDecoded
@@ -25235,7 +24493,7 @@ extension MediaLiveClientTypes {
         /// The currently selected maintenance start time. Time is in UTC.
         public var maintenanceStartTime: Swift.String?
 
-        public init (
+        public init(
             maintenanceDay: MediaLiveClientTypes.MaintenanceDay? = nil,
             maintenanceDeadline: Swift.String? = nil,
             maintenanceScheduledDate: Swift.String? = nil,
@@ -25271,7 +24529,7 @@ extension MediaLiveClientTypes.MaintenanceUpdateSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maintenanceDayDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MaintenanceDay.self, forKey: .maintenanceDay)
         maintenanceDay = maintenanceDayDecoded
@@ -25292,7 +24550,7 @@ extension MediaLiveClientTypes {
         /// Choose the hour that maintenance will start. The chosen time is used for all future maintenance windows.
         public var maintenanceStartTime: Swift.String?
 
-        public init (
+        public init(
             maintenanceDay: MediaLiveClientTypes.MaintenanceDay? = nil,
             maintenanceScheduledDate: Swift.String? = nil,
             maintenanceStartTime: Swift.String? = nil
@@ -25318,7 +24576,7 @@ extension MediaLiveClientTypes.MediaConnectFlow: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
         flowArn = flowArnDecoded
@@ -25331,7 +24589,7 @@ extension MediaLiveClientTypes {
         /// The unique ARN of the MediaConnect Flow being used as a source.
         public var flowArn: Swift.String?
 
-        public init (
+        public init(
             flowArn: Swift.String? = nil
         )
         {
@@ -25353,7 +24611,7 @@ extension MediaLiveClientTypes.MediaConnectFlowRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
         flowArn = flowArnDecoded
@@ -25366,7 +24624,7 @@ extension MediaLiveClientTypes {
         /// The ARN of the MediaConnect Flow that you want to use as a source.
         public var flowArn: Swift.String?
 
-        public init (
+        public init(
             flowArn: Swift.String? = nil
         )
         {
@@ -25388,7 +24646,7 @@ extension MediaLiveClientTypes.MediaPackageGroupSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.OutputLocationRef.self, forKey: .destination)
         destination = destinationDecoded
@@ -25402,7 +24660,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
 
-        public init (
+        public init(
             destination: MediaLiveClientTypes.OutputLocationRef? = nil
         )
         {
@@ -25424,7 +24682,7 @@ extension MediaLiveClientTypes.MediaPackageOutputDestinationSettings: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelId)
         channelId = channelIdDecoded
@@ -25437,7 +24695,7 @@ extension MediaLiveClientTypes {
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public var channelId: Swift.String?
 
-        public init (
+        public init(
             channelId: Swift.String? = nil
         )
         {
@@ -25454,7 +24712,7 @@ extension MediaLiveClientTypes.MediaPackageOutputSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -25462,7 +24720,7 @@ extension MediaLiveClientTypes {
     /// Media Package Output Settings
     public struct MediaPackageOutputSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -25491,7 +24749,7 @@ extension MediaLiveClientTypes.MotionGraphicsActivateScheduleActionSettings: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
@@ -25516,7 +24774,7 @@ extension MediaLiveClientTypes {
         /// Documentation update needed
         public var username: Swift.String?
 
-        public init (
+        public init(
             duration: Swift.Int? = nil,
             passwordParam: Swift.String? = nil,
             url: Swift.String? = nil,
@@ -25548,7 +24806,7 @@ extension MediaLiveClientTypes.MotionGraphicsConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let motionGraphicsInsertionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MotionGraphicsInsertion.self, forKey: .motionGraphicsInsertion)
         motionGraphicsInsertion = motionGraphicsInsertionDecoded
@@ -25566,7 +24824,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var motionGraphicsSettings: MediaLiveClientTypes.MotionGraphicsSettings?
 
-        public init (
+        public init(
             motionGraphicsInsertion: MediaLiveClientTypes.MotionGraphicsInsertion? = nil,
             motionGraphicsSettings: MediaLiveClientTypes.MotionGraphicsSettings? = nil
         )
@@ -25585,7 +24843,7 @@ extension MediaLiveClientTypes.MotionGraphicsDeactivateScheduleActionSettings: S
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -25593,7 +24851,7 @@ extension MediaLiveClientTypes {
     /// Settings to specify the ending of rendering motion graphics into the video stream.
     public struct MotionGraphicsDeactivateScheduleActionSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -25643,7 +24901,7 @@ extension MediaLiveClientTypes.MotionGraphicsSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let htmlMotionGraphicsSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.HtmlMotionGraphicsSettings.self, forKey: .htmlMotionGraphicsSettings)
         htmlMotionGraphicsSettings = htmlMotionGraphicsSettingsDecoded
@@ -25656,7 +24914,7 @@ extension MediaLiveClientTypes {
         /// Html Motion Graphics Settings
         public var htmlMotionGraphicsSettings: MediaLiveClientTypes.HtmlMotionGraphicsSettings?
 
-        public init (
+        public init(
             htmlMotionGraphicsSettings: MediaLiveClientTypes.HtmlMotionGraphicsSettings? = nil
         )
         {
@@ -25719,7 +24977,7 @@ extension MediaLiveClientTypes.Mp2Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bitrateDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .bitrate)
         bitrate = bitrateDecoded
@@ -25740,7 +24998,7 @@ extension MediaLiveClientTypes {
         /// Sample rate in Hz.
         public var sampleRate: Swift.Double?
 
-        public init (
+        public init(
             bitrate: Swift.Double? = nil,
             codingMode: MediaLiveClientTypes.Mp2CodingMode? = nil,
             sampleRate: Swift.Double? = nil
@@ -25907,7 +25165,7 @@ extension MediaLiveClientTypes.Mpeg2FilterSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let temporalFilterSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TemporalFilterSettings.self, forKey: .temporalFilterSettings)
         temporalFilterSettings = temporalFilterSettingsDecoded
@@ -25920,7 +25178,7 @@ extension MediaLiveClientTypes {
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
-        public init (
+        public init(
             temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings? = nil
         )
         {
@@ -26072,7 +25330,7 @@ extension MediaLiveClientTypes.Mpeg2Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adaptiveQuantizationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Mpeg2AdaptiveQuantization.self, forKey: .adaptiveQuantization)
         adaptiveQuantization = adaptiveQuantizationDecoded
@@ -26151,7 +25409,7 @@ extension MediaLiveClientTypes {
         /// Determines how MediaLive inserts timecodes in the output video. For detailed information about setting up the input and the output for a timecode, see the section on "MediaLive Features - Timecode configuration" in the MediaLive User Guide. DISABLED: do not include timecodes. GOP_TIMECODE: Include timecode metadata in the GOP header.
         public var timecodeInsertion: MediaLiveClientTypes.Mpeg2TimecodeInsertionBehavior?
 
-        public init (
+        public init(
             adaptiveQuantization: MediaLiveClientTypes.Mpeg2AdaptiveQuantization? = nil,
             afdSignaling: MediaLiveClientTypes.AfdSignaling? = nil,
             colorMetadata: MediaLiveClientTypes.Mpeg2ColorMetadata? = nil,
@@ -26343,7 +25601,7 @@ extension MediaLiveClientTypes.MsSmoothGroupSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acquisitionPointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acquisitionPointId)
         acquisitionPointId = acquisitionPointIdDecoded
@@ -26445,7 +25703,7 @@ extension MediaLiveClientTypes {
         /// * useConfiguredOffset: Use an explicitly configured date as the offset
         public var timestampOffsetMode: MediaLiveClientTypes.SmoothGroupTimestampOffsetMode?
 
-        public init (
+        public init(
             acquisitionPointId: Swift.String? = nil,
             audioOnlyTimecodeControl: MediaLiveClientTypes.SmoothGroupAudioOnlyTimecodeControl? = nil,
             certificateMode: MediaLiveClientTypes.SmoothGroupCertificateMode? = nil,
@@ -26540,7 +25798,7 @@ extension MediaLiveClientTypes.MsSmoothOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let h265PackagingTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MsSmoothH265PackagingType.self, forKey: .h265PackagingType)
         h265PackagingType = h265PackagingTypeDecoded
@@ -26557,7 +25815,7 @@ extension MediaLiveClientTypes {
         /// String concatenated to the end of the destination filename. Required for multiple outputs of the same type.
         public var nameModifier: Swift.String?
 
-        public init (
+        public init(
             h265PackagingType: MediaLiveClientTypes.MsSmoothH265PackagingType? = nil,
             nameModifier: Swift.String? = nil
         )
@@ -26626,7 +25884,7 @@ extension MediaLiveClientTypes.Multiplex: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -26702,7 +25960,7 @@ extension MediaLiveClientTypes {
         /// A collection of key-value pairs.
         public var tags: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             availabilityZones: [Swift.String]? = nil,
             destinations: [MediaLiveClientTypes.MultiplexOutputDestination]? = nil,
@@ -26737,7 +25995,7 @@ extension MediaLiveClientTypes.MultiplexGroupSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -26745,7 +26003,7 @@ extension MediaLiveClientTypes {
     /// Multiplex Group Settings
     public struct MultiplexGroupSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -26762,7 +26020,7 @@ extension MediaLiveClientTypes.MultiplexMediaConnectOutputDestinationSettings: S
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entitlementArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entitlementArn)
         entitlementArn = entitlementArnDecoded
@@ -26775,7 +26033,7 @@ extension MediaLiveClientTypes {
         /// The MediaConnect entitlement ARN available as a Flow source.
         public var entitlementArn: Swift.String?
 
-        public init (
+        public init(
             entitlementArn: Swift.String? = nil
         )
         {
@@ -26797,7 +26055,7 @@ extension MediaLiveClientTypes.MultiplexOutputDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediaConnectSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MultiplexMediaConnectOutputDestinationSettings.self, forKey: .mediaConnectSettings)
         mediaConnectSettings = mediaConnectSettingsDecoded
@@ -26810,7 +26068,7 @@ extension MediaLiveClientTypes {
         /// Multiplex MediaConnect output destination settings.
         public var mediaConnectSettings: MediaLiveClientTypes.MultiplexMediaConnectOutputDestinationSettings?
 
-        public init (
+        public init(
             mediaConnectSettings: MediaLiveClientTypes.MultiplexMediaConnectOutputDestinationSettings? = nil
         )
         {
@@ -26832,7 +26090,7 @@ extension MediaLiveClientTypes.MultiplexOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.OutputLocationRef.self, forKey: .destination)
         destination = destinationDecoded
@@ -26846,7 +26104,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
 
-        public init (
+        public init(
             destination: MediaLiveClientTypes.OutputLocationRef? = nil
         )
         {
@@ -26887,7 +26145,7 @@ extension MediaLiveClientTypes.MultiplexProgram: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelId)
         channelId = channelIdDecoded
@@ -26925,7 +26183,7 @@ extension MediaLiveClientTypes {
         /// The name of the multiplex program.
         public var programName: Swift.String?
 
-        public init (
+        public init(
             channelId: Swift.String? = nil,
             multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings? = nil,
             packetIdentifiersMap: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap? = nil,
@@ -26959,7 +26217,7 @@ extension MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .multiplexId)
         multiplexId = multiplexIdDecoded
@@ -26976,7 +26234,7 @@ extension MediaLiveClientTypes {
         /// The program name of the Multiplex program that the encoder is providing output to.
         public var programName: Swift.String?
 
-        public init (
+        public init(
             multiplexId: Swift.String? = nil,
             programName: Swift.String? = nil
         )
@@ -27060,7 +26318,7 @@ extension MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioPidsContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .audioPids)
         var audioPidsDecoded0:[Swift.Int]? = nil
@@ -27157,7 +26415,7 @@ extension MediaLiveClientTypes {
         /// Placeholder documentation for __integer
         public var videoPid: Swift.Int?
 
-        public init (
+        public init(
             audioPids: [Swift.Int]? = nil,
             dvbSubPids: [Swift.Int]? = nil,
             dvbTeletextPid: Swift.Int? = nil,
@@ -27207,7 +26465,7 @@ extension MediaLiveClientTypes.MultiplexProgramPipelineDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activeChannelPipelineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeChannelPipeline)
         activeChannelPipeline = activeChannelPipelineDecoded
@@ -27224,7 +26482,7 @@ extension MediaLiveClientTypes {
         /// Identifies a specific pipeline in the multiplex.
         public var pipelineId: Swift.String?
 
-        public init (
+        public init(
             activeChannelPipeline: Swift.String? = nil,
             pipelineId: Swift.String? = nil
         )
@@ -27252,7 +26510,7 @@ extension MediaLiveClientTypes.MultiplexProgramServiceDescriptor: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let providerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerName)
         providerName = providerNameDecoded
@@ -27271,7 +26529,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var serviceName: Swift.String?
 
-        public init (
+        public init(
             providerName: Swift.String? = nil,
             serviceName: Swift.String? = nil
         )
@@ -27307,7 +26565,7 @@ extension MediaLiveClientTypes.MultiplexProgramSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let preferredChannelPipelineDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.PreferredChannelPipeline.self, forKey: .preferredChannelPipeline)
         preferredChannelPipeline = preferredChannelPipelineDecoded
@@ -27333,7 +26591,7 @@ extension MediaLiveClientTypes {
         /// Program video settings configuration.
         public var videoSettings: MediaLiveClientTypes.MultiplexVideoSettings?
 
-        public init (
+        public init(
             preferredChannelPipeline: MediaLiveClientTypes.PreferredChannelPipeline? = nil,
             programNumber: Swift.Int? = nil,
             serviceDescriptor: MediaLiveClientTypes.MultiplexProgramServiceDescriptor? = nil,
@@ -27365,7 +26623,7 @@ extension MediaLiveClientTypes.MultiplexProgramSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelId)
         channelId = channelIdDecoded
@@ -27382,7 +26640,7 @@ extension MediaLiveClientTypes {
         /// The name of the multiplex program.
         public var programName: Swift.String?
 
-        public init (
+        public init(
             channelId: Swift.String? = nil,
             programName: Swift.String? = nil
         )
@@ -27418,7 +26676,7 @@ extension MediaLiveClientTypes.MultiplexSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maximumVideoBufferDelayMillisecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumVideoBufferDelayMilliseconds)
         maximumVideoBufferDelayMilliseconds = maximumVideoBufferDelayMillisecondsDecoded
@@ -27445,7 +26703,7 @@ extension MediaLiveClientTypes {
         /// Transport stream reserved bit rate.
         public var transportStreamReservedBitrate: Swift.Int?
 
-        public init (
+        public init(
             maximumVideoBufferDelayMilliseconds: Swift.Int? = nil,
             transportStreamBitrate: Swift.Int? = nil,
             transportStreamId: Swift.Int? = nil,
@@ -27473,7 +26731,7 @@ extension MediaLiveClientTypes.MultiplexSettingsSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transportStreamBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .transportStreamBitrate)
         transportStreamBitrate = transportStreamBitrateDecoded
@@ -27486,7 +26744,7 @@ extension MediaLiveClientTypes {
         /// Transport stream bit rate.
         public var transportStreamBitrate: Swift.Int?
 
-        public init (
+        public init(
             transportStreamBitrate: Swift.Int? = nil
         )
         {
@@ -27570,7 +26828,7 @@ extension MediaLiveClientTypes.MultiplexStatmuxVideoSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maximumBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumBitrate)
         maximumBitrate = maximumBitrateDecoded
@@ -27591,7 +26849,7 @@ extension MediaLiveClientTypes {
         /// The purpose of the priority is to use a combination of the\nmultiplex rate control algorithm and the QVBR capability of the\nencoder to prioritize the video quality of some channels in a\nmultiplex over others. Channels that have a higher priority will\nget higher video quality at the expense of the video quality of\nother channels in the multiplex with lower priority.
         public var priority: Swift.Int?
 
-        public init (
+        public init(
             maximumBitrate: Swift.Int? = nil,
             minimumBitrate: Swift.Int? = nil,
             priority: Swift.Int? = nil
@@ -27655,7 +26913,7 @@ extension MediaLiveClientTypes.MultiplexSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -27718,7 +26976,7 @@ extension MediaLiveClientTypes {
         /// A collection of key-value pairs.
         public var tags: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             availabilityZones: [Swift.String]? = nil,
             id: Swift.String? = nil,
@@ -27760,7 +27018,7 @@ extension MediaLiveClientTypes.MultiplexVideoSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let constantBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .constantBitrate)
         constantBitrate = constantBitrateDecoded
@@ -27777,7 +27035,7 @@ extension MediaLiveClientTypes {
         /// Statmux rate control settings. When this field is defined, ConstantBitrate must be undefined.
         public var statmuxSettings: MediaLiveClientTypes.MultiplexStatmuxVideoSettings?
 
-        public init (
+        public init(
             constantBitrate: Swift.Int? = nil,
             statmuxSettings: MediaLiveClientTypes.MultiplexStatmuxVideoSettings? = nil
         )
@@ -27838,7 +27096,7 @@ extension MediaLiveClientTypes.NetworkInputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hlsInputSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.HlsInputSettings.self, forKey: .hlsInputSettings)
         hlsInputSettings = hlsInputSettingsDecoded
@@ -27855,7 +27113,7 @@ extension MediaLiveClientTypes {
         /// Check HTTPS server certificates. When set to checkCryptographyOnly, cryptography in the certificate will be checked, but not the server's name. Certain subdomains (notably S3 buckets that use dots in the bucket name) do not strictly match the corresponding certificate's wildcard pattern and would otherwise cause the event to error. This setting is ignored for protocols that do not use https.
         public var serverValidation: MediaLiveClientTypes.NetworkInputServerValidation?
 
-        public init (
+        public init(
             hlsInputSettings: MediaLiveClientTypes.HlsInputSettings? = nil,
             serverValidation: MediaLiveClientTypes.NetworkInputServerValidation? = nil
         )
@@ -27887,7 +27145,7 @@ extension MediaLiveClientTypes.NielsenCBET: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cbetCheckDigitStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cbetCheckDigitString)
         cbetCheckDigitString = cbetCheckDigitStringDecoded
@@ -27911,7 +27169,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var csid: Swift.String?
 
-        public init (
+        public init(
             cbetCheckDigitString: Swift.String? = nil,
             cbetStepaside: MediaLiveClientTypes.NielsenWatermarksCbetStepaside? = nil,
             csid: Swift.String? = nil
@@ -27941,7 +27199,7 @@ extension MediaLiveClientTypes.NielsenConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .distributorId)
         distributorId = distributorIdDecoded
@@ -27958,7 +27216,7 @@ extension MediaLiveClientTypes {
         /// Enables Nielsen PCM to ID3 tagging
         public var nielsenPcmToId3Tagging: MediaLiveClientTypes.NielsenPcmToId3TaggingState?
 
-        public init (
+        public init(
             distributorId: Swift.String? = nil,
             nielsenPcmToId3Tagging: MediaLiveClientTypes.NielsenPcmToId3TaggingState? = nil
         )
@@ -27990,7 +27248,7 @@ extension MediaLiveClientTypes.NielsenNaesIiNw: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkDigitStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkDigitString)
         checkDigitString = checkDigitStringDecoded
@@ -28013,7 +27271,7 @@ extension MediaLiveClientTypes {
         /// Choose the timezone for the time stamps in the watermark. If not provided, the timestamps will be in Coordinated Universal Time (UTC)
         public var timezone: MediaLiveClientTypes.NielsenWatermarkTimezones?
 
-        public init (
+        public init(
             checkDigitString: Swift.String? = nil,
             sid: Swift.Double? = nil,
             timezone: MediaLiveClientTypes.NielsenWatermarkTimezones? = nil
@@ -28203,7 +27461,7 @@ extension MediaLiveClientTypes.NielsenWatermarksSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nielsenCbetSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.NielsenCBET.self, forKey: .nielsenCbetSettings)
         nielsenCbetSettings = nielsenCbetSettingsDecoded
@@ -28228,7 +27486,7 @@ extension MediaLiveClientTypes {
         /// Complete these fields only if you want to insert watermarks of type Nielsen NAES II (N2) and Nielsen NAES VI (NW).
         public var nielsenNaesIiNwSettings: MediaLiveClientTypes.NielsenNaesIiNw?
 
-        public init (
+        public init(
             nielsenCbetSettings: MediaLiveClientTypes.NielsenCBET? = nil,
             nielsenDistributionType: MediaLiveClientTypes.NielsenWatermarksDistributionTypes? = nil,
             nielsenNaesIiNwSettings: MediaLiveClientTypes.NielsenNaesIiNw? = nil
@@ -28243,38 +27501,42 @@ extension MediaLiveClientTypes {
 }
 
 extension NotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for NotFoundException
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Placeholder documentation for __string
-    public var message: Swift.String?
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Placeholder documentation for __string
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -28287,7 +27549,7 @@ extension NotFoundExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -28346,7 +27608,7 @@ extension MediaLiveClientTypes.Offering: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -28399,7 +27661,7 @@ extension MediaLiveClientTypes {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public var usagePrice: Swift.Double?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             currencyCode: Swift.String? = nil,
             duration: Swift.Int? = nil,
@@ -28523,7 +27785,7 @@ extension MediaLiveClientTypes.Output: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioDescriptionNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .audioDescriptionNames)
         var audioDescriptionNamesDecoded0:[Swift.String]? = nil
@@ -28571,7 +27833,7 @@ extension MediaLiveClientTypes {
         /// The name of the VideoDescription used as the source for this output.
         public var videoDescriptionName: Swift.String?
 
-        public init (
+        public init(
             audioDescriptionNames: [Swift.String]? = nil,
             captionDescriptionNames: [Swift.String]? = nil,
             outputName: Swift.String? = nil,
@@ -28619,7 +27881,7 @@ extension MediaLiveClientTypes.OutputDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -28662,7 +27924,7 @@ extension MediaLiveClientTypes {
         /// Destination settings for a standard output; one destination for each redundant encoder.
         public var settings: [MediaLiveClientTypes.OutputDestinationSettings]?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             mediaPackageSettings: [MediaLiveClientTypes.MediaPackageOutputDestinationSettings]? = nil,
             multiplexSettings: MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings? = nil,
@@ -28702,7 +27964,7 @@ extension MediaLiveClientTypes.OutputDestinationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let passwordParamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .passwordParam)
         passwordParam = passwordParamDecoded
@@ -28727,7 +27989,7 @@ extension MediaLiveClientTypes {
         /// username for destination
         public var username: Swift.String?
 
-        public init (
+        public init(
             passwordParam: Swift.String? = nil,
             streamName: Swift.String? = nil,
             url: Swift.String? = nil,
@@ -28766,7 +28028,7 @@ extension MediaLiveClientTypes.OutputGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -28798,7 +28060,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var outputs: [MediaLiveClientTypes.Output]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             outputGroupSettings: MediaLiveClientTypes.OutputGroupSettings? = nil,
             outputs: [MediaLiveClientTypes.Output]? = nil
@@ -28852,7 +28114,7 @@ extension MediaLiveClientTypes.OutputGroupSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let archiveGroupSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ArchiveGroupSettings.self, forKey: .archiveGroupSettings)
         archiveGroupSettings = archiveGroupSettingsDecoded
@@ -28893,7 +28155,7 @@ extension MediaLiveClientTypes {
         /// Udp Group Settings
         public var udpGroupSettings: MediaLiveClientTypes.UdpGroupSettings?
 
-        public init (
+        public init(
             archiveGroupSettings: MediaLiveClientTypes.ArchiveGroupSettings? = nil,
             frameCaptureGroupSettings: MediaLiveClientTypes.FrameCaptureGroupSettings? = nil,
             hlsGroupSettings: MediaLiveClientTypes.HlsGroupSettings? = nil,
@@ -28929,7 +28191,7 @@ extension MediaLiveClientTypes.OutputLocationRef: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationRefIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationRefId)
         destinationRefId = destinationRefIdDecoded
@@ -28942,7 +28204,7 @@ extension MediaLiveClientTypes {
         /// Placeholder documentation for __string
         public var destinationRefId: Swift.String?
 
-        public init (
+        public init(
             destinationRefId: Swift.String? = nil
         )
         {
@@ -28992,7 +28254,7 @@ extension MediaLiveClientTypes.OutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let archiveOutputSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ArchiveOutputSettings.self, forKey: .archiveOutputSettings)
         archiveOutputSettings = archiveOutputSettingsDecoded
@@ -29033,7 +28295,7 @@ extension MediaLiveClientTypes {
         /// Udp Output Settings
         public var udpOutputSettings: MediaLiveClientTypes.UdpOutputSettings?
 
-        public init (
+        public init(
             archiveOutputSettings: MediaLiveClientTypes.ArchiveOutputSettings? = nil,
             frameCaptureOutputSettings: MediaLiveClientTypes.FrameCaptureOutputSettings? = nil,
             hlsOutputSettings: MediaLiveClientTypes.HlsOutputSettings? = nil,
@@ -29064,7 +28326,7 @@ extension MediaLiveClientTypes.PassThroughSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -29072,7 +28334,7 @@ extension MediaLiveClientTypes {
     /// Pass Through Settings
     public struct PassThroughSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -29092,7 +28354,7 @@ extension MediaLiveClientTypes.PauseStateScheduleActionSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelinesContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.PipelinePauseStateSettings?].self, forKey: .pipelines)
         var pipelinesDecoded0:[MediaLiveClientTypes.PipelinePauseStateSettings]? = nil
@@ -29114,7 +28376,7 @@ extension MediaLiveClientTypes {
         /// Placeholder documentation for __listOfPipelinePauseStateSettings
         public var pipelines: [MediaLiveClientTypes.PipelinePauseStateSettings]?
 
-        public init (
+        public init(
             pipelines: [MediaLiveClientTypes.PipelinePauseStateSettings]? = nil
         )
         {
@@ -29152,7 +28414,7 @@ extension MediaLiveClientTypes.PipelineDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activeInputAttachmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeInputAttachmentName)
         activeInputAttachmentName = activeInputAttachmentNameDecoded
@@ -29181,7 +28443,7 @@ extension MediaLiveClientTypes {
         /// Pipeline ID
         public var pipelineId: Swift.String?
 
-        public init (
+        public init(
             activeInputAttachmentName: Swift.String? = nil,
             activeInputSwitchActionName: Swift.String? = nil,
             activeMotionGraphicsActionName: Swift.String? = nil,
@@ -29244,7 +28506,7 @@ extension MediaLiveClientTypes.PipelinePauseStateSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.PipelineId.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -29258,7 +28520,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var pipelineId: MediaLiveClientTypes.PipelineId?
 
-        public init (
+        public init(
             pipelineId: MediaLiveClientTypes.PipelineId? = nil
         )
         {
@@ -29368,7 +28630,7 @@ public struct PurchaseOfferingInput: Swift.Equatable {
     /// A collection of key-value pairs
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         count: Swift.Int? = nil,
         name: Swift.String? = nil,
         offeringId: Swift.String? = nil,
@@ -29407,7 +28669,7 @@ extension PurchaseOfferingInputBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
@@ -29433,45 +28695,27 @@ extension PurchaseOfferingInputBody: Swift.Decodable {
     }
 }
 
-extension PurchaseOfferingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PurchaseOfferingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PurchaseOfferingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PurchaseOfferingOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PurchaseOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PurchaseOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reservation = output.reservation
@@ -29486,7 +28730,7 @@ public struct PurchaseOfferingOutputResponse: Swift.Equatable {
     /// Reserved resources available to use
     public var reservation: MediaLiveClientTypes.Reservation?
 
-    public init (
+    public init(
         reservation: MediaLiveClientTypes.Reservation? = nil
     )
     {
@@ -29503,7 +28747,7 @@ extension PurchaseOfferingOutputResponseBody: Swift.Decodable {
         case reservation = "reservation"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reservationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Reservation.self, forKey: .reservation)
         reservation = reservationDecoded
@@ -29517,7 +28761,7 @@ extension MediaLiveClientTypes.RawSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -29525,7 +28769,7 @@ extension MediaLiveClientTypes {
     /// Raw Settings
     public struct RawSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -29593,7 +28837,7 @@ public struct RebootInputDeviceInput: Swift.Equatable {
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
-    public init (
+    public init(
         force: MediaLiveClientTypes.RebootInputDeviceForce? = nil,
         inputDeviceId: Swift.String? = nil
     )
@@ -29612,58 +28856,40 @@ extension RebootInputDeviceInputBody: Swift.Decodable {
         case force = "force"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let forceDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.RebootInputDeviceForce.self, forKey: .force)
         force = forceDecoded
     }
 }
 
-extension RebootInputDeviceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RebootInputDeviceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RebootInputDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RebootInputDeviceOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RebootInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for RebootInputDeviceResponse
 public struct RebootInputDeviceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension MediaLiveClientTypes.Rec601Settings: Swift.Codable {
@@ -29673,7 +28899,7 @@ extension MediaLiveClientTypes.Rec601Settings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -29681,7 +28907,7 @@ extension MediaLiveClientTypes {
     /// Rec601 Settings
     public struct Rec601Settings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -29693,7 +28919,7 @@ extension MediaLiveClientTypes.Rec709Settings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -29701,7 +28927,7 @@ extension MediaLiveClientTypes {
     /// Rec709 Settings
     public struct Rec709Settings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -29721,7 +28947,7 @@ public struct RejectInputDeviceTransferInput: Swift.Equatable {
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
-    public init (
+    public init(
         inputDeviceId: Swift.String? = nil
     )
     {
@@ -29734,57 +28960,38 @@ struct RejectInputDeviceTransferInputBody: Swift.Equatable {
 
 extension RejectInputDeviceTransferInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension RejectInputDeviceTransferOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RejectInputDeviceTransferOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RejectInputDeviceTransferOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RejectInputDeviceTransferOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RejectInputDeviceTransferOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for RejectInputDeviceTransferResponse
 public struct RejectInputDeviceTransferOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension MediaLiveClientTypes.RemixSettings: Swift.Codable {
@@ -29810,7 +29017,7 @@ extension MediaLiveClientTypes.RemixSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelMappingsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.AudioChannelMapping?].self, forKey: .channelMappings)
         var channelMappingsDecoded0:[MediaLiveClientTypes.AudioChannelMapping]? = nil
@@ -29841,7 +29048,7 @@ extension MediaLiveClientTypes {
         /// Number of output channels to be produced. Valid values: 1, 2, 4, 6, 8
         public var channelsOut: Swift.Int?
 
-        public init (
+        public init(
             channelMappings: [MediaLiveClientTypes.AudioChannelMapping]? = nil,
             channelsIn: Swift.Int? = nil,
             channelsOut: Swift.Int? = nil
@@ -29871,7 +29078,7 @@ extension MediaLiveClientTypes.RenewalSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let automaticRenewalDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ReservationAutomaticRenewal.self, forKey: .automaticRenewal)
         automaticRenewal = automaticRenewalDecoded
@@ -29888,7 +29095,7 @@ extension MediaLiveClientTypes {
         /// Count for the reservation renewal
         public var renewalCount: Swift.Int?
 
-        public init (
+        public init(
             automaticRenewal: MediaLiveClientTypes.ReservationAutomaticRenewal? = nil,
             renewalCount: Swift.Int? = nil
         )
@@ -29987,7 +29194,7 @@ extension MediaLiveClientTypes.Reservation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -30081,7 +29288,7 @@ extension MediaLiveClientTypes {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public var usagePrice: Swift.Double?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             count: Swift.Int? = nil,
             currencyCode: Swift.String? = nil,
@@ -30353,7 +29560,7 @@ extension MediaLiveClientTypes.ReservationResourceSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelClassDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ChannelClass.self, forKey: .channelClass)
         channelClass = channelClassDecoded
@@ -30394,7 +29601,7 @@ extension MediaLiveClientTypes {
         /// Video quality, e.g. 'STANDARD' (Outputs only)
         public var videoQuality: MediaLiveClientTypes.ReservationVideoQuality?
 
-        public init (
+        public init(
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
             codec: MediaLiveClientTypes.ReservationCodec? = nil,
             maximumBitrate: MediaLiveClientTypes.ReservationMaximumBitrate? = nil,
@@ -30677,7 +29884,7 @@ extension MediaLiveClientTypes.RtmpCaptionInfoDestinationSettings: Swift.Codable
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -30685,7 +29892,7 @@ extension MediaLiveClientTypes {
     /// Rtmp Caption Info Destination Settings
     public struct RtmpCaptionInfoDestinationSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -30729,7 +29936,7 @@ extension MediaLiveClientTypes.RtmpGroupSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adMarkersContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.RtmpAdMarkers?].self, forKey: .adMarkers)
         var adMarkersDecoded0:[MediaLiveClientTypes.RtmpAdMarkers]? = nil
@@ -30779,7 +29986,7 @@ extension MediaLiveClientTypes {
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public var restartDelay: Swift.Int?
 
-        public init (
+        public init(
             adMarkers: [MediaLiveClientTypes.RtmpAdMarkers]? = nil,
             authenticationScheme: MediaLiveClientTypes.AuthenticationScheme? = nil,
             cacheFullBehavior: MediaLiveClientTypes.RtmpCacheFullBehavior? = nil,
@@ -30858,7 +30065,7 @@ extension MediaLiveClientTypes.RtmpOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let certificateModeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.RtmpOutputCertificateMode.self, forKey: .certificateMode)
         certificateMode = certificateModeDecoded
@@ -30884,7 +30091,7 @@ extension MediaLiveClientTypes {
         /// Number of retry attempts.
         public var numRetries: Swift.Int?
 
-        public init (
+        public init(
             certificateMode: MediaLiveClientTypes.RtmpOutputCertificateMode? = nil,
             connectionRetryInterval: Swift.Int? = nil,
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
@@ -30959,7 +30166,7 @@ extension MediaLiveClientTypes.ScheduleAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionName)
         actionName = actionNameDecoded
@@ -30983,7 +30190,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var scheduleActionStartSettings: MediaLiveClientTypes.ScheduleActionStartSettings?
 
-        public init (
+        public init(
             actionName: Swift.String? = nil,
             scheduleActionSettings: MediaLiveClientTypes.ScheduleActionSettings? = nil,
             scheduleActionStartSettings: MediaLiveClientTypes.ScheduleActionStartSettings? = nil
@@ -31057,7 +30264,7 @@ extension MediaLiveClientTypes.ScheduleActionSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hlsId3SegmentTaggingSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings.self, forKey: .hlsId3SegmentTaggingSettings)
         hlsId3SegmentTaggingSettings = hlsId3SegmentTaggingSettingsDecoded
@@ -31118,7 +30325,7 @@ extension MediaLiveClientTypes {
         /// Action to deactivate a static image overlay
         public var staticImageDeactivateSettings: MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings?
 
-        public init (
+        public init(
             hlsId3SegmentTaggingSettings: MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings? = nil,
             hlsTimedMetadataSettings: MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings? = nil,
             inputPrepareSettings: MediaLiveClientTypes.InputPrepareScheduleActionSettings? = nil,
@@ -31172,7 +30379,7 @@ extension MediaLiveClientTypes.ScheduleActionStartSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fixedModeScheduleActionStartSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FixedModeScheduleActionStartSettings.self, forKey: .fixedModeScheduleActionStartSettings)
         fixedModeScheduleActionStartSettings = fixedModeScheduleActionStartSettingsDecoded
@@ -31193,7 +30400,7 @@ extension MediaLiveClientTypes {
         /// Option for specifying an action that should be applied immediately.
         public var immediateModeScheduleActionStartSettings: MediaLiveClientTypes.ImmediateModeScheduleActionStartSettings?
 
-        public init (
+        public init(
             fixedModeScheduleActionStartSettings: MediaLiveClientTypes.FixedModeScheduleActionStartSettings? = nil,
             followModeScheduleActionStartSettings: MediaLiveClientTypes.FollowModeScheduleActionStartSettings? = nil,
             immediateModeScheduleActionStartSettings: MediaLiveClientTypes.ImmediateModeScheduleActionStartSettings? = nil
@@ -31247,7 +30454,7 @@ extension MediaLiveClientTypes.Scte20PlusEmbeddedDestinationSettings: Swift.Coda
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -31255,7 +30462,7 @@ extension MediaLiveClientTypes {
     /// Scte20 Plus Embedded Destination Settings
     public struct Scte20PlusEmbeddedDestinationSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -31276,7 +30483,7 @@ extension MediaLiveClientTypes.Scte20SourceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let convert608To708Decoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Scte20Convert608To708.self, forKey: .convert608To708)
         convert608To708 = convert608To708Decoded
@@ -31293,7 +30500,7 @@ extension MediaLiveClientTypes {
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
         public var source608ChannelNumber: Swift.Int?
 
-        public init (
+        public init(
             convert608To708: MediaLiveClientTypes.Scte20Convert608To708? = nil,
             source608ChannelNumber: Swift.Int? = nil
         )
@@ -31312,7 +30519,7 @@ extension MediaLiveClientTypes.Scte27DestinationSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -31320,7 +30527,7 @@ extension MediaLiveClientTypes {
     /// Scte27 Destination Settings
     public struct Scte27DestinationSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -31386,7 +30593,7 @@ extension MediaLiveClientTypes.Scte27SourceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ocrLanguageDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Scte27OcrLanguage.self, forKey: .ocrLanguage)
         ocrLanguage = ocrLanguageDecoded
@@ -31411,7 +30618,7 @@ extension MediaLiveClientTypes {
         /// * Omit PID and omit Language: Valid only if source is DVB-Sub that is being passed through; all languages will be passed through.
         public var pid: Swift.Int?
 
-        public init (
+        public init(
             ocrLanguage: MediaLiveClientTypes.Scte27OcrLanguage? = nil,
             pid: Swift.Int? = nil
         )
@@ -31546,7 +30753,7 @@ extension MediaLiveClientTypes.Scte35DeliveryRestrictions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let archiveAllowedFlagDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Scte35ArchiveAllowedFlag.self, forKey: .archiveAllowedFlag)
         archiveAllowedFlag = archiveAllowedFlagDecoded
@@ -31575,7 +30782,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var webDeliveryAllowedFlag: MediaLiveClientTypes.Scte35WebDeliveryAllowedFlag?
 
-        public init (
+        public init(
             archiveAllowedFlag: MediaLiveClientTypes.Scte35ArchiveAllowedFlag? = nil,
             deviceRestrictions: MediaLiveClientTypes.Scte35DeviceRestrictions? = nil,
             noRegionalBlackoutFlag: MediaLiveClientTypes.Scte35NoRegionalBlackoutFlag? = nil,
@@ -31603,7 +30810,7 @@ extension MediaLiveClientTypes.Scte35Descriptor: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scte35DescriptorSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Scte35DescriptorSettings.self, forKey: .scte35DescriptorSettings)
         scte35DescriptorSettings = scte35DescriptorSettingsDecoded
@@ -31617,7 +30824,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var scte35DescriptorSettings: MediaLiveClientTypes.Scte35DescriptorSettings?
 
-        public init (
+        public init(
             scte35DescriptorSettings: MediaLiveClientTypes.Scte35DescriptorSettings? = nil
         )
         {
@@ -31639,7 +30846,7 @@ extension MediaLiveClientTypes.Scte35DescriptorSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let segmentationDescriptorScte35DescriptorSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Scte35SegmentationDescriptor.self, forKey: .segmentationDescriptorScte35DescriptorSettings)
         segmentationDescriptorScte35DescriptorSettings = segmentationDescriptorScte35DescriptorSettingsDecoded
@@ -31653,7 +30860,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var segmentationDescriptorScte35DescriptorSettings: MediaLiveClientTypes.Scte35SegmentationDescriptor?
 
-        public init (
+        public init(
             segmentationDescriptorScte35DescriptorSettings: MediaLiveClientTypes.Scte35SegmentationDescriptor? = nil
         )
         {
@@ -31751,7 +30958,7 @@ extension MediaLiveClientTypes.Scte35InputScheduleActionSettings: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputAttachmentNameReferenceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputAttachmentNameReference)
         inputAttachmentNameReference = inputAttachmentNameReferenceDecoded
@@ -31769,7 +30976,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var mode: MediaLiveClientTypes.Scte35InputMode?
 
-        public init (
+        public init(
             inputAttachmentNameReference: Swift.String? = nil,
             mode: MediaLiveClientTypes.Scte35InputMode? = nil
         )
@@ -31826,7 +31033,7 @@ extension MediaLiveClientTypes.Scte35ReturnToNetworkScheduleActionSettings: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let spliceEventIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .spliceEventId)
         spliceEventId = spliceEventIdDecoded
@@ -31840,7 +31047,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var spliceEventId: Swift.Int?
 
-        public init (
+        public init(
             spliceEventId: Swift.Int? = nil
         )
         {
@@ -31935,7 +31142,7 @@ extension MediaLiveClientTypes.Scte35SegmentationDescriptor: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryRestrictionsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Scte35DeliveryRestrictions.self, forKey: .deliveryRestrictions)
         deliveryRestrictions = deliveryRestrictionsDecoded
@@ -31990,7 +31197,7 @@ extension MediaLiveClientTypes {
         /// Corresponds to SCTE-35 sub_segments_expected. A value that is valid for the specified segmentation_type_id.
         public var subSegmentsExpected: Swift.Int?
 
-        public init (
+        public init(
             deliveryRestrictions: MediaLiveClientTypes.Scte35DeliveryRestrictions? = nil,
             segmentNum: Swift.Int? = nil,
             segmentationCancelIndicator: MediaLiveClientTypes.Scte35SegmentationCancelIndicator? = nil,
@@ -32040,7 +31247,7 @@ extension MediaLiveClientTypes.Scte35SpliceInsert: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adAvailOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .adAvailOffset)
         adAvailOffset = adAvailOffsetDecoded
@@ -32061,7 +31268,7 @@ extension MediaLiveClientTypes {
         /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public var webDeliveryAllowedFlag: MediaLiveClientTypes.Scte35SpliceInsertWebDeliveryAllowedBehavior?
 
-        public init (
+        public init(
             adAvailOffset: Swift.Int? = nil,
             noRegionalBlackoutFlag: MediaLiveClientTypes.Scte35SpliceInsertNoRegionalBlackoutBehavior? = nil,
             webDeliveryAllowedFlag: MediaLiveClientTypes.Scte35SpliceInsertWebDeliveryAllowedBehavior? = nil
@@ -32124,7 +31331,7 @@ extension MediaLiveClientTypes.Scte35SpliceInsertScheduleActionSettings: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
@@ -32142,7 +31349,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var spliceEventId: Swift.Int?
 
-        public init (
+        public init(
             duration: Swift.Int? = nil,
             spliceEventId: Swift.Int? = nil
         )
@@ -32207,7 +31414,7 @@ extension MediaLiveClientTypes.Scte35TimeSignalApos: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adAvailOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .adAvailOffset)
         adAvailOffset = adAvailOffsetDecoded
@@ -32228,7 +31435,7 @@ extension MediaLiveClientTypes {
         /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public var webDeliveryAllowedFlag: MediaLiveClientTypes.Scte35AposWebDeliveryAllowedBehavior?
 
-        public init (
+        public init(
             adAvailOffset: Swift.Int? = nil,
             noRegionalBlackoutFlag: MediaLiveClientTypes.Scte35AposNoRegionalBlackoutBehavior? = nil,
             webDeliveryAllowedFlag: MediaLiveClientTypes.Scte35AposWebDeliveryAllowedBehavior? = nil
@@ -32257,7 +31464,7 @@ extension MediaLiveClientTypes.Scte35TimeSignalScheduleActionSettings: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scte35DescriptorsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.Scte35Descriptor?].self, forKey: .scte35Descriptors)
         var scte35DescriptorsDecoded0:[MediaLiveClientTypes.Scte35Descriptor]? = nil
@@ -32280,7 +31487,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var scte35Descriptors: [MediaLiveClientTypes.Scte35Descriptor]?
 
-        public init (
+        public init(
             scte35Descriptors: [MediaLiveClientTypes.Scte35Descriptor]? = nil
         )
         {
@@ -32633,7 +31840,7 @@ extension MediaLiveClientTypes.SmpteTtDestinationSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -32641,7 +31848,7 @@ extension MediaLiveClientTypes {
     /// Smpte Tt Destination Settings
     public struct SmpteTtDestinationSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -32662,7 +31869,7 @@ extension MediaLiveClientTypes.StandardHlsSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioRenditionSetsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audioRenditionSets)
         audioRenditionSets = audioRenditionSetsDecoded
@@ -32680,7 +31887,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var m3u8Settings: MediaLiveClientTypes.M3u8Settings?
 
-        public init (
+        public init(
             audioRenditionSets: Swift.String? = nil,
             m3u8Settings: MediaLiveClientTypes.M3u8Settings? = nil
         )
@@ -32707,7 +31914,7 @@ public struct StartChannelInput: Swift.Equatable {
     /// This member is required.
     public var channelId: Swift.String?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil
     )
     {
@@ -32720,49 +31927,31 @@ struct StartChannelInputBody: Swift.Equatable {
 
 extension StartChannelInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension StartChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartChannelOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -32845,7 +32034,7 @@ public struct StartChannelOutputResponse: Swift.Equatable {
     /// Settings for VPC output
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -32930,7 +32119,7 @@ extension StartChannelOutputResponseBody: Swift.Decodable {
         case vpc = "vpc"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -33031,7 +32220,7 @@ public struct StartInputDeviceMaintenanceWindowInput: Swift.Equatable {
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
-    public init (
+    public init(
         inputDeviceId: Swift.String? = nil
     )
     {
@@ -33044,55 +32233,37 @@ struct StartInputDeviceMaintenanceWindowInputBody: Swift.Equatable {
 
 extension StartInputDeviceMaintenanceWindowInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension StartInputDeviceMaintenanceWindowOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartInputDeviceMaintenanceWindowOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartInputDeviceMaintenanceWindowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartInputDeviceMaintenanceWindowOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartInputDeviceMaintenanceWindowOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
 public struct StartInputDeviceMaintenanceWindowOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension StartMultiplexInput: ClientRuntime.URLPathProvider {
@@ -33110,7 +32281,7 @@ public struct StartMultiplexInput: Swift.Equatable {
     /// This member is required.
     public var multiplexId: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil
     )
     {
@@ -33123,49 +32294,31 @@ struct StartMultiplexInputBody: Swift.Equatable {
 
 extension StartMultiplexInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension StartMultiplexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartMultiplexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartMultiplexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartMultiplexOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartMultiplexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartMultiplexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -33216,7 +32369,7 @@ public struct StartMultiplexOutputResponse: Swift.Equatable {
     /// A collection of key-value pairs.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         availabilityZones: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.MultiplexOutputDestination]? = nil,
@@ -33269,7 +32422,7 @@ extension StartMultiplexOutputResponseBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -33333,7 +32486,7 @@ extension MediaLiveClientTypes.StartTimecode: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timecodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timecode)
         timecode = timecodeDecoded
@@ -33346,7 +32499,7 @@ extension MediaLiveClientTypes {
         /// The timecode for the frame where you want to start the clip. Optional; if not specified, the clip starts at first frame in the file. Enter the timecode as HH:MM:SS:FF or HH:MM:SS;FF.
         public var timecode: Swift.String?
 
-        public init (
+        public init(
             timecode: Swift.String? = nil
         )
         {
@@ -33404,7 +32557,7 @@ extension MediaLiveClientTypes.StaticImageActivateScheduleActionSettings: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
@@ -33454,7 +32607,7 @@ extension MediaLiveClientTypes {
         /// The width of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified width. Leave blank to use the native width of the overlay.
         public var width: Swift.Int?
 
-        public init (
+        public init(
             duration: Swift.Int? = nil,
             fadeIn: Swift.Int? = nil,
             fadeOut: Swift.Int? = nil,
@@ -33498,7 +32651,7 @@ extension MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fadeOutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fadeOut)
         fadeOut = fadeOutDecoded
@@ -33515,7 +32668,7 @@ extension MediaLiveClientTypes {
         /// The image overlay layer to deactivate, 0 to 7. Default is 0.
         public var layer: Swift.Int?
 
-        public init (
+        public init(
             fadeOut: Swift.Int? = nil,
             layer: Swift.Int? = nil
         )
@@ -33543,7 +32696,7 @@ extension MediaLiveClientTypes.StaticKeySettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyProviderServerDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputLocation.self, forKey: .keyProviderServer)
         keyProviderServer = keyProviderServerDecoded
@@ -33561,7 +32714,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var staticKeyValue: Swift.String?
 
-        public init (
+        public init(
             keyProviderServer: MediaLiveClientTypes.InputLocation? = nil,
             staticKeyValue: Swift.String? = nil
         )
@@ -33588,7 +32741,7 @@ public struct StopChannelInput: Swift.Equatable {
     /// This member is required.
     public var channelId: Swift.String?
 
-    public init (
+    public init(
         channelId: Swift.String? = nil
     )
     {
@@ -33601,49 +32754,31 @@ struct StopChannelInputBody: Swift.Equatable {
 
 extension StopChannelInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension StopChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopChannelOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -33726,7 +32861,7 @@ public struct StopChannelOutputResponse: Swift.Equatable {
     /// Settings for VPC output
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -33811,7 +32946,7 @@ extension StopChannelOutputResponseBody: Swift.Decodable {
         case vpc = "vpc"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -33912,7 +33047,7 @@ public struct StopMultiplexInput: Swift.Equatable {
     /// This member is required.
     public var multiplexId: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil
     )
     {
@@ -33925,49 +33060,31 @@ struct StopMultiplexInputBody: Swift.Equatable {
 
 extension StopMultiplexInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension StopMultiplexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopMultiplexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopMultiplexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopMultiplexOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopMultiplexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopMultiplexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -34018,7 +33135,7 @@ public struct StopMultiplexOutputResponse: Swift.Equatable {
     /// A collection of key-value pairs.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         availabilityZones: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.MultiplexOutputDestination]? = nil,
@@ -34071,7 +33188,7 @@ extension StopMultiplexOutputResponseBody: Swift.Decodable {
         case tags = "tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -34139,7 +33256,7 @@ extension MediaLiveClientTypes.StopTimecode: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lastFrameClippingBehaviorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.LastFrameClippingBehavior.self, forKey: .lastFrameClippingBehavior)
         lastFrameClippingBehavior = lastFrameClippingBehaviorDecoded
@@ -34156,7 +33273,7 @@ extension MediaLiveClientTypes {
         /// The timecode for the frame where you want to stop the clip. Optional; if not specified, the clip continues to the end of the file. Enter the timecode as HH:MM:SS:FF or HH:MM:SS;FF.
         public var timecode: Swift.String?
 
-        public init (
+        public init(
             lastFrameClippingBehavior: MediaLiveClientTypes.LastFrameClippingBehavior? = nil,
             timecode: Swift.String? = nil
         )
@@ -34175,7 +33292,7 @@ extension MediaLiveClientTypes.TeletextDestinationSettings: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -34183,7 +33300,7 @@ extension MediaLiveClientTypes {
     /// Teletext Destination Settings
     public struct TeletextDestinationSettings: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -34204,7 +33321,7 @@ extension MediaLiveClientTypes.TeletextSourceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputRectangleDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CaptionRectangle.self, forKey: .outputRectangle)
         outputRectangle = outputRectangleDecoded
@@ -34221,7 +33338,7 @@ extension MediaLiveClientTypes {
         /// Specifies the teletext page number within the data stream from which to extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for passthrough. Should be specified as a hexadecimal string with no "0x" prefix.
         public var pageNumber: Swift.String?
 
-        public init (
+        public init(
             outputRectangle: MediaLiveClientTypes.CaptionRectangle? = nil,
             pageNumber: Swift.String? = nil
         )
@@ -34285,7 +33402,7 @@ extension MediaLiveClientTypes.TemporalFilterSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let postFilterSharpeningDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TemporalFilterPostFilterSharpening.self, forKey: .postFilterSharpening)
         postFilterSharpening = postFilterSharpeningDecoded
@@ -34306,7 +33423,7 @@ extension MediaLiveClientTypes {
         /// Choose a filter strength. We recommend a strength of 1 or 2. A higher strength might take out good information, resulting in an image that is overly soft.
         public var strength: MediaLiveClientTypes.TemporalFilterStrength?
 
-        public init (
+        public init(
             postFilterSharpening: MediaLiveClientTypes.TemporalFilterPostFilterSharpening? = nil,
             strength: MediaLiveClientTypes.TemporalFilterStrength? = nil
         )
@@ -34509,7 +33626,7 @@ extension MediaLiveClientTypes.TimecodeBurninSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fontSizeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninFontSize.self, forKey: .fontSize)
         fontSize = fontSizeDecoded
@@ -34532,7 +33649,7 @@ extension MediaLiveClientTypes {
         /// Create a timecode burn-in prefix (optional)
         public var `prefix`: Swift.String?
 
-        public init (
+        public init(
             fontSize: MediaLiveClientTypes.TimecodeBurninFontSize? = nil,
             position: MediaLiveClientTypes.TimecodeBurninPosition? = nil,
             `prefix`: Swift.String? = nil
@@ -34562,7 +33679,7 @@ extension MediaLiveClientTypes.TimecodeConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeConfigSource.self, forKey: .source)
         source = sourceDecoded
@@ -34580,7 +33697,7 @@ extension MediaLiveClientTypes {
         /// Threshold in frames beyond which output timecode is resynchronized to the input timecode. Discrepancies below this threshold are permitted to avoid unnecessary discontinuities in the output timecode. No timecode sync when this is not specified.
         public var syncThreshold: Swift.Int?
 
-        public init (
+        public init(
             source: MediaLiveClientTypes.TimecodeConfigSource? = nil,
             syncThreshold: Swift.Int? = nil
         )
@@ -34629,38 +33746,42 @@ extension MediaLiveClientTypes {
 }
 
 extension TooManyRequestsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for TooManyRequestsException
-public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Placeholder documentation for __string
-    public var message: Swift.String?
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Placeholder documentation for __string
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -34673,7 +33794,7 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -34722,7 +33843,7 @@ public struct TransferInputDeviceInput: Swift.Equatable {
     /// An optional message for the recipient. Maximum 280 characters.
     public var transferMessage: Swift.String?
 
-    public init (
+    public init(
         inputDeviceId: Swift.String? = nil,
         targetCustomerId: Swift.String? = nil,
         targetRegion: Swift.String? = nil,
@@ -34749,7 +33870,7 @@ extension TransferInputDeviceInputBody: Swift.Decodable {
         case transferMessage = "transferMessage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetCustomerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetCustomerId)
         targetCustomerId = targetCustomerIdDecoded
@@ -34760,53 +33881,34 @@ extension TransferInputDeviceInputBody: Swift.Decodable {
     }
 }
 
-extension TransferInputDeviceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TransferInputDeviceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TransferInputDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TransferInputDeviceOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TransferInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Placeholder documentation for TransferInputDeviceResponse
 public struct TransferInputDeviceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension MediaLiveClientTypes.TransferringInputDeviceSummary: Swift.Codable {
@@ -34833,7 +33935,7 @@ extension MediaLiveClientTypes.TransferringInputDeviceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -34858,7 +33960,7 @@ extension MediaLiveClientTypes {
         /// The type (direction) of the input device transfer.
         public var transferType: MediaLiveClientTypes.InputDeviceTransferType?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             message: Swift.String? = nil,
             targetCustomerId: Swift.String? = nil,
@@ -34886,7 +33988,7 @@ extension MediaLiveClientTypes.TtmlDestinationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let styleControlDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TtmlDestinationStyleControl.self, forKey: .styleControl)
         styleControl = styleControlDecoded
@@ -34899,7 +34001,7 @@ extension MediaLiveClientTypes {
         /// This field is not currently supported and will not affect the output styling. Leave the default value.
         public var styleControl: MediaLiveClientTypes.TtmlDestinationStyleControl?
 
-        public init (
+        public init(
             styleControl: MediaLiveClientTypes.TtmlDestinationStyleControl? = nil
         )
         {
@@ -34954,7 +34056,7 @@ extension MediaLiveClientTypes.UdpContainerSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let m2tsSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.M2tsSettings.self, forKey: .m2tsSettings)
         m2tsSettings = m2tsSettingsDecoded
@@ -34967,7 +34069,7 @@ extension MediaLiveClientTypes {
         /// M2ts Settings
         public var m2tsSettings: MediaLiveClientTypes.M2tsSettings?
 
-        public init (
+        public init(
             m2tsSettings: MediaLiveClientTypes.M2tsSettings? = nil
         )
         {
@@ -34997,7 +34099,7 @@ extension MediaLiveClientTypes.UdpGroupSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputLossActionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputLossActionForUdpOut.self, forKey: .inputLossAction)
         inputLossAction = inputLossActionDecoded
@@ -35018,7 +34120,7 @@ extension MediaLiveClientTypes {
         /// Timed Metadata interval in seconds.
         public var timedMetadataId3Period: Swift.Int?
 
-        public init (
+        public init(
             inputLossAction: MediaLiveClientTypes.InputLossActionForUdpOut? = nil,
             timedMetadataId3Frame: MediaLiveClientTypes.UdpTimedMetadataId3Frame? = nil,
             timedMetadataId3Period: Swift.Int? = nil
@@ -35056,7 +34158,7 @@ extension MediaLiveClientTypes.UdpOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bufferMsecDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bufferMsec)
         bufferMsec = bufferMsecDecoded
@@ -35083,7 +34185,7 @@ extension MediaLiveClientTypes {
         /// Settings for enabling and adjusting Forward Error Correction on UDP outputs.
         public var fecOutputSettings: MediaLiveClientTypes.FecOutputSettings?
 
-        public init (
+        public init(
             bufferMsec: Swift.Int? = nil,
             containerSettings: MediaLiveClientTypes.UdpContainerSettings? = nil,
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
@@ -35136,44 +34238,48 @@ extension MediaLiveClientTypes {
 }
 
 extension UnprocessableEntityException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnprocessableEntityExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.validationErrors = output.validationErrors
+            self.properties.message = output.message
+            self.properties.validationErrors = output.validationErrors
         } else {
-            self.message = nil
-            self.validationErrors = nil
+            self.properties.message = nil
+            self.properties.validationErrors = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Placeholder documentation for UnprocessableEntityException
-public struct UnprocessableEntityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The error message.
-    public var message: Swift.String?
-    /// A collection of validation error responses.
-    public var validationErrors: [MediaLiveClientTypes.ValidationError]?
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The error message.
+        public internal(set) var message: Swift.String? = nil
+        /// A collection of validation error responses.
+        public internal(set) var validationErrors: [MediaLiveClientTypes.ValidationError]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnprocessableEntityException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         validationErrors: [MediaLiveClientTypes.ValidationError]? = nil
     )
     {
-        self.message = message
-        self.validationErrors = validationErrors
+        self.properties.message = message
+        self.properties.validationErrors = validationErrors
     }
 }
 
@@ -35188,7 +34294,7 @@ extension UnprocessableEntityExceptionBody: Swift.Decodable {
         case validationErrors = "validationErrors"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -35246,7 +34352,7 @@ public struct UpdateChannelClassInput: Swift.Equatable {
     /// A list of output destinations for this channel.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
 
-    public init (
+    public init(
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         channelId: Swift.String? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil
@@ -35269,7 +34375,7 @@ extension UpdateChannelClassInputBody: Swift.Decodable {
         case destinations = "destinations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelClassDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ChannelClass.self, forKey: .channelClass)
         channelClass = channelClassDecoded
@@ -35287,47 +34393,28 @@ extension UpdateChannelClassInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateChannelClassOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateChannelClassOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateChannelClassOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateChannelClassOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateChannelClassOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateChannelClassOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channel = output.channel
@@ -35342,7 +34429,7 @@ public struct UpdateChannelClassOutputResponse: Swift.Equatable {
     /// Placeholder documentation for Channel
     public var channel: MediaLiveClientTypes.Channel?
 
-    public init (
+    public init(
         channel: MediaLiveClientTypes.Channel? = nil
     )
     {
@@ -35359,7 +34446,7 @@ extension UpdateChannelClassOutputResponseBody: Swift.Decodable {
         case channel = "channel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Channel.self, forKey: .channel)
         channel = channelDecoded
@@ -35450,7 +34537,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
     public var roleArn: Swift.String?
 
-    public init (
+    public init(
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelId: Swift.String? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
@@ -35501,7 +34588,7 @@ extension UpdateChannelInputBody: Swift.Decodable {
         case roleArn = "roleArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cdiInputSpecificationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CdiInputSpecification.self, forKey: .cdiInputSpecification)
         cdiInputSpecification = cdiInputSpecificationDecoded
@@ -35542,43 +34629,26 @@ extension UpdateChannelInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateChannelOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channel = output.channel
@@ -35593,7 +34663,7 @@ public struct UpdateChannelOutputResponse: Swift.Equatable {
     /// Placeholder documentation for Channel
     public var channel: MediaLiveClientTypes.Channel?
 
-    public init (
+    public init(
         channel: MediaLiveClientTypes.Channel? = nil
     )
     {
@@ -35610,7 +34680,7 @@ extension UpdateChannelOutputResponseBody: Swift.Decodable {
         case channel = "channel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Channel.self, forKey: .channel)
         channel = channelDecoded
@@ -35659,7 +34729,7 @@ public struct UpdateInputDeviceInput: Swift.Equatable {
     /// The settings that you want to apply to the UHD input device.
     public var uhdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
 
-    public init (
+    public init(
         hdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings? = nil,
         inputDeviceId: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -35686,7 +34756,7 @@ extension UpdateInputDeviceInputBody: Swift.Decodable {
         case uhdDeviceSettings = "uhdDeviceSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hdDeviceSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceConfigurableSettings.self, forKey: .hdDeviceSettings)
         hdDeviceSettings = hdDeviceSettingsDecoded
@@ -35697,45 +34767,27 @@ extension UpdateInputDeviceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateInputDeviceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateInputDeviceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateInputDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateInputDeviceOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateInputDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -35798,7 +34850,7 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
     /// Settings that describe an input device that is type UHD.
     public var uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
         deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
@@ -35863,7 +34915,7 @@ extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
         case uhdDeviceSettings = "uhdDeviceSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -35984,7 +35036,7 @@ public struct UpdateInputInput: Swift.Equatable {
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
     public var sources: [MediaLiveClientTypes.InputSourceRequest]?
 
-    public init (
+    public init(
         destinations: [MediaLiveClientTypes.InputDestinationRequest]? = nil,
         inputDevices: [MediaLiveClientTypes.InputDeviceRequest]? = nil,
         inputId: Swift.String? = nil,
@@ -36027,7 +35079,7 @@ extension UpdateInputInputBody: Swift.Decodable {
         case sources = "sources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.InputDestinationRequest?].self, forKey: .destinations)
         var destinationsDecoded0:[MediaLiveClientTypes.InputDestinationRequest]? = nil
@@ -36091,43 +35143,26 @@ extension UpdateInputInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateInputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateInputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateInputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateInputOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateInputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateInputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.input = output.input
@@ -36142,7 +35177,7 @@ public struct UpdateInputOutputResponse: Swift.Equatable {
     /// Placeholder documentation for Input
     public var input: MediaLiveClientTypes.Input?
 
-    public init (
+    public init(
         input: MediaLiveClientTypes.Input? = nil
     )
     {
@@ -36159,7 +35194,7 @@ extension UpdateInputOutputResponseBody: Swift.Decodable {
         case input = "input"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Input.self, forKey: .input)
         input = inputDecoded
@@ -36208,7 +35243,7 @@ public struct UpdateInputSecurityGroupInput: Swift.Equatable {
     /// List of IPv4 CIDR addresses to whitelist
     public var whitelistRules: [MediaLiveClientTypes.InputWhitelistRuleCidr]?
 
-    public init (
+    public init(
         inputSecurityGroupId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         whitelistRules: [MediaLiveClientTypes.InputWhitelistRuleCidr]? = nil
@@ -36231,7 +35266,7 @@ extension UpdateInputSecurityGroupInputBody: Swift.Decodable {
         case whitelistRules = "whitelistRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -36258,43 +35293,26 @@ extension UpdateInputSecurityGroupInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateInputSecurityGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateInputSecurityGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateInputSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateInputSecurityGroupOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateInputSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateInputSecurityGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityGroup = output.securityGroup
@@ -36309,7 +35327,7 @@ public struct UpdateInputSecurityGroupOutputResponse: Swift.Equatable {
     /// An Input Security Group
     public var securityGroup: MediaLiveClientTypes.InputSecurityGroup?
 
-    public init (
+    public init(
         securityGroup: MediaLiveClientTypes.InputSecurityGroup? = nil
     )
     {
@@ -36326,7 +35344,7 @@ extension UpdateInputSecurityGroupOutputResponseBody: Swift.Decodable {
         case securityGroup = "securityGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityGroupDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputSecurityGroup.self, forKey: .securityGroup)
         securityGroup = securityGroupDecoded
@@ -36369,7 +35387,7 @@ public struct UpdateMultiplexInput: Swift.Equatable {
     /// Name of the multiplex.
     public var name: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil,
         multiplexSettings: MediaLiveClientTypes.MultiplexSettings? = nil,
         name: Swift.String? = nil
@@ -36392,7 +35410,7 @@ extension UpdateMultiplexInputBody: Swift.Decodable {
         case name = "name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MultiplexSettings.self, forKey: .multiplexSettings)
         multiplexSettings = multiplexSettingsDecoded
@@ -36401,45 +35419,27 @@ extension UpdateMultiplexInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateMultiplexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateMultiplexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateMultiplexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateMultiplexOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateMultiplexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateMultiplexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.multiplex = output.multiplex
@@ -36454,7 +35454,7 @@ public struct UpdateMultiplexOutputResponse: Swift.Equatable {
     /// The updated multiplex.
     public var multiplex: MediaLiveClientTypes.Multiplex?
 
-    public init (
+    public init(
         multiplex: MediaLiveClientTypes.Multiplex? = nil
     )
     {
@@ -36471,7 +35471,7 @@ extension UpdateMultiplexOutputResponseBody: Swift.Decodable {
         case multiplex = "multiplex"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Multiplex.self, forKey: .multiplex)
         multiplex = multiplexDecoded
@@ -36514,7 +35514,7 @@ public struct UpdateMultiplexProgramInput: Swift.Equatable {
     /// This member is required.
     public var programName: Swift.String?
 
-    public init (
+    public init(
         multiplexId: Swift.String? = nil,
         multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings? = nil,
         programName: Swift.String? = nil
@@ -36535,52 +35535,34 @@ extension UpdateMultiplexProgramInputBody: Swift.Decodable {
         case multiplexProgramSettings = "multiplexProgramSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexProgramSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MultiplexProgramSettings.self, forKey: .multiplexProgramSettings)
         multiplexProgramSettings = multiplexProgramSettingsDecoded
     }
 }
 
-extension UpdateMultiplexProgramOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateMultiplexProgramOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateMultiplexProgramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateMultiplexProgramOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case unprocessableEntityException(UnprocessableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateMultiplexProgramOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateMultiplexProgramOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.multiplexProgram = output.multiplexProgram
@@ -36595,7 +35577,7 @@ public struct UpdateMultiplexProgramOutputResponse: Swift.Equatable {
     /// The updated multiplex program.
     public var multiplexProgram: MediaLiveClientTypes.MultiplexProgram?
 
-    public init (
+    public init(
         multiplexProgram: MediaLiveClientTypes.MultiplexProgram? = nil
     )
     {
@@ -36612,7 +35594,7 @@ extension UpdateMultiplexProgramOutputResponseBody: Swift.Decodable {
         case multiplexProgram = "multiplexProgram"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multiplexProgramDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MultiplexProgram.self, forKey: .multiplexProgram)
         multiplexProgram = multiplexProgramDecoded
@@ -36655,7 +35637,7 @@ public struct UpdateReservationInput: Swift.Equatable {
     /// This member is required.
     public var reservationId: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil,
         renewalSettings: MediaLiveClientTypes.RenewalSettings? = nil,
         reservationId: Swift.String? = nil
@@ -36678,7 +35660,7 @@ extension UpdateReservationInputBody: Swift.Decodable {
         case renewalSettings = "renewalSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -36687,45 +35669,27 @@ extension UpdateReservationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateReservationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateReservationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateReservationOutputError: Swift.Error, Swift.Equatable {
-    case badGatewayException(BadGatewayException)
-    case badRequestException(BadRequestException)
-    case conflictException(ConflictException)
-    case forbiddenException(ForbiddenException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case internalServerErrorException(InternalServerErrorException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateReservationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateReservationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reservation = output.reservation
@@ -36740,7 +35704,7 @@ public struct UpdateReservationOutputResponse: Swift.Equatable {
     /// Reserved resources available to use
     public var reservation: MediaLiveClientTypes.Reservation?
 
-    public init (
+    public init(
         reservation: MediaLiveClientTypes.Reservation? = nil
     )
     {
@@ -36757,7 +35721,7 @@ extension UpdateReservationOutputResponseBody: Swift.Decodable {
         case reservation = "reservation"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reservationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Reservation.self, forKey: .reservation)
         reservation = reservationDecoded
@@ -36780,7 +35744,7 @@ extension MediaLiveClientTypes.ValidationError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let elementPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .elementPath)
         elementPath = elementPathDecoded
@@ -36797,7 +35761,7 @@ extension MediaLiveClientTypes {
         /// The error message.
         public var errorMessage: Swift.String?
 
-        public init (
+        public init(
             elementPath: Swift.String? = nil,
             errorMessage: Swift.String? = nil
         )
@@ -36825,7 +35789,7 @@ extension MediaLiveClientTypes.VideoBlackFailoverSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blackDetectThresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .blackDetectThreshold)
         blackDetectThreshold = blackDetectThresholdDecoded
@@ -36842,7 +35806,7 @@ extension MediaLiveClientTypes {
         /// The amount of time (in milliseconds) that the active input must be black before automatic input failover occurs.
         public var videoBlackThresholdMsec: Swift.Int?
 
-        public init (
+        public init(
             blackDetectThreshold: Swift.Double? = nil,
             videoBlackThresholdMsec: Swift.Int? = nil
         )
@@ -36878,7 +35842,7 @@ extension MediaLiveClientTypes.VideoCodecSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let frameCaptureSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FrameCaptureSettings.self, forKey: .frameCaptureSettings)
         frameCaptureSettings = frameCaptureSettingsDecoded
@@ -36903,7 +35867,7 @@ extension MediaLiveClientTypes {
         /// Mpeg2 Settings
         public var mpeg2Settings: MediaLiveClientTypes.Mpeg2Settings?
 
-        public init (
+        public init(
             frameCaptureSettings: MediaLiveClientTypes.FrameCaptureSettings? = nil,
             h264Settings: MediaLiveClientTypes.H264Settings? = nil,
             h265Settings: MediaLiveClientTypes.H265Settings? = nil,
@@ -36955,7 +35919,7 @@ extension MediaLiveClientTypes.VideoDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codecSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.VideoCodecSettings.self, forKey: .codecSettings)
         codecSettings = codecSettingsDecoded
@@ -36993,7 +35957,7 @@ extension MediaLiveClientTypes {
         /// Output video width, in pixels. Must be an even number. For most codecs, you can leave this field and height blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
         public var width: Swift.Int?
 
-        public init (
+        public init(
             codecSettings: MediaLiveClientTypes.VideoCodecSettings? = nil,
             height: Swift.Int? = nil,
             name: Swift.String? = nil,
@@ -37108,7 +36072,7 @@ extension MediaLiveClientTypes.VideoSelector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let colorSpaceDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.VideoSelectorColorSpace.self, forKey: .colorSpace)
         colorSpace = colorSpaceDecoded
@@ -37133,7 +36097,7 @@ extension MediaLiveClientTypes {
         /// The video selector settings.
         public var selectorSettings: MediaLiveClientTypes.VideoSelectorSettings?
 
-        public init (
+        public init(
             colorSpace: MediaLiveClientTypes.VideoSelectorColorSpace? = nil,
             colorSpaceSettings: MediaLiveClientTypes.VideoSelectorColorSpaceSettings? = nil,
             colorSpaceUsage: MediaLiveClientTypes.VideoSelectorColorSpaceUsage? = nil,
@@ -37203,7 +36167,7 @@ extension MediaLiveClientTypes.VideoSelectorColorSpaceSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hdr10SettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Hdr10Settings.self, forKey: .hdr10Settings)
         hdr10Settings = hdr10SettingsDecoded
@@ -37216,7 +36180,7 @@ extension MediaLiveClientTypes {
         /// Hdr10 Settings
         public var hdr10Settings: MediaLiveClientTypes.Hdr10Settings?
 
-        public init (
+        public init(
             hdr10Settings: MediaLiveClientTypes.Hdr10Settings? = nil
         )
         {
@@ -37271,7 +36235,7 @@ extension MediaLiveClientTypes.VideoSelectorPid: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
         pid = pidDecoded
@@ -37284,7 +36248,7 @@ extension MediaLiveClientTypes {
         /// Selects a specific PID from within a video source.
         public var pid: Swift.Int?
 
-        public init (
+        public init(
             pid: Swift.Int? = nil
         )
         {
@@ -37306,7 +36270,7 @@ extension MediaLiveClientTypes.VideoSelectorProgramId: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let programIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programId)
         programId = programIdDecoded
@@ -37319,7 +36283,7 @@ extension MediaLiveClientTypes {
         /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
         public var programId: Swift.Int?
 
-        public init (
+        public init(
             programId: Swift.Int? = nil
         )
         {
@@ -37345,7 +36309,7 @@ extension MediaLiveClientTypes.VideoSelectorSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let videoSelectorPidDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.VideoSelectorPid.self, forKey: .videoSelectorPid)
         videoSelectorPid = videoSelectorPidDecoded
@@ -37362,7 +36326,7 @@ extension MediaLiveClientTypes {
         /// Video Selector Program Id
         public var videoSelectorProgramId: MediaLiveClientTypes.VideoSelectorProgramId?
 
-        public init (
+        public init(
             videoSelectorPid: MediaLiveClientTypes.VideoSelectorPid? = nil,
             videoSelectorProgramId: MediaLiveClientTypes.VideoSelectorProgramId? = nil
         )
@@ -37403,7 +36367,7 @@ extension MediaLiveClientTypes.VpcOutputSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicAddressAllocationIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .publicAddressAllocationIds)
         var publicAddressAllocationIdsDecoded0:[Swift.String]? = nil
@@ -37452,7 +36416,7 @@ extension MediaLiveClientTypes {
         /// This member is required.
         public var subnetIds: [Swift.String]?
 
-        public init (
+        public init(
             publicAddressAllocationIds: [Swift.String]? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
@@ -37502,7 +36466,7 @@ extension MediaLiveClientTypes.VpcOutputSettingsDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let availabilityZonesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZones)
         var availabilityZonesDecoded0:[Swift.String]? = nil
@@ -37563,7 +36527,7 @@ extension MediaLiveClientTypes {
         /// A list of VPC subnet IDs from the same VPC. If STANDARD channel, subnet IDs must be mapped to two unique availability zones (AZ).
         public var subnetIds: [Swift.String]?
 
-        public init (
+        public init(
             availabilityZones: [Swift.String]? = nil,
             networkInterfaceIds: [Swift.String]? = nil,
             securityGroupIds: [Swift.String]? = nil,
@@ -37638,7 +36602,7 @@ extension MediaLiveClientTypes.WavSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bitDepthDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .bitDepth)
         bitDepth = bitDepthDecoded
@@ -37659,7 +36623,7 @@ extension MediaLiveClientTypes {
         /// Sample rate in Hz.
         public var sampleRate: Swift.Double?
 
-        public init (
+        public init(
             bitDepth: Swift.Double? = nil,
             codingMode: MediaLiveClientTypes.WavCodingMode? = nil,
             sampleRate: Swift.Double? = nil
@@ -37685,7 +36649,7 @@ extension MediaLiveClientTypes.WebvttDestinationSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let styleControlDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.WebvttDestinationStyleControl.self, forKey: .styleControl)
         styleControl = styleControlDecoded
@@ -37698,7 +36662,7 @@ extension MediaLiveClientTypes {
         /// Controls whether the color and position of the source captions is passed through to the WebVTT output captions. PASSTHROUGH - Valid only if the source captions are EMBEDDED or TELETEXT. NO_STYLE_DATA - Don't pass through the style. The output captions will not contain any font styling information.
         public var styleControl: MediaLiveClientTypes.WebvttDestinationStyleControl?
 
-        public init (
+        public init(
             styleControl: MediaLiveClientTypes.WebvttDestinationStyleControl? = nil
         )
         {
