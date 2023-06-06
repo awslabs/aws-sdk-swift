@@ -934,6 +934,38 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    public enum CallLegType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case callee
+        case caller
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CallLegType] {
+            return [
+                .callee,
+                .caller,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .callee: return "Callee"
+            case .caller: return "Caller"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CallLegType(rawValue: rawValue) ?? CallLegType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
     public enum CallingNameStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case unassigned
         case updatefailed
@@ -11671,6 +11703,7 @@ extension ChimeSDKVoiceClientTypes {
 
 extension StartSpeakerSearchTaskInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callLeg = "CallLeg"
         case clientRequestToken = "ClientRequestToken"
         case transactionId = "TransactionId"
         case voiceProfileDomainId = "VoiceProfileDomainId"
@@ -11678,6 +11711,9 @@ extension StartSpeakerSearchTaskInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let callLeg = self.callLeg {
+            try encodeContainer.encode(callLeg.rawValue, forKey: .callLeg)
+        }
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
         }
@@ -11700,6 +11736,8 @@ extension StartSpeakerSearchTaskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartSpeakerSearchTaskInput: Swift.Equatable {
+    /// Specifies which call leg to stream for speaker search.
+    public var callLeg: ChimeSDKVoiceClientTypes.CallLegType?
     /// The unique identifier for the client request. Use a different token for different speaker search tasks.
     public var clientRequestToken: Swift.String?
     /// The transaction ID of the call being analyzed.
@@ -11713,12 +11751,14 @@ public struct StartSpeakerSearchTaskInput: Swift.Equatable {
     public var voiceProfileDomainId: Swift.String?
 
     public init(
+        callLeg: ChimeSDKVoiceClientTypes.CallLegType? = nil,
         clientRequestToken: Swift.String? = nil,
         transactionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil,
         voiceProfileDomainId: Swift.String? = nil
     )
     {
+        self.callLeg = callLeg
         self.clientRequestToken = clientRequestToken
         self.transactionId = transactionId
         self.voiceConnectorId = voiceConnectorId
@@ -11730,10 +11770,12 @@ struct StartSpeakerSearchTaskInputBody: Swift.Equatable {
     let transactionId: Swift.String?
     let voiceProfileDomainId: Swift.String?
     let clientRequestToken: Swift.String?
+    let callLeg: ChimeSDKVoiceClientTypes.CallLegType?
 }
 
 extension StartSpeakerSearchTaskInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callLeg = "CallLeg"
         case clientRequestToken = "ClientRequestToken"
         case transactionId = "TransactionId"
         case voiceProfileDomainId = "VoiceProfileDomainId"
@@ -11747,6 +11789,8 @@ extension StartSpeakerSearchTaskInputBody: Swift.Decodable {
         voiceProfileDomainId = voiceProfileDomainIdDecoded
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded
+        let callLegDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.CallLegType.self, forKey: .callLeg)
+        callLeg = callLegDecoded
     }
 }
 

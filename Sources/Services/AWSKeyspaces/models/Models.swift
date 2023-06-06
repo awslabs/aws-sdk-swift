@@ -460,6 +460,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 extension CreateKeyspaceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyspaceName
+        case replicationSpecification
         case tags
     }
 
@@ -467,6 +468,9 @@ extension CreateKeyspaceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let keyspaceName = self.keyspaceName {
             try encodeContainer.encode(keyspaceName, forKey: .keyspaceName)
+        }
+        if let replicationSpecification = self.replicationSpecification {
+            try encodeContainer.encode(replicationSpecification, forKey: .replicationSpecification)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -487,15 +491,23 @@ public struct CreateKeyspaceInput: Swift.Equatable {
     /// The name of the keyspace to be created.
     /// This member is required.
     public var keyspaceName: Swift.String?
+    /// The replication specification of the keyspace includes:
+    ///
+    /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
+    ///
+    /// * regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in. The maximum number of supported replication Regions including the current Region is six.
+    public var replicationSpecification: KeyspacesClientTypes.ReplicationSpecification?
     /// A list of key-value pair tags to be attached to the keyspace. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide.
     public var tags: [KeyspacesClientTypes.Tag]?
 
     public init(
         keyspaceName: Swift.String? = nil,
+        replicationSpecification: KeyspacesClientTypes.ReplicationSpecification? = nil,
         tags: [KeyspacesClientTypes.Tag]? = nil
     )
     {
         self.keyspaceName = keyspaceName
+        self.replicationSpecification = replicationSpecification
         self.tags = tags
     }
 }
@@ -503,11 +515,13 @@ public struct CreateKeyspaceInput: Swift.Equatable {
 struct CreateKeyspaceInputBody: Swift.Equatable {
     let keyspaceName: Swift.String?
     let tags: [KeyspacesClientTypes.Tag]?
+    let replicationSpecification: KeyspacesClientTypes.ReplicationSpecification?
 }
 
 extension CreateKeyspaceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyspaceName
+        case replicationSpecification
         case tags
     }
 
@@ -526,6 +540,8 @@ extension CreateKeyspaceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let replicationSpecificationDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.ReplicationSpecification.self, forKey: .replicationSpecification)
+        replicationSpecification = replicationSpecificationDecoded
     }
 }
 
@@ -1200,9 +1216,13 @@ extension GetKeyspaceOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetKeyspaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyspaceName = output.keyspaceName
+            self.replicationRegions = output.replicationRegions
+            self.replicationStrategy = output.replicationStrategy
             self.resourceArn = output.resourceArn
         } else {
             self.keyspaceName = nil
+            self.replicationRegions = nil
+            self.replicationStrategy = nil
             self.resourceArn = nil
         }
     }
@@ -1212,16 +1232,25 @@ public struct GetKeyspaceOutputResponse: Swift.Equatable {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
-    /// The ARN of the keyspace.
+    /// If the replicationStrategy of the keyspace is MULTI_REGION, a list of replication Regions is returned.
+    public var replicationRegions: [Swift.String]?
+    /// Returns the replication strategy of the keyspace. The options are SINGLE_REGION or MULTI_REGION.
+    /// This member is required.
+    public var replicationStrategy: KeyspacesClientTypes.Rs?
+    /// Returns the ARN of the keyspace.
     /// This member is required.
     public var resourceArn: Swift.String?
 
     public init(
         keyspaceName: Swift.String? = nil,
+        replicationRegions: [Swift.String]? = nil,
+        replicationStrategy: KeyspacesClientTypes.Rs? = nil,
         resourceArn: Swift.String? = nil
     )
     {
         self.keyspaceName = keyspaceName
+        self.replicationRegions = replicationRegions
+        self.replicationStrategy = replicationStrategy
         self.resourceArn = resourceArn
     }
 }
@@ -1229,11 +1258,15 @@ public struct GetKeyspaceOutputResponse: Swift.Equatable {
 struct GetKeyspaceOutputResponseBody: Swift.Equatable {
     let keyspaceName: Swift.String?
     let resourceArn: Swift.String?
+    let replicationStrategy: KeyspacesClientTypes.Rs?
+    let replicationRegions: [Swift.String]?
 }
 
 extension GetKeyspaceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyspaceName
+        case replicationRegions
+        case replicationStrategy
         case resourceArn
     }
 
@@ -1243,6 +1276,19 @@ extension GetKeyspaceOutputResponseBody: Swift.Decodable {
         keyspaceName = keyspaceNameDecoded
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
+        let replicationStrategyDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.Rs.self, forKey: .replicationStrategy)
+        replicationStrategy = replicationStrategyDecoded
+        let replicationRegionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .replicationRegions)
+        var replicationRegionsDecoded0:[Swift.String]? = nil
+        if let replicationRegionsContainer = replicationRegionsContainer {
+            replicationRegionsDecoded0 = [Swift.String]()
+            for string0 in replicationRegionsContainer {
+                if let string0 = string0 {
+                    replicationRegionsDecoded0?.append(string0)
+                }
+            }
+        }
+        replicationRegions = replicationRegionsDecoded0
     }
 }
 
@@ -1547,6 +1593,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 extension KeyspacesClientTypes.KeyspaceSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyspaceName
+        case replicationRegions
+        case replicationStrategy
         case resourceArn
     }
 
@@ -1554,6 +1602,15 @@ extension KeyspacesClientTypes.KeyspaceSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let keyspaceName = self.keyspaceName {
             try encodeContainer.encode(keyspaceName, forKey: .keyspaceName)
+        }
+        if let replicationRegions = replicationRegions {
+            var replicationRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationRegions)
+            for region0 in replicationRegions {
+                try replicationRegionsContainer.encode(region0)
+            }
+        }
+        if let replicationStrategy = self.replicationStrategy {
+            try encodeContainer.encode(replicationStrategy.rawValue, forKey: .replicationStrategy)
         }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
@@ -1566,6 +1623,19 @@ extension KeyspacesClientTypes.KeyspaceSummary: Swift.Codable {
         keyspaceName = keyspaceNameDecoded
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
+        let replicationStrategyDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.Rs.self, forKey: .replicationStrategy)
+        replicationStrategy = replicationStrategyDecoded
+        let replicationRegionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .replicationRegions)
+        var replicationRegionsDecoded0:[Swift.String]? = nil
+        if let replicationRegionsContainer = replicationRegionsContainer {
+            replicationRegionsDecoded0 = [Swift.String]()
+            for string0 in replicationRegionsContainer {
+                if let string0 = string0 {
+                    replicationRegionsDecoded0?.append(string0)
+                }
+            }
+        }
+        replicationRegions = replicationRegionsDecoded0
     }
 }
 
@@ -1575,16 +1645,25 @@ extension KeyspacesClientTypes {
         /// The name of the keyspace.
         /// This member is required.
         public var keyspaceName: Swift.String?
+        /// If the replicationStrategy of the keyspace is MULTI_REGION, a list of replication Regions is returned.
+        public var replicationRegions: [Swift.String]?
+        /// This property specifies if a keyspace is a single Region keyspace or a multi-Region keyspace. The available values are SINGLE_REGION or MULTI_REGION.
+        /// This member is required.
+        public var replicationStrategy: KeyspacesClientTypes.Rs?
         /// The unique identifier of the keyspace in the format of an Amazon Resource Name (ARN).
         /// This member is required.
         public var resourceArn: Swift.String?
 
         public init(
             keyspaceName: Swift.String? = nil,
+            replicationRegions: [Swift.String]? = nil,
+            replicationStrategy: KeyspacesClientTypes.Rs? = nil,
             resourceArn: Swift.String? = nil
         )
         {
             self.keyspaceName = keyspaceName
+            self.replicationRegions = replicationRegions
+            self.replicationStrategy = replicationStrategy
             self.resourceArn = resourceArn
         }
     }
@@ -2171,6 +2250,68 @@ extension KeyspacesClientTypes {
 
 }
 
+extension KeyspacesClientTypes.ReplicationSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case regionList
+        case replicationStrategy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let regionList = regionList {
+            var regionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regionList)
+            for region0 in regionList {
+                try regionListContainer.encode(region0)
+            }
+        }
+        if let replicationStrategy = self.replicationStrategy {
+            try encodeContainer.encode(replicationStrategy.rawValue, forKey: .replicationStrategy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationStrategyDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.Rs.self, forKey: .replicationStrategy)
+        replicationStrategy = replicationStrategyDecoded
+        let regionListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .regionList)
+        var regionListDecoded0:[Swift.String]? = nil
+        if let regionListContainer = regionListContainer {
+            regionListDecoded0 = [Swift.String]()
+            for string0 in regionListContainer {
+                if let string0 = string0 {
+                    regionListDecoded0?.append(string0)
+                }
+            }
+        }
+        regionList = regionListDecoded0
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// The replication specification of the keyspace includes:
+    ///
+    /// * regionList - up to six Amazon Web Services Regions where the keyspace is replicated in.
+    ///
+    /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
+    public struct ReplicationSpecification: Swift.Equatable {
+        /// The regionList can contain up to six Amazon Web Services Regions where the keyspace is replicated in.
+        public var regionList: [Swift.String]?
+        /// The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION.
+        /// This member is required.
+        public var replicationStrategy: KeyspacesClientTypes.Rs?
+
+        public init(
+            regionList: [Swift.String]? = nil,
+            replicationStrategy: KeyspacesClientTypes.Rs? = nil
+        )
+        {
+            self.regionList = regionList
+            self.replicationStrategy = replicationStrategy
+        }
+    }
+
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2470,6 +2611,38 @@ extension RestoreTableOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let restoredTableARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoredTableARN)
         restoredTableARN = restoredTableARNDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    public enum Rs: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case multiRegion
+        case singleRegion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Rs] {
+            return [
+                .multiRegion,
+                .singleRegion,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .multiRegion: return "MULTI_REGION"
+            case .singleRegion: return "SINGLE_REGION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Rs(rawValue: rawValue) ?? Rs.sdkUnknown(rawValue)
+        }
     }
 }
 

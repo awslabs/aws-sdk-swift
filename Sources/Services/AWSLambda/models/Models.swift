@@ -2144,7 +2144,7 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
     public var lastProcessingResult: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum value that can be set is 60 seconds.
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
@@ -2544,7 +2544,7 @@ public struct CreateFunctionInput: Swift.Equatable {
     public var handler: Swift.String?
     /// Container image [configuration values](https://docs.aws.amazon.com/lambda/latest/dg/configuration-images.html#configuration-images-settings) that override the values in the container image Dockerfile.
     public var imageConfig: LambdaClientTypes.ImageConfig?
-    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt your function's snapshot. If you don't provide a customer managed key, Lambda uses a default service key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, Lambda also uses this key is to encrypt your function's snapshot. If you deploy your function using a container image, Lambda also uses this key to encrypt your function when it's deployed. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). If you don't provide a customer managed key, Lambda uses a default service key.
     public var kmsKeyArn: Swift.String?
     /// A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) to add to the function's execution environment. Specify each layer by its ARN, including the version.
     public var layers: [Swift.String]?
@@ -3710,7 +3710,7 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
     public var lastProcessingResult: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum value that can be set is 60 seconds.
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
@@ -5579,7 +5579,7 @@ extension LambdaClientTypes {
         public var lastProcessingResult: Swift.String?
         /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public var maximumBatchingWindowInSeconds: Swift.Int?
-        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum value that can be set is 60 seconds.
+        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
         public var maximumRecordAgeInSeconds: Swift.Int?
         /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
         public var maximumRetryAttempts: Swift.Int?
@@ -7155,7 +7155,7 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
     public var lastProcessingResult: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum value that can be set is 60 seconds.
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
@@ -8668,7 +8668,7 @@ extension GetLayerVersionByArnOutputResponse: ClientRuntime.HttpResponseBinding 
 public struct GetLayerVersionByArnOutputResponse: Swift.Equatable {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes.
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -8859,7 +8859,7 @@ extension GetLayerVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetLayerVersionOutputResponse: Swift.Equatable {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes.
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -11632,7 +11632,7 @@ extension LambdaClientTypes {
     public struct LayerVersionsListItem: Swift.Equatable {
         /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
         public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-        /// The layer's compatible runtimes.
+        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
         public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
         /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
         public var createdDate: Swift.String?
@@ -12726,7 +12726,7 @@ extension ListLayerVersionsInput: ClientRuntime.URLPathProvider {
 public struct ListLayerVersionsInput: Swift.Equatable {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. For example, go1.x.
+    /// A runtime identifier. For example, go1.x. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var compatibleRuntime: LambdaClientTypes.Runtime?
     /// The name or Amazon Resource Name (ARN) of the layer.
     /// This member is required.
@@ -12868,7 +12868,7 @@ extension ListLayersInput: ClientRuntime.URLPathProvider {
 public struct ListLayersInput: Swift.Equatable {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. For example, go1.x.
+    /// A runtime identifier. For example, go1.x. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var compatibleRuntime: LambdaClientTypes.Runtime?
     /// A pagination token returned by a previous call.
     public var marker: Swift.String?
@@ -13846,7 +13846,7 @@ extension PublishLayerVersionInput: ClientRuntime.URLPathProvider {
 public struct PublishLayerVersionInput: Swift.Equatable {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// A list of compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Used for filtering with [ListLayers] and [ListLayerVersions].
+    /// A list of compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Used for filtering with [ListLayers] and [ListLayerVersions]. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// The function layer archive.
     /// This member is required.
@@ -13979,7 +13979,7 @@ extension PublishLayerVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct PublishLayerVersionOutputResponse: Swift.Equatable {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes.
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -16019,6 +16019,7 @@ extension LambdaClientTypes {
         case python39
         case ruby25
         case ruby27
+        case ruby32
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Runtime] {
@@ -16053,6 +16054,7 @@ extension LambdaClientTypes {
                 .python39,
                 .ruby25,
                 .ruby27,
+                .ruby32,
                 .sdkUnknown("")
             ]
         }
@@ -16092,6 +16094,7 @@ extension LambdaClientTypes {
             case .python39: return "python3.9"
             case .ruby25: return "ruby2.5"
             case .ruby27: return "ruby2.7"
+            case .ruby32: return "ruby3.2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18227,7 +18230,7 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
     public var lastProcessingResult: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum value that can be set is 60 seconds.
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
@@ -19198,7 +19201,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
     public var handler: Swift.String?
     /// [Container image configuration values](https://docs.aws.amazon.com/lambda/latest/dg/images-parms.html) that override the values in the container image Docker file.
     public var imageConfig: LambdaClientTypes.ImageConfig?
-    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt your function's snapshot. If you don't provide a customer managed key, Lambda uses a default service key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, Lambda also uses this key is to encrypt your function's snapshot. If you deploy your function using a container image, Lambda also uses this key to encrypt your function when it's deployed. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). If you don't provide a customer managed key, Lambda uses a default service key.
     public var kmsKeyArn: Swift.String?
     /// A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) to add to the function's execution environment. Specify each layer by its ARN, including the version.
     public var layers: [Swift.String]?

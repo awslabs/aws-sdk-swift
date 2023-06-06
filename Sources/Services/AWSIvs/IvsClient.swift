@@ -1159,7 +1159,7 @@ extension IvsClient: IvsClientProtocol {
         return result
     }
 
-    /// Updates a channel's configuration. This does not affect an ongoing stream of this channel. You must stop and restart the stream for the changes to take effect.
+    /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
     public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

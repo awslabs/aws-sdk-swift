@@ -2775,7 +2775,7 @@ public struct CreateVariableInput: Swift.Equatable {
     /// The source of the data.
     /// This member is required.
     public var dataSource: FraudDetectorClientTypes.DataSource?
-    /// The data type.
+    /// The data type of the variable.
     /// This member is required.
     public var dataType: FraudDetectorClientTypes.DataType?
     /// The default value for the variable when no value is received.
@@ -2922,6 +2922,7 @@ extension FraudDetectorClientTypes {
 extension FraudDetectorClientTypes {
     public enum DataType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case boolean
+        case datetime
         case float
         case integer
         case string
@@ -2930,6 +2931,7 @@ extension FraudDetectorClientTypes {
         public static var allCases: [DataType] {
             return [
                 .boolean,
+                .datetime,
                 .float,
                 .integer,
                 .string,
@@ -2943,6 +2945,7 @@ extension FraudDetectorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .boolean: return "BOOLEAN"
+            case .datetime: return "DATETIME"
             case .float: return "FLOAT"
             case .integer: return "INTEGER"
             case .string: return "STRING"
@@ -3431,7 +3434,7 @@ extension DeleteEventInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteEventInput: Swift.Equatable {
-    /// Specifies whether or not to delete any predictions associated with the event.
+    /// Specifies whether or not to delete any predictions associated with the event. If set to True,
     public var deleteAuditHistory: Swift.Bool?
     /// The ID of the event to delete.
     /// This member is required.
@@ -5391,6 +5394,42 @@ extension FraudDetectorClientTypes {
     }
 }
 
+extension FraudDetectorClientTypes.EventOrchestration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventBridgeEnabled
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventBridgeEnabled = self.eventBridgeEnabled {
+            try encodeContainer.encode(eventBridgeEnabled, forKey: .eventBridgeEnabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventBridgeEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .eventBridgeEnabled)
+        eventBridgeEnabled = eventBridgeEnabledDecoded
+    }
+}
+
+extension FraudDetectorClientTypes {
+    /// The event orchestration status.
+    public struct EventOrchestration: Swift.Equatable {
+        /// Specifies if event orchestration is enabled through Amazon EventBridge.
+        /// This member is required.
+        public var eventBridgeEnabled: Swift.Bool?
+
+        public init(
+            eventBridgeEnabled: Swift.Bool? = nil
+        )
+        {
+            self.eventBridgeEnabled = eventBridgeEnabled
+        }
+    }
+
+}
+
 extension FraudDetectorClientTypes.EventPredictionSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case detectorId
@@ -5483,6 +5522,7 @@ extension FraudDetectorClientTypes.EventType: Swift.Codable {
         case description
         case entityTypes
         case eventIngestion
+        case eventOrchestration
         case eventVariables
         case ingestedEventStatistics
         case labels
@@ -5509,6 +5549,9 @@ extension FraudDetectorClientTypes.EventType: Swift.Codable {
         }
         if let eventIngestion = self.eventIngestion {
             try encodeContainer.encode(eventIngestion.rawValue, forKey: .eventIngestion)
+        }
+        if let eventOrchestration = self.eventOrchestration {
+            try encodeContainer.encode(eventOrchestration, forKey: .eventOrchestration)
         }
         if let eventVariables = eventVariables {
             var eventVariablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventVariables)
@@ -5582,6 +5625,8 @@ extension FraudDetectorClientTypes.EventType: Swift.Codable {
         createdTime = createdTimeDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let eventOrchestrationDecoded = try containerValues.decodeIfPresent(FraudDetectorClientTypes.EventOrchestration.self, forKey: .eventOrchestration)
+        eventOrchestration = eventOrchestrationDecoded
     }
 }
 
@@ -5604,6 +5649,8 @@ extension FraudDetectorClientTypes {
         public var entityTypes: [Swift.String]?
         /// If Enabled, Amazon Fraud Detector stores event data when you generate a prediction and uses that data to update calculated variables in near real-time. Amazon Fraud Detector uses this data, known as INGESTED_EVENTS, to train your model and improve fraud predictions.
         public var eventIngestion: FraudDetectorClientTypes.EventIngestion?
+        /// The event orchestration status.
+        public var eventOrchestration: FraudDetectorClientTypes.EventOrchestration?
         /// The event type event variables.
         public var eventVariables: [Swift.String]?
         /// Data about the stored events.
@@ -5621,6 +5668,7 @@ extension FraudDetectorClientTypes {
             description: Swift.String? = nil,
             entityTypes: [Swift.String]? = nil,
             eventIngestion: FraudDetectorClientTypes.EventIngestion? = nil,
+            eventOrchestration: FraudDetectorClientTypes.EventOrchestration? = nil,
             eventVariables: [Swift.String]? = nil,
             ingestedEventStatistics: FraudDetectorClientTypes.IngestedEventStatistics? = nil,
             labels: [Swift.String]? = nil,
@@ -5633,6 +5681,7 @@ extension FraudDetectorClientTypes {
             self.description = description
             self.entityTypes = entityTypes
             self.eventIngestion = eventIngestion
+            self.eventOrchestration = eventOrchestration
             self.eventVariables = eventVariables
             self.ingestedEventStatistics = ingestedEventStatistics
             self.labels = labels
@@ -9840,7 +9889,7 @@ extension FraudDetectorClientTypes {
         ///
         /// * Use FRAUD if you want to categorize all unlabeled events as “Fraud”. This is recommended when most of the events in your dataset are fraudulent.
         ///
-        /// * Use LEGIT f you want to categorize all unlabeled events as “Legit”. This is recommended when most of the events in your dataset are legitimate.
+        /// * Use LEGIT if you want to categorize all unlabeled events as “Legit”. This is recommended when most of the events in your dataset are legitimate.
         ///
         /// * Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data. This is recommended when there is significant unlabeled events in the dataset.
         ///
@@ -11804,6 +11853,7 @@ extension PutEventTypeInput: Swift.Encodable {
         case description
         case entityTypes
         case eventIngestion
+        case eventOrchestration
         case eventVariables
         case labels
         case name
@@ -11823,6 +11873,9 @@ extension PutEventTypeInput: Swift.Encodable {
         }
         if let eventIngestion = self.eventIngestion {
             try encodeContainer.encode(eventIngestion.rawValue, forKey: .eventIngestion)
+        }
+        if let eventOrchestration = self.eventOrchestration {
+            try encodeContainer.encode(eventOrchestration, forKey: .eventOrchestration)
         }
         if let eventVariables = eventVariables {
             var eventVariablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventVariables)
@@ -11860,8 +11913,10 @@ public struct PutEventTypeInput: Swift.Equatable {
     /// The entity type for the event type. Example entity types: customer, merchant, account.
     /// This member is required.
     public var entityTypes: [Swift.String]?
-    /// Specifies if ingenstion is enabled or disabled.
+    /// Specifies if ingestion is enabled or disabled.
     public var eventIngestion: FraudDetectorClientTypes.EventIngestion?
+    /// Enables or disables event orchestration. If enabled, you can send event predictions to select AWS services for downstream processing of the events.
+    public var eventOrchestration: FraudDetectorClientTypes.EventOrchestration?
     /// The event type variables.
     /// This member is required.
     public var eventVariables: [Swift.String]?
@@ -11877,6 +11932,7 @@ public struct PutEventTypeInput: Swift.Equatable {
         description: Swift.String? = nil,
         entityTypes: [Swift.String]? = nil,
         eventIngestion: FraudDetectorClientTypes.EventIngestion? = nil,
+        eventOrchestration: FraudDetectorClientTypes.EventOrchestration? = nil,
         eventVariables: [Swift.String]? = nil,
         labels: [Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -11886,6 +11942,7 @@ public struct PutEventTypeInput: Swift.Equatable {
         self.description = description
         self.entityTypes = entityTypes
         self.eventIngestion = eventIngestion
+        self.eventOrchestration = eventOrchestration
         self.eventVariables = eventVariables
         self.labels = labels
         self.name = name
@@ -11901,6 +11958,7 @@ struct PutEventTypeInputBody: Swift.Equatable {
     let entityTypes: [Swift.String]?
     let eventIngestion: FraudDetectorClientTypes.EventIngestion?
     let tags: [FraudDetectorClientTypes.Tag]?
+    let eventOrchestration: FraudDetectorClientTypes.EventOrchestration?
 }
 
 extension PutEventTypeInputBody: Swift.Decodable {
@@ -11908,6 +11966,7 @@ extension PutEventTypeInputBody: Swift.Decodable {
         case description
         case entityTypes
         case eventIngestion
+        case eventOrchestration
         case eventVariables
         case labels
         case name
@@ -11966,6 +12025,8 @@ extension PutEventTypeInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let eventOrchestrationDecoded = try containerValues.decodeIfPresent(FraudDetectorClientTypes.EventOrchestration.self, forKey: .eventOrchestration)
+        eventOrchestration = eventOrchestrationDecoded
     }
 }
 
@@ -12266,7 +12327,7 @@ public struct PutLabelInput: Swift.Equatable {
     /// The label name.
     /// This member is required.
     public var name: Swift.String?
-    ///
+    /// A collection of key and value pairs.
     public var tags: [FraudDetectorClientTypes.Tag]?
 
     public init(
@@ -13742,7 +13803,7 @@ extension FraudDetectorClientTypes {
         /// The lower bound value of the area under curve (auc).
         /// This member is required.
         public var lowerBoundValue: Swift.Float?
-        /// The lower bound value of the area under curve (auc).
+        /// The upper bound value of the area under curve (auc).
         /// This member is required.
         public var upperBoundValue: Swift.Float?
 

@@ -188,7 +188,43 @@ public struct CloudFormationClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 }
 
 extension CloudFormationClient: CloudFormationClientProtocol {
-    /// Activates a public third-party extension, making it available for use in stack templates. For more information, see [Using public extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html) in the CloudFormation User Guide. Once you have activated a public third-party extension in your account and region, use [SetTypeConfiguration] to specify configuration properties for the extension. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
+    /// Activate trusted access with Organizations. With trusted access between StackSets and Organizations activated, the management account has permissions to create and manage StackSets for your organization.
+    public func activateOrganizationsAccess(input: ActivateOrganizationsAccessInput) async throws -> ActivateOrganizationsAccessOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "activateOrganizationsAccess")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ActivateOrganizationsAccessInput, ActivateOrganizationsAccessOutputResponse, ActivateOrganizationsAccessOutputError>(id: "activateOrganizationsAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateOrganizationsAccessInput, ActivateOrganizationsAccessOutputResponse, ActivateOrganizationsAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateOrganizationsAccessInput, ActivateOrganizationsAccessOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ActivateOrganizationsAccessOutputResponse, ActivateOrganizationsAccessOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ActivateOrganizationsAccessInput, ActivateOrganizationsAccessOutputResponse>(xmlName: "ActivateOrganizationsAccessInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ActivateOrganizationsAccessInput, ActivateOrganizationsAccessOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ActivateOrganizationsAccessOutputResponse, ActivateOrganizationsAccessOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateOrganizationsAccessOutputResponse, ActivateOrganizationsAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateOrganizationsAccessOutputResponse, ActivateOrganizationsAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ActivateOrganizationsAccessOutputResponse, ActivateOrganizationsAccessOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Activates a public third-party extension, making it available for use in stack templates. For more information, see [Using public extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html) in the CloudFormation User Guide. Once you have activated a public third-party extension in your account and Region, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html) to specify configuration properties for the extension. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
     public func activateType(input: ActivateTypeInput) async throws -> ActivateTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -224,7 +260,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Returns configuration data for the specified CloudFormation extensions, from the CloudFormation registry for the account and region. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
+    /// Returns configuration data for the specified CloudFormation extensions, from the CloudFormation registry for the account and Region. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
     public func batchDescribeTypeConfigurations(input: BatchDescribeTypeConfigurationsInput) async throws -> BatchDescribeTypeConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -492,7 +528,43 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Deactivates a public extension that was previously activated in this account and region. Once deactivated, an extension can't be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being made to the extension. In addition, deactivated extensions aren't automatically updated if a new version of the extension is released.
+    /// Deactivates trusted access with Organizations. If trusted access is deactivated, the management account does not have permissions to create and manage service-managed StackSets for your organization.
+    public func deactivateOrganizationsAccess(input: DeactivateOrganizationsAccessInput) async throws -> DeactivateOrganizationsAccessOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deactivateOrganizationsAccess")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeactivateOrganizationsAccessInput, DeactivateOrganizationsAccessOutputResponse, DeactivateOrganizationsAccessOutputError>(id: "deactivateOrganizationsAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateOrganizationsAccessInput, DeactivateOrganizationsAccessOutputResponse, DeactivateOrganizationsAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateOrganizationsAccessInput, DeactivateOrganizationsAccessOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeactivateOrganizationsAccessOutputResponse, DeactivateOrganizationsAccessOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeactivateOrganizationsAccessInput, DeactivateOrganizationsAccessOutputResponse>(xmlName: "DeactivateOrganizationsAccessInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeactivateOrganizationsAccessInput, DeactivateOrganizationsAccessOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeactivateOrganizationsAccessOutputResponse, DeactivateOrganizationsAccessOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateOrganizationsAccessOutputResponse, DeactivateOrganizationsAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateOrganizationsAccessOutputResponse, DeactivateOrganizationsAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateOrganizationsAccessOutputResponse, DeactivateOrganizationsAccessOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Deactivates a public extension that was previously activated in this account and Region. Once deactivated, an extension can't be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being made to the extension. In addition, deactivated extensions aren't automatically updated if a new version of the extension is released.
     public func deactivateType(input: DeactivateTypeInput) async throws -> DeactivateTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -824,6 +896,42 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
+    /// Retrieves information about the account's OrganizationAccess status. This API can be called either by the management account or the delegated administrator by using the CallAs parameter. This API can also be called without the CallAs parameter by the management account.
+    public func describeOrganizationsAccess(input: DescribeOrganizationsAccessInput) async throws -> DescribeOrganizationsAccessOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeOrganizationsAccess")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeOrganizationsAccessInput, DescribeOrganizationsAccessOutputResponse, DescribeOrganizationsAccessOutputError>(id: "describeOrganizationsAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationsAccessInput, DescribeOrganizationsAccessOutputResponse, DescribeOrganizationsAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationsAccessInput, DescribeOrganizationsAccessOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationsAccessOutputResponse, DescribeOrganizationsAccessOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeOrganizationsAccessInput, DescribeOrganizationsAccessOutputResponse>(xmlName: "DescribeOrganizationsAccessInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationsAccessInput, DescribeOrganizationsAccessOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeOrganizationsAccessOutputResponse, DescribeOrganizationsAccessOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationsAccessOutputResponse, DescribeOrganizationsAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationsAccessOutputResponse, DescribeOrganizationsAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationsAccessOutputResponse, DescribeOrganizationsAccessOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Returns information about a CloudFormation extension publisher. If you don't supply a PublisherId, and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account. For more information about registering as a publisher, see:
     ///
     /// * [RegisterPublisher](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterPublisher.html)
@@ -864,7 +972,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information about stack and resource drift, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use [DetectStackDrift] to initiate a stack drift detection operation. DetectStackDrift returns a StackDriftDetectionId you can use to monitor the progress of the operation using DescribeStackDriftDetectionStatus. Once the drift detection operation has completed, use [DescribeStackResourceDrifts] to return drift information about the stack and its resources.
+    /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information about stack and resource drift, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use [DetectStackDrift] to initiate a stack drift detection operation. DetectStackDrift returns a StackDriftDetectionId you can use to monitor the progress of the operation using DescribeStackDriftDetectionStatus. Once the drift detection operation has completed, use [DescribeStackResourceDrifts] to return drift information about the stack and its resources.
     public func describeStackDriftDetectionStatus(input: DescribeStackDriftDetectionStatusInput) async throws -> DescribeStackDriftDetectionStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -936,7 +1044,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Returns the stack instance that's associated with the specified stack set, Amazon Web Services account, and Region. For a list of stack instances that are associated with a specific stack set, use [ListStackInstances].
+    /// Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use [ListStackInstances].
     public func describeStackInstance(input: DescribeStackInstanceInput) async throws -> DescribeStackInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1080,7 +1188,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Returns the description of the specified stack set.
+    /// Returns the description of the specified StackSet.
     public func describeStackSet(input: DescribeStackSetInput) async throws -> DescribeStackSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1116,7 +1224,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Returns the description of the specified stack set operation.
+    /// Returns the description of the specified StackSet operation.
     public func describeStackSetOperation(input: DescribeStackSetOperationInput) async throws -> DescribeStackSetOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1260,7 +1368,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Detects whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. For each resource in the stack that supports drift detection, CloudFormation compares the actual configuration of the resource with its expected template configuration. Only resource properties explicitly defined in the stack template are checked for drift. A stack is considered to have drifted if one or more of its resources differ from their expected template configurations. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use DetectStackDrift to detect drift on all supported resources for a given stack, or [DetectStackResourceDrift] to detect drift on individual resources. For a list of stack resources that currently support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html). DetectStackDrift can take up to several minutes, depending on the number of resources contained within the stack. Use [DescribeStackDriftDetectionStatus] to monitor the progress of a detect stack drift operation. Once the drift detection operation has completed, use [DescribeStackResourceDrifts] to return drift information about the stack and its resources. When detecting drift on a stack, CloudFormation doesn't detect drift on any nested stacks belonging to that stack. Perform DetectStackDrift directly on the nested stack itself.
+    /// Detects whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For each resource in the stack that supports drift detection, CloudFormation compares the actual configuration of the resource with its expected template configuration. Only resource properties explicitly defined in the stack template are checked for drift. A stack is considered to have drifted if one or more of its resources differ from their expected template configurations. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use DetectStackDrift to detect drift on all supported resources for a given stack, or [DetectStackResourceDrift] to detect drift on individual resources. For a list of stack resources that currently support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html). DetectStackDrift can take up to several minutes, depending on the number of resources contained within the stack. Use [DescribeStackDriftDetectionStatus] to monitor the progress of a detect stack drift operation. Once the drift detection operation has completed, use [DescribeStackResourceDrifts] to return drift information about the stack and its resources. When detecting drift on a stack, CloudFormation doesn't detect drift on any nested stacks belonging to that stack. Perform DetectStackDrift directly on the nested stack itself.
     public func detectStackDrift(input: DetectStackDriftInput) async throws -> DetectStackDriftOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1296,7 +1404,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Returns information about whether a resource's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. This information includes actual and expected property values for resources in which CloudFormation detects drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information about stack and resource drift, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use DetectStackResourceDrift to detect drift on individual resources, or [DetectStackDrift] to detect drift on all resources in a given stack that support drift detection. Resources that don't currently support drift detection can't be checked. For a list of resources that support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
+    /// Returns information about whether a resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. This information includes actual and expected property values for resources in which CloudFormation detects drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information about stack and resource drift, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use DetectStackResourceDrift to detect drift on individual resources, or [DetectStackDrift] to detect drift on all resources in a given stack that support drift detection. Resources that don't currently support drift detection can't be checked. For a list of resources that support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
     public func detectStackResourceDrift(input: DetectStackResourceDriftInput) async throws -> DetectStackResourceDriftOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1565,7 +1673,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Import existing stacks into a new stack sets. Use the stack import operation to import up to 10 stacks into a new stack set in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import. ImportStacksToStackSet is only supported by self-managed permissions.
+    /// Import existing stacks into a new stack sets. Use the stack import operation to import up to 10 stacks into a new stack set in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import.
     public func importStacksToStackSet(input: ImportStacksToStackSetInput) async throws -> ImportStacksToStackSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2047,7 +2155,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Publishes the specified extension to the CloudFormation registry as a public extension in this region. Public extensions are available for use by all CloudFormation users. For more information about publishing extensions, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html) in the CloudFormation CLI User Guide. To publish an extension, you must be registered as a publisher with CloudFormation. For more information, see [RegisterPublisher](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterPublisher.html).
+    /// Publishes the specified extension to the CloudFormation registry as a public extension in this Region. Public extensions are available for use by all CloudFormation users. For more information about publishing extensions, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html) in the CloudFormation CLI User Guide. To publish an extension, you must be registered as a publisher with CloudFormation. For more information, see [RegisterPublisher](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterPublisher.html).
     public func publishType(input: PublishTypeInput) async throws -> PublishTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2164,7 +2272,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// * Making the extension available for use in your account.
     ///
     ///
-    /// For more information about how to develop extensions and ready them for registration, see [Creating Resource Providers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html) in the CloudFormation CLI User Guide. You can have a maximum of 50 resource extension versions registered at a time. This maximum is per account and per region. Use [DeregisterType] to deregister specific extension versions if necessary. Once you have initiated a registration request using [RegisterType], you can use [DescribeTypeRegistration] to monitor the progress of the registration request. Once you have registered a private extension in your account and region, use [SetTypeConfiguration] to specify configuration properties for the extension. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
+    /// For more information about how to develop extensions and ready them for registration, see [Creating Resource Providers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html) in the CloudFormation CLI User Guide. You can have a maximum of 50 resource extension versions registered at a time. This maximum is per account and per Region. Use [DeregisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeregisterType.html) to deregister specific extension versions if necessary. Once you have initiated a registration request using [RegisterType], you can use [DescribeTypeRegistration] to monitor the progress of the registration request. Once you have registered a private extension in your account and Region, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html) to specify configuration properties for the extension. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
     public func registerType(input: RegisterTypeInput) async throws -> RegisterTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2282,7 +2390,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
-    /// Specifies the configuration data for a registered CloudFormation extension, in the given account and region. To view the current configuration data for an extension, refer to the ConfigurationSchema element of [DescribeType]. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide. It's strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party credentials. For more details on dynamic references, see [Using dynamic references to specify template values](https://docs.aws.amazon.com/) in the CloudFormation User Guide.
+    /// Specifies the configuration data for a registered CloudFormation extension, in the given account and Region. To view the current configuration data for an extension, refer to the ConfigurationSchema element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide. It's strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party credentials. For more details on dynamic references, see [Using dynamic references to specify template values](https://docs.aws.amazon.com/) in the CloudFormation User Guide.
     public func setTypeConfiguration(input: SetTypeConfigurationInput) async throws -> SetTypeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2433,7 +2541,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// * For modules, this includes determining if the module's model meets all necessary requirements.
     ///
     ///
-    /// For more information, see [Testing your public extension prior to publishing](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-testing) in the CloudFormation CLI User Guide. If you don't specify a version, CloudFormation uses the default version of the extension in your account and region for testing. To perform testing, CloudFormation assumes the execution role specified when the type was registered. For more information, see [RegisterType]. Once you've initiated testing on an extension using TestType, you can pass the returned TypeVersionArn into [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html) to monitor the current test status and test status description for the extension. An extension must have a test status of PASSED before it can be published. For more information, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-publish.html) in the CloudFormation CLI User Guide.
+    /// For more information, see [Testing your public extension prior to publishing](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-testing) in the CloudFormation CLI User Guide. If you don't specify a version, CloudFormation uses the default version of the extension in your account and Region for testing. To perform testing, CloudFormation assumes the execution role specified when the type was registered. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html). Once you've initiated testing on an extension using TestType, you can pass the returned TypeVersionArn into [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html) to monitor the current test status and test status description for the extension. An extension must have a test status of PASSED before it can be published. For more information, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-publish.html) in the CloudFormation CLI User Guide.
     public func testType(input: TestTypeInput) async throws -> TestTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

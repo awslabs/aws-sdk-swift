@@ -61,6 +61,10 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront API Reference.
     func deleteWebACL(input: DeleteWebACLInput) async throws -> DeleteWebACLOutputResponse
+    /// Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
+    func describeAllManagedProducts(input: DescribeAllManagedProductsInput) async throws -> DescribeAllManagedProductsOutputResponse
+    /// Provides high-level information for the managed rule groups owned by a specific vendor.
+    func describeManagedProductsByVendor(input: DescribeManagedProductsByVendorInput) async throws -> DescribeManagedProductsByVendorOutputResponse
     /// Provides high-level information for a managed rule group, including descriptions of the rules.
     func describeManagedRuleGroup(input: DescribeManagedRuleGroupInput) async throws -> DescribeManagedRuleGroupOutputResponse
     /// Disassociates the specified regional application resource from any existing web ACL association. A resource can have at most one web ACL association. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution configuration. To disassociate a web ACL, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront API Reference.

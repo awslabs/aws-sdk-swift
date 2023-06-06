@@ -797,6 +797,62 @@ extension TranslateClientTypes {
     }
 }
 
+extension TranslateClientTypes.Document: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content = "Content"
+        case contentType = "ContentType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content.base64EncodedString(), forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .content)
+        content = contentDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+    }
+}
+
+extension TranslateClientTypes.Document: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Document(contentType: \(Swift.String(describing: contentType)), content: \"CONTENT_REDACTED\")"}
+}
+
+extension TranslateClientTypes {
+    /// The content and content type of a document.
+    public struct Document: Swift.Equatable {
+        /// The Contentfield type is Binary large object (blob). This object contains the document content converted into base64-encoded binary data. If you use one of the AWS SDKs, the SDK performs the Base64-encoding on this field before sending the request.
+        /// This member is required.
+        public var content: ClientRuntime.Data?
+        /// Describes the format of the document. You can specify one of the following:
+        ///
+        /// * text/html - The input data consists of HTML content. Amazon Translate translates only the text in the HTML element.
+        ///
+        /// * text/plain - The input data consists of unformatted text. Amazon Translate translates every character in the content.
+        /// This member is required.
+        public var contentType: Swift.String?
+
+        public init(
+            content: ClientRuntime.Data? = nil,
+            contentType: Swift.String? = nil
+        )
+        {
+            self.content = content
+            self.contentType = contentType
+        }
+    }
+
+}
+
 extension TranslateClientTypes.EncryptionKey: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id = "Id"
@@ -4287,7 +4343,7 @@ extension TranslateClientTypes {
         public var outputDataConfig: TranslateClientTypes.OutputDataConfig?
         /// A list containing the names of the parallel data resources applied to the translation job.
         public var parallelDataNames: [Swift.String]?
-        /// Settings that configure the translation output.
+        /// Settings that modify the translation output.
         public var settings: TranslateClientTypes.TranslationSettings?
         /// The language code of the language of the source text. The language must be a language supported by Amazon Translate.
         public var sourceLanguageCode: Swift.String?
@@ -4455,6 +4511,225 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
     }
 }
 
+extension TranslateDocumentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case document = "Document"
+        case settings = "Settings"
+        case sourceLanguageCode = "SourceLanguageCode"
+        case targetLanguageCode = "TargetLanguageCode"
+        case terminologyNames = "TerminologyNames"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let document = self.document {
+            try encodeContainer.encode(document, forKey: .document)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
+        if let sourceLanguageCode = self.sourceLanguageCode {
+            try encodeContainer.encode(sourceLanguageCode, forKey: .sourceLanguageCode)
+        }
+        if let targetLanguageCode = self.targetLanguageCode {
+            try encodeContainer.encode(targetLanguageCode, forKey: .targetLanguageCode)
+        }
+        if let terminologyNames = terminologyNames {
+            var terminologyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .terminologyNames)
+            for resourcename0 in terminologyNames {
+                try terminologyNamesContainer.encode(resourcename0)
+            }
+        }
+    }
+}
+
+extension TranslateDocumentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TranslateDocumentInput: Swift.Equatable {
+    /// The content and content type for the document to be translated. The document size must not exceed 100 KB.
+    /// This member is required.
+    public var document: TranslateClientTypes.Document?
+    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    public var settings: TranslateClientTypes.TranslationSettings?
+    /// The language code for the language of the source text. Do not use auto, because TranslateDocument does not support language auto-detection. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
+    /// This member is required.
+    public var sourceLanguageCode: Swift.String?
+    /// The language code requested for the translated document. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
+    /// This member is required.
+    public var targetLanguageCode: Swift.String?
+    /// The name of a terminology list file to add to the translation job. This file provides source terms and the desired translation for each term. A terminology list can contain a maximum of 256 terms. You can use one custom terminology resource in your translation request. Use the [ListTerminologies] operation to get the available terminology lists. For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
+    public var terminologyNames: [Swift.String]?
+
+    public init(
+        document: TranslateClientTypes.Document? = nil,
+        settings: TranslateClientTypes.TranslationSettings? = nil,
+        sourceLanguageCode: Swift.String? = nil,
+        targetLanguageCode: Swift.String? = nil,
+        terminologyNames: [Swift.String]? = nil
+    )
+    {
+        self.document = document
+        self.settings = settings
+        self.sourceLanguageCode = sourceLanguageCode
+        self.targetLanguageCode = targetLanguageCode
+        self.terminologyNames = terminologyNames
+    }
+}
+
+struct TranslateDocumentInputBody: Swift.Equatable {
+    let document: TranslateClientTypes.Document?
+    let terminologyNames: [Swift.String]?
+    let sourceLanguageCode: Swift.String?
+    let targetLanguageCode: Swift.String?
+    let settings: TranslateClientTypes.TranslationSettings?
+}
+
+extension TranslateDocumentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case document = "Document"
+        case settings = "Settings"
+        case sourceLanguageCode = "SourceLanguageCode"
+        case targetLanguageCode = "TargetLanguageCode"
+        case terminologyNames = "TerminologyNames"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.Document.self, forKey: .document)
+        document = documentDecoded
+        let terminologyNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .terminologyNames)
+        var terminologyNamesDecoded0:[Swift.String]? = nil
+        if let terminologyNamesContainer = terminologyNamesContainer {
+            terminologyNamesDecoded0 = [Swift.String]()
+            for string0 in terminologyNamesContainer {
+                if let string0 = string0 {
+                    terminologyNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        terminologyNames = terminologyNamesDecoded0
+        let sourceLanguageCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLanguageCode)
+        sourceLanguageCode = sourceLanguageCodeDecoded
+        let targetLanguageCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetLanguageCode)
+        targetLanguageCode = targetLanguageCodeDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.TranslationSettings.self, forKey: .settings)
+        settings = settingsDecoded
+    }
+}
+
+public enum TranslateDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLanguagePairException": return try await UnsupportedLanguagePairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension TranslateDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TranslateDocumentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appliedSettings = output.appliedSettings
+            self.appliedTerminologies = output.appliedTerminologies
+            self.sourceLanguageCode = output.sourceLanguageCode
+            self.targetLanguageCode = output.targetLanguageCode
+            self.translatedDocument = output.translatedDocument
+        } else {
+            self.appliedSettings = nil
+            self.appliedTerminologies = nil
+            self.sourceLanguageCode = nil
+            self.targetLanguageCode = nil
+            self.translatedDocument = nil
+        }
+    }
+}
+
+public struct TranslateDocumentOutputResponse: Swift.Equatable {
+    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    public var appliedSettings: TranslateClientTypes.TranslationSettings?
+    /// The names of the custom terminologies applied to the input text by Amazon Translate to produce the translated text document.
+    public var appliedTerminologies: [TranslateClientTypes.AppliedTerminology]?
+    /// The language code of the source document.
+    /// This member is required.
+    public var sourceLanguageCode: Swift.String?
+    /// The language code of the translated document.
+    /// This member is required.
+    public var targetLanguageCode: Swift.String?
+    /// The document containing the translated content. The document format matches the source document format.
+    /// This member is required.
+    public var translatedDocument: TranslateClientTypes.TranslatedDocument?
+
+    public init(
+        appliedSettings: TranslateClientTypes.TranslationSettings? = nil,
+        appliedTerminologies: [TranslateClientTypes.AppliedTerminology]? = nil,
+        sourceLanguageCode: Swift.String? = nil,
+        targetLanguageCode: Swift.String? = nil,
+        translatedDocument: TranslateClientTypes.TranslatedDocument? = nil
+    )
+    {
+        self.appliedSettings = appliedSettings
+        self.appliedTerminologies = appliedTerminologies
+        self.sourceLanguageCode = sourceLanguageCode
+        self.targetLanguageCode = targetLanguageCode
+        self.translatedDocument = translatedDocument
+    }
+}
+
+struct TranslateDocumentOutputResponseBody: Swift.Equatable {
+    let translatedDocument: TranslateClientTypes.TranslatedDocument?
+    let sourceLanguageCode: Swift.String?
+    let targetLanguageCode: Swift.String?
+    let appliedTerminologies: [TranslateClientTypes.AppliedTerminology]?
+    let appliedSettings: TranslateClientTypes.TranslationSettings?
+}
+
+extension TranslateDocumentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appliedSettings = "AppliedSettings"
+        case appliedTerminologies = "AppliedTerminologies"
+        case sourceLanguageCode = "SourceLanguageCode"
+        case targetLanguageCode = "TargetLanguageCode"
+        case translatedDocument = "TranslatedDocument"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let translatedDocumentDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.TranslatedDocument.self, forKey: .translatedDocument)
+        translatedDocument = translatedDocumentDecoded
+        let sourceLanguageCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLanguageCode)
+        sourceLanguageCode = sourceLanguageCodeDecoded
+        let targetLanguageCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetLanguageCode)
+        targetLanguageCode = targetLanguageCodeDecoded
+        let appliedTerminologiesContainer = try containerValues.decodeIfPresent([TranslateClientTypes.AppliedTerminology?].self, forKey: .appliedTerminologies)
+        var appliedTerminologiesDecoded0:[TranslateClientTypes.AppliedTerminology]? = nil
+        if let appliedTerminologiesContainer = appliedTerminologiesContainer {
+            appliedTerminologiesDecoded0 = [TranslateClientTypes.AppliedTerminology]()
+            for structure0 in appliedTerminologiesContainer {
+                if let structure0 = structure0 {
+                    appliedTerminologiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        appliedTerminologies = appliedTerminologiesDecoded0
+        let appliedSettingsDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.TranslationSettings.self, forKey: .appliedSettings)
+        appliedSettings = appliedSettingsDecoded
+    }
+}
+
 extension TranslateTextInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case settings = "Settings"
@@ -4496,13 +4771,13 @@ extension TranslateTextInput: ClientRuntime.URLPathProvider {
 public struct TranslateTextInput: Swift.Equatable {
     /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
     public var settings: TranslateClientTypes.TranslationSettings?
-    /// The language code for the language of the source text. The language must be a language supported by Amazon Translate. For a list of language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html). To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html) to determine the source language. If you specify auto, you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
+    /// The language code for the language of the source text. For a list of language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html). To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html) to determine the source language. If you specify auto, you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
     /// This member is required.
     public var sourceLanguageCode: Swift.String?
-    /// The language code requested for the language of the target text. The language must be a language supported by Amazon Translate.
+    /// The language code requested for the language of the target text. For a list of language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
     /// This member is required.
     public var targetLanguageCode: Swift.String?
-    /// The name of the terminology list file to be used in the TranslateText request. You can use 1 terminology list at most in a TranslateText request. Terminology lists can contain a maximum of 256 terms.
+    /// The name of a terminology list file to add to the translation job. This file provides source terms and the desired translation for each term. A terminology list can contain a maximum of 256 terms. You can use one custom terminology resource in your translation request. Use the [ListTerminologies] operation to get the available terminology lists. For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
     public var terminologyNames: [Swift.String]?
     /// The text to translate. The text string can be a maximum of 10,000 bytes long. Depending on your character set, this may be fewer than 10,000 characters.
     /// This member is required.
@@ -4604,7 +4879,7 @@ extension TranslateTextOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct TranslateTextOutputResponse: Swift.Equatable {
-    /// Settings that configure the translation output.
+    /// Optional settings that modify the translation output.
     public var appliedSettings: TranslateClientTypes.TranslationSettings?
     /// The names of the custom terminologies applied to the input text by Amazon Translate for the translated text response.
     public var appliedTerminologies: [TranslateClientTypes.AppliedTerminology]?
@@ -4675,6 +4950,47 @@ extension TranslateTextOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension TranslateClientTypes.TranslatedDocument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content = "Content"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content.base64EncodedString(), forKey: .content)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .content)
+        content = contentDecoded
+    }
+}
+
+extension TranslateClientTypes.TranslatedDocument: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TranslatedDocument(content: \"CONTENT_REDACTED\")"}
+}
+
+extension TranslateClientTypes {
+    /// The translated content.
+    public struct TranslatedDocument: Swift.Equatable {
+        /// The document containing the translated content.
+        /// This member is required.
+        public var content: ClientRuntime.Data?
+
+        public init(
+            content: ClientRuntime.Data? = nil
+        )
+        {
+            self.content = content
+        }
+    }
+
+}
+
 extension TranslateClientTypes.TranslationSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case formality = "Formality"
@@ -4701,7 +5017,7 @@ extension TranslateClientTypes.TranslationSettings: Swift.Codable {
 }
 
 extension TranslateClientTypes {
-    /// Optional settings that configure the translation output. Use these settings for real time translations and asynchronous translation jobs.
+    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
     public struct TranslationSettings: Swift.Equatable {
         /// You can optionally specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as [register](https://en.wikipedia.org/wiki/Register_(sociolinguistics))) in the translation output. You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html#customizing-translations-formality-languages) in the Amazon Translate Developer Guide.
         public var formality: TranslateClientTypes.Formality?
@@ -4804,7 +5120,7 @@ extension UnsupportedLanguagePairException {
     }
 }
 
-/// Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Error messages](https://docs.aws.amazon.com/translate/latest/dg/how-to-error-msg.html).
+/// Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
 public struct UnsupportedLanguagePairException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

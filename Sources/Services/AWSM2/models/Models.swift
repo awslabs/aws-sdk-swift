@@ -228,6 +228,7 @@ extension M2ClientTypes.ApplicationSummary: Swift.Codable {
         case environmentId
         case lastStartTime
         case name
+        case roleArn
         case status
         case versionStatus
     }
@@ -264,6 +265,9 @@ extension M2ClientTypes.ApplicationSummary: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
@@ -298,6 +302,8 @@ extension M2ClientTypes.ApplicationSummary: Swift.Codable {
         versionStatus = versionStatusDecoded
         let deploymentStatusDecoded = try containerValues.decodeIfPresent(M2ClientTypes.ApplicationDeploymentLifecycle.self, forKey: .deploymentStatus)
         deploymentStatus = deploymentStatusDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
     }
 }
 
@@ -330,6 +336,8 @@ extension M2ClientTypes {
         /// The name of the application.
         /// This member is required.
         public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the role associated with the application.
+        public var roleArn: Swift.String?
         /// The status of the application.
         /// This member is required.
         public var status: M2ClientTypes.ApplicationLifecycle?
@@ -347,6 +355,7 @@ extension M2ClientTypes {
             environmentId: Swift.String? = nil,
             lastStartTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
             status: M2ClientTypes.ApplicationLifecycle? = nil,
             versionStatus: M2ClientTypes.ApplicationVersionLifecycle? = nil
         )
@@ -361,6 +370,7 @@ extension M2ClientTypes {
             self.environmentId = environmentId
             self.lastStartTime = lastStartTime
             self.name = name
+            self.roleArn = roleArn
             self.status = status
             self.versionStatus = versionStatus
         }
@@ -650,7 +660,7 @@ extension M2ClientTypes {
         /// The unique identifier of the application that hosts this batch job.
         /// This member is required.
         public var applicationId: Swift.String?
-        /// Identifies a specific batch job.
+        /// The unique identifier of this batch job.
         public var batchJobIdentifier: M2ClientTypes.BatchJobIdentifier?
         /// The timestamp when this batch job execution ended.
         public var endTime: ClientRuntime.Date?
@@ -663,7 +673,7 @@ extension M2ClientTypes {
         public var jobName: Swift.String?
         /// The type of a particular batch job execution.
         public var jobType: M2ClientTypes.BatchJobType?
-        ///
+        /// The batch job return code from either the Blu Age or Micro Focus runtime engines. For more information, see [Batch return codes](https://www.ibm.com/docs/en/was/8.5.5?topic=model-batch-return-codes) in the IBM WebSphere Application Server documentation.
         public var returnCode: Swift.String?
         /// The timestamp when a particular batch job execution started.
         /// This member is required.
@@ -931,6 +941,7 @@ extension CreateApplicationInput: Swift.Encodable {
         case engineType
         case kmsKeyId
         case name
+        case roleArn
         case tags
     }
 
@@ -953,6 +964,9 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -985,6 +999,8 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// The unique identifier of the application.
     /// This member is required.
     public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the role associated with the application.
+    public var roleArn: Swift.String?
     /// A list of tags to apply to the application.
     public var tags: [Swift.String:Swift.String]?
 
@@ -995,6 +1011,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         engineType: M2ClientTypes.EngineType? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1004,6 +1021,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         self.engineType = engineType
         self.kmsKeyId = kmsKeyId
         self.name = name
+        self.roleArn = roleArn
         self.tags = tags
     }
 }
@@ -1016,6 +1034,7 @@ struct CreateApplicationInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
     let kmsKeyId: Swift.String?
+    let roleArn: Swift.String?
 }
 
 extension CreateApplicationInputBody: Swift.Decodable {
@@ -1026,6 +1045,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case engineType
         case kmsKeyId
         case name
+        case roleArn
         case tags
     }
 
@@ -1054,6 +1074,8 @@ extension CreateApplicationInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
     }
 }
 
@@ -2158,6 +2180,8 @@ extension M2ClientTypes {
 extension M2ClientTypes.DatasetDetailOrgAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gdg
+        case po
+        case ps
         case sdkUnknown
         case vsam
     }
@@ -2167,6 +2191,10 @@ extension M2ClientTypes.DatasetDetailOrgAttributes: Swift.Codable {
         switch self {
             case let .gdg(gdg):
                 try container.encode(gdg, forKey: .gdg)
+            case let .po(po):
+                try container.encode(po, forKey: .po)
+            case let .ps(ps):
+                try container.encode(ps, forKey: .ps)
             case let .vsam(vsam):
                 try container.encode(vsam, forKey: .vsam)
             case let .sdkUnknown(sdkUnknown):
@@ -2186,6 +2214,16 @@ extension M2ClientTypes.DatasetDetailOrgAttributes: Swift.Codable {
             self = .gdg(gdg)
             return
         }
+        let poDecoded = try values.decodeIfPresent(M2ClientTypes.PoDetailAttributes.self, forKey: .po)
+        if let po = poDecoded {
+            self = .po(po)
+            return
+        }
+        let psDecoded = try values.decodeIfPresent(M2ClientTypes.PsDetailAttributes.self, forKey: .ps)
+        if let ps = psDecoded {
+            self = .ps(ps)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -2197,6 +2235,10 @@ extension M2ClientTypes {
         case vsam(M2ClientTypes.VsamDetailAttributes)
         /// The generation data group of the data set.
         case gdg(M2ClientTypes.GdgDetailAttributes)
+        /// The details of a PO type data set.
+        case po(M2ClientTypes.PoDetailAttributes)
+        /// The details of a PS type data set.
+        case ps(M2ClientTypes.PsDetailAttributes)
         case sdkUnknown(Swift.String)
     }
 
@@ -2205,6 +2247,8 @@ extension M2ClientTypes {
 extension M2ClientTypes.DatasetOrgAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gdg
+        case po
+        case ps
         case sdkUnknown
         case vsam
     }
@@ -2214,6 +2258,10 @@ extension M2ClientTypes.DatasetOrgAttributes: Swift.Codable {
         switch self {
             case let .gdg(gdg):
                 try container.encode(gdg, forKey: .gdg)
+            case let .po(po):
+                try container.encode(po, forKey: .po)
+            case let .ps(ps):
+                try container.encode(ps, forKey: .ps)
             case let .vsam(vsam):
                 try container.encode(vsam, forKey: .vsam)
             case let .sdkUnknown(sdkUnknown):
@@ -2233,6 +2281,16 @@ extension M2ClientTypes.DatasetOrgAttributes: Swift.Codable {
             self = .gdg(gdg)
             return
         }
+        let poDecoded = try values.decodeIfPresent(M2ClientTypes.PoAttributes.self, forKey: .po)
+        if let po = poDecoded {
+            self = .po(po)
+            return
+        }
+        let psDecoded = try values.decodeIfPresent(M2ClientTypes.PsAttributes.self, forKey: .ps)
+        if let ps = psDecoded {
+            self = .ps(ps)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -2244,6 +2302,10 @@ extension M2ClientTypes {
         case vsam(M2ClientTypes.VsamAttributes)
         /// The generation data group of the data set.
         case gdg(M2ClientTypes.GdgAttributes)
+        /// The details of a PO type data set.
+        case po(M2ClientTypes.PoAttributes)
+        /// The details of a PS type data set.
+        case ps(M2ClientTypes.PsAttributes)
         case sdkUnknown(Swift.String)
     }
 
@@ -3278,6 +3340,7 @@ extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.loadBalancerDnsName = output.loadBalancerDnsName
             self.logGroups = output.logGroups
             self.name = output.name
+            self.roleArn = output.roleArn
             self.status = output.status
             self.statusReason = output.statusReason
             self.tags = output.tags
@@ -3298,6 +3361,7 @@ extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.loadBalancerDnsName = nil
             self.logGroups = nil
             self.name = nil
+            self.roleArn = nil
             self.status = nil
             self.statusReason = nil
             self.tags = nil
@@ -3343,6 +3407,8 @@ public struct GetApplicationOutputResponse: Swift.Equatable {
     /// The unique identifier of the application.
     /// This member is required.
     public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the role associated with the application.
+    public var roleArn: Swift.String?
     /// The status of the application.
     /// This member is required.
     public var status: M2ClientTypes.ApplicationLifecycle?
@@ -3369,6 +3435,7 @@ public struct GetApplicationOutputResponse: Swift.Equatable {
         loadBalancerDnsName: Swift.String? = nil,
         logGroups: [M2ClientTypes.LogGroupSummary]? = nil,
         name: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
         status: M2ClientTypes.ApplicationLifecycle? = nil,
         statusReason: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -3390,6 +3457,7 @@ public struct GetApplicationOutputResponse: Swift.Equatable {
         self.loadBalancerDnsName = loadBalancerDnsName
         self.logGroups = logGroups
         self.name = name
+        self.roleArn = roleArn
         self.status = status
         self.statusReason = statusReason
         self.tags = tags
@@ -3417,6 +3485,7 @@ struct GetApplicationOutputResponseBody: Swift.Equatable {
     let loadBalancerDnsName: Swift.String?
     let statusReason: Swift.String?
     let kmsKeyId: Swift.String?
+    let roleArn: Swift.String?
 }
 
 extension GetApplicationOutputResponseBody: Swift.Decodable {
@@ -3436,6 +3505,7 @@ extension GetApplicationOutputResponseBody: Swift.Decodable {
         case loadBalancerDnsName
         case logGroups
         case name
+        case roleArn
         case status
         case statusReason
         case tags
@@ -3527,6 +3597,8 @@ extension GetApplicationOutputResponseBody: Swift.Decodable {
         statusReason = statusReasonDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
     }
 }
 
@@ -3781,7 +3853,7 @@ public struct GetBatchJobExecutionOutputResponse: Swift.Equatable {
     /// The identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// Identifies a specific batch job.
+    /// The unique identifier of this batch job.
     public var batchJobIdentifier: M2ClientTypes.BatchJobIdentifier?
     /// The timestamp when the batch job execution ended.
     public var endTime: ClientRuntime.Date?
@@ -3796,7 +3868,7 @@ public struct GetBatchJobExecutionOutputResponse: Swift.Equatable {
     public var jobType: M2ClientTypes.BatchJobType?
     /// The user for the job.
     public var jobUser: Swift.String?
-    ///
+    /// The batch job return code from either the Blu Age or Micro Focus runtime engines. For more information, see [Batch return codes](https://www.ibm.com/docs/en/was/8.5.5?topic=model-batch-return-codes) in the IBM WebSphere Application Server documentation.
     public var returnCode: Swift.String?
     /// The timestamp when the batch job execution started.
     /// This member is required.
@@ -6269,6 +6341,122 @@ extension M2ClientTypes {
 
 }
 
+extension M2ClientTypes.PoAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encoding
+        case format
+        case memberFileExtensions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encoding = self.encoding {
+            try encodeContainer.encode(encoding, forKey: .encoding)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format, forKey: .format)
+        }
+        if let memberFileExtensions = memberFileExtensions {
+            var memberFileExtensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memberFileExtensions)
+            for string200 in memberFileExtensions {
+                try memberFileExtensionsContainer.encode(string200)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
+        format = formatDecoded
+        let encodingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encoding)
+        encoding = encodingDecoded
+        let memberFileExtensionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .memberFileExtensions)
+        var memberFileExtensionsDecoded0:[Swift.String]? = nil
+        if let memberFileExtensionsContainer = memberFileExtensionsContainer {
+            memberFileExtensionsDecoded0 = [Swift.String]()
+            for string0 in memberFileExtensionsContainer {
+                if let string0 = string0 {
+                    memberFileExtensionsDecoded0?.append(string0)
+                }
+            }
+        }
+        memberFileExtensions = memberFileExtensionsDecoded0
+    }
+}
+
+extension M2ClientTypes {
+    /// The supported properties for a PO type data set.
+    public struct PoAttributes: Swift.Equatable {
+        /// The character set encoding of the data set.
+        public var encoding: Swift.String?
+        /// The format of the data set records.
+        /// This member is required.
+        public var format: Swift.String?
+        /// An array containing one or more filename extensions, allowing you to specify which files to be included as PDS member.
+        /// This member is required.
+        public var memberFileExtensions: [Swift.String]?
+
+        public init(
+            encoding: Swift.String? = nil,
+            format: Swift.String? = nil,
+            memberFileExtensions: [Swift.String]? = nil
+        )
+        {
+            self.encoding = encoding
+            self.format = format
+            self.memberFileExtensions = memberFileExtensions
+        }
+    }
+
+}
+
+extension M2ClientTypes.PoDetailAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encoding
+        case format
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encoding = self.encoding {
+            try encodeContainer.encode(encoding, forKey: .encoding)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format, forKey: .format)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
+        format = formatDecoded
+        let encodingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encoding)
+        encoding = encodingDecoded
+    }
+}
+
+extension M2ClientTypes {
+    /// The supported properties for a PO type data set.
+    public struct PoDetailAttributes: Swift.Equatable {
+        /// The character set encoding of the data set.
+        /// This member is required.
+        public var encoding: Swift.String?
+        /// The format of the data set records.
+        /// This member is required.
+        public var format: Swift.String?
+
+        public init(
+            encoding: Swift.String? = nil,
+            format: Swift.String? = nil
+        )
+        {
+            self.encoding = encoding
+            self.format = format
+        }
+    }
+
+}
+
 extension M2ClientTypes.PrimaryKey: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case length
@@ -6321,6 +6509,99 @@ extension M2ClientTypes {
             self.length = length
             self.name = name
             self.offset = offset
+        }
+    }
+
+}
+
+extension M2ClientTypes.PsAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encoding
+        case format
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encoding = self.encoding {
+            try encodeContainer.encode(encoding, forKey: .encoding)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format, forKey: .format)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
+        format = formatDecoded
+        let encodingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encoding)
+        encoding = encodingDecoded
+    }
+}
+
+extension M2ClientTypes {
+    /// The supported properties for a PS type data set.
+    public struct PsAttributes: Swift.Equatable {
+        /// The character set encoding of the data set.
+        public var encoding: Swift.String?
+        /// The format of the data set records.
+        /// This member is required.
+        public var format: Swift.String?
+
+        public init(
+            encoding: Swift.String? = nil,
+            format: Swift.String? = nil
+        )
+        {
+            self.encoding = encoding
+            self.format = format
+        }
+    }
+
+}
+
+extension M2ClientTypes.PsDetailAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encoding
+        case format
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encoding = self.encoding {
+            try encodeContainer.encode(encoding, forKey: .encoding)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format, forKey: .format)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
+        format = formatDecoded
+        let encodingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encoding)
+        encoding = encodingDecoded
+    }
+}
+
+extension M2ClientTypes {
+    /// The supported properties for a PS type data set.
+    public struct PsDetailAttributes: Swift.Equatable {
+        /// The character set encoding of the data set.
+        /// This member is required.
+        public var encoding: Swift.String?
+        /// The format of the data set records.
+        /// This member is required.
+        public var format: Swift.String?
+
+        public init(
+            encoding: Swift.String? = nil,
+            format: Swift.String? = nil
+        )
+        {
+            self.encoding = encoding
+            self.format = format
         }
     }
 

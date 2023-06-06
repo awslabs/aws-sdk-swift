@@ -62,7 +62,9 @@ extension IoTFleetWiseClientTypes.Actuator: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowedValues
         case assignedValue
+        case comment
         case dataType
+        case deprecationMessage
         case description
         case fullyQualifiedName
         case max
@@ -81,8 +83,14 @@ extension IoTFleetWiseClientTypes.Actuator: Swift.Codable {
         if let assignedValue = self.assignedValue {
             try encodeContainer.encode(assignedValue, forKey: .assignedValue)
         }
+        if let comment = self.comment {
+            try encodeContainer.encode(comment, forKey: .comment)
+        }
         if let dataType = self.dataType {
             try encodeContainer.encode(dataType.rawValue, forKey: .dataType)
+        }
+        if let deprecationMessage = self.deprecationMessage {
+            try encodeContainer.encode(deprecationMessage, forKey: .deprecationMessage)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -128,6 +136,10 @@ extension IoTFleetWiseClientTypes.Actuator: Swift.Codable {
         max = maxDecoded
         let assignedValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assignedValue)
         assignedValue = assignedValueDecoded
+        let deprecationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deprecationMessage)
+        deprecationMessage = deprecationMessageDecoded
+        let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
+        comment = commentDecoded
     }
 }
 
@@ -139,9 +151,13 @@ extension IoTFleetWiseClientTypes {
         /// A specified value for the actuator.
         @available(*, deprecated, message: "assignedValue is no longer in use")
         public var assignedValue: Swift.String?
+        /// A comment in addition to the description.
+        public var comment: Swift.String?
         /// The specified data type of the actuator.
         /// This member is required.
         public var dataType: IoTFleetWiseClientTypes.NodeDataType?
+        /// The deprecation message for the node or the branch that was moved or deleted.
+        public var deprecationMessage: Swift.String?
         /// A brief description of the actuator.
         public var description: Swift.String?
         /// The fully qualified name of the actuator. For example, the fully qualified name of an actuator might be Vehicle.Front.Left.Door.Lock.
@@ -157,7 +173,9 @@ extension IoTFleetWiseClientTypes {
         public init(
             allowedValues: [Swift.String]? = nil,
             assignedValue: Swift.String? = nil,
+            comment: Swift.String? = nil,
             dataType: IoTFleetWiseClientTypes.NodeDataType? = nil,
+            deprecationMessage: Swift.String? = nil,
             description: Swift.String? = nil,
             fullyQualifiedName: Swift.String? = nil,
             max: Swift.Double? = nil,
@@ -167,7 +185,9 @@ extension IoTFleetWiseClientTypes {
         {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
+            self.comment = comment
             self.dataType = dataType
+            self.deprecationMessage = deprecationMessage
             self.description = description
             self.fullyQualifiedName = fullyQualifiedName
             self.max = max
@@ -260,8 +280,10 @@ extension IoTFleetWiseClientTypes.Attribute: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowedValues
         case assignedValue
+        case comment
         case dataType
         case defaultValue
+        case deprecationMessage
         case description
         case fullyQualifiedName
         case max
@@ -280,11 +302,17 @@ extension IoTFleetWiseClientTypes.Attribute: Swift.Codable {
         if let assignedValue = self.assignedValue {
             try encodeContainer.encode(assignedValue, forKey: .assignedValue)
         }
+        if let comment = self.comment {
+            try encodeContainer.encode(comment, forKey: .comment)
+        }
         if let dataType = self.dataType {
             try encodeContainer.encode(dataType.rawValue, forKey: .dataType)
         }
         if let defaultValue = self.defaultValue {
             try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+        if let deprecationMessage = self.deprecationMessage {
+            try encodeContainer.encode(deprecationMessage, forKey: .deprecationMessage)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -332,6 +360,10 @@ extension IoTFleetWiseClientTypes.Attribute: Swift.Codable {
         assignedValue = assignedValueDecoded
         let defaultValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultValue)
         defaultValue = defaultValueDecoded
+        let deprecationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deprecationMessage)
+        deprecationMessage = deprecationMessageDecoded
+        let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
+        comment = commentDecoded
     }
 }
 
@@ -343,11 +375,15 @@ extension IoTFleetWiseClientTypes {
         /// A specified value for the attribute.
         @available(*, deprecated, message: "assignedValue is no longer in use")
         public var assignedValue: Swift.String?
+        /// A comment in addition to the description.
+        public var comment: Swift.String?
         /// The specified data type of the attribute.
         /// This member is required.
         public var dataType: IoTFleetWiseClientTypes.NodeDataType?
         /// The default value of the attribute.
         public var defaultValue: Swift.String?
+        /// The deprecation message for the node or the branch that was moved or deleted.
+        public var deprecationMessage: Swift.String?
         /// A brief description of the attribute.
         public var description: Swift.String?
         /// The fully qualified name of the attribute. For example, the fully qualified name of an attribute might be Vehicle.Body.Engine.Type.
@@ -363,8 +399,10 @@ extension IoTFleetWiseClientTypes {
         public init(
             allowedValues: [Swift.String]? = nil,
             assignedValue: Swift.String? = nil,
+            comment: Swift.String? = nil,
             dataType: IoTFleetWiseClientTypes.NodeDataType? = nil,
             defaultValue: Swift.String? = nil,
+            deprecationMessage: Swift.String? = nil,
             description: Swift.String? = nil,
             fullyQualifiedName: Swift.String? = nil,
             max: Swift.Double? = nil,
@@ -374,8 +412,10 @@ extension IoTFleetWiseClientTypes {
         {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
+            self.comment = comment
             self.dataType = dataType
             self.defaultValue = defaultValue
+            self.deprecationMessage = deprecationMessage
             self.description = description
             self.fullyQualifiedName = fullyQualifiedName
             self.max = max
@@ -673,12 +713,20 @@ extension BatchUpdateVehicleOutputResponseBody: Swift.Decodable {
 
 extension IoTFleetWiseClientTypes.Branch: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comment
+        case deprecationMessage
         case description
         case fullyQualifiedName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comment = self.comment {
+            try encodeContainer.encode(comment, forKey: .comment)
+        }
+        if let deprecationMessage = self.deprecationMessage {
+            try encodeContainer.encode(deprecationMessage, forKey: .deprecationMessage)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -693,12 +741,20 @@ extension IoTFleetWiseClientTypes.Branch: Swift.Codable {
         fullyQualifiedName = fullyQualifiedNameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let deprecationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deprecationMessage)
+        deprecationMessage = deprecationMessageDecoded
+        let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
+        comment = commentDecoded
     }
 }
 
 extension IoTFleetWiseClientTypes {
     /// A group of signals that are defined in a hierarchical structure.
     public struct Branch: Swift.Equatable {
+        /// A comment in addition to the description.
+        public var comment: Swift.String?
+        /// The deprecation message for the node or the branch that was moved or deleted.
+        public var deprecationMessage: Swift.String?
         /// A brief description of the branch.
         public var description: Swift.String?
         /// The fully qualified name of the branch. For example, the fully qualified name of a branch might be Vehicle.Body.Engine.
@@ -706,10 +762,14 @@ extension IoTFleetWiseClientTypes {
         public var fullyQualifiedName: Swift.String?
 
         public init(
+            comment: Swift.String? = nil,
+            deprecationMessage: Swift.String? = nil,
             description: Swift.String? = nil,
             fullyQualifiedName: Swift.String? = nil
         )
         {
+            self.comment = comment
+            self.deprecationMessage = deprecationMessage
             self.description = description
             self.fullyQualifiedName = fullyQualifiedName
         }
@@ -1088,10 +1148,10 @@ extension IoTFleetWiseClientTypes {
         public var messageId: Swift.Int
         /// The name of the signal.
         public var name: Swift.String?
-        /// Indicates where data appears in the CAN message.
+        /// The offset used to calculate the signal value. Combined with factor, the calculation is value = raw_value * factor + offset.
         /// This member is required.
         public var offset: Swift.Double?
-        /// Indicates the beginning of the CAN message.
+        /// Indicates the beginning of the CAN signal. This should always be the least significant bit (LSB). This value might be different from the value in a DBC file. For little endian signals, startBit is the same value as in the DBC file. For big endian signals in a DBC file, the start bit is the most significant bit (MSB). You will have to calculate the LSB instead and pass it as the startBit.
         /// This member is required.
         public var startBit: Swift.Int
 
@@ -1392,6 +1452,7 @@ extension CreateCampaignInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collectionScheme
         case compression
+        case dataDestinationConfigs
         case dataExtraDimensions
         case description
         case diagnosticsMode
@@ -1413,6 +1474,12 @@ extension CreateCampaignInput: Swift.Encodable {
         }
         if let compression = self.compression {
             try encodeContainer.encode(compression.rawValue, forKey: .compression)
+        }
+        if let dataDestinationConfigs = dataDestinationConfigs {
+            var dataDestinationConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataDestinationConfigs)
+            for datadestinationconfig0 in dataDestinationConfigs {
+                try dataDestinationConfigsContainer.encode(datadestinationconfig0)
+            }
         }
         if let dataExtraDimensions = dataExtraDimensions {
             var dataExtraDimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataExtraDimensions)
@@ -1474,13 +1541,15 @@ public struct CreateCampaignInput: Swift.Equatable {
     public var collectionScheme: IoTFleetWiseClientTypes.CollectionScheme?
     /// (Optional) Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used. Default: SNAPPY
     public var compression: IoTFleetWiseClientTypes.Compression?
+    /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+    public var dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]?
     /// (Optional) A list of vehicle attributes to associate with a campaign. Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
     public var dataExtraDimensions: [Swift.String]?
     /// An optional description of the campaign to help identify its purpose.
     public var description: Swift.String?
     /// (Optional) Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
     public var diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode?
-    /// (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign expires. Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
+    /// (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires. Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
     public var expiryTime: ClientRuntime.Date?
     /// The name of the campaign to create.
     /// This member is required.
@@ -1507,6 +1576,7 @@ public struct CreateCampaignInput: Swift.Equatable {
     public init(
         collectionScheme: IoTFleetWiseClientTypes.CollectionScheme? = nil,
         compression: IoTFleetWiseClientTypes.Compression? = nil,
+        dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]? = nil,
         dataExtraDimensions: [Swift.String]? = nil,
         description: Swift.String? = nil,
         diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode? = nil,
@@ -1524,6 +1594,7 @@ public struct CreateCampaignInput: Swift.Equatable {
     {
         self.collectionScheme = collectionScheme
         self.compression = compression
+        self.dataDestinationConfigs = dataDestinationConfigs
         self.dataExtraDimensions = dataExtraDimensions
         self.description = description
         self.diagnosticsMode = diagnosticsMode
@@ -1555,12 +1626,14 @@ struct CreateCampaignInputBody: Swift.Equatable {
     let collectionScheme: IoTFleetWiseClientTypes.CollectionScheme?
     let dataExtraDimensions: [Swift.String]?
     let tags: [IoTFleetWiseClientTypes.Tag]?
+    let dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]?
 }
 
 extension CreateCampaignInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collectionScheme
         case compression
+        case dataDestinationConfigs
         case dataExtraDimensions
         case description
         case diagnosticsMode
@@ -1632,6 +1705,17 @@ extension CreateCampaignInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let dataDestinationConfigsContainer = try containerValues.decodeIfPresent([IoTFleetWiseClientTypes.DataDestinationConfig?].self, forKey: .dataDestinationConfigs)
+        var dataDestinationConfigsDecoded0:[IoTFleetWiseClientTypes.DataDestinationConfig]? = nil
+        if let dataDestinationConfigsContainer = dataDestinationConfigsContainer {
+            dataDestinationConfigsDecoded0 = [IoTFleetWiseClientTypes.DataDestinationConfig]()
+            for union0 in dataDestinationConfigsContainer {
+                if let union0 = union0 {
+                    dataDestinationConfigsDecoded0?.append(union0)
+                }
+            }
+        }
+        dataDestinationConfigs = dataDestinationConfigsDecoded0
     }
 }
 
@@ -2516,7 +2600,7 @@ extension CreateVehicleInput: ClientRuntime.URLPathProvider {
 public struct CreateVehicleInput: Swift.Equatable {
     /// An option to create a new Amazon Web Services IoT thing when creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle. Default:
     public var associationBehavior: IoTFleetWiseClientTypes.VehicleAssociationBehavior?
-    /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"
+    /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" A campaign must include the keys (attribute names) in dataExtraDimensions for them to display in Amazon Timestream.
     public var attributes: [Swift.String:Swift.String]?
     /// The ARN of a decoder manifest.
     /// This member is required.
@@ -2840,6 +2924,85 @@ extension IoTFleetWiseClientTypes {
         }
     }
 
+}
+
+extension IoTFleetWiseClientTypes.DataDestinationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3config = "s3Config"
+        case sdkUnknown
+        case timestreamconfig = "timestreamConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .s3config(s3config):
+                try container.encode(s3config, forKey: .s3config)
+            case let .timestreamconfig(timestreamconfig):
+                try container.encode(timestreamconfig, forKey: .timestreamconfig)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let s3configDecoded = try values.decodeIfPresent(IoTFleetWiseClientTypes.S3Config.self, forKey: .s3config)
+        if let s3config = s3configDecoded {
+            self = .s3config(s3config)
+            return
+        }
+        let timestreamconfigDecoded = try values.decodeIfPresent(IoTFleetWiseClientTypes.TimestreamConfig.self, forKey: .timestreamconfig)
+        if let timestreamconfig = timestreamconfigDecoded {
+            self = .timestreamconfig(timestreamconfig)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// The destination where the Amazon Web Services IoT FleetWise campaign sends data. You can send data to be stored in Amazon S3 or Amazon Timestream.
+    public enum DataDestinationConfig: Swift.Equatable {
+        /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign sends data.
+        case s3config(IoTFleetWiseClientTypes.S3Config)
+        /// The Amazon Timestream table where the campaign sends data.
+        case timestreamconfig(IoTFleetWiseClientTypes.TimestreamConfig)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension IoTFleetWiseClientTypes {
+    public enum DataFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case json
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataFormat] {
+            return [
+                .json,
+                .parquet,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .parquet: return "PARQUET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataFormat(rawValue: rawValue) ?? DataFormat.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTFleetWiseClientTypes.DecoderManifestSummary: Swift.Codable {
@@ -3870,7 +4033,7 @@ extension IoTFleetWiseClientTypes.FormattedVss: Swift.Codable {
 }
 
 extension IoTFleetWiseClientTypes {
-    /// Vehicle Signal Specification (VSS) is a precise language used to describe and model signals in vehicle networks. The JSON file collects signal specificiations in a VSS format.
+    /// [Vehicle Signal Specification (VSS)](https://www.w3.org/auto/wg/wiki/Vehicle_Signal_Specification_(VSS)/Vehicle_Data_Spec) is a precise language used to describe and model signals in vehicle networks. The JSON file collects signal specificiations in a VSS format.
     public enum FormattedVss: Swift.Equatable {
         /// Provides the VSS in JSON format.
         case vssjson(Swift.String)
@@ -3938,6 +4101,7 @@ extension GetCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
             self.collectionScheme = output.collectionScheme
             self.compression = output.compression
             self.creationTime = output.creationTime
+            self.dataDestinationConfigs = output.dataDestinationConfigs
             self.dataExtraDimensions = output.dataExtraDimensions
             self.description = output.description
             self.diagnosticsMode = output.diagnosticsMode
@@ -3957,6 +4121,7 @@ extension GetCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
             self.collectionScheme = nil
             self.compression = nil
             self.creationTime = nil
+            self.dataDestinationConfigs = nil
             self.dataExtraDimensions = nil
             self.description = nil
             self.diagnosticsMode = nil
@@ -3984,6 +4149,8 @@ public struct GetCampaignOutputResponse: Swift.Equatable {
     public var compression: IoTFleetWiseClientTypes.Compression?
     /// The time the campaign was created in seconds since epoch (January 1, 1970 at midnight UTC time).
     public var creationTime: ClientRuntime.Date?
+    /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+    public var dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]?
     /// A list of vehicle attributes associated with the campaign.
     public var dataExtraDimensions: [Swift.String]?
     /// The description of the campaign.
@@ -4018,6 +4185,7 @@ public struct GetCampaignOutputResponse: Swift.Equatable {
         collectionScheme: IoTFleetWiseClientTypes.CollectionScheme? = nil,
         compression: IoTFleetWiseClientTypes.Compression? = nil,
         creationTime: ClientRuntime.Date? = nil,
+        dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]? = nil,
         dataExtraDimensions: [Swift.String]? = nil,
         description: Swift.String? = nil,
         diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode? = nil,
@@ -4038,6 +4206,7 @@ public struct GetCampaignOutputResponse: Swift.Equatable {
         self.collectionScheme = collectionScheme
         self.compression = compression
         self.creationTime = creationTime
+        self.dataDestinationConfigs = dataDestinationConfigs
         self.dataExtraDimensions = dataExtraDimensions
         self.description = description
         self.diagnosticsMode = diagnosticsMode
@@ -4074,6 +4243,7 @@ struct GetCampaignOutputResponseBody: Swift.Equatable {
     let dataExtraDimensions: [Swift.String]?
     let creationTime: ClientRuntime.Date?
     let lastModificationTime: ClientRuntime.Date?
+    let dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]?
 }
 
 extension GetCampaignOutputResponseBody: Swift.Decodable {
@@ -4082,6 +4252,7 @@ extension GetCampaignOutputResponseBody: Swift.Decodable {
         case collectionScheme
         case compression
         case creationTime
+        case dataDestinationConfigs
         case dataExtraDimensions
         case description
         case diagnosticsMode
@@ -4154,6 +4325,17 @@ extension GetCampaignOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModificationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModificationTime)
         lastModificationTime = lastModificationTimeDecoded
+        let dataDestinationConfigsContainer = try containerValues.decodeIfPresent([IoTFleetWiseClientTypes.DataDestinationConfig?].self, forKey: .dataDestinationConfigs)
+        var dataDestinationConfigsDecoded0:[IoTFleetWiseClientTypes.DataDestinationConfig]? = nil
+        if let dataDestinationConfigsContainer = dataDestinationConfigsContainer {
+            dataDestinationConfigsDecoded0 = [IoTFleetWiseClientTypes.DataDestinationConfig]()
+            for union0 in dataDestinationConfigsContainer {
+                if let union0 = union0 {
+                    dataDestinationConfigsDecoded0?.append(union0)
+                }
+            }
+        }
+        dataDestinationConfigs = dataDestinationConfigsDecoded0
     }
 }
 
@@ -4780,7 +4962,6 @@ public struct GetRegisterAccountStatusOutputResponse: Swift.Equatable {
     /// This member is required.
     public var lastModificationTime: ClientRuntime.Date?
     /// Information about the registered Amazon Timestream resources or errors, if any.
-    /// This member is required.
     public var timestreamRegistrationResponse: IoTFleetWiseClientTypes.TimestreamRegistrationResponse?
 
     public init(
@@ -8467,7 +8648,7 @@ extension IoTFleetWiseClientTypes {
         /// The length of a message.
         /// This member is required.
         public var byteLength: Swift.Int?
-        /// Indicates where data appears in the message.
+        /// The offset used to calculate the signal value. Combined with scaling, the calculation is value = raw_value * scaling + offset.
         /// This member is required.
         public var offset: Swift.Double?
         /// The diagnostic code used to request data from a vehicle for this signal.
@@ -8613,7 +8794,7 @@ public struct RegisterAccountInput: Swift.Equatable {
     @available(*, deprecated, message: "iamResources is no longer used or needed as input")
     public var iamResources: IoTFleetWiseClientTypes.IamResources?
     /// The registered Amazon Timestream resources that Amazon Web Services IoT FleetWise edge agent software can transfer your vehicle data to.
-    /// This member is required.
+    @available(*, deprecated, message: "Amazon Timestream metadata is now passed in the CreateCampaign API.")
     public var timestreamResources: IoTFleetWiseClientTypes.TimestreamResources?
 
     public init(
@@ -8696,7 +8877,6 @@ public struct RegisterAccountOutputResponse: Swift.Equatable {
     /// This member is required.
     public var registerAccountStatus: IoTFleetWiseClientTypes.RegistrationStatus?
     /// The registered Amazon Timestream resources that Amazon Web Services IoT FleetWise edge agent software can transfer your vehicle data to.
-    /// This member is required.
     public var timestreamResources: IoTFleetWiseClientTypes.TimestreamResources?
 
     public init(
@@ -8860,10 +9040,82 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension IoTFleetWiseClientTypes.S3Config: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketArn
+        case dataFormat
+        case `prefix` = "prefix"
+        case storageCompressionFormat
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketArn = self.bucketArn {
+            try encodeContainer.encode(bucketArn, forKey: .bucketArn)
+        }
+        if let dataFormat = self.dataFormat {
+            try encodeContainer.encode(dataFormat.rawValue, forKey: .dataFormat)
+        }
+        if let `prefix` = self.`prefix` {
+            try encodeContainer.encode(`prefix`, forKey: .`prefix`)
+        }
+        if let storageCompressionFormat = self.storageCompressionFormat {
+            try encodeContainer.encode(storageCompressionFormat.rawValue, forKey: .storageCompressionFormat)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketArn)
+        bucketArn = bucketArnDecoded
+        let dataFormatDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.DataFormat.self, forKey: .dataFormat)
+        dataFormat = dataFormatDecoded
+        let storageCompressionFormatDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.StorageCompressionFormat.self, forKey: .storageCompressionFormat)
+        storageCompressionFormat = storageCompressionFormatDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign sends data. Amazon S3 is an object storage service that stores data as objects within buckets. For more information, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon Simple Storage Service User Guide.
+    public struct S3Config: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
+        /// This member is required.
+        public var bucketArn: Swift.String?
+        /// Specify the format that files are saved in the Amazon S3 bucket. You can save files in an Apache Parquet or JSON format.
+        ///
+        /// * Parquet - Store data in a columnar storage file format. Parquet is optimal for fast data retrieval and can reduce costs. This option is selected by default.
+        ///
+        /// * JSON - Store data in a standard text-based JSON file format.
+        public var dataFormat: IoTFleetWiseClientTypes.DataFormat?
+        /// (Optional) Enter an S3 bucket prefix. The prefix is the string of characters after the bucket name and before the object name. You can use the prefix to organize data stored in Amazon S3 buckets. For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) in the Amazon Simple Storage Service User Guide. By default, Amazon Web Services IoT FleetWise sets the prefix processed-data/year=YY/month=MM/date=DD/hour=HH/ (in UTC) to data it delivers to Amazon S3. You can enter a prefix to append it to this default prefix. For example, if you enter the prefix vehicles, the prefix will be vehicles/processed-data/year=YY/month=MM/date=DD/hour=HH/.
+        public var `prefix`: Swift.String?
+        /// By default, stored data is compressed as a .gzip file. Compressed files have a reduced file size, which can optimize the cost of data storage.
+        public var storageCompressionFormat: IoTFleetWiseClientTypes.StorageCompressionFormat?
+
+        public init(
+            bucketArn: Swift.String? = nil,
+            dataFormat: IoTFleetWiseClientTypes.DataFormat? = nil,
+            `prefix`: Swift.String? = nil,
+            storageCompressionFormat: IoTFleetWiseClientTypes.StorageCompressionFormat? = nil
+        )
+        {
+            self.bucketArn = bucketArn
+            self.dataFormat = dataFormat
+            self.`prefix` = `prefix`
+            self.storageCompressionFormat = storageCompressionFormat
+        }
+    }
+
+}
+
 extension IoTFleetWiseClientTypes.Sensor: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowedValues
+        case comment
         case dataType
+        case deprecationMessage
         case description
         case fullyQualifiedName
         case max
@@ -8879,8 +9131,14 @@ extension IoTFleetWiseClientTypes.Sensor: Swift.Codable {
                 try allowedValuesContainer.encode(string0)
             }
         }
+        if let comment = self.comment {
+            try encodeContainer.encode(comment, forKey: .comment)
+        }
         if let dataType = self.dataType {
             try encodeContainer.encode(dataType.rawValue, forKey: .dataType)
+        }
+        if let deprecationMessage = self.deprecationMessage {
+            try encodeContainer.encode(deprecationMessage, forKey: .deprecationMessage)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -8924,6 +9182,10 @@ extension IoTFleetWiseClientTypes.Sensor: Swift.Codable {
         min = minDecoded
         let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max)
         max = maxDecoded
+        let deprecationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deprecationMessage)
+        deprecationMessage = deprecationMessageDecoded
+        let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
+        comment = commentDecoded
     }
 }
 
@@ -8932,9 +9194,13 @@ extension IoTFleetWiseClientTypes {
     public struct Sensor: Swift.Equatable {
         /// A list of possible values a sensor can take.
         public var allowedValues: [Swift.String]?
+        /// A comment in addition to the description.
+        public var comment: Swift.String?
         /// The specified data type of the sensor.
         /// This member is required.
         public var dataType: IoTFleetWiseClientTypes.NodeDataType?
+        /// The deprecation message for the node or the branch that was moved or deleted.
+        public var deprecationMessage: Swift.String?
         /// A brief description of a sensor.
         public var description: Swift.String?
         /// The fully qualified name of the sensor. For example, the fully qualified name of a sensor might be Vehicle.Body.Engine.Battery.
@@ -8949,7 +9215,9 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             allowedValues: [Swift.String]? = nil,
+            comment: Swift.String? = nil,
             dataType: IoTFleetWiseClientTypes.NodeDataType? = nil,
+            deprecationMessage: Swift.String? = nil,
             description: Swift.String? = nil,
             fullyQualifiedName: Swift.String? = nil,
             max: Swift.Double? = nil,
@@ -8958,7 +9226,9 @@ extension IoTFleetWiseClientTypes {
         )
         {
             self.allowedValues = allowedValues
+            self.comment = comment
             self.dataType = dataType
+            self.deprecationMessage = deprecationMessage
             self.description = description
             self.fullyQualifiedName = fullyQualifiedName
             self.max = max
@@ -9285,6 +9555,38 @@ extension IoTFleetWiseClientTypes {
     }
 }
 
+extension IoTFleetWiseClientTypes {
+    public enum StorageCompressionFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case gzip
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageCompressionFormat] {
+            return [
+                .gzip,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "GZIP"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StorageCompressionFormat(rawValue: rawValue) ?? StorageCompressionFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension IoTFleetWiseClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"
@@ -9547,6 +9849,53 @@ extension IoTFleetWiseClientTypes {
         )
         {
             self.periodMs = periodMs
+        }
+    }
+
+}
+
+extension IoTFleetWiseClientTypes.TimestreamConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionRoleArn
+        case timestreamTableArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executionRoleArn = self.executionRoleArn {
+            try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
+        }
+        if let timestreamTableArn = self.timestreamTableArn {
+            try encodeContainer.encode(timestreamTableArn, forKey: .timestreamTableArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timestreamTableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timestreamTableArn)
+        timestreamTableArn = timestreamTableArnDecoded
+        let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
+        executionRoleArn = executionRoleArnDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// The Amazon Timestream table where the Amazon Web Services IoT FleetWise campaign sends data. Timestream stores and organizes data to optimize query processing time and to reduce storage costs. For more information, see [Data modeling](https://docs.aws.amazon.com/timestream/latest/developerguide/data-modeling.html) in the Amazon Timestream Developer Guide.
+    public struct TimestreamConfig: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the task execution role that grants Amazon Web Services IoT FleetWise permission to deliver data to the Amazon Timestream table.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Timestream table.
+        /// This member is required.
+        public var timestreamTableArn: Swift.String?
+
+        public init(
+            executionRoleArn: Swift.String? = nil,
+            timestreamTableArn: Swift.String? = nil
+        )
+        {
+            self.executionRoleArn = executionRoleArn
+            self.timestreamTableArn = timestreamTableArn
         }
     }
 
@@ -9867,9 +10216,9 @@ public struct UpdateCampaignInput: Swift.Equatable {
     ///
     /// * APPROVE - To approve delivering a data collection scheme to vehicles.
     ///
-    /// * SUSPEND - To suspend collecting signal data.
+    /// * SUSPEND - To suspend collecting signal data. The campaign is deleted from vehicles and all vehicles in the suspended campaign will stop sending data.
     ///
-    /// * RESUME - To resume collecting signal data.
+    /// * RESUME - To reactivate the SUSPEND campaign. The campaign is redeployed to all vehicles and the vehicles will resume sending data.
     ///
     /// * UPDATE - To update a campaign.
     /// This member is required.

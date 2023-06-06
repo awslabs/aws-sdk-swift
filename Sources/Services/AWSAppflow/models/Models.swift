@@ -956,6 +956,8 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
         case registeredAt
         case registeredBy
         case supportedApiVersions
+        case supportedDataTransferApis
+        case supportedDataTransferTypes
         case supportedDestinationConnectors
         case supportedOperators
         case supportedSchedulingFrequencies
@@ -1035,6 +1037,18 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
             var supportedApiVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedApiVersions)
             for supportedapiversion0 in supportedApiVersions {
                 try supportedApiVersionsContainer.encode(supportedapiversion0)
+            }
+        }
+        if let supportedDataTransferApis = supportedDataTransferApis {
+            var supportedDataTransferApisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDataTransferApis)
+            for datatransferapi0 in supportedDataTransferApis {
+                try supportedDataTransferApisContainer.encode(datatransferapi0)
+            }
+        }
+        if let supportedDataTransferTypes = supportedDataTransferTypes {
+            var supportedDataTransferTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDataTransferTypes)
+            for supporteddatatransfertype0 in supportedDataTransferTypes {
+                try supportedDataTransferTypesContainer.encode(supporteddatatransfertype0.rawValue)
             }
         }
         if let supportedDestinationConnectors = supportedDestinationConnectors {
@@ -1195,6 +1209,28 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
         registeredAt = registeredAtDecoded
         let registeredByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registeredBy)
         registeredBy = registeredByDecoded
+        let supportedDataTransferTypesContainer = try containerValues.decodeIfPresent([AppflowClientTypes.SupportedDataTransferType?].self, forKey: .supportedDataTransferTypes)
+        var supportedDataTransferTypesDecoded0:[AppflowClientTypes.SupportedDataTransferType]? = nil
+        if let supportedDataTransferTypesContainer = supportedDataTransferTypesContainer {
+            supportedDataTransferTypesDecoded0 = [AppflowClientTypes.SupportedDataTransferType]()
+            for enum0 in supportedDataTransferTypesContainer {
+                if let enum0 = enum0 {
+                    supportedDataTransferTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        supportedDataTransferTypes = supportedDataTransferTypesDecoded0
+        let supportedDataTransferApisContainer = try containerValues.decodeIfPresent([AppflowClientTypes.DataTransferApi?].self, forKey: .supportedDataTransferApis)
+        var supportedDataTransferApisDecoded0:[AppflowClientTypes.DataTransferApi]? = nil
+        if let supportedDataTransferApisContainer = supportedDataTransferApisContainer {
+            supportedDataTransferApisDecoded0 = [AppflowClientTypes.DataTransferApi]()
+            for structure0 in supportedDataTransferApisContainer {
+                if let structure0 = structure0 {
+                    supportedDataTransferApisDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportedDataTransferApis = supportedDataTransferApisDecoded0
     }
 }
 
@@ -1243,6 +1279,10 @@ extension AppflowClientTypes {
         public var registeredBy: Swift.String?
         /// A list of API versions that are supported by the connector.
         public var supportedApiVersions: [Swift.String]?
+        /// The APIs of the connector application that Amazon AppFlow can use to transfer your data.
+        public var supportedDataTransferApis: [AppflowClientTypes.DataTransferApi]?
+        /// The data transfer types that the connector supports. RECORD Structured records. FILE Files or binary data.
+        public var supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]?
         /// Lists the connectors that are available for use as destinations.
         public var supportedDestinationConnectors: [AppflowClientTypes.ConnectorType]?
         /// A list of operators supported by the connector.
@@ -1276,6 +1316,8 @@ extension AppflowClientTypes {
             registeredAt: ClientRuntime.Date? = nil,
             registeredBy: Swift.String? = nil,
             supportedApiVersions: [Swift.String]? = nil,
+            supportedDataTransferApis: [AppflowClientTypes.DataTransferApi]? = nil,
+            supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]? = nil,
             supportedDestinationConnectors: [AppflowClientTypes.ConnectorType]? = nil,
             supportedOperators: [AppflowClientTypes.Operators]? = nil,
             supportedSchedulingFrequencies: [AppflowClientTypes.ScheduleFrequencyType]? = nil,
@@ -1304,6 +1346,8 @@ extension AppflowClientTypes {
             self.registeredAt = registeredAt
             self.registeredBy = registeredBy
             self.supportedApiVersions = supportedApiVersions
+            self.supportedDataTransferApis = supportedDataTransferApis
+            self.supportedDataTransferTypes = supportedDataTransferTypes
             self.supportedDestinationConnectors = supportedDestinationConnectors
             self.supportedOperators = supportedOperators
             self.supportedSchedulingFrequencies = supportedSchedulingFrequencies
@@ -1327,6 +1371,7 @@ extension AppflowClientTypes.ConnectorDetail: Swift.Codable {
         case connectorVersion
         case registeredAt
         case registeredBy
+        case supportedDataTransferTypes
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1367,6 +1412,12 @@ extension AppflowClientTypes.ConnectorDetail: Swift.Codable {
         if let registeredBy = self.registeredBy {
             try encodeContainer.encode(registeredBy, forKey: .registeredBy)
         }
+        if let supportedDataTransferTypes = supportedDataTransferTypes {
+            var supportedDataTransferTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDataTransferTypes)
+            for supporteddatatransfertype0 in supportedDataTransferTypes {
+                try supportedDataTransferTypesContainer.encode(supporteddatatransfertype0.rawValue)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1402,6 +1453,17 @@ extension AppflowClientTypes.ConnectorDetail: Swift.Codable {
             }
         }
         connectorModes = connectorModesDecoded0
+        let supportedDataTransferTypesContainer = try containerValues.decodeIfPresent([AppflowClientTypes.SupportedDataTransferType?].self, forKey: .supportedDataTransferTypes)
+        var supportedDataTransferTypesDecoded0:[AppflowClientTypes.SupportedDataTransferType]? = nil
+        if let supportedDataTransferTypesContainer = supportedDataTransferTypesContainer {
+            supportedDataTransferTypesDecoded0 = [AppflowClientTypes.SupportedDataTransferType]()
+            for enum0 in supportedDataTransferTypesContainer {
+                if let enum0 = enum0 {
+                    supportedDataTransferTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        supportedDataTransferTypes = supportedDataTransferTypesDecoded0
     }
 }
 
@@ -1430,6 +1492,8 @@ extension AppflowClientTypes {
         public var registeredAt: ClientRuntime.Date?
         /// The user who registered the connector.
         public var registeredBy: Swift.String?
+        /// The data transfer types that the connector supports. RECORD Structured records. FILE Files or binary data.
+        public var supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]?
 
         public init(
             applicationType: Swift.String? = nil,
@@ -1442,7 +1506,8 @@ extension AppflowClientTypes {
             connectorType: AppflowClientTypes.ConnectorType? = nil,
             connectorVersion: Swift.String? = nil,
             registeredAt: ClientRuntime.Date? = nil,
-            registeredBy: Swift.String? = nil
+            registeredBy: Swift.String? = nil,
+            supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]? = nil
         )
         {
             self.applicationType = applicationType
@@ -1456,6 +1521,7 @@ extension AppflowClientTypes {
             self.connectorVersion = connectorVersion
             self.registeredAt = registeredAt
             self.registeredBy = registeredBy
+            self.supportedDataTransferTypes = supportedDataTransferTypes
         }
     }
 
@@ -3868,6 +3934,7 @@ extension AppflowClientTypes {
 extension AppflowClientTypes.CustomConnectorSourceProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customProperties
+        case dataTransferApi
         case entityName
     }
 
@@ -3878,6 +3945,9 @@ extension AppflowClientTypes.CustomConnectorSourceProperties: Swift.Codable {
             for (dictKey0, customProperties0) in customProperties {
                 try customPropertiesContainer.encode(customProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let dataTransferApi = self.dataTransferApi {
+            try encodeContainer.encode(dataTransferApi, forKey: .dataTransferApi)
         }
         if let entityName = self.entityName {
             try encodeContainer.encode(entityName, forKey: .entityName)
@@ -3899,6 +3969,8 @@ extension AppflowClientTypes.CustomConnectorSourceProperties: Swift.Codable {
             }
         }
         customProperties = customPropertiesDecoded0
+        let dataTransferApiDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.DataTransferApi.self, forKey: .dataTransferApi)
+        dataTransferApi = dataTransferApiDecoded
     }
 }
 
@@ -3907,16 +3979,20 @@ extension AppflowClientTypes {
     public struct CustomConnectorSourceProperties: Swift.Equatable {
         /// Custom properties that are required to use the custom connector as a source.
         public var customProperties: [Swift.String:Swift.String]?
+        /// The API of the connector application that Amazon AppFlow uses to transfer your data.
+        public var dataTransferApi: AppflowClientTypes.DataTransferApi?
         /// The entity specified in the custom connector as a source in the flow.
         /// This member is required.
         public var entityName: Swift.String?
 
         public init(
             customProperties: [Swift.String:Swift.String]? = nil,
+            dataTransferApi: AppflowClientTypes.DataTransferApi? = nil,
             entityName: Swift.String? = nil
         )
         {
             self.customProperties = customProperties
+            self.dataTransferApi = dataTransferApi
             self.entityName = entityName
         }
     }
@@ -4017,6 +4093,86 @@ extension AppflowClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DataPullMode(rawValue: rawValue) ?? DataPullMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppflowClientTypes.DataTransferApi: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.DataTransferApiType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// The API of the connector application that Amazon AppFlow uses to transfer your data.
+    public struct DataTransferApi: Swift.Equatable {
+        /// The name of the connector application API.
+        public var name: Swift.String?
+        /// You can specify one of the following types: AUTOMATIC The default. Optimizes a flow for datasets that fluctuate in size from small to large. For each flow run, Amazon AppFlow chooses to use the SYNC or ASYNC API type based on the amount of data that the run transfers. SYNC A synchronous API. This type of API optimizes a flow for small to medium-sized datasets. ASYNC An asynchronous API. This type of API optimizes a flow for large datasets.
+        public var type: AppflowClientTypes.DataTransferApiType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: AppflowClientTypes.DataTransferApiType? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension AppflowClientTypes {
+    public enum DataTransferApiType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case async
+        case automatic
+        case sync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataTransferApiType] {
+            return [
+                .async,
+                .automatic,
+                .sync,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .async: return "ASYNC"
+            case .automatic: return "AUTOMATIC"
+            case .sync: return "SYNC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataTransferApiType(rawValue: rawValue) ?? DataTransferApiType.sdkUnknown(rawValue)
         }
     }
 }
@@ -13615,6 +13771,38 @@ extension AppflowClientTypes {
         }
     }
 
+}
+
+extension AppflowClientTypes {
+    public enum SupportedDataTransferType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case file
+        case record
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportedDataTransferType] {
+            return [
+                .file,
+                .record,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .file: return "FILE"
+            case .record: return "RECORD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SupportedDataTransferType(rawValue: rawValue) ?? SupportedDataTransferType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AppflowClientTypes.SupportedFieldTypeDetails: Swift.Codable {

@@ -581,12 +581,14 @@ extension MemoryDBClientTypes {
 
 extension MemoryDBClientTypes {
     public enum AuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case iam
         case noPassword
         case password
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthenticationType] {
             return [
+                .iam,
                 .noPassword,
                 .password,
                 .sdkUnknown("")
@@ -598,6 +600,7 @@ extension MemoryDBClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .iam: return "iam"
             case .noPassword: return "no-password"
             case .password: return "password"
             case let .sdkUnknown(s): return s
@@ -3907,7 +3910,7 @@ extension DescribeEngineVersionsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if defaultOnly != false {
+        if let defaultOnly = self.defaultOnly {
             try encodeContainer.encode(defaultOnly, forKey: .defaultOnly)
         }
         if let engineVersion = self.engineVersion {
@@ -3933,7 +3936,7 @@ extension DescribeEngineVersionsInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeEngineVersionsInput: Swift.Equatable {
     /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
-    public var defaultOnly: Swift.Bool
+    public var defaultOnly: Swift.Bool?
     /// The Redis engine version
     public var engineVersion: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -3944,7 +3947,7 @@ public struct DescribeEngineVersionsInput: Swift.Equatable {
     public var parameterGroupFamily: Swift.String?
 
     public init(
-        defaultOnly: Swift.Bool = false,
+        defaultOnly: Swift.Bool? = nil,
         engineVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -3964,7 +3967,7 @@ struct DescribeEngineVersionsInputBody: Swift.Equatable {
     let parameterGroupFamily: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
-    let defaultOnly: Swift.Bool
+    let defaultOnly: Swift.Bool?
 }
 
 extension DescribeEngineVersionsInputBody: Swift.Decodable {
@@ -3986,7 +3989,7 @@ extension DescribeEngineVersionsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly)
         defaultOnly = defaultOnlyDecoded
     }
 }
@@ -5993,11 +5996,13 @@ extension MemoryDBClientTypes {
 
 extension MemoryDBClientTypes {
     public enum InputAuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case iam
         case password
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InputAuthenticationType] {
             return [
+                .iam,
                 .password,
                 .sdkUnknown("")
             ]
@@ -6008,6 +6013,7 @@ extension MemoryDBClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .iam: return "iam"
             case .password: return "password"
             case let .sdkUnknown(s): return s
             }
@@ -8387,7 +8393,7 @@ extension ResetParameterGroupInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allParameters != false {
+        if let allParameters = self.allParameters {
             try encodeContainer.encode(allParameters, forKey: .allParameters)
         }
         if let parameterGroupName = self.parameterGroupName {
@@ -8410,7 +8416,7 @@ extension ResetParameterGroupInput: ClientRuntime.URLPathProvider {
 
 public struct ResetParameterGroupInput: Swift.Equatable {
     /// If true, all parameters in the parameter group are reset to their default values. If false, only the parameters listed by ParameterNames are reset to their default values.
-    public var allParameters: Swift.Bool
+    public var allParameters: Swift.Bool?
     /// The name of the parameter group to reset.
     /// This member is required.
     public var parameterGroupName: Swift.String?
@@ -8418,7 +8424,7 @@ public struct ResetParameterGroupInput: Swift.Equatable {
     public var parameterNames: [Swift.String]?
 
     public init(
-        allParameters: Swift.Bool = false,
+        allParameters: Swift.Bool? = nil,
         parameterGroupName: Swift.String? = nil,
         parameterNames: [Swift.String]? = nil
     )
@@ -8431,7 +8437,7 @@ public struct ResetParameterGroupInput: Swift.Equatable {
 
 struct ResetParameterGroupInputBody: Swift.Equatable {
     let parameterGroupName: Swift.String?
-    let allParameters: Swift.Bool
+    let allParameters: Swift.Bool?
     let parameterNames: [Swift.String]?
 }
 
@@ -8446,7 +8452,7 @@ extension ResetParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterGroupName)
         parameterGroupName = parameterGroupNameDecoded
-        let allParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allParameters) ?? false
+        let allParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allParameters)
         allParameters = allParametersDecoded
         let parameterNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .parameterNames)
         var parameterNamesDecoded0:[Swift.String]? = nil

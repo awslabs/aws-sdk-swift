@@ -2770,6 +2770,76 @@ extension AthenaClientTypes {
 
 }
 
+extension DeleteCapacityReservationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension DeleteCapacityReservationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteCapacityReservationInput: Swift.Equatable {
+    /// The name of the capacity reservation to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DeleteCapacityReservationInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension DeleteCapacityReservationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+public enum DeleteCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCapacityReservationOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DeleteDataCatalogInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -8837,7 +8907,7 @@ extension AthenaClientTypes {
     public struct QueryExecution: Swift.Equatable {
         /// The engine version that executed the query.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
+        /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur. The list of parameters is not returned in the response.
         public var executionParameters: [Swift.String]?
         /// The SQL query statements which the query execution ran.
         public var query: Swift.String?

@@ -5601,7 +5601,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     /// A value that indicates whether the DB cluster is encrypted. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageEncrypted: Swift.Bool?
-    /// Specifies the storage type to be associated with the DB cluster. This setting is required to create a Multi-AZ DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies the storage type to be associated with the DB cluster. This setting is required to create a Multi-AZ DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters For more information on storage types for Aurora DB clusters, see [Storage configurations for Amazon Aurora DB clusters](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html#aurora-storage-type). For more information on storage types for Multi-AZ DB clusters, see [Settings for creating Multi-AZ DB clusters](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/create-multi-az-db-cluster.html#create-multi-az-db-cluster-settings).
     public var storageType: Swift.String?
     /// Tags to assign to the DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var tags: [RDSClientTypes.Tag]?
@@ -36035,6 +36035,9 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         if let enablePerformanceInsights = enablePerformanceInsights {
             try container.encode(enablePerformanceInsights, forKey: ClientRuntime.Key("EnablePerformanceInsights"))
         }
+        if let engine = engine {
+            try container.encode(engine, forKey: ClientRuntime.Key("Engine"))
+        }
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
@@ -36226,6 +36229,23 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var enableIAMDatabaseAuthentication: Swift.Bool?
     /// A value that indicates whether to enable Performance Insights for the DB instance. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enablePerformanceInsights: Swift.Bool?
+    /// The target Oracle DB engine when you convert a non-CDB to a CDB. This intermediate step is necessary to upgrade an Oracle Database 19c non-CDB to an Oracle Database 21c CDB. Note the following requirements:
+    ///
+    /// * Make sure that you specify oracle-ee-cdb or oracle-se2-cdb.
+    ///
+    /// * Make sure that your DB engine runs Oracle Database 19c with an April 2021 or later RU.
+    ///
+    ///
+    /// Note the following limitations:
+    ///
+    /// * You can't convert a CDB to a non-CDB.
+    ///
+    /// * You can't convert a replica database.
+    ///
+    /// * You can't convert a non-CDB to a CDB and upgrade the engine version in the same command.
+    ///
+    /// * You can't convert the existing custom parameter or option group when it has options or parameters that are permanent or persistent. In this situation, the DB instance reverts to the default option and parameter group. To avoid reverting to the default, specify a new parameter group with --db-parameter-group-name and a new option group with --option-group-name.
+    public var engine: Swift.String?
     /// The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. If you specify only a major version, Amazon RDS will update the DB instance to the default minor version if the current minor version is lower. For information about valid engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. If the instance that you're modifying is acting as a read replica, the engine version that you specify must be the same or later than the version that the source DB instance or cluster is running. In RDS Custom for Oracle, this parameter is supported for read replicas only if they are in the PATCH_DB_FAILURE lifecycle.
     public var engineVersion: Swift.String?
     /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Default: Uses existing setting
@@ -36366,6 +36386,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         enableCustomerOwnedIp: Swift.Bool? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
+        engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
@@ -36420,6 +36441,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         self.enableCustomerOwnedIp = enableCustomerOwnedIp
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.enablePerformanceInsights = enablePerformanceInsights
+        self.engine = engine
         self.engineVersion = engineVersion
         self.iops = iops
         self.licenseModel = licenseModel
@@ -36505,6 +36527,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let manageMasterUserPassword: Swift.Bool?
     let rotateMasterUserPassword: Swift.Bool?
     let masterUserSecretKmsKeyId: Swift.String?
+    let engine: Swift.String?
 }
 
 extension ModifyDBInstanceInputBody: Swift.Decodable {
@@ -36532,6 +36555,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
         case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
         case enablePerformanceInsights = "EnablePerformanceInsights"
+        case engine = "Engine"
         case engineVersion = "EngineVersion"
         case iops = "Iops"
         case licenseModel = "LicenseModel"
@@ -36720,6 +36744,8 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         rotateMasterUserPassword = rotateMasterUserPasswordDecoded
         let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
         masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
     }
 }
 
@@ -37661,10 +37687,6 @@ public struct ModifyDBSnapshotInput: Swift.Equatable {
     ///
     ///
     /// Oracle
-    ///
-    /// * 19.0.0.0.ru-2022-01.rur-2022-01.r1 (supported for 12.2.0.1 DB snapshots)
-    ///
-    /// * 19.0.0.0.ru-2022-07.rur-2022-07.r1 (supported for 12.1.0.2 DB snapshots)
     ///
     /// * 12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)
     ///
@@ -40688,6 +40710,7 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         case dbInstanceClass = "DBInstanceClass"
         case dbInstanceIdentifier = "DBInstanceIdentifier"
         case dbSubnetGroupName = "DBSubnetGroupName"
+        case engine = "Engine"
         case engineVersion = "EngineVersion"
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
         case iops = "Iops"
@@ -40724,6 +40747,9 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         }
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
+        }
+        if let engine = engine {
+            try container.encode(engine, forKey: ClientRuntime.Key("Engine"))
         }
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
@@ -40829,6 +40855,8 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         resumeFullAutomationModeTime = resumeFullAutomationModeTimeDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
     }
 }
 
@@ -40849,6 +40877,8 @@ extension RDSClientTypes {
         public var dbInstanceIdentifier: Swift.String?
         /// The DB subnet group for the DB instance.
         public var dbSubnetGroupName: Swift.String?
+        /// The database engine of the DB instance.
+        public var engine: Swift.String?
         /// The database engine version.
         public var engineVersion: Swift.String?
         /// Whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
@@ -40882,6 +40912,7 @@ extension RDSClientTypes {
             dbInstanceClass: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbSubnetGroupName: Swift.String? = nil,
+            engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             iops: Swift.Int? = nil,
@@ -40903,6 +40934,7 @@ extension RDSClientTypes {
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
+            self.engine = engine
             self.engineVersion = engineVersion
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.iops = iops

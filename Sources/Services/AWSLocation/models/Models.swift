@@ -4025,6 +4025,7 @@ public enum CreateTrackerOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -6613,7 +6614,7 @@ public struct GetMapGlyphsInput: Swift.Equatable {
     ///
     /// Valid font stacks for [Open Data](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html) styles:
     ///
-    /// * VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold
+    /// * VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium
     ///
     ///
     /// The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans for glyphs unsupported by Amazon Ember.
@@ -9656,11 +9657,15 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.MapConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case politicalView = "PoliticalView"
         case style = "Style"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let politicalView = self.politicalView {
+            try encodeContainer.encode(politicalView, forKey: .politicalView)
+        }
         if let style = self.style {
             try encodeContainer.encode(style, forKey: .style)
         }
@@ -9670,12 +9675,16 @@ extension LocationClientTypes.MapConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let styleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .style)
         style = styleDecoded
+        let politicalViewDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .politicalView)
+        politicalView = politicalViewDecoded
     }
 }
 
 extension LocationClientTypes {
     /// Specifies the map tile style selected from an available provider.
     public struct MapConfiguration: Swift.Equatable {
+        /// Specifies the political view for the style. Leave unset to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Default is unset. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views) for more information.
+        public var politicalView: Swift.String?
         /// Specifies the map style selected from an available data provider. Valid [Esri map styles](https://docs.aws.amazon.com/location/latest/developerguide/esri.html):
         ///
         /// * VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.
@@ -9686,9 +9695,9 @@ extension LocationClientTypes {
         ///
         /// * VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.
         ///
-        /// * VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.
+        /// * VectorEsriStreets – The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.
         ///
-        /// * VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.
+        /// * VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.
         ///
         ///
         /// Valid [HERE Technologies map styles](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html):
@@ -9724,10 +9733,47 @@ extension LocationClientTypes {
         public var style: Swift.String?
 
         public init(
+            politicalView: Swift.String? = nil,
             style: Swift.String? = nil
         )
         {
+            self.politicalView = politicalView
             self.style = style
+        }
+    }
+
+}
+
+extension LocationClientTypes.MapConfigurationUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case politicalView = "PoliticalView"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let politicalView = self.politicalView {
+            try encodeContainer.encode(politicalView, forKey: .politicalView)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let politicalViewDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .politicalView)
+        politicalView = politicalViewDecoded
+    }
+}
+
+extension LocationClientTypes {
+    /// Specifies the political view for the style.
+    public struct MapConfigurationUpdate: Swift.Equatable {
+        /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views) for more information.
+        public var politicalView: Swift.String?
+
+        public init(
+            politicalView: Swift.String? = nil
+        )
+        {
+            self.politicalView = politicalView
         }
     }
 
@@ -12661,12 +12707,16 @@ extension UpdateKeyOutputResponseBody: Swift.Decodable {
 
 extension UpdateMapInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationUpdate = "ConfigurationUpdate"
         case description = "Description"
         case pricingPlan = "PricingPlan"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationUpdate = self.configurationUpdate {
+            try encodeContainer.encode(configurationUpdate, forKey: .configurationUpdate)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -12686,6 +12736,8 @@ extension UpdateMapInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateMapInput: Swift.Equatable {
+    /// Updates the parts of the map configuration that can be updated, including the political view.
+    public var configurationUpdate: LocationClientTypes.MapConfigurationUpdate?
     /// Updates the description for the map resource.
     public var description: Swift.String?
     /// The name of the map resource to update.
@@ -12696,11 +12748,13 @@ public struct UpdateMapInput: Swift.Equatable {
     public var pricingPlan: LocationClientTypes.PricingPlan?
 
     public init(
+        configurationUpdate: LocationClientTypes.MapConfigurationUpdate? = nil,
         description: Swift.String? = nil,
         mapName: Swift.String? = nil,
         pricingPlan: LocationClientTypes.PricingPlan? = nil
     )
     {
+        self.configurationUpdate = configurationUpdate
         self.description = description
         self.mapName = mapName
         self.pricingPlan = pricingPlan
@@ -12710,10 +12764,12 @@ public struct UpdateMapInput: Swift.Equatable {
 struct UpdateMapInputBody: Swift.Equatable {
     let pricingPlan: LocationClientTypes.PricingPlan?
     let description: Swift.String?
+    let configurationUpdate: LocationClientTypes.MapConfigurationUpdate?
 }
 
 extension UpdateMapInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationUpdate = "ConfigurationUpdate"
         case description = "Description"
         case pricingPlan = "PricingPlan"
     }
@@ -12724,6 +12780,8 @@ extension UpdateMapInputBody: Swift.Decodable {
         pricingPlan = pricingPlanDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let configurationUpdateDecoded = try containerValues.decodeIfPresent(LocationClientTypes.MapConfigurationUpdate.self, forKey: .configurationUpdate)
+        configurationUpdate = configurationUpdateDecoded
     }
 }
 

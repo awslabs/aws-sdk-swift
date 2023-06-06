@@ -40,7 +40,7 @@ extension CodePipelineClientTypes.AWSSessionCredentials: Swift.CustomDebugString
 }
 
 extension CodePipelineClientTypes {
-    /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifact for the pipeline in AWS CodePipeline.
+    /// Represents an Amazon Web Services session credentials object. These credentials are temporary credentials that are issued by Amazon Web Services Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifact for the pipeline in CodePipeline.
     public struct AWSSessionCredentials: Swift.Equatable {
         /// The access key for the session.
         /// This member is required.
@@ -94,7 +94,7 @@ public struct AcknowledgeJobInput: Swift.Equatable {
     /// The unique system-generated ID of the job for which you want to confirm receipt.
     /// This member is required.
     public var jobId: Swift.String?
-    /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the [PollForJobs] request that returned this job.
+    /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the [PollForJobs] request that returned this job.
     /// This member is required.
     public var nonce: Swift.String?
 
@@ -217,7 +217,7 @@ public struct AcknowledgeThirdPartyJobInput: Swift.Equatable {
     /// The unique system-generated ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
-    /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a [GetThirdPartyJobDetails] request.
+    /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a [GetThirdPartyJobDetails] request.
     /// This member is required.
     public var nonce: Swift.String?
 
@@ -691,7 +691,7 @@ extension CodePipelineClientTypes {
         /// Specifies the action type and the provider of the action.
         /// This member is required.
         public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
-        /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see [Action Structure Requirements in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements). For the list of configuration properties for the AWS CloudFormation action type in CodePipeline, see [Configuration Properties Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html) in the AWS CloudFormation User Guide. For template snippets with examples, see [Using Parameter Override Functions with CodePipeline Pipelines](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html) in the AWS CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows: JSON: "Configuration" : { Key : Value },
+        /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see [Action Structure Requirements in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements). For the list of configuration properties for the CloudFormation action type in CodePipeline, see [Configuration Properties Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html) in the CloudFormation User Guide. For template snippets with examples, see [Using Parameter Override Functions with CodePipeline Pipelines](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html) in the CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows: JSON: "Configuration" : { Key : Value },
         public var configuration: [Swift.String:Swift.String]?
         /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
         public var inputArtifacts: [CodePipelineClientTypes.InputArtifact]?
@@ -702,7 +702,7 @@ extension CodePipelineClientTypes {
         public var namespace: Swift.String?
         /// The name or ID of the result of the action declaration, such as a test or build artifact.
         public var outputArtifacts: [CodePipelineClientTypes.OutputArtifact]?
-        /// The action declaration's AWS Region, such as us-east-1.
+        /// The action declaration's Amazon Web Services Region, such as us-east-1.
         public var region: Swift.String?
         /// The ARN of the IAM service role that performs the declared action. This is assumed through the roleArn for the pipeline.
         public var roleArn: Swift.String?
@@ -813,11 +813,11 @@ extension CodePipelineClientTypes {
     public struct ActionExecution: Swift.Equatable {
         /// ID of the workflow action execution in the current stage. Use the [GetPipelineState] action to retrieve the current action execution details of the current stage. For older executions, this field might be empty. The action execution ID is available for executions run on or after March 2020.
         public var actionExecutionId: Swift.String?
-        /// The details of an error returned by a URL external to AWS.
+        /// The details of an error returned by a URL external to Amazon Web Services.
         public var errorDetails: CodePipelineClientTypes.ErrorDetails?
         /// The external ID of the run of the action.
         public var externalExecutionId: Swift.String?
-        /// The URL of a resource external to AWS that is used when running the action (for example, an external repository URL).
+        /// The URL of a resource external to Amazon Web Services that is used when running the action (for example, an external repository URL).
         public var externalExecutionUrl: Swift.String?
         /// The last status change of the action.
         public var lastStatusChange: ClientRuntime.Date?
@@ -1122,7 +1122,7 @@ extension CodePipelineClientTypes {
         public var inputArtifacts: [CodePipelineClientTypes.ArtifactDetail]?
         /// The variable namespace associated with the action. All variables produced as output by this action fall under this namespace.
         public var namespace: Swift.String?
-        /// The AWS Region for the action, such as us-east-1.
+        /// The Amazon Web Services Region for the action, such as us-east-1.
         public var region: Swift.String?
         /// Configuration data for an action execution with all variable references replaced with their real values for the execution.
         public var resolvedConfiguration: [Swift.String:Swift.String]?
@@ -1850,7 +1850,7 @@ extension CodePipelineClientTypes {
         public var configuration: CodePipelineClientTypes.ExecutorConfiguration?
         /// The timeout in seconds for the job. An action execution can have multiple jobs. This is the timeout for a single job, not the entire action execution.
         public var jobTimeout: Swift.Int?
-        /// The policy statement that specifies the permissions in the CodePipeline customer’s account that are needed to successfully run an action. To grant permission to another account, specify the account ID as the Principal, a domain-style identifier defined by the service, for example codepipeline.amazonaws.com. The size of the passed JSON policy document cannot exceed 2048 characters.
+        /// The policy statement that specifies the permissions in the CodePipeline customer account that are needed to successfully run an action. To grant permission to another account, specify the account ID as the Principal, a domain-style identifier defined by the service, for example codepipeline.amazonaws.com. The size of the passed JSON policy document cannot exceed 2048 characters.
         public var policyStatementsTemplate: Swift.String?
         /// The integration model used to create and update the action type, Lambda or JobWorker.
         /// This member is required.
@@ -1930,7 +1930,7 @@ extension CodePipelineClientTypes {
         /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see [Valid Action Types and Providers in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
         /// This member is required.
         public var owner: CodePipelineClientTypes.ActionOwner?
-        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy. For more information, see [Valid Action Types and Providers in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
+        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of CodeDeploy, which would be specified as CodeDeploy. For more information, see [Valid Action Types and Providers in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
         /// This member is required.
         public var provider: Swift.String?
         /// A string that describes the action version.
@@ -2124,7 +2124,7 @@ extension CodePipelineClientTypes.ActionTypePermissions: Swift.Codable {
 extension CodePipelineClientTypes {
     /// Details identifying the users with permissions to use the action type.
     public struct ActionTypePermissions: Swift.Equatable {
-        /// A list of AWS account IDs with access to use the action type in their pipelines.
+        /// A list of Amazon Web Services account IDs with access to use the action type in their pipelines.
         /// This member is required.
         public var allowedAccounts: [Swift.String]?
 
@@ -2267,11 +2267,11 @@ extension CodePipelineClientTypes.ActionTypeSettings: Swift.Codable {
 extension CodePipelineClientTypes {
     /// Returns information about the settings for an action type.
     public struct ActionTypeSettings: Swift.Equatable {
-        /// The URL returned to the AWS CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for an AWS CodeDeploy deployment group. This link is provided as part of the action display in the pipeline.
+        /// The URL returned to the CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for a CodeDeploy deployment group. This link is provided as part of the action display in the pipeline.
         public var entityUrlTemplate: Swift.String?
-        /// The URL returned to the AWS CodePipeline console that contains a link to the top-level landing page for the external system, such as the console page for AWS CodeDeploy. This link is shown on the pipeline view page in the AWS CodePipeline console and provides a link to the execution entity of the external action.
+        /// The URL returned to the CodePipeline console that contains a link to the top-level landing page for the external system, such as the console page for CodeDeploy. This link is shown on the pipeline view page in the CodePipeline console and provides a link to the execution entity of the external action.
         public var executionUrlTemplate: Swift.String?
-        /// The URL returned to the AWS CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
+        /// The URL returned to the CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
         public var revisionUrlTemplate: Swift.String?
         /// The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service.
         public var thirdPartyConfigurationUrl: Swift.String?
@@ -2524,7 +2524,7 @@ extension CodePipelineClientTypes.Artifact: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-    /// Represents information about an artifact that is worked on by actions in the pipeline.
+    /// Artifacts are the files that are worked on by actions in the pipeline. See the action configuration for each action for details about artifact parameters. For example, the S3 source action artifact is a file name (or file path), and the files are generally provided as a ZIP file. Example artifact name: SampleApp_Windows.zip
     public struct Artifact: Swift.Equatable {
         /// The location of an artifact.
         public var location: CodePipelineClientTypes.ArtifactLocation?
@@ -2773,9 +2773,9 @@ extension CodePipelineClientTypes {
         public var revisionChangeIdentifier: Swift.String?
         /// The revision ID of the artifact.
         public var revisionId: Swift.String?
-        /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
+        /// Summary information about the most recent revision of the artifact. For GitHub and CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
         public var revisionSummary: Swift.String?
-        /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
+        /// The commit ID for the artifact revision. For artifacts stored in GitHub or CodeCommit repositories, the commit ID is linked to a commit details page.
         public var revisionUrl: Swift.String?
 
         public init(
@@ -2832,9 +2832,9 @@ extension CodePipelineClientTypes.ArtifactStore: Swift.Codable {
 extension CodePipelineClientTypes {
     /// The S3 bucket where artifacts for the pipeline are stored. You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
     public struct ArtifactStore: Swift.Equatable {
-        /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
+        /// The encryption key used to encrypt the data in the artifact store, such as an Amazon Web Services Key Management Service key. If this is undefined, the default key for Amazon S3 is used.
         public var encryptionKey: CodePipelineClientTypes.EncryptionKey?
-        /// The S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
+        /// The S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any S3 bucket in the same Amazon Web Services Region as the pipeline to store your pipeline artifacts.
         /// This member is required.
         public var location: Swift.String?
         /// The type of the artifact store, such as S3.
@@ -3136,7 +3136,7 @@ public struct CreateCustomActionTypeInput: Swift.Equatable {
     /// The details of the output artifact of the action, such as its commit ID.
     /// This member is required.
     public var outputArtifactDetails: CodePipelineClientTypes.ArtifactDetails?
-    /// The provider of the service used in the custom action, such as AWS CodeDeploy.
+    /// The provider of the service used in the custom action, such as CodeDeploy.
     /// This member is required.
     public var provider: Swift.String?
     /// URLs that provide users information about this custom action.
@@ -3559,7 +3559,7 @@ public struct DeleteCustomActionTypeInput: Swift.Equatable {
     /// The category of the custom action that you want to delete, such as source or deploy.
     /// This member is required.
     public var category: CodePipelineClientTypes.ActionCategory?
-    /// The provider of the service used in the custom action, such as AWS CodeDeploy.
+    /// The provider of the service used in the custom action, such as CodeDeploy.
     /// This member is required.
     public var provider: Swift.String?
     /// The version of the custom action to delete.
@@ -4124,12 +4124,12 @@ extension CodePipelineClientTypes.EncryptionKey: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-    /// Represents information about the key used to encrypt data in the artifact store, such as an AWS Key Management Service (AWS KMS) key.
+    /// Represents information about the key used to encrypt data in the artifact store, such as an Amazon Web Services Key Management Service (Key Management Service) key.
     public struct EncryptionKey: Swift.Equatable {
-        /// The ID used to identify the key. For an AWS KMS key, you can use the key ID, the key ARN, or the alias ARN. Aliases are recognized only in the account that created the customer master key (CMK). For cross-account actions, you can only use the key ID or key ARN to identify the key.
+        /// The ID used to identify the key. For an Amazon Web Services KMS key, you can use the key ID, the key ARN, or the alias ARN. Aliases are recognized only in the account that created the KMS key. For cross-account actions, you can only use the key ID or key ARN to identify the key. Cross-account actions involve using the role from the other account (AccountB), so specifying the key ID will use the key from the other account (AccountB).
         /// This member is required.
         public var id: Swift.String?
-        /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
+        /// The type of encryption key, such as an Amazon Web Services KMS key. When creating or updating a pipeline, the value must be set to 'KMS'.
         /// This member is required.
         public var type: CodePipelineClientTypes.EncryptionKeyType?
 
@@ -4200,7 +4200,7 @@ extension CodePipelineClientTypes.ErrorDetails: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-    /// Represents information about an error in AWS CodePipeline.
+    /// Represents information about an error in CodePipeline.
     public struct ErrorDetails: Swift.Equatable {
         /// The system ID or number code of the error.
         public var code: Swift.String?
@@ -4253,7 +4253,7 @@ extension CodePipelineClientTypes.ExecutionDetails: Swift.Codable {
 extension CodePipelineClientTypes {
     /// The details of the actions taken and results produced on an artifact as it passes through stages in the pipeline.
     public struct ExecutionDetails: Swift.Equatable {
-        /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as AWS CodeDeploy.
+        /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as CodeDeploy.
         public var externalExecutionId: Swift.String?
         /// The percentage of work completed on the action, represented on a scale of 0 to 100 percent.
         public var percentComplete: Swift.Int?
@@ -4891,7 +4891,7 @@ extension GetPipelineInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a GetPipeline action.
 public struct GetPipelineInput: Swift.Equatable {
-    /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an AWS user account.
+    /// The name of the pipeline for which you want to get information. Pipeline names must be unique in an Amazon Web Services account.
     /// This member is required.
     public var name: Swift.String?
     /// The version number of the pipeline. If you do not specify a version, defaults to the current version.
@@ -5281,7 +5281,7 @@ extension CodePipelineClientTypes.InputArtifact: Swift.Codable {
 extension CodePipelineClientTypes {
     /// Represents information about an artifact to be worked on, such as a test or build artifact.
     public struct InputArtifact: Swift.Equatable {
-        /// The name of the artifact to be worked on (for example, "My App"). The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
+        /// The name of the artifact to be worked on (for example, "My App"). Artifacts are the files that are worked on by actions in the pipeline. See the action configuration for each action for details about artifact parameters. For example, the S3 source action input artifact is a file name (or file path), and the files are generally provided as a ZIP file. Example artifact name: SampleApp_Windows.zip The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         /// This member is required.
         public var name: Swift.String?
 
@@ -6117,13 +6117,13 @@ extension CodePipelineClientTypes.Job: Swift.Codable {
 extension CodePipelineClientTypes {
     /// Represents information about a job.
     public struct Job: Swift.Equatable {
-        /// The ID of the AWS account to use when performing the job.
+        /// The ID of the Amazon Web Services account to use when performing the job.
         public var accountId: Swift.String?
         /// Other data about a job.
         public var data: CodePipelineClientTypes.JobData?
         /// The unique system-generated ID of the job.
         public var id: Swift.String?
-        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an [AcknowledgeJob] request.
+        /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an [AcknowledgeJob] request.
         public var nonce: Swift.String?
 
         public init(
@@ -6239,11 +6239,11 @@ extension CodePipelineClientTypes {
         public var actionConfiguration: CodePipelineClientTypes.ActionConfiguration?
         /// Represents information about an action type.
         public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
-        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifacts for the pipeline in AWS CodePipeline.
+        /// Represents an Amazon Web Services session credentials object. These credentials are temporary credentials that are issued by Amazon Web Services Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifacts for the pipeline in CodePipeline.
         public var artifactCredentials: CodePipelineClientTypes.AWSSessionCredentials?
-        /// A system-generated token, such as a AWS CodeDeploy deployment ID, required by a job to continue the job asynchronously.
+        /// A system-generated token, such as a deployment ID, required by a job to continue the job asynchronously.
         public var continuationToken: Swift.String?
-        /// Represents information about the key used to encrypt data in the artifact store, such as an AWS Key Management Service (AWS KMS) key.
+        /// Represents information about the key used to encrypt data in the artifact store, such as an KMS key.
         public var encryptionKey: CodePipelineClientTypes.EncryptionKey?
         /// The artifact supplied to the job.
         public var inputArtifacts: [CodePipelineClientTypes.Artifact]?
@@ -6310,7 +6310,7 @@ extension CodePipelineClientTypes.JobDetails: Swift.Codable {
 extension CodePipelineClientTypes {
     /// Represents information about the details of a job.
     public struct JobDetails: Swift.Equatable {
-        /// The AWS account ID associated with the job.
+        /// The Amazon Web Services account ID associated with the job.
         public var accountId: Swift.String?
         /// Represents other information about a job required for a job worker to complete the job.
         public var data: CodePipelineClientTypes.JobData?
@@ -6554,7 +6554,7 @@ extension LimitExceededException {
     }
 }
 
-/// The number of pipelines associated with the AWS account has exceeded the limit allowed for the account.
+/// The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -7859,12 +7859,12 @@ extension CodePipelineClientTypes {
     public struct PipelineDeclaration: Swift.Equatable {
         /// Represents information about the S3 bucket where artifacts are stored for the pipeline. You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
         public var artifactStore: CodePipelineClientTypes.ArtifactStore?
-        /// A mapping of artifactStore objects and their corresponding AWS Regions. There must be an artifact store for the pipeline Region and for each cross-region action in the pipeline. You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
+        /// A mapping of artifactStore objects and their corresponding Amazon Web Services Regions. There must be an artifact store for the pipeline Region and for each cross-region action in the pipeline. You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
         public var artifactStores: [Swift.String:CodePipelineClientTypes.ArtifactStore]?
         /// The name of the pipeline.
         /// This member is required.
         public var name: Swift.String?
-        /// The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
+        /// The Amazon Resource Name (ARN) for CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
         /// This member is required.
         public var roleArn: Swift.String?
         /// The stage in which to perform the action.
@@ -8285,6 +8285,7 @@ extension CodePipelineClientTypes.PipelineMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case created
         case pipelineArn
+        case pollingDisabledAt
         case updated
     }
 
@@ -8295,6 +8296,9 @@ extension CodePipelineClientTypes.PipelineMetadata: Swift.Codable {
         }
         if let pipelineArn = self.pipelineArn {
             try encodeContainer.encode(pipelineArn, forKey: .pipelineArn)
+        }
+        if let pollingDisabledAt = self.pollingDisabledAt {
+            try encodeContainer.encodeTimestamp(pollingDisabledAt, format: .epochSeconds, forKey: .pollingDisabledAt)
         }
         if let updated = self.updated {
             try encodeContainer.encodeTimestamp(updated, format: .epochSeconds, forKey: .updated)
@@ -8309,6 +8313,8 @@ extension CodePipelineClientTypes.PipelineMetadata: Swift.Codable {
         created = createdDecoded
         let updatedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updated)
         updated = updatedDecoded
+        let pollingDisabledAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .pollingDisabledAt)
+        pollingDisabledAt = pollingDisabledAtDecoded
     }
 }
 
@@ -8319,17 +8325,21 @@ extension CodePipelineClientTypes {
         public var created: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public var pipelineArn: Swift.String?
+        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format. You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see [Migrate polling pipelines to use event-based change detection](https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html) in the CodePipeline User Guide.
+        public var pollingDisabledAt: ClientRuntime.Date?
         /// The date and time the pipeline was last updated, in timestamp format.
         public var updated: ClientRuntime.Date?
 
         public init(
             created: ClientRuntime.Date? = nil,
             pipelineArn: Swift.String? = nil,
+            pollingDisabledAt: ClientRuntime.Date? = nil,
             updated: ClientRuntime.Date? = nil
         )
         {
             self.created = created
             self.pipelineArn = pipelineArn
+            self.pollingDisabledAt = pollingDisabledAt
             self.updated = updated
         }
     }
@@ -9275,7 +9285,7 @@ extension PutJobSuccessResultInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a PutJobSuccessResult action.
 public struct PutJobSuccessResultInput: Swift.Equatable {
-    /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
+    /// A token generated by a job worker, such as a CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
     public var continuationToken: Swift.String?
     /// The ID of the current revision of the artifact successfully worked on by the job.
     public var currentRevision: CodePipelineClientTypes.CurrentRevision?
@@ -9507,7 +9517,7 @@ public struct PutThirdPartyJobSuccessResultInput: Swift.Equatable {
     /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
+    /// A token generated by a job worker, such as a CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
     public var continuationToken: Swift.String?
     /// Represents information about a current revision.
     public var currentRevision: CodePipelineClientTypes.CurrentRevision?
@@ -10181,9 +10191,9 @@ extension CodePipelineClientTypes {
         public var actionName: Swift.String?
         /// The system-generated unique ID that identifies the revision number of the artifact.
         public var revisionId: Swift.String?
-        /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
+        /// Summary information about the most recent revision of the artifact. For GitHub and CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
         public var revisionSummary: Swift.String?
-        /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
+        /// The commit ID for the artifact revision. For artifacts stored in GitHub or CodeCommit repositories, the commit ID is linked to a commit details page.
         public var revisionUrl: Swift.String?
 
         public init(
@@ -10829,7 +10839,7 @@ extension StopPipelineExecutionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if abandon != false {
+        if let abandon = self.abandon {
             try encodeContainer.encode(abandon, forKey: .abandon)
         }
         if let pipelineExecutionId = self.pipelineExecutionId {
@@ -10852,7 +10862,7 @@ extension StopPipelineExecutionInput: ClientRuntime.URLPathProvider {
 
 public struct StopPipelineExecutionInput: Swift.Equatable {
     /// Use this option to stop the pipeline execution by abandoning, rather than finishing, in-progress actions. This option can lead to failed or out-of-sequence tasks.
-    public var abandon: Swift.Bool
+    public var abandon: Swift.Bool?
     /// The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExecutionId.
     /// This member is required.
     public var pipelineExecutionId: Swift.String?
@@ -10863,7 +10873,7 @@ public struct StopPipelineExecutionInput: Swift.Equatable {
     public var reason: Swift.String?
 
     public init(
-        abandon: Swift.Bool = false,
+        abandon: Swift.Bool? = nil,
         pipelineExecutionId: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         reason: Swift.String? = nil
@@ -10879,7 +10889,7 @@ public struct StopPipelineExecutionInput: Swift.Equatable {
 struct StopPipelineExecutionInputBody: Swift.Equatable {
     let pipelineName: Swift.String?
     let pipelineExecutionId: Swift.String?
-    let abandon: Swift.Bool
+    let abandon: Swift.Bool?
     let reason: Swift.String?
 }
 
@@ -10897,7 +10907,7 @@ extension StopPipelineExecutionInputBody: Swift.Decodable {
         pipelineName = pipelineNameDecoded
         let pipelineExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineExecutionId)
         pipelineExecutionId = pipelineExecutionIdDecoded
-        let abandonDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .abandon) ?? false
+        let abandonDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .abandon)
         abandon = abandonDecoded
         let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
         reason = reasonDecoded
@@ -11131,11 +11141,11 @@ extension CodePipelineClientTypes.ThirdPartyJob: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-    /// A response to a PollForThirdPartyJobs request returned by AWS CodePipeline when there is a job to be worked on by a partner action.
+    /// A response to a PollForThirdPartyJobs request returned by CodePipeline when there is a job to be worked on by a partner action.
     public struct ThirdPartyJob: Swift.Equatable {
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public var clientId: Swift.String?
-        /// The identifier used to identify the job in AWS CodePipeline.
+        /// The identifier used to identify the job in CodePipeline.
         public var jobId: Swift.String?
 
         public init(
@@ -11247,11 +11257,11 @@ extension CodePipelineClientTypes {
         public var actionConfiguration: CodePipelineClientTypes.ActionConfiguration?
         /// Represents information about an action type.
         public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
-        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifact for the pipeline in AWS CodePipeline.
+        /// Represents an Amazon Web Services session credentials object. These credentials are temporary credentials that are issued by Amazon Web Services Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifact for the pipeline in CodePipeline.
         public var artifactCredentials: CodePipelineClientTypes.AWSSessionCredentials?
-        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires to continue the job asynchronously.
+        /// A system-generated token, such as a CodeDeploy deployment ID, that a job requires to continue the job asynchronously.
         public var continuationToken: Swift.String?
-        /// The encryption key used to encrypt and decrypt data in the artifact store for the pipeline, such as an AWS Key Management Service (AWS KMS) key. This is optional and might not be present.
+        /// The encryption key used to encrypt and decrypt data in the artifact store for the pipeline, such as an Amazon Web Services Key Management Service (Amazon Web Services KMS) key. This is optional and might not be present.
         public var encryptionKey: CodePipelineClientTypes.EncryptionKey?
         /// The name of the artifact that is worked on by the action, if any. This name might be system-generated, such as "MyApp", or it might be defined by the user when the action is created. The input artifact name must match the name of an output artifact generated by an action in an earlier action or stage of the pipeline.
         public var inputArtifacts: [CodePipelineClientTypes.Artifact]?
@@ -11320,9 +11330,9 @@ extension CodePipelineClientTypes {
     public struct ThirdPartyJobDetails: Swift.Equatable {
         /// The data to be returned by the third party job worker.
         public var data: CodePipelineClientTypes.ThirdPartyJobData?
-        /// The identifier used to identify the job details in AWS CodePipeline.
+        /// The identifier used to identify the job details in CodePipeline.
         public var id: Swift.String?
-        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an [AcknowledgeThirdPartyJob] request.
+        /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an [AcknowledgeThirdPartyJob] request.
         public var nonce: Swift.String?
 
         public init(
@@ -12054,7 +12064,7 @@ extension CodePipelineClientTypes {
         /// A JsonPath expression that is applied to the body/payload of the webhook. The value selected by the JsonPath expression must match the value specified in the MatchEquals field. Otherwise, the request is ignored. For more information, see [Java JsonPath implementation](https://github.com/json-path/JsonPath) in GitHub.
         /// This member is required.
         public var jsonPath: Swift.String?
-        /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field. Otherwise, the request is ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly brackets. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "master", the MatchEquals value is evaluated as "refs/heads/master". For a list of action configuration properties for built-in action types, see [Pipeline Structure Reference Action Requirements](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements).
+        /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field. Otherwise, the request is ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly brackets. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "main", the MatchEquals value is evaluated as "refs/heads/main". For a list of action configuration properties for built-in action types, see [Pipeline Structure Reference Action Requirements](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements).
         public var matchEquals: Swift.String?
 
         public init(

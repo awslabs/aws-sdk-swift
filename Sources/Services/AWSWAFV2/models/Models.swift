@@ -263,7 +263,7 @@ extension WAFV2ClientTypes.All: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect all of the elements that WAF has parsed and extracted from the web request component that you've identified in your [FieldToMatch] specifications. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "All": {}
+    /// Inspect all of the elements that WAF has parsed and extracted from the web request component that you've identified in your [FieldToMatch] specifications. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "All": {}
     public struct All: Swift.Equatable {
 
         public init() { }
@@ -283,7 +283,7 @@ extension WAFV2ClientTypes.AllQueryArguments: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect all query arguments of the web request. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "AllQueryArguments": {}
+    /// Inspect all query arguments of the web request. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "AllQueryArguments": {}
     public struct AllQueryArguments: Swift.Equatable {
 
         public init() { }
@@ -607,7 +607,7 @@ extension WAFV2ClientTypes {
     public struct Body: Swift.Equatable {
         /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
         ///
-        /// * CONTINUE - Inspect the body normally, according to the rule inspection criteria.
+        /// * CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -732,6 +732,8 @@ extension WAFV2ClientTypes {
         /// * Method: The HTTP method that you want WAF to search for. This indicates the type of operation specified in the request.
         ///
         /// * UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.
+        ///
+        /// * HeaderOrder: The comma-separated list of header names to match for. WAF creates a string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.
         ///
         ///
         /// If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive. If you're using the WAF API Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 200 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString. If you're using the CLI or one of the Amazon Web Services SDKs The value that you want WAF to search for. The SDK automatically base64 encodes the value.
@@ -1383,9 +1385,9 @@ extension WAFV2ClientTypes {
         /// The parts of the cookies to inspect with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.MapMatchScope?
-        /// What WAF should do if the cookies of the request are larger than WAF can inspect. WAF does not support inspecting the entire contents of request cookies when they exceed 8 KB (8192 bytes) or 200 total cookies. The underlying host service forwards a maximum of 200 cookies and at most 8 KB of cookie contents to WAF. The options for oversize handling are the following:
+        /// What WAF should do if the cookies of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request cookies when they exceed 8 KB (8192 bytes) or 200 total cookies. The underlying host service forwards a maximum of 200 cookies and at most 8 KB of cookie contents to WAF. The options for oversize handling are the following:
         ///
-        /// * CONTINUE - Inspect the cookies normally, according to the rule inspection criteria.
+        /// * CONTINUE - Inspect the available cookies normally, according to the rule inspection criteria.
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -4275,6 +4277,246 @@ public struct DeleteWebACLOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DescribeAllManagedProductsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+    }
+}
+
+extension DescribeAllManagedProductsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeAllManagedProductsInput: Swift.Equatable {
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+
+    public init(
+        scope: WAFV2ClientTypes.Scope? = nil
+    )
+    {
+        self.scope = scope
+    }
+}
+
+struct DescribeAllManagedProductsInputBody: Swift.Equatable {
+    let scope: WAFV2ClientTypes.Scope?
+}
+
+extension DescribeAllManagedProductsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+    }
+}
+
+public enum DescribeAllManagedProductsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeAllManagedProductsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeAllManagedProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.managedProducts = output.managedProducts
+        } else {
+            self.managedProducts = nil
+        }
+    }
+}
+
+public struct DescribeAllManagedProductsOutputResponse: Swift.Equatable {
+    /// High-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
+    public var managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
+
+    public init(
+        managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]? = nil
+    )
+    {
+        self.managedProducts = managedProducts
+    }
+}
+
+struct DescribeAllManagedProductsOutputResponseBody: Swift.Equatable {
+    let managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
+}
+
+extension DescribeAllManagedProductsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedProducts = "ManagedProducts"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let managedProductsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.ManagedProductDescriptor?].self, forKey: .managedProducts)
+        var managedProductsDecoded0:[WAFV2ClientTypes.ManagedProductDescriptor]? = nil
+        if let managedProductsContainer = managedProductsContainer {
+            managedProductsDecoded0 = [WAFV2ClientTypes.ManagedProductDescriptor]()
+            for structure0 in managedProductsContainer {
+                if let structure0 = structure0 {
+                    managedProductsDecoded0?.append(structure0)
+                }
+            }
+        }
+        managedProducts = managedProductsDecoded0
+    }
+}
+
+extension DescribeManagedProductsByVendorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+        case vendorName = "VendorName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+        if let vendorName = self.vendorName {
+            try encodeContainer.encode(vendorName, forKey: .vendorName)
+        }
+    }
+}
+
+extension DescribeManagedProductsByVendorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeManagedProductsByVendorInput: Swift.Equatable {
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
+    /// This member is required.
+    public var vendorName: Swift.String?
+
+    public init(
+        scope: WAFV2ClientTypes.Scope? = nil,
+        vendorName: Swift.String? = nil
+    )
+    {
+        self.scope = scope
+        self.vendorName = vendorName
+    }
+}
+
+struct DescribeManagedProductsByVendorInputBody: Swift.Equatable {
+    let vendorName: Swift.String?
+    let scope: WAFV2ClientTypes.Scope?
+}
+
+extension DescribeManagedProductsByVendorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+        case vendorName = "VendorName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vendorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorName)
+        vendorName = vendorNameDecoded
+        let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+    }
+}
+
+public enum DescribeManagedProductsByVendorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeManagedProductsByVendorOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeManagedProductsByVendorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.managedProducts = output.managedProducts
+        } else {
+            self.managedProducts = nil
+        }
+    }
+}
+
+public struct DescribeManagedProductsByVendorOutputResponse: Swift.Equatable {
+    /// High-level information for the managed rule groups owned by the specified vendor.
+    public var managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
+
+    public init(
+        managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]? = nil
+    )
+    {
+        self.managedProducts = managedProducts
+    }
+}
+
+struct DescribeManagedProductsByVendorOutputResponseBody: Swift.Equatable {
+    let managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
+}
+
+extension DescribeManagedProductsByVendorOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedProducts = "ManagedProducts"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let managedProductsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.ManagedProductDescriptor?].self, forKey: .managedProducts)
+        var managedProductsDecoded0:[WAFV2ClientTypes.ManagedProductDescriptor]? = nil
+        if let managedProductsContainer = managedProductsContainer {
+            managedProductsDecoded0 = [WAFV2ClientTypes.ManagedProductDescriptor]()
+            for structure0 in managedProductsContainer {
+                if let structure0 = structure0 {
+                    managedProductsDecoded0?.append(structure0)
+                }
+            }
+        }
+        managedProducts = managedProductsDecoded0
+    }
+}
+
 extension DescribeManagedRuleGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -4317,7 +4559,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Equatable {
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
-    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
     /// This member is required.
     public var vendorName: Swift.String?
     /// The version of the rule group. You can only use a version that is not scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
@@ -4420,7 +4662,7 @@ public struct DescribeManagedRuleGroupOutputResponse: Swift.Equatable {
     public var labelNamespace: Swift.String?
     ///
     public var rules: [WAFV2ClientTypes.RuleSummary]?
-    /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to record changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
+    /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to provide notification of changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
     public var snsTopicArn: Swift.String?
     /// The managed rule group's version.
     public var versionName: Swift.String?
@@ -4707,6 +4949,7 @@ extension WAFV2ClientTypes.FieldToMatch: Swift.Codable {
         case allQueryArguments = "AllQueryArguments"
         case body = "Body"
         case cookies = "Cookies"
+        case headerOrder = "HeaderOrder"
         case headers = "Headers"
         case jsonBody = "JsonBody"
         case method = "Method"
@@ -4726,6 +4969,9 @@ extension WAFV2ClientTypes.FieldToMatch: Swift.Codable {
         }
         if let cookies = self.cookies {
             try encodeContainer.encode(cookies, forKey: .cookies)
+        }
+        if let headerOrder = self.headerOrder {
+            try encodeContainer.encode(headerOrder, forKey: .headerOrder)
         }
         if let headers = self.headers {
             try encodeContainer.encode(headers, forKey: .headers)
@@ -4772,6 +5018,8 @@ extension WAFV2ClientTypes.FieldToMatch: Swift.Codable {
         headers = headersDecoded
         let cookiesDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Cookies.self, forKey: .cookies)
         cookies = cookiesDecoded
+        let headerOrderDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.HeaderOrder.self, forKey: .headerOrder)
+        headerOrder = headerOrderDecoded
     }
 }
 
@@ -4784,6 +5032,8 @@ extension WAFV2ClientTypes {
         public var body: WAFV2ClientTypes.Body?
         /// Inspect the request cookies. You must configure scope and pattern matching filters in the Cookies object, to define the set of cookies and the parts of the cookies that WAF inspects. Only the first 8 KB (8192 bytes) of a request's cookies and only the first 200 cookies are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize cookie content in the Cookies object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
         public var cookies: WAFV2ClientTypes.Cookies?
+        /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using commas and no added spaces. Matches against the header order string are case insensitive.
+        public var headerOrder: WAFV2ClientTypes.HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects. Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public var headers: WAFV2ClientTypes.Headers?
         /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB (16,384 kilobytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees. For information about how to handle oversized request bodies, see the JsonBody object configuration.
@@ -4803,6 +5053,7 @@ extension WAFV2ClientTypes {
             allQueryArguments: WAFV2ClientTypes.AllQueryArguments? = nil,
             body: WAFV2ClientTypes.Body? = nil,
             cookies: WAFV2ClientTypes.Cookies? = nil,
+            headerOrder: WAFV2ClientTypes.HeaderOrder? = nil,
             headers: WAFV2ClientTypes.Headers? = nil,
             jsonBody: WAFV2ClientTypes.JsonBody? = nil,
             method: WAFV2ClientTypes.Method? = nil,
@@ -4815,6 +5066,7 @@ extension WAFV2ClientTypes {
             self.allQueryArguments = allQueryArguments
             self.body = body
             self.cookies = cookies
+            self.headerOrder = headerOrder
             self.headers = headers
             self.jsonBody = jsonBody
             self.method = method
@@ -7230,6 +7482,48 @@ extension WAFV2ClientTypes {
 
 }
 
+extension WAFV2ClientTypes.HeaderOrder: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case oversizeHandling = "OversizeHandling"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let oversizeHandling = self.oversizeHandling {
+            try encodeContainer.encode(oversizeHandling.rawValue, forKey: .oversizeHandling)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let oversizeHandlingDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.OversizeHandling.self, forKey: .oversizeHandling)
+        oversizeHandling = oversizeHandlingDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using commas and no added spaces. Matches against the header order string are case insensitive.
+    public struct HeaderOrder: Swift.Equatable {
+        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
+        ///
+        /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        /// This member is required.
+        public var oversizeHandling: WAFV2ClientTypes.OversizeHandling?
+
+        public init(
+            oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
+        )
+        {
+            self.oversizeHandling = oversizeHandling
+        }
+    }
+
+}
+
 extension WAFV2ClientTypes.Headers: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case matchPattern = "MatchPattern"
@@ -7270,9 +7564,9 @@ extension WAFV2ClientTypes {
         /// The parts of the headers to match with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.MapMatchScope?
-        /// What WAF should do if the headers of the request are larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
+        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
         ///
-        /// * CONTINUE - Inspect the headers normally, according to the rule inspection criteria.
+        /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -7769,7 +8063,7 @@ extension WAFV2ClientTypes {
         public var matchScope: WAFV2ClientTypes.JsonMatchScope?
         /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
         ///
-        /// * CONTINUE - Inspect the body normally, according to the rule inspection criteria.
+        /// * CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -8293,7 +8587,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Equatable {
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
-    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
     /// This member is required.
     public var vendorName: Swift.String?
 
@@ -10036,6 +10330,121 @@ extension WAFV2ClientTypes {
 
 }
 
+extension WAFV2ClientTypes.ManagedProductDescriptor: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isAdvancedManagedRuleSet = "IsAdvancedManagedRuleSet"
+        case isVersioningSupported = "IsVersioningSupported"
+        case managedRuleSetName = "ManagedRuleSetName"
+        case productDescription = "ProductDescription"
+        case productId = "ProductId"
+        case productLink = "ProductLink"
+        case productTitle = "ProductTitle"
+        case snsTopicArn = "SnsTopicArn"
+        case vendorName = "VendorName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if isAdvancedManagedRuleSet != false {
+            try encodeContainer.encode(isAdvancedManagedRuleSet, forKey: .isAdvancedManagedRuleSet)
+        }
+        if isVersioningSupported != false {
+            try encodeContainer.encode(isVersioningSupported, forKey: .isVersioningSupported)
+        }
+        if let managedRuleSetName = self.managedRuleSetName {
+            try encodeContainer.encode(managedRuleSetName, forKey: .managedRuleSetName)
+        }
+        if let productDescription = self.productDescription {
+            try encodeContainer.encode(productDescription, forKey: .productDescription)
+        }
+        if let productId = self.productId {
+            try encodeContainer.encode(productId, forKey: .productId)
+        }
+        if let productLink = self.productLink {
+            try encodeContainer.encode(productLink, forKey: .productLink)
+        }
+        if let productTitle = self.productTitle {
+            try encodeContainer.encode(productTitle, forKey: .productTitle)
+        }
+        if let snsTopicArn = self.snsTopicArn {
+            try encodeContainer.encode(snsTopicArn, forKey: .snsTopicArn)
+        }
+        if let vendorName = self.vendorName {
+            try encodeContainer.encode(vendorName, forKey: .vendorName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vendorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorName)
+        vendorName = vendorNameDecoded
+        let managedRuleSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .managedRuleSetName)
+        managedRuleSetName = managedRuleSetNameDecoded
+        let productIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productId)
+        productId = productIdDecoded
+        let productLinkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productLink)
+        productLink = productLinkDecoded
+        let productTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productTitle)
+        productTitle = productTitleDecoded
+        let productDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productDescription)
+        productDescription = productDescriptionDecoded
+        let snsTopicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snsTopicArn)
+        snsTopicArn = snsTopicArnDecoded
+        let isVersioningSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isVersioningSupported) ?? false
+        isVersioningSupported = isVersioningSupportedDecoded
+        let isAdvancedManagedRuleSetDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isAdvancedManagedRuleSet) ?? false
+        isAdvancedManagedRuleSet = isAdvancedManagedRuleSetDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// The properties of a managed product, such as an Amazon Web Services Managed Rules rule group or an Amazon Web Services Marketplace managed rule group.
+    public struct ManagedProductDescriptor: Swift.Equatable {
+        /// Indicates whether the rule group provides an advanced set of protections, such as the the Amazon Web Services Managed Rules rule groups that are used for WAF intelligent threat mitigation.
+        public var isAdvancedManagedRuleSet: Swift.Bool
+        /// Indicates whether the rule group is versioned.
+        public var isVersioningSupported: Swift.Bool
+        /// The name of the managed rule group. For example, AWSManagedRulesAnonymousIpList or AWSManagedRulesATPRuleSet.
+        public var managedRuleSetName: Swift.String?
+        /// A short description of the managed rule group.
+        public var productDescription: Swift.String?
+        /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
+        public var productId: Swift.String?
+        /// For Amazon Web Services Marketplace managed rule groups only, the link to the rule group product page.
+        public var productLink: Swift.String?
+        /// The display name for the managed rule group. For example, Anonymous IP list or Account takeover prevention.
+        public var productTitle: Swift.String?
+        /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to provide notification of changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
+        public var snsTopicArn: Swift.String?
+        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
+        public var vendorName: Swift.String?
+
+        public init(
+            isAdvancedManagedRuleSet: Swift.Bool = false,
+            isVersioningSupported: Swift.Bool = false,
+            managedRuleSetName: Swift.String? = nil,
+            productDescription: Swift.String? = nil,
+            productId: Swift.String? = nil,
+            productLink: Swift.String? = nil,
+            productTitle: Swift.String? = nil,
+            snsTopicArn: Swift.String? = nil,
+            vendorName: Swift.String? = nil
+        )
+        {
+            self.isAdvancedManagedRuleSet = isAdvancedManagedRuleSet
+            self.isVersioningSupported = isVersioningSupported
+            self.managedRuleSetName = managedRuleSetName
+            self.productDescription = productDescription
+            self.productId = productId
+            self.productLink = productLink
+            self.productTitle = productTitle
+            self.snsTopicArn = snsTopicArn
+            self.vendorName = vendorName
+        }
+    }
+
+}
+
 extension WAFV2ClientTypes.ManagedRuleGroupConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsManagedRulesATPRuleSet = "AWSManagedRulesATPRuleSet"
@@ -10230,7 +10639,7 @@ extension WAFV2ClientTypes {
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated by the managed rule group. Requests are only evaluated by the rule group if they match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         public var scopeDownStatement: Box<WAFV2ClientTypes.Statement>?
-        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
         /// This member is required.
         public var vendorName: Swift.String?
         /// The version of the managed rule group to use. If you specify this, the version setting is fixed until you change it. If you don't specify this, WAF uses the vendor's default version, and then keeps the version at the vendor's default when the vendor updates the managed rule group settings.
@@ -10296,13 +10705,13 @@ extension WAFV2ClientTypes.ManagedRuleGroupSummary: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// High-level information about a managed rule group, returned by [ListAvailableManagedRuleGroups]. This provides information like the name and vendor name, that you provide when you add a [ManagedRuleGroupStatement] to a web ACL. Managed rule groups include Amazon Web Services Managed Rules rule groups, which are free of charge to WAF customers, and Amazon Web Services Marketplace managed rule groups, which you can subscribe to through Amazon Web Services Marketplace.
+    /// High-level information about a managed rule group, returned by [ListAvailableManagedRuleGroups]. This provides information like the name and vendor name, that you provide when you add a [ManagedRuleGroupStatement] to a web ACL. Managed rule groups include Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups. To use any Amazon Web Services Marketplace managed rule group, first subscribe to the rule group through Amazon Web Services Marketplace.
     public struct ManagedRuleGroupSummary: Swift.Equatable {
         /// The description of the managed rule group, provided by Amazon Web Services Managed Rules or the Amazon Web Services Marketplace seller who manages it.
         public var description: Swift.String?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public var name: Swift.String?
-        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
         public var vendorName: Swift.String?
         /// Indicates whether the managed rule group is versioned. If it is, you can retrieve the versions list by calling [ListAvailableManagedRuleGroupVersions].
         public var versioningSupported: Swift.Bool
@@ -10703,7 +11112,7 @@ extension WAFV2ClientTypes.Method: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect the HTTP method of the web request. The method indicates the type of operation that the request is asking the origin to perform. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "Method": {}
+    /// Inspect the HTTP method of the web request. The method indicates the type of operation that the request is asking the origin to perform. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "Method": {}
     public struct Method: Swift.Equatable {
 
         public init() { }
@@ -11744,7 +12153,7 @@ extension WAFV2ClientTypes.QueryString: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect the query string of the web request. This is the part of a URL that appears after a ? character, if any. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "QueryString": {}
+    /// Inspect the query string of the web request. This is the part of a URL that appears after a ? character, if any. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "QueryString": {}
     public struct QueryString: Swift.Equatable {
 
         public init() { }
@@ -16369,7 +16778,7 @@ extension WAFV2ClientTypes.UriPath: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect the path component of the URI of the web request. This is the part of the web request that identifies a resource. For example, /images/daily-ad.jpg. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "UriPath": {}
+    /// Inspect the path component of the URI of the web request. This is the part of the web request that identifies a resource. For example, /images/daily-ad.jpg. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "UriPath": {}
     public struct UriPath: Swift.Equatable {
 
         public init() { }
@@ -16492,13 +16901,13 @@ extension WAFV2ClientTypes.VisibilityConfig: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
     public struct VisibilityConfig: Swift.Equatable {
-        /// A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF Metrics](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide.
+        /// Indicates whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF Metrics](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide. For web ACLs, the metrics are for web requests that have the web ACL default action applied. WAF applies the default action to web requests that pass the inspection of all rules in the web ACL without being either allowed or blocked. For more information, see [The web ACL default action](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-default-action.html) in the WAF Developer Guide.
         /// This member is required.
         public var cloudWatchMetricsEnabled: Swift.Bool
         /// A name of the Amazon CloudWatch metric dimension. The name can contain only the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to 128 characters long. It can't contain whitespace or metric names that are reserved for WAF, for example All and Default_Action.
         /// This member is required.
         public var metricName: Swift.String?
-        /// A boolean indicating whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.
+        /// Indicates whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.
         /// This member is required.
         public var sampledRequestsEnabled: Swift.Bool
 

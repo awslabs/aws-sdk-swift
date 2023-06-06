@@ -254,7 +254,7 @@ extension AddTagsInput: ClientRuntime.URLPathProvider {
 
 /// Specifies the tags to add to a trail, event data store, or channel.
 public struct AddTagsInput: Swift.Equatable {
-    /// Specifies the ARN of the trail, event data store, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// Specifies the ARN of the trail, event data store, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
     /// Contains a list of tags, up to a limit of 50
@@ -1253,7 +1253,7 @@ extension CloudTrailARNInvalidException {
     }
 }
 
-/// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail This exception is also thrown when you call AddTags or RemoveTags on a trail, event data store, or channel with a resource ARN that is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+/// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail This exception is also thrown when you call AddTags or RemoveTags on a trail, event data store, or channel with a resource ARN that is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1421,7 +1421,7 @@ extension CloudWatchLogsDeliveryUnavailableException {
     }
 }
 
-/// Cannot set a CloudWatch Logs delivery for this region.
+/// Cannot set a CloudWatch Logs delivery for this Region.
 public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1756,6 +1756,7 @@ extension CreateEventDataStoreInput: Swift.Encodable {
         case name = "Name"
         case organizationEnabled = "OrganizationEnabled"
         case retentionPeriod = "RetentionPeriod"
+        case startIngestion = "StartIngestion"
         case tagsList = "TagsList"
         case terminationProtectionEnabled = "TerminationProtectionEnabled"
     }
@@ -1782,6 +1783,9 @@ extension CreateEventDataStoreInput: Swift.Encodable {
         }
         if let retentionPeriod = self.retentionPeriod {
             try encodeContainer.encode(retentionPeriod, forKey: .retentionPeriod)
+        }
+        if let startIngestion = self.startIngestion {
+            try encodeContainer.encode(startIngestion, forKey: .startIngestion)
         }
         if let tagsList = tagsList {
             var tagsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsList)
@@ -1814,7 +1818,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
     ///
     /// * 12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
-    /// Specifies whether the event data store includes events from all regions, or only from the region in which the event data store is created.
+    /// Specifies whether the event data store includes events from all Regions, or only from the Region in which the event data store is created.
     public var multiRegionEnabled: Swift.Bool?
     /// The name of the event data store.
     /// This member is required.
@@ -1823,6 +1827,8 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
     public var organizationEnabled: Swift.Bool?
     /// The retention period of the event data store, in days. You can set a retention period of up to 2557 days, the equivalent of seven years.
     public var retentionPeriod: Swift.Int?
+    /// Specifies whether the event data store should start ingesting live events. The default is true.
+    public var startIngestion: Swift.Bool?
     /// A list of tags.
     public var tagsList: [CloudTrailClientTypes.Tag]?
     /// Specifies whether termination protection is enabled for the event data store. If termination protection is enabled, you cannot delete the event data store until termination protection is disabled.
@@ -1835,6 +1841,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
         name: Swift.String? = nil,
         organizationEnabled: Swift.Bool? = nil,
         retentionPeriod: Swift.Int? = nil,
+        startIngestion: Swift.Bool? = nil,
         tagsList: [CloudTrailClientTypes.Tag]? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil
     )
@@ -1845,6 +1852,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
         self.name = name
         self.organizationEnabled = organizationEnabled
         self.retentionPeriod = retentionPeriod
+        self.startIngestion = startIngestion
         self.tagsList = tagsList
         self.terminationProtectionEnabled = terminationProtectionEnabled
     }
@@ -1859,6 +1867,7 @@ struct CreateEventDataStoreInputBody: Swift.Equatable {
     let terminationProtectionEnabled: Swift.Bool?
     let tagsList: [CloudTrailClientTypes.Tag]?
     let kmsKeyId: Swift.String?
+    let startIngestion: Swift.Bool?
 }
 
 extension CreateEventDataStoreInputBody: Swift.Decodable {
@@ -1869,6 +1878,7 @@ extension CreateEventDataStoreInputBody: Swift.Decodable {
         case name = "Name"
         case organizationEnabled = "OrganizationEnabled"
         case retentionPeriod = "RetentionPeriod"
+        case startIngestion = "StartIngestion"
         case tagsList = "TagsList"
         case terminationProtectionEnabled = "TerminationProtectionEnabled"
     }
@@ -1909,6 +1919,8 @@ extension CreateEventDataStoreInputBody: Swift.Decodable {
         tagsList = tagsListDecoded0
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let startIngestionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .startIngestion)
+        startIngestion = startIngestionDecoded
     }
 }
 
@@ -1983,7 +1995,7 @@ public struct CreateEventDataStoreOutputResponse: Swift.Equatable {
     public var eventDataStoreArn: Swift.String?
     /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
-    /// Indicates whether the event data store collects events from all regions, or only from the region in which it was created.
+    /// Indicates whether the event data store collects events from all Regions, or only from the Region in which it was created.
     public var multiRegionEnabled: Swift.Bool?
     /// The name of the event data store.
     public var name: Swift.String?
@@ -2184,7 +2196,7 @@ public struct CreateTrailInput: Swift.Equatable {
     public var enableLogFileValidation: Swift.Bool?
     /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
     public var includeGlobalServiceEvents: Swift.Bool?
-    /// Specifies whether the trail is created in the current region or in all regions. The default is false, which creates a trail only in the region where you are signed in. As a best practice, consider creating trails that log events in all regions.
+    /// Specifies whether the trail is created in the current Region or in all Regions. The default is false, which creates a trail only in the Region where you are signed in. As a best practice, consider creating trails that log events in all Regions.
     public var isMultiRegionTrail: Swift.Bool?
     /// Specifies whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations.
     public var isOrganizationTrail: Swift.Bool?
@@ -2405,7 +2417,7 @@ public struct CreateTrailOutputResponse: Swift.Equatable {
     public var cloudWatchLogsRoleArn: Swift.String?
     /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
     public var includeGlobalServiceEvents: Swift.Bool?
-    /// Specifies whether the trail exists in one region or in all regions.
+    /// Specifies whether the trail exists in one Region or in all Regions.
     public var isMultiRegionTrail: Swift.Bool?
     /// Specifies whether the trail is an organization trail.
     public var isOrganizationTrail: Swift.Bool?
@@ -3349,16 +3361,16 @@ extension DescribeTrailsInput: ClientRuntime.URLPathProvider {
 
 /// Returns information about the trail.
 public struct DescribeTrailsInput: Swift.Equatable {
-    /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and region replication trails will not be returned. The default is true.
+    /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a Region of a trail that was created in a different Region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and Region replication trails will not be returned. The default is true.
     public var includeShadowTrails: Swift.Bool?
-    /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail If an empty list is specified, information for the trail in the current region is returned.
+    /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail If an empty list is specified, information for the trail in the current Region is returned.
     ///
-    /// * If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.
+    /// * If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current Region is returned.
     ///
-    /// * If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.
+    /// * If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current Region and any associated shadow trails in other Regions is returned.
     ///
     ///
-    /// If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region and current account. To return information about a trail in another region, you must specify its trail ARN.
+    /// If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current Region and current account. To return information about a trail in another Region, you must specify its trail ARN.
     public var trailNameList: [Swift.String]?
 
     public init(
@@ -3795,7 +3807,7 @@ extension CloudTrailClientTypes {
         public var createdTimestamp: ClientRuntime.Date?
         /// The ARN of the event data store.
         public var eventDataStoreArn: Swift.String?
-        /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
+        /// Indicates whether the event data store includes events from all Regions, or only from the Region in which it was created.
         @available(*, deprecated, message: "MultiRegionEnabled is no longer returned by ListEventDataStores")
         public var multiRegionEnabled: Swift.Bool?
         /// The name of the event data store.
@@ -3806,7 +3818,7 @@ extension CloudTrailClientTypes {
         /// The retention period, in days.
         @available(*, deprecated, message: "RetentionPeriod is no longer returned by ListEventDataStores")
         public var retentionPeriod: Swift.Int?
-        /// The status of an event data store. Values are ENABLED and PENDING_DELETION.
+        /// The status of an event data store.
         @available(*, deprecated, message: "Status is no longer returned by ListEventDataStores")
         public var status: CloudTrailClientTypes.EventDataStoreStatus?
         /// Indicates whether the event data store is protected from termination.
@@ -4129,6 +4141,9 @@ extension CloudTrailClientTypes {
         case created
         case enabled
         case pendingDeletion
+        case startingIngestion
+        case stoppedIngestion
+        case stoppingIngestion
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventDataStoreStatus] {
@@ -4136,6 +4151,9 @@ extension CloudTrailClientTypes {
                 .created,
                 .enabled,
                 .pendingDeletion,
+                .startingIngestion,
+                .stoppedIngestion,
+                .stoppingIngestion,
                 .sdkUnknown("")
             ]
         }
@@ -4148,6 +4166,9 @@ extension CloudTrailClientTypes {
             case .created: return "CREATED"
             case .enabled: return "ENABLED"
             case .pendingDeletion: return "PENDING_DELETION"
+            case .startingIngestion: return "STARTING_INGESTION"
+            case .stoppedIngestion: return "STOPPED_INGESTION"
+            case .stoppingIngestion: return "STOPPING_INGESTION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4281,9 +4302,9 @@ extension CloudTrailClientTypes {
     public struct EventSelector: Swift.Equatable {
         /// CloudTrail supports data event logging for Amazon S3 objects, Lambda functions, and Amazon DynamoDB tables with basic event selectors. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you configure resource logging for all data events. For more information, see [Data Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) and [Limits in CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html) in the CloudTrail User Guide.
         public var dataResources: [CloudTrailClientTypes.DataResource]?
-        /// An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out Key Management Service or Amazon RDS Data API events by containing kms.amazonaws.com or rdsdata.amazonaws.com. By default, ExcludeManagementEventSources is empty, and KMS and Amazon RDS Data API events are logged to your trail. You can exclude management event sources only in regions that support the event source.
+        /// An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out Key Management Service or Amazon RDS Data API events by containing kms.amazonaws.com or rdsdata.amazonaws.com. By default, ExcludeManagementEventSources is empty, and KMS and Amazon RDS Data API events are logged to your trail. You can exclude management event sources only in Regions that support the event source.
         public var excludeManagementEventSources: [Swift.String]?
-        /// Specify if you want your event selector to include management events for your trail. For more information, see [Management Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) in the CloudTrail User Guide. By default, the value is true. The first copy of management events is free. You are charged for additional copies of management events that you are logging on any subsequent trail in the same region. For more information about CloudTrail pricing, see [CloudTrail Pricing](http://aws.amazon.com/cloudtrail/pricing/).
+        /// Specify if you want your event selector to include management events for your trail. For more information, see [Management Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) in the CloudTrail User Guide. By default, the value is true. The first copy of management events is free. You are charged for additional copies of management events that you are logging on any subsequent trail in the same Region. For more information about CloudTrail pricing, see [CloudTrail Pricing](http://aws.amazon.com/cloudtrail/pricing/).
         public var includeManagementEvents: Swift.Bool?
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation. By default, the value is All.
         public var readWriteType: CloudTrailClientTypes.ReadWriteType?
@@ -4399,7 +4420,7 @@ public struct GetChannelOutputResponse: Swift.Equatable {
     public var name: Swift.String?
     /// The source for the CloudTrail channel.
     public var source: Swift.String?
-    /// Provides information about the advanced event selectors configured for the channel, and whether the channel applies to all regions or a single region.
+    /// Provides information about the advanced event selectors configured for the channel, and whether the channel applies to all Regions or a single Region.
     public var sourceConfig: CloudTrailClientTypes.SourceConfig?
 
     public init(
@@ -4570,7 +4591,7 @@ public struct GetEventDataStoreOutputResponse: Swift.Equatable {
     public var eventDataStoreArn: Swift.String?
     /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
-    /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
+    /// Indicates whether the event data store includes events from all Regions, or only from the Region in which it was created.
     public var multiRegionEnabled: Swift.Bool?
     /// The name of the event data store.
     public var name: Swift.String?
@@ -4578,7 +4599,7 @@ public struct GetEventDataStoreOutputResponse: Swift.Equatable {
     public var organizationEnabled: Swift.Bool?
     /// The retention period of the event data store, in days.
     public var retentionPeriod: Swift.Int?
-    /// The status of an event data store. Values can be ENABLED and PENDING_DELETION.
+    /// The status of an event data store.
     public var status: CloudTrailClientTypes.EventDataStoreStatus?
     /// Indicates that termination protection is enabled.
     public var terminationProtectionEnabled: Swift.Bool?
@@ -5612,7 +5633,7 @@ extension GetTrailStatusInput: ClientRuntime.URLPathProvider {
 
 /// The name of a trail about which you want the current status.
 public struct GetTrailStatusInput: Swift.Equatable {
-    /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     /// This member is required.
     public var name: Swift.String?
 
@@ -7210,7 +7231,7 @@ extension InvalidHomeRegionException {
     }
 }
 
-/// This exception is thrown when an operation is called on a trail from a region other than the region in which the trail was created.
+/// This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
 public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8397,7 +8418,7 @@ extension KmsKeyNotFoundException {
     }
 }
 
-/// This exception is thrown when the KMS key does not exist, when the S3 bucket and the KMS key are not in the same region, or when the KMS key associated with the Amazon SNS topic either does not exist or is not in the same region.
+/// This exception is thrown when the KMS key does not exist, when the S3 bucket and the KMS key are not in the same Region, or when the KMS key associated with the Amazon SNS topic either does not exist or is not in the same Region.
 public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8658,7 +8679,7 @@ extension ListEventDataStoresOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListEventDataStoresOutputResponse: Swift.Equatable {
-    /// Contains information about event data stores in the account, in the current region.
+    /// Contains information about event data stores in the account, in the current Region.
     public var eventDataStores: [CloudTrailClientTypes.EventDataStore]?
     /// A token you can use to get the next page of results.
     public var nextToken: Swift.String?
@@ -9367,7 +9388,7 @@ extension ListTagsInput: ClientRuntime.URLPathProvider {
 public struct ListTagsInput: Swift.Equatable {
     /// Reserved for future use.
     public var nextToken: Swift.String?
-    /// Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs.
+    /// Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceIdList: [Swift.String]?
 
@@ -9568,7 +9589,7 @@ extension ListTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListTrailsOutputResponse: Swift.Equatable {
     /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
     public var nextToken: Swift.String?
-    /// Returns the name, ARN, and home region of trails in the current account.
+    /// Returns the name, ARN, and home Region of trails in the current account.
     public var trails: [CloudTrailClientTypes.TrailInfo]?
 
     public init(
@@ -11344,7 +11365,7 @@ extension RemoveTagsInput: ClientRuntime.URLPathProvider {
 
 /// Specifies the tags to remove from a trail, event data store, or channel.
 public struct RemoveTagsInput: Swift.Equatable {
-    /// Specifies the ARN of the trail, event data store, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// Specifies the ARN of the trail, event data store, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
     /// Specifies a list of tags to be removed.
@@ -11925,7 +11946,7 @@ public struct RestoreEventDataStoreOutputResponse: Swift.Equatable {
     public var eventDataStoreArn: Swift.String?
     /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
-    /// Indicates whether the event data store is collecting events from all regions, or only from the region in which the event data store was created.
+    /// Indicates whether the event data store is collecting events from all Regions, or only from the Region in which the event data store was created.
     public var multiRegionEnabled: Swift.Bool?
     /// The name of the event data store.
     public var name: Swift.String?
@@ -12126,7 +12147,7 @@ extension CloudTrailClientTypes {
         /// The IAM ARN role used to access the source S3 bucket.
         /// This member is required.
         public var s3BucketAccessRoleArn: Swift.String?
-        /// The region associated with the source S3 bucket.
+        /// The Region associated with the source S3 bucket.
         /// This member is required.
         public var s3BucketRegion: Swift.String?
         /// The URI for the source S3 bucket.
@@ -12189,7 +12210,7 @@ extension CloudTrailClientTypes {
     public struct SourceConfig: Swift.Equatable {
         /// The advanced event selectors that are configured for the channel.
         public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
-        /// Specifies whether the channel applies to a single region or to all regions.
+        /// Specifies whether the channel applies to a single Region or to all Regions.
         public var applyToAllRegions: Swift.Bool?
 
         public init(
@@ -12202,6 +12223,84 @@ extension CloudTrailClientTypes {
         }
     }
 
+}
+
+extension StartEventDataStoreIngestionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventDataStore = self.eventDataStore {
+            try encodeContainer.encode(eventDataStore, forKey: .eventDataStore)
+        }
+    }
+}
+
+extension StartEventDataStoreIngestionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartEventDataStoreIngestionInput: Swift.Equatable {
+    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion.
+    /// This member is required.
+    public var eventDataStore: Swift.String?
+
+    public init(
+        eventDataStore: Swift.String? = nil
+    )
+    {
+        self.eventDataStore = eventDataStore
+    }
+}
+
+struct StartEventDataStoreIngestionInputBody: Swift.Equatable {
+    let eventDataStore: Swift.String?
+}
+
+extension StartEventDataStoreIngestionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
+        eventDataStore = eventDataStoreDecoded
+    }
+}
+
+public enum StartEventDataStoreIngestionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartEventDataStoreIngestionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StartEventDataStoreIngestionOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension StartImportInput: Swift.Encodable {
@@ -12654,6 +12753,84 @@ extension StartQueryOutputResponseBody: Swift.Decodable {
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
     }
+}
+
+extension StopEventDataStoreIngestionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventDataStore = self.eventDataStore {
+            try encodeContainer.encode(eventDataStore, forKey: .eventDataStore)
+        }
+    }
+}
+
+extension StopEventDataStoreIngestionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StopEventDataStoreIngestionInput: Swift.Equatable {
+    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to stop ingestion.
+    /// This member is required.
+    public var eventDataStore: Swift.String?
+
+    public init(
+        eventDataStore: Swift.String? = nil
+    )
+    {
+        self.eventDataStore = eventDataStore
+    }
+}
+
+struct StopEventDataStoreIngestionInputBody: Swift.Equatable {
+    let eventDataStore: Swift.String?
+}
+
+extension StopEventDataStoreIngestionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
+        eventDataStore = eventDataStoreDecoded
+    }
+}
+
+public enum StopEventDataStoreIngestionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopEventDataStoreIngestionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopEventDataStoreIngestionOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension StopImportInput: Swift.Encodable {
@@ -13149,11 +13326,11 @@ extension CloudTrailClientTypes {
         public var hasCustomEventSelectors: Swift.Bool?
         /// Specifies whether a trail has insight types specified in an InsightSelector list.
         public var hasInsightSelectors: Swift.Bool?
-        /// The region in which the trail was created.
+        /// The Region in which the trail was created.
         public var homeRegion: Swift.String?
         /// Set to True to include Amazon Web Services API calls from Amazon Web Services global services such as IAM. Otherwise, False.
         public var includeGlobalServiceEvents: Swift.Bool?
-        /// Specifies whether the trail exists only in one region or exists in all regions.
+        /// Specifies whether the trail exists only in one Region or exists in all Regions.
         public var isMultiRegionTrail: Swift.Bool?
         /// Specifies whether the trail is an organization trail.
         public var isOrganizationTrail: Swift.Bool?
@@ -13303,7 +13480,7 @@ extension CloudTrailClientTypes.TrailInfo: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// Information about a CloudTrail trail, including the trail's name, home region, and Amazon Resource Name (ARN).
+    /// Information about a CloudTrail trail, including the trail's name, home Region, and Amazon Resource Name (ARN).
     public struct TrailInfo: Swift.Equatable {
         /// The Amazon Web Services Region in which a trail was created.
         public var homeRegion: Swift.String?
@@ -13743,7 +13920,7 @@ public struct UpdateEventDataStoreInput: Swift.Equatable {
     ///
     /// * 12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
-    /// Specifies whether an event data store collects events from all regions, or only from the region in which it was created.
+    /// Specifies whether an event data store collects events from all Regions, or only from the Region in which it was created.
     public var multiRegionEnabled: Swift.Bool?
     /// The event data store name.
     public var name: Swift.String?
@@ -13898,7 +14075,7 @@ public struct UpdateEventDataStoreOutputResponse: Swift.Equatable {
     public var eventDataStoreArn: Swift.String?
     /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
-    /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
+    /// Indicates whether the event data store includes events from all Regions, or only from the Region in which it was created.
     public var multiRegionEnabled: Swift.Bool?
     /// The name of the event data store.
     public var name: Swift.String?
@@ -13906,7 +14083,7 @@ public struct UpdateEventDataStoreOutputResponse: Swift.Equatable {
     public var organizationEnabled: Swift.Bool?
     /// The retention period, in days.
     public var retentionPeriod: Swift.Int?
-    /// The status of an event data store. Values can be ENABLED and PENDING_DELETION.
+    /// The status of an event data store.
     public var status: CloudTrailClientTypes.EventDataStoreStatus?
     /// Indicates whether termination protection is enabled for the event data store.
     public var terminationProtectionEnabled: Swift.Bool?
@@ -14075,7 +14252,7 @@ public struct UpdateTrailInput: Swift.Equatable {
     public var enableLogFileValidation: Swift.Bool?
     /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
     public var includeGlobalServiceEvents: Swift.Bool?
-    /// Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true, shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region where it was created, and its shadow trails in other regions will be deleted. As a best practice, consider using trails that log events in all regions.
+    /// Specifies whether the trail applies only to the current Region or to all Regions. The default is false. If the trail exists only in the current Region and this value is set to true, shadow trails (replications of the trail) will be created in the other Regions. If the trail exists in all Regions and this value is set to false, the trail will remain in the Region where it was created, and its shadow trails in other Regions will be deleted. As a best practice, consider using trails that log events in all Regions.
     public var isMultiRegionTrail: Swift.Bool?
     /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization.
     public var isOrganizationTrail: Swift.Bool?
@@ -14282,7 +14459,7 @@ public struct UpdateTrailOutputResponse: Swift.Equatable {
     public var cloudWatchLogsRoleArn: Swift.String?
     /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
     public var includeGlobalServiceEvents: Swift.Bool?
-    /// Specifies whether the trail exists in one region or in all regions.
+    /// Specifies whether the trail exists in one Region or in all Regions.
     public var isMultiRegionTrail: Swift.Bool?
     /// Specifies whether the trail is an organization trail.
     public var isOrganizationTrail: Swift.Bool?

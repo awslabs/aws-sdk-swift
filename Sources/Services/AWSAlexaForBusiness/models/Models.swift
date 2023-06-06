@@ -2905,6 +2905,7 @@ extension AlexaForBusinessClientTypes.CreateMeetingRoomConfiguration: Swift.Coda
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endOfMeetingReminder = "EndOfMeetingReminder"
         case instantBooking = "InstantBooking"
+        case proactiveJoin = "ProactiveJoin"
         case requireCheckIn = "RequireCheckIn"
         case roomUtilizationMetricsEnabled = "RoomUtilizationMetricsEnabled"
     }
@@ -2916,6 +2917,9 @@ extension AlexaForBusinessClientTypes.CreateMeetingRoomConfiguration: Swift.Coda
         }
         if let instantBooking = self.instantBooking {
             try encodeContainer.encode(instantBooking, forKey: .instantBooking)
+        }
+        if let proactiveJoin = self.proactiveJoin {
+            try encodeContainer.encode(proactiveJoin, forKey: .proactiveJoin)
         }
         if let requireCheckIn = self.requireCheckIn {
             try encodeContainer.encode(requireCheckIn, forKey: .requireCheckIn)
@@ -2935,6 +2939,8 @@ extension AlexaForBusinessClientTypes.CreateMeetingRoomConfiguration: Swift.Coda
         instantBooking = instantBookingDecoded
         let requireCheckInDecoded = try containerValues.decodeIfPresent(AlexaForBusinessClientTypes.CreateRequireCheckIn.self, forKey: .requireCheckIn)
         requireCheckIn = requireCheckInDecoded
+        let proactiveJoinDecoded = try containerValues.decodeIfPresent(AlexaForBusinessClientTypes.CreateProactiveJoin.self, forKey: .proactiveJoin)
+        proactiveJoin = proactiveJoinDecoded
     }
 }
 
@@ -2945,6 +2951,7 @@ extension AlexaForBusinessClientTypes {
         public var endOfMeetingReminder: AlexaForBusinessClientTypes.CreateEndOfMeetingReminder?
         /// Settings to automatically book a room for a configured duration if it's free when joining a meeting with Alexa.
         public var instantBooking: AlexaForBusinessClientTypes.CreateInstantBooking?
+        public var proactiveJoin: AlexaForBusinessClientTypes.CreateProactiveJoin?
         /// Settings for requiring a check in when a room is reserved. Alexa can cancel a room reservation if it's not checked into to make the room available for others. Users can check in by joining the meeting with Alexa or an AVS device, or by saying “Alexa, check in.”
         public var requireCheckIn: AlexaForBusinessClientTypes.CreateRequireCheckIn?
         /// Whether room utilization metrics are enabled or not.
@@ -2953,12 +2960,14 @@ extension AlexaForBusinessClientTypes {
         public init(
             endOfMeetingReminder: AlexaForBusinessClientTypes.CreateEndOfMeetingReminder? = nil,
             instantBooking: AlexaForBusinessClientTypes.CreateInstantBooking? = nil,
+            proactiveJoin: AlexaForBusinessClientTypes.CreateProactiveJoin? = nil,
             requireCheckIn: AlexaForBusinessClientTypes.CreateRequireCheckIn? = nil,
             roomUtilizationMetricsEnabled: Swift.Bool? = nil
         )
         {
             self.endOfMeetingReminder = endOfMeetingReminder
             self.instantBooking = instantBooking
+            self.proactiveJoin = proactiveJoin
             self.requireCheckIn = requireCheckIn
             self.roomUtilizationMetricsEnabled = roomUtilizationMetricsEnabled
         }
@@ -3219,6 +3228,40 @@ extension CreateNetworkProfileOutputResponseBody: Swift.Decodable {
         let networkProfileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkProfileArn)
         networkProfileArn = networkProfileArnDecoded
     }
+}
+
+extension AlexaForBusinessClientTypes.CreateProactiveJoin: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledByMotion = "EnabledByMotion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledByMotion = self.enabledByMotion {
+            try encodeContainer.encode(enabledByMotion, forKey: .enabledByMotion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledByMotionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabledByMotion)
+        enabledByMotion = enabledByMotionDecoded
+    }
+}
+
+extension AlexaForBusinessClientTypes {
+    public struct CreateProactiveJoin: Swift.Equatable {
+        /// This member is required.
+        public var enabledByMotion: Swift.Bool?
+
+        public init(
+            enabledByMotion: Swift.Bool? = nil
+        )
+        {
+            self.enabledByMotion = enabledByMotion
+        }
+    }
+
 }
 
 extension CreateProfileInput: Swift.Encodable {
@@ -10086,6 +10129,7 @@ extension AlexaForBusinessClientTypes.MeetingRoomConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endOfMeetingReminder = "EndOfMeetingReminder"
         case instantBooking = "InstantBooking"
+        case proactiveJoin = "ProactiveJoin"
         case requireCheckIn = "RequireCheckIn"
         case roomUtilizationMetricsEnabled = "RoomUtilizationMetricsEnabled"
     }
@@ -10097,6 +10141,9 @@ extension AlexaForBusinessClientTypes.MeetingRoomConfiguration: Swift.Codable {
         }
         if let instantBooking = self.instantBooking {
             try encodeContainer.encode(instantBooking, forKey: .instantBooking)
+        }
+        if let proactiveJoin = self.proactiveJoin {
+            try encodeContainer.encode(proactiveJoin, forKey: .proactiveJoin)
         }
         if let requireCheckIn = self.requireCheckIn {
             try encodeContainer.encode(requireCheckIn, forKey: .requireCheckIn)
@@ -10116,6 +10163,8 @@ extension AlexaForBusinessClientTypes.MeetingRoomConfiguration: Swift.Codable {
         instantBooking = instantBookingDecoded
         let requireCheckInDecoded = try containerValues.decodeIfPresent(AlexaForBusinessClientTypes.RequireCheckIn.self, forKey: .requireCheckIn)
         requireCheckIn = requireCheckInDecoded
+        let proactiveJoinDecoded = try containerValues.decodeIfPresent(AlexaForBusinessClientTypes.ProactiveJoin.self, forKey: .proactiveJoin)
+        proactiveJoin = proactiveJoinDecoded
     }
 }
 
@@ -10126,6 +10175,7 @@ extension AlexaForBusinessClientTypes {
         public var endOfMeetingReminder: AlexaForBusinessClientTypes.EndOfMeetingReminder?
         /// Settings to automatically book the room if available for a configured duration when joining a meeting with Alexa.
         public var instantBooking: AlexaForBusinessClientTypes.InstantBooking?
+        public var proactiveJoin: AlexaForBusinessClientTypes.ProactiveJoin?
         /// Settings for requiring a check in when a room is reserved. Alexa can cancel a room reservation if it's not checked into. This makes the room available for others. Users can check in by joining the meeting with Alexa or an AVS device, or by saying “Alexa, check in.”
         public var requireCheckIn: AlexaForBusinessClientTypes.RequireCheckIn?
         /// Whether room utilization metrics are enabled or not.
@@ -10134,12 +10184,14 @@ extension AlexaForBusinessClientTypes {
         public init(
             endOfMeetingReminder: AlexaForBusinessClientTypes.EndOfMeetingReminder? = nil,
             instantBooking: AlexaForBusinessClientTypes.InstantBooking? = nil,
+            proactiveJoin: AlexaForBusinessClientTypes.ProactiveJoin? = nil,
             requireCheckIn: AlexaForBusinessClientTypes.RequireCheckIn? = nil,
             roomUtilizationMetricsEnabled: Swift.Bool? = nil
         )
         {
             self.endOfMeetingReminder = endOfMeetingReminder
             self.instantBooking = instantBooking
+            self.proactiveJoin = proactiveJoin
             self.requireCheckIn = requireCheckIn
             self.roomUtilizationMetricsEnabled = roomUtilizationMetricsEnabled
         }
@@ -10760,6 +10812,39 @@ extension AlexaForBusinessClientTypes {
             self = PhoneNumberType(rawValue: rawValue) ?? PhoneNumberType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension AlexaForBusinessClientTypes.ProactiveJoin: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledByMotion = "EnabledByMotion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledByMotion = self.enabledByMotion {
+            try encodeContainer.encode(enabledByMotion, forKey: .enabledByMotion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledByMotionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabledByMotion)
+        enabledByMotion = enabledByMotionDecoded
+    }
+}
+
+extension AlexaForBusinessClientTypes {
+    public struct ProactiveJoin: Swift.Equatable {
+        public var enabledByMotion: Swift.Bool?
+
+        public init(
+            enabledByMotion: Swift.Bool? = nil
+        )
+        {
+            self.enabledByMotion = enabledByMotion
+        }
+    }
+
 }
 
 extension AlexaForBusinessClientTypes.Profile: Swift.Codable {
@@ -14964,9 +15049,9 @@ extension StartDeviceSyncInputBody: Swift.Decodable {
         var featuresDecoded0:[AlexaForBusinessClientTypes.Feature]? = nil
         if let featuresContainer = featuresContainer {
             featuresDecoded0 = [AlexaForBusinessClientTypes.Feature]()
-            for string0 in featuresContainer {
-                if let string0 = string0 {
-                    featuresDecoded0?.append(string0)
+            for enum0 in featuresContainer {
+                if let enum0 = enum0 {
+                    featuresDecoded0?.append(enum0)
                 }
             }
         }
@@ -16346,6 +16431,7 @@ extension AlexaForBusinessClientTypes.UpdateMeetingRoomConfiguration: Swift.Coda
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endOfMeetingReminder = "EndOfMeetingReminder"
         case instantBooking = "InstantBooking"
+        case proactiveJoin = "ProactiveJoin"
         case requireCheckIn = "RequireCheckIn"
         case roomUtilizationMetricsEnabled = "RoomUtilizationMetricsEnabled"
     }
@@ -16357,6 +16443,9 @@ extension AlexaForBusinessClientTypes.UpdateMeetingRoomConfiguration: Swift.Coda
         }
         if let instantBooking = self.instantBooking {
             try encodeContainer.encode(instantBooking, forKey: .instantBooking)
+        }
+        if let proactiveJoin = self.proactiveJoin {
+            try encodeContainer.encode(proactiveJoin, forKey: .proactiveJoin)
         }
         if let requireCheckIn = self.requireCheckIn {
             try encodeContainer.encode(requireCheckIn, forKey: .requireCheckIn)
@@ -16376,6 +16465,8 @@ extension AlexaForBusinessClientTypes.UpdateMeetingRoomConfiguration: Swift.Coda
         instantBooking = instantBookingDecoded
         let requireCheckInDecoded = try containerValues.decodeIfPresent(AlexaForBusinessClientTypes.UpdateRequireCheckIn.self, forKey: .requireCheckIn)
         requireCheckIn = requireCheckInDecoded
+        let proactiveJoinDecoded = try containerValues.decodeIfPresent(AlexaForBusinessClientTypes.UpdateProactiveJoin.self, forKey: .proactiveJoin)
+        proactiveJoin = proactiveJoinDecoded
     }
 }
 
@@ -16386,6 +16477,7 @@ extension AlexaForBusinessClientTypes {
         public var endOfMeetingReminder: AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder?
         /// Settings to automatically book an available room available for a configured duration when joining a meeting with Alexa.
         public var instantBooking: AlexaForBusinessClientTypes.UpdateInstantBooking?
+        public var proactiveJoin: AlexaForBusinessClientTypes.UpdateProactiveJoin?
         /// Settings for requiring a check in when a room is reserved. Alexa can cancel a room reservation if it's not checked into to make the room available for others. Users can check in by joining the meeting with Alexa or an AVS device, or by saying “Alexa, check in.”
         public var requireCheckIn: AlexaForBusinessClientTypes.UpdateRequireCheckIn?
         /// Whether room utilization metrics are enabled or not.
@@ -16394,12 +16486,14 @@ extension AlexaForBusinessClientTypes {
         public init(
             endOfMeetingReminder: AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder? = nil,
             instantBooking: AlexaForBusinessClientTypes.UpdateInstantBooking? = nil,
+            proactiveJoin: AlexaForBusinessClientTypes.UpdateProactiveJoin? = nil,
             requireCheckIn: AlexaForBusinessClientTypes.UpdateRequireCheckIn? = nil,
             roomUtilizationMetricsEnabled: Swift.Bool? = nil
         )
         {
             self.endOfMeetingReminder = endOfMeetingReminder
             self.instantBooking = instantBooking
+            self.proactiveJoin = proactiveJoin
             self.requireCheckIn = requireCheckIn
             self.roomUtilizationMetricsEnabled = roomUtilizationMetricsEnabled
         }
@@ -16567,6 +16661,40 @@ extension UpdateNetworkProfileOutputResponse: ClientRuntime.HttpResponseBinding 
 public struct UpdateNetworkProfileOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension AlexaForBusinessClientTypes.UpdateProactiveJoin: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledByMotion = "EnabledByMotion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledByMotion = self.enabledByMotion {
+            try encodeContainer.encode(enabledByMotion, forKey: .enabledByMotion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledByMotionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabledByMotion)
+        enabledByMotion = enabledByMotionDecoded
+    }
+}
+
+extension AlexaForBusinessClientTypes {
+    public struct UpdateProactiveJoin: Swift.Equatable {
+        /// This member is required.
+        public var enabledByMotion: Swift.Bool?
+
+        public init(
+            enabledByMotion: Swift.Bool? = nil
+        )
+        {
+            self.enabledByMotion = enabledByMotion
+        }
+    }
+
 }
 
 extension UpdateProfileInput: Swift.Encodable {

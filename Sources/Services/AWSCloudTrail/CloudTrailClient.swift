@@ -192,7 +192,7 @@ public struct CloudTrailClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 }
 
 extension CloudTrailClient: CloudTrailClientProtocol {
-    /// Adds one or more tags to a trail, event data store, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home region).
+    /// Adds one or more tags to a trail, event data store, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
     public func addTags(input: AddTagsInput) async throws -> AddTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -488,7 +488,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Deletes a trail. This operation must be called from the region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other regions) of a trail that is enabled in all regions.
+    /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
     public func deleteTrail(input: DeleteTrailInput) async throws -> DeleteTrailOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -599,7 +599,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Retrieves settings for one or more trails associated with the current region for your account.
+    /// Retrieves settings for one or more trails associated with the current Region for your account.
     public func describeTrails(input: DescribeTrailsInput) async throws -> DescribeTrailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -945,7 +945,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single region. To return trail status from all regions, you must call the operation on each region.
+    /// Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single Region. To return trail status from all Regions, you must call the operation on each Region.
     public func getTrailStatus(input: GetTrailStatusInput) async throws -> GetTrailStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1019,7 +1019,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Returns information about all event data stores in the account, in the current region.
+    /// Returns information about all event data stores in the account, in the current Region.
     public func listEventDataStores(input: ListEventDataStoresInput) async throws -> ListEventDataStoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1130,7 +1130,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key. CloudTrail uses different private and public key pairs per region. Each digest file is signed with a private key unique to its region. When you validate a digest file from a specific region, you must look in the same region for its corresponding public key.
+    /// Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key. CloudTrail uses different private and public key pairs per Region. Each digest file is signed with a private key unique to its Region. When you validate a digest file from a specific Region, you must look in the same Region for its corresponding public key.
     public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1204,7 +1204,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Lists the tags for the trail, event data store, or channel in the current region.
+    /// Lists the tags for the specified trails, event data stores, or channels in the current Region.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1278,7 +1278,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Looks up [management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-management-events) or [CloudTrail Insights events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-insights-events) that are captured by CloudTrail. You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes for management events:
+    /// Looks up [management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-management-events) or [CloudTrail Insights events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-insights-events) that are captured by CloudTrail. You can look up events that occurred in a Region within the last 90 days. Lookup supports the following attributes for management events:
     ///
     /// * Amazon Web Services access key
     ///
@@ -1306,7 +1306,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// * Event source
     ///
     ///
-    /// All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of lookup requests is limited to two per second, per account, per region. If this limit is exceeded, a throttling error occurs.
+    /// All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of lookup requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
     public func lookupEvents(input: LookupEventsInput) async throws -> LookupEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1356,7 +1356,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// * The GetConsoleOutput is a read-only event that doesn't match your event selector. The trail doesn't log the event.
     ///
     ///
-    /// The PutEventSelectors operation must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException exception is thrown. You can configure up to five event selectors for each trail. For more information, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html), [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), and [Quotas in CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html) in the CloudTrail User Guide. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide.
+    /// The PutEventSelectors operation must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException exception is thrown. You can configure up to five event selectors for each trail. For more information, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html), [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), and [Quotas in CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html) in the CloudTrail User Guide. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide.
     public func putEventSelectors(input: PutEventSelectorsInput) async throws -> PutEventSelectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1578,6 +1578,43 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
+    /// Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION and the eventCategory must be Management, Data, or ConfigurationItem.
+    public func startEventDataStoreIngestion(input: StartEventDataStoreIngestionInput) async throws -> StartEventDataStoreIngestionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startEventDataStoreIngestion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(id: "startEventDataStoreIngestion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartEventDataStoreIngestion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(xmlName: "StartEventDataStoreIngestionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Starts an import of logged trail events from a source S3 bucket to a destination event data store. By default, CloudTrail only imports events contained in the S3 bucket's CloudTrail prefix and the prefixes inside the CloudTrail prefix, and does not check prefixes for other Amazon Web Services services. If you want to import CloudTrail events contained in another prefix, you must include the prefix in the S3LocationUri. For more considerations about importing trail events, see [Considerations](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-copy-trail-to-lake.html#cloudtrail-trail-copy-considerations). When you start a new import, the Destinations and ImportSource parameters are required. Before starting a new import, disable any access control lists (ACLs) attached to the source S3 bucket. For more information about disabling ACLs, see [Controlling ownership of objects and disabling ACLs for your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html). When you retry an import, the ImportID parameter is required. If the destination event data store is for an organization, you must use the management account to import trail events. You cannot use the delegated administrator account for the organization.
     public func startImport(input: StartImportInput) async throws -> StartImportOutputResponse
     {
@@ -1615,7 +1652,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Starts the recording of Amazon Web Services API calls and log file delivery for a trail. For a trail that is enabled in all regions, this operation must be called from the region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other regions) of a trail that is enabled in all regions.
+    /// Starts the recording of Amazon Web Services API calls and log file delivery for a trail. For a trail that is enabled in all Regions, this operation must be called from the Region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
     public func startLogging(input: StartLoggingInput) async throws -> StartLoggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1689,6 +1726,43 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
+    /// Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store Status must be ENABLED and the eventCategory must be Management, Data, or ConfigurationItem.
+    public func stopEventDataStoreIngestion(input: StopEventDataStoreIngestionInput) async throws -> StopEventDataStoreIngestionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopEventDataStoreIngestion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(id: "stopEventDataStoreIngestion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(xAmzTarget: "CloudTrail_20131101.StopEventDataStoreIngestion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(xmlName: "StopEventDataStoreIngestionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Stops a specified import.
     public func stopImport(input: StopImportInput) async throws -> StopImportOutputResponse
     {
@@ -1726,7 +1800,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Suspends the recording of Amazon Web Services API calls and log file delivery for the specified trail. Under most circumstances, there is no need to use this action. You can update a trail without stopping it first. This action is the only way to stop recording. For a trail enabled in all regions, this operation must be called from the region in which the trail was created, or an InvalidHomeRegionException will occur. This operation cannot be called on the shadow trails (replicated trails in other regions) of a trail enabled in all regions.
+    /// Suspends the recording of Amazon Web Services API calls and log file delivery for the specified trail. Under most circumstances, there is no need to use this action. You can update a trail without stopping it first. This action is the only way to stop recording. For a trail enabled in all Regions, this operation must be called from the Region in which the trail was created, or an InvalidHomeRegionException will occur. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail enabled in all Regions.
     public func stopLogging(input: StopLoggingInput) async throws -> StopLoggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1837,7 +1911,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         return result
     }
 
-    /// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown.
+    /// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown.
     public func updateTrail(input: UpdateTrailInput) async throws -> UpdateTrailOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

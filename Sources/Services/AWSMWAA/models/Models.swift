@@ -271,7 +271,7 @@ extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
 public struct CreateEnvironmentInput: Swift.Equatable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, and 2.4.3. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html).
+    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html).
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     /// This member is required.
@@ -955,7 +955,7 @@ extension MWAAClientTypes {
     public struct Environment: Swift.Equatable {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
         public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, and 2.4.3.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
         public var airflowVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public var arn: Swift.String?
@@ -1003,11 +1003,15 @@ extension MWAAClientTypes {
         ///
         /// * CREATING - Indicates the request to create the environment is in progress.
         ///
+        /// * CREATING_SNAPSHOT - Indicates the request to update environment details, or upgrade the environment version, is in progress and Amazon MWAA is creating a storage volume snapshot of the Amazon RDS database cluster associated with the environment. A database snapshot is a backup created at a specific point in time. Amazon MWAA uses snapshots to recover environment metadata if the process to update or upgrade an environment fails.
+        ///
         /// * CREATE_FAILED - Indicates the request to create the environment failed, and the environment could not be created.
         ///
         /// * AVAILABLE - Indicates the request was successful and the environment is ready to use.
         ///
         /// * UPDATING - Indicates the request to update the environment is in progress.
+        ///
+        /// * ROLLING_BACK - Indicates the request to update environment details, or upgrade the environment version, failed and Amazon MWAA is restoring the environment using the latest storage volume snapshot.
         ///
         /// * DELETING - Indicates the request to delete the environment is in progress.
         ///
@@ -1098,8 +1102,10 @@ extension MWAAClientTypes {
         case available
         case createFailed
         case creating
+        case creatingSnapshot
         case deleted
         case deleting
+        case rollingBack
         case unavailable
         case updateFailed
         case updating
@@ -1110,8 +1116,10 @@ extension MWAAClientTypes {
                 .available,
                 .createFailed,
                 .creating,
+                .creatingSnapshot,
                 .deleted,
                 .deleting,
+                .rollingBack,
                 .unavailable,
                 .updateFailed,
                 .updating,
@@ -1127,8 +1135,10 @@ extension MWAAClientTypes {
             case .available: return "AVAILABLE"
             case .createFailed: return "CREATE_FAILED"
             case .creating: return "CREATING"
+            case .creatingSnapshot: return "CREATING_SNAPSHOT"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
+            case .rollingBack: return "ROLLING_BACK"
             case .unavailable: return "UNAVAILABLE"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
@@ -2610,7 +2620,7 @@ extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
 public struct UpdateEnvironmentInput: Swift.Equatable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-    /// The Apache Airflow version for your environment. If no value is specified, defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, and 2.4.3.
+    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     public var dagS3Path: Swift.String?

@@ -176,6 +176,125 @@ extension AssociateBrowserSettingsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension AssociateIpAccessSettingsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let ipAccessSettingsArn = ipAccessSettingsArn else {
+                let message = "Creating a URL Query Item failed. ipAccessSettingsArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let ipAccessSettingsArnQueryItem = ClientRuntime.URLQueryItem(name: "ipAccessSettingsArn".urlPercentEncoding(), value: Swift.String(ipAccessSettingsArn).urlPercentEncoding())
+            items.append(ipAccessSettingsArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension AssociateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let portalArn = portalArn else {
+            return nil
+        }
+        return "/portals/\(portalArn)/ipAccessSettings"
+    }
+}
+
+public struct AssociateIpAccessSettingsInput: Swift.Equatable {
+    /// The ARN of the IP access settings.
+    /// This member is required.
+    public var ipAccessSettingsArn: Swift.String?
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        ipAccessSettingsArn: Swift.String? = nil,
+        portalArn: Swift.String? = nil
+    )
+    {
+        self.ipAccessSettingsArn = ipAccessSettingsArn
+        self.portalArn = portalArn
+    }
+}
+
+struct AssociateIpAccessSettingsInputBody: Swift.Equatable {
+}
+
+extension AssociateIpAccessSettingsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum AssociateIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AssociateIpAccessSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AssociateIpAccessSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ipAccessSettingsArn = output.ipAccessSettingsArn
+            self.portalArn = output.portalArn
+        } else {
+            self.ipAccessSettingsArn = nil
+            self.portalArn = nil
+        }
+    }
+}
+
+public struct AssociateIpAccessSettingsOutputResponse: Swift.Equatable {
+    /// The ARN of the IP access settings resource.
+    /// This member is required.
+    public var ipAccessSettingsArn: Swift.String?
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        ipAccessSettingsArn: Swift.String? = nil,
+        portalArn: Swift.String? = nil
+    )
+    {
+        self.ipAccessSettingsArn = ipAccessSettingsArn
+        self.portalArn = portalArn
+    }
+}
+
+struct AssociateIpAccessSettingsOutputResponseBody: Swift.Equatable {
+    let portalArn: Swift.String?
+    let ipAccessSettingsArn: Swift.String?
+}
+
+extension AssociateIpAccessSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAccessSettingsArn
+        case portalArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let portalArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portalArn)
+        portalArn = portalArnDecoded
+        let ipAccessSettingsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAccessSettingsArn)
+        ipAccessSettingsArn = ipAccessSettingsArnDecoded
+    }
+}
+
 extension AssociateNetworkSettingsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -1480,6 +1599,224 @@ extension CreateIdentityProviderOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateIpAccessSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateIpAccessSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", ipRules: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateIpAccessSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext
+        case clientToken
+        case customerManagedKey
+        case description
+        case displayName
+        case ipRules
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalEncryptionContext)
+            for (dictKey0, encryptionContextMap0) in additionalEncryptionContext {
+                try additionalEncryptionContextContainer.encode(encryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let customerManagedKey = self.customerManagedKey {
+            try encodeContainer.encode(customerManagedKey, forKey: .customerManagedKey)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let ipRules = ipRules {
+            var ipRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipRules)
+            for iprule0 in ipRules {
+                try ipRulesContainer.encode(iprule0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ipAccessSettings"
+    }
+}
+
+public struct CreateIpAccessSettingsInput: Swift.Equatable {
+    /// Additional encryption context of the IP access settings.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    public var clientToken: Swift.String?
+    /// The custom managed key of the IP access settings.
+    public var customerManagedKey: Swift.String?
+    /// The description of the IP access settings.
+    public var description: Swift.String?
+    /// The display name of the IP access settings.
+    public var displayName: Swift.String?
+    /// The IP rules of the IP access settings.
+    /// This member is required.
+    public var ipRules: [WorkSpacesWebClientTypes.IpRule]?
+    /// The tags to add to the browser settings resource. A tag is a key-value pair.
+    public var tags: [WorkSpacesWebClientTypes.Tag]?
+
+    public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        customerManagedKey: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil,
+        tags: [WorkSpacesWebClientTypes.Tag]? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.clientToken = clientToken
+        self.customerManagedKey = customerManagedKey
+        self.description = description
+        self.displayName = displayName
+        self.ipRules = ipRules
+        self.tags = tags
+    }
+}
+
+struct CreateIpAccessSettingsInputBody: Swift.Equatable {
+    let displayName: Swift.String?
+    let description: Swift.String?
+    let tags: [WorkSpacesWebClientTypes.Tag]?
+    let customerManagedKey: Swift.String?
+    let additionalEncryptionContext: [Swift.String:Swift.String]?
+    let ipRules: [WorkSpacesWebClientTypes.IpRule]?
+    let clientToken: Swift.String?
+}
+
+extension CreateIpAccessSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext
+        case clientToken
+        case customerManagedKey
+        case description
+        case displayName
+        case ipRules
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([WorkSpacesWebClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[WorkSpacesWebClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [WorkSpacesWebClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let customerManagedKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerManagedKey)
+        customerManagedKey = customerManagedKeyDecoded
+        let additionalEncryptionContextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalEncryptionContext)
+        var additionalEncryptionContextDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+            additionalEncryptionContextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringtype0) in additionalEncryptionContextContainer {
+                if let stringtype0 = stringtype0 {
+                    additionalEncryptionContextDecoded0?[key0] = stringtype0
+                }
+            }
+        }
+        additionalEncryptionContext = additionalEncryptionContextDecoded0
+        let ipRulesContainer = try containerValues.decodeIfPresent([WorkSpacesWebClientTypes.IpRule?].self, forKey: .ipRules)
+        var ipRulesDecoded0:[WorkSpacesWebClientTypes.IpRule]? = nil
+        if let ipRulesContainer = ipRulesContainer {
+            ipRulesDecoded0 = [WorkSpacesWebClientTypes.IpRule]()
+            for structure0 in ipRulesContainer {
+                if let structure0 = structure0 {
+                    ipRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipRules = ipRulesDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum CreateIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateIpAccessSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateIpAccessSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ipAccessSettingsArn = output.ipAccessSettingsArn
+        } else {
+            self.ipAccessSettingsArn = nil
+        }
+    }
+}
+
+public struct CreateIpAccessSettingsOutputResponse: Swift.Equatable {
+    /// The ARN of the IP access settings resource.
+    /// This member is required.
+    public var ipAccessSettingsArn: Swift.String?
+
+    public init(
+        ipAccessSettingsArn: Swift.String? = nil
+    )
+    {
+        self.ipAccessSettingsArn = ipAccessSettingsArn
+    }
+}
+
+struct CreateIpAccessSettingsOutputResponseBody: Swift.Equatable {
+    let ipAccessSettingsArn: Swift.String?
+}
+
+extension CreateIpAccessSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAccessSettingsArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAccessSettingsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAccessSettingsArn)
+        ipAccessSettingsArn = ipAccessSettingsArnDecoded
+    }
+}
+
 extension CreateNetworkSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -2499,6 +2836,62 @@ public struct DeleteIdentityProviderOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DeleteIpAccessSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let ipAccessSettingsArn = ipAccessSettingsArn else {
+            return nil
+        }
+        return "/ipAccessSettings/\(ipAccessSettingsArn)"
+    }
+}
+
+public struct DeleteIpAccessSettingsInput: Swift.Equatable {
+    /// The ARN of the IP access settings.
+    /// This member is required.
+    public var ipAccessSettingsArn: Swift.String?
+
+    public init(
+        ipAccessSettingsArn: Swift.String? = nil
+    )
+    {
+        self.ipAccessSettingsArn = ipAccessSettingsArn
+    }
+}
+
+struct DeleteIpAccessSettingsInputBody: Swift.Equatable {
+}
+
+extension DeleteIpAccessSettingsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteIpAccessSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteIpAccessSettingsOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DeleteNetworkSettingsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let networkSettingsArn = networkSettingsArn else {
@@ -2831,6 +3224,62 @@ extension DisassociateBrowserSettingsOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct DisassociateBrowserSettingsOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DisassociateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let portalArn = portalArn else {
+            return nil
+        }
+        return "/portals/\(portalArn)/ipAccessSettings"
+    }
+}
+
+public struct DisassociateIpAccessSettingsInput: Swift.Equatable {
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        portalArn: Swift.String? = nil
+    )
+    {
+        self.portalArn = portalArn
+    }
+}
+
+struct DisassociateIpAccessSettingsInputBody: Swift.Equatable {
+}
+
+extension DisassociateIpAccessSettingsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DisassociateIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DisassociateIpAccessSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateIpAccessSettingsOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -3260,6 +3709,92 @@ extension GetIdentityProviderOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityProviderDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.IdentityProvider.self, forKey: .identityProvider)
         identityProvider = identityProviderDecoded
+    }
+}
+
+extension GetIpAccessSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let ipAccessSettingsArn = ipAccessSettingsArn else {
+            return nil
+        }
+        return "/ipAccessSettings/\(ipAccessSettingsArn)"
+    }
+}
+
+public struct GetIpAccessSettingsInput: Swift.Equatable {
+    /// The ARN of the IP access settings.
+    /// This member is required.
+    public var ipAccessSettingsArn: Swift.String?
+
+    public init(
+        ipAccessSettingsArn: Swift.String? = nil
+    )
+    {
+        self.ipAccessSettingsArn = ipAccessSettingsArn
+    }
+}
+
+struct GetIpAccessSettingsInputBody: Swift.Equatable {
+}
+
+extension GetIpAccessSettingsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetIpAccessSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetIpAccessSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ipAccessSettings = output.ipAccessSettings
+        } else {
+            self.ipAccessSettings = nil
+        }
+    }
+}
+
+public struct GetIpAccessSettingsOutputResponse: Swift.Equatable {
+    /// The IP access settings.
+    public var ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings?
+
+    public init(
+        ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings? = nil
+    )
+    {
+        self.ipAccessSettings = ipAccessSettings
+    }
+}
+
+struct GetIpAccessSettingsOutputResponseBody: Swift.Equatable {
+    let ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings?
+}
+
+extension GetIpAccessSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAccessSettings
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAccessSettingsDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.IpAccessSettings.self, forKey: .ipAccessSettings)
+        ipAccessSettings = ipAccessSettingsDecoded
     }
 }
 
@@ -4225,6 +4760,242 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associatedPortalArns
+        case creationDate
+        case description
+        case displayName
+        case ipAccessSettingsArn
+        case ipRules
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associatedPortalArns = associatedPortalArns {
+            var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
+            for arn0 in associatedPortalArns {
+                try associatedPortalArnsContainer.encode(arn0)
+            }
+        }
+        if let creationDate = self.creationDate {
+            try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let ipAccessSettingsArn = self.ipAccessSettingsArn {
+            try encodeContainer.encode(ipAccessSettingsArn, forKey: .ipAccessSettingsArn)
+        }
+        if let ipRules = ipRules {
+            var ipRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipRules)
+            for iprule0 in ipRules {
+                try ipRulesContainer.encode(iprule0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAccessSettingsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAccessSettingsArn)
+        ipAccessSettingsArn = ipAccessSettingsArnDecoded
+        let associatedPortalArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .associatedPortalArns)
+        var associatedPortalArnsDecoded0:[Swift.String]? = nil
+        if let associatedPortalArnsContainer = associatedPortalArnsContainer {
+            associatedPortalArnsDecoded0 = [Swift.String]()
+            for string0 in associatedPortalArnsContainer {
+                if let string0 = string0 {
+                    associatedPortalArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        associatedPortalArns = associatedPortalArnsDecoded0
+        let ipRulesContainer = try containerValues.decodeIfPresent([WorkSpacesWebClientTypes.IpRule?].self, forKey: .ipRules)
+        var ipRulesDecoded0:[WorkSpacesWebClientTypes.IpRule]? = nil
+        if let ipRulesContainer = ipRulesContainer {
+            ipRulesDecoded0 = [WorkSpacesWebClientTypes.IpRule]()
+            for structure0 in ipRulesContainer {
+                if let structure0 = structure0 {
+                    ipRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipRules = ipRulesDecoded0
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+    }
+}
+
+extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IpAccessSettings(associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), creationDate: \(Swift.String(describing: creationDate)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", ipRules: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+    /// The IP access settings resource that can be associated with a web portal.
+    public struct IpAccessSettings: Swift.Equatable {
+        /// A list of web portal ARNs that this IP access settings resource is associated with.
+        public var associatedPortalArns: [Swift.String]?
+        /// The creation date timestamp of the IP access settings.
+        public var creationDate: ClientRuntime.Date?
+        /// The description of the IP access settings.
+        public var description: Swift.String?
+        /// The display name of the IP access settings.
+        public var displayName: Swift.String?
+        /// The ARN of the IP access settings resource.
+        /// This member is required.
+        public var ipAccessSettingsArn: Swift.String?
+        /// The IP rules of the IP access settings.
+        public var ipRules: [WorkSpacesWebClientTypes.IpRule]?
+
+        public init(
+            associatedPortalArns: [Swift.String]? = nil,
+            creationDate: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            ipAccessSettingsArn: Swift.String? = nil,
+            ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil
+        )
+        {
+            self.associatedPortalArns = associatedPortalArns
+            self.creationDate = creationDate
+            self.description = description
+            self.displayName = displayName
+            self.ipAccessSettingsArn = ipAccessSettingsArn
+            self.ipRules = ipRules
+        }
+    }
+
+}
+
+extension WorkSpacesWebClientTypes.IpAccessSettingsSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case description
+        case displayName
+        case ipAccessSettingsArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDate = self.creationDate {
+            try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let ipAccessSettingsArn = self.ipAccessSettingsArn {
+            try encodeContainer.encode(ipAccessSettingsArn, forKey: .ipAccessSettingsArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAccessSettingsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAccessSettingsArn)
+        ipAccessSettingsArn = ipAccessSettingsArnDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+    }
+}
+
+extension WorkSpacesWebClientTypes.IpAccessSettingsSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IpAccessSettingsSummary(creationDate: \(Swift.String(describing: creationDate)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+    /// The summary of IP access settings.
+    public struct IpAccessSettingsSummary: Swift.Equatable {
+        /// The creation date timestamp of the IP access settings.
+        public var creationDate: ClientRuntime.Date?
+        /// The description of the IP access settings.
+        public var description: Swift.String?
+        /// The display name of the IP access settings.
+        public var displayName: Swift.String?
+        /// The ARN of IP access settings.
+        public var ipAccessSettingsArn: Swift.String?
+
+        public init(
+            creationDate: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            ipAccessSettingsArn: Swift.String? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.description = description
+            self.displayName = displayName
+            self.ipAccessSettingsArn = ipAccessSettingsArn
+        }
+    }
+
+}
+
+extension WorkSpacesWebClientTypes.IpRule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case ipRange
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let ipRange = self.ipRange {
+            try encodeContainer.encode(ipRange, forKey: .ipRange)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipRangeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipRange)
+        ipRange = ipRangeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension WorkSpacesWebClientTypes.IpRule: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IpRule(description: \"CONTENT_REDACTED\", ipRange: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+    /// The IP rules of the IP access settings.
+    public struct IpRule: Swift.Equatable {
+        /// The description of the IP rule.
+        public var description: Swift.String?
+        /// The IP range of the IP rule.
+        /// This member is required.
+        public var ipRange: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            ipRange: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.ipRange = ipRange
+        }
+    }
+
+}
+
 extension ListBrowserSettingsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4472,6 +5243,127 @@ extension ListIdentityProvidersOutputResponseBody: Swift.Decodable {
             }
         }
         identityProviders = identityProvidersDecoded0
+    }
+}
+
+extension ListIpAccessSettingsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListIpAccessSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ipAccessSettings"
+    }
+}
+
+public struct ListIpAccessSettingsInput: Swift.Equatable {
+    /// The maximum number of results to be included in the next page.
+    public var maxResults: Swift.Int?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIpAccessSettingsInputBody: Swift.Equatable {
+}
+
+extension ListIpAccessSettingsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListIpAccessSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIpAccessSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ipAccessSettings = output.ipAccessSettings
+            self.nextToken = output.nextToken
+        } else {
+            self.ipAccessSettings = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListIpAccessSettingsOutputResponse: Swift.Equatable {
+    /// The IP access settings.
+    public var ipAccessSettings: [WorkSpacesWebClientTypes.IpAccessSettingsSummary]?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        ipAccessSettings: [WorkSpacesWebClientTypes.IpAccessSettingsSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.ipAccessSettings = ipAccessSettings
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIpAccessSettingsOutputResponseBody: Swift.Equatable {
+    let ipAccessSettings: [WorkSpacesWebClientTypes.IpAccessSettingsSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListIpAccessSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAccessSettings
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAccessSettingsContainer = try containerValues.decodeIfPresent([WorkSpacesWebClientTypes.IpAccessSettingsSummary?].self, forKey: .ipAccessSettings)
+        var ipAccessSettingsDecoded0:[WorkSpacesWebClientTypes.IpAccessSettingsSummary]? = nil
+        if let ipAccessSettingsContainer = ipAccessSettingsContainer {
+            ipAccessSettingsDecoded0 = [WorkSpacesWebClientTypes.IpAccessSettingsSummary]()
+            for structure0 in ipAccessSettingsContainer {
+                if let structure0 = structure0 {
+                    ipAccessSettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipAccessSettings = ipAccessSettingsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -5479,6 +6371,7 @@ extension WorkSpacesWebClientTypes.Portal: Swift.Codable {
         case browserType
         case creationDate
         case displayName
+        case ipAccessSettingsArn
         case networkSettingsArn
         case portalArn
         case portalEndpoint
@@ -5506,6 +6399,9 @@ extension WorkSpacesWebClientTypes.Portal: Swift.Codable {
         }
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let ipAccessSettingsArn = self.ipAccessSettingsArn {
+            try encodeContainer.encode(ipAccessSettingsArn, forKey: .ipAccessSettingsArn)
         }
         if let networkSettingsArn = self.networkSettingsArn {
             try encodeContainer.encode(networkSettingsArn, forKey: .networkSettingsArn)
@@ -5566,12 +6462,14 @@ extension WorkSpacesWebClientTypes.Portal: Swift.Codable {
         userAccessLoggingSettingsArn = userAccessLoggingSettingsArnDecoded
         let authenticationTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.AuthenticationType.self, forKey: .authenticationType)
         authenticationType = authenticationTypeDecoded
+        let ipAccessSettingsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAccessSettingsArn)
+        ipAccessSettingsArn = ipAccessSettingsArnDecoded
     }
 }
 
 extension WorkSpacesWebClientTypes.Portal: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Portal(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "Portal(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
@@ -5587,6 +6485,8 @@ extension WorkSpacesWebClientTypes {
         public var creationDate: ClientRuntime.Date?
         /// The name of the web portal.
         public var displayName: Swift.String?
+        /// The ARN of the IP access settings.
+        public var ipAccessSettingsArn: Swift.String?
         /// The ARN of the network settings that is associated with the web portal.
         public var networkSettingsArn: Swift.String?
         /// The ARN of the web portal.
@@ -5612,6 +6512,7 @@ extension WorkSpacesWebClientTypes {
             browserType: WorkSpacesWebClientTypes.BrowserType? = nil,
             creationDate: ClientRuntime.Date? = nil,
             displayName: Swift.String? = nil,
+            ipAccessSettingsArn: Swift.String? = nil,
             networkSettingsArn: Swift.String? = nil,
             portalArn: Swift.String? = nil,
             portalEndpoint: Swift.String? = nil,
@@ -5628,6 +6529,7 @@ extension WorkSpacesWebClientTypes {
             self.browserType = browserType
             self.creationDate = creationDate
             self.displayName = displayName
+            self.ipAccessSettingsArn = ipAccessSettingsArn
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
             self.portalEndpoint = portalEndpoint
@@ -5684,6 +6586,7 @@ extension WorkSpacesWebClientTypes.PortalSummary: Swift.Codable {
         case browserType
         case creationDate
         case displayName
+        case ipAccessSettingsArn
         case networkSettingsArn
         case portalArn
         case portalEndpoint
@@ -5710,6 +6613,9 @@ extension WorkSpacesWebClientTypes.PortalSummary: Swift.Codable {
         }
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let ipAccessSettingsArn = self.ipAccessSettingsArn {
+            try encodeContainer.encode(ipAccessSettingsArn, forKey: .ipAccessSettingsArn)
         }
         if let networkSettingsArn = self.networkSettingsArn {
             try encodeContainer.encode(networkSettingsArn, forKey: .networkSettingsArn)
@@ -5765,12 +6671,14 @@ extension WorkSpacesWebClientTypes.PortalSummary: Swift.Codable {
         userAccessLoggingSettingsArn = userAccessLoggingSettingsArnDecoded
         let authenticationTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.AuthenticationType.self, forKey: .authenticationType)
         authenticationType = authenticationTypeDecoded
+        let ipAccessSettingsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAccessSettingsArn)
+        ipAccessSettingsArn = ipAccessSettingsArnDecoded
     }
 }
 
 extension WorkSpacesWebClientTypes.PortalSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
@@ -5786,6 +6694,8 @@ extension WorkSpacesWebClientTypes {
         public var creationDate: ClientRuntime.Date?
         /// The name of the web portal.
         public var displayName: Swift.String?
+        /// The ARN of the IP access settings.
+        public var ipAccessSettingsArn: Swift.String?
         /// The ARN of the network settings that is associated with the web portal.
         public var networkSettingsArn: Swift.String?
         /// The ARN of the web portal.
@@ -5809,6 +6719,7 @@ extension WorkSpacesWebClientTypes {
             browserType: WorkSpacesWebClientTypes.BrowserType? = nil,
             creationDate: ClientRuntime.Date? = nil,
             displayName: Swift.String? = nil,
+            ipAccessSettingsArn: Swift.String? = nil,
             networkSettingsArn: Swift.String? = nil,
             portalArn: Swift.String? = nil,
             portalEndpoint: Swift.String? = nil,
@@ -5824,6 +6735,7 @@ extension WorkSpacesWebClientTypes {
             self.browserType = browserType
             self.creationDate = creationDate
             self.displayName = displayName
+            self.ipAccessSettingsArn = ipAccessSettingsArn
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
             self.portalEndpoint = portalEndpoint
@@ -6874,6 +7786,170 @@ extension UpdateIdentityProviderOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateIpAccessSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateIpAccessSettingsInput(clientToken: \(Swift.String(describing: clientToken)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", ipRules: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdateIpAccessSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case displayName
+        case ipRules
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let ipRules = ipRules {
+            var ipRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipRules)
+            for iprule0 in ipRules {
+                try ipRulesContainer.encode(iprule0)
+            }
+        }
+    }
+}
+
+extension UpdateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let ipAccessSettingsArn = ipAccessSettingsArn else {
+            return nil
+        }
+        return "/ipAccessSettings/\(ipAccessSettingsArn)"
+    }
+}
+
+public struct UpdateIpAccessSettingsInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    public var clientToken: Swift.String?
+    /// The description of the IP access settings.
+    public var description: Swift.String?
+    /// The display name of the IP access settings.
+    public var displayName: Swift.String?
+    /// The ARN of the IP access settings.
+    /// This member is required.
+    public var ipAccessSettingsArn: Swift.String?
+    /// The updated IP rules of the IP access settings.
+    public var ipRules: [WorkSpacesWebClientTypes.IpRule]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        ipAccessSettingsArn: Swift.String? = nil,
+        ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.ipAccessSettingsArn = ipAccessSettingsArn
+        self.ipRules = ipRules
+    }
+}
+
+struct UpdateIpAccessSettingsInputBody: Swift.Equatable {
+    let displayName: Swift.String?
+    let description: Swift.String?
+    let ipRules: [WorkSpacesWebClientTypes.IpRule]?
+    let clientToken: Swift.String?
+}
+
+extension UpdateIpAccessSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case displayName
+        case ipRules
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let ipRulesContainer = try containerValues.decodeIfPresent([WorkSpacesWebClientTypes.IpRule?].self, forKey: .ipRules)
+        var ipRulesDecoded0:[WorkSpacesWebClientTypes.IpRule]? = nil
+        if let ipRulesContainer = ipRulesContainer {
+            ipRulesDecoded0 = [WorkSpacesWebClientTypes.IpRule]()
+            for structure0 in ipRulesContainer {
+                if let structure0 = structure0 {
+                    ipRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipRules = ipRulesDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum UpdateIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateIpAccessSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateIpAccessSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ipAccessSettings = output.ipAccessSettings
+        } else {
+            self.ipAccessSettings = nil
+        }
+    }
+}
+
+public struct UpdateIpAccessSettingsOutputResponse: Swift.Equatable {
+    /// The IP access settings.
+    /// This member is required.
+    public var ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings?
+
+    public init(
+        ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings? = nil
+    )
+    {
+        self.ipAccessSettings = ipAccessSettings
+    }
+}
+
+struct UpdateIpAccessSettingsOutputResponseBody: Swift.Equatable {
+    let ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings?
+}
+
+extension UpdateIpAccessSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAccessSettings
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAccessSettingsDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.IpAccessSettings.self, forKey: .ipAccessSettings)
+        ipAccessSettings = ipAccessSettingsDecoded
+    }
+}
+
 extension UpdateNetworkSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -7123,6 +8199,7 @@ public enum UpdatePortalOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

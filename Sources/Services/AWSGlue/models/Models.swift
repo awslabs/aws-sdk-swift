@@ -156,6 +156,35 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
+    public enum AdditionalOptionKeys: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cacheoption
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdditionalOptionKeys] {
+            return [
+                .cacheoption,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cacheoption: return "performanceTuning.caching"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AdditionalOptionKeys(rawValue: rawValue) ?? AdditionalOptionKeys.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GlueClientTypes {
     public enum AggFunction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case avg
         case count
@@ -484,11 +513,11 @@ extension GlueClientTypes.AmazonRedshiftAdvancedOption: Swift.Codable {
 }
 
 extension GlueClientTypes {
-    /// Specifies an Amazon Redshift data store.
+    /// Specifies an optional value when connecting to the Redshift cluster.
     public struct AmazonRedshiftAdvancedOption: Swift.Equatable {
-        /// The key when specifying a key-value pair.
+        /// The key for the additional connection option.
         public var key: Swift.String?
-        /// The value when specifying a key-value pair.
+        /// The value for the additional connection option.
         public var value: Swift.String?
 
         public init(
@@ -5963,6 +5992,7 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case dynamicTransform = "DynamicTransform"
         case dynamoDBCatalogSource = "DynamoDBCatalogSource"
         case evaluateDataQuality = "EvaluateDataQuality"
+        case evaluateDataQualityMultiFrame = "EvaluateDataQualityMultiFrame"
         case fillMissingValues = "FillMissingValues"
         case filter = "Filter"
         case governedCatalogSource = "GovernedCatalogSource"
@@ -6073,6 +6103,9 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         }
         if let evaluateDataQuality = self.evaluateDataQuality {
             try encodeContainer.encode(evaluateDataQuality, forKey: .evaluateDataQuality)
+        }
+        if let evaluateDataQualityMultiFrame = self.evaluateDataQualityMultiFrame {
+            try encodeContainer.encode(evaluateDataQualityMultiFrame, forKey: .evaluateDataQualityMultiFrame)
         }
         if let fillMissingValues = self.fillMissingValues {
             try encodeContainer.encode(fillMissingValues, forKey: .fillMissingValues)
@@ -6340,6 +6373,8 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         amazonRedshiftSource = amazonRedshiftSourceDecoded
         let amazonRedshiftTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.AmazonRedshiftTarget.self, forKey: .amazonRedshiftTarget)
         amazonRedshiftTarget = amazonRedshiftTargetDecoded
+        let evaluateDataQualityMultiFrameDecoded = try containerValues.decodeIfPresent(GlueClientTypes.EvaluateDataQualityMultiFrame.self, forKey: .evaluateDataQualityMultiFrame)
+        evaluateDataQualityMultiFrame = evaluateDataQualityMultiFrameDecoded
     }
 }
 
@@ -6388,6 +6423,8 @@ extension GlueClientTypes {
         public var dynamoDBCatalogSource: GlueClientTypes.DynamoDBCatalogSource?
         /// Specifies your data quality evaluation criteria.
         public var evaluateDataQuality: GlueClientTypes.EvaluateDataQuality?
+        /// Specifies your data quality evaluation criteria. Allows multiple input data and returns a collection of Dynamic Frames.
+        public var evaluateDataQualityMultiFrame: GlueClientTypes.EvaluateDataQualityMultiFrame?
         /// Specifies a transform that locates records in the dataset that have missing values and adds a new field with a value determined by imputation. The input data set is used to train the machine learning model that determines what the missing value should be.
         public var fillMissingValues: GlueClientTypes.FillMissingValues?
         /// Specifies a transform that splits a dataset into two, based on a filter condition.
@@ -6499,6 +6536,7 @@ extension GlueClientTypes {
             dynamicTransform: GlueClientTypes.DynamicTransform? = nil,
             dynamoDBCatalogSource: GlueClientTypes.DynamoDBCatalogSource? = nil,
             evaluateDataQuality: GlueClientTypes.EvaluateDataQuality? = nil,
+            evaluateDataQualityMultiFrame: GlueClientTypes.EvaluateDataQualityMultiFrame? = nil,
             fillMissingValues: GlueClientTypes.FillMissingValues? = nil,
             filter: GlueClientTypes.Filter? = nil,
             governedCatalogSource: GlueClientTypes.GovernedCatalogSource? = nil,
@@ -6566,6 +6604,7 @@ extension GlueClientTypes {
             self.dynamicTransform = dynamicTransform
             self.dynamoDBCatalogSource = dynamoDBCatalogSource
             self.evaluateDataQuality = evaluateDataQuality
+            self.evaluateDataQualityMultiFrame = evaluateDataQualityMultiFrame
             self.fillMissingValues = fillMissingValues
             self.filter = filter
             self.governedCatalogSource = governedCatalogSource
@@ -11521,7 +11560,7 @@ public struct CreateJobInput: Swift.Equatable {
     public var command: GlueClientTypes.JobCommand?
     /// The connections used for this job.
     public var connections: GlueClientTypes.ConnectionsList?
-    /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide.
+    /// The default arguments for every run of this job, specified as name-value pairs. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Spark jobs, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Ray jobs, see [Using job parameters in Ray jobs](https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html) in the developer guide.
     public var defaultArguments: [Swift.String:Swift.String]?
     /// Description of the job being defined.
     public var description: Swift.String?
@@ -11529,25 +11568,22 @@ public struct CreateJobInput: Swift.Equatable {
     public var executionClass: GlueClientTypes.ExecutionClass?
     /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
     public var executionProperty: GlueClientTypes.ExecutionProperty?
-    /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+    /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
     public var glueVersion: Swift.String?
     /// This field is reserved for future use.
     public var logUri: Swift.String?
-    /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/). Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:
+    /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
     ///
     /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
     ///
-    /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
-    ///
-    ///
-    /// For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
+    /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
     public var maxCapacity: Swift.Double?
     /// The maximum number of times to retry this job if it fails.
     public var maxRetries: Swift.Int?
     /// The name you assign to this job definition. It must be unique in your account.
     /// This member is required.
     public var name: Swift.String?
-    /// Non-overridable arguments for this job, specified as name-value pairs.
+    /// Arguments for this job that are not overridden when providing job arguments in a job run, specified as name-value pairs.
     public var nonOverridableArguments: [Swift.String:Swift.String]?
     /// Specifies configuration properties of a job notification.
     public var notificationProperty: GlueClientTypes.NotificationProperty?
@@ -11564,7 +11600,7 @@ public struct CreateJobInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
     public var timeout: Swift.Int?
-    /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+    /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
     /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
     ///
@@ -11573,6 +11609,8 @@ public struct CreateJobInput: Swift.Equatable {
     /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
     ///
     /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    ///
+    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
 
     public init(
@@ -15349,6 +15387,7 @@ extension GlueClientTypes {
 extension GlueClientTypes.DataQualityRuleResult: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case evaluatedMetrics = "EvaluatedMetrics"
         case evaluationMessage = "EvaluationMessage"
         case name = "Name"
         case result = "Result"
@@ -15358,6 +15397,12 @@ extension GlueClientTypes.DataQualityRuleResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluatedMetrics = evaluatedMetrics {
+            var evaluatedMetricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .evaluatedMetrics)
+            for (dictKey0, evaluatedMetricsMap0) in evaluatedMetrics {
+                try evaluatedMetricsContainer.encode(evaluatedMetricsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let evaluationMessage = self.evaluationMessage {
             try encodeContainer.encode(evaluationMessage, forKey: .evaluationMessage)
@@ -15380,6 +15425,17 @@ extension GlueClientTypes.DataQualityRuleResult: Swift.Codable {
         evaluationMessage = evaluationMessageDecoded
         let resultDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityRuleResultStatus.self, forKey: .result)
         result = resultDecoded
+        let evaluatedMetricsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Double?].self, forKey: .evaluatedMetrics)
+        var evaluatedMetricsDecoded0: [Swift.String:Swift.Double]? = nil
+        if let evaluatedMetricsContainer = evaluatedMetricsContainer {
+            evaluatedMetricsDecoded0 = [Swift.String:Swift.Double]()
+            for (key0, nullabledouble0) in evaluatedMetricsContainer {
+                if let nullabledouble0 = nullabledouble0 {
+                    evaluatedMetricsDecoded0?[key0] = nullabledouble0
+                }
+            }
+        }
+        evaluatedMetrics = evaluatedMetricsDecoded0
     }
 }
 
@@ -15388,6 +15444,8 @@ extension GlueClientTypes {
     public struct DataQualityRuleResult: Swift.Equatable {
         /// A description of the data quality rule.
         public var description: Swift.String?
+        /// A map of metrics associated with the evaluation of the rule.
+        public var evaluatedMetrics: [Swift.String:Swift.Double]?
         /// An evaluation message.
         public var evaluationMessage: Swift.String?
         /// The name of the data quality rule.
@@ -15397,12 +15455,14 @@ extension GlueClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            evaluatedMetrics: [Swift.String:Swift.Double]? = nil,
             evaluationMessage: Swift.String? = nil,
             name: Swift.String? = nil,
             result: GlueClientTypes.DataQualityRuleResultStatus? = nil
         )
         {
             self.description = description
+            self.evaluatedMetrics = evaluatedMetrics
             self.evaluationMessage = evaluationMessage
             self.name = name
             self.result = result
@@ -15759,12 +15819,16 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.DataQualityTargetTable: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
         case tableName = "TableName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
         }
@@ -15779,12 +15843,16 @@ extension GlueClientTypes.DataQualityTargetTable: Swift.Codable {
         tableName = tableNameDecoded
         let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
         databaseName = databaseNameDecoded
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
     }
 }
 
 extension GlueClientTypes {
     /// An object representing an Glue table.
     public struct DataQualityTargetTable: Swift.Equatable {
+        /// The catalog id where the Glue table exists.
+        public var catalogId: Swift.String?
         /// The name of the database where the Glue table exists.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -15793,10 +15861,12 @@ extension GlueClientTypes {
         public var tableName: Swift.String?
 
         public init(
+            catalogId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
         )
         {
+            self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
         }
@@ -20751,6 +20821,140 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.EvaluateDataQualityMultiFrame: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalDataSources = "AdditionalDataSources"
+        case additionalOptions = "AdditionalOptions"
+        case inputs = "Inputs"
+        case name = "Name"
+        case publishingOptions = "PublishingOptions"
+        case ruleset = "Ruleset"
+        case stopJobOnFailureOptions = "StopJobOnFailureOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalDataSources = additionalDataSources {
+            var additionalDataSourcesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalDataSources)
+            for (dictKey0, dqdlAliases0) in additionalDataSources {
+                try additionalDataSourcesContainer.encode(dqdlAliases0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let additionalOptions = additionalOptions {
+            var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
+            for (dictKey0, dqAdditionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(dqAdditionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let publishingOptions = self.publishingOptions {
+            try encodeContainer.encode(publishingOptions, forKey: .publishingOptions)
+        }
+        if let ruleset = self.ruleset {
+            try encodeContainer.encode(ruleset, forKey: .ruleset)
+        }
+        if let stopJobOnFailureOptions = self.stopJobOnFailureOptions {
+            try encodeContainer.encode(stopJobOnFailureOptions, forKey: .stopJobOnFailureOptions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+        let additionalDataSourcesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalDataSources)
+        var additionalDataSourcesDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalDataSourcesContainer = additionalDataSourcesContainer {
+            additionalDataSourcesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalDataSourcesContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalDataSourcesDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalDataSources = additionalDataSourcesDecoded0
+        let rulesetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleset)
+        ruleset = rulesetDecoded
+        let publishingOptionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DQResultsPublishingOptions.self, forKey: .publishingOptions)
+        publishingOptions = publishingOptionsDecoded
+        let additionalOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalOptions)
+        var additionalOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalOptionsContainer = additionalOptionsContainer {
+            additionalOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, genericstring0) in additionalOptionsContainer {
+                if let genericstring0 = genericstring0 {
+                    additionalOptionsDecoded0?[key0] = genericstring0
+                }
+            }
+        }
+        additionalOptions = additionalOptionsDecoded0
+        let stopJobOnFailureOptionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DQStopJobOnFailureOptions.self, forKey: .stopJobOnFailureOptions)
+        stopJobOnFailureOptions = stopJobOnFailureOptionsDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies your data quality evaluation criteria.
+    public struct EvaluateDataQualityMultiFrame: Swift.Equatable {
+        /// The aliases of all data sources except primary.
+        public var additionalDataSources: [Swift.String:Swift.String]?
+        /// Options to configure runtime behavior of the transform.
+        public var additionalOptions: [Swift.String:Swift.String]?
+        /// The inputs of your data quality evaluation. The first input in this list is the primary data source.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// The name of the data quality evaluation.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Options to configure how your results are published.
+        public var publishingOptions: GlueClientTypes.DQResultsPublishingOptions?
+        /// The ruleset for your data quality evaluation.
+        /// This member is required.
+        public var ruleset: Swift.String?
+        /// Options to configure how your job will stop if your data quality evaluation fails.
+        public var stopJobOnFailureOptions: GlueClientTypes.DQStopJobOnFailureOptions?
+
+        public init(
+            additionalDataSources: [Swift.String:Swift.String]? = nil,
+            additionalOptions: [Swift.String:Swift.String]? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            publishingOptions: GlueClientTypes.DQResultsPublishingOptions? = nil,
+            ruleset: Swift.String? = nil,
+            stopJobOnFailureOptions: GlueClientTypes.DQStopJobOnFailureOptions? = nil
+        )
+        {
+            self.additionalDataSources = additionalDataSources
+            self.additionalOptions = additionalOptions
+            self.inputs = inputs
+            self.name = name
+            self.publishingOptions = publishingOptions
+            self.ruleset = ruleset
+            self.stopJobOnFailureOptions = stopJobOnFailureOptions
+        }
+    }
+
+}
+
 extension GlueClientTypes.EvaluationMetrics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case findMatchesMetrics = "FindMatchesMetrics"
@@ -24586,6 +24790,7 @@ extension GetDataQualityRulesetEvaluationRunOutputResponse: ClientRuntime.HttpRe
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDataQualityRulesetEvaluationRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.additionalDataSources = output.additionalDataSources
             self.additionalRunOptions = output.additionalRunOptions
             self.completedOn = output.completedOn
             self.dataSource = output.dataSource
@@ -24601,6 +24806,7 @@ extension GetDataQualityRulesetEvaluationRunOutputResponse: ClientRuntime.HttpRe
             self.status = output.status
             self.timeout = output.timeout
         } else {
+            self.additionalDataSources = nil
             self.additionalRunOptions = nil
             self.completedOn = nil
             self.dataSource = nil
@@ -24620,6 +24826,8 @@ extension GetDataQualityRulesetEvaluationRunOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct GetDataQualityRulesetEvaluationRunOutputResponse: Swift.Equatable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String:GlueClientTypes.DataSource]?
     /// Additional run options you can specify for an evaluation run.
     public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?
     /// The date and time when this run was completed.
@@ -24650,6 +24858,7 @@ public struct GetDataQualityRulesetEvaluationRunOutputResponse: Swift.Equatable 
     public var timeout: Swift.Int?
 
     public init(
+        additionalDataSources: [Swift.String:GlueClientTypes.DataSource]? = nil,
         additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions? = nil,
         completedOn: ClientRuntime.Date? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
@@ -24666,6 +24875,7 @@ public struct GetDataQualityRulesetEvaluationRunOutputResponse: Swift.Equatable 
         timeout: Swift.Int? = nil
     )
     {
+        self.additionalDataSources = additionalDataSources
         self.additionalRunOptions = additionalRunOptions
         self.completedOn = completedOn
         self.dataSource = dataSource
@@ -24698,10 +24908,12 @@ struct GetDataQualityRulesetEvaluationRunOutputResponseBody: Swift.Equatable {
     let executionTime: Swift.Int
     let rulesetNames: [Swift.String]?
     let resultIds: [Swift.String]?
+    let additionalDataSources: [Swift.String:GlueClientTypes.DataSource]?
 }
 
 extension GetDataQualityRulesetEvaluationRunOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalDataSources = "AdditionalDataSources"
         case additionalRunOptions = "AdditionalRunOptions"
         case completedOn = "CompletedOn"
         case dataSource = "DataSource"
@@ -24766,6 +24978,17 @@ extension GetDataQualityRulesetEvaluationRunOutputResponseBody: Swift.Decodable 
             }
         }
         resultIds = resultIdsDecoded0
+        let additionalDataSourcesContainer = try containerValues.decodeIfPresent([Swift.String: GlueClientTypes.DataSource?].self, forKey: .additionalDataSources)
+        var additionalDataSourcesDecoded0: [Swift.String:GlueClientTypes.DataSource]? = nil
+        if let additionalDataSourcesContainer = additionalDataSourcesContainer {
+            additionalDataSourcesDecoded0 = [Swift.String:GlueClientTypes.DataSource]()
+            for (key0, datasource0) in additionalDataSourcesContainer {
+                if let datasource0 = datasource0 {
+                    additionalDataSourcesDecoded0?[key0] = datasource0
+                }
+            }
+        }
+        additionalDataSources = additionalDataSourcesDecoded0
     }
 }
 
@@ -34232,7 +34455,7 @@ extension GlueClientTypes {
         public var connections: GlueClientTypes.ConnectionsList?
         /// The time and date that this job definition was created.
         public var createdOn: ClientRuntime.Date?
-        /// The default arguments for this job, specified as name-value pairs. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide.
+        /// The default arguments for every run of this job, specified as name-value pairs. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Spark jobs, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Ray jobs, see [Using job parameters in Ray jobs](https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html) in the developer guide.
         public var defaultArguments: [Swift.String:Swift.String]?
         /// A description of the job.
         public var description: Swift.String?
@@ -34240,13 +34463,13 @@ extension GlueClientTypes {
         public var executionClass: GlueClientTypes.ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public var executionProperty: GlueClientTypes.ExecutionProperty?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public var glueVersion: Swift.String?
         /// The last point in time when this job definition was modified.
         public var lastModifiedOn: ClientRuntime.Date?
         /// This field is reserved for future use.
         public var logUri: Swift.String?
-        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0 or later jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
+        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0 or later jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
         ///
         /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
         ///
@@ -34256,7 +34479,7 @@ extension GlueClientTypes {
         public var maxRetries: Swift.Int
         /// The name you assign to this job definition.
         public var name: Swift.String?
-        /// Non-overridable arguments for this job, specified as name-value pairs.
+        /// Arguments for this job that are not overridden when providing job arguments in a job run, specified as name-value pairs.
         public var nonOverridableArguments: [Swift.String:Swift.String]?
         /// Specifies configuration properties of a job notification.
         public var notificationProperty: GlueClientTypes.NotificationProperty?
@@ -34270,7 +34493,7 @@ extension GlueClientTypes {
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public var timeout: Swift.Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, G.4X, G.8X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
         /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
         ///
@@ -34278,11 +34501,13 @@ extension GlueClientTypes {
         ///
         /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPU, 64 GB of memory, 256 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later jobs.
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPU, 64 GB of memory, 256 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
         ///
-        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPU, 128 GB of memory, 512 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later jobs.
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPU, 128 GB of memory, 512 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
         ///
         /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        ///
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides a default of 8 Ray workers (1 per vCPU).
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -34515,6 +34740,7 @@ extension GlueClientTypes.JobCommand: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case pythonVersion = "PythonVersion"
+        case runtime = "Runtime"
         case scriptLocation = "ScriptLocation"
     }
 
@@ -34525,6 +34751,9 @@ extension GlueClientTypes.JobCommand: Swift.Codable {
         }
         if let pythonVersion = self.pythonVersion {
             try encodeContainer.encode(pythonVersion, forKey: .pythonVersion)
+        }
+        if let runtime = self.runtime {
+            try encodeContainer.encode(runtime, forKey: .runtime)
         }
         if let scriptLocation = self.scriptLocation {
             try encodeContainer.encode(scriptLocation, forKey: .scriptLocation)
@@ -34539,27 +34768,33 @@ extension GlueClientTypes.JobCommand: Swift.Codable {
         scriptLocation = scriptLocationDecoded
         let pythonVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pythonVersion)
         pythonVersion = pythonVersionDecoded
+        let runtimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtime)
+        runtime = runtimeDecoded
     }
 }
 
 extension GlueClientTypes {
     /// Specifies code that runs when a job is run.
     public struct JobCommand: Swift.Equatable {
-        /// The name of the job command. For an Apache Spark ETL job, this must be glueetl. For a Python shell job, it must be pythonshell. For an Apache Spark streaming ETL job, this must be gluestreaming.
+        /// The name of the job command. For an Apache Spark ETL job, this must be glueetl. For a Python shell job, it must be pythonshell. For an Apache Spark streaming ETL job, this must be gluestreaming. For a Ray job, this must be glueray.
         public var name: Swift.String?
         /// The Python version being used to run a Python shell job. Allowed values are 2 or 3.
         public var pythonVersion: Swift.String?
+        /// In Ray jobs, Runtime is used to specify the versions of Ray, Python and additional libraries available in your environment. This field is not used in other job types. For supported runtime environment values, see [Working with Ray jobs](https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-runtimes.html) in the Glue Developer Guide.
+        public var runtime: Swift.String?
         /// Specifies the Amazon Simple Storage Service (Amazon S3) path to a script that runs a job.
         public var scriptLocation: Swift.String?
 
         public init(
             name: Swift.String? = nil,
             pythonVersion: Swift.String? = nil,
+            runtime: Swift.String? = nil,
             scriptLocation: Swift.String? = nil
         )
         {
             self.name = name
             self.pythonVersion = pythonVersion
+            self.runtime = runtime
             self.scriptLocation = scriptLocation
         }
     }
@@ -34800,7 +35035,7 @@ extension GlueClientTypes {
         /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
         @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
         public var allocatedCapacity: Swift.Int
-        /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. For information about how to specify and consume your own job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide.
+        /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Spark jobs, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Ray jobs, see [Using job parameters in Ray jobs](https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html) in the developer guide.
         public var arguments: [Swift.String:Swift.String]?
         /// The number of the attempt to run this job.
         public var attempt: Swift.Int
@@ -34814,7 +35049,7 @@ extension GlueClientTypes {
         public var executionClass: GlueClientTypes.ExecutionClass?
         /// The amount of time (in seconds) that the job run consumed resources.
         public var executionTime: Swift.Int
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public var glueVersion: Swift.String?
         /// The ID of this job run.
         public var id: Swift.String?
@@ -34826,11 +35061,11 @@ extension GlueClientTypes {
         public var lastModifiedOn: ClientRuntime.Date?
         /// The name of the log group for secure logging that can be server-side encrypted in Amazon CloudWatch using KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration is used to encrypt the log group.
         public var logGroupName: Swift.String?
-        /// The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/). Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:
+        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
         ///
         /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
         ///
-        /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
+        /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public var maxCapacity: Swift.Double?
         /// Specifies configuration properties of a job run notification.
         public var notificationProperty: GlueClientTypes.NotificationProperty?
@@ -34848,15 +35083,17 @@ extension GlueClientTypes {
         public var timeout: Swift.Int?
         /// The name of the trigger that started this job run.
         public var triggerName: Swift.String?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
         /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
         ///
-        /// * For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.
+        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         ///
-        /// * For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
+        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         ///
         /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        ///
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers (one per vCPU) based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -35154,7 +35391,7 @@ extension GlueClientTypes {
         public var command: GlueClientTypes.JobCommand?
         /// The connections used for this job.
         public var connections: GlueClientTypes.ConnectionsList?
-        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide.
+        /// The default arguments for every run of this job, specified as name-value pairs. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Spark jobs, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Ray jobs, see [Using job parameters in Ray jobs](https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html) in the developer guide.
         public var defaultArguments: [Swift.String:Swift.String]?
         /// Description of the job being defined.
         public var description: Swift.String?
@@ -35162,22 +35399,19 @@ extension GlueClientTypes {
         public var executionClass: GlueClientTypes.ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public var executionProperty: GlueClientTypes.ExecutionProperty?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public var glueVersion: Swift.String?
         /// This field is reserved for future use.
         public var logUri: Swift.String?
-        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/). Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:
+        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
         ///
         /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
         ///
-        /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
-        ///
-        ///
-        /// For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
+        /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public var maxCapacity: Swift.Double?
         /// The maximum number of times to retry this job if it fails.
         public var maxRetries: Swift.Int
-        /// Non-overridable arguments for this job, specified as name-value pairs.
+        /// Arguments for this job that are not overridden when providing job arguments in a job run, specified as name-value pairs.
         public var nonOverridableArguments: [Swift.String:Swift.String]?
         /// Specifies the configuration properties of a job notification.
         public var notificationProperty: GlueClientTypes.NotificationProperty?
@@ -35191,7 +35425,7 @@ extension GlueClientTypes {
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public var timeout: Swift.Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
         /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
         ///
@@ -35200,6 +35434,8 @@ extension GlueClientTypes {
         /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         ///
         /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        ///
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -50399,6 +50635,7 @@ extension StartDataQualityRuleRecommendationRunOutputResponseBody: Swift.Decodab
 
 extension StartDataQualityRulesetEvaluationRunInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalDataSources = "AdditionalDataSources"
         case additionalRunOptions = "AdditionalRunOptions"
         case clientToken = "ClientToken"
         case dataSource = "DataSource"
@@ -50410,6 +50647,12 @@ extension StartDataQualityRulesetEvaluationRunInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalDataSources = additionalDataSources {
+            var additionalDataSourcesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalDataSources)
+            for (dictKey0, dataSourceMap0) in additionalDataSources {
+                try additionalDataSourcesContainer.encode(dataSourceMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let additionalRunOptions = self.additionalRunOptions {
             try encodeContainer.encode(additionalRunOptions, forKey: .additionalRunOptions)
         }
@@ -50444,6 +50687,8 @@ extension StartDataQualityRulesetEvaluationRunInput: ClientRuntime.URLPathProvid
 }
 
 public struct StartDataQualityRulesetEvaluationRunInput: Swift.Equatable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String:GlueClientTypes.DataSource]?
     /// Additional run options you can specify for an evaluation run.
     public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?
     /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
@@ -50463,6 +50708,7 @@ public struct StartDataQualityRulesetEvaluationRunInput: Swift.Equatable {
     public var timeout: Swift.Int?
 
     public init(
+        additionalDataSources: [Swift.String:GlueClientTypes.DataSource]? = nil,
         additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions? = nil,
         clientToken: Swift.String? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
@@ -50472,6 +50718,7 @@ public struct StartDataQualityRulesetEvaluationRunInput: Swift.Equatable {
         timeout: Swift.Int? = nil
     )
     {
+        self.additionalDataSources = additionalDataSources
         self.additionalRunOptions = additionalRunOptions
         self.clientToken = clientToken
         self.dataSource = dataSource
@@ -50490,10 +50737,12 @@ struct StartDataQualityRulesetEvaluationRunInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let additionalRunOptions: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?
     let rulesetNames: [Swift.String]?
+    let additionalDataSources: [Swift.String:GlueClientTypes.DataSource]?
 }
 
 extension StartDataQualityRulesetEvaluationRunInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalDataSources = "AdditionalDataSources"
         case additionalRunOptions = "AdditionalRunOptions"
         case clientToken = "ClientToken"
         case dataSource = "DataSource"
@@ -50528,6 +50777,17 @@ extension StartDataQualityRulesetEvaluationRunInputBody: Swift.Decodable {
             }
         }
         rulesetNames = rulesetNamesDecoded0
+        let additionalDataSourcesContainer = try containerValues.decodeIfPresent([Swift.String: GlueClientTypes.DataSource?].self, forKey: .additionalDataSources)
+        var additionalDataSourcesDecoded0: [Swift.String:GlueClientTypes.DataSource]? = nil
+        if let additionalDataSourcesContainer = additionalDataSourcesContainer {
+            additionalDataSourcesDecoded0 = [Swift.String:GlueClientTypes.DataSource]()
+            for (key0, datasource0) in additionalDataSourcesContainer {
+                if let datasource0 = datasource0 {
+                    additionalDataSourcesDecoded0?[key0] = datasource0
+                }
+            }
+        }
+        additionalDataSources = additionalDataSourcesDecoded0
     }
 }
 
@@ -50895,7 +51155,7 @@ public struct StartJobRunInput: Swift.Equatable {
     /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this JobRun. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
     @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
     public var allocatedCapacity: Swift.Int?
-    /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide.
+    /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Spark jobs, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide. For information about the arguments you can provide to this field when configuring Ray jobs, see [Using job parameters in Ray jobs](https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html) in the developer guide.
     public var arguments: [Swift.String:Swift.String]?
     /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary. Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
     public var executionClass: GlueClientTypes.ExecutionClass?
@@ -50904,11 +51164,11 @@ public struct StartJobRunInput: Swift.Equatable {
     public var jobName: Swift.String?
     /// The ID of a previous JobRun to retry.
     public var jobRunId: Swift.String?
-    /// The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/). Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, or an Apache Spark ETL job:
+    /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
     ///
     /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
     ///
-    /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
+    /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
     public var maxCapacity: Swift.Double?
     /// Specifies configuration properties of a job run notification.
     public var notificationProperty: GlueClientTypes.NotificationProperty?
@@ -50918,15 +51178,17 @@ public struct StartJobRunInput: Swift.Equatable {
     public var securityConfiguration: Swift.String?
     /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
     public var timeout: Swift.Int?
-    /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+    /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
     /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
     ///
-    /// * For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.
+    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
     ///
-    /// * For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
+    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
     ///
     /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    ///
+    /// * For the Z.2X worker type, each worker maps to 2 DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers (one per vCPU) based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
 
     public init(
@@ -58904,6 +59166,7 @@ extension GlueClientTypes {
         case g4x
         case g8x
         case standard
+        case z2x
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkerType] {
@@ -58914,6 +59177,7 @@ extension GlueClientTypes {
                 .g4x,
                 .g8x,
                 .standard,
+                .z2x,
                 .sdkUnknown("")
             ]
         }
@@ -58929,6 +59193,7 @@ extension GlueClientTypes {
             case .g4x: return "G.4X"
             case .g8x: return "G.8X"
             case .standard: return "Standard"
+            case .z2x: return "Z.2X"
             case let .sdkUnknown(s): return s
             }
         }

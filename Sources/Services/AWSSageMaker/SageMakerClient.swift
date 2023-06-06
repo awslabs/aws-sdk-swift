@@ -5077,7 +5077,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Gets a description of a hyperparameter tuning job.
+    /// Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more.
     public func describeHyperParameterTuningJob(input: DescribeHyperParameterTuningJobInput) async throws -> DescribeHyperParameterTuningJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

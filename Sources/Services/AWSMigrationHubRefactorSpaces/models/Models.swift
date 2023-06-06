@@ -213,7 +213,7 @@ extension MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyInput: Swift.Coda
 extension MigrationHubRefactorSpacesClientTypes {
     /// A wrapper object holding the Amazon API Gateway endpoint input.
     public struct ApiGatewayProxyInput: Swift.Equatable {
-        /// The type of endpoint to use for the API Gateway proxy. If no value is specified in the request, the value is set to REGIONAL by default. If the value is set to PRIVATE in the request, this creates a private API endpoint that is isolated from the public internet. The private endpoint can only be accessed by using Amazon Virtual Private Cloud (Amazon VPC) endpoints for Amazon API Gateway that have been granted access.
+        /// The type of endpoint to use for the API Gateway proxy. If no value is specified in the request, the value is set to REGIONAL by default. If the value is set to PRIVATE in the request, this creates a private API endpoint that is isolated from the public internet. The private endpoint can only be accessed by using Amazon Virtual Private Cloud (Amazon VPC) interface endpoints for the Amazon API Gateway that has been granted access. For more information about creating a private connection with Refactor Spaces and interface endpoint (Amazon Web Services PrivateLink) availability, see [Access Refactor Spaces using an interface endpoint (Amazon Web Services PrivateLink)](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/vpc-interface-endpoints.html).
         public var endpointType: MigrationHubRefactorSpacesClientTypes.ApiGatewayEndpointType?
         /// The name of the API Gateway stage. The name defaults to prod.
         public var stageName: Swift.String?
@@ -3763,7 +3763,7 @@ public enum GetRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension GetRouteOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRouteOutputResponse(applicationId: \(Swift.String(describing: applicationId)), arn: \(Swift.String(describing: arn)), createdByAccountId: \(Swift.String(describing: createdByAccountId)), createdTime: \(Swift.String(describing: createdTime)), environmentId: \(Swift.String(describing: environmentId)), error: \(Swift.String(describing: error)), includeChildPaths: \(Swift.String(describing: includeChildPaths)), lastUpdatedTime: \(Swift.String(describing: lastUpdatedTime)), methods: \(Swift.String(describing: methods)), ownerAccountId: \(Swift.String(describing: ownerAccountId)), pathResourceToId: \(Swift.String(describing: pathResourceToId)), routeId: \(Swift.String(describing: routeId)), routeType: \(Swift.String(describing: routeType)), serviceId: \(Swift.String(describing: serviceId)), sourcePath: \(Swift.String(describing: sourcePath)), state: \(Swift.String(describing: state)), tags: \"CONTENT_REDACTED\")"}
+        "GetRouteOutputResponse(appendSourcePath: \(Swift.String(describing: appendSourcePath)), applicationId: \(Swift.String(describing: applicationId)), arn: \(Swift.String(describing: arn)), createdByAccountId: \(Swift.String(describing: createdByAccountId)), createdTime: \(Swift.String(describing: createdTime)), environmentId: \(Swift.String(describing: environmentId)), error: \(Swift.String(describing: error)), includeChildPaths: \(Swift.String(describing: includeChildPaths)), lastUpdatedTime: \(Swift.String(describing: lastUpdatedTime)), methods: \(Swift.String(describing: methods)), ownerAccountId: \(Swift.String(describing: ownerAccountId)), pathResourceToId: \(Swift.String(describing: pathResourceToId)), routeId: \(Swift.String(describing: routeId)), routeType: \(Swift.String(describing: routeType)), serviceId: \(Swift.String(describing: serviceId)), sourcePath: \(Swift.String(describing: sourcePath)), state: \(Swift.String(describing: state)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension GetRouteOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3771,6 +3771,7 @@ extension GetRouteOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRouteOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appendSourcePath = output.appendSourcePath
             self.applicationId = output.applicationId
             self.arn = output.arn
             self.createdByAccountId = output.createdByAccountId
@@ -3789,6 +3790,7 @@ extension GetRouteOutputResponse: ClientRuntime.HttpResponseBinding {
             self.state = output.state
             self.tags = output.tags
         } else {
+            self.appendSourcePath = nil
             self.applicationId = nil
             self.arn = nil
             self.createdByAccountId = nil
@@ -3811,6 +3813,8 @@ extension GetRouteOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetRouteOutputResponse: Swift.Equatable {
+    /// If set to true, this option appends the source path to the service URL endpoint.
+    public var appendSourcePath: Swift.Bool?
     /// The ID of the application that the route belongs to.
     public var applicationId: Swift.String?
     /// The Amazon Resource Name (ARN) of the route.
@@ -3839,7 +3843,7 @@ public struct GetRouteOutputResponse: Swift.Equatable {
     public var routeType: MigrationHubRefactorSpacesClientTypes.RouteType?
     /// The unique identifier of the service.
     public var serviceId: Swift.String?
-    /// The path to use to match traffic. Paths must start with / and are relative to the base of the application.
+    /// This is the path that Refactor Spaces uses to match traffic. Paths must start with / and are relative to the base of the application. To use path parameters in the source path, add a variable in curly braces. For example, the resource path {user} represents a path parameter called 'user'.
     public var sourcePath: Swift.String?
     /// The current state of the route.
     public var state: MigrationHubRefactorSpacesClientTypes.RouteState?
@@ -3847,6 +3851,7 @@ public struct GetRouteOutputResponse: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        appendSourcePath: Swift.Bool? = nil,
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         createdByAccountId: Swift.String? = nil,
@@ -3866,6 +3871,7 @@ public struct GetRouteOutputResponse: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.appendSourcePath = appendSourcePath
         self.applicationId = applicationId
         self.arn = arn
         self.createdByAccountId = createdByAccountId
@@ -3904,10 +3910,12 @@ struct GetRouteOutputResponseBody: Swift.Equatable {
     let error: MigrationHubRefactorSpacesClientTypes.ErrorResponse?
     let lastUpdatedTime: ClientRuntime.Date?
     let createdTime: ClientRuntime.Date?
+    let appendSourcePath: Swift.Bool?
 }
 
 extension GetRouteOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appendSourcePath = "AppendSourcePath"
         case applicationId = "ApplicationId"
         case arn = "Arn"
         case createdByAccountId = "CreatedByAccountId"
@@ -3990,6 +3998,8 @@ extension GetRouteOutputResponseBody: Swift.Decodable {
         lastUpdatedTime = lastUpdatedTimeDecoded
         let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
         createdTime = createdTimeDecoded
+        let appendSourcePathDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .appendSourcePath)
+        appendSourcePath = appendSourcePathDecoded
     }
 }
 
@@ -5600,6 +5610,7 @@ extension MigrationHubRefactorSpacesClientTypes {
 
 extension MigrationHubRefactorSpacesClientTypes.RouteSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appendSourcePath = "AppendSourcePath"
         case applicationId = "ApplicationId"
         case arn = "Arn"
         case createdByAccountId = "CreatedByAccountId"
@@ -5621,6 +5632,9 @@ extension MigrationHubRefactorSpacesClientTypes.RouteSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appendSourcePath = self.appendSourcePath {
+            try encodeContainer.encode(appendSourcePath, forKey: .appendSourcePath)
+        }
         if let applicationId = self.applicationId {
             try encodeContainer.encode(applicationId, forKey: .applicationId)
         }
@@ -5746,17 +5760,21 @@ extension MigrationHubRefactorSpacesClientTypes.RouteSummary: Swift.Codable {
         lastUpdatedTime = lastUpdatedTimeDecoded
         let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
         createdTime = createdTimeDecoded
+        let appendSourcePathDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .appendSourcePath)
+        appendSourcePath = appendSourcePathDecoded
     }
 }
 
 extension MigrationHubRefactorSpacesClientTypes.RouteSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteSummary(applicationId: \(Swift.String(describing: applicationId)), arn: \(Swift.String(describing: arn)), createdByAccountId: \(Swift.String(describing: createdByAccountId)), createdTime: \(Swift.String(describing: createdTime)), environmentId: \(Swift.String(describing: environmentId)), error: \(Swift.String(describing: error)), includeChildPaths: \(Swift.String(describing: includeChildPaths)), lastUpdatedTime: \(Swift.String(describing: lastUpdatedTime)), methods: \(Swift.String(describing: methods)), ownerAccountId: \(Swift.String(describing: ownerAccountId)), pathResourceToId: \(Swift.String(describing: pathResourceToId)), routeId: \(Swift.String(describing: routeId)), routeType: \(Swift.String(describing: routeType)), serviceId: \(Swift.String(describing: serviceId)), sourcePath: \(Swift.String(describing: sourcePath)), state: \(Swift.String(describing: state)), tags: \"CONTENT_REDACTED\")"}
+        "RouteSummary(appendSourcePath: \(Swift.String(describing: appendSourcePath)), applicationId: \(Swift.String(describing: applicationId)), arn: \(Swift.String(describing: arn)), createdByAccountId: \(Swift.String(describing: createdByAccountId)), createdTime: \(Swift.String(describing: createdTime)), environmentId: \(Swift.String(describing: environmentId)), error: \(Swift.String(describing: error)), includeChildPaths: \(Swift.String(describing: includeChildPaths)), lastUpdatedTime: \(Swift.String(describing: lastUpdatedTime)), methods: \(Swift.String(describing: methods)), ownerAccountId: \(Swift.String(describing: ownerAccountId)), pathResourceToId: \(Swift.String(describing: pathResourceToId)), routeId: \(Swift.String(describing: routeId)), routeType: \(Swift.String(describing: routeType)), serviceId: \(Swift.String(describing: serviceId)), sourcePath: \(Swift.String(describing: sourcePath)), state: \(Swift.String(describing: state)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MigrationHubRefactorSpacesClientTypes {
     /// The summary information for the routes as a response to ListRoutes.
     public struct RouteSummary: Swift.Equatable {
+        /// If set to true, this option appends the source path to the service URL endpoint.
+        public var appendSourcePath: Swift.Bool?
         /// The unique identifier of the application.
         public var applicationId: Swift.String?
         /// The Amazon Resource Name (ARN) of the route.
@@ -5785,7 +5803,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public var routeType: MigrationHubRefactorSpacesClientTypes.RouteType?
         /// The unique identifier of the service.
         public var serviceId: Swift.String?
-        /// The path to use to match traffic. Paths must start with / and are relative to the base of the application.
+        /// This is the path that Refactor Spaces uses to match traffic. Paths must start with / and are relative to the base of the application. To use path parameters in the source path, add a variable in curly braces. For example, the resource path {user} represents a path parameter called 'user'.
         public var sourcePath: Swift.String?
         /// The current state of the route.
         public var state: MigrationHubRefactorSpacesClientTypes.RouteState?
@@ -5793,6 +5811,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
+            appendSourcePath: Swift.Bool? = nil,
             applicationId: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdByAccountId: Swift.String? = nil,
@@ -5812,6 +5831,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.appendSourcePath = appendSourcePath
             self.applicationId = applicationId
             self.arn = arn
             self.createdByAccountId = createdByAccountId
@@ -6689,6 +6709,7 @@ extension UpdateRouteOutputResponseBody: Swift.Decodable {
 extension MigrationHubRefactorSpacesClientTypes.UriPathRouteInput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activationState = "ActivationState"
+        case appendSourcePath = "AppendSourcePath"
         case includeChildPaths = "IncludeChildPaths"
         case methods = "Methods"
         case sourcePath = "SourcePath"
@@ -6698,6 +6719,9 @@ extension MigrationHubRefactorSpacesClientTypes.UriPathRouteInput: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activationState = self.activationState {
             try encodeContainer.encode(activationState.rawValue, forKey: .activationState)
+        }
+        if let appendSourcePath = self.appendSourcePath {
+            try encodeContainer.encode(appendSourcePath, forKey: .appendSourcePath)
         }
         if let includeChildPaths = self.includeChildPaths {
             try encodeContainer.encode(includeChildPaths, forKey: .includeChildPaths)
@@ -6732,6 +6756,8 @@ extension MigrationHubRefactorSpacesClientTypes.UriPathRouteInput: Swift.Codable
         methods = methodsDecoded0
         let includeChildPathsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeChildPaths)
         includeChildPaths = includeChildPathsDecoded
+        let appendSourcePathDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .appendSourcePath)
+        appendSourcePath = appendSourcePathDecoded
     }
 }
 
@@ -6741,22 +6767,26 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// If set to ACTIVE, traffic is forwarded to this route’s service after the route is created.
         /// This member is required.
         public var activationState: MigrationHubRefactorSpacesClientTypes.RouteActivationState?
+        /// If set to true, this option appends the source path to the service URL endpoint.
+        public var appendSourcePath: Swift.Bool?
         /// Indicates whether to match all subpaths of the given source path. If this value is false, requests must match the source path exactly before they are forwarded to this route's service.
         public var includeChildPaths: Swift.Bool?
         /// A list of HTTP methods to match. An empty list matches all values. If a method is present, only HTTP requests using that method are forwarded to this route’s service.
         public var methods: [MigrationHubRefactorSpacesClientTypes.HttpMethod]?
-        /// The path to use to match traffic. Paths must start with / and are relative to the base of the application.
+        /// This is the path that Refactor Spaces uses to match traffic. Paths must start with / and are relative to the base of the application. To use path parameters in the source path, add a variable in curly braces. For example, the resource path {user} represents a path parameter called 'user'.
         /// This member is required.
         public var sourcePath: Swift.String?
 
         public init(
             activationState: MigrationHubRefactorSpacesClientTypes.RouteActivationState? = nil,
+            appendSourcePath: Swift.Bool? = nil,
             includeChildPaths: Swift.Bool? = nil,
             methods: [MigrationHubRefactorSpacesClientTypes.HttpMethod]? = nil,
             sourcePath: Swift.String? = nil
         )
         {
             self.activationState = activationState
+            self.appendSourcePath = appendSourcePath
             self.includeChildPaths = includeChildPaths
             self.methods = methods
             self.sourcePath = sourcePath

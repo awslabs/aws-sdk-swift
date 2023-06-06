@@ -720,8 +720,56 @@ extension GameLiftClientTypes {
     }
 }
 
+extension GameLiftClientTypes.ClaimFilterOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceStatuses = "InstanceStatuses"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceStatuses = instanceStatuses {
+            var instanceStatusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceStatuses)
+            for filterinstancestatus0 in instanceStatuses {
+                try instanceStatusesContainer.encode(filterinstancestatus0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceStatusesContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.FilterInstanceStatus?].self, forKey: .instanceStatuses)
+        var instanceStatusesDecoded0:[GameLiftClientTypes.FilterInstanceStatus]? = nil
+        if let instanceStatusesContainer = instanceStatusesContainer {
+            instanceStatusesDecoded0 = [GameLiftClientTypes.FilterInstanceStatus]()
+            for enum0 in instanceStatusesContainer {
+                if let enum0 = enum0 {
+                    instanceStatusesDecoded0?.append(enum0)
+                }
+            }
+        }
+        instanceStatuses = instanceStatusesDecoded0
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift FleetIQ and game server groups. Filters which game servers may be claimed when calling ClaimGameServer.
+    public struct ClaimFilterOption: Swift.Equatable {
+        /// List of instance statuses that game servers may be claimed on. If provided, the list must contain the ACTIVE status.
+        public var instanceStatuses: [GameLiftClientTypes.FilterInstanceStatus]?
+
+        public init(
+            instanceStatuses: [GameLiftClientTypes.FilterInstanceStatus]? = nil
+        )
+        {
+            self.instanceStatuses = instanceStatuses
+        }
+    }
+
+}
+
 extension ClaimGameServerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterOption = "FilterOption"
         case gameServerData = "GameServerData"
         case gameServerGroupName = "GameServerGroupName"
         case gameServerId = "GameServerId"
@@ -729,6 +777,9 @@ extension ClaimGameServerInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterOption = self.filterOption {
+            try encodeContainer.encode(filterOption, forKey: .filterOption)
+        }
         if let gameServerData = self.gameServerData {
             try encodeContainer.encode(gameServerData, forKey: .gameServerData)
         }
@@ -748,6 +799,8 @@ extension ClaimGameServerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ClaimGameServerInput: Swift.Equatable {
+    /// Object that restricts how a claimed game server is chosen.
+    public var filterOption: GameLiftClientTypes.ClaimFilterOption?
     /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers.
     public var gameServerData: Swift.String?
     /// A unique identifier for the game server group where the game server is running. If you are not specifying a game server to claim, this value identifies where you want Amazon GameLift FleetIQ to look for an available game server to claim.
@@ -757,11 +810,13 @@ public struct ClaimGameServerInput: Swift.Equatable {
     public var gameServerId: Swift.String?
 
     public init(
+        filterOption: GameLiftClientTypes.ClaimFilterOption? = nil,
         gameServerData: Swift.String? = nil,
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil
     )
     {
+        self.filterOption = filterOption
         self.gameServerData = gameServerData
         self.gameServerGroupName = gameServerGroupName
         self.gameServerId = gameServerId
@@ -772,10 +827,12 @@ struct ClaimGameServerInputBody: Swift.Equatable {
     let gameServerGroupName: Swift.String?
     let gameServerId: Swift.String?
     let gameServerData: Swift.String?
+    let filterOption: GameLiftClientTypes.ClaimFilterOption?
 }
 
 extension ClaimGameServerInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterOption = "FilterOption"
         case gameServerData = "GameServerData"
         case gameServerGroupName = "GameServerGroupName"
         case gameServerId = "GameServerId"
@@ -789,6 +846,8 @@ extension ClaimGameServerInputBody: Swift.Decodable {
         gameServerId = gameServerIdDecoded
         let gameServerDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gameServerData)
         gameServerData = gameServerDataDecoded
+        let filterOptionDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ClaimFilterOption.self, forKey: .filterOption)
+        filterOption = filterOptionDecoded
     }
 }
 
@@ -1351,7 +1410,7 @@ extension CreateBuildInput: ClientRuntime.URLPathProvider {
 public struct CreateBuildInput: Swift.Equatable {
     /// A descriptive label associated with a build. Build names don't need to be unique. You can change this value later.
     public var name: Swift.String?
-    /// The operating system that you built the game server binaries to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system isn't specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value can't be changed later.
+    /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later. If you have active fleets using the Windows Server 2012 operating system, you can continue to create new builds using this OS until October 10, 2023, when Microsoft ends its support. All others must use Windows Server 2016 when creating new Windows-based builds.
     public var operatingSystem: GameLiftClientTypes.OperatingSystem?
     /// A server SDK version you used when integrating your game server build with Amazon GameLift. For more information see [Integrate games with custom game servers](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html). By default Amazon GameLift sets this value to 4.0.2.
     public var serverSdkVersion: Swift.String?
@@ -2683,7 +2742,7 @@ public struct CreateGameSessionQueueInput: Swift.Equatable {
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
     /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
-    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
     public var timeoutInSeconds: Swift.Int?
 
     public init(
@@ -10385,6 +10444,38 @@ extension GameLiftClientTypes {
 }
 
 extension GameLiftClientTypes {
+    public enum FilterInstanceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case draining
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterInstanceStatus] {
+            return [
+                .active,
+                .draining,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .draining: return "DRAINING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FilterInstanceStatus(rawValue: rawValue) ?? FilterInstanceStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GameLiftClientTypes {
     public enum FleetAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case autoscaling
         case sdkUnknown(Swift.String)
@@ -12970,7 +13061,7 @@ extension GameLiftClientTypes {
         public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
         /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
         public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
         public var timeoutInSeconds: Swift.Int?
 
         public init(
@@ -22353,7 +22444,7 @@ public struct UpdateGameSessionQueueInput: Swift.Equatable {
     public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
     /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set.
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
-    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
     public var timeoutInSeconds: Swift.Int?
 
     public init(

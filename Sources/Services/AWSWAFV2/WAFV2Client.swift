@@ -725,6 +725,80 @@ extension WAFV2Client: WAFV2ClientProtocol {
         return result
     }
 
+    /// Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
+    public func describeAllManagedProducts(input: DescribeAllManagedProductsInput) async throws -> DescribeAllManagedProductsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAllManagedProducts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutputResponse, DescribeAllManagedProductsOutputError>(id: "describeAllManagedProducts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutputResponse, DescribeAllManagedProductsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAllManagedProductsOutputResponse, DescribeAllManagedProductsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutputResponse>(xAmzTarget: "AWSWAF_20190729.DescribeAllManagedProducts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutputResponse>(xmlName: "DescribeAllManagedProductsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAllManagedProductsOutputResponse, DescribeAllManagedProductsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAllManagedProductsOutputResponse, DescribeAllManagedProductsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAllManagedProductsOutputResponse, DescribeAllManagedProductsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAllManagedProductsOutputResponse, DescribeAllManagedProductsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Provides high-level information for the managed rule groups owned by a specific vendor.
+    public func describeManagedProductsByVendor(input: DescribeManagedProductsByVendorInput) async throws -> DescribeManagedProductsByVendorOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeManagedProductsByVendor")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutputResponse, DescribeManagedProductsByVendorOutputError>(id: "describeManagedProductsByVendor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutputResponse, DescribeManagedProductsByVendorOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeManagedProductsByVendorOutputResponse, DescribeManagedProductsByVendorOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutputResponse>(xAmzTarget: "AWSWAF_20190729.DescribeManagedProductsByVendor"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutputResponse>(xmlName: "DescribeManagedProductsByVendorRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeManagedProductsByVendorOutputResponse, DescribeManagedProductsByVendorOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeManagedProductsByVendorOutputResponse, DescribeManagedProductsByVendorOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeManagedProductsByVendorOutputResponse, DescribeManagedProductsByVendorOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeManagedProductsByVendorOutputResponse, DescribeManagedProductsByVendorOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Provides high-level information for a managed rule group, including descriptions of the rules.
     public func describeManagedRuleGroup(input: DescribeManagedRuleGroupInput) async throws -> DescribeManagedRuleGroupOutputResponse
     {

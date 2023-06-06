@@ -11,6 +11,7 @@ extension CostandUsageReportClientTypes {
         case capeTown
         case frankfurt
         case hongKong
+        case hyderabad
         case ireland
         case jakarta
         case london
@@ -31,6 +32,7 @@ extension CostandUsageReportClientTypes {
         case tokyo
         case uae
         case usStandard
+        case zurich
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AWSRegion] {
@@ -41,6 +43,7 @@ extension CostandUsageReportClientTypes {
                 .capeTown,
                 .frankfurt,
                 .hongKong,
+                .hyderabad,
                 .ireland,
                 .jakarta,
                 .london,
@@ -61,6 +64,7 @@ extension CostandUsageReportClientTypes {
                 .tokyo,
                 .uae,
                 .usStandard,
+                .zurich,
                 .sdkUnknown("")
             ]
         }
@@ -76,6 +80,7 @@ extension CostandUsageReportClientTypes {
             case .capeTown: return "af-south-1"
             case .frankfurt: return "eu-central-1"
             case .hongKong: return "ap-east-1"
+            case .hyderabad: return "ap-south-2"
             case .ireland: return "eu-west-1"
             case .jakarta: return "ap-southeast-3"
             case .london: return "eu-west-2"
@@ -96,6 +101,7 @@ extension CostandUsageReportClientTypes {
             case .tokyo: return "ap-northeast-1"
             case .uae: return "me-central-1"
             case .usStandard: return "us-east-1"
+            case .zurich: return "eu-central-2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -982,11 +988,13 @@ extension CostandUsageReportClientTypes {
     /// Whether or not AWS includes resource IDs in the report.
     public enum SchemaElement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case resources
+        case splitCostAllocationData
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SchemaElement] {
             return [
                 .resources,
+                .splitCostAllocationData,
                 .sdkUnknown("")
             ]
         }
@@ -997,6 +1005,7 @@ extension CostandUsageReportClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .resources: return "RESOURCES"
+            case .splitCostAllocationData: return "SPLIT_COST_ALLOCATION_DATA"
             case let .sdkUnknown(s): return s
             }
         }

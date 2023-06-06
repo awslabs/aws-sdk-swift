@@ -3262,6 +3262,7 @@ extension ConnectClientTypes {
         case api
         case callback
         case disconnect
+        case externalOutbound
         case inbound
         case monitor
         case outbound
@@ -3274,6 +3275,7 @@ extension ConnectClientTypes {
                 .api,
                 .callback,
                 .disconnect,
+                .externalOutbound,
                 .inbound,
                 .monitor,
                 .outbound,
@@ -3291,6 +3293,7 @@ extension ConnectClientTypes {
             case .api: return "API"
             case .callback: return "CALLBACK"
             case .disconnect: return "DISCONNECT"
+            case .externalOutbound: return "EXTERNAL_OUTBOUND"
             case .inbound: return "INBOUND"
             case .monitor: return "MONITOR"
             case .outbound: return "OUTBOUND"
@@ -13631,6 +13634,7 @@ extension ConnectClientTypes {
         /// The instructions of the section.
         public var instructions: Swift.String?
         /// The items of the section.
+        /// This member is required.
         public var items: [ConnectClientTypes.EvaluationFormItem]?
         /// The identifier of the section. An identifier must be unique within the evaluation form.
         /// This member is required.

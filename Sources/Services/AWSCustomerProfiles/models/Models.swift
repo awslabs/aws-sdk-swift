@@ -695,6 +695,101 @@ extension CustomerProfilesClientTypes {
 
 }
 
+extension CustomerProfilesClientTypes.AttributeDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes = "Attributes"
+        case expression = "Expression"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributes = attributes {
+            var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
+            for attributeitem0 in attributes {
+                try attributesContainer.encode(attributeitem0)
+            }
+        }
+        if let expression = self.expression {
+            try encodeContainer.encode(expression, forKey: .expression)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributesContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.AttributeItem?].self, forKey: .attributes)
+        var attributesDecoded0:[CustomerProfilesClientTypes.AttributeItem]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [CustomerProfilesClientTypes.AttributeItem]()
+            for structure0 in attributesContainer {
+                if let structure0 = structure0 {
+                    attributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        attributes = attributesDecoded0
+        let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
+        expression = expressionDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// Mathematical expression and a list of attribute items specified in that expression.
+    public struct AttributeDetails: Swift.Equatable {
+        /// A list of attribute items specified in the mathematical expression.
+        /// This member is required.
+        public var attributes: [CustomerProfilesClientTypes.AttributeItem]?
+        /// Mathematical expression that is performed on attribute items provided in the attribute list. Each element in the expression should follow the structure of \"{ObjectTypeName.AttributeName}\".
+        /// This member is required.
+        public var expression: Swift.String?
+
+        public init(
+            attributes: [CustomerProfilesClientTypes.AttributeItem]? = nil,
+            expression: Swift.String? = nil
+        )
+        {
+            self.attributes = attributes
+            self.expression = expression
+        }
+    }
+
+}
+
+extension CustomerProfilesClientTypes.AttributeItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// The details of a single attribute item specified in the mathematical expression.
+    public struct AttributeItem: Swift.Equatable {
+        /// The name of an attribute defined in a profile object type.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
 extension CustomerProfilesClientTypes.AutoMerging: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case conflictResolution = "ConflictResolution"
@@ -858,6 +953,61 @@ extension CustomerProfilesClientTypes {
         {
             self.endTime = endTime
             self.startTime = startTime
+        }
+    }
+
+}
+
+extension CustomerProfilesClientTypes.Conditions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objectCount = "ObjectCount"
+        case range = "Range"
+        case threshold = "Threshold"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let objectCount = self.objectCount {
+            try encodeContainer.encode(objectCount, forKey: .objectCount)
+        }
+        if let range = self.range {
+            try encodeContainer.encode(range, forKey: .range)
+        }
+        if let threshold = self.threshold {
+            try encodeContainer.encode(threshold, forKey: .threshold)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rangeDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Range.self, forKey: .range)
+        range = rangeDecoded
+        let objectCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectCount)
+        objectCount = objectCountDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Threshold.self, forKey: .threshold)
+        threshold = thresholdDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// The conditions including range, object count, and threshold for the calculated attribute.
+    public struct Conditions: Swift.Equatable {
+        /// The number of profile objects used for the calculated attribute.
+        public var objectCount: Swift.Int?
+        /// The relative time period over which data is included in the aggregation.
+        public var range: CustomerProfilesClientTypes.Range?
+        /// The threshold for the calculated attribute.
+        public var threshold: CustomerProfilesClientTypes.Threshold?
+
+        public init(
+            objectCount: Swift.Int? = nil,
+            range: CustomerProfilesClientTypes.Range? = nil,
+            threshold: CustomerProfilesClientTypes.Threshold? = nil
+        )
+        {
+            self.objectCount = objectCount
+            self.range = range
+            self.threshold = threshold
         }
     }
 
@@ -1078,6 +1228,287 @@ extension CustomerProfilesClientTypes {
         }
     }
 
+}
+
+extension CreateCalculatedAttributeDefinitionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeDetails = "AttributeDetails"
+        case conditions = "Conditions"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case statistic = "Statistic"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeDetails = self.attributeDetails {
+            try encodeContainer.encode(attributeDetails, forKey: .attributeDetails)
+        }
+        if let conditions = self.conditions {
+            try encodeContainer.encode(conditions, forKey: .conditions)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateCalculatedAttributeDefinitionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let calculatedAttributeName = calculatedAttributeName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/calculated-attributes/\(calculatedAttributeName.urlPercentEncoding())"
+    }
+}
+
+public struct CreateCalculatedAttributeDefinitionInput: Swift.Equatable {
+    /// Mathematical expression and a list of attribute items specified in that expression.
+    /// This member is required.
+    public var attributeDetails: CustomerProfilesClientTypes.AttributeDetails?
+    /// The unique name of the calculated attribute.
+    /// This member is required.
+    public var calculatedAttributeName: Swift.String?
+    /// The conditions including range, object count, and threshold for the calculated attribute.
+    public var conditions: CustomerProfilesClientTypes.Conditions?
+    /// The description of the calculated attribute.
+    public var description: Swift.String?
+    /// The display name of the calculated attribute.
+    public var displayName: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The aggregation operation to perform for the calculated attribute.
+    /// This member is required.
+    public var statistic: CustomerProfilesClientTypes.Statistic?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        attributeDetails: CustomerProfilesClientTypes.AttributeDetails? = nil,
+        calculatedAttributeName: Swift.String? = nil,
+        conditions: CustomerProfilesClientTypes.Conditions? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        statistic: CustomerProfilesClientTypes.Statistic? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.attributeDetails = attributeDetails
+        self.calculatedAttributeName = calculatedAttributeName
+        self.conditions = conditions
+        self.description = description
+        self.displayName = displayName
+        self.domainName = domainName
+        self.statistic = statistic
+        self.tags = tags
+    }
+}
+
+struct CreateCalculatedAttributeDefinitionInputBody: Swift.Equatable {
+    let displayName: Swift.String?
+    let description: Swift.String?
+    let attributeDetails: CustomerProfilesClientTypes.AttributeDetails?
+    let conditions: CustomerProfilesClientTypes.Conditions?
+    let statistic: CustomerProfilesClientTypes.Statistic?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateCalculatedAttributeDefinitionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeDetails = "AttributeDetails"
+        case conditions = "Conditions"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case statistic = "Statistic"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let attributeDetailsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.AttributeDetails.self, forKey: .attributeDetails)
+        attributeDetails = attributeDetailsDecoded
+        let conditionsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Conditions.self, forKey: .conditions)
+        conditions = conditionsDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Statistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateCalculatedAttributeDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateCalculatedAttributeDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCalculatedAttributeDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.attributeDetails = output.attributeDetails
+            self.calculatedAttributeName = output.calculatedAttributeName
+            self.conditions = output.conditions
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.displayName = output.displayName
+            self.lastUpdatedAt = output.lastUpdatedAt
+            self.statistic = output.statistic
+            self.tags = output.tags
+        } else {
+            self.attributeDetails = nil
+            self.calculatedAttributeName = nil
+            self.conditions = nil
+            self.createdAt = nil
+            self.description = nil
+            self.displayName = nil
+            self.lastUpdatedAt = nil
+            self.statistic = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct CreateCalculatedAttributeDefinitionOutputResponse: Swift.Equatable {
+    /// Mathematical expression and a list of attribute items specified in that expression.
+    public var attributeDetails: CustomerProfilesClientTypes.AttributeDetails?
+    /// The unique name of the calculated attribute.
+    public var calculatedAttributeName: Swift.String?
+    /// The conditions including range, object count, and threshold for the calculated attribute.
+    public var conditions: CustomerProfilesClientTypes.Conditions?
+    /// The timestamp of when the calculated attribute definition was created.
+    public var createdAt: ClientRuntime.Date?
+    /// The description of the calculated attribute.
+    public var description: Swift.String?
+    /// The display name of the calculated attribute.
+    public var displayName: Swift.String?
+    /// The timestamp of when the calculated attribute definition was most recently edited.
+    public var lastUpdatedAt: ClientRuntime.Date?
+    /// The aggregation operation to perform for the calculated attribute.
+    public var statistic: CustomerProfilesClientTypes.Statistic?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        attributeDetails: CustomerProfilesClientTypes.AttributeDetails? = nil,
+        calculatedAttributeName: Swift.String? = nil,
+        conditions: CustomerProfilesClientTypes.Conditions? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        lastUpdatedAt: ClientRuntime.Date? = nil,
+        statistic: CustomerProfilesClientTypes.Statistic? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.attributeDetails = attributeDetails
+        self.calculatedAttributeName = calculatedAttributeName
+        self.conditions = conditions
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.statistic = statistic
+        self.tags = tags
+    }
+}
+
+struct CreateCalculatedAttributeDefinitionOutputResponseBody: Swift.Equatable {
+    let calculatedAttributeName: Swift.String?
+    let displayName: Swift.String?
+    let description: Swift.String?
+    let attributeDetails: CustomerProfilesClientTypes.AttributeDetails?
+    let conditions: CustomerProfilesClientTypes.Conditions?
+    let statistic: CustomerProfilesClientTypes.Statistic?
+    let createdAt: ClientRuntime.Date?
+    let lastUpdatedAt: ClientRuntime.Date?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateCalculatedAttributeDefinitionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeDetails = "AttributeDetails"
+        case calculatedAttributeName = "CalculatedAttributeName"
+        case conditions = "Conditions"
+        case createdAt = "CreatedAt"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case statistic = "Statistic"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculatedAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculatedAttributeName)
+        calculatedAttributeName = calculatedAttributeNameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let attributeDetailsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.AttributeDetails.self, forKey: .attributeDetails)
+        attributeDetails = attributeDetailsDecoded
+        let conditionsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Conditions.self, forKey: .conditions)
+        conditions = conditionsDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Statistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
+        lastUpdatedAt = lastUpdatedAtDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
 }
 
 extension CreateDomainInput: Swift.Encodable {
@@ -1939,6 +2370,70 @@ extension CustomerProfilesClientTypes {
             self = DataPullMode(rawValue: rawValue) ?? DataPullMode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DeleteCalculatedAttributeDefinitionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let calculatedAttributeName = calculatedAttributeName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/calculated-attributes/\(calculatedAttributeName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteCalculatedAttributeDefinitionInput: Swift.Equatable {
+    /// The unique name of the calculated attribute.
+    /// This member is required.
+    public var calculatedAttributeName: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        calculatedAttributeName: Swift.String? = nil,
+        domainName: Swift.String? = nil
+    )
+    {
+        self.calculatedAttributeName = calculatedAttributeName
+        self.domainName = domainName
+    }
+}
+
+struct DeleteCalculatedAttributeDefinitionInputBody: Swift.Equatable {
+}
+
+extension DeleteCalculatedAttributeDefinitionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteCalculatedAttributeDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteCalculatedAttributeDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCalculatedAttributeDefinitionOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension DeleteDomainInput: ClientRuntime.URLPathProvider {
@@ -3478,6 +3973,321 @@ extension GetAutoMergingPreviewOutputResponseBody: Swift.Decodable {
         numberOfProfilesInSample = numberOfProfilesInSampleDecoded
         let numberOfProfilesWillBeMergedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfProfilesWillBeMerged) ?? 0
         numberOfProfilesWillBeMerged = numberOfProfilesWillBeMergedDecoded
+    }
+}
+
+extension GetCalculatedAttributeDefinitionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let calculatedAttributeName = calculatedAttributeName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/calculated-attributes/\(calculatedAttributeName.urlPercentEncoding())"
+    }
+}
+
+public struct GetCalculatedAttributeDefinitionInput: Swift.Equatable {
+    /// The unique name of the calculated attribute.
+    /// This member is required.
+    public var calculatedAttributeName: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        calculatedAttributeName: Swift.String? = nil,
+        domainName: Swift.String? = nil
+    )
+    {
+        self.calculatedAttributeName = calculatedAttributeName
+        self.domainName = domainName
+    }
+}
+
+struct GetCalculatedAttributeDefinitionInputBody: Swift.Equatable {
+}
+
+extension GetCalculatedAttributeDefinitionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetCalculatedAttributeDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetCalculatedAttributeDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCalculatedAttributeDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.attributeDetails = output.attributeDetails
+            self.calculatedAttributeName = output.calculatedAttributeName
+            self.conditions = output.conditions
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.displayName = output.displayName
+            self.lastUpdatedAt = output.lastUpdatedAt
+            self.statistic = output.statistic
+            self.tags = output.tags
+        } else {
+            self.attributeDetails = nil
+            self.calculatedAttributeName = nil
+            self.conditions = nil
+            self.createdAt = nil
+            self.description = nil
+            self.displayName = nil
+            self.lastUpdatedAt = nil
+            self.statistic = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct GetCalculatedAttributeDefinitionOutputResponse: Swift.Equatable {
+    /// Mathematical expression and a list of attribute items specified in that expression.
+    public var attributeDetails: CustomerProfilesClientTypes.AttributeDetails?
+    /// The unique name of the calculated attribute.
+    public var calculatedAttributeName: Swift.String?
+    /// The conditions including range, object count, and threshold for the calculated attribute.
+    public var conditions: CustomerProfilesClientTypes.Conditions?
+    /// The timestamp of when the calculated attribute definition was created.
+    public var createdAt: ClientRuntime.Date?
+    /// The description of the calculated attribute.
+    public var description: Swift.String?
+    /// The display name of the calculated attribute.
+    public var displayName: Swift.String?
+    /// The timestamp of when the calculated attribute definition was most recently edited.
+    public var lastUpdatedAt: ClientRuntime.Date?
+    /// The aggregation operation to perform for the calculated attribute.
+    public var statistic: CustomerProfilesClientTypes.Statistic?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        attributeDetails: CustomerProfilesClientTypes.AttributeDetails? = nil,
+        calculatedAttributeName: Swift.String? = nil,
+        conditions: CustomerProfilesClientTypes.Conditions? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        lastUpdatedAt: ClientRuntime.Date? = nil,
+        statistic: CustomerProfilesClientTypes.Statistic? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.attributeDetails = attributeDetails
+        self.calculatedAttributeName = calculatedAttributeName
+        self.conditions = conditions
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.statistic = statistic
+        self.tags = tags
+    }
+}
+
+struct GetCalculatedAttributeDefinitionOutputResponseBody: Swift.Equatable {
+    let calculatedAttributeName: Swift.String?
+    let displayName: Swift.String?
+    let description: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let lastUpdatedAt: ClientRuntime.Date?
+    let statistic: CustomerProfilesClientTypes.Statistic?
+    let conditions: CustomerProfilesClientTypes.Conditions?
+    let attributeDetails: CustomerProfilesClientTypes.AttributeDetails?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetCalculatedAttributeDefinitionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeDetails = "AttributeDetails"
+        case calculatedAttributeName = "CalculatedAttributeName"
+        case conditions = "Conditions"
+        case createdAt = "CreatedAt"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case statistic = "Statistic"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculatedAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculatedAttributeName)
+        calculatedAttributeName = calculatedAttributeNameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
+        lastUpdatedAt = lastUpdatedAtDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Statistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let conditionsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Conditions.self, forKey: .conditions)
+        conditions = conditionsDecoded
+        let attributeDetailsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.AttributeDetails.self, forKey: .attributeDetails)
+        attributeDetails = attributeDetailsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension GetCalculatedAttributeForProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let profileId = profileId else {
+            return nil
+        }
+        guard let calculatedAttributeName = calculatedAttributeName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/profile/\(profileId.urlPercentEncoding())/calculated-attributes/\(calculatedAttributeName.urlPercentEncoding())"
+    }
+}
+
+public struct GetCalculatedAttributeForProfileInput: Swift.Equatable {
+    /// The unique name of the calculated attribute.
+    /// This member is required.
+    public var calculatedAttributeName: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique identifier of a customer profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        calculatedAttributeName: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        profileId: Swift.String? = nil
+    )
+    {
+        self.calculatedAttributeName = calculatedAttributeName
+        self.domainName = domainName
+        self.profileId = profileId
+    }
+}
+
+struct GetCalculatedAttributeForProfileInputBody: Swift.Equatable {
+}
+
+extension GetCalculatedAttributeForProfileInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetCalculatedAttributeForProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetCalculatedAttributeForProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCalculatedAttributeForProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.calculatedAttributeName = output.calculatedAttributeName
+            self.displayName = output.displayName
+            self.isDataPartial = output.isDataPartial
+            self.value = output.value
+        } else {
+            self.calculatedAttributeName = nil
+            self.displayName = nil
+            self.isDataPartial = nil
+            self.value = nil
+        }
+    }
+}
+
+public struct GetCalculatedAttributeForProfileOutputResponse: Swift.Equatable {
+    /// The unique name of the calculated attribute.
+    public var calculatedAttributeName: Swift.String?
+    /// The display name of the calculated attribute.
+    public var displayName: Swift.String?
+    /// Indicates whether the calculated attribute’s value is based on partial data. If data is partial, it is set to true.
+    public var isDataPartial: Swift.String?
+    /// The value of the calculated attribute.
+    public var value: Swift.String?
+
+    public init(
+        calculatedAttributeName: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        isDataPartial: Swift.String? = nil,
+        value: Swift.String? = nil
+    )
+    {
+        self.calculatedAttributeName = calculatedAttributeName
+        self.displayName = displayName
+        self.isDataPartial = isDataPartial
+        self.value = value
+    }
+}
+
+struct GetCalculatedAttributeForProfileOutputResponseBody: Swift.Equatable {
+    let calculatedAttributeName: Swift.String?
+    let displayName: Swift.String?
+    let isDataPartial: Swift.String?
+    let value: Swift.String?
+}
+
+extension GetCalculatedAttributeForProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculatedAttributeName = "CalculatedAttributeName"
+        case displayName = "DisplayName"
+        case isDataPartial = "IsDataPartial"
+        case value = "Value"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculatedAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculatedAttributeName)
+        calculatedAttributeName = calculatedAttributeNameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let isDataPartialDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isDataPartial)
+        isDataPartial = isDataPartialDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
     }
 }
 
@@ -5558,6 +6368,436 @@ extension ListAccountIntegrationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculatedAttributeName = "CalculatedAttributeName"
+        case createdAt = "CreatedAt"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculatedAttributeName = self.calculatedAttributeName {
+            try encodeContainer.encode(calculatedAttributeName, forKey: .calculatedAttributeName)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let lastUpdatedAt = self.lastUpdatedAt {
+            try encodeContainer.encodeTimestamp(lastUpdatedAt, format: .epochSeconds, forKey: .lastUpdatedAt)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculatedAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculatedAttributeName)
+        calculatedAttributeName = calculatedAttributeNameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
+        lastUpdatedAt = lastUpdatedAtDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// The details of a single calculated attribute definition.
+    public struct ListCalculatedAttributeDefinitionItem: Swift.Equatable {
+        /// The unique name of the calculated attribute.
+        public var calculatedAttributeName: Swift.String?
+        /// The threshold for the calculated attribute.
+        public var createdAt: ClientRuntime.Date?
+        /// The threshold for the calculated attribute.
+        public var description: Swift.String?
+        /// The display name of the calculated attribute.
+        public var displayName: Swift.String?
+        /// The timestamp of when the calculated attribute definition was most recently edited.
+        public var lastUpdatedAt: ClientRuntime.Date?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            calculatedAttributeName: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            lastUpdatedAt: ClientRuntime.Date? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.calculatedAttributeName = calculatedAttributeName
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.tags = tags
+        }
+    }
+
+}
+
+extension ListCalculatedAttributeDefinitionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCalculatedAttributeDefinitionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/calculated-attributes"
+    }
+}
+
+public struct ListCalculatedAttributeDefinitionsInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of calculated attribute definitions returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous call to ListCalculatedAttributeDefinitions.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCalculatedAttributeDefinitionsInputBody: Swift.Equatable {
+}
+
+extension ListCalculatedAttributeDefinitionsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListCalculatedAttributeDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCalculatedAttributeDefinitionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCalculatedAttributeDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCalculatedAttributeDefinitionsOutputResponse: Swift.Equatable {
+    /// The list of calculated attribute definitions.
+    public var items: [CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem]?
+    /// The pagination token from the previous call to ListCalculatedAttributeDefinitions.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCalculatedAttributeDefinitionsOutputResponseBody: Swift.Equatable {
+    let items: [CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListCalculatedAttributeDefinitionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items = "Items"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem?].self, forKey: .items)
+        var itemsDecoded0:[CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculatedAttributeName = "CalculatedAttributeName"
+        case displayName = "DisplayName"
+        case isDataPartial = "IsDataPartial"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculatedAttributeName = self.calculatedAttributeName {
+            try encodeContainer.encode(calculatedAttributeName, forKey: .calculatedAttributeName)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let isDataPartial = self.isDataPartial {
+            try encodeContainer.encode(isDataPartial, forKey: .isDataPartial)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculatedAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculatedAttributeName)
+        calculatedAttributeName = calculatedAttributeNameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let isDataPartialDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isDataPartial)
+        isDataPartial = isDataPartialDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// The details of a single calculated attribute for a profile.
+    public struct ListCalculatedAttributeForProfileItem: Swift.Equatable {
+        /// The unique name of the calculated attribute.
+        public var calculatedAttributeName: Swift.String?
+        /// The display name of the calculated attribute.
+        public var displayName: Swift.String?
+        /// Indicates whether the calculated attribute’s value is based on partial data. If data is partial, it is set to true.
+        public var isDataPartial: Swift.String?
+        /// The value of the calculated attribute.
+        public var value: Swift.String?
+
+        public init(
+            calculatedAttributeName: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            isDataPartial: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.calculatedAttributeName = calculatedAttributeName
+            self.displayName = displayName
+            self.isDataPartial = isDataPartial
+            self.value = value
+        }
+    }
+
+}
+
+extension ListCalculatedAttributesForProfileInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCalculatedAttributesForProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let profileId = profileId else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/profile/\(profileId.urlPercentEncoding())/calculated-attributes"
+    }
+}
+
+public struct ListCalculatedAttributesForProfileInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of calculated attributes returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous call to ListCalculatedAttributesForProfile.
+    public var nextToken: Swift.String?
+    /// The unique identifier of a customer profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileId: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileId = profileId
+    }
+}
+
+struct ListCalculatedAttributesForProfileInputBody: Swift.Equatable {
+}
+
+extension ListCalculatedAttributesForProfileInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListCalculatedAttributesForProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCalculatedAttributesForProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCalculatedAttributesForProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCalculatedAttributesForProfileOutputResponse: Swift.Equatable {
+    /// The list of calculated attributes.
+    public var items: [CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem]?
+    /// The pagination token from the previous call to ListCalculatedAttributesForProfile.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCalculatedAttributesForProfileOutputResponseBody: Swift.Equatable {
+    let items: [CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListCalculatedAttributesForProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items = "Items"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem?].self, forKey: .items)
+        var itemsDecoded0:[CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension CustomerProfilesClientTypes.ListDomainItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt = "CreatedAt"
@@ -6622,7 +7862,7 @@ public struct ListProfileObjectsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The pagination token from the previous call to ListProfileObjects.
     public var nextToken: Swift.String?
-    /// Applies a filter to the response to include profile objects with the specified index values. This filter is only supported for ObjectTypeName _asset, _case and _order.
+    /// Applies a filter to the response to include profile objects with the specified index values.
     public var objectFilter: CustomerProfilesClientTypes.ObjectFilter?
     /// The name of the profile object type.
     /// This member is required.
@@ -7701,9 +8941,9 @@ extension CustomerProfilesClientTypes.ObjectFilter: Swift.Codable {
 }
 
 extension CustomerProfilesClientTypes {
-    /// The filter applied to ListProfileObjects response to include profile objects with the specified index values. This filter is only supported for ObjectTypeName _asset, _case and _order.
+    /// The filter applied to ListProfileObjects response to include profile objects with the specified index values.
     public struct ObjectFilter: Swift.Equatable {
-        /// A searchable identifier of a standard profile object. The predefined keys you can use to search for _asset include: _assetId, _assetName, _serialNumber. The predefined keys you can use to search for _case include: _caseId. The predefined keys you can use to search for _order include: _orderId.
+        /// A searchable identifier of a profile object. The predefined keys you can use to search for _asset include: _assetId, _assetName, and _serialNumber. The predefined keys you can use to search for _case include: _caseId. The predefined keys you can use to search for _order include: _orderId.
         /// This member is required.
         public var keyName: Swift.String?
         /// A list of key values.
@@ -7844,6 +9084,44 @@ extension CustomerProfilesClientTypes {
         }
     }
 
+}
+
+extension CustomerProfilesClientTypes {
+    public enum Operator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equalTo
+        case greaterThan
+        case lessThan
+        case notEqualTo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Operator] {
+            return [
+                .equalTo,
+                .greaterThan,
+                .lessThan,
+                .notEqualTo,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equalTo: return "EQUAL_TO"
+            case .greaterThan: return "GREATER_THAN"
+            case .lessThan: return "LESS_THAN"
+            case .notEqualTo: return "NOT_EQUAL_TO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Operator(rawValue: rawValue) ?? Operator.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -9073,6 +10351,53 @@ extension PutProfileObjectTypeOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CustomerProfilesClientTypes.Range: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case unit = "Unit"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let unit = self.unit {
+            try encodeContainer.encode(unit.rawValue, forKey: .unit)
+        }
+        if value != 0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        value = valueDecoded
+        let unitDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Unit.self, forKey: .unit)
+        unit = unitDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// The relative time period over which data is included in the aggregation.
+    public struct Range: Swift.Equatable {
+        /// The unit of time.
+        /// This member is required.
+        public var unit: CustomerProfilesClientTypes.Unit?
+        /// The amount of time of the specified unit.
+        /// This member is required.
+        public var value: Swift.Int
+
+        public init(
+            unit: CustomerProfilesClientTypes.Unit? = nil,
+            value: Swift.Int = 0
+        )
+        {
+            self.unit = unit
+            self.value = value
+        }
+    }
+
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10174,6 +11499,56 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes {
+    public enum Statistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case count
+        case firstOccurrence
+        case lastOccurrence
+        case maximum
+        case maxOccurrence
+        case minimum
+        case sum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Statistic] {
+            return [
+                .average,
+                .count,
+                .firstOccurrence,
+                .lastOccurrence,
+                .maximum,
+                .maxOccurrence,
+                .minimum,
+                .sum,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .count: return "COUNT"
+            case .firstOccurrence: return "FIRST_OCCURRENCE"
+            case .lastOccurrence: return "LAST_OCCURRENCE"
+            case .maximum: return "MAXIMUM"
+            case .maxOccurrence: return "MAX_OCCURRENCE"
+            case .minimum: return "MINIMUM"
+            case .sum: return "SUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Statistic(rawValue: rawValue) ?? Statistic.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
     public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cancelled
         case complete
@@ -10459,6 +11834,53 @@ extension CustomerProfilesClientTypes {
     }
 }
 
+extension CustomerProfilesClientTypes.Threshold: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case `operator` = "Operator"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let operatorDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Operator.self, forKey: .operator)
+        `operator` = operatorDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// The threshold for the calculated attribute.
+    public struct Threshold: Swift.Equatable {
+        /// The operator of the threshold.
+        /// This member is required.
+        public var `operator`: CustomerProfilesClientTypes.Operator?
+        /// The value of the threshold.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            `operator`: CustomerProfilesClientTypes.Operator? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+
+}
+
 extension ThrottlingException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10626,6 +12048,35 @@ extension CustomerProfilesClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = TriggerType(rawValue: rawValue) ?? TriggerType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    public enum Unit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case days
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Unit] {
+            return [
+                .days,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Unit(rawValue: rawValue) ?? Unit.sdkUnknown(rawValue)
         }
     }
 }
@@ -10829,6 +12280,237 @@ extension CustomerProfilesClientTypes {
         }
     }
 
+}
+
+extension UpdateCalculatedAttributeDefinitionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conditions = "Conditions"
+        case description = "Description"
+        case displayName = "DisplayName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conditions = self.conditions {
+            try encodeContainer.encode(conditions, forKey: .conditions)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+    }
+}
+
+extension UpdateCalculatedAttributeDefinitionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let calculatedAttributeName = calculatedAttributeName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/calculated-attributes/\(calculatedAttributeName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateCalculatedAttributeDefinitionInput: Swift.Equatable {
+    /// The unique name of the calculated attribute.
+    /// This member is required.
+    public var calculatedAttributeName: Swift.String?
+    /// The conditions including range, object count, and threshold for the calculated attribute.
+    public var conditions: CustomerProfilesClientTypes.Conditions?
+    /// The description of the calculated attribute.
+    public var description: Swift.String?
+    /// The display name of the calculated attribute.
+    public var displayName: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        calculatedAttributeName: Swift.String? = nil,
+        conditions: CustomerProfilesClientTypes.Conditions? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        domainName: Swift.String? = nil
+    )
+    {
+        self.calculatedAttributeName = calculatedAttributeName
+        self.conditions = conditions
+        self.description = description
+        self.displayName = displayName
+        self.domainName = domainName
+    }
+}
+
+struct UpdateCalculatedAttributeDefinitionInputBody: Swift.Equatable {
+    let displayName: Swift.String?
+    let description: Swift.String?
+    let conditions: CustomerProfilesClientTypes.Conditions?
+}
+
+extension UpdateCalculatedAttributeDefinitionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conditions = "Conditions"
+        case description = "Description"
+        case displayName = "DisplayName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let conditionsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Conditions.self, forKey: .conditions)
+        conditions = conditionsDecoded
+    }
+}
+
+public enum UpdateCalculatedAttributeDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateCalculatedAttributeDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCalculatedAttributeDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.attributeDetails = output.attributeDetails
+            self.calculatedAttributeName = output.calculatedAttributeName
+            self.conditions = output.conditions
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.displayName = output.displayName
+            self.lastUpdatedAt = output.lastUpdatedAt
+            self.statistic = output.statistic
+            self.tags = output.tags
+        } else {
+            self.attributeDetails = nil
+            self.calculatedAttributeName = nil
+            self.conditions = nil
+            self.createdAt = nil
+            self.description = nil
+            self.displayName = nil
+            self.lastUpdatedAt = nil
+            self.statistic = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct UpdateCalculatedAttributeDefinitionOutputResponse: Swift.Equatable {
+    /// The mathematical expression and a list of attribute items specified in that expression.
+    public var attributeDetails: CustomerProfilesClientTypes.AttributeDetails?
+    /// The unique name of the calculated attribute.
+    public var calculatedAttributeName: Swift.String?
+    /// The conditions including range, object count, and threshold for the calculated attribute.
+    public var conditions: CustomerProfilesClientTypes.Conditions?
+    /// The timestamp of when the calculated attribute definition was created.
+    public var createdAt: ClientRuntime.Date?
+    /// The description of the calculated attribute.
+    public var description: Swift.String?
+    /// The display name of the calculated attribute.
+    public var displayName: Swift.String?
+    /// The timestamp of when the calculated attribute definition was most recently edited.
+    public var lastUpdatedAt: ClientRuntime.Date?
+    /// The aggregation operation to perform for the calculated attribute.
+    public var statistic: CustomerProfilesClientTypes.Statistic?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        attributeDetails: CustomerProfilesClientTypes.AttributeDetails? = nil,
+        calculatedAttributeName: Swift.String? = nil,
+        conditions: CustomerProfilesClientTypes.Conditions? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        lastUpdatedAt: ClientRuntime.Date? = nil,
+        statistic: CustomerProfilesClientTypes.Statistic? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.attributeDetails = attributeDetails
+        self.calculatedAttributeName = calculatedAttributeName
+        self.conditions = conditions
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.statistic = statistic
+        self.tags = tags
+    }
+}
+
+struct UpdateCalculatedAttributeDefinitionOutputResponseBody: Swift.Equatable {
+    let calculatedAttributeName: Swift.String?
+    let displayName: Swift.String?
+    let description: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let lastUpdatedAt: ClientRuntime.Date?
+    let statistic: CustomerProfilesClientTypes.Statistic?
+    let conditions: CustomerProfilesClientTypes.Conditions?
+    let attributeDetails: CustomerProfilesClientTypes.AttributeDetails?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension UpdateCalculatedAttributeDefinitionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeDetails = "AttributeDetails"
+        case calculatedAttributeName = "CalculatedAttributeName"
+        case conditions = "Conditions"
+        case createdAt = "CreatedAt"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case statistic = "Statistic"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculatedAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculatedAttributeName)
+        calculatedAttributeName = calculatedAttributeNameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
+        lastUpdatedAt = lastUpdatedAtDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Statistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let conditionsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Conditions.self, forKey: .conditions)
+        conditions = conditionsDecoded
+        let attributeDetailsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.AttributeDetails.self, forKey: .attributeDetails)
+        attributeDetails = attributeDetailsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
 }
 
 extension UpdateDomainInput: Swift.Encodable {

@@ -2173,15 +2173,15 @@ public struct CreateFuotaTaskInput: Swift.Equatable {
     /// The firmware update role that is to be used with a FUOTA task.
     /// This member is required.
     public var firmwareUpdateRole: Swift.String?
-    /// The interval of sending fragments in milliseconds. Currently the interval will be rounded to the nearest second. Note that this interval only controls the timing when the cloud sends the fragments down. The actual delay of receiving fragments at device side depends on the device's class and the communication delay with the cloud.
+    /// The interval for sending fragments in milliseconds, rounded to the nearest second. This interval only determines the timing for when the Cloud sends down the fragments to yor device. There can be a delay for when your device will receive these fragments. This delay depends on the device's class and the communication delay with the cloud.
     public var fragmentIntervalMS: Swift.Int?
-    /// The size of each fragment in bytes. Currently only supported in fuota tasks with multicast groups.
+    /// The size of each fragment in bytes. This parameter is supported only for FUOTA tasks with multicast groups.
     public var fragmentSizeBytes: Swift.Int?
     /// The LoRaWAN information used with a FUOTA task.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTask?
     /// The name of a FUOTA task.
     public var name: Swift.String?
-    /// The percentage of added redundant fragments. For example, if firmware file is 100 bytes and fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
+    /// The percentage of the added fragments that are redundant. For example, if the size of the firmware image file is 100 bytes and the fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
     public var redundancyPercent: Swift.Int?
     /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
@@ -2517,6 +2517,7 @@ extension CreateNetworkAnalyzerConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
         case description = "Description"
+        case multicastGroups = "MulticastGroups"
         case name = "Name"
         case tags = "Tags"
         case traceContent = "TraceContent"
@@ -2531,6 +2532,12 @@ extension CreateNetworkAnalyzerConfigurationInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let multicastGroups = multicastGroups {
+            var multicastGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multicastGroups)
+            for multicastgroupid0 in multicastGroups {
+                try multicastGroupsContainer.encode(multicastgroupid0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -2570,6 +2577,8 @@ public struct CreateNetworkAnalyzerConfigurationInput: Swift.Equatable {
     public var clientRequestToken: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
+    /// Multicast Group resources to add to the network analyzer configruation. Provide the MulticastGroupId of the resource to add in the input array.
+    public var multicastGroups: [Swift.String]?
     /// Name of the network analyzer configuration.
     /// This member is required.
     public var name: Swift.String?
@@ -2585,6 +2594,7 @@ public struct CreateNetworkAnalyzerConfigurationInput: Swift.Equatable {
     public init(
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        multicastGroups: [Swift.String]? = nil,
         name: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil,
         traceContent: IoTWirelessClientTypes.TraceContent? = nil,
@@ -2594,6 +2604,7 @@ public struct CreateNetworkAnalyzerConfigurationInput: Swift.Equatable {
     {
         self.clientRequestToken = clientRequestToken
         self.description = description
+        self.multicastGroups = multicastGroups
         self.name = name
         self.tags = tags
         self.traceContent = traceContent
@@ -2610,12 +2621,14 @@ struct CreateNetworkAnalyzerConfigurationInputBody: Swift.Equatable {
     let description: Swift.String?
     let tags: [IoTWirelessClientTypes.Tag]?
     let clientRequestToken: Swift.String?
+    let multicastGroups: [Swift.String]?
 }
 
 extension CreateNetworkAnalyzerConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
         case description = "Description"
+        case multicastGroups = "MulticastGroups"
         case name = "Name"
         case tags = "Tags"
         case traceContent = "TraceContent"
@@ -2666,6 +2679,17 @@ extension CreateNetworkAnalyzerConfigurationInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded
+        let multicastGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .multicastGroups)
+        var multicastGroupsDecoded0:[Swift.String]? = nil
+        if let multicastGroupsContainer = multicastGroupsContainer {
+            multicastGroupsDecoded0 = [Swift.String]()
+            for string0 in multicastGroupsContainer {
+                if let string0 = string0 {
+                    multicastGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        multicastGroups = multicastGroupsDecoded0
     }
 }
 
@@ -6370,9 +6394,9 @@ public struct GetFuotaTaskOutputResponse: Swift.Equatable {
     public var firmwareUpdateImage: Swift.String?
     /// The firmware update role that is to be used with a FUOTA task.
     public var firmwareUpdateRole: Swift.String?
-    /// The interval of sending fragments in milliseconds. Currently the interval will be rounded to the nearest second. Note that this interval only controls the timing when the cloud sends the fragments down. The actual delay of receiving fragments at device side depends on the device's class and the communication delay with the cloud.
+    /// The interval for sending fragments in milliseconds, rounded to the nearest second. This interval only determines the timing for when the Cloud sends down the fragments to yor device. There can be a delay for when your device will receive these fragments. This delay depends on the device's class and the communication delay with the cloud.
     public var fragmentIntervalMS: Swift.Int?
-    /// The size of each fragment in bytes. Currently only supported in fuota tasks with multicast groups.
+    /// The size of each fragment in bytes. This parameter is supported only for FUOTA tasks with multicast groups.
     public var fragmentSizeBytes: Swift.Int?
     /// The ID of a FUOTA task.
     public var id: Swift.String?
@@ -6380,7 +6404,7 @@ public struct GetFuotaTaskOutputResponse: Swift.Equatable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTaskGetInfo?
     /// The name of a FUOTA task.
     public var name: Swift.String?
-    /// The percentage of added redundant fragments. For example, if firmware file is 100 bytes and fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
+    /// The percentage of the added fragments that are redundant. For example, if the size of the firmware image file is 100 bytes and the fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
     public var redundancyPercent: Swift.Int?
     /// The status of a FUOTA task.
     public var status: IoTWirelessClientTypes.FuotaTaskStatus?
@@ -6873,6 +6897,7 @@ extension GetNetworkAnalyzerConfigurationOutputResponse: ClientRuntime.HttpRespo
             let output: GetNetworkAnalyzerConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
+            self.multicastGroups = output.multicastGroups
             self.name = output.name
             self.traceContent = output.traceContent
             self.wirelessDevices = output.wirelessDevices
@@ -6880,6 +6905,7 @@ extension GetNetworkAnalyzerConfigurationOutputResponse: ClientRuntime.HttpRespo
         } else {
             self.arn = nil
             self.description = nil
+            self.multicastGroups = nil
             self.name = nil
             self.traceContent = nil
             self.wirelessDevices = nil
@@ -6893,6 +6919,8 @@ public struct GetNetworkAnalyzerConfigurationOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
+    /// List of multicast group resources that have been added to the network analyzer configuration.
+    public var multicastGroups: [Swift.String]?
     /// Name of the network analyzer configuration.
     public var name: Swift.String?
     /// Trace content for your wireless gateway and wireless device resources.
@@ -6905,6 +6933,7 @@ public struct GetNetworkAnalyzerConfigurationOutputResponse: Swift.Equatable {
     public init(
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
+        multicastGroups: [Swift.String]? = nil,
         name: Swift.String? = nil,
         traceContent: IoTWirelessClientTypes.TraceContent? = nil,
         wirelessDevices: [Swift.String]? = nil,
@@ -6913,6 +6942,7 @@ public struct GetNetworkAnalyzerConfigurationOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.description = description
+        self.multicastGroups = multicastGroups
         self.name = name
         self.traceContent = traceContent
         self.wirelessDevices = wirelessDevices
@@ -6927,12 +6957,14 @@ struct GetNetworkAnalyzerConfigurationOutputResponseBody: Swift.Equatable {
     let description: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
+    let multicastGroups: [Swift.String]?
 }
 
 extension GetNetworkAnalyzerConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case description = "Description"
+        case multicastGroups = "MulticastGroups"
         case name = "Name"
         case traceContent = "TraceContent"
         case wirelessDevices = "WirelessDevices"
@@ -6971,6 +7003,17 @@ extension GetNetworkAnalyzerConfigurationOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let multicastGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .multicastGroups)
+        var multicastGroupsDecoded0:[Swift.String]? = nil
+        if let multicastGroupsContainer = multicastGroupsContainer {
+            multicastGroupsDecoded0 = [Swift.String]()
+            for string0 in multicastGroupsContainer {
+                if let string0 = string0 {
+                    multicastGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        multicastGroups = multicastGroupsDecoded0
     }
 }
 
@@ -8592,7 +8635,7 @@ extension GetWirelessDeviceStatisticsOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct GetWirelessDeviceStatisticsOutputResponse: Swift.Equatable {
-    /// The date and time when the most recent uplink was received.
+    /// The date and time when the most recent uplink was received. This value is only valid for 3 months.
     public var lastUplinkReceivedAt: Swift.String?
     /// Information about the wireless device's operations.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceMetadata?
@@ -9056,7 +9099,7 @@ extension GetWirelessGatewayStatisticsOutputResponse: ClientRuntime.HttpResponse
 public struct GetWirelessGatewayStatisticsOutputResponse: Swift.Equatable {
     /// The connection status of the wireless gateway.
     public var connectionStatus: IoTWirelessClientTypes.ConnectionStatus?
-    /// The date and time when the most recent uplink was received.
+    /// The date and time when the most recent uplink was received. This value is only valid for 3 months.
     public var lastUplinkReceivedAt: Swift.String?
     /// The ID of the wireless gateway.
     public var wirelessGatewayId: Swift.String?
@@ -9280,7 +9323,7 @@ extension GetWirelessGatewayTaskOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct GetWirelessGatewayTaskOutputResponse: Swift.Equatable {
-    /// The date and time when the most recent uplink was received.
+    /// The date and time when the most recent uplink was received. This value is only valid for 3 months.
     public var lastUplinkReceivedAt: Swift.String?
     /// The status of the request.
     public var status: IoTWirelessClientTypes.WirelessGatewayTaskStatus?
@@ -14429,6 +14472,39 @@ extension IoTWirelessClientTypes {
     }
 }
 
+extension IoTWirelessClientTypes {
+    /// FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your LoRaWAN end devices and the network server.
+    public enum MulticastFrameInfo: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MulticastFrameInfo] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MulticastFrameInfo(rawValue: rawValue) ?? MulticastFrameInfo.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension IoTWirelessClientTypes.MulticastGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -18538,6 +18614,7 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
 extension IoTWirelessClientTypes.TraceContent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logLevel = "LogLevel"
+        case multicastFrameInfo = "MulticastFrameInfo"
         case wirelessDeviceFrameInfo = "WirelessDeviceFrameInfo"
     }
 
@@ -18545,6 +18622,9 @@ extension IoTWirelessClientTypes.TraceContent: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logLevel = self.logLevel {
             try encodeContainer.encode(logLevel.rawValue, forKey: .logLevel)
+        }
+        if let multicastFrameInfo = self.multicastFrameInfo {
+            try encodeContainer.encode(multicastFrameInfo.rawValue, forKey: .multicastFrameInfo)
         }
         if let wirelessDeviceFrameInfo = self.wirelessDeviceFrameInfo {
             try encodeContainer.encode(wirelessDeviceFrameInfo.rawValue, forKey: .wirelessDeviceFrameInfo)
@@ -18557,6 +18637,8 @@ extension IoTWirelessClientTypes.TraceContent: Swift.Codable {
         wirelessDeviceFrameInfo = wirelessDeviceFrameInfoDecoded
         let logLevelDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.LogLevel.self, forKey: .logLevel)
         logLevel = logLevelDecoded
+        let multicastFrameInfoDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.MulticastFrameInfo.self, forKey: .multicastFrameInfo)
+        multicastFrameInfo = multicastFrameInfoDecoded
     }
 }
 
@@ -18565,15 +18647,19 @@ extension IoTWirelessClientTypes {
     public struct TraceContent: Swift.Equatable {
         /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
         public var logLevel: IoTWirelessClientTypes.LogLevel?
+        /// FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your LoRaWAN end devices and the network server.
+        public var multicastFrameInfo: IoTWirelessClientTypes.MulticastFrameInfo?
         /// FrameInfo of your wireless device resources for the trace content. Use FrameInfo to debug the communication between your LoRaWAN end devices and the network server.
         public var wirelessDeviceFrameInfo: IoTWirelessClientTypes.WirelessDeviceFrameInfo?
 
         public init(
             logLevel: IoTWirelessClientTypes.LogLevel? = nil,
+            multicastFrameInfo: IoTWirelessClientTypes.MulticastFrameInfo? = nil,
             wirelessDeviceFrameInfo: IoTWirelessClientTypes.WirelessDeviceFrameInfo? = nil
         )
         {
             self.logLevel = logLevel
+            self.multicastFrameInfo = multicastFrameInfo
             self.wirelessDeviceFrameInfo = wirelessDeviceFrameInfo
         }
     }
@@ -19080,9 +19166,9 @@ public struct UpdateFuotaTaskInput: Swift.Equatable {
     public var firmwareUpdateImage: Swift.String?
     /// The firmware update role that is to be used with a FUOTA task.
     public var firmwareUpdateRole: Swift.String?
-    /// The interval of sending fragments in milliseconds. Currently the interval will be rounded to the nearest second. Note that this interval only controls the timing when the cloud sends the fragments down. The actual delay of receiving fragments at device side depends on the device's class and the communication delay with the cloud.
+    /// The interval for sending fragments in milliseconds, rounded to the nearest second. This interval only determines the timing for when the Cloud sends down the fragments to yor device. There can be a delay for when your device will receive these fragments. This delay depends on the device's class and the communication delay with the cloud.
     public var fragmentIntervalMS: Swift.Int?
-    /// The size of each fragment in bytes. Currently only supported in fuota tasks with multicast groups.
+    /// The size of each fragment in bytes. This parameter is supported only for FUOTA tasks with multicast groups.
     public var fragmentSizeBytes: Swift.Int?
     /// The ID of a FUOTA task.
     /// This member is required.
@@ -19091,7 +19177,7 @@ public struct UpdateFuotaTaskInput: Swift.Equatable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTask?
     /// The name of a FUOTA task.
     public var name: Swift.String?
-    /// The percentage of added redundant fragments. For example, if firmware file is 100 bytes and fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
+    /// The percentage of the added fragments that are redundant. For example, if the size of the firmware image file is 100 bytes and the fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
     public var redundancyPercent: Swift.Int?
 
     public init(
@@ -19417,6 +19503,8 @@ public struct UpdateMulticastGroupOutputResponse: Swift.Equatable {
 extension UpdateNetworkAnalyzerConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case multicastGroupsToAdd = "MulticastGroupsToAdd"
+        case multicastGroupsToRemove = "MulticastGroupsToRemove"
         case traceContent = "TraceContent"
         case wirelessDevicesToAdd = "WirelessDevicesToAdd"
         case wirelessDevicesToRemove = "WirelessDevicesToRemove"
@@ -19428,6 +19516,18 @@ extension UpdateNetworkAnalyzerConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let multicastGroupsToAdd = multicastGroupsToAdd {
+            var multicastGroupsToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multicastGroupsToAdd)
+            for multicastgroupid0 in multicastGroupsToAdd {
+                try multicastGroupsToAddContainer.encode(multicastgroupid0)
+            }
+        }
+        if let multicastGroupsToRemove = multicastGroupsToRemove {
+            var multicastGroupsToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multicastGroupsToRemove)
+            for multicastgroupid0 in multicastGroupsToRemove {
+                try multicastGroupsToRemoveContainer.encode(multicastgroupid0)
+            }
         }
         if let traceContent = self.traceContent {
             try encodeContainer.encode(traceContent, forKey: .traceContent)
@@ -19474,6 +19574,10 @@ public struct UpdateNetworkAnalyzerConfigurationInput: Swift.Equatable {
     public var configurationName: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
+    /// Multicast group resources to add to the network analyzer configuration. Provide the MulticastGroupId of the resource to add in the input array.
+    public var multicastGroupsToAdd: [Swift.String]?
+    /// Multicast group resources to remove from the network analyzer configuration. Provide the MulticastGroupId of the resource to remove in the input array.
+    public var multicastGroupsToRemove: [Swift.String]?
     /// Trace content for your wireless gateway and wireless device resources.
     public var traceContent: IoTWirelessClientTypes.TraceContent?
     /// Wireless device resources to add to the network analyzer configuration. Provide the WirelessDeviceId of the resource to add in the input array.
@@ -19488,6 +19592,8 @@ public struct UpdateNetworkAnalyzerConfigurationInput: Swift.Equatable {
     public init(
         configurationName: Swift.String? = nil,
         description: Swift.String? = nil,
+        multicastGroupsToAdd: [Swift.String]? = nil,
+        multicastGroupsToRemove: [Swift.String]? = nil,
         traceContent: IoTWirelessClientTypes.TraceContent? = nil,
         wirelessDevicesToAdd: [Swift.String]? = nil,
         wirelessDevicesToRemove: [Swift.String]? = nil,
@@ -19497,6 +19603,8 @@ public struct UpdateNetworkAnalyzerConfigurationInput: Swift.Equatable {
     {
         self.configurationName = configurationName
         self.description = description
+        self.multicastGroupsToAdd = multicastGroupsToAdd
+        self.multicastGroupsToRemove = multicastGroupsToRemove
         self.traceContent = traceContent
         self.wirelessDevicesToAdd = wirelessDevicesToAdd
         self.wirelessDevicesToRemove = wirelessDevicesToRemove
@@ -19512,11 +19620,15 @@ struct UpdateNetworkAnalyzerConfigurationInputBody: Swift.Equatable {
     let wirelessGatewaysToAdd: [Swift.String]?
     let wirelessGatewaysToRemove: [Swift.String]?
     let description: Swift.String?
+    let multicastGroupsToAdd: [Swift.String]?
+    let multicastGroupsToRemove: [Swift.String]?
 }
 
 extension UpdateNetworkAnalyzerConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case multicastGroupsToAdd = "MulticastGroupsToAdd"
+        case multicastGroupsToRemove = "MulticastGroupsToRemove"
         case traceContent = "TraceContent"
         case wirelessDevicesToAdd = "WirelessDevicesToAdd"
         case wirelessDevicesToRemove = "WirelessDevicesToRemove"
@@ -19574,6 +19686,28 @@ extension UpdateNetworkAnalyzerConfigurationInputBody: Swift.Decodable {
         wirelessGatewaysToRemove = wirelessGatewaysToRemoveDecoded0
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let multicastGroupsToAddContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .multicastGroupsToAdd)
+        var multicastGroupsToAddDecoded0:[Swift.String]? = nil
+        if let multicastGroupsToAddContainer = multicastGroupsToAddContainer {
+            multicastGroupsToAddDecoded0 = [Swift.String]()
+            for string0 in multicastGroupsToAddContainer {
+                if let string0 = string0 {
+                    multicastGroupsToAddDecoded0?.append(string0)
+                }
+            }
+        }
+        multicastGroupsToAdd = multicastGroupsToAddDecoded0
+        let multicastGroupsToRemoveContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .multicastGroupsToRemove)
+        var multicastGroupsToRemoveDecoded0:[Swift.String]? = nil
+        if let multicastGroupsToRemoveContainer = multicastGroupsToRemoveContainer {
+            multicastGroupsToRemoveDecoded0 = [Swift.String]()
+            for string0 in multicastGroupsToRemoveContainer {
+                if let string0 = string0 {
+                    multicastGroupsToRemoveDecoded0?.append(string0)
+                }
+            }
+        }
+        multicastGroupsToRemove = multicastGroupsToRemoveDecoded0
     }
 }
 
@@ -21423,7 +21557,7 @@ extension IoTWirelessClientTypes {
         public var fuotaDeviceStatus: IoTWirelessClientTypes.FuotaDeviceStatus?
         /// The ID of the wireless device reporting the data.
         public var id: Swift.String?
-        /// The date and time when the most recent uplink was received.
+        /// The date and time when the most recent uplink was received. Theis value is only valid for 3 months.
         public var lastUplinkReceivedAt: Swift.String?
         /// LoRaWAN device info.
         public var loRaWAN: IoTWirelessClientTypes.LoRaWANListDevice?
@@ -21774,7 +21908,7 @@ extension IoTWirelessClientTypes {
         public var description: Swift.String?
         /// The ID of the wireless gateway reporting the data.
         public var id: Swift.String?
-        /// The date and time when the most recent uplink was received.
+        /// The date and time when the most recent uplink was received. This value is only valid for 3 months.
         public var lastUplinkReceivedAt: Swift.String?
         /// LoRaWAN gateway info.
         public var loRaWAN: IoTWirelessClientTypes.LoRaWANGateway?

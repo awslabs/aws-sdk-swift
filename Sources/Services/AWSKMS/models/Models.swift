@@ -7,6 +7,8 @@ extension KMSClientTypes {
         case rsaesOaepSha1
         case rsaesOaepSha256
         case rsaesPkcs1V15
+        case rsaAesKeyWrapSha1
+        case rsaAesKeyWrapSha256
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AlgorithmSpec] {
@@ -14,6 +16,8 @@ extension KMSClientTypes {
                 .rsaesOaepSha1,
                 .rsaesOaepSha256,
                 .rsaesPkcs1V15,
+                .rsaAesKeyWrapSha1,
+                .rsaAesKeyWrapSha256,
                 .sdkUnknown("")
             ]
         }
@@ -26,6 +30,8 @@ extension KMSClientTypes {
             case .rsaesOaepSha1: return "RSAES_OAEP_SHA_1"
             case .rsaesOaepSha256: return "RSAES_OAEP_SHA_256"
             case .rsaesPkcs1V15: return "RSAES_PKCS1_V1_5"
+            case .rsaAesKeyWrapSha1: return "RSA_AES_KEY_WRAP_SHA_1"
+            case .rsaAesKeyWrapSha256: return "RSA_AES_KEY_WRAP_SHA_256"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5292,7 +5298,7 @@ extension GetParametersForImportInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetParametersForImportInput: Swift.Equatable {
-    /// The identifier of the symmetric encryption KMS key into which you will import key material. The Origin of the KMS key must be EXTERNAL. Specify the key ID or key ARN of the KMS key. For example:
+    /// The identifier of the KMS key that will be associated with the imported key material. The Origin of the KMS key must be EXTERNAL. All KMS key types are supported, including multi-Region keys. However, you cannot import key material into a KMS key in a custom key store. Specify the key ID or key ARN of the KMS key. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -5302,10 +5308,20 @@ public struct GetParametersForImportInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
-    /// The algorithm you will use to encrypt the key material before using the [ImportKeyMaterial] operation to import it. For more information, see [Encrypt the key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-encrypt-key-material.html) in the Key Management Service Developer Guide. The RSAES_PKCS1_V1_5 wrapping algorithm is deprecated. We recommend that you begin using a different wrapping algorithm immediately. KMS will end support for RSAES_PKCS1_V1_5 by October 1, 2023 pursuant to [cryptographic key management guidance](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf) from the National Institute of Standards and Technology (NIST).
+    /// The algorithm you will use with the RSA public key (PublicKey) in the response to protect your key material during import. For more information, see [Select a wrapping algorithm] in the Key Management Service Developer Guide. For RSA_AES wrapping algorithms, you encrypt your key material with an AES key that you generate, then encrypt your AES key with the RSA public key from KMS. For RSAES wrapping algorithms, you encrypt your key material directly with the RSA public key from KMS. The wrapping algorithms that you can use depend on the type of key material that you are importing. To import an RSA private key, you must use an RSA_AES wrapping algorithm.
+    ///
+    /// * RSA_AES_KEY_WRAP_SHA_256 — Supported for wrapping RSA and ECC key material.
+    ///
+    /// * RSA_AES_KEY_WRAP_SHA_1 — Supported for wrapping RSA and ECC key material.
+    ///
+    /// * RSAES_OAEP_SHA_256 — Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_256 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material.
+    ///
+    /// * RSAES_OAEP_SHA_1 — Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_1 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material.
+    ///
+    /// * RSAES_PKCS1_V1_5 (Deprecated) — Supported only for symmetric encryption key material (and only in legacy mode).
     /// This member is required.
     public var wrappingAlgorithm: KMSClientTypes.AlgorithmSpec?
-    /// The type of wrapping key (public key) to return in the response. Only 2048-bit RSA public keys are supported.
+    /// The type of RSA public key to return in the response. You will use this wrapping key with the specified wrapping algorithm to protect your key material during import. Use the longest RSA wrapping key that is practical. You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521 private key. Instead, use an RSA_AES wrapping algorithm or choose a longer RSA public key.
     /// This member is required.
     public var wrappingKeySpec: KMSClientTypes.WrappingKeySpec?
 
@@ -5964,15 +5980,15 @@ extension ImportKeyMaterialInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportKeyMaterialInput: Swift.Equatable {
-    /// The encrypted key material to import. The key material must be encrypted with the public wrapping key that [GetParametersForImport] returned, using the wrapping algorithm that you specified in the same GetParametersForImport request.
+    /// The encrypted key material to import. The key material must be encrypted under the public wrapping key that [GetParametersForImport] returned, using the wrapping algorithm that you specified in the same GetParametersForImport request.
     /// This member is required.
     public var encryptedKeyMaterial: ClientRuntime.Data?
-    /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES. When the value of ExpirationModel is KEY_MATERIAL_EXPIRES, you must specify a value for the ValidTo parameter. When value is KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter. You cannot change the ExpirationModel or ValidTo values for the current import after the request completes. To change either value, you must delete ([DeleteImportedKeyMaterial]) and reimport the key material.
+    /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES. For help with this choice, see [Setting an expiration time](https://docs.aws.amazon.com/en_us/kms/latest/developerguide/importing-keys.html#importing-keys-expiration) in the Key Management Service Developer Guide. When the value of ExpirationModel is KEY_MATERIAL_EXPIRES, you must specify a value for the ValidTo parameter. When value is KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter. You cannot change the ExpirationModel or ValidTo values for the current import after the request completes. To change either value, you must reimport the key material.
     public var expirationModel: KMSClientTypes.ExpirationModelType?
     /// The import token that you received in the response to a previous [GetParametersForImport] request. It must be from the same response that contained the public key that you used to encrypt the key material.
     /// This member is required.
     public var importToken: ClientRuntime.Data?
-    /// The identifier of the symmetric encryption KMS key that receives the imported key material. This must be the same KMS key specified in the KeyID parameter of the corresponding [GetParametersForImport] request. The Origin of the KMS key must be EXTERNAL. You cannot perform this operation on an asymmetric KMS key, an HMAC KMS key, a KMS key in a custom key store, or on a KMS key in a different Amazon Web Services account Specify the key ID or key ARN of the KMS key. For example:
+    /// The identifier of the KMS key that will be associated with the imported key material. This must be the same KMS key specified in the KeyID parameter of the corresponding [GetParametersForImport] request. The Origin of the KMS key must be EXTERNAL and its KeyState must be PendingImport. The KMS key can be a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS key, or asymmetric signing KMS key, including a [multi-Region key] of any supported type. You cannot perform this operation on a KMS key in a custom key store, or on a KMS key in a different Amazon Web Services account. Specify the key ID or key ARN of the KMS key. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -9843,7 +9859,7 @@ public struct ScheduleKeyDeletionInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
-    /// The waiting period, specified in number of days. After the waiting period ends, KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
+    /// The waiting period, specified in number of days. After the waiting period ends, KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30. You can use the [kms:ScheduleKeyDeletionPendingWindowInDays](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-pending-deletion-window) condition key to further constrain the values that principals can specify in the PendingWindowInDays parameter.
     public var pendingWindowInDays: Swift.Int?
 
     public init(
@@ -10136,7 +10152,7 @@ public struct SignOutputResponse: Swift.Equatable {
     ///
     /// * When used with the supported RSA signing algorithms, the encoding of this value is defined by [PKCS #1 in RFC 8017](https://tools.ietf.org/html/rfc8017).
     ///
-    /// * When used with the ECDSA_SHA_256, ECDSA_SHA_384, or ECDSA_SHA_512 signing algorithms, this value is a DER-encoded object as defined by ANS X9.62–2005 and [RFC 3279 Section 2.2.3](https://tools.ietf.org/html/rfc3279#section-2.2.3). This is the most commonly used signature format and is appropriate for most uses.
+    /// * When used with the ECDSA_SHA_256, ECDSA_SHA_384, or ECDSA_SHA_512 signing algorithms, this value is a DER-encoded object as defined by ANSI X9.62–2005 and [RFC 3279 Section 2.2.3](https://tools.ietf.org/html/rfc3279#section-2.2.3). This is the most commonly used signature format and is appropriate for most uses.
     ///
     ///
     /// When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
@@ -11493,11 +11509,15 @@ extension VerifyOutputResponseBody: Swift.Decodable {
 extension KMSClientTypes {
     public enum WrappingKeySpec: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case rsa2048
+        case rsa3072
+        case rsa4096
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WrappingKeySpec] {
             return [
                 .rsa2048,
+                .rsa3072,
+                .rsa4096,
                 .sdkUnknown("")
             ]
         }
@@ -11508,6 +11528,8 @@ extension KMSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .rsa2048: return "RSA_2048"
+            case .rsa3072: return "RSA_3072"
+            case .rsa4096: return "RSA_4096"
             case let .sdkUnknown(s): return s
             }
         }

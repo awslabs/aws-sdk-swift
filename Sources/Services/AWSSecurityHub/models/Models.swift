@@ -1029,6 +1029,649 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.AwsAmazonMqBrokerDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationStrategy = "AuthenticationStrategy"
+        case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+        case brokerArn = "BrokerArn"
+        case brokerId = "BrokerId"
+        case brokerName = "BrokerName"
+        case deploymentMode = "DeploymentMode"
+        case encryptionOptions = "EncryptionOptions"
+        case engineType = "EngineType"
+        case engineVersion = "EngineVersion"
+        case hostInstanceType = "HostInstanceType"
+        case ldapServerMetadata = "LdapServerMetadata"
+        case logs = "Logs"
+        case maintenanceWindowStartTime = "MaintenanceWindowStartTime"
+        case publiclyAccessible = "PubliclyAccessible"
+        case securityGroups = "SecurityGroups"
+        case storageType = "StorageType"
+        case subnetIds = "SubnetIds"
+        case users = "Users"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authenticationStrategy = self.authenticationStrategy {
+            try encodeContainer.encode(authenticationStrategy, forKey: .authenticationStrategy)
+        }
+        if autoMinorVersionUpgrade != false {
+            try encodeContainer.encode(autoMinorVersionUpgrade, forKey: .autoMinorVersionUpgrade)
+        }
+        if let brokerArn = self.brokerArn {
+            try encodeContainer.encode(brokerArn, forKey: .brokerArn)
+        }
+        if let brokerId = self.brokerId {
+            try encodeContainer.encode(brokerId, forKey: .brokerId)
+        }
+        if let brokerName = self.brokerName {
+            try encodeContainer.encode(brokerName, forKey: .brokerName)
+        }
+        if let deploymentMode = self.deploymentMode {
+            try encodeContainer.encode(deploymentMode, forKey: .deploymentMode)
+        }
+        if let encryptionOptions = self.encryptionOptions {
+            try encodeContainer.encode(encryptionOptions, forKey: .encryptionOptions)
+        }
+        if let engineType = self.engineType {
+            try encodeContainer.encode(engineType, forKey: .engineType)
+        }
+        if let engineVersion = self.engineVersion {
+            try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if let hostInstanceType = self.hostInstanceType {
+            try encodeContainer.encode(hostInstanceType, forKey: .hostInstanceType)
+        }
+        if let ldapServerMetadata = self.ldapServerMetadata {
+            try encodeContainer.encode(ldapServerMetadata, forKey: .ldapServerMetadata)
+        }
+        if let logs = self.logs {
+            try encodeContainer.encode(logs, forKey: .logs)
+        }
+        if let maintenanceWindowStartTime = self.maintenanceWindowStartTime {
+            try encodeContainer.encode(maintenanceWindowStartTime, forKey: .maintenanceWindowStartTime)
+        }
+        if publiclyAccessible != false {
+            try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
+        }
+        if let securityGroups = securityGroups {
+            var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
+            for nonemptystring0 in securityGroups {
+                try securityGroupsContainer.encode(nonemptystring0)
+            }
+        }
+        if let storageType = self.storageType {
+            try encodeContainer.encode(storageType, forKey: .storageType)
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for nonemptystring0 in subnetIds {
+                try subnetIdsContainer.encode(nonemptystring0)
+            }
+        }
+        if let users = users {
+            var usersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .users)
+            for awsamazonmqbrokerusersdetails0 in users {
+                try usersContainer.encode(awsamazonmqbrokerusersdetails0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authenticationStrategyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authenticationStrategy)
+        authenticationStrategy = authenticationStrategyDecoded
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
+        let brokerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .brokerArn)
+        brokerArn = brokerArnDecoded
+        let brokerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .brokerName)
+        brokerName = brokerNameDecoded
+        let deploymentModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentMode)
+        deploymentMode = deploymentModeDecoded
+        let encryptionOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAmazonMqBrokerEncryptionOptionsDetails.self, forKey: .encryptionOptions)
+        encryptionOptions = encryptionOptionsDecoded
+        let engineTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineType)
+        engineType = engineTypeDecoded
+        let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
+        engineVersion = engineVersionDecoded
+        let hostInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostInstanceType)
+        hostInstanceType = hostInstanceTypeDecoded
+        let brokerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .brokerId)
+        brokerId = brokerIdDecoded
+        let ldapServerMetadataDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails.self, forKey: .ldapServerMetadata)
+        ldapServerMetadata = ldapServerMetadataDecoded
+        let logsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAmazonMqBrokerLogsDetails.self, forKey: .logs)
+        logs = logsDecoded
+        let maintenanceWindowStartTimeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails.self, forKey: .maintenanceWindowStartTime)
+        maintenanceWindowStartTime = maintenanceWindowStartTimeDecoded
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        publiclyAccessible = publiclyAccessibleDecoded
+        let securityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroups)
+        var securityGroupsDecoded0:[Swift.String]? = nil
+        if let securityGroupsContainer = securityGroupsContainer {
+            securityGroupsDecoded0 = [Swift.String]()
+            for string0 in securityGroupsContainer {
+                if let string0 = string0 {
+                    securityGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroups = securityGroupsDecoded0
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+        let usersContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsAmazonMqBrokerUsersDetails?].self, forKey: .users)
+        var usersDecoded0:[SecurityHubClientTypes.AwsAmazonMqBrokerUsersDetails]? = nil
+        if let usersContainer = usersContainer {
+            usersDecoded0 = [SecurityHubClientTypes.AwsAmazonMqBrokerUsersDetails]()
+            for structure0 in usersContainer {
+                if let structure0 = structure0 {
+                    usersDecoded0?.append(structure0)
+                }
+            }
+        }
+        users = usersDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about an Amazon MQ message broker. A message broker allows software applications and components to communicate using various programming languages, operating systems, and formal messaging protocols.
+    public struct AwsAmazonMqBrokerDetails: Swift.Equatable {
+        /// The authentication strategy used to secure the broker. The default is SIMPLE.
+        public var authenticationStrategy: Swift.String?
+        /// Whether automatically upgrade new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot.
+        public var autoMinorVersionUpgrade: Swift.Bool
+        /// The Amazon Resource Name (ARN) of the broker.
+        public var brokerArn: Swift.String?
+        /// The unique ID that Amazon MQ generates for the broker.
+        public var brokerId: Swift.String?
+        /// The broker's name.
+        public var brokerName: Swift.String?
+        /// The broker's deployment mode.
+        public var deploymentMode: Swift.String?
+        /// Encryption options for the broker. Doesn’t apply to RabbitMQ brokers.
+        public var encryptionOptions: SecurityHubClientTypes.AwsAmazonMqBrokerEncryptionOptionsDetails?
+        /// The type of broker engine.
+        public var engineType: Swift.String?
+        /// The version of the broker engine.
+        public var engineVersion: Swift.String?
+        /// The broker's instance type.
+        public var hostInstanceType: Swift.String?
+        /// The metadata of the Lightweight Directory Access Protocol (LDAP) server used to authenticate and authorize connections to the broker. This is an optional failover server.
+        public var ldapServerMetadata: SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails?
+        /// Turns on Amazon CloudWatch logging for brokers.
+        public var logs: SecurityHubClientTypes.AwsAmazonMqBrokerLogsDetails?
+        /// The scheduled time period (UTC) during which Amazon MQ begins to apply pending updates or patches to the broker.
+        public var maintenanceWindowStartTime: SecurityHubClientTypes.AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails?
+        /// Permits connections from applications outside of the VPC that hosts the broker's subnets.
+        public var publiclyAccessible: Swift.Bool
+        /// The list of rules (one minimum, 125 maximum) that authorize connections to brokers.
+        public var securityGroups: [Swift.String]?
+        /// The broker's storage type.
+        public var storageType: Swift.String?
+        /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones.
+        public var subnetIds: [Swift.String]?
+        /// The list of all broker usernames for the specified broker. Doesn't apply to RabbitMQ brokers.
+        public var users: [SecurityHubClientTypes.AwsAmazonMqBrokerUsersDetails]?
+
+        public init(
+            authenticationStrategy: Swift.String? = nil,
+            autoMinorVersionUpgrade: Swift.Bool = false,
+            brokerArn: Swift.String? = nil,
+            brokerId: Swift.String? = nil,
+            brokerName: Swift.String? = nil,
+            deploymentMode: Swift.String? = nil,
+            encryptionOptions: SecurityHubClientTypes.AwsAmazonMqBrokerEncryptionOptionsDetails? = nil,
+            engineType: Swift.String? = nil,
+            engineVersion: Swift.String? = nil,
+            hostInstanceType: Swift.String? = nil,
+            ldapServerMetadata: SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails? = nil,
+            logs: SecurityHubClientTypes.AwsAmazonMqBrokerLogsDetails? = nil,
+            maintenanceWindowStartTime: SecurityHubClientTypes.AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails? = nil,
+            publiclyAccessible: Swift.Bool = false,
+            securityGroups: [Swift.String]? = nil,
+            storageType: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            users: [SecurityHubClientTypes.AwsAmazonMqBrokerUsersDetails]? = nil
+        )
+        {
+            self.authenticationStrategy = authenticationStrategy
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.brokerArn = brokerArn
+            self.brokerId = brokerId
+            self.brokerName = brokerName
+            self.deploymentMode = deploymentMode
+            self.encryptionOptions = encryptionOptions
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.hostInstanceType = hostInstanceType
+            self.ldapServerMetadata = ldapServerMetadata
+            self.logs = logs
+            self.maintenanceWindowStartTime = maintenanceWindowStartTime
+            self.publiclyAccessible = publiclyAccessible
+            self.securityGroups = securityGroups
+            self.storageType = storageType
+            self.subnetIds = subnetIds
+            self.users = users
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAmazonMqBrokerEncryptionOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId = "KmsKeyId"
+        case useAwsOwnedKey = "UseAwsOwnedKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if useAwsOwnedKey != false {
+            try encodeContainer.encode(useAwsOwnedKey, forKey: .useAwsOwnedKey)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let useAwsOwnedKeyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useAwsOwnedKey) ?? false
+        useAwsOwnedKey = useAwsOwnedKeyDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about broker encryption options.
+    public struct AwsAmazonMqBrokerEncryptionOptionsDetails: Swift.Equatable {
+        /// The KMS key that’s used to encrypt your data at rest. If not provided, Amazon MQ will use a default KMS key to encrypt your data.
+        public var kmsKeyId: Swift.String?
+        /// Specifies that an KMS key should be used for at-rest encryption. Set to true by default if no value is provided (for example, for RabbitMQ brokers).
+        public var useAwsOwnedKey: Swift.Bool
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            useAwsOwnedKey: Swift.Bool = false
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+            self.useAwsOwnedKey = useAwsOwnedKey
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hosts = "Hosts"
+        case roleBase = "RoleBase"
+        case roleName = "RoleName"
+        case roleSearchMatching = "RoleSearchMatching"
+        case roleSearchSubtree = "RoleSearchSubtree"
+        case serviceAccountUsername = "ServiceAccountUsername"
+        case userBase = "UserBase"
+        case userRoleName = "UserRoleName"
+        case userSearchMatching = "UserSearchMatching"
+        case userSearchSubtree = "UserSearchSubtree"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hosts = hosts {
+            var hostsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hosts)
+            for nonemptystring0 in hosts {
+                try hostsContainer.encode(nonemptystring0)
+            }
+        }
+        if let roleBase = self.roleBase {
+            try encodeContainer.encode(roleBase, forKey: .roleBase)
+        }
+        if let roleName = self.roleName {
+            try encodeContainer.encode(roleName, forKey: .roleName)
+        }
+        if let roleSearchMatching = self.roleSearchMatching {
+            try encodeContainer.encode(roleSearchMatching, forKey: .roleSearchMatching)
+        }
+        if roleSearchSubtree != false {
+            try encodeContainer.encode(roleSearchSubtree, forKey: .roleSearchSubtree)
+        }
+        if let serviceAccountUsername = self.serviceAccountUsername {
+            try encodeContainer.encode(serviceAccountUsername, forKey: .serviceAccountUsername)
+        }
+        if let userBase = self.userBase {
+            try encodeContainer.encode(userBase, forKey: .userBase)
+        }
+        if let userRoleName = self.userRoleName {
+            try encodeContainer.encode(userRoleName, forKey: .userRoleName)
+        }
+        if let userSearchMatching = self.userSearchMatching {
+            try encodeContainer.encode(userSearchMatching, forKey: .userSearchMatching)
+        }
+        if userSearchSubtree != false {
+            try encodeContainer.encode(userSearchSubtree, forKey: .userSearchSubtree)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hostsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .hosts)
+        var hostsDecoded0:[Swift.String]? = nil
+        if let hostsContainer = hostsContainer {
+            hostsDecoded0 = [Swift.String]()
+            for string0 in hostsContainer {
+                if let string0 = string0 {
+                    hostsDecoded0?.append(string0)
+                }
+            }
+        }
+        hosts = hostsDecoded0
+        let roleBaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleBase)
+        roleBase = roleBaseDecoded
+        let roleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleName)
+        roleName = roleNameDecoded
+        let roleSearchMatchingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleSearchMatching)
+        roleSearchMatching = roleSearchMatchingDecoded
+        let roleSearchSubtreeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .roleSearchSubtree) ?? false
+        roleSearchSubtree = roleSearchSubtreeDecoded
+        let serviceAccountUsernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccountUsername)
+        serviceAccountUsername = serviceAccountUsernameDecoded
+        let userBaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userBase)
+        userBase = userBaseDecoded
+        let userRoleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userRoleName)
+        userRoleName = userRoleNameDecoded
+        let userSearchMatchingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userSearchMatching)
+        userSearchMatching = userSearchMatchingDecoded
+        let userSearchSubtreeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .userSearchSubtree) ?? false
+        userSearchSubtree = userSearchSubtreeDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The metadata of the Lightweight Directory Access Protocol (LDAP) server used to authenticate and authorize connections to the broker. This is an optional failover server.
+    public struct AwsAmazonMqBrokerLdapServerMetadataDetails: Swift.Equatable {
+        /// Specifies the location of the LDAP server, such as Amazon Web Services Directory Service for Microsoft Active Directory.
+        public var hosts: [Swift.String]?
+        /// The distinguished name of the node in the directory information tree (DIT) to search for roles or groups.
+        public var roleBase: Swift.String?
+        /// The group name attribute in a role entry whose value is the name of that role.
+        public var roleName: Swift.String?
+        /// The LDAP search filter used to find roles within the roleBase.
+        public var roleSearchMatching: Swift.String?
+        /// The directory search scope for the role. If set to true, the scope is to search the entire subtree.
+        public var roleSearchSubtree: Swift.Bool
+        /// A username for the service account, which is an account in your LDAP server that has access to initiate a connection.
+        public var serviceAccountUsername: Swift.String?
+        /// Selects a particular subtree of the directory information tree (DIT) to search for user entries.
+        public var userBase: Swift.String?
+        /// The name of the LDAP attribute in the user's directory entry for the user's group membership.
+        public var userRoleName: Swift.String?
+        /// The LDAP search filter used to find users within the userBase.
+        public var userSearchMatching: Swift.String?
+        /// The directory search scope for the user. If set to true, the scope is to search the entire subtree.
+        public var userSearchSubtree: Swift.Bool
+
+        public init(
+            hosts: [Swift.String]? = nil,
+            roleBase: Swift.String? = nil,
+            roleName: Swift.String? = nil,
+            roleSearchMatching: Swift.String? = nil,
+            roleSearchSubtree: Swift.Bool = false,
+            serviceAccountUsername: Swift.String? = nil,
+            userBase: Swift.String? = nil,
+            userRoleName: Swift.String? = nil,
+            userSearchMatching: Swift.String? = nil,
+            userSearchSubtree: Swift.Bool = false
+        )
+        {
+            self.hosts = hosts
+            self.roleBase = roleBase
+            self.roleName = roleName
+            self.roleSearchMatching = roleSearchMatching
+            self.roleSearchSubtree = roleSearchSubtree
+            self.serviceAccountUsername = serviceAccountUsername
+            self.userBase = userBase
+            self.userRoleName = userRoleName
+            self.userSearchMatching = userSearchMatching
+            self.userSearchSubtree = userSearchSubtree
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAmazonMqBrokerLogsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audit = "Audit"
+        case auditLogGroup = "AuditLogGroup"
+        case general = "General"
+        case generalLogGroup = "GeneralLogGroup"
+        case pending = "Pending"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if audit != false {
+            try encodeContainer.encode(audit, forKey: .audit)
+        }
+        if let auditLogGroup = self.auditLogGroup {
+            try encodeContainer.encode(auditLogGroup, forKey: .auditLogGroup)
+        }
+        if general != false {
+            try encodeContainer.encode(general, forKey: .general)
+        }
+        if let generalLogGroup = self.generalLogGroup {
+            try encodeContainer.encode(generalLogGroup, forKey: .generalLogGroup)
+        }
+        if let pending = self.pending {
+            try encodeContainer.encode(pending, forKey: .pending)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let auditDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .audit) ?? false
+        audit = auditDecoded
+        let generalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .general) ?? false
+        general = generalDecoded
+        let auditLogGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .auditLogGroup)
+        auditLogGroup = auditLogGroupDecoded
+        let generalLogGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generalLogGroup)
+        generalLogGroup = generalLogGroupDecoded
+        let pendingDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails.self, forKey: .pending)
+        pending = pendingDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides information about logs to be activated for the specified broker.
+    public struct AwsAmazonMqBrokerLogsDetails: Swift.Equatable {
+        /// Activates audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.
+        public var audit: Swift.Bool
+        /// The location of the CloudWatch Logs log group where audit logs are sent.
+        public var auditLogGroup: Swift.String?
+        /// Activates general logging.
+        public var general: Swift.Bool
+        /// The location of the CloudWatch Logs log group where general logs are sent.
+        public var generalLogGroup: Swift.String?
+        /// The list of information about logs that are to be turned on for the specified broker.
+        public var pending: SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails?
+
+        public init(
+            audit: Swift.Bool = false,
+            auditLogGroup: Swift.String? = nil,
+            general: Swift.Bool = false,
+            generalLogGroup: Swift.String? = nil,
+            pending: SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails? = nil
+        )
+        {
+            self.audit = audit
+            self.auditLogGroup = auditLogGroup
+            self.general = general
+            self.generalLogGroup = generalLogGroup
+            self.pending = pending
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audit = "Audit"
+        case general = "General"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if audit != false {
+            try encodeContainer.encode(audit, forKey: .audit)
+        }
+        if general != false {
+            try encodeContainer.encode(general, forKey: .general)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let auditDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .audit) ?? false
+        audit = auditDecoded
+        let generalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .general) ?? false
+        general = generalDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides information about logs to be activated for the specified broker.
+    public struct AwsAmazonMqBrokerLogsPendingDetails: Swift.Equatable {
+        /// Activates audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.
+        public var audit: Swift.Bool
+        /// Activates general logging.
+        public var general: Swift.Bool
+
+        public init(
+            audit: Swift.Bool = false,
+            general: Swift.Bool = false
+        )
+        {
+            self.audit = audit
+            self.general = general
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dayOfWeek = "DayOfWeek"
+        case timeOfDay = "TimeOfDay"
+        case timeZone = "TimeZone"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dayOfWeek = self.dayOfWeek {
+            try encodeContainer.encode(dayOfWeek, forKey: .dayOfWeek)
+        }
+        if let timeOfDay = self.timeOfDay {
+            try encodeContainer.encode(timeOfDay, forKey: .timeOfDay)
+        }
+        if let timeZone = self.timeZone {
+            try encodeContainer.encode(timeZone, forKey: .timeZone)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dayOfWeekDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dayOfWeek)
+        dayOfWeek = dayOfWeekDecoded
+        let timeOfDayDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeOfDay)
+        timeOfDay = timeOfDayDecoded
+        let timeZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeZone)
+        timeZone = timeZoneDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The scheduled time period (UTC) during which Amazon MQ begins to apply pending updates or patches to the broker.
+    public struct AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails: Swift.Equatable {
+        /// The day of the week on which the maintenance window falls.
+        public var dayOfWeek: Swift.String?
+        /// The time, in 24-hour format, on which the maintenance window falls.
+        public var timeOfDay: Swift.String?
+        /// The time zone in either the Country/City format or the UTC offset format. UTC is the default format.
+        public var timeZone: Swift.String?
+
+        public init(
+            dayOfWeek: Swift.String? = nil,
+            timeOfDay: Swift.String? = nil,
+            timeZone: Swift.String? = nil
+        )
+        {
+            self.dayOfWeek = dayOfWeek
+            self.timeOfDay = timeOfDay
+            self.timeZone = timeZone
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAmazonMqBrokerUsersDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pendingChange = "PendingChange"
+        case username = "Username"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pendingChange = self.pendingChange {
+            try encodeContainer.encode(pendingChange, forKey: .pendingChange)
+        }
+        if let username = self.username {
+            try encodeContainer.encode(username, forKey: .username)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pendingChangeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pendingChange)
+        pendingChange = pendingChangeDecoded
+        let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
+        username = usernameDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the broker usernames for the specified broker. Doesn't apply to RabbitMQ brokers.
+    public struct AwsAmazonMqBrokerUsersDetails: Swift.Equatable {
+        /// The type of change pending for the broker user.
+        public var pendingChange: Swift.String?
+        /// The username of the broker user.
+        public var username: Swift.String?
+
+        public init(
+            pendingChange: Swift.String? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.pendingChange = pendingChange
+            self.username = username
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.AwsApiCallAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case affectedResources = "AffectedResources"
@@ -2205,6 +2848,468 @@ extension SecurityHubClientTypes {
             self.routeSettings = routeSettings
             self.stageName = stageName
             self.stageVariables = stageVariables
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationType = "AuthenticationType"
+        case lambdaAuthorizerConfig = "LambdaAuthorizerConfig"
+        case openIdConnectConfig = "OpenIdConnectConfig"
+        case userPoolConfig = "UserPoolConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authenticationType = self.authenticationType {
+            try encodeContainer.encode(authenticationType, forKey: .authenticationType)
+        }
+        if let lambdaAuthorizerConfig = self.lambdaAuthorizerConfig {
+            try encodeContainer.encode(lambdaAuthorizerConfig, forKey: .lambdaAuthorizerConfig)
+        }
+        if let openIdConnectConfig = self.openIdConnectConfig {
+            try encodeContainer.encode(openIdConnectConfig, forKey: .openIdConnectConfig)
+        }
+        if let userPoolConfig = self.userPoolConfig {
+            try encodeContainer.encode(userPoolConfig, forKey: .userPoolConfig)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authenticationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authenticationType)
+        authenticationType = authenticationTypeDecoded
+        let lambdaAuthorizerConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails.self, forKey: .lambdaAuthorizerConfig)
+        lambdaAuthorizerConfig = lambdaAuthorizerConfigDecoded
+        let openIdConnectConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails.self, forKey: .openIdConnectConfig)
+        openIdConnectConfig = openIdConnectConfigDecoded
+        let userPoolConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails.self, forKey: .userPoolConfig)
+        userPoolConfig = userPoolConfigDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// A list of additional authentication providers for the GraphqlApi API.
+    public struct AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails: Swift.Equatable {
+        /// The type of security configuration for your GraphQL API: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
+        public var authenticationType: Swift.String?
+        /// The configuration for Lambda function authorization.
+        public var lambdaAuthorizerConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails?
+        /// The OpenID Connect configuration.
+        public var openIdConnectConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails?
+        /// The Amazon Cognito user pools configuration.
+        public var userPoolConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails?
+
+        public init(
+            authenticationType: Swift.String? = nil,
+            lambdaAuthorizerConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails? = nil,
+            openIdConnectConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails? = nil,
+            userPoolConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails? = nil
+        )
+        {
+            self.authenticationType = authenticationType
+            self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
+            self.openIdConnectConfig = openIdConnectConfig
+            self.userPoolConfig = userPoolConfig
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalAuthenticationProviders = "AdditionalAuthenticationProviders"
+        case apiId = "ApiId"
+        case arn = "Arn"
+        case authenticationType = "AuthenticationType"
+        case id = "Id"
+        case lambdaAuthorizerConfig = "LambdaAuthorizerConfig"
+        case logConfig = "LogConfig"
+        case name = "Name"
+        case openIdConnectConfig = "OpenIdConnectConfig"
+        case userPoolConfig = "UserPoolConfig"
+        case wafWebAclArn = "WafWebAclArn"
+        case xrayEnabled = "XrayEnabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalAuthenticationProviders = additionalAuthenticationProviders {
+            var additionalAuthenticationProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAuthenticationProviders)
+            for awsappsyncgraphqlapiadditionalauthenticationprovidersdetails0 in additionalAuthenticationProviders {
+                try additionalAuthenticationProvidersContainer.encode(awsappsyncgraphqlapiadditionalauthenticationprovidersdetails0)
+            }
+        }
+        if let apiId = self.apiId {
+            try encodeContainer.encode(apiId, forKey: .apiId)
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let authenticationType = self.authenticationType {
+            try encodeContainer.encode(authenticationType, forKey: .authenticationType)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lambdaAuthorizerConfig = self.lambdaAuthorizerConfig {
+            try encodeContainer.encode(lambdaAuthorizerConfig, forKey: .lambdaAuthorizerConfig)
+        }
+        if let logConfig = self.logConfig {
+            try encodeContainer.encode(logConfig, forKey: .logConfig)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let openIdConnectConfig = self.openIdConnectConfig {
+            try encodeContainer.encode(openIdConnectConfig, forKey: .openIdConnectConfig)
+        }
+        if let userPoolConfig = self.userPoolConfig {
+            try encodeContainer.encode(userPoolConfig, forKey: .userPoolConfig)
+        }
+        if let wafWebAclArn = self.wafWebAclArn {
+            try encodeContainer.encode(wafWebAclArn, forKey: .wafWebAclArn)
+        }
+        if xrayEnabled != false {
+            try encodeContainer.encode(xrayEnabled, forKey: .xrayEnabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apiIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiId)
+        apiId = apiIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let openIdConnectConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails.self, forKey: .openIdConnectConfig)
+        openIdConnectConfig = openIdConnectConfigDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let lambdaAuthorizerConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails.self, forKey: .lambdaAuthorizerConfig)
+        lambdaAuthorizerConfig = lambdaAuthorizerConfigDecoded
+        let xrayEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .xrayEnabled) ?? false
+        xrayEnabled = xrayEnabledDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let userPoolConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails.self, forKey: .userPoolConfig)
+        userPoolConfig = userPoolConfigDecoded
+        let authenticationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authenticationType)
+        authenticationType = authenticationTypeDecoded
+        let logConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiLogConfigDetails.self, forKey: .logConfig)
+        logConfig = logConfigDecoded
+        let additionalAuthenticationProvidersContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails?].self, forKey: .additionalAuthenticationProviders)
+        var additionalAuthenticationProvidersDecoded0:[SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails]? = nil
+        if let additionalAuthenticationProvidersContainer = additionalAuthenticationProvidersContainer {
+            additionalAuthenticationProvidersDecoded0 = [SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails]()
+            for structure0 in additionalAuthenticationProvidersContainer {
+                if let structure0 = structure0 {
+                    additionalAuthenticationProvidersDecoded0?.append(structure0)
+                }
+            }
+        }
+        additionalAuthenticationProviders = additionalAuthenticationProvidersDecoded0
+        let wafWebAclArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .wafWebAclArn)
+        wafWebAclArn = wafWebAclArnDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about an AppSync Graph QL API, which lets you query multiple databases, microservices, and APIs from a single GraphQL endpoint.
+    public struct AwsAppSyncGraphQlApiDetails: Swift.Equatable {
+        /// A list of additional authentication providers for the GraphQL API.
+        public var additionalAuthenticationProviders: [SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails]?
+        /// The unique identifier for the API.
+        public var apiId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the API.
+        public var arn: Swift.String?
+        /// The type of security configuration for your GraphQL API: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
+        public var authenticationType: Swift.String?
+        /// The unique identifier for the API.
+        public var id: Swift.String?
+        /// Specifies the configuration for Lambda function authorization.
+        public var lambdaAuthorizerConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails?
+        /// The Amazon CloudWatch Logs configuration.
+        public var logConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiLogConfigDetails?
+        /// The API name.
+        public var name: Swift.String?
+        /// Specifies the authorization configuration for using an OpenID Connect compliant service with an AppSync GraphQL API endpoint.
+        public var openIdConnectConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails?
+        /// The Amazon Cognito user pools configuration.
+        public var userPoolConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails?
+        /// The Amazon Resource Name (ARN) of the WAF web access control list (web ACL) associated with this GraphQL API, if one exists.
+        public var wafWebAclArn: Swift.String?
+        /// Indicates whether to use X-Ray tracing for the GraphQL API.
+        public var xrayEnabled: Swift.Bool
+
+        public init(
+            additionalAuthenticationProviders: [SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails]? = nil,
+            apiId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            authenticationType: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lambdaAuthorizerConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails? = nil,
+            logConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiLogConfigDetails? = nil,
+            name: Swift.String? = nil,
+            openIdConnectConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails? = nil,
+            userPoolConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails? = nil,
+            wafWebAclArn: Swift.String? = nil,
+            xrayEnabled: Swift.Bool = false
+        )
+        {
+            self.additionalAuthenticationProviders = additionalAuthenticationProviders
+            self.apiId = apiId
+            self.arn = arn
+            self.authenticationType = authenticationType
+            self.id = id
+            self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
+            self.logConfig = logConfig
+            self.name = name
+            self.openIdConnectConfig = openIdConnectConfig
+            self.userPoolConfig = userPoolConfig
+            self.wafWebAclArn = wafWebAclArn
+            self.xrayEnabled = xrayEnabled
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizerResultTtlInSeconds = "AuthorizerResultTtlInSeconds"
+        case authorizerUri = "AuthorizerUri"
+        case identityValidationExpression = "IdentityValidationExpression"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if authorizerResultTtlInSeconds != 0 {
+            try encodeContainer.encode(authorizerResultTtlInSeconds, forKey: .authorizerResultTtlInSeconds)
+        }
+        if let authorizerUri = self.authorizerUri {
+            try encodeContainer.encode(authorizerUri, forKey: .authorizerUri)
+        }
+        if let identityValidationExpression = self.identityValidationExpression {
+            try encodeContainer.encode(identityValidationExpression, forKey: .identityValidationExpression)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizerResultTtlInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .authorizerResultTtlInSeconds) ?? 0
+        authorizerResultTtlInSeconds = authorizerResultTtlInSecondsDecoded
+        let authorizerUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizerUri)
+        authorizerUri = authorizerUriDecoded
+        let identityValidationExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityValidationExpression)
+        identityValidationExpression = identityValidationExpressionDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the authorization configuration for using an Lambda function with your AppSync GraphQL API endpoint.
+    public struct AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails: Swift.Equatable {
+        /// The number of seconds a response should be cached for. The default is 5 minutes (300 seconds).
+        public var authorizerResultTtlInSeconds: Swift.Int
+        /// The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a standard Lambda ARN, a version ARN (.../v3), or an alias ARN.
+        public var authorizerUri: Swift.String?
+        /// A regular expression for validation of tokens before the Lambda function is called.
+        public var identityValidationExpression: Swift.String?
+
+        public init(
+            authorizerResultTtlInSeconds: Swift.Int = 0,
+            authorizerUri: Swift.String? = nil,
+            identityValidationExpression: Swift.String? = nil
+        )
+        {
+            self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
+            self.authorizerUri = authorizerUri
+            self.identityValidationExpression = identityValidationExpression
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAppSyncGraphQlApiLogConfigDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+        case excludeVerboseContent = "ExcludeVerboseContent"
+        case fieldLogLevel = "FieldLogLevel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudWatchLogsRoleArn = self.cloudWatchLogsRoleArn {
+            try encodeContainer.encode(cloudWatchLogsRoleArn, forKey: .cloudWatchLogsRoleArn)
+        }
+        if excludeVerboseContent != false {
+            try encodeContainer.encode(excludeVerboseContent, forKey: .excludeVerboseContent)
+        }
+        if let fieldLogLevel = self.fieldLogLevel {
+            try encodeContainer.encode(fieldLogLevel, forKey: .fieldLogLevel)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudWatchLogsRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogsRoleArn)
+        cloudWatchLogsRoleArn = cloudWatchLogsRoleArnDecoded
+        let excludeVerboseContentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excludeVerboseContent) ?? false
+        excludeVerboseContent = excludeVerboseContentDecoded
+        let fieldLogLevelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldLogLevel)
+        fieldLogLevel = fieldLogLevelDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the logging configuration when writing GraphQL operations and tracing to Amazon CloudWatch for an AppSync GraphQL API.
+    public struct AwsAppSyncGraphQlApiLogConfigDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the service role that AppSync assumes to publish to CloudWatch Logs in your account.
+        public var cloudWatchLogsRoleArn: Swift.String?
+        /// Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level.
+        public var excludeVerboseContent: Swift.Bool
+        /// The field logging level.
+        public var fieldLogLevel: Swift.String?
+
+        public init(
+            cloudWatchLogsRoleArn: Swift.String? = nil,
+            excludeVerboseContent: Swift.Bool = false,
+            fieldLogLevel: Swift.String? = nil
+        )
+        {
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.excludeVerboseContent = excludeVerboseContent
+            self.fieldLogLevel = fieldLogLevel
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authTtL = "AuthTtL"
+        case clientId = "ClientId"
+        case iatTtL = "IatTtL"
+        case issuer = "Issuer"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if authTtL != 0 {
+            try encodeContainer.encode(authTtL, forKey: .authTtL)
+        }
+        if let clientId = self.clientId {
+            try encodeContainer.encode(clientId, forKey: .clientId)
+        }
+        if iatTtL != 0 {
+            try encodeContainer.encode(iatTtL, forKey: .iatTtL)
+        }
+        if let issuer = self.issuer {
+            try encodeContainer.encode(issuer, forKey: .issuer)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authTtLDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .authTtL) ?? 0
+        authTtL = authTtLDecoded
+        let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
+        clientId = clientIdDecoded
+        let iatTtLDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iatTtL) ?? 0
+        iatTtL = iatTtLDecoded
+        let issuerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuer)
+        issuer = issuerDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the authorization configuration for using an OpenID Connect compliant service with your AppSync GraphQL API endpoint.
+    public struct AwsAppSyncGraphQlApiOpenIdConnectConfigDetails: Swift.Equatable {
+        /// The number of milliseconds that a token is valid after being authenticated.
+        public var authTtL: Swift.Int
+        /// The client identifier of the relying party at the OpenID identity provider. This identifier is typically obtained when the relying party is registered with the OpenID identity provider. You can specify a regular expression so that AppSync can validate against multiple client identifiers at a time.
+        public var clientId: Swift.String?
+        /// The number of milliseconds that a token is valid after it's issued to a user.
+        public var iatTtL: Swift.Int
+        /// The issuer for the OIDC configuration. The issuer returned by discovery must exactly match the value of iss in the ID token.
+        public var issuer: Swift.String?
+
+        public init(
+            authTtL: Swift.Int = 0,
+            clientId: Swift.String? = nil,
+            iatTtL: Swift.Int = 0,
+            issuer: Swift.String? = nil
+        )
+        {
+            self.authTtL = authTtL
+            self.clientId = clientId
+            self.iatTtL = iatTtL
+            self.issuer = issuer
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appIdClientRegex = "AppIdClientRegex"
+        case awsRegion = "AwsRegion"
+        case defaultAction = "DefaultAction"
+        case userPoolId = "UserPoolId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appIdClientRegex = self.appIdClientRegex {
+            try encodeContainer.encode(appIdClientRegex, forKey: .appIdClientRegex)
+        }
+        if let awsRegion = self.awsRegion {
+            try encodeContainer.encode(awsRegion, forKey: .awsRegion)
+        }
+        if let defaultAction = self.defaultAction {
+            try encodeContainer.encode(defaultAction, forKey: .defaultAction)
+        }
+        if let userPoolId = self.userPoolId {
+            try encodeContainer.encode(userPoolId, forKey: .userPoolId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appIdClientRegexDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appIdClientRegex)
+        appIdClientRegex = appIdClientRegexDecoded
+        let awsRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsRegion)
+        awsRegion = awsRegionDecoded
+        let defaultActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultAction)
+        defaultAction = defaultActionDecoded
+        let userPoolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userPoolId)
+        userPoolId = userPoolIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the authorization configuration for using Amazon Cognito user pools with your AppSync GraphQL API endpoint.
+    public struct AwsAppSyncGraphQlApiUserPoolConfigDetails: Swift.Equatable {
+        /// A regular expression for validating the incoming Amazon Cognito user pools app client ID. If this value isn't set, no filtering is applied.
+        public var appIdClientRegex: Swift.String?
+        /// The Amazon Web Services Region in which the user pool was created.
+        public var awsRegion: Swift.String?
+        /// The action that you want your GraphQL API to take when a request that uses Amazon Cognito user pools authentication doesn't match the Amazon Cognito user pools configuration.
+        public var defaultAction: Swift.String?
+        /// The user pool ID.
+        public var userPoolId: Swift.String?
+
+        public init(
+            appIdClientRegex: Swift.String? = nil,
+            awsRegion: Swift.String? = nil,
+            defaultAction: Swift.String? = nil,
+            userPoolId: Swift.String? = nil
+        )
+        {
+            self.appIdClientRegex = appIdClientRegex
+            self.awsRegion = awsRegion
+            self.defaultAction = defaultAction
+            self.userPoolId = userPoolId
         }
     }
 
@@ -22086,6 +23191,613 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.AwsEventSchemasRegistryDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case registryArn = "RegistryArn"
+        case registryName = "RegistryName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let registryArn = self.registryArn {
+            try encodeContainer.encode(registryArn, forKey: .registryArn)
+        }
+        if let registryName = self.registryName {
+            try encodeContainer.encode(registryName, forKey: .registryName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let registryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryArn)
+        registryArn = registryArnDecoded
+        let registryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryName)
+        registryName = registryNameDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// A schema defines the structure of events that are sent to Amazon EventBridge. Schema registries are containers for schemas. They collect and organize schemas so that your schemas are in logical groups.
+    public struct AwsEventSchemasRegistryDetails: Swift.Equatable {
+        /// A description of the registry to be created.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the registry.
+        public var registryArn: Swift.String?
+        /// The name of the schema registry.
+        public var registryName: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            registryArn: Swift.String? = nil,
+            registryName: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.registryArn = registryArn
+            self.registryName = registryName
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesCloudTrailDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains information on the status of CloudTrail as a data source for the detector.
+    public struct AwsGuardDutyDetectorDataSourcesCloudTrailDetails: Swift.Equatable {
+        /// Specifies whether CloudTrail is activated as a data source for the detector.
+        public var status: Swift.String?
+
+        public init(
+            status: Swift.String? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudTrail = "CloudTrail"
+        case dnsLogs = "DnsLogs"
+        case flowLogs = "FlowLogs"
+        case kubernetes = "Kubernetes"
+        case malwareProtection = "MalwareProtection"
+        case s3Logs = "S3Logs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudTrail = self.cloudTrail {
+            try encodeContainer.encode(cloudTrail, forKey: .cloudTrail)
+        }
+        if let dnsLogs = self.dnsLogs {
+            try encodeContainer.encode(dnsLogs, forKey: .dnsLogs)
+        }
+        if let flowLogs = self.flowLogs {
+            try encodeContainer.encode(flowLogs, forKey: .flowLogs)
+        }
+        if let kubernetes = self.kubernetes {
+            try encodeContainer.encode(kubernetes, forKey: .kubernetes)
+        }
+        if let malwareProtection = self.malwareProtection {
+            try encodeContainer.encode(malwareProtection, forKey: .malwareProtection)
+        }
+        if let s3Logs = self.s3Logs {
+            try encodeContainer.encode(s3Logs, forKey: .s3Logs)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudTrailDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesCloudTrailDetails.self, forKey: .cloudTrail)
+        cloudTrail = cloudTrailDecoded
+        let dnsLogsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDnsLogsDetails.self, forKey: .dnsLogs)
+        dnsLogs = dnsLogsDecoded
+        let flowLogsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesFlowLogsDetails.self, forKey: .flowLogs)
+        flowLogs = flowLogsDecoded
+        let kubernetesDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesDetails.self, forKey: .kubernetes)
+        kubernetes = kubernetesDecoded
+        let malwareProtectionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails.self, forKey: .malwareProtection)
+        malwareProtection = malwareProtectionDecoded
+        let s3LogsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesS3LogsDetails.self, forKey: .s3Logs)
+        s3Logs = s3LogsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes which data sources are activated for the detector.
+    public struct AwsGuardDutyDetectorDataSourcesDetails: Swift.Equatable {
+        /// An object that contains information on the status of CloudTrail as a data source for the detector.
+        public var cloudTrail: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesCloudTrailDetails?
+        /// An object that contains information on the status of DNS logs as a data source for the detector.
+        public var dnsLogs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDnsLogsDetails?
+        /// An object that contains information on the status of VPC Flow Logs as a data source for the detector.
+        public var flowLogs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesFlowLogsDetails?
+        /// An object that contains information on the status of Kubernetes data sources for the detector.
+        public var kubernetes: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesDetails?
+        /// An object that contains information on the status of Malware Protection as a data source for the detector.
+        public var malwareProtection: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails?
+        /// An object that contains information on the status of S3 Data event logs as a data source for the detector.
+        public var s3Logs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesS3LogsDetails?
+
+        public init(
+            cloudTrail: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesCloudTrailDetails? = nil,
+            dnsLogs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDnsLogsDetails? = nil,
+            flowLogs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesFlowLogsDetails? = nil,
+            kubernetes: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesDetails? = nil,
+            malwareProtection: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails? = nil,
+            s3Logs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesS3LogsDetails? = nil
+        )
+        {
+            self.cloudTrail = cloudTrail
+            self.dnsLogs = dnsLogs
+            self.flowLogs = flowLogs
+            self.kubernetes = kubernetes
+            self.malwareProtection = malwareProtection
+            self.s3Logs = s3Logs
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDnsLogsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains information on the status of DNS logs as a data source for the detector.
+    public struct AwsGuardDutyDetectorDataSourcesDnsLogsDetails: Swift.Equatable {
+        /// Describes whether DNS logs is enabled as a data source for the detector.
+        public var status: Swift.String?
+
+        public init(
+            status: Swift.String? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesFlowLogsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains information on the status of VPC Flow Logs as a data source for the detector.
+    public struct AwsGuardDutyDetectorDataSourcesFlowLogsDetails: Swift.Equatable {
+        /// Describes whether VPC Flow Logs are activated as a data source for the detector.
+        public var status: Swift.String?
+
+        public init(
+            status: Swift.String? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains information on the status of Kubernetes audit logs as a data source for the detector.
+    public struct AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails: Swift.Equatable {
+        /// Describes whether Kubernetes audit logs are activated as a data source for the detector.
+        public var status: Swift.String?
+
+        public init(
+            status: Swift.String? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case auditLogs = "AuditLogs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let auditLogs = self.auditLogs {
+            try encodeContainer.encode(auditLogs, forKey: .auditLogs)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let auditLogsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails.self, forKey: .auditLogs)
+        auditLogs = auditLogsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains information on the status of Kubernetes data sources for the detector.
+    public struct AwsGuardDutyDetectorDataSourcesKubernetesDetails: Swift.Equatable {
+        /// Describes whether Kubernetes audit logs are activated as a data source for the detector.
+        public var auditLogs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails?
+
+        public init(
+            auditLogs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails? = nil
+        )
+        {
+            self.auditLogs = auditLogs
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanEc2InstanceWithFindings = "ScanEc2InstanceWithFindings"
+        case serviceRole = "ServiceRole"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanEc2InstanceWithFindings = self.scanEc2InstanceWithFindings {
+            try encodeContainer.encode(scanEc2InstanceWithFindings, forKey: .scanEc2InstanceWithFindings)
+        }
+        if let serviceRole = self.serviceRole {
+            try encodeContainer.encode(serviceRole, forKey: .serviceRole)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanEc2InstanceWithFindingsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails.self, forKey: .scanEc2InstanceWithFindings)
+        scanEc2InstanceWithFindings = scanEc2InstanceWithFindingsDecoded
+        let serviceRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceRole)
+        serviceRole = serviceRoleDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains information on the status of Malware Protection as a data source for the detector.
+    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails: Swift.Equatable {
+        /// Describes the configuration of Malware Protection for EC2 instances with findings.
+        public var scanEc2InstanceWithFindings: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails?
+        /// The GuardDuty Malware Protection service role.
+        public var serviceRole: Swift.String?
+
+        public init(
+            scanEc2InstanceWithFindings: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails? = nil,
+            serviceRole: Swift.String? = nil
+        )
+        {
+            self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
+            self.serviceRole = serviceRole
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ebsVolumes = "EbsVolumes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ebsVolumes = self.ebsVolumes {
+            try encodeContainer.encode(ebsVolumes, forKey: .ebsVolumes)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ebsVolumesDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails.self, forKey: .ebsVolumes)
+        ebsVolumes = ebsVolumesDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes the configuration of Malware Protection for EC2 instances with findings.
+    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails: Swift.Equatable {
+        /// Describes the configuration of scanning EBS volumes (Malware Protection) as a data source.
+        public var ebsVolumes: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails?
+
+        public init(
+            ebsVolumes: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails? = nil
+        )
+        {
+            self.ebsVolumes = ebsVolumes
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reason = "Reason"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes the configuration of scanning EBS volumes (Malware Protection) as a data source.
+    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails: Swift.Equatable {
+        /// Specifies the reason why scanning EBS volumes (Malware Protection) isn’t activated as a data source.
+        public var reason: Swift.String?
+        /// Describes whether scanning EBS volumes is activated as a data source for the detector.
+        public var status: Swift.String?
+
+        public init(
+            reason: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.reason = reason
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesS3LogsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains information on the status of S3 data event logs as a data source for the detector.
+    public struct AwsGuardDutyDetectorDataSourcesS3LogsDetails: Swift.Equatable {
+        /// A value that describes whether S3 data event logs are automatically enabled for new members of an organization.
+        public var status: Swift.String?
+
+        public init(
+            status: Swift.String? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSources = "DataSources"
+        case features = "Features"
+        case findingPublishingFrequency = "FindingPublishingFrequency"
+        case serviceRole = "ServiceRole"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSources = self.dataSources {
+            try encodeContainer.encode(dataSources, forKey: .dataSources)
+        }
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for awsguarddutydetectorfeaturesdetails0 in features {
+                try featuresContainer.encode(awsguarddutydetectorfeaturesdetails0)
+            }
+        }
+        if let findingPublishingFrequency = self.findingPublishingFrequency {
+            try encodeContainer.encode(findingPublishingFrequency, forKey: .findingPublishingFrequency)
+        }
+        if let serviceRole = self.serviceRole {
+            try encodeContainer.encode(serviceRole, forKey: .serviceRole)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourcesDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDetails.self, forKey: .dataSources)
+        dataSources = dataSourcesDecoded
+        let featuresContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsGuardDutyDetectorFeaturesDetails?].self, forKey: .features)
+        var featuresDecoded0:[SecurityHubClientTypes.AwsGuardDutyDetectorFeaturesDetails]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [SecurityHubClientTypes.AwsGuardDutyDetectorFeaturesDetails]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
+        let findingPublishingFrequencyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .findingPublishingFrequency)
+        findingPublishingFrequency = findingPublishingFrequencyDecoded
+        let serviceRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceRole)
+        serviceRole = serviceRoleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about an Amazon GuardDuty detector. A detector is an object that represents the GuardDuty service. A detector is required for GuardDuty to become operational.
+    public struct AwsGuardDutyDetectorDetails: Swift.Equatable {
+        /// Describes which data sources are activated for the detector.
+        public var dataSources: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDetails?
+        /// Describes which features are activated for the detector.
+        public var features: [SecurityHubClientTypes.AwsGuardDutyDetectorFeaturesDetails]?
+        /// The publishing frequency of the finding.
+        public var findingPublishingFrequency: Swift.String?
+        /// The GuardDuty service role.
+        public var serviceRole: Swift.String?
+        /// The activation status of the detector.
+        public var status: Swift.String?
+
+        public init(
+            dataSources: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDetails? = nil,
+            features: [SecurityHubClientTypes.AwsGuardDutyDetectorFeaturesDetails]? = nil,
+            findingPublishingFrequency: Swift.String? = nil,
+            serviceRole: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.dataSources = dataSources
+            self.features = features
+            self.findingPublishingFrequency = findingPublishingFrequency
+            self.serviceRole = serviceRole
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsGuardDutyDetectorFeaturesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes which features are activated for the detector.
+    public struct AwsGuardDutyDetectorFeaturesDetails: Swift.Equatable {
+        /// Indicates the name of the feature that is activated for the detector.
+        public var name: Swift.String?
+        /// Indicates the status of the feature that is activated for the detector.
+        public var status: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.status = status
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.AwsIamAccessKeyDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessKeyId = "AccessKeyId"
@@ -35928,6 +37640,283 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.AwsStepFunctionStateMachineDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case label = "Label"
+        case loggingConfiguration = "LoggingConfiguration"
+        case name = "Name"
+        case roleArn = "RoleArn"
+        case stateMachineArn = "StateMachineArn"
+        case status = "Status"
+        case tracingConfiguration = "TracingConfiguration"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let label = self.label {
+            try encodeContainer.encode(label, forKey: .label)
+        }
+        if let loggingConfiguration = self.loggingConfiguration {
+            try encodeContainer.encode(loggingConfiguration, forKey: .loggingConfiguration)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let stateMachineArn = self.stateMachineArn {
+            try encodeContainer.encode(stateMachineArn, forKey: .stateMachineArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let tracingConfiguration = self.tracingConfiguration {
+            try encodeContainer.encode(tracingConfiguration, forKey: .tracingConfiguration)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
+        label = labelDecoded
+        let loggingConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDetails.self, forKey: .loggingConfiguration)
+        loggingConfiguration = loggingConfigurationDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let stateMachineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineArn)
+        stateMachineArn = stateMachineArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let tracingConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsStepFunctionStateMachineTracingConfigurationDetails.self, forKey: .tracingConfiguration)
+        tracingConfiguration = tracingConfigurationDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about an Step Functions state machine, which is a workflow consisting of a series of event- driven steps.
+    public struct AwsStepFunctionStateMachineDetails: Swift.Equatable {
+        /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
+        public var label: Swift.String?
+        /// Used to set CloudWatch Logs options.
+        public var loggingConfiguration: SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDetails?
+        /// The name of the state machine.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine.
+        public var roleArn: Swift.String?
+        /// The ARN that identifies the state machine.
+        public var stateMachineArn: Swift.String?
+        /// The current status of the state machine.
+        public var status: Swift.String?
+        /// Specifies whether X-Ray tracing is enabled.
+        public var tracingConfiguration: SecurityHubClientTypes.AwsStepFunctionStateMachineTracingConfigurationDetails?
+        /// The type of the state machine (STANDARD or EXPRESS).
+        public var type: Swift.String?
+
+        public init(
+            label: Swift.String? = nil,
+            loggingConfiguration: SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDetails? = nil,
+            name: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            stateMachineArn: Swift.String? = nil,
+            status: Swift.String? = nil,
+            tracingConfiguration: SecurityHubClientTypes.AwsStepFunctionStateMachineTracingConfigurationDetails? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.label = label
+            self.loggingConfiguration = loggingConfiguration
+            self.name = name
+            self.roleArn = roleArn
+            self.stateMachineArn = stateMachineArn
+            self.status = status
+            self.tracingConfiguration = tracingConfiguration
+            self.type = type
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupArn = "LogGroupArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupArn = self.logGroupArn {
+            try encodeContainer.encode(logGroupArn, forKey: .logGroupArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupArn)
+        logGroupArn = logGroupArnDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object describing a CloudWatch log group. For more information, see [ Amazon Web Services::Logs::LogGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html) in the CloudFormation User Guide.
+    public struct AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails: Swift.Equatable {
+        /// The ARN (ends with :*) of the CloudWatch Logs log group to which you want your logs emitted.
+        public var logGroupArn: Swift.String?
+
+        public init(
+            logGroupArn: Swift.String? = nil
+        )
+        {
+            self.logGroupArn = logGroupArn
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchLogsLogGroup = "CloudWatchLogsLogGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudWatchLogsLogGroup = self.cloudWatchLogsLogGroup {
+            try encodeContainer.encode(cloudWatchLogsLogGroup, forKey: .cloudWatchLogsLogGroup)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudWatchLogsLogGroupDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails.self, forKey: .cloudWatchLogsLogGroup)
+        cloudWatchLogsLogGroup = cloudWatchLogsLogGroupDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An array of objects that describes where your execution history events will be logged.
+    public struct AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails: Swift.Equatable {
+        /// An object describing a CloudWatch Logs log group. For more information, see [ Amazon Web Services::Logs::LogGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html) in the CloudFormation User Guide.
+        public var cloudWatchLogsLogGroup: SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails?
+
+        public init(
+            cloudWatchLogsLogGroup: SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails? = nil
+        )
+        {
+            self.cloudWatchLogsLogGroup = cloudWatchLogsLogGroup
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinations = "Destinations"
+        case includeExecutionData = "IncludeExecutionData"
+        case level = "Level"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinations = destinations {
+            var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
+            for awsstepfunctionstatemachineloggingconfigurationdestinationsdetails0 in destinations {
+                try destinationsContainer.encode(awsstepfunctionstatemachineloggingconfigurationdestinationsdetails0)
+            }
+        }
+        if includeExecutionData != false {
+            try encodeContainer.encode(includeExecutionData, forKey: .includeExecutionData)
+        }
+        if let level = self.level {
+            try encodeContainer.encode(level, forKey: .level)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails?].self, forKey: .destinations)
+        var destinationsDecoded0:[SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let includeExecutionDataDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeExecutionData) ?? false
+        includeExecutionData = includeExecutionDataDecoded
+        let levelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .level)
+        level = levelDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
+    public struct AwsStepFunctionStateMachineLoggingConfigurationDetails: Swift.Equatable {
+        /// An array of objects that describes where your execution history events will be logged.
+        public var destinations: [SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]?
+        /// Determines whether execution data is included in your log. When set to false, data is excluded.
+        public var includeExecutionData: Swift.Bool
+        /// Defines which category of execution history events are logged.
+        public var level: Swift.String?
+
+        public init(
+            destinations: [SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]? = nil,
+            includeExecutionData: Swift.Bool = false,
+            level: Swift.String? = nil
+        )
+        {
+            self.destinations = destinations
+            self.includeExecutionData = includeExecutionData
+            self.level = level
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsStepFunctionStateMachineTracingConfigurationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies whether X-Ray tracing is enabled.
+    public struct AwsStepFunctionStateMachineTracingConfigurationDetails: Swift.Equatable {
+        /// When set to true, X-Ray tracing is enabled.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.AwsWafRateBasedRuleDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case matchPredicates = "MatchPredicates"
@@ -43248,7 +45237,7 @@ extension SecurityHubClientTypes {
         public var nextToken: Swift.String?
         /// Identifies the source of the event that changed the finding. For example, an integrated Amazon Web Service or third-party partner integration may call [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html), or an Security Hub customer may call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html).
         public var updateSource: SecurityHubClientTypes.FindingHistoryUpdateSource?
-        /// An ISO 8601-formatted timestamp that indicates when the security findings provider last updated the finding record. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
+        /// An ISO 8601-formatted timestamp that indicates when Security Hub processed the updated finding record. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var updateTime: ClientRuntime.Date?
         /// An array of objects that provides details about the finding change event, including the Amazon Web Services Security Finding Format (ASFF) field that changed, the value of the field before the change, and the value of the field after the change.
         public var updates: [SecurityHubClientTypes.FindingHistoryUpdate]?
@@ -49356,10 +51345,12 @@ extension ResourceConflictExceptionBody: Swift.Decodable {
 
 extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsAmazonMqBroker = "AwsAmazonMqBroker"
         case awsApiGatewayRestApi = "AwsApiGatewayRestApi"
         case awsApiGatewayStage = "AwsApiGatewayStage"
         case awsApiGatewayV2Api = "AwsApiGatewayV2Api"
         case awsApiGatewayV2Stage = "AwsApiGatewayV2Stage"
+        case awsAppSyncGraphQlApi = "AwsAppSyncGraphQlApi"
         case awsAutoScalingAutoScalingGroup = "AwsAutoScalingAutoScalingGroup"
         case awsAutoScalingLaunchConfiguration = "AwsAutoScalingLaunchConfiguration"
         case awsBackupBackupPlan = "AwsBackupBackupPlan"
@@ -49399,6 +51390,8 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsElasticsearchDomain = "AwsElasticsearchDomain"
         case awsElbLoadBalancer = "AwsElbLoadBalancer"
         case awsElbv2LoadBalancer = "AwsElbv2LoadBalancer"
+        case awsEventSchemasRegistry = "AwsEventSchemasRegistry"
+        case awsGuardDutyDetector = "AwsGuardDutyDetector"
         case awsIamAccessKey = "AwsIamAccessKey"
         case awsIamGroup = "AwsIamGroup"
         case awsIamPolicy = "AwsIamPolicy"
@@ -49427,6 +51420,7 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsSnsTopic = "AwsSnsTopic"
         case awsSqsQueue = "AwsSqsQueue"
         case awsSsmPatchCompliance = "AwsSsmPatchCompliance"
+        case awsStepFunctionStateMachine = "AwsStepFunctionStateMachine"
         case awsWafRateBasedRule = "AwsWafRateBasedRule"
         case awsWafRegionalRateBasedRule = "AwsWafRegionalRateBasedRule"
         case awsWafRegionalRule = "AwsWafRegionalRule"
@@ -49444,6 +51438,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsAmazonMqBroker = self.awsAmazonMqBroker {
+            try encodeContainer.encode(awsAmazonMqBroker, forKey: .awsAmazonMqBroker)
+        }
         if let awsApiGatewayRestApi = self.awsApiGatewayRestApi {
             try encodeContainer.encode(awsApiGatewayRestApi, forKey: .awsApiGatewayRestApi)
         }
@@ -49455,6 +51452,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsApiGatewayV2Stage = self.awsApiGatewayV2Stage {
             try encodeContainer.encode(awsApiGatewayV2Stage, forKey: .awsApiGatewayV2Stage)
+        }
+        if let awsAppSyncGraphQlApi = self.awsAppSyncGraphQlApi {
+            try encodeContainer.encode(awsAppSyncGraphQlApi, forKey: .awsAppSyncGraphQlApi)
         }
         if let awsAutoScalingAutoScalingGroup = self.awsAutoScalingAutoScalingGroup {
             try encodeContainer.encode(awsAutoScalingAutoScalingGroup, forKey: .awsAutoScalingAutoScalingGroup)
@@ -49573,6 +51573,12 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         if let awsElbv2LoadBalancer = self.awsElbv2LoadBalancer {
             try encodeContainer.encode(awsElbv2LoadBalancer, forKey: .awsElbv2LoadBalancer)
         }
+        if let awsEventSchemasRegistry = self.awsEventSchemasRegistry {
+            try encodeContainer.encode(awsEventSchemasRegistry, forKey: .awsEventSchemasRegistry)
+        }
+        if let awsGuardDutyDetector = self.awsGuardDutyDetector {
+            try encodeContainer.encode(awsGuardDutyDetector, forKey: .awsGuardDutyDetector)
+        }
         if let awsIamAccessKey = self.awsIamAccessKey {
             try encodeContainer.encode(awsIamAccessKey, forKey: .awsIamAccessKey)
         }
@@ -49656,6 +51662,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsSsmPatchCompliance = self.awsSsmPatchCompliance {
             try encodeContainer.encode(awsSsmPatchCompliance, forKey: .awsSsmPatchCompliance)
+        }
+        if let awsStepFunctionStateMachine = self.awsStepFunctionStateMachine {
+            try encodeContainer.encode(awsStepFunctionStateMachine, forKey: .awsStepFunctionStateMachine)
         }
         if let awsWafRateBasedRule = self.awsWafRateBasedRule {
             try encodeContainer.encode(awsWafRateBasedRule, forKey: .awsWafRateBasedRule)
@@ -49880,12 +51889,24 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         awsWafv2RuleGroup = awsWafv2RuleGroupDecoded
         let awsEc2RouteTableDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2RouteTableDetails.self, forKey: .awsEc2RouteTable)
         awsEc2RouteTable = awsEc2RouteTableDecoded
+        let awsAmazonMqBrokerDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAmazonMqBrokerDetails.self, forKey: .awsAmazonMqBroker)
+        awsAmazonMqBroker = awsAmazonMqBrokerDecoded
+        let awsAppSyncGraphQlApiDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails.self, forKey: .awsAppSyncGraphQlApi)
+        awsAppSyncGraphQlApi = awsAppSyncGraphQlApiDecoded
+        let awsEventSchemasRegistryDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEventSchemasRegistryDetails.self, forKey: .awsEventSchemasRegistry)
+        awsEventSchemasRegistry = awsEventSchemasRegistryDecoded
+        let awsGuardDutyDetectorDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsGuardDutyDetectorDetails.self, forKey: .awsGuardDutyDetector)
+        awsGuardDutyDetector = awsGuardDutyDetectorDecoded
+        let awsStepFunctionStateMachineDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsStepFunctionStateMachineDetails.self, forKey: .awsStepFunctionStateMachine)
+        awsStepFunctionStateMachine = awsStepFunctionStateMachineDecoded
     }
 }
 
 extension SecurityHubClientTypes {
     /// Additional details about a resource related to a finding. To provide the details, use the object that corresponds to the resource type. For example, if the resource type is AwsEc2Instance, then you use the AwsEc2Instance object to provide the details. If the type-specific object does not contain all of the fields you want to populate, then you use the Other object to populate those additional fields. You also use the Other object to populate the details when the selected type does not have a corresponding object.
     public struct ResourceDetails: Swift.Equatable {
+        /// Provides details about AppSync message broker. A message broker allows software applications and components to communicate using various programming languages, operating systems, and formal messaging protocols.
+        public var awsAmazonMqBroker: SecurityHubClientTypes.AwsAmazonMqBrokerDetails?
         /// Provides information about a REST API in version 1 of Amazon API Gateway.
         public var awsApiGatewayRestApi: SecurityHubClientTypes.AwsApiGatewayRestApiDetails?
         /// Provides information about a version 1 Amazon API Gateway stage.
@@ -49894,6 +51915,8 @@ extension SecurityHubClientTypes {
         public var awsApiGatewayV2Api: SecurityHubClientTypes.AwsApiGatewayV2ApiDetails?
         /// Provides information about a version 2 stage for Amazon API Gateway.
         public var awsApiGatewayV2Stage: SecurityHubClientTypes.AwsApiGatewayV2StageDetails?
+        /// Provides details about an AppSync Graph QL API, which lets you query multiple databases, microservices, and APIs from a single GraphQL endpoint.
+        public var awsAppSyncGraphQlApi: SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails?
         /// Details for an autoscaling group.
         public var awsAutoScalingAutoScalingGroup: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupDetails?
         /// Provides details about a launch configuration.
@@ -49972,6 +51995,10 @@ extension SecurityHubClientTypes {
         public var awsElbLoadBalancer: SecurityHubClientTypes.AwsElbLoadBalancerDetails?
         /// Details about a load balancer.
         public var awsElbv2LoadBalancer: SecurityHubClientTypes.AwsElbv2LoadBalancerDetails?
+        /// A schema defines the structure of events that are sent to Amazon EventBridge. Schema registries are containers for schemas. They collect and organize schemas so that your schemas are in logical groups.
+        public var awsEventSchemasRegistry: SecurityHubClientTypes.AwsEventSchemasRegistryDetails?
+        /// Provides details about an Amazon GuardDuty detector. A detector is an object that represents the GuardDuty service. A detector is required for GuardDuty to become operational.
+        public var awsGuardDutyDetector: SecurityHubClientTypes.AwsGuardDutyDetectorDetails?
         /// Details about an IAM access key related to a finding.
         public var awsIamAccessKey: SecurityHubClientTypes.AwsIamAccessKeyDetails?
         /// Contains details about an IAM group.
@@ -50028,6 +52055,8 @@ extension SecurityHubClientTypes {
         public var awsSqsQueue: SecurityHubClientTypes.AwsSqsQueueDetails?
         /// Provides information about the state of a patch on an instance based on the patch baseline that was used to patch the instance.
         public var awsSsmPatchCompliance: SecurityHubClientTypes.AwsSsmPatchComplianceDetails?
+        /// Provides details about an Step Functions state machine, which is a workflow consisting of a series of event-driven steps.
+        public var awsStepFunctionStateMachine: SecurityHubClientTypes.AwsStepFunctionStateMachineDetails?
         /// Details about a rate-based rule for global resources.
         public var awsWafRateBasedRule: SecurityHubClientTypes.AwsWafRateBasedRuleDetails?
         /// Details about a rate-based rule for Regional resources.
@@ -50060,10 +52089,12 @@ extension SecurityHubClientTypes {
         public var other: [Swift.String:Swift.String]?
 
         public init(
+            awsAmazonMqBroker: SecurityHubClientTypes.AwsAmazonMqBrokerDetails? = nil,
             awsApiGatewayRestApi: SecurityHubClientTypes.AwsApiGatewayRestApiDetails? = nil,
             awsApiGatewayStage: SecurityHubClientTypes.AwsApiGatewayStageDetails? = nil,
             awsApiGatewayV2Api: SecurityHubClientTypes.AwsApiGatewayV2ApiDetails? = nil,
             awsApiGatewayV2Stage: SecurityHubClientTypes.AwsApiGatewayV2StageDetails? = nil,
+            awsAppSyncGraphQlApi: SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails? = nil,
             awsAutoScalingAutoScalingGroup: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupDetails? = nil,
             awsAutoScalingLaunchConfiguration: SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationDetails? = nil,
             awsBackupBackupPlan: SecurityHubClientTypes.AwsBackupBackupPlanDetails? = nil,
@@ -50103,6 +52134,8 @@ extension SecurityHubClientTypes {
             awsElasticsearchDomain: SecurityHubClientTypes.AwsElasticsearchDomainDetails? = nil,
             awsElbLoadBalancer: SecurityHubClientTypes.AwsElbLoadBalancerDetails? = nil,
             awsElbv2LoadBalancer: SecurityHubClientTypes.AwsElbv2LoadBalancerDetails? = nil,
+            awsEventSchemasRegistry: SecurityHubClientTypes.AwsEventSchemasRegistryDetails? = nil,
+            awsGuardDutyDetector: SecurityHubClientTypes.AwsGuardDutyDetectorDetails? = nil,
             awsIamAccessKey: SecurityHubClientTypes.AwsIamAccessKeyDetails? = nil,
             awsIamGroup: SecurityHubClientTypes.AwsIamGroupDetails? = nil,
             awsIamPolicy: SecurityHubClientTypes.AwsIamPolicyDetails? = nil,
@@ -50131,6 +52164,7 @@ extension SecurityHubClientTypes {
             awsSnsTopic: SecurityHubClientTypes.AwsSnsTopicDetails? = nil,
             awsSqsQueue: SecurityHubClientTypes.AwsSqsQueueDetails? = nil,
             awsSsmPatchCompliance: SecurityHubClientTypes.AwsSsmPatchComplianceDetails? = nil,
+            awsStepFunctionStateMachine: SecurityHubClientTypes.AwsStepFunctionStateMachineDetails? = nil,
             awsWafRateBasedRule: SecurityHubClientTypes.AwsWafRateBasedRuleDetails? = nil,
             awsWafRegionalRateBasedRule: SecurityHubClientTypes.AwsWafRegionalRateBasedRuleDetails? = nil,
             awsWafRegionalRule: SecurityHubClientTypes.AwsWafRegionalRuleDetails? = nil,
@@ -50146,10 +52180,12 @@ extension SecurityHubClientTypes {
             other: [Swift.String:Swift.String]? = nil
         )
         {
+            self.awsAmazonMqBroker = awsAmazonMqBroker
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
             self.awsApiGatewayV2Stage = awsApiGatewayV2Stage
+            self.awsAppSyncGraphQlApi = awsAppSyncGraphQlApi
             self.awsAutoScalingAutoScalingGroup = awsAutoScalingAutoScalingGroup
             self.awsAutoScalingLaunchConfiguration = awsAutoScalingLaunchConfiguration
             self.awsBackupBackupPlan = awsBackupBackupPlan
@@ -50189,6 +52225,8 @@ extension SecurityHubClientTypes {
             self.awsElasticsearchDomain = awsElasticsearchDomain
             self.awsElbLoadBalancer = awsElbLoadBalancer
             self.awsElbv2LoadBalancer = awsElbv2LoadBalancer
+            self.awsEventSchemasRegistry = awsEventSchemasRegistry
+            self.awsGuardDutyDetector = awsGuardDutyDetector
             self.awsIamAccessKey = awsIamAccessKey
             self.awsIamGroup = awsIamGroup
             self.awsIamPolicy = awsIamPolicy
@@ -50217,6 +52255,7 @@ extension SecurityHubClientTypes {
             self.awsSnsTopic = awsSnsTopic
             self.awsSqsQueue = awsSqsQueue
             self.awsSsmPatchCompliance = awsSsmPatchCompliance
+            self.awsStepFunctionStateMachine = awsStepFunctionStateMachine
             self.awsWafRateBasedRule = awsWafRateBasedRule
             self.awsWafRegionalRateBasedRule = awsWafRegionalRateBasedRule
             self.awsWafRegionalRule = awsWafRegionalRule

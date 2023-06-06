@@ -463,6 +463,7 @@ extension IvsClientTypes.Channel: Swift.Codable {
         case latencyMode
         case name
         case playbackUrl
+        case preset
         case recordingConfigurationArn
         case tags
         case type
@@ -490,6 +491,9 @@ extension IvsClientTypes.Channel: Swift.Codable {
         }
         if let playbackUrl = self.playbackUrl {
             try encodeContainer.encode(playbackUrl, forKey: .playbackUrl)
+        }
+        if let preset = self.preset {
+            try encodeContainer.encode(preset.rawValue, forKey: .preset)
         }
         if let recordingConfigurationArn = self.recordingConfigurationArn {
             try encodeContainer.encode(recordingConfigurationArn, forKey: .recordingConfigurationArn)
@@ -536,6 +540,8 @@ extension IvsClientTypes.Channel: Swift.Codable {
         tags = tagsDecoded0
         let insecureIngestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureIngest) ?? false
         insecureIngest = insecureIngestDecoded
+        let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
+        preset = presetDecoded
     }
 }
 
@@ -556,15 +562,28 @@ extension IvsClientTypes {
         public var name: Swift.String?
         /// Channel playback URL.
         public var playbackUrl: Swift.String?
+        /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
+        public var preset: IvsClientTypes.TranscodePreset?
         /// Recording-configuration ARN. A value other than an empty string indicates that recording is enabled. Default: "" (empty string, recording is disabled).
         public var recordingConfigurationArn: Swift.String?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Some types generate multiple qualities (renditions) from the original input; this automatically gives viewers the best experience for their devices and network conditions. Some types provide transcoded video; transcoding allows higher playback quality across a range of download speeds. Default: STANDARD. Valid values:
         ///
-        /// * STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default.
+        /// * BASIC: Video is transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s video-quality choice is limited to the original input. Input resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p. Original audio is passed through.
         ///
-        /// * BASIC: Video is transmuxed: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p.
+        /// * STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default when you create a channel.
+        ///
+        /// * ADVANCED_SD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.
+        ///
+        /// * ADVANCED_HD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.
+        ///
+        ///
+        /// Optional transcode presets (available for the ADVANCED types) allow you to trade off available download bandwidth and video quality, to optimize the viewing experience. There are two presets:
+        ///
+        /// * Constrained bandwidth delivery uses a lower bitrate for each quality level. Use it if you have low download bandwidth and/or simple video content (e.g., talking heads)
+        ///
+        /// * Higher bandwidth delivery uses a higher bitrate for each quality level. Use it if you have high download bandwidth and/or complex video content (e.g., flashes and quick scene changes).
         public var type: IvsClientTypes.ChannelType?
 
         public init(
@@ -575,6 +594,7 @@ extension IvsClientTypes {
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
             name: Swift.String? = nil,
             playbackUrl: Swift.String? = nil,
+            preset: IvsClientTypes.TranscodePreset? = nil,
             recordingConfigurationArn: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             type: IvsClientTypes.ChannelType? = nil
@@ -587,6 +607,7 @@ extension IvsClientTypes {
             self.latencyMode = latencyMode
             self.name = name
             self.playbackUrl = playbackUrl
+            self.preset = preset
             self.recordingConfigurationArn = recordingConfigurationArn
             self.tags = tags
             self.type = type
@@ -690,8 +711,10 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
         case insecureIngest
         case latencyMode
         case name
+        case preset
         case recordingConfigurationArn
         case tags
+        case type
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -711,6 +734,9 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let preset = self.preset {
+            try encodeContainer.encode(preset.rawValue, forKey: .preset)
+        }
         if let recordingConfigurationArn = self.recordingConfigurationArn {
             try encodeContainer.encode(recordingConfigurationArn, forKey: .recordingConfigurationArn)
         }
@@ -719,6 +745,9 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
             for (dictKey0, tags0) in tags {
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
         }
     }
 
@@ -747,6 +776,10 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
         tags = tagsDecoded0
         let insecureIngestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureIngest) ?? false
         insecureIngest = insecureIngestDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(IvsClientTypes.ChannelType.self, forKey: .type)
+        type = typeDecoded
+        let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
+        preset = presetDecoded
     }
 }
 
@@ -763,10 +796,29 @@ extension IvsClientTypes {
         public var latencyMode: IvsClientTypes.ChannelLatencyMode?
         /// Channel name.
         public var name: Swift.String?
+        /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
+        public var preset: IvsClientTypes.TranscodePreset?
         /// Recording-configuration ARN. A value other than an empty string indicates that recording is enabled. Default: "" (empty string, recording is disabled).
         public var recordingConfigurationArn: Swift.String?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Some types generate multiple qualities (renditions) from the original input; this automatically gives viewers the best experience for their devices and network conditions. Some types provide transcoded video; transcoding allows higher playback quality across a range of download speeds. Default: STANDARD. Valid values:
+        ///
+        /// * BASIC: Video is transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s video-quality choice is limited to the original input. Input resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p. Original audio is passed through.
+        ///
+        /// * STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default when you create a channel.
+        ///
+        /// * ADVANCED_SD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.
+        ///
+        /// * ADVANCED_HD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.
+        ///
+        ///
+        /// Optional transcode presets (available for the ADVANCED types) allow you to trade off available download bandwidth and video quality, to optimize the viewing experience. There are two presets:
+        ///
+        /// * Constrained bandwidth delivery uses a lower bitrate for each quality level. Use it if you have low download bandwidth and/or simple video content (e.g., talking heads)
+        ///
+        /// * Higher bandwidth delivery uses a higher bitrate for each quality level. Use it if you have high download bandwidth and/or complex video content (e.g., flashes and quick scene changes).
+        public var type: IvsClientTypes.ChannelType?
 
         public init(
             arn: Swift.String? = nil,
@@ -774,8 +826,10 @@ extension IvsClientTypes {
             insecureIngest: Swift.Bool = false,
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
             name: Swift.String? = nil,
+            preset: IvsClientTypes.TranscodePreset? = nil,
             recordingConfigurationArn: Swift.String? = nil,
-            tags: [Swift.String:Swift.String]? = nil
+            tags: [Swift.String:Swift.String]? = nil,
+            type: IvsClientTypes.ChannelType? = nil
         )
         {
             self.arn = arn
@@ -783,8 +837,10 @@ extension IvsClientTypes {
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.name = name
+            self.preset = preset
             self.recordingConfigurationArn = recordingConfigurationArn
             self.tags = tags
+            self.type = type
         }
     }
 
@@ -792,12 +848,16 @@ extension IvsClientTypes {
 
 extension IvsClientTypes {
     public enum ChannelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case advancedhdchanneltype
+        case advancedsdchanneltype
         case basicchanneltype
         case standardchanneltype
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChannelType] {
             return [
+                .advancedhdchanneltype,
+                .advancedsdchanneltype,
                 .basicchanneltype,
                 .standardchanneltype,
                 .sdkUnknown("")
@@ -809,6 +869,8 @@ extension IvsClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .advancedhdchanneltype: return "ADVANCED_HD"
+            case .advancedsdchanneltype: return "ADVANCED_SD"
             case .basicchanneltype: return "BASIC"
             case .standardchanneltype: return "STANDARD"
             case let .sdkUnknown(s): return s
@@ -884,6 +946,7 @@ extension CreateChannelInput: Swift.Encodable {
         case insecureIngest
         case latencyMode
         case name
+        case preset
         case recordingConfigurationArn
         case tags
         case type
@@ -902,6 +965,9 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let preset = self.preset {
+            try encodeContainer.encode(preset.rawValue, forKey: .preset)
         }
         if let recordingConfigurationArn = self.recordingConfigurationArn {
             try encodeContainer.encode(recordingConfigurationArn, forKey: .recordingConfigurationArn)
@@ -933,15 +999,28 @@ public struct CreateChannelInput: Swift.Equatable {
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
     /// Channel name.
     public var name: Swift.String?
+    /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
+    public var preset: IvsClientTypes.TranscodePreset?
     /// Recording-configuration ARN. Default: "" (empty string, recording is disabled).
     public var recordingConfigurationArn: Swift.String?
     /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
     public var tags: [Swift.String:Swift.String]?
-    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:
+    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Some types generate multiple qualities (renditions) from the original input; this automatically gives viewers the best experience for their devices and network conditions. Some types provide transcoded video; transcoding allows higher playback quality across a range of download speeds. Default: STANDARD. Valid values:
     ///
-    /// * STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default.
+    /// * BASIC: Video is transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s video-quality choice is limited to the original input. Input resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p. Original audio is passed through.
     ///
-    /// * BASIC: Video is transmuxed: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p.
+    /// * STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default when you create a channel.
+    ///
+    /// * ADVANCED_SD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.
+    ///
+    /// * ADVANCED_HD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.
+    ///
+    ///
+    /// Optional transcode presets (available for the ADVANCED types) allow you to trade off available download bandwidth and video quality, to optimize the viewing experience. There are two presets:
+    ///
+    /// * Constrained bandwidth delivery uses a lower bitrate for each quality level. Use it if you have low download bandwidth and/or simple video content (e.g., talking heads)
+    ///
+    /// * Higher bandwidth delivery uses a higher bitrate for each quality level. Use it if you have high download bandwidth and/or complex video content (e.g., flashes and quick scene changes).
     public var type: IvsClientTypes.ChannelType?
 
     public init(
@@ -949,6 +1028,7 @@ public struct CreateChannelInput: Swift.Equatable {
         insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
         name: Swift.String? = nil,
+        preset: IvsClientTypes.TranscodePreset? = nil,
         recordingConfigurationArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         type: IvsClientTypes.ChannelType? = nil
@@ -958,6 +1038,7 @@ public struct CreateChannelInput: Swift.Equatable {
         self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
         self.name = name
+        self.preset = preset
         self.recordingConfigurationArn = recordingConfigurationArn
         self.tags = tags
         self.type = type
@@ -972,6 +1053,7 @@ struct CreateChannelInputBody: Swift.Equatable {
     let recordingConfigurationArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let insecureIngest: Swift.Bool
+    let preset: IvsClientTypes.TranscodePreset?
 }
 
 extension CreateChannelInputBody: Swift.Decodable {
@@ -980,6 +1062,7 @@ extension CreateChannelInputBody: Swift.Decodable {
         case insecureIngest
         case latencyMode
         case name
+        case preset
         case recordingConfigurationArn
         case tags
         case type
@@ -1010,6 +1093,8 @@ extension CreateChannelInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let insecureIngestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureIngest) ?? false
         insecureIngest = insecureIngestDecoded
+        let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
+        preset = presetDecoded
     }
 }
 
@@ -5185,6 +5270,38 @@ extension IvsClientTypes {
 
 }
 
+extension IvsClientTypes {
+    public enum TranscodePreset: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case constrainedbandwidthtranscodepreset
+        case higherbandwidthtranscodepreset
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TranscodePreset] {
+            return [
+                .constrainedbandwidthtranscodepreset,
+                .higherbandwidthtranscodepreset,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .constrainedbandwidthtranscodepreset: return "CONSTRAINED_BANDWIDTH_DELIVERY"
+            case .higherbandwidthtranscodepreset: return "HIGHER_BANDWIDTH_DELIVERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TranscodePreset(rawValue: rawValue) ?? TranscodePreset.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5268,6 +5385,7 @@ extension UpdateChannelInput: Swift.Encodable {
         case insecureIngest
         case latencyMode
         case name
+        case preset
         case recordingConfigurationArn
         case type
     }
@@ -5288,6 +5406,9 @@ extension UpdateChannelInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let preset = self.preset {
+            try encodeContainer.encode(preset.rawValue, forKey: .preset)
         }
         if let recordingConfigurationArn = self.recordingConfigurationArn {
             try encodeContainer.encode(recordingConfigurationArn, forKey: .recordingConfigurationArn)
@@ -5316,13 +5437,26 @@ public struct UpdateChannelInput: Swift.Equatable {
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
     /// Channel name.
     public var name: Swift.String?
+    /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
+    public var preset: IvsClientTypes.TranscodePreset?
     /// Recording-configuration ARN. If this is set to an empty string, recording is disabled. A value other than an empty string indicates that recording is enabled
     public var recordingConfigurationArn: Swift.String?
-    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:
+    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Some types generate multiple qualities (renditions) from the original input; this automatically gives viewers the best experience for their devices and network conditions. Some types provide transcoded video; transcoding allows higher playback quality across a range of download speeds. Default: STANDARD. Valid values:
     ///
-    /// * STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default.
+    /// * BASIC: Video is transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s video-quality choice is limited to the original input. Input resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p. Original audio is passed through.
     ///
-    /// * BASIC: Video is transmuxed: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p.
+    /// * STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default when you create a channel.
+    ///
+    /// * ADVANCED_SD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.
+    ///
+    /// * ADVANCED_HD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.
+    ///
+    ///
+    /// Optional transcode presets (available for the ADVANCED types) allow you to trade off available download bandwidth and video quality, to optimize the viewing experience. There are two presets:
+    ///
+    /// * Constrained bandwidth delivery uses a lower bitrate for each quality level. Use it if you have low download bandwidth and/or simple video content (e.g., talking heads)
+    ///
+    /// * Higher bandwidth delivery uses a higher bitrate for each quality level. Use it if you have high download bandwidth and/or complex video content (e.g., flashes and quick scene changes).
     public var type: IvsClientTypes.ChannelType?
 
     public init(
@@ -5331,6 +5465,7 @@ public struct UpdateChannelInput: Swift.Equatable {
         insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
         name: Swift.String? = nil,
+        preset: IvsClientTypes.TranscodePreset? = nil,
         recordingConfigurationArn: Swift.String? = nil,
         type: IvsClientTypes.ChannelType? = nil
     )
@@ -5340,6 +5475,7 @@ public struct UpdateChannelInput: Swift.Equatable {
         self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
         self.name = name
+        self.preset = preset
         self.recordingConfigurationArn = recordingConfigurationArn
         self.type = type
     }
@@ -5353,6 +5489,7 @@ struct UpdateChannelInputBody: Swift.Equatable {
     let authorized: Swift.Bool
     let recordingConfigurationArn: Swift.String?
     let insecureIngest: Swift.Bool
+    let preset: IvsClientTypes.TranscodePreset?
 }
 
 extension UpdateChannelInputBody: Swift.Decodable {
@@ -5362,6 +5499,7 @@ extension UpdateChannelInputBody: Swift.Decodable {
         case insecureIngest
         case latencyMode
         case name
+        case preset
         case recordingConfigurationArn
         case type
     }
@@ -5382,6 +5520,8 @@ extension UpdateChannelInputBody: Swift.Decodable {
         recordingConfigurationArn = recordingConfigurationArnDecoded
         let insecureIngestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureIngest) ?? false
         insecureIngest = insecureIngestDecoded
+        let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
+        preset = presetDecoded
     }
 }
 

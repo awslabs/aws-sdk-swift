@@ -940,6 +940,7 @@ extension PollyClientTypes {
         case enAu
         case enGb
         case enGbWls
+        case enIe
         case enIn
         case enNz
         case enUs
@@ -980,6 +981,7 @@ extension PollyClientTypes {
                 .enAu,
                 .enGb,
                 .enGbWls,
+                .enIe,
                 .enIn,
                 .enNz,
                 .enUs,
@@ -1025,6 +1027,7 @@ extension PollyClientTypes {
             case .enAu: return "en-AU"
             case .enGb: return "en-GB"
             case .enGbWls: return "en-GB-WLS"
+            case .enIe: return "en-IE"
             case .enIn: return "en-IN"
             case .enNz: return "en-NZ"
             case .enUs: return "en-US"
@@ -3433,6 +3436,7 @@ extension PollyClientTypes {
         case miguel
         case mizuki
         case naja
+        case niamh
         case nicole
         case ola
         case olivia
@@ -3447,6 +3451,7 @@ extension PollyClientTypes {
         case salli
         case seoyeon
         case sergio
+        case sofie
         case stephen
         case suvi
         case takumi
@@ -3525,6 +3530,7 @@ extension PollyClientTypes {
                 .miguel,
                 .mizuki,
                 .naja,
+                .niamh,
                 .nicole,
                 .ola,
                 .olivia,
@@ -3539,6 +3545,7 @@ extension PollyClientTypes {
                 .salli,
                 .seoyeon,
                 .sergio,
+                .sofie,
                 .stephen,
                 .suvi,
                 .takumi,
@@ -3622,6 +3629,7 @@ extension PollyClientTypes {
             case .miguel: return "Miguel"
             case .mizuki: return "Mizuki"
             case .naja: return "Naja"
+            case .niamh: return "Niamh"
             case .nicole: return "Nicole"
             case .ola: return "Ola"
             case .olivia: return "Olivia"
@@ -3636,6 +3644,7 @@ extension PollyClientTypes {
             case .salli: return "Salli"
             case .seoyeon: return "Seoyeon"
             case .sergio: return "Sergio"
+            case .sofie: return "Sofie"
             case .stephen: return "Stephen"
             case .suvi: return "Suvi"
             case .takumi: return "Takumi"

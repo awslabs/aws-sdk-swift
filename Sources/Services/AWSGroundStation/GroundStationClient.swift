@@ -666,7 +666,7 @@ extension GroundStationClient: GroundStationClientProtocol {
         return result
     }
 
-    /// Returns the number of minutes used by account.
+    /// Returns the number of reserved minutes used by account.
     public func getMinuteUsage(input: GetMinuteUsageInput) async throws -> GetMinuteUsageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

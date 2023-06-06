@@ -25,7 +25,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public struct Properties {
         /// A coded string to provide more information about the access denied exception. You can use the error code to check the exception type.
         public internal(set) var errorCode: Swift.String? = nil
-        /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -100,212 +99,160 @@ extension SecurityLakeClientTypes {
     }
 }
 
-extension AccountNotFoundException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: AccountNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// Amazon Security Lake cannot find an Amazon Web Services account with the accountID that you specified, or the account whose credentials you used to make this request isn't a member of an organization.
-public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "AccountNotFoundException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-struct AccountNotFoundExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension AccountNotFoundExceptionBody: Swift.Decodable {
+extension SecurityLakeClientTypes.AwsIdentity: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension SecurityLakeClientTypes.AccountSources: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case account
-        case eventClass
-        case logsStatus
-        case sourceType
+        case externalId
+        case principal
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let account = self.account {
-            try encodeContainer.encode(account, forKey: .account)
+        if let externalId = self.externalId {
+            try encodeContainer.encode(externalId, forKey: .externalId)
         }
-        if let eventClass = self.eventClass {
-            try encodeContainer.encode(eventClass.rawValue, forKey: .eventClass)
-        }
-        if let logsStatus = logsStatus {
-            var logsStatusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logsStatus)
-            for logsstatus0 in logsStatus {
-                try logsStatusContainer.encode(logsstatus0)
-            }
-        }
-        if let sourceType = self.sourceType {
-            try encodeContainer.encode(sourceType, forKey: .sourceType)
+        if let principal = self.principal {
+            try encodeContainer.encode(principal, forKey: .principal)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
-        account = accountDecoded
-        let sourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceType)
-        sourceType = sourceTypeDecoded
-        let logsStatusContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.LogsStatus?].self, forKey: .logsStatus)
-        var logsStatusDecoded0:[SecurityLakeClientTypes.LogsStatus]? = nil
-        if let logsStatusContainer = logsStatusContainer {
-            logsStatusDecoded0 = [SecurityLakeClientTypes.LogsStatus]()
-            for structure0 in logsStatusContainer {
-                if let structure0 = structure0 {
-                    logsStatusDecoded0?.append(structure0)
-                }
-            }
-        }
-        logsStatus = logsStatusDecoded0
-        let eventClassDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.OcsfEventClass.self, forKey: .eventClass)
-        eventClass = eventClassDecoded
+        let principalDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principal)
+        principal = principalDecoded
+        let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
+        externalId = externalIdDecoded
     }
 }
 
 extension SecurityLakeClientTypes {
-    /// Amazon Security Lake collects logs and events from supported Amazon Web Services and custom sources. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
-    public struct AccountSources: Swift.Equatable {
-        /// The ID of the Security Lake account for which logs are collected.
+    /// The AWS identity.
+    public struct AwsIdentity: Swift.Equatable {
+        /// The external ID used to estalish trust relationship with the AWS identity.
         /// This member is required.
-        public var account: Swift.String?
-        /// Initializes a new instance of the Event class.
-        public var eventClass: SecurityLakeClientTypes.OcsfEventClass?
-        /// The log status for the Security Lake account.
-        public var logsStatus: [SecurityLakeClientTypes.LogsStatus]?
-        /// The supported Amazon Web Services from which logs and events are collected. Amazon Security Lake supports log and event collection for natively supported Amazon Web Services.
+        public var externalId: Swift.String?
+        /// The AWS identity principal.
         /// This member is required.
-        public var sourceType: Swift.String?
+        public var principal: Swift.String?
 
         public init(
-            account: Swift.String? = nil,
-            eventClass: SecurityLakeClientTypes.OcsfEventClass? = nil,
-            logsStatus: [SecurityLakeClientTypes.LogsStatus]? = nil,
-            sourceType: Swift.String? = nil
+            externalId: Swift.String? = nil,
+            principal: Swift.String? = nil
         )
         {
-            self.account = account
-            self.eventClass = eventClass
-            self.logsStatus = logsStatus
-            self.sourceType = sourceType
+            self.externalId = externalId
+            self.principal = principal
         }
     }
 
 }
 
-extension SecurityLakeClientTypes.AutoEnableNewRegionConfiguration: Swift.Codable {
+extension SecurityLakeClientTypes.AwsLogSourceConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case region
-        case sources
+        case accounts
+        case regions
+        case sourceName
+        case sourceVersion
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let region = self.region {
-            try encodeContainer.encode(region.rawValue, forKey: .region)
-        }
-        if let sources = sources {
-            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for awslogsourcetype0 in sources {
-                try sourcesContainer.encode(awslogsourcetype0.rawValue)
+        if let accounts = accounts {
+            var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
+            for awsaccountid0 in accounts {
+                try accountsContainer.encode(awsaccountid0)
             }
+        }
+        if let regions = regions {
+            var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
+            for region0 in regions {
+                try regionsContainer.encode(region0)
+            }
+        }
+        if let sourceName = self.sourceName {
+            try encodeContainer.encode(sourceName.rawValue, forKey: .sourceName)
+        }
+        if let sourceVersion = self.sourceVersion {
+            try encodeContainer.encode(sourceVersion, forKey: .sourceVersion)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let regionDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.Region.self, forKey: .region)
-        region = regionDecoded
-        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AwsLogSourceType?].self, forKey: .sources)
-        var sourcesDecoded0:[SecurityLakeClientTypes.AwsLogSourceType]? = nil
-        if let sourcesContainer = sourcesContainer {
-            sourcesDecoded0 = [SecurityLakeClientTypes.AwsLogSourceType]()
-            for string0 in sourcesContainer {
+        let accountsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accounts)
+        var accountsDecoded0:[Swift.String]? = nil
+        if let accountsContainer = accountsContainer {
+            accountsDecoded0 = [Swift.String]()
+            for string0 in accountsContainer {
                 if let string0 = string0 {
-                    sourcesDecoded0?.append(string0)
+                    accountsDecoded0?.append(string0)
                 }
             }
         }
-        sources = sourcesDecoded0
+        accounts = accountsDecoded0
+        let regionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .regions)
+        var regionsDecoded0:[Swift.String]? = nil
+        if let regionsContainer = regionsContainer {
+            regionsDecoded0 = [Swift.String]()
+            for string0 in regionsContainer {
+                if let string0 = string0 {
+                    regionsDecoded0?.append(string0)
+                }
+            }
+        }
+        regions = regionsDecoded0
+        let sourceNameDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.AwsLogSourceName.self, forKey: .sourceName)
+        sourceName = sourceNameDecoded
+        let sourceVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceVersion)
+        sourceVersion = sourceVersionDecoded
     }
 }
 
 extension SecurityLakeClientTypes {
-    /// Automatically enable new organization accounts as member accounts from an Amazon Security Lake administrator account.
-    public struct AutoEnableNewRegionConfiguration: Swift.Equatable {
-        /// The Amazon Web Services Regions where Security Lake is automatically enabled.
+    /// The Security Lake logs source configuration file describes the information needed to generate Security Lake logs.
+    public struct AwsLogSourceConfiguration: Swift.Equatable {
+        /// Specify the Amazon Web Services account information where you want to enable Security Lake.
+        public var accounts: [Swift.String]?
+        /// Specify the Regions where you want to enable Security Lake.
         /// This member is required.
-        public var region: SecurityLakeClientTypes.Region?
-        /// The Amazon Web Services sources that are automatically enabled in Security Lake.
+        public var regions: [Swift.String]?
+        /// The name for a Amazon Web Services source. This must be a Regionally unique value.
         /// This member is required.
-        public var sources: [SecurityLakeClientTypes.AwsLogSourceType]?
+        public var sourceName: SecurityLakeClientTypes.AwsLogSourceName?
+        /// The version for a Amazon Web Services source. This must be a Regionally unique value.
+        public var sourceVersion: Swift.String?
 
         public init(
-            region: SecurityLakeClientTypes.Region? = nil,
-            sources: [SecurityLakeClientTypes.AwsLogSourceType]? = nil
+            accounts: [Swift.String]? = nil,
+            regions: [Swift.String]? = nil,
+            sourceName: SecurityLakeClientTypes.AwsLogSourceName? = nil,
+            sourceVersion: Swift.String? = nil
         )
         {
-            self.region = region
-            self.sources = sources
+            self.accounts = accounts
+            self.regions = regions
+            self.sourceName = sourceName
+            self.sourceVersion = sourceVersion
         }
     }
 
 }
 
 extension SecurityLakeClientTypes {
-    public enum AwsLogSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case cloudTrail
+    public enum AwsLogSourceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudTrailMgmt
+        case lambdaExecution
         case route53
+        case s3Data
         case shFindings
         case vpcFlow
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [AwsLogSourceType] {
+        public static var allCases: [AwsLogSourceName] {
             return [
-                .cloudTrail,
+                .cloudTrailMgmt,
+                .lambdaExecution,
                 .route53,
+                .s3Data,
                 .shFindings,
                 .vpcFlow,
                 .sdkUnknown("")
@@ -317,8 +264,10 @@ extension SecurityLakeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
-            case .cloudTrail: return "CLOUD_TRAIL"
+            case .cloudTrailMgmt: return "CLOUD_TRAIL_MGMT"
+            case .lambdaExecution: return "LAMBDA_EXECUTION"
             case .route53: return "ROUTE53"
+            case .s3Data: return "S3_DATA"
             case .shFindings: return "SH_FINDINGS"
             case .vpcFlow: return "VPC_FLOW"
             case let .sdkUnknown(s): return s
@@ -327,16 +276,61 @@ extension SecurityLakeClientTypes {
         public init(from decoder: Swift.Decoder) throws {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
-            self = AwsLogSourceType(rawValue: rawValue) ?? AwsLogSourceType.sdkUnknown(rawValue)
+            self = AwsLogSourceName(rawValue: rawValue) ?? AwsLogSourceName.sdkUnknown(rawValue)
         }
     }
 }
 
-extension BucketNotFoundException {
+extension SecurityLakeClientTypes.AwsLogSourceResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceName
+        case sourceVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceName = self.sourceName {
+            try encodeContainer.encode(sourceName.rawValue, forKey: .sourceName)
+        }
+        if let sourceVersion = self.sourceVersion {
+            try encodeContainer.encode(sourceVersion, forKey: .sourceVersion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNameDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.AwsLogSourceName.self, forKey: .sourceName)
+        sourceName = sourceNameDecoded
+        let sourceVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceVersion)
+        sourceVersion = sourceVersionDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Amazon Security Lake can collect logs and events from natively-supported Amazon Web Services services.
+    public struct AwsLogSourceResource: Swift.Equatable {
+        /// The name for a Amazon Web Services source. This must be a Regionally unique value.
+        public var sourceName: SecurityLakeClientTypes.AwsLogSourceName?
+        /// The version for a Amazon Web Services source. This must be a Regionally unique value.
+        public var sourceVersion: Swift.String?
+
+        public init(
+            sourceName: SecurityLakeClientTypes.AwsLogSourceName? = nil,
+            sourceVersion: Swift.String? = nil
+        )
+        {
+            self.sourceName = sourceName
+            self.sourceVersion = sourceVersion
+        }
+    }
+
+}
+
+extension BadRequestException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BucketNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.properties.message = output.message
         } else {
             self.properties.message = nil
@@ -347,16 +341,15 @@ extension BucketNotFoundException {
     }
 }
 
-/// Amazon Security Lake generally returns 404 errors if the requested object is missing from the bucket.
-public struct BucketNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "BucketNotFoundException" }
+    public static var typeName: Swift.String { "BadRequestException" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -372,67 +365,11 @@ public struct BucketNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct BucketNotFoundExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension BucketNotFoundExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension ConcurrentModificationException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// More than one process tried to modify a resource at the same time.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConcurrentModificationException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ConcurrentModificationExceptionBody: Swift.Decodable {
+extension BadRequestExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -450,11 +387,11 @@ extension ConflictException {
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.properties.message = output.message
-            self.properties.resourceId = output.resourceId
+            self.properties.resourceName = output.resourceName
             self.properties.resourceType = output.resourceType
         } else {
             self.properties.message = nil
-            self.properties.resourceId = nil
+            self.properties.resourceName = nil
             self.properties.resourceType = nil
         }
         self.httpResponse = httpResponse
@@ -467,13 +404,10 @@ extension ConflictException {
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// A conflict occurred when prompting for the Resource ID.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
+        /// The resource name.
+        public internal(set) var resourceName: Swift.String? = nil
         /// The resource type.
-        /// This member is required.
         public internal(set) var resourceType: Swift.String? = nil
     }
 
@@ -488,26 +422,26 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
         self.properties.message = message
-        self.properties.resourceId = resourceId
+        self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
     }
 }
 
 struct ConflictExceptionBody: Swift.Equatable {
     let message: Swift.String?
-    let resourceId: Swift.String?
+    let resourceName: Swift.String?
     let resourceType: Swift.String?
 }
 
 extension ConflictExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
-        case resourceId
+        case resourceName
         case resourceType
     }
 
@@ -515,166 +449,24 @@ extension ConflictExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
-        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
-        resourceId = resourceIdDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
     }
 }
 
-extension ConflictSourceNamesException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ConflictSourceNamesExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// There was a conflict when you attempted to modify a Security Lake source name.
-public struct ConflictSourceNamesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictSourceNamesException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-struct ConflictSourceNamesExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ConflictSourceNamesExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension ConflictSubscriptionException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ConflictSubscriptionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// A conflicting subscription exception operation is in progress.
-public struct ConflictSubscriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictSubscriptionException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-struct ConflictSubscriptionExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ConflictSubscriptionExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension CreateAwsLogSourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case enableAllDimensions
-        case enableSingleDimension
-        case enableTwoDimensions
-        case inputOrder
+        case sources
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let enableAllDimensions = enableAllDimensions {
-            var enableAllDimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .enableAllDimensions)
-            for (dictKey0, allDimensionsMap0) in enableAllDimensions {
-                var allDimensionsMap0Container = enableAllDimensionsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
-                for (dictKey1, twoDimensionsMap1) in allDimensionsMap0 {
-                    var twoDimensionsMap1Container = allDimensionsMap0Container.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey1))
-                    for string2 in twoDimensionsMap1 {
-                        try twoDimensionsMap1Container.encode(string2)
-                    }
-                }
-            }
-        }
-        if let enableSingleDimension = enableSingleDimension {
-            var enableSingleDimensionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enableSingleDimension)
-            for safestring0 in enableSingleDimension {
-                try enableSingleDimensionContainer.encode(safestring0)
-            }
-        }
-        if let enableTwoDimensions = enableTwoDimensions {
-            var enableTwoDimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .enableTwoDimensions)
-            for (dictKey0, twoDimensionsMap0) in enableTwoDimensions {
-                var twoDimensionsMap0Container = enableTwoDimensionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
-                for string1 in twoDimensionsMap0 {
-                    try twoDimensionsMap0Container.encode(string1)
-                }
-            }
-        }
-        if let inputOrder = inputOrder {
-            var inputOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputOrder)
-            for dimension0 in inputOrder {
-                try inputOrderContainer.encode(dimension0.rawValue)
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for awslogsourceconfiguration0 in sources {
+                try sourcesContainer.encode(awslogsourceconfiguration0)
             }
         }
     }
@@ -682,117 +474,45 @@ extension CreateAwsLogSourceInput: Swift.Encodable {
 
 extension CreateAwsLogSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        return "/v1/logsources/aws"
+        return "/v1/datalake/logsources/aws"
     }
 }
 
 public struct CreateAwsLogSourceInput: Swift.Equatable {
-    /// Enables data collection from specific Amazon Web Services sources in all specific accounts and specific Regions.
-    public var enableAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]?
-    /// Enables data collection from all Amazon Web Services sources in specific accounts or Regions.
-    public var enableSingleDimension: [Swift.String]?
-    /// Enables data collection from specific Amazon Web Services sources in specific accounts or Regions.
-    public var enableTwoDimensions: [Swift.String:[Swift.String]]?
-    /// Specifies the input order to enable dimensions in Security Lake, namely Region, source type, and member account.
+    /// Specify the natively-supported Amazon Web Services service to add as a source in Security Lake.
     /// This member is required.
-    public var inputOrder: [SecurityLakeClientTypes.Dimension]?
+    public var sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]?
 
     public init(
-        enableAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]? = nil,
-        enableSingleDimension: [Swift.String]? = nil,
-        enableTwoDimensions: [Swift.String:[Swift.String]]? = nil,
-        inputOrder: [SecurityLakeClientTypes.Dimension]? = nil
+        sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]? = nil
     )
     {
-        self.enableAllDimensions = enableAllDimensions
-        self.enableSingleDimension = enableSingleDimension
-        self.enableTwoDimensions = enableTwoDimensions
-        self.inputOrder = inputOrder
+        self.sources = sources
     }
 }
 
 struct CreateAwsLogSourceInputBody: Swift.Equatable {
-    let inputOrder: [SecurityLakeClientTypes.Dimension]?
-    let enableAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]?
-    let enableTwoDimensions: [Swift.String:[Swift.String]]?
-    let enableSingleDimension: [Swift.String]?
+    let sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]?
 }
 
 extension CreateAwsLogSourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case enableAllDimensions
-        case enableSingleDimension
-        case enableTwoDimensions
-        case inputOrder
+        case sources
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let inputOrderContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.Dimension?].self, forKey: .inputOrder)
-        var inputOrderDecoded0:[SecurityLakeClientTypes.Dimension]? = nil
-        if let inputOrderContainer = inputOrderContainer {
-            inputOrderDecoded0 = [SecurityLakeClientTypes.Dimension]()
-            for string0 in inputOrderContainer {
-                if let string0 = string0 {
-                    inputOrderDecoded0?.append(string0)
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AwsLogSourceConfiguration?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.AwsLogSourceConfiguration]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.AwsLogSourceConfiguration]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
                 }
             }
         }
-        inputOrder = inputOrderDecoded0
-        let enableAllDimensionsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [Swift.String?]?]?].self, forKey: .enableAllDimensions)
-        var enableAllDimensionsDecoded0: [Swift.String:[Swift.String:[Swift.String]]]? = nil
-        if let enableAllDimensionsContainer = enableAllDimensionsContainer {
-            enableAllDimensionsDecoded0 = [Swift.String:[Swift.String:[Swift.String]]]()
-            for (key0, twodimensionsmap0) in enableAllDimensionsContainer {
-                var twodimensionsmap0Decoded0: [Swift.String: [Swift.String]]? = nil
-                if let twodimensionsmap0 = twodimensionsmap0 {
-                    twodimensionsmap0Decoded0 = [Swift.String: [Swift.String]]()
-                    for (key1, valueset1) in twodimensionsmap0 {
-                        var valueset1Decoded1: [Swift.String]? = nil
-                        if let valueset1 = valueset1 {
-                            valueset1Decoded1 = [Swift.String]()
-                            for string2 in valueset1 {
-                                if let string2 = string2 {
-                                    valueset1Decoded1?.append(string2)
-                                }
-                            }
-                        }
-                        twodimensionsmap0Decoded0?[key1] = valueset1Decoded1
-                    }
-                }
-                enableAllDimensionsDecoded0?[key0] = twodimensionsmap0Decoded0
-            }
-        }
-        enableAllDimensions = enableAllDimensionsDecoded0
-        let enableTwoDimensionsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .enableTwoDimensions)
-        var enableTwoDimensionsDecoded0: [Swift.String:[Swift.String]]? = nil
-        if let enableTwoDimensionsContainer = enableTwoDimensionsContainer {
-            enableTwoDimensionsDecoded0 = [Swift.String:[Swift.String]]()
-            for (key0, valueset0) in enableTwoDimensionsContainer {
-                var valueset0Decoded0: [Swift.String]? = nil
-                if let valueset0 = valueset0 {
-                    valueset0Decoded0 = [Swift.String]()
-                    for string1 in valueset0 {
-                        if let string1 = string1 {
-                            valueset0Decoded0?.append(string1)
-                        }
-                    }
-                }
-                enableTwoDimensionsDecoded0?[key0] = valueset0Decoded0
-            }
-        }
-        enableTwoDimensions = enableTwoDimensionsDecoded0
-        let enableSingleDimensionContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .enableSingleDimension)
-        var enableSingleDimensionDecoded0:[Swift.String]? = nil
-        if let enableSingleDimensionContainer = enableSingleDimensionContainer {
-            enableSingleDimensionDecoded0 = [Swift.String]()
-            for string0 in enableSingleDimensionContainer {
-                if let string0 = string0 {
-                    enableSingleDimensionDecoded0?.append(string0)
-                }
-            }
-        }
-        enableSingleDimension = enableSingleDimensionDecoded0
+        sources = sourcesDecoded0
     }
 }
 
@@ -802,11 +522,11 @@ public enum CreateAwsLogSourceOutputError: ClientRuntime.HttpResponseErrorBindin
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "S3Exception": return try await S3Exception(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -818,10 +538,8 @@ extension CreateAwsLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: CreateAwsLogSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
-            self.processing = output.processing
         } else {
             self.failed = nil
-            self.processing = nil
         }
     }
 }
@@ -829,43 +547,26 @@ extension CreateAwsLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateAwsLogSourceOutputResponse: Swift.Equatable {
     /// Lists all accounts in which enabling a natively supported Amazon Web Service as a Security Lake source failed. The failure occurred as these accounts are not part of an organization.
     public var failed: [Swift.String]?
-    /// Lists the accounts that are in the process of enabling a natively supported Amazon Web Service as a Security Lake source.
-    public var processing: [Swift.String]?
 
     public init(
-        failed: [Swift.String]? = nil,
-        processing: [Swift.String]? = nil
+        failed: [Swift.String]? = nil
     )
     {
         self.failed = failed
-        self.processing = processing
     }
 }
 
 struct CreateAwsLogSourceOutputResponseBody: Swift.Equatable {
-    let processing: [Swift.String]?
     let failed: [Swift.String]?
 }
 
 extension CreateAwsLogSourceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failed
-        case processing
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let processingContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .processing)
-        var processingDecoded0:[Swift.String]? = nil
-        if let processingContainer = processingContainer {
-            processingDecoded0 = [Swift.String]()
-            for string0 in processingContainer {
-                if let string0 = string0 {
-                    processingDecoded0?.append(string0)
-                }
-            }
-        }
-        processing = processingDecoded0
         let failedContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failed)
         var failedDecoded0:[Swift.String]? = nil
         if let failedContainer = failedContainer {
@@ -882,92 +583,155 @@ extension CreateAwsLogSourceOutputResponseBody: Swift.Decodable {
 
 extension CreateCustomLogSourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case customSourceName
-        case eventClass
-        case glueInvocationRoleArn
-        case logProviderAccountId
+        case configuration
+        case eventClasses
+        case sourceName
+        case sourceVersion
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let customSourceName = self.customSourceName {
-            try encodeContainer.encode(customSourceName, forKey: .customSourceName)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
         }
-        if let eventClass = self.eventClass {
-            try encodeContainer.encode(eventClass.rawValue, forKey: .eventClass)
+        if let eventClasses = eventClasses {
+            var eventClassesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventClasses)
+            for ocsfeventclass0 in eventClasses {
+                try eventClassesContainer.encode(ocsfeventclass0)
+            }
         }
-        if let glueInvocationRoleArn = self.glueInvocationRoleArn {
-            try encodeContainer.encode(glueInvocationRoleArn, forKey: .glueInvocationRoleArn)
+        if let sourceName = self.sourceName {
+            try encodeContainer.encode(sourceName, forKey: .sourceName)
         }
-        if let logProviderAccountId = self.logProviderAccountId {
-            try encodeContainer.encode(logProviderAccountId, forKey: .logProviderAccountId)
+        if let sourceVersion = self.sourceVersion {
+            try encodeContainer.encode(sourceVersion, forKey: .sourceVersion)
         }
     }
 }
 
 extension CreateCustomLogSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        return "/v1/logsources/custom"
+        return "/v1/datalake/logsources/custom"
     }
 }
 
 public struct CreateCustomLogSourceInput: Swift.Equatable {
-    /// The name for a third-party custom source. This must be a Regionally unique value.
-    /// This member is required.
-    public var customSourceName: Swift.String?
-    /// The Open Cybersecurity Schema Framework (OCSF) event class which describes the type of data that the custom source will send to Security Lake.
-    /// This member is required.
-    public var eventClass: SecurityLakeClientTypes.OcsfEventClass?
-    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be used by the Glue crawler. The recommended IAM policies are:
+    /// The configuration for the third-party custom source.
+    public var configuration: SecurityLakeClientTypes.CustomLogSourceConfiguration?
+    /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:
     ///
-    /// * The managed policy AWSGlueServiceRole
+    /// * ACCESS_ACTIVITY
     ///
-    /// * A custom policy granting access to your Amazon S3 Data Lake
+    /// * FILE_ACTIVITY
+    ///
+    /// * KERNEL_ACTIVITY
+    ///
+    /// * KERNEL_EXTENSION
+    ///
+    /// * MEMORY_ACTIVITY
+    ///
+    /// * MODULE_ACTIVITY
+    ///
+    /// * PROCESS_ACTIVITY
+    ///
+    /// * REGISTRY_KEY_ACTIVITY
+    ///
+    /// * REGISTRY_VALUE_ACTIVITY
+    ///
+    /// * RESOURCE_ACTIVITY
+    ///
+    /// * SCHEDULED_JOB_ACTIVITY
+    ///
+    /// * SECURITY_FINDING
+    ///
+    /// * ACCOUNT_CHANGE
+    ///
+    /// * AUTHENTICATION
+    ///
+    /// * AUTHORIZATION
+    ///
+    /// * ENTITY_MANAGEMENT_AUDIT
+    ///
+    /// * DHCP_ACTIVITY
+    ///
+    /// * NETWORK_ACTIVITY
+    ///
+    /// * DNS_ACTIVITY
+    ///
+    /// * FTP_ACTIVITY
+    ///
+    /// * HTTP_ACTIVITY
+    ///
+    /// * RDP_ACTIVITY
+    ///
+    /// * SMB_ACTIVITY
+    ///
+    /// * SSH_ACTIVITY
+    ///
+    /// * CONFIG_STATE
+    ///
+    /// * INVENTORY_INFO
+    ///
+    /// * EMAIL_ACTIVITY
+    ///
+    /// * API_ACTIVITY
+    ///
+    /// * CLOUD_API
+    public var eventClasses: [Swift.String]?
+    /// Specify the name for a third-party custom source. This must be a Regionally unique value.
     /// This member is required.
-    public var glueInvocationRoleArn: Swift.String?
-    /// The Amazon Web Services account ID of the custom source that will write logs and events into the Amazon S3 Data Lake.
-    /// This member is required.
-    public var logProviderAccountId: Swift.String?
+    public var sourceName: Swift.String?
+    /// Specify the source version for the third-party custom source, to limit log collection to a specific version of custom data source.
+    public var sourceVersion: Swift.String?
 
     public init(
-        customSourceName: Swift.String? = nil,
-        eventClass: SecurityLakeClientTypes.OcsfEventClass? = nil,
-        glueInvocationRoleArn: Swift.String? = nil,
-        logProviderAccountId: Swift.String? = nil
+        configuration: SecurityLakeClientTypes.CustomLogSourceConfiguration? = nil,
+        eventClasses: [Swift.String]? = nil,
+        sourceName: Swift.String? = nil,
+        sourceVersion: Swift.String? = nil
     )
     {
-        self.customSourceName = customSourceName
-        self.eventClass = eventClass
-        self.glueInvocationRoleArn = glueInvocationRoleArn
-        self.logProviderAccountId = logProviderAccountId
+        self.configuration = configuration
+        self.eventClasses = eventClasses
+        self.sourceName = sourceName
+        self.sourceVersion = sourceVersion
     }
 }
 
 struct CreateCustomLogSourceInputBody: Swift.Equatable {
-    let customSourceName: Swift.String?
-    let eventClass: SecurityLakeClientTypes.OcsfEventClass?
-    let glueInvocationRoleArn: Swift.String?
-    let logProviderAccountId: Swift.String?
+    let sourceName: Swift.String?
+    let sourceVersion: Swift.String?
+    let eventClasses: [Swift.String]?
+    let configuration: SecurityLakeClientTypes.CustomLogSourceConfiguration?
 }
 
 extension CreateCustomLogSourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case customSourceName
-        case eventClass
-        case glueInvocationRoleArn
-        case logProviderAccountId
+        case configuration
+        case eventClasses
+        case sourceName
+        case sourceVersion
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let customSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customSourceName)
-        customSourceName = customSourceNameDecoded
-        let eventClassDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.OcsfEventClass.self, forKey: .eventClass)
-        eventClass = eventClassDecoded
-        let glueInvocationRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .glueInvocationRoleArn)
-        glueInvocationRoleArn = glueInvocationRoleArnDecoded
-        let logProviderAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logProviderAccountId)
-        logProviderAccountId = logProviderAccountIdDecoded
+        let sourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceName)
+        sourceName = sourceNameDecoded
+        let sourceVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceVersion)
+        sourceVersion = sourceVersionDecoded
+        let eventClassesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventClasses)
+        var eventClassesDecoded0:[Swift.String]? = nil
+        if let eventClassesContainer = eventClassesContainer {
+            eventClassesDecoded0 = [Swift.String]()
+            for string0 in eventClassesContainer {
+                if let string0 = string0 {
+                    eventClassesDecoded0?.append(string0)
+                }
+            }
+        }
+        eventClasses = eventClassesDecoded0
+        let configurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.CustomLogSourceConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
     }
 }
 
@@ -977,12 +741,11 @@ public enum CreateCustomLogSourceOutputError: ClientRuntime.HttpResponseErrorBin
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BucketNotFoundException": return try await BucketNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictSourceNamesException": return try await ConflictSourceNamesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -993,468 +756,370 @@ extension CreateCustomLogSourceOutputResponse: ClientRuntime.HttpResponseBinding
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCustomLogSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.customDataLocation = output.customDataLocation
-            self.glueCrawlerName = output.glueCrawlerName
-            self.glueDatabaseName = output.glueDatabaseName
-            self.glueTableName = output.glueTableName
-            self.logProviderAccessRoleArn = output.logProviderAccessRoleArn
+            self.source = output.source
         } else {
-            self.customDataLocation = nil
-            self.glueCrawlerName = nil
-            self.glueDatabaseName = nil
-            self.glueTableName = nil
-            self.logProviderAccessRoleArn = nil
+            self.source = nil
         }
     }
 }
 
 public struct CreateCustomLogSourceOutputResponse: Swift.Equatable {
-    /// The location of the partition in the Amazon S3 bucket for Security Lake.
-    /// This member is required.
-    public var customDataLocation: Swift.String?
-    /// The name of the Glue crawler.
-    /// This member is required.
-    public var glueCrawlerName: Swift.String?
-    /// The Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/*.
-    /// This member is required.
-    public var glueDatabaseName: Swift.String?
-    /// The table name of the Glue crawler.
-    /// This member is required.
-    public var glueTableName: Swift.String?
-    /// The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Security Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role.
-    /// This member is required.
-    public var logProviderAccessRoleArn: Swift.String?
+    /// The created third-party custom source.
+    public var source: SecurityLakeClientTypes.CustomLogSourceResource?
 
     public init(
-        customDataLocation: Swift.String? = nil,
-        glueCrawlerName: Swift.String? = nil,
-        glueDatabaseName: Swift.String? = nil,
-        glueTableName: Swift.String? = nil,
-        logProviderAccessRoleArn: Swift.String? = nil
+        source: SecurityLakeClientTypes.CustomLogSourceResource? = nil
     )
     {
-        self.customDataLocation = customDataLocation
-        self.glueCrawlerName = glueCrawlerName
-        self.glueDatabaseName = glueDatabaseName
-        self.glueTableName = glueTableName
-        self.logProviderAccessRoleArn = logProviderAccessRoleArn
+        self.source = source
     }
 }
 
 struct CreateCustomLogSourceOutputResponseBody: Swift.Equatable {
-    let customDataLocation: Swift.String?
-    let glueCrawlerName: Swift.String?
-    let glueTableName: Swift.String?
-    let glueDatabaseName: Swift.String?
-    let logProviderAccessRoleArn: Swift.String?
+    let source: SecurityLakeClientTypes.CustomLogSourceResource?
 }
 
 extension CreateCustomLogSourceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case customDataLocation
-        case glueCrawlerName
-        case glueDatabaseName
-        case glueTableName
-        case logProviderAccessRoleArn
+        case source
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let customDataLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDataLocation)
-        customDataLocation = customDataLocationDecoded
-        let glueCrawlerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .glueCrawlerName)
-        glueCrawlerName = glueCrawlerNameDecoded
-        let glueTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .glueTableName)
-        glueTableName = glueTableNameDecoded
-        let glueDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .glueDatabaseName)
-        glueDatabaseName = glueDatabaseNameDecoded
-        let logProviderAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logProviderAccessRoleArn)
-        logProviderAccessRoleArn = logProviderAccessRoleArnDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.CustomLogSourceResource.self, forKey: .source)
+        source = sourceDecoded
     }
 }
 
-extension CreateDatalakeAutoEnableInput: Swift.Encodable {
+extension CreateDataLakeExceptionSubscriptionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case configurationForNewAccounts
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let configurationForNewAccounts = configurationForNewAccounts {
-            var configurationForNewAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationForNewAccounts)
-            for autoenablenewregionconfiguration0 in configurationForNewAccounts {
-                try configurationForNewAccountsContainer.encode(autoenablenewregionconfiguration0)
-            }
-        }
-    }
-}
-
-extension CreateDatalakeAutoEnableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/v1/datalake/autoenable"
-    }
-}
-
-public struct CreateDatalakeAutoEnableInput: Swift.Equatable {
-    /// Enable Security Lake with the specified configuration settings to begin collecting security data for new accounts in your organization.
-    /// This member is required.
-    public var configurationForNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]?
-
-    public init(
-        configurationForNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]? = nil
-    )
-    {
-        self.configurationForNewAccounts = configurationForNewAccounts
-    }
-}
-
-struct CreateDatalakeAutoEnableInputBody: Swift.Equatable {
-    let configurationForNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]?
-}
-
-extension CreateDatalakeAutoEnableInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case configurationForNewAccounts
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let configurationForNewAccountsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AutoEnableNewRegionConfiguration?].self, forKey: .configurationForNewAccounts)
-        var configurationForNewAccountsDecoded0:[SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]? = nil
-        if let configurationForNewAccountsContainer = configurationForNewAccountsContainer {
-            configurationForNewAccountsDecoded0 = [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]()
-            for structure0 in configurationForNewAccountsContainer {
-                if let structure0 = structure0 {
-                    configurationForNewAccountsDecoded0?.append(structure0)
-                }
-            }
-        }
-        configurationForNewAccounts = configurationForNewAccountsDecoded0
-    }
-}
-
-public enum CreateDatalakeAutoEnableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateDatalakeAutoEnableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateDatalakeAutoEnableOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
-extension CreateDatalakeDelegatedAdminInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case account
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let account = self.account {
-            try encodeContainer.encode(account, forKey: .account)
-        }
-    }
-}
-
-extension CreateDatalakeDelegatedAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/v1/datalake/delegate"
-    }
-}
-
-public struct CreateDatalakeDelegatedAdminInput: Swift.Equatable {
-    /// The Amazon Web Services account ID of the Security Lake delegated administrator.
-    /// This member is required.
-    public var account: Swift.String?
-
-    public init(
-        account: Swift.String? = nil
-    )
-    {
-        self.account = account
-    }
-}
-
-struct CreateDatalakeDelegatedAdminInputBody: Swift.Equatable {
-    let account: Swift.String?
-}
-
-extension CreateDatalakeDelegatedAdminInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case account
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
-        account = accountDecoded
-    }
-}
-
-public enum CreateDatalakeDelegatedAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateDatalakeDelegatedAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateDatalakeDelegatedAdminOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
-extension CreateDatalakeExceptionsSubscriptionInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exceptionTimeToLive
         case notificationEndpoint
         case subscriptionProtocol
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exceptionTimeToLive = self.exceptionTimeToLive {
+            try encodeContainer.encode(exceptionTimeToLive, forKey: .exceptionTimeToLive)
+        }
         if let notificationEndpoint = self.notificationEndpoint {
             try encodeContainer.encode(notificationEndpoint, forKey: .notificationEndpoint)
         }
         if let subscriptionProtocol = self.subscriptionProtocol {
-            try encodeContainer.encode(subscriptionProtocol.rawValue, forKey: .subscriptionProtocol)
+            try encodeContainer.encode(subscriptionProtocol, forKey: .subscriptionProtocol)
         }
     }
 }
 
-extension CreateDatalakeExceptionsSubscriptionInput: ClientRuntime.URLPathProvider {
+extension CreateDataLakeExceptionSubscriptionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/v1/datalake/exceptions/subscription"
     }
 }
 
-public struct CreateDatalakeExceptionsSubscriptionInput: Swift.Equatable {
+public struct CreateDataLakeExceptionSubscriptionInput: Swift.Equatable {
+    /// The expiration period and time-to-live (TTL).
+    public var exceptionTimeToLive: Swift.Int?
     /// The Amazon Web Services account where you want to receive exception notifications.
     /// This member is required.
     public var notificationEndpoint: Swift.String?
     /// The subscription protocol to which exception notifications are posted.
     /// This member is required.
-    public var subscriptionProtocol: SecurityLakeClientTypes.SubscriptionProtocolType?
+    public var subscriptionProtocol: Swift.String?
 
     public init(
+        exceptionTimeToLive: Swift.Int? = nil,
         notificationEndpoint: Swift.String? = nil,
-        subscriptionProtocol: SecurityLakeClientTypes.SubscriptionProtocolType? = nil
+        subscriptionProtocol: Swift.String? = nil
     )
     {
+        self.exceptionTimeToLive = exceptionTimeToLive
         self.notificationEndpoint = notificationEndpoint
         self.subscriptionProtocol = subscriptionProtocol
     }
 }
 
-struct CreateDatalakeExceptionsSubscriptionInputBody: Swift.Equatable {
-    let subscriptionProtocol: SecurityLakeClientTypes.SubscriptionProtocolType?
+struct CreateDataLakeExceptionSubscriptionInputBody: Swift.Equatable {
+    let subscriptionProtocol: Swift.String?
     let notificationEndpoint: Swift.String?
+    let exceptionTimeToLive: Swift.Int?
 }
 
-extension CreateDatalakeExceptionsSubscriptionInputBody: Swift.Decodable {
+extension CreateDataLakeExceptionSubscriptionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exceptionTimeToLive
         case notificationEndpoint
         case subscriptionProtocol
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subscriptionProtocolDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SubscriptionProtocolType.self, forKey: .subscriptionProtocol)
+        let subscriptionProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionProtocol)
         subscriptionProtocol = subscriptionProtocolDecoded
         let notificationEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notificationEndpoint)
         notificationEndpoint = notificationEndpointDecoded
+        let exceptionTimeToLiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exceptionTimeToLive)
+        exceptionTimeToLive = exceptionTimeToLiveDecoded
     }
 }
 
-public enum CreateDatalakeExceptionsSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum CreateDataLakeExceptionSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension CreateDatalakeExceptionsSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDataLakeExceptionSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct CreateDatalakeExceptionsSubscriptionOutputResponse: Swift.Equatable {
+public struct CreateDataLakeExceptionSubscriptionOutputResponse: Swift.Equatable {
 
     public init() { }
 }
 
-extension CreateDatalakeInput: Swift.Encodable {
+extension CreateDataLakeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurations
-        case enableAll
         case metaStoreManagerRoleArn
-        case regions
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurations = configurations {
-            var configurationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configurations)
-            for (dictKey0, lakeConfigurationRequestMap0) in configurations {
-                try configurationsContainer.encode(lakeConfigurationRequestMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
+            for datalakeconfiguration0 in configurations {
+                try configurationsContainer.encode(datalakeconfiguration0)
             }
-        }
-        if let enableAll = self.enableAll {
-            try encodeContainer.encode(enableAll, forKey: .enableAll)
         }
         if let metaStoreManagerRoleArn = self.metaStoreManagerRoleArn {
             try encodeContainer.encode(metaStoreManagerRoleArn, forKey: .metaStoreManagerRoleArn)
         }
-        if let regions = regions {
-            var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
-            for region0 in regions {
-                try regionsContainer.encode(region0.rawValue)
-            }
-        }
     }
 }
 
-extension CreateDatalakeInput: ClientRuntime.URLPathProvider {
+extension CreateDataLakeInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/v1/datalake"
     }
 }
 
-public struct CreateDatalakeInput: Swift.Equatable {
+public struct CreateDataLakeInput: Swift.Equatable {
     /// Specify the Region or Regions that will contribute data to the rollup region.
-    public var configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]?
-    /// Enable Security Lake in all Regions.
-    public var enableAll: Swift.Bool?
+    /// This member is required.
+    public var configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
     /// The Amazon Resource Name (ARN) used to create and update the Glue table. This table contains partitions generated by the ingestion and normalization of Amazon Web Services log sources and custom sources.
+    /// This member is required.
     public var metaStoreManagerRoleArn: Swift.String?
-    /// Enable Security Lake in the specified Regions. To enable Security Lake in specific Amazon Web Services Regions, such as us-east-1 or ap-northeast-3, provide the Region codes. For a list of Region codes, see [Amazon Security Lake endpoints](https://docs.aws.amazon.com/general/latest/gr/securitylake.html) in the Amazon Web Services General Reference.
-    public var regions: [SecurityLakeClientTypes.Region]?
 
     public init(
-        configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]? = nil,
-        enableAll: Swift.Bool? = nil,
-        metaStoreManagerRoleArn: Swift.String? = nil,
-        regions: [SecurityLakeClientTypes.Region]? = nil
+        configurations: [SecurityLakeClientTypes.DataLakeConfiguration]? = nil,
+        metaStoreManagerRoleArn: Swift.String? = nil
     )
     {
         self.configurations = configurations
-        self.enableAll = enableAll
         self.metaStoreManagerRoleArn = metaStoreManagerRoleArn
-        self.regions = regions
     }
 }
 
-struct CreateDatalakeInputBody: Swift.Equatable {
-    let regions: [SecurityLakeClientTypes.Region]?
-    let configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]?
-    let enableAll: Swift.Bool?
+struct CreateDataLakeInputBody: Swift.Equatable {
+    let configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
     let metaStoreManagerRoleArn: Swift.String?
 }
 
-extension CreateDatalakeInputBody: Swift.Decodable {
+extension CreateDataLakeInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurations
-        case enableAll
         case metaStoreManagerRoleArn
-        case regions
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let regionsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.Region?].self, forKey: .regions)
-        var regionsDecoded0:[SecurityLakeClientTypes.Region]? = nil
-        if let regionsContainer = regionsContainer {
-            regionsDecoded0 = [SecurityLakeClientTypes.Region]()
-            for string0 in regionsContainer {
-                if let string0 = string0 {
-                    regionsDecoded0?.append(string0)
-                }
-            }
-        }
-        regions = regionsDecoded0
-        let configurationsContainer = try containerValues.decodeIfPresent([Swift.String: SecurityLakeClientTypes.LakeConfigurationRequest?].self, forKey: .configurations)
-        var configurationsDecoded0: [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]? = nil
+        let configurationsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeConfiguration?].self, forKey: .configurations)
+        var configurationsDecoded0:[SecurityLakeClientTypes.DataLakeConfiguration]? = nil
         if let configurationsContainer = configurationsContainer {
-            configurationsDecoded0 = [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]()
-            for (key0, lakeconfigurationrequest0) in configurationsContainer {
-                if let lakeconfigurationrequest0 = lakeconfigurationrequest0 {
-                    configurationsDecoded0?[key0] = lakeconfigurationrequest0
+            configurationsDecoded0 = [SecurityLakeClientTypes.DataLakeConfiguration]()
+            for structure0 in configurationsContainer {
+                if let structure0 = structure0 {
+                    configurationsDecoded0?.append(structure0)
                 }
             }
         }
         configurations = configurationsDecoded0
-        let enableAllDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableAll)
-        enableAll = enableAllDecoded
         let metaStoreManagerRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metaStoreManagerRoleArn)
         metaStoreManagerRoleArn = metaStoreManagerRoleArnDecoded
     }
 }
 
-public enum CreateDatalakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+extension CreateDataLakeOrganizationConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoEnableNewAccount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoEnableNewAccount = autoEnableNewAccount {
+            var autoEnableNewAccountContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoEnableNewAccount)
+            for datalakeautoenablenewaccountconfiguration0 in autoEnableNewAccount {
+                try autoEnableNewAccountContainer.encode(datalakeautoenablenewaccountconfiguration0)
+            }
+        }
+    }
+}
+
+extension CreateDataLakeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/datalake/organization/configuration"
+    }
+}
+
+public struct CreateDataLakeOrganizationConfigurationInput: Swift.Equatable {
+    /// Enable Security Lake with the specified configuration settings, to begin collecting security data for new accounts in your organization.
+    /// This member is required.
+    public var autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
+
+    public init(
+        autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
+    )
+    {
+        self.autoEnableNewAccount = autoEnableNewAccount
+    }
+}
+
+struct CreateDataLakeOrganizationConfigurationInputBody: Swift.Equatable {
+    let autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
+}
+
+extension CreateDataLakeOrganizationConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoEnableNewAccount
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoEnableNewAccountContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration?].self, forKey: .autoEnableNewAccount)
+        var autoEnableNewAccountDecoded0:[SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
+        if let autoEnableNewAccountContainer = autoEnableNewAccountContainer {
+            autoEnableNewAccountDecoded0 = [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]()
+            for structure0 in autoEnableNewAccountContainer {
+                if let structure0 = structure0 {
+                    autoEnableNewAccountDecoded0?.append(structure0)
+                }
+            }
+        }
+        autoEnableNewAccount = autoEnableNewAccountDecoded0
+    }
+}
+
+public enum CreateDataLakeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension CreateDatalakeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDataLakeOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct CreateDatalakeOutputResponse: Swift.Equatable {
+public struct CreateDataLakeOrganizationConfigurationOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+public enum CreateDataLakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateDataLakeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDataLakeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataLakes = output.dataLakes
+        } else {
+            self.dataLakes = nil
+        }
+    }
+}
+
+public struct CreateDataLakeOutputResponse: Swift.Equatable {
+    /// The created Security Lake configuration object.
+    public var dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
+
+    public init(
+        dataLakes: [SecurityLakeClientTypes.DataLakeResource]? = nil
+    )
+    {
+        self.dataLakes = dataLakes
+    }
+}
+
+struct CreateDataLakeOutputResponseBody: Swift.Equatable {
+    let dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
+}
+
+extension CreateDataLakeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataLakes
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataLakesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeResource?].self, forKey: .dataLakes)
+        var dataLakesDecoded0:[SecurityLakeClientTypes.DataLakeResource]? = nil
+        if let dataLakesContainer = dataLakesContainer {
+            dataLakesDecoded0 = [SecurityLakeClientTypes.DataLakeResource]()
+            for structure0 in dataLakesContainer {
+                if let structure0 = structure0 {
+                    dataLakesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataLakes = dataLakesDecoded0
+    }
 }
 
 extension CreateSubscriberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessTypes
-        case accountId
-        case externalId
-        case sourceTypes
+        case sources
         case subscriberDescription
+        case subscriberIdentity
         case subscriberName
     }
 
@@ -1466,20 +1131,17 @@ extension CreateSubscriberInput: Swift.Encodable {
                 try accessTypesContainer.encode(accesstype0.rawValue)
             }
         }
-        if let accountId = self.accountId {
-            try encodeContainer.encode(accountId, forKey: .accountId)
-        }
-        if let externalId = self.externalId {
-            try encodeContainer.encode(externalId, forKey: .externalId)
-        }
-        if let sourceTypes = sourceTypes {
-            var sourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceTypes)
-            for sourcetype0 in sourceTypes {
-                try sourceTypesContainer.encode(sourcetype0)
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for logsourceresource0 in sources {
+                try sourcesContainer.encode(logsourceresource0)
             }
         }
         if let subscriberDescription = self.subscriberDescription {
             try encodeContainer.encode(subscriberDescription, forKey: .subscriberDescription)
+        }
+        if let subscriberIdentity = self.subscriberIdentity {
+            try encodeContainer.encode(subscriberIdentity, forKey: .subscriberIdentity)
         }
         if let subscriberName = self.subscriberName {
             try encodeContainer.encode(subscriberName, forKey: .subscriberName)
@@ -1496,90 +1158,193 @@ extension CreateSubscriberInput: ClientRuntime.URLPathProvider {
 public struct CreateSubscriberInput: Swift.Equatable {
     /// The Amazon S3 or Lake Formation access type.
     public var accessTypes: [SecurityLakeClientTypes.AccessType]?
-    /// The Amazon Web Services account ID used to access your data.
-    /// This member is required.
-    public var accountId: Swift.String?
-    /// The external ID of the subscriber. This lets the user that is assuming the role assert the circumstances in which they are operating. It also provides a way for the account owner to permit the role to be assumed only under specific circumstances.
-    /// This member is required.
-    public var externalId: Swift.String?
     /// The supported Amazon Web Services from which logs and events are collected. Security Lake supports log and event collection for natively supported Amazon Web Services.
     /// This member is required.
-    public var sourceTypes: [SecurityLakeClientTypes.SourceType]?
+    public var sources: [SecurityLakeClientTypes.LogSourceResource]?
     /// The description for your subscriber account in Security Lake.
     public var subscriberDescription: Swift.String?
+    /// The AWS identity used to access your data.
+    /// This member is required.
+    public var subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
     /// The name of your Security Lake subscriber account.
     /// This member is required.
     public var subscriberName: Swift.String?
 
     public init(
         accessTypes: [SecurityLakeClientTypes.AccessType]? = nil,
-        accountId: Swift.String? = nil,
-        externalId: Swift.String? = nil,
-        sourceTypes: [SecurityLakeClientTypes.SourceType]? = nil,
+        sources: [SecurityLakeClientTypes.LogSourceResource]? = nil,
         subscriberDescription: Swift.String? = nil,
+        subscriberIdentity: SecurityLakeClientTypes.AwsIdentity? = nil,
         subscriberName: Swift.String? = nil
     )
     {
         self.accessTypes = accessTypes
-        self.accountId = accountId
-        self.externalId = externalId
-        self.sourceTypes = sourceTypes
+        self.sources = sources
         self.subscriberDescription = subscriberDescription
+        self.subscriberIdentity = subscriberIdentity
         self.subscriberName = subscriberName
     }
 }
 
 struct CreateSubscriberInputBody: Swift.Equatable {
-    let sourceTypes: [SecurityLakeClientTypes.SourceType]?
-    let accountId: Swift.String?
-    let externalId: Swift.String?
-    let accessTypes: [SecurityLakeClientTypes.AccessType]?
+    let subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
     let subscriberName: Swift.String?
     let subscriberDescription: Swift.String?
+    let sources: [SecurityLakeClientTypes.LogSourceResource]?
+    let accessTypes: [SecurityLakeClientTypes.AccessType]?
 }
 
 extension CreateSubscriberInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessTypes
-        case accountId
-        case externalId
-        case sourceTypes
+        case sources
         case subscriberDescription
+        case subscriberIdentity
         case subscriberName
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sourceTypesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.SourceType?].self, forKey: .sourceTypes)
-        var sourceTypesDecoded0:[SecurityLakeClientTypes.SourceType]? = nil
-        if let sourceTypesContainer = sourceTypesContainer {
-            sourceTypesDecoded0 = [SecurityLakeClientTypes.SourceType]()
-            for union0 in sourceTypesContainer {
-                if let union0 = union0 {
-                    sourceTypesDecoded0?.append(union0)
-                }
-            }
-        }
-        sourceTypes = sourceTypesDecoded0
-        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
-        accountId = accountIdDecoded
-        let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
-        externalId = externalIdDecoded
-        let accessTypesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AccessType?].self, forKey: .accessTypes)
-        var accessTypesDecoded0:[SecurityLakeClientTypes.AccessType]? = nil
-        if let accessTypesContainer = accessTypesContainer {
-            accessTypesDecoded0 = [SecurityLakeClientTypes.AccessType]()
-            for string0 in accessTypesContainer {
-                if let string0 = string0 {
-                    accessTypesDecoded0?.append(string0)
-                }
-            }
-        }
-        accessTypes = accessTypesDecoded0
+        let subscriberIdentityDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.AwsIdentity.self, forKey: .subscriberIdentity)
+        subscriberIdentity = subscriberIdentityDecoded
         let subscriberNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberName)
         subscriberName = subscriberNameDecoded
         let subscriberDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberDescription)
         subscriberDescription = subscriberDescriptionDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.LogSourceResource?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.LogSourceResource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.LogSourceResource]()
+            for union0 in sourcesContainer {
+                if let union0 = union0 {
+                    sourcesDecoded0?.append(union0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+        let accessTypesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AccessType?].self, forKey: .accessTypes)
+        var accessTypesDecoded0:[SecurityLakeClientTypes.AccessType]? = nil
+        if let accessTypesContainer = accessTypesContainer {
+            accessTypesDecoded0 = [SecurityLakeClientTypes.AccessType]()
+            for enum0 in accessTypesContainer {
+                if let enum0 = enum0 {
+                    accessTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        accessTypes = accessTypesDecoded0
+    }
+}
+
+extension CreateSubscriberNotificationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+    }
+}
+
+extension CreateSubscriberNotificationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let subscriberId = subscriberId else {
+            return nil
+        }
+        return "/v1/subscribers/\(subscriberId.urlPercentEncoding())/notification"
+    }
+}
+
+public struct CreateSubscriberNotificationInput: Swift.Equatable {
+    /// Specify the configuration using which you want to create the subscriber notification.
+    /// This member is required.
+    public var configuration: SecurityLakeClientTypes.NotificationConfiguration?
+    /// The subscriber ID for the notification subscription.
+    /// This member is required.
+    public var subscriberId: Swift.String?
+
+    public init(
+        configuration: SecurityLakeClientTypes.NotificationConfiguration? = nil,
+        subscriberId: Swift.String? = nil
+    )
+    {
+        self.configuration = configuration
+        self.subscriberId = subscriberId
+    }
+}
+
+struct CreateSubscriberNotificationInputBody: Swift.Equatable {
+    let configuration: SecurityLakeClientTypes.NotificationConfiguration?
+}
+
+extension CreateSubscriberNotificationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.NotificationConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+public enum CreateSubscriberNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateSubscriberNotificationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSubscriberNotificationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.subscriberEndpoint = output.subscriberEndpoint
+        } else {
+            self.subscriberEndpoint = nil
+        }
+    }
+}
+
+public struct CreateSubscriberNotificationOutputResponse: Swift.Equatable {
+    /// The subscriber endpoint to which exception messages are posted.
+    public var subscriberEndpoint: Swift.String?
+
+    public init(
+        subscriberEndpoint: Swift.String? = nil
+    )
+    {
+        self.subscriberEndpoint = subscriberEndpoint
+    }
+}
+
+struct CreateSubscriberNotificationOutputResponseBody: Swift.Equatable {
+    let subscriberEndpoint: Swift.String?
+}
+
+extension CreateSubscriberNotificationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subscriberEndpoint
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subscriberEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberEndpoint)
+        subscriberEndpoint = subscriberEndpointDecoded
     }
 }
 
@@ -1589,13 +1354,11 @@ public enum CreateSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding 
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BucketNotFoundException": return try await BucketNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictSubscriptionException": return try await ConflictSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1606,305 +1369,1160 @@ extension CreateSubscriberOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSubscriberOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.resourceShareArn = output.resourceShareArn
-            self.resourceShareName = output.resourceShareName
-            self.roleArn = output.roleArn
-            self.s3BucketArn = output.s3BucketArn
-            self.snsArn = output.snsArn
-            self.subscriptionId = output.subscriptionId
+            self.subscriber = output.subscriber
         } else {
-            self.resourceShareArn = nil
-            self.resourceShareName = nil
-            self.roleArn = nil
-            self.s3BucketArn = nil
-            self.snsArn = nil
-            self.subscriptionId = nil
+            self.subscriber = nil
         }
     }
 }
 
 public struct CreateSubscriberOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share.
-    public var resourceShareArn: Swift.String?
-    /// The name of the resource share.
-    public var resourceShareName: Swift.String?
-    /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html).
-    public var roleArn: Swift.String?
-    /// The ARN for the Amazon S3 bucket.
-    public var s3BucketArn: Swift.String?
-    /// The ARN for the Amazon Simple Notification Service.
-    public var snsArn: Swift.String?
-    /// The subscriptionId created by the CreateSubscriber API call.
-    /// This member is required.
-    public var subscriptionId: Swift.String?
+    /// Retrieve information about the subscriber created using the CreateSubscriber API.
+    public var subscriber: SecurityLakeClientTypes.SubscriberResource?
 
     public init(
-        resourceShareArn: Swift.String? = nil,
-        resourceShareName: Swift.String? = nil,
-        roleArn: Swift.String? = nil,
-        s3BucketArn: Swift.String? = nil,
-        snsArn: Swift.String? = nil,
-        subscriptionId: Swift.String? = nil
+        subscriber: SecurityLakeClientTypes.SubscriberResource? = nil
     )
     {
-        self.resourceShareArn = resourceShareArn
-        self.resourceShareName = resourceShareName
-        self.roleArn = roleArn
-        self.s3BucketArn = s3BucketArn
-        self.snsArn = snsArn
-        self.subscriptionId = subscriptionId
+        self.subscriber = subscriber
     }
 }
 
 struct CreateSubscriberOutputResponseBody: Swift.Equatable {
-    let subscriptionId: Swift.String?
-    let roleArn: Swift.String?
-    let snsArn: Swift.String?
-    let s3BucketArn: Swift.String?
-    let resourceShareArn: Swift.String?
-    let resourceShareName: Swift.String?
+    let subscriber: SecurityLakeClientTypes.SubscriberResource?
 }
 
 extension CreateSubscriberOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourceShareArn
-        case resourceShareName
-        case roleArn
-        case s3BucketArn
-        case snsArn
-        case subscriptionId
+        case subscriber
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subscriptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionId)
-        subscriptionId = subscriptionIdDecoded
-        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
-        roleArn = roleArnDecoded
-        let snsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snsArn)
-        snsArn = snsArnDecoded
-        let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
-        s3BucketArn = s3BucketArnDecoded
-        let resourceShareArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareArn)
-        resourceShareArn = resourceShareArnDecoded
-        let resourceShareNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareName)
-        resourceShareName = resourceShareNameDecoded
+        let subscriberDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SubscriberResource.self, forKey: .subscriber)
+        subscriber = subscriberDecoded
     }
 }
 
-extension CreateSubscriptionNotificationConfigurationInput: Swift.Encodable {
+extension SecurityLakeClientTypes.CustomLogSourceAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createSqs
-        case httpsApiKeyName
-        case httpsApiKeyValue
-        case httpsMethod
-        case roleArn
-        case subscriptionEndpoint
+        case crawlerArn
+        case databaseArn
+        case tableArn
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let createSqs = self.createSqs {
-            try encodeContainer.encode(createSqs, forKey: .createSqs)
+        if let crawlerArn = self.crawlerArn {
+            try encodeContainer.encode(crawlerArn, forKey: .crawlerArn)
         }
-        if let httpsApiKeyName = self.httpsApiKeyName {
-            try encodeContainer.encode(httpsApiKeyName, forKey: .httpsApiKeyName)
+        if let databaseArn = self.databaseArn {
+            try encodeContainer.encode(databaseArn, forKey: .databaseArn)
         }
-        if let httpsApiKeyValue = self.httpsApiKeyValue {
-            try encodeContainer.encode(httpsApiKeyValue, forKey: .httpsApiKeyValue)
+        if let tableArn = self.tableArn {
+            try encodeContainer.encode(tableArn, forKey: .tableArn)
         }
-        if let httpsMethod = self.httpsMethod {
-            try encodeContainer.encode(httpsMethod.rawValue, forKey: .httpsMethod)
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crawlerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .crawlerArn)
+        crawlerArn = crawlerArnDecoded
+        let databaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseArn)
+        databaseArn = databaseArnDecoded
+        let tableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableArn)
+        tableArn = tableArnDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The attributes of a third-party custom source.
+    public struct CustomLogSourceAttributes: Swift.Equatable {
+        /// The ARN of the Glue crawler.
+        public var crawlerArn: Swift.String?
+        /// The ARN of the Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/*.
+        public var databaseArn: Swift.String?
+        /// The ARN of the Glue table.
+        public var tableArn: Swift.String?
+
+        public init(
+            crawlerArn: Swift.String? = nil,
+            databaseArn: Swift.String? = nil,
+            tableArn: Swift.String? = nil
+        )
+        {
+            self.crawlerArn = crawlerArn
+            self.databaseArn = databaseArn
+            self.tableArn = tableArn
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.CustomLogSourceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crawlerConfiguration
+        case providerIdentity
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let crawlerConfiguration = self.crawlerConfiguration {
+            try encodeContainer.encode(crawlerConfiguration, forKey: .crawlerConfiguration)
+        }
+        if let providerIdentity = self.providerIdentity {
+            try encodeContainer.encode(providerIdentity, forKey: .providerIdentity)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crawlerConfigurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration.self, forKey: .crawlerConfiguration)
+        crawlerConfiguration = crawlerConfigurationDecoded
+        let providerIdentityDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.AwsIdentity.self, forKey: .providerIdentity)
+        providerIdentity = providerIdentityDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The configuration for the third-party custom source.
+    public struct CustomLogSourceConfiguration: Swift.Equatable {
+        /// The configuration for the Glue Crawler for the third-party custom source.
+        /// This member is required.
+        public var crawlerConfiguration: SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration?
+        /// The identity of the log provider for the third-party custom source.
+        /// This member is required.
+        public var providerIdentity: SecurityLakeClientTypes.AwsIdentity?
+
+        public init(
+            crawlerConfiguration: SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration? = nil,
+            providerIdentity: SecurityLakeClientTypes.AwsIdentity? = nil
+        )
+        {
+            self.crawlerConfiguration = crawlerConfiguration
+            self.providerIdentity = providerIdentity
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The configuration for the Glue Crawler for the third-party custom source.
+    public struct CustomLogSourceCrawlerConfiguration: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be used by the Glue crawler. The recommended IAM policies are:
+        ///
+        /// * The managed policy AWSGlueServiceRole
+        ///
+        /// * A custom policy granting access to your Amazon S3 Data Lake
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.CustomLogSourceProvider: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case location
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let location = self.location {
+            try encodeContainer.encode(location, forKey: .location)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
         }
-        if let subscriptionEndpoint = self.subscriptionEndpoint {
-            try encodeContainer.encode(subscriptionEndpoint, forKey: .subscriptionEndpoint)
-        }
-    }
-}
-
-extension CreateSubscriptionNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriptionId = subscriptionId else {
-            return nil
-        }
-        return "/subscription-notifications/\(subscriptionId.urlPercentEncoding())"
-    }
-}
-
-public struct CreateSubscriptionNotificationConfigurationInput: Swift.Equatable {
-    /// Create an Amazon Simple Queue Service queue.
-    public var createSqs: Swift.Bool?
-    /// The key name for the notification subscription.
-    public var httpsApiKeyName: Swift.String?
-    /// The key value for the notification subscription.
-    public var httpsApiKeyValue: Swift.String?
-    /// The HTTPS method used for the notification subscription.
-    public var httpsMethod: SecurityLakeClientTypes.HttpsMethod?
-    /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role that you created. For more information about ARNs and how to use them in policies, see [Managing data access](https://docs.aws.amazon.com//security-lake/latest/userguide/subscriber-data-access.html) and [Amazon Web Services Managed Policies](https://docs.aws.amazon.com/security-lake/latest/userguide/security-iam-awsmanpol.html) in the Amazon Security Lake User Guide.
-    public var roleArn: Swift.String?
-    /// The subscription endpoint in Security Lake. If you prefer notification with an HTTPs endpoint, populate this field.
-    public var subscriptionEndpoint: Swift.String?
-    /// The subscription ID for the notification subscription.
-    /// This member is required.
-    public var subscriptionId: Swift.String?
-
-    public init(
-        createSqs: Swift.Bool? = nil,
-        httpsApiKeyName: Swift.String? = nil,
-        httpsApiKeyValue: Swift.String? = nil,
-        httpsMethod: SecurityLakeClientTypes.HttpsMethod? = nil,
-        roleArn: Swift.String? = nil,
-        subscriptionEndpoint: Swift.String? = nil,
-        subscriptionId: Swift.String? = nil
-    )
-    {
-        self.createSqs = createSqs
-        self.httpsApiKeyName = httpsApiKeyName
-        self.httpsApiKeyValue = httpsApiKeyValue
-        self.httpsMethod = httpsMethod
-        self.roleArn = roleArn
-        self.subscriptionEndpoint = subscriptionEndpoint
-        self.subscriptionId = subscriptionId
-    }
-}
-
-struct CreateSubscriptionNotificationConfigurationInputBody: Swift.Equatable {
-    let subscriptionEndpoint: Swift.String?
-    let httpsApiKeyName: Swift.String?
-    let httpsApiKeyValue: Swift.String?
-    let httpsMethod: SecurityLakeClientTypes.HttpsMethod?
-    let createSqs: Swift.Bool?
-    let roleArn: Swift.String?
-}
-
-extension CreateSubscriptionNotificationConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createSqs
-        case httpsApiKeyName
-        case httpsApiKeyValue
-        case httpsMethod
-        case roleArn
-        case subscriptionEndpoint
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subscriptionEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionEndpoint)
-        subscriptionEndpoint = subscriptionEndpointDecoded
-        let httpsApiKeyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpsApiKeyName)
-        httpsApiKeyName = httpsApiKeyNameDecoded
-        let httpsApiKeyValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpsApiKeyValue)
-        httpsApiKeyValue = httpsApiKeyValueDecoded
-        let httpsMethodDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.HttpsMethod.self, forKey: .httpsMethod)
-        httpsMethod = httpsMethodDecoded
-        let createSqsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .createSqs)
-        createSqs = createSqsDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
+        location = locationDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The details of the log provider for a third-party custom source.
+    public struct CustomLogSourceProvider: Swift.Equatable {
+        /// The location of the partition in the Amazon S3 bucket for Security Lake.
+        public var location: Swift.String?
+        /// The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Security Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role.
+        public var roleArn: Swift.String?
+
+        public init(
+            location: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.location = location
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.CustomLogSourceResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case provider
+        case sourceName
+        case sourceVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributes = self.attributes {
+            try encodeContainer.encode(attributes, forKey: .attributes)
+        }
+        if let provider = self.provider {
+            try encodeContainer.encode(provider, forKey: .provider)
+        }
+        if let sourceName = self.sourceName {
+            try encodeContainer.encode(sourceName, forKey: .sourceName)
+        }
+        if let sourceVersion = self.sourceVersion {
+            try encodeContainer.encode(sourceVersion, forKey: .sourceVersion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceName)
+        sourceName = sourceNameDecoded
+        let sourceVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceVersion)
+        sourceVersion = sourceVersionDecoded
+        let providerDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.CustomLogSourceProvider.self, forKey: .provider)
+        provider = providerDecoded
+        let attributesDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.CustomLogSourceAttributes.self, forKey: .attributes)
+        attributes = attributesDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Amazon Security Lake can collect logs and events from third-party custom sources.
+    public struct CustomLogSourceResource: Swift.Equatable {
+        /// The attributes of a third-party custom source.
+        public var attributes: SecurityLakeClientTypes.CustomLogSourceAttributes?
+        /// The details of the log provider for a third-party custom source.
+        public var provider: SecurityLakeClientTypes.CustomLogSourceProvider?
+        /// The name for a third-party custom source. This must be a Regionally unique value.
+        public var sourceName: Swift.String?
+        /// The version for a third-party custom source. This must be a Regionally unique value.
+        public var sourceVersion: Swift.String?
+
+        public init(
+            attributes: SecurityLakeClientTypes.CustomLogSourceAttributes? = nil,
+            provider: SecurityLakeClientTypes.CustomLogSourceProvider? = nil,
+            sourceName: Swift.String? = nil,
+            sourceVersion: Swift.String? = nil
+        )
+        {
+            self.attributes = attributes
+            self.provider = provider
+            self.sourceName = sourceName
+            self.sourceVersion = sourceVersion
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case region
+        case sources
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for awslogsourceresource0 in sources {
+                try sourcesContainer.encode(awslogsourceresource0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AwsLogSourceResource?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.AwsLogSourceResource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.AwsLogSourceResource]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Automatically enable new organization accounts as member accounts from an Amazon Security Lake administrator account.
+    public struct DataLakeAutoEnableNewAccountConfiguration: Swift.Equatable {
+        /// The Amazon Web Services Regions where Security Lake is automatically enabled.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The Amazon Web Services sources that are automatically enabled in Security Lake.
+        /// This member is required.
+        public var sources: [SecurityLakeClientTypes.AwsLogSourceResource]?
+
+        public init(
+            region: Swift.String? = nil,
+            sources: [SecurityLakeClientTypes.AwsLogSourceResource]? = nil
+        )
+        {
+            self.region = region
+            self.sources = sources
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionConfiguration
+        case lifecycleConfiguration
+        case region
+        case replicationConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encryptionConfiguration = self.encryptionConfiguration {
+            try encodeContainer.encode(encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+        if let lifecycleConfiguration = self.lifecycleConfiguration {
+            try encodeContainer.encode(lifecycleConfiguration, forKey: .lifecycleConfiguration)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let replicationConfiguration = self.replicationConfiguration {
+            try encodeContainer.encode(replicationConfiguration, forKey: .replicationConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeEncryptionConfiguration.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+        let lifecycleConfigurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeLifecycleConfiguration.self, forKey: .lifecycleConfiguration)
+        lifecycleConfiguration = lifecycleConfigurationDecoded
+        let replicationConfigurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeReplicationConfiguration.self, forKey: .replicationConfiguration)
+        replicationConfiguration = replicationConfigurationDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Provides details of Amazon Security Lake object.
+    public struct DataLakeConfiguration: Swift.Equatable {
+        /// Provides encryption details of Amazon Security Lake object.
+        public var encryptionConfiguration: SecurityLakeClientTypes.DataLakeEncryptionConfiguration?
+        /// Provides lifecycle details of Amazon Security Lake object.
+        public var lifecycleConfiguration: SecurityLakeClientTypes.DataLakeLifecycleConfiguration?
+        /// The Amazon Web Services Regions where Security Lake is automatically enabled.
+        /// This member is required.
+        public var region: Swift.String?
+        /// Provides replication details of Amazon Security Lake object.
+        public var replicationConfiguration: SecurityLakeClientTypes.DataLakeReplicationConfiguration?
+
+        public init(
+            encryptionConfiguration: SecurityLakeClientTypes.DataLakeEncryptionConfiguration? = nil,
+            lifecycleConfiguration: SecurityLakeClientTypes.DataLakeLifecycleConfiguration? = nil,
+            region: Swift.String? = nil,
+            replicationConfiguration: SecurityLakeClientTypes.DataLakeReplicationConfiguration? = nil
+        )
+        {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.lifecycleConfiguration = lifecycleConfiguration
+            self.region = region
+            self.replicationConfiguration = replicationConfiguration
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeEncryptionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Provides encryption details of Amazon Security Lake object.
+    public struct DataLakeEncryptionConfiguration: Swift.Equatable {
+        /// The id of KMS encryption key used by Amazon Security Lake to encrypt the Security Lake object.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeException: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exception
+        case region
+        case remediation
+        case timestamp
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exception = self.exception {
+            try encodeContainer.encode(exception, forKey: .exception)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let remediation = self.remediation {
+            try encodeContainer.encode(remediation, forKey: .remediation)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .dateTime, forKey: .timestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let exceptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exception)
+        exception = exceptionDecoded
+        let remediationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remediation)
+        remediation = remediationDecoded
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .timestamp)
+        timestamp = timestampDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The details for a Security Lake exception
+    public struct DataLakeException: Swift.Equatable {
+        /// The underlying exception of a Security Lake exception.
+        public var exception: Swift.String?
+        /// The Amazon Web Services Regions where the exception occurred.
+        public var region: Swift.String?
+        /// List of all remediation steps for a Security Lake exception.
+        public var remediation: Swift.String?
+        /// This error can occur if you configure the wrong timestamp format, or if the subset of entries used for validation had errors or missing values.
+        public var timestamp: ClientRuntime.Date?
+
+        public init(
+            exception: Swift.String? = nil,
+            region: Swift.String? = nil,
+            remediation: Swift.String? = nil,
+            timestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.exception = exception
+            self.region = region
+            self.remediation = remediation
+            self.timestamp = timestamp
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeLifecycleConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expiration
+        case transitions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expiration = self.expiration {
+            try encodeContainer.encode(expiration, forKey: .expiration)
+        }
+        if let transitions = transitions {
+            var transitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transitions)
+            for datalakelifecycletransition0 in transitions {
+                try transitionsContainer.encode(datalakelifecycletransition0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expirationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeLifecycleExpiration.self, forKey: .expiration)
+        expiration = expirationDecoded
+        let transitionsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeLifecycleTransition?].self, forKey: .transitions)
+        var transitionsDecoded0:[SecurityLakeClientTypes.DataLakeLifecycleTransition]? = nil
+        if let transitionsContainer = transitionsContainer {
+            transitionsDecoded0 = [SecurityLakeClientTypes.DataLakeLifecycleTransition]()
+            for structure0 in transitionsContainer {
+                if let structure0 = structure0 {
+                    transitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        transitions = transitionsDecoded0
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Provides lifecycle details of Amazon Security Lake object.
+    public struct DataLakeLifecycleConfiguration: Swift.Equatable {
+        /// Provides data expiration details of Amazon Security Lake object.
+        public var expiration: SecurityLakeClientTypes.DataLakeLifecycleExpiration?
+        /// Provides data storage transition details of Amazon Security Lake object.
+        public var transitions: [SecurityLakeClientTypes.DataLakeLifecycleTransition]?
+
+        public init(
+            expiration: SecurityLakeClientTypes.DataLakeLifecycleExpiration? = nil,
+            transitions: [SecurityLakeClientTypes.DataLakeLifecycleTransition]? = nil
+        )
+        {
+            self.expiration = expiration
+            self.transitions = transitions
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeLifecycleExpiration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case days
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let days = self.days {
+            try encodeContainer.encode(days, forKey: .days)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
+        days = daysDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Provide expiration lifecycle details of Amazon Security Lake object.
+    public struct DataLakeLifecycleExpiration: Swift.Equatable {
+        /// Number of days before data expires in the Amazon Security Lake object.
+        public var days: Swift.Int?
+
+        public init(
+            days: Swift.Int? = nil
+        )
+        {
+            self.days = days
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeLifecycleTransition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case days
+        case storageClass
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let days = self.days {
+            try encodeContainer.encode(days, forKey: .days)
+        }
+        if let storageClass = self.storageClass {
+            try encodeContainer.encode(storageClass, forKey: .storageClass)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageClass)
+        storageClass = storageClassDecoded
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
+        days = daysDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Provide transition lifecycle details of Amazon Security Lake object.
+    public struct DataLakeLifecycleTransition: Swift.Equatable {
+        /// Number of days before data transitions to a different S3 Storage Class in the Amazon Security Lake object.
+        public var days: Swift.Int?
+        /// The range of storage classes that you can choose from based on the data access, resiliency, and cost requirements of your workloads.
+        public var storageClass: Swift.String?
+
+        public init(
+            days: Swift.Int? = nil,
+            storageClass: Swift.String? = nil
+        )
+        {
+            self.days = days
+            self.storageClass = storageClass
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeReplicationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case regions
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let regions = regions {
+            var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
+            for region0 in regions {
+                try regionsContainer.encode(region0)
+            }
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .regions)
+        var regionsDecoded0:[Swift.String]? = nil
+        if let regionsContainer = regionsContainer {
+            regionsDecoded0 = [Swift.String]()
+            for string0 in regionsContainer {
+                if let string0 = string0 {
+                    regionsDecoded0?.append(string0)
+                }
+            }
+        }
+        regions = regionsDecoded0
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
     }
 }
 
-public enum CreateSubscriptionNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+extension SecurityLakeClientTypes {
+    /// Provides replication details of Amazon Security Lake object.
+    public struct DataLakeReplicationConfiguration: Swift.Equatable {
+        /// Replication enables automatic, asynchronous copying of objects across Amazon S3 buckets. Amazon S3 buckets that are configured for object replication can be owned by the same Amazon Web Services account or by different accounts. You can replicate objects to a single destination bucket or to multiple destination buckets. The destination buckets can be in different Amazon Web Services Regions or within the same Region as the source bucket. Set up one or more rollup Regions by providing the Region or Regions that should contribute to the central rollup Region.
+        public var regions: [Swift.String]?
+        /// Replication settings for the Amazon S3 buckets. This parameter uses the Identity and Access Management (IAM) role you created that is managed by Security Lake, to ensure the replication setting is correct.
+        public var roleArn: Swift.String?
+
+        public init(
+            regions: [Swift.String]? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.regions = regions
+            self.roleArn = roleArn
         }
     }
+
 }
 
-extension CreateSubscriptionNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateSubscriptionNotificationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.queueArn = output.queueArn
-        } else {
-            self.queueArn = nil
-        }
-    }
-}
-
-public struct CreateSubscriptionNotificationConfigurationOutputResponse: Swift.Equatable {
-    /// Returns the Amazon Resource Name (ARN) of the queue.
-    public var queueArn: Swift.String?
-
-    public init(
-        queueArn: Swift.String? = nil
-    )
-    {
-        self.queueArn = queueArn
-    }
-}
-
-struct CreateSubscriptionNotificationConfigurationOutputResponseBody: Swift.Equatable {
-    let queueArn: Swift.String?
-}
-
-extension CreateSubscriptionNotificationConfigurationOutputResponseBody: Swift.Decodable {
+extension SecurityLakeClientTypes.DataLakeResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case queueArn
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let queueArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueArn)
-        queueArn = queueArnDecoded
-    }
-}
-
-extension DeleteAwsLogSourceInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case disableAllDimensions
-        case disableSingleDimension
-        case disableTwoDimensions
-        case inputOrder
+        case createStatus
+        case dataLakeArn
+        case encryptionConfiguration
+        case lifecycleConfiguration
+        case region
+        case replicationConfiguration
+        case s3BucketArn
+        case updateStatus
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let disableAllDimensions = disableAllDimensions {
-            var disableAllDimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .disableAllDimensions)
-            for (dictKey0, allDimensionsMap0) in disableAllDimensions {
-                var allDimensionsMap0Container = disableAllDimensionsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
-                for (dictKey1, twoDimensionsMap1) in allDimensionsMap0 {
-                    var twoDimensionsMap1Container = allDimensionsMap0Container.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey1))
-                    for string2 in twoDimensionsMap1 {
-                        try twoDimensionsMap1Container.encode(string2)
-                    }
+        if let createStatus = self.createStatus {
+            try encodeContainer.encode(createStatus.rawValue, forKey: .createStatus)
+        }
+        if let dataLakeArn = self.dataLakeArn {
+            try encodeContainer.encode(dataLakeArn, forKey: .dataLakeArn)
+        }
+        if let encryptionConfiguration = self.encryptionConfiguration {
+            try encodeContainer.encode(encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+        if let lifecycleConfiguration = self.lifecycleConfiguration {
+            try encodeContainer.encode(lifecycleConfiguration, forKey: .lifecycleConfiguration)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let replicationConfiguration = self.replicationConfiguration {
+            try encodeContainer.encode(replicationConfiguration, forKey: .replicationConfiguration)
+        }
+        if let s3BucketArn = self.s3BucketArn {
+            try encodeContainer.encode(s3BucketArn, forKey: .s3BucketArn)
+        }
+        if let updateStatus = self.updateStatus {
+            try encodeContainer.encode(updateStatus, forKey: .updateStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataLakeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataLakeArn)
+        dataLakeArn = dataLakeArnDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
+        s3BucketArn = s3BucketArnDecoded
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeEncryptionConfiguration.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+        let lifecycleConfigurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeLifecycleConfiguration.self, forKey: .lifecycleConfiguration)
+        lifecycleConfiguration = lifecycleConfigurationDecoded
+        let replicationConfigurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeReplicationConfiguration.self, forKey: .replicationConfiguration)
+        replicationConfiguration = replicationConfigurationDecoded
+        let createStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeStatus.self, forKey: .createStatus)
+        createStatus = createStatusDecoded
+        let updateStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeUpdateStatus.self, forKey: .updateStatus)
+        updateStatus = updateStatusDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Provides details of Amazon Security Lake object.
+    public struct DataLakeResource: Swift.Equatable {
+        /// Retrieves the status of the configuration operation for an account in Amazon Security Lake.
+        public var createStatus: SecurityLakeClientTypes.DataLakeStatus?
+        /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html).
+        /// This member is required.
+        public var dataLakeArn: Swift.String?
+        /// Provides encryption details of Amazon Security Lake object.
+        public var encryptionConfiguration: SecurityLakeClientTypes.DataLakeEncryptionConfiguration?
+        /// Provides lifecycle details of Amazon Security Lake object.
+        public var lifecycleConfiguration: SecurityLakeClientTypes.DataLakeLifecycleConfiguration?
+        /// The Amazon Web Services Regions where Security Lake is enabled.
+        /// This member is required.
+        public var region: Swift.String?
+        /// Provides replication details of Amazon Security Lake object.
+        public var replicationConfiguration: SecurityLakeClientTypes.DataLakeReplicationConfiguration?
+        /// The ARN for the Amazon Security Lake Amazon S3 bucket.
+        public var s3BucketArn: Swift.String?
+        /// The status of the last UpdateDataLake or DeleteDataLake API request.
+        public var updateStatus: SecurityLakeClientTypes.DataLakeUpdateStatus?
+
+        public init(
+            createStatus: SecurityLakeClientTypes.DataLakeStatus? = nil,
+            dataLakeArn: Swift.String? = nil,
+            encryptionConfiguration: SecurityLakeClientTypes.DataLakeEncryptionConfiguration? = nil,
+            lifecycleConfiguration: SecurityLakeClientTypes.DataLakeLifecycleConfiguration? = nil,
+            region: Swift.String? = nil,
+            replicationConfiguration: SecurityLakeClientTypes.DataLakeReplicationConfiguration? = nil,
+            s3BucketArn: Swift.String? = nil,
+            updateStatus: SecurityLakeClientTypes.DataLakeUpdateStatus? = nil
+        )
+        {
+            self.createStatus = createStatus
+            self.dataLakeArn = dataLakeArn
+            self.encryptionConfiguration = encryptionConfiguration
+            self.lifecycleConfiguration = lifecycleConfiguration
+            self.region = region
+            self.replicationConfiguration = replicationConfiguration
+            self.s3BucketArn = s3BucketArn
+            self.updateStatus = updateStatus
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case account
+        case eventClasses
+        case sourceName
+        case sourceStatuses
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let account = self.account {
+            try encodeContainer.encode(account, forKey: .account)
+        }
+        if let eventClasses = eventClasses {
+            var eventClassesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventClasses)
+            for ocsfeventclass0 in eventClasses {
+                try eventClassesContainer.encode(ocsfeventclass0)
+            }
+        }
+        if let sourceName = self.sourceName {
+            try encodeContainer.encode(sourceName, forKey: .sourceName)
+        }
+        if let sourceStatuses = sourceStatuses {
+            var sourceStatusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceStatuses)
+            for datalakesourcestatus0 in sourceStatuses {
+                try sourceStatusesContainer.encode(datalakesourcestatus0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
+        account = accountDecoded
+        let sourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceName)
+        sourceName = sourceNameDecoded
+        let eventClassesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventClasses)
+        var eventClassesDecoded0:[Swift.String]? = nil
+        if let eventClassesContainer = eventClassesContainer {
+            eventClassesDecoded0 = [Swift.String]()
+            for string0 in eventClassesContainer {
+                if let string0 = string0 {
+                    eventClassesDecoded0?.append(string0)
                 }
             }
         }
-        if let disableSingleDimension = disableSingleDimension {
-            var disableSingleDimensionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .disableSingleDimension)
-            for safestring0 in disableSingleDimension {
-                try disableSingleDimensionContainer.encode(safestring0)
-            }
-        }
-        if let disableTwoDimensions = disableTwoDimensions {
-            var disableTwoDimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .disableTwoDimensions)
-            for (dictKey0, twoDimensionsMap0) in disableTwoDimensions {
-                var twoDimensionsMap0Container = disableTwoDimensionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
-                for string1 in twoDimensionsMap0 {
-                    try twoDimensionsMap0Container.encode(string1)
+        eventClasses = eventClassesDecoded0
+        let sourceStatusesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeSourceStatus?].self, forKey: .sourceStatuses)
+        var sourceStatusesDecoded0:[SecurityLakeClientTypes.DataLakeSourceStatus]? = nil
+        if let sourceStatusesContainer = sourceStatusesContainer {
+            sourceStatusesDecoded0 = [SecurityLakeClientTypes.DataLakeSourceStatus]()
+            for structure0 in sourceStatusesContainer {
+                if let structure0 = structure0 {
+                    sourceStatusesDecoded0?.append(structure0)
                 }
             }
         }
-        if let inputOrder = inputOrder {
-            var inputOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputOrder)
-            for dimension0 in inputOrder {
-                try inputOrderContainer.encode(dimension0.rawValue)
+        sourceStatuses = sourceStatusesDecoded0
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Amazon Security Lake collects logs and events from supported Amazon Web Services and custom sources. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
+    public struct DataLakeSource: Swift.Equatable {
+        /// The ID of the Security Lake account for which logs are collected.
+        public var account: Swift.String?
+        /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:
+        ///
+        /// * ACCESS_ACTIVITY
+        ///
+        /// * FILE_ACTIVITY
+        ///
+        /// * KERNEL_ACTIVITY
+        ///
+        /// * KERNEL_EXTENSION
+        ///
+        /// * MEMORY_ACTIVITY
+        ///
+        /// * MODULE_ACTIVITY
+        ///
+        /// * PROCESS_ACTIVITY
+        ///
+        /// * REGISTRY_KEY_ACTIVITY
+        ///
+        /// * REGISTRY_VALUE_ACTIVITY
+        ///
+        /// * RESOURCE_ACTIVITY
+        ///
+        /// * SCHEDULED_JOB_ACTIVITY
+        ///
+        /// * SECURITY_FINDING
+        ///
+        /// * ACCOUNT_CHANGE
+        ///
+        /// * AUTHENTICATION
+        ///
+        /// * AUTHORIZATION
+        ///
+        /// * ENTITY_MANAGEMENT_AUDIT
+        ///
+        /// * DHCP_ACTIVITY
+        ///
+        /// * NETWORK_ACTIVITY
+        ///
+        /// * DNS_ACTIVITY
+        ///
+        /// * FTP_ACTIVITY
+        ///
+        /// * HTTP_ACTIVITY
+        ///
+        /// * RDP_ACTIVITY
+        ///
+        /// * SMB_ACTIVITY
+        ///
+        /// * SSH_ACTIVITY
+        ///
+        /// * CONFIG_STATE
+        ///
+        /// * INVENTORY_INFO
+        ///
+        /// * EMAIL_ACTIVITY
+        ///
+        /// * API_ACTIVITY
+        ///
+        /// * CLOUD_API
+        public var eventClasses: [Swift.String]?
+        /// The supported Amazon Web Services from which logs and events are collected. Amazon Security Lake supports log and event collection for natively supported Amazon Web Services.
+        public var sourceName: Swift.String?
+        /// The log status for the Security Lake account.
+        public var sourceStatuses: [SecurityLakeClientTypes.DataLakeSourceStatus]?
+
+        public init(
+            account: Swift.String? = nil,
+            eventClasses: [Swift.String]? = nil,
+            sourceName: Swift.String? = nil,
+            sourceStatuses: [SecurityLakeClientTypes.DataLakeSourceStatus]? = nil
+        )
+        {
+            self.account = account
+            self.eventClasses = eventClasses
+            self.sourceName = sourceName
+            self.sourceStatuses = sourceStatuses
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeSourceStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resource
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SourceCollectionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Retrieves the Logs status for the Amazon Security Lake account.
+    public struct DataLakeSourceStatus: Swift.Equatable {
+        /// Defines path the stored logs are available which has information on your systems, applications, and services.
+        public var resource: Swift.String?
+        /// The health status of services, including error codes and patterns.
+        public var status: SecurityLakeClientTypes.SourceCollectionStatus?
+
+        public init(
+            resource: Swift.String? = nil,
+            status: SecurityLakeClientTypes.SourceCollectionStatus? = nil
+        )
+        {
+            self.resource = resource
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes {
+    public enum DataLakeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case initialized
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataLakeStatus] {
+            return [
+                .completed,
+                .failed,
+                .initialized,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .initialized: return "INITIALIZED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataLakeStatus(rawValue: rawValue) ?? DataLakeStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityLakeClientTypes.DataLakeUpdateException: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case reason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The details of the last UpdateDataLake or DeleteDataLake API request which failed.
+    public struct DataLakeUpdateException: Swift.Equatable {
+        /// The reason code for the exception of the last UpdateDataLake or DeleteDataLake API request.
+        public var code: Swift.String?
+        /// The reason for the exception of the last UpdateDataLakeor DeleteDataLake API request.
+        public var reason: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            reason: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.reason = reason
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.DataLakeUpdateStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exception
+        case requestId
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exception = self.exception {
+            try encodeContainer.encode(exception, forKey: .exception)
+        }
+        if let requestId = self.requestId {
+            try encodeContainer.encode(requestId, forKey: .requestId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeStatus.self, forKey: .status)
+        status = statusDecoded
+        let exceptionDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.DataLakeUpdateException.self, forKey: .exception)
+        exception = exceptionDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The status of the last UpdateDataLake or DeleteDataLake API request. This is set to Completed after the configuration is updated, or removed if deletion of the data lake is successful.
+    public struct DataLakeUpdateStatus: Swift.Equatable {
+        /// The details of the last UpdateDataLakeor DeleteDataLake API request which failed.
+        public var exception: SecurityLakeClientTypes.DataLakeUpdateException?
+        /// The unique ID for the last UpdateDataLake or DeleteDataLake API request.
+        public var requestId: Swift.String?
+        /// The status of the last UpdateDataLake or DeleteDataLake API request that was requested.
+        public var status: SecurityLakeClientTypes.DataLakeStatus?
+
+        public init(
+            exception: SecurityLakeClientTypes.DataLakeUpdateException? = nil,
+            requestId: Swift.String? = nil,
+            status: SecurityLakeClientTypes.DataLakeStatus? = nil
+        )
+        {
+            self.exception = exception
+            self.requestId = requestId
+            self.status = status
+        }
+    }
+
+}
+
+extension DeleteAwsLogSourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sources
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for awslogsourceconfiguration0 in sources {
+                try sourcesContainer.encode(awslogsourceconfiguration0)
             }
         }
     }
@@ -1912,117 +2530,45 @@ extension DeleteAwsLogSourceInput: Swift.Encodable {
 
 extension DeleteAwsLogSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        return "/v1/logsources/aws/delete"
+        return "/v1/datalake/logsources/aws/delete"
     }
 }
 
 public struct DeleteAwsLogSourceInput: Swift.Equatable {
-    /// Removes the specific Amazon Web Services sources from specific accounts and specific Regions.
-    public var disableAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]?
-    /// Removes all Amazon Web Services sources from specific accounts or Regions.
-    public var disableSingleDimension: [Swift.String]?
-    /// Remove a specific Amazon Web Services source from specific accounts or Regions.
-    public var disableTwoDimensions: [Swift.String:[Swift.String]]?
-    /// This is a mandatory input. Specify the input order to disable dimensions in Security Lake, namely Region (Amazon Web Services Region code, source type, and member (account ID of a specific Amazon Web Services account).
+    /// Specify the natively-supported Amazon Web Services service to remove as a source in Security Lake.
     /// This member is required.
-    public var inputOrder: [SecurityLakeClientTypes.Dimension]?
+    public var sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]?
 
     public init(
-        disableAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]? = nil,
-        disableSingleDimension: [Swift.String]? = nil,
-        disableTwoDimensions: [Swift.String:[Swift.String]]? = nil,
-        inputOrder: [SecurityLakeClientTypes.Dimension]? = nil
+        sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]? = nil
     )
     {
-        self.disableAllDimensions = disableAllDimensions
-        self.disableSingleDimension = disableSingleDimension
-        self.disableTwoDimensions = disableTwoDimensions
-        self.inputOrder = inputOrder
+        self.sources = sources
     }
 }
 
 struct DeleteAwsLogSourceInputBody: Swift.Equatable {
-    let inputOrder: [SecurityLakeClientTypes.Dimension]?
-    let disableAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]?
-    let disableTwoDimensions: [Swift.String:[Swift.String]]?
-    let disableSingleDimension: [Swift.String]?
+    let sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]?
 }
 
 extension DeleteAwsLogSourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case disableAllDimensions
-        case disableSingleDimension
-        case disableTwoDimensions
-        case inputOrder
+        case sources
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let inputOrderContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.Dimension?].self, forKey: .inputOrder)
-        var inputOrderDecoded0:[SecurityLakeClientTypes.Dimension]? = nil
-        if let inputOrderContainer = inputOrderContainer {
-            inputOrderDecoded0 = [SecurityLakeClientTypes.Dimension]()
-            for string0 in inputOrderContainer {
-                if let string0 = string0 {
-                    inputOrderDecoded0?.append(string0)
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AwsLogSourceConfiguration?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.AwsLogSourceConfiguration]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.AwsLogSourceConfiguration]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
                 }
             }
         }
-        inputOrder = inputOrderDecoded0
-        let disableAllDimensionsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [Swift.String?]?]?].self, forKey: .disableAllDimensions)
-        var disableAllDimensionsDecoded0: [Swift.String:[Swift.String:[Swift.String]]]? = nil
-        if let disableAllDimensionsContainer = disableAllDimensionsContainer {
-            disableAllDimensionsDecoded0 = [Swift.String:[Swift.String:[Swift.String]]]()
-            for (key0, twodimensionsmap0) in disableAllDimensionsContainer {
-                var twodimensionsmap0Decoded0: [Swift.String: [Swift.String]]? = nil
-                if let twodimensionsmap0 = twodimensionsmap0 {
-                    twodimensionsmap0Decoded0 = [Swift.String: [Swift.String]]()
-                    for (key1, valueset1) in twodimensionsmap0 {
-                        var valueset1Decoded1: [Swift.String]? = nil
-                        if let valueset1 = valueset1 {
-                            valueset1Decoded1 = [Swift.String]()
-                            for string2 in valueset1 {
-                                if let string2 = string2 {
-                                    valueset1Decoded1?.append(string2)
-                                }
-                            }
-                        }
-                        twodimensionsmap0Decoded0?[key1] = valueset1Decoded1
-                    }
-                }
-                disableAllDimensionsDecoded0?[key0] = twodimensionsmap0Decoded0
-            }
-        }
-        disableAllDimensions = disableAllDimensionsDecoded0
-        let disableTwoDimensionsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .disableTwoDimensions)
-        var disableTwoDimensionsDecoded0: [Swift.String:[Swift.String]]? = nil
-        if let disableTwoDimensionsContainer = disableTwoDimensionsContainer {
-            disableTwoDimensionsDecoded0 = [Swift.String:[Swift.String]]()
-            for (key0, valueset0) in disableTwoDimensionsContainer {
-                var valueset0Decoded0: [Swift.String]? = nil
-                if let valueset0 = valueset0 {
-                    valueset0Decoded0 = [Swift.String]()
-                    for string1 in valueset0 {
-                        if let string1 = string1 {
-                            valueset0Decoded0?.append(string1)
-                        }
-                    }
-                }
-                disableTwoDimensionsDecoded0?[key0] = valueset0Decoded0
-            }
-        }
-        disableTwoDimensions = disableTwoDimensionsDecoded0
-        let disableSingleDimensionContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .disableSingleDimension)
-        var disableSingleDimensionDecoded0:[Swift.String]? = nil
-        if let disableSingleDimensionContainer = disableSingleDimensionContainer {
-            disableSingleDimensionDecoded0 = [Swift.String]()
-            for string0 in disableSingleDimensionContainer {
-                if let string0 = string0 {
-                    disableSingleDimensionDecoded0?.append(string0)
-                }
-            }
-        }
-        disableSingleDimension = disableSingleDimensionDecoded0
+        sources = sourcesDecoded0
     }
 }
 
@@ -2032,9 +2578,11 @@ public enum DeleteAwsLogSourceOutputError: ClientRuntime.HttpResponseErrorBindin
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2046,10 +2594,8 @@ extension DeleteAwsLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DeleteAwsLogSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
-            self.processing = output.processing
         } else {
             self.failed = nil
-            self.processing = nil
         }
     }
 }
@@ -2057,43 +2603,26 @@ extension DeleteAwsLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteAwsLogSourceOutputResponse: Swift.Equatable {
     /// Deletion of the Amazon Web Services sources failed as the account is not a part of the organization.
     public var failed: [Swift.String]?
-    /// Deletion of the Amazon Web Services sources is in progress.
-    public var processing: [Swift.String]?
 
     public init(
-        failed: [Swift.String]? = nil,
-        processing: [Swift.String]? = nil
+        failed: [Swift.String]? = nil
     )
     {
         self.failed = failed
-        self.processing = processing
     }
 }
 
 struct DeleteAwsLogSourceOutputResponseBody: Swift.Equatable {
-    let processing: [Swift.String]?
     let failed: [Swift.String]?
 }
 
 extension DeleteAwsLogSourceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failed
-        case processing
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let processingContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .processing)
-        var processingDecoded0:[Swift.String]? = nil
-        if let processingContainer = processingContainer {
-            processingDecoded0 = [Swift.String]()
-            for string0 in processingContainer {
-                if let string0 = string0 {
-                    processingDecoded0?.append(string0)
-                }
-            }
-        }
-        processing = processingDecoded0
         let failedContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failed)
         var failedDecoded0:[Swift.String]? = nil
         if let failedContainer = failedContainer {
@@ -2112,12 +2641,10 @@ extension DeleteCustomLogSourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            guard let customSourceName = customSourceName else {
-                let message = "Creating a URL Query Item failed. customSourceName is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
+            if let sourceVersion = sourceVersion {
+                let sourceVersionQueryItem = ClientRuntime.URLQueryItem(name: "sourceVersion".urlPercentEncoding(), value: Swift.String(sourceVersion).urlPercentEncoding())
+                items.append(sourceVersionQueryItem)
             }
-            let customSourceNameQueryItem = ClientRuntime.URLQueryItem(name: "customSourceName".urlPercentEncoding(), value: Swift.String(customSourceName).urlPercentEncoding())
-            items.append(customSourceNameQueryItem)
             return items
         }
     }
@@ -2125,20 +2652,27 @@ extension DeleteCustomLogSourceInput: ClientRuntime.QueryItemProvider {
 
 extension DeleteCustomLogSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        return "/v1/logsources/custom"
+        guard let sourceName = sourceName else {
+            return nil
+        }
+        return "/v1/datalake/logsources/custom/\(sourceName.urlPercentEncoding())"
     }
 }
 
 public struct DeleteCustomLogSourceInput: Swift.Equatable {
-    /// The custom source name for the custom log source.
+    /// The source name of custom log source that you want to delete.
     /// This member is required.
-    public var customSourceName: Swift.String?
+    public var sourceName: Swift.String?
+    /// The source version for the third-party custom source. You can limit the custom source removal to the specified source version.
+    public var sourceVersion: Swift.String?
 
     public init(
-        customSourceName: Swift.String? = nil
+        sourceName: Swift.String? = nil,
+        sourceVersion: Swift.String? = nil
     )
     {
-        self.customSourceName = customSourceName
+        self.sourceName = sourceName
+        self.sourceVersion = sourceVersion
     }
 }
 
@@ -2157,12 +2691,11 @@ public enum DeleteCustomLogSourceOutputError: ClientRuntime.HttpResponseErrorBin
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BucketNotFoundException": return try await BucketNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictSourceNamesException": return try await ConflictSourceNamesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2170,337 +2703,251 @@ public enum DeleteCustomLogSourceOutputError: ClientRuntime.HttpResponseErrorBin
 
 extension DeleteCustomLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteCustomLogSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.customDataLocation = output.customDataLocation
-        } else {
-            self.customDataLocation = nil
-        }
     }
 }
 
 public struct DeleteCustomLogSourceOutputResponse: Swift.Equatable {
-    /// The location of the partition in the Amazon S3 bucket for Security Lake.
-    /// This member is required.
-    public var customDataLocation: Swift.String?
-
-    public init(
-        customDataLocation: Swift.String? = nil
-    )
-    {
-        self.customDataLocation = customDataLocation
-    }
-}
-
-struct DeleteCustomLogSourceOutputResponseBody: Swift.Equatable {
-    let customDataLocation: Swift.String?
-}
-
-extension DeleteCustomLogSourceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case customDataLocation
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let customDataLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDataLocation)
-        customDataLocation = customDataLocationDecoded
-    }
-}
-
-extension DeleteDatalakeAutoEnableInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case removeFromConfigurationForNewAccounts
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let removeFromConfigurationForNewAccounts = removeFromConfigurationForNewAccounts {
-            var removeFromConfigurationForNewAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeFromConfigurationForNewAccounts)
-            for autoenablenewregionconfiguration0 in removeFromConfigurationForNewAccounts {
-                try removeFromConfigurationForNewAccountsContainer.encode(autoenablenewregionconfiguration0)
-            }
-        }
-    }
-}
-
-extension DeleteDatalakeAutoEnableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/v1/datalake/autoenable/delete"
-    }
-}
-
-public struct DeleteDatalakeAutoEnableInput: Swift.Equatable {
-    /// Remove automatic enablement of configuration settings for new member accounts in Security Lake.
-    /// This member is required.
-    public var removeFromConfigurationForNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]?
-
-    public init(
-        removeFromConfigurationForNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]? = nil
-    )
-    {
-        self.removeFromConfigurationForNewAccounts = removeFromConfigurationForNewAccounts
-    }
-}
-
-struct DeleteDatalakeAutoEnableInputBody: Swift.Equatable {
-    let removeFromConfigurationForNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]?
-}
-
-extension DeleteDatalakeAutoEnableInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case removeFromConfigurationForNewAccounts
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let removeFromConfigurationForNewAccountsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AutoEnableNewRegionConfiguration?].self, forKey: .removeFromConfigurationForNewAccounts)
-        var removeFromConfigurationForNewAccountsDecoded0:[SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]? = nil
-        if let removeFromConfigurationForNewAccountsContainer = removeFromConfigurationForNewAccountsContainer {
-            removeFromConfigurationForNewAccountsDecoded0 = [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]()
-            for structure0 in removeFromConfigurationForNewAccountsContainer {
-                if let structure0 = structure0 {
-                    removeFromConfigurationForNewAccountsDecoded0?.append(structure0)
-                }
-            }
-        }
-        removeFromConfigurationForNewAccounts = removeFromConfigurationForNewAccountsDecoded0
-    }
-}
-
-public enum DeleteDatalakeAutoEnableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDatalakeAutoEnableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDatalakeAutoEnableOutputResponse: Swift.Equatable {
 
     public init() { }
 }
 
-extension DeleteDatalakeDelegatedAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let account = account else {
-            return nil
-        }
-        return "/v1/datalake/delegate/\(account.urlPercentEncoding())"
-    }
-}
-
-public struct DeleteDatalakeDelegatedAdminInput: Swift.Equatable {
-    /// The account ID the Security Lake delegated administrator.
-    /// This member is required.
-    public var account: Swift.String?
-
-    public init(
-        account: Swift.String? = nil
-    )
-    {
-        self.account = account
-    }
-}
-
-struct DeleteDatalakeDelegatedAdminInputBody: Swift.Equatable {
-}
-
-extension DeleteDatalakeDelegatedAdminInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-public enum DeleteDatalakeDelegatedAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDatalakeDelegatedAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDatalakeDelegatedAdminOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
-extension DeleteDatalakeExceptionsSubscriptionInput: ClientRuntime.URLPathProvider {
+extension DeleteDataLakeExceptionSubscriptionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/v1/datalake/exceptions/subscription"
     }
 }
 
-public struct DeleteDatalakeExceptionsSubscriptionInput: Swift.Equatable {
+public struct DeleteDataLakeExceptionSubscriptionInput: Swift.Equatable {
 
     public init() { }
 }
 
-struct DeleteDatalakeExceptionsSubscriptionInputBody: Swift.Equatable {
+struct DeleteDataLakeExceptionSubscriptionInputBody: Swift.Equatable {
 }
 
-extension DeleteDatalakeExceptionsSubscriptionInputBody: Swift.Decodable {
+extension DeleteDataLakeExceptionSubscriptionInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-public enum DeleteDatalakeExceptionsSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum DeleteDataLakeExceptionSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension DeleteDatalakeExceptionsSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDataLakeExceptionSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteDatalakeExceptionsSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.status = output.status
-        } else {
-            self.status = nil
+    }
+}
+
+public struct DeleteDataLakeExceptionSubscriptionOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteDataLakeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case regions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let regions = regions {
+            var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
+            for region0 in regions {
+                try regionsContainer.encode(region0)
+            }
         }
     }
 }
 
-public struct DeleteDatalakeExceptionsSubscriptionOutputResponse: Swift.Equatable {
-    /// Retrieves the status of the delete Security Lake operation for an account.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        status: Swift.String? = nil
-    )
-    {
-        self.status = status
+extension DeleteDataLakeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/datalake/delete"
     }
 }
 
-struct DeleteDatalakeExceptionsSubscriptionOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
+public struct DeleteDataLakeInput: Swift.Equatable {
+    /// The list of Regions where Security Lake is enabled.
+    /// This member is required.
+    public var regions: [Swift.String]?
+
+    public init(
+        regions: [Swift.String]? = nil
+    )
+    {
+        self.regions = regions
+    }
 }
 
-extension DeleteDatalakeExceptionsSubscriptionOutputResponseBody: Swift.Decodable {
+struct DeleteDataLakeInputBody: Swift.Equatable {
+    let regions: [Swift.String]?
+}
+
+extension DeleteDataLakeInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case status
+        case regions
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
+        let regionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .regions)
+        var regionsDecoded0:[Swift.String]? = nil
+        if let regionsContainer = regionsContainer {
+            regionsDecoded0 = [Swift.String]()
+            for string0 in regionsContainer {
+                if let string0 = string0 {
+                    regionsDecoded0?.append(string0)
+                }
+            }
+        }
+        regions = regionsDecoded0
     }
 }
 
-extension DeleteDatalakeInput: ClientRuntime.URLPathProvider {
+extension DeleteDataLakeOrganizationConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoEnableNewAccount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoEnableNewAccount = autoEnableNewAccount {
+            var autoEnableNewAccountContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoEnableNewAccount)
+            for datalakeautoenablenewaccountconfiguration0 in autoEnableNewAccount {
+                try autoEnableNewAccountContainer.encode(datalakeautoenablenewaccountconfiguration0)
+            }
+        }
+    }
+}
+
+extension DeleteDataLakeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        return "/v1/datalake"
+        return "/v1/datalake/organization/configuration/delete"
     }
 }
 
-public struct DeleteDatalakeInput: Swift.Equatable {
+public struct DeleteDataLakeOrganizationConfigurationInput: Swift.Equatable {
+    /// Removes the automatic enablement of configuration settings for new member accounts in Security Lake.
+    /// This member is required.
+    public var autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 
-    public init() { }
+    public init(
+        autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
+    )
+    {
+        self.autoEnableNewAccount = autoEnableNewAccount
+    }
 }
 
-struct DeleteDatalakeInputBody: Swift.Equatable {
+struct DeleteDataLakeOrganizationConfigurationInputBody: Swift.Equatable {
+    let autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 }
 
-extension DeleteDatalakeInputBody: Swift.Decodable {
+extension DeleteDataLakeOrganizationConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoEnableNewAccount
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoEnableNewAccountContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration?].self, forKey: .autoEnableNewAccount)
+        var autoEnableNewAccountDecoded0:[SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
+        if let autoEnableNewAccountContainer = autoEnableNewAccountContainer {
+            autoEnableNewAccountDecoded0 = [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]()
+            for structure0 in autoEnableNewAccountContainer {
+                if let structure0 = structure0 {
+                    autoEnableNewAccountDecoded0?.append(structure0)
+                }
+            }
+        }
+        autoEnableNewAccount = autoEnableNewAccountDecoded0
     }
 }
 
-public enum DeleteDatalakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum DeleteDataLakeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension DeleteDatalakeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDataLakeOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteDatalakeOutputResponse: Swift.Equatable {
+public struct DeleteDataLakeOrganizationConfigurationOutputResponse: Swift.Equatable {
 
     public init() { }
 }
 
-extension DeleteSubscriberInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+public enum DeleteDataLakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
+extension DeleteDataLakeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDataLakeOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DeleteSubscriberInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        return "/v1/subscribers"
+        guard let subscriberId = subscriberId else {
+            return nil
+        }
+        return "/v1/subscribers/\(subscriberId.urlPercentEncoding())"
     }
 }
 
 public struct DeleteSubscriberInput: Swift.Equatable {
     /// A value created by Security Lake that uniquely identifies your DeleteSubscriber API request.
     /// This member is required.
-    public var id: Swift.String?
+    public var subscriberId: Swift.String?
 
     public init(
-        id: Swift.String? = nil
+        subscriberId: Swift.String? = nil
     )
     {
-        self.id = id
+        self.subscriberId = subscriberId
     }
 }
 
@@ -2513,19 +2960,74 @@ extension DeleteSubscriberInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSubscriberNotificationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let subscriberId = subscriberId else {
+            return nil
+        }
+        return "/v1/subscribers/\(subscriberId.urlPercentEncoding())/notification"
+    }
+}
+
+public struct DeleteSubscriberNotificationInput: Swift.Equatable {
+    /// The ID of the Security Lake subscriber account.
+    /// This member is required.
+    public var subscriberId: Swift.String?
+
+    public init(
+        subscriberId: Swift.String? = nil
+    )
+    {
+        self.subscriberId = subscriberId
+    }
+}
+
+struct DeleteSubscriberNotificationInputBody: Swift.Equatable {
+}
+
+extension DeleteSubscriberNotificationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteSubscriberNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteSubscriberNotificationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSubscriberNotificationOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 public enum DeleteSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BucketNotFoundException": return try await BucketNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2541,638 +3043,250 @@ public struct DeleteSubscriberOutputResponse: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteSubscriptionNotificationConfigurationInput: ClientRuntime.URLPathProvider {
+extension DeregisterDataLakeDelegatedAdministratorInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        guard let subscriptionId = subscriptionId else {
-            return nil
-        }
-        return "/subscription-notifications/\(subscriptionId.urlPercentEncoding())"
+        return "/v1/datalake/delegate"
     }
 }
 
-public struct DeleteSubscriptionNotificationConfigurationInput: Swift.Equatable {
-    /// The ID of the Security Lake subscriber account.
-    /// This member is required.
-    public var subscriptionId: Swift.String?
+public struct DeregisterDataLakeDelegatedAdministratorInput: Swift.Equatable {
 
-    public init(
-        subscriptionId: Swift.String? = nil
-    )
-    {
-        self.subscriptionId = subscriptionId
-    }
+    public init() { }
 }
 
-struct DeleteSubscriptionNotificationConfigurationInputBody: Swift.Equatable {
+struct DeregisterDataLakeDelegatedAdministratorInputBody: Swift.Equatable {
 }
 
-extension DeleteSubscriptionNotificationConfigurationInputBody: Swift.Decodable {
+extension DeregisterDataLakeDelegatedAdministratorInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-public enum DeleteSubscriptionNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum DeregisterDataLakeDelegatedAdministratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension DeleteSubscriptionNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeregisterDataLakeDelegatedAdministratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteSubscriptionNotificationConfigurationOutputResponse: Swift.Equatable {
+public struct DeregisterDataLakeDelegatedAdministratorOutputResponse: Swift.Equatable {
 
     public init() { }
 }
 
-extension SecurityLakeClientTypes {
-    public enum Dimension: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case member
-        case region
-        case sourceType
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Dimension] {
-            return [
-                .member,
-                .region,
-                .sourceType,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .member: return "MEMBER"
-            case .region: return "REGION"
-            case .sourceType: return "SOURCE_TYPE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Dimension(rawValue: rawValue) ?? Dimension.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension SecurityLakeClientTypes {
-    public enum EndpointProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case https
-        case sqs
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EndpointProtocol] {
-            return [
-                .https,
-                .sqs,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .https: return "HTTPS"
-            case .sqs: return "SQS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = EndpointProtocol(rawValue: rawValue) ?? EndpointProtocol.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension EventBridgeException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EventBridgeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// Represents an error interacting with the Amazon EventBridge service.
-public struct EventBridgeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EventBridgeException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-struct EventBridgeExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension EventBridgeExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension SecurityLakeClientTypes.Failures: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exceptionMessage
-        case remediation
-        case timestamp
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let exceptionMessage = self.exceptionMessage {
-            try encodeContainer.encode(exceptionMessage, forKey: .exceptionMessage)
-        }
-        if let remediation = self.remediation {
-            try encodeContainer.encode(remediation, forKey: .remediation)
-        }
-        if let timestamp = self.timestamp {
-            try encodeContainer.encodeTimestamp(timestamp, format: .dateTime, forKey: .timestamp)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let exceptionMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exceptionMessage)
-        exceptionMessage = exceptionMessageDecoded
-        let remediationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remediation)
-        remediation = remediationDecoded
-        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .timestamp)
-        timestamp = timestampDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// List of all failures.
-    public struct Failures: Swift.Equatable {
-        /// List of all exception messages.
-        /// This member is required.
-        public var exceptionMessage: Swift.String?
-        /// List of all remediation steps for failures.
-        /// This member is required.
-        public var remediation: Swift.String?
-        /// This error can occur if you configure the wrong timestamp format, or if the subset of entries used for validation had errors or missing values.
-        /// This member is required.
-        public var timestamp: ClientRuntime.Date?
-
-        public init(
-            exceptionMessage: Swift.String? = nil,
-            remediation: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil
-        )
-        {
-            self.exceptionMessage = exceptionMessage
-            self.remediation = remediation
-            self.timestamp = timestamp
-        }
-    }
-
-}
-
-extension SecurityLakeClientTypes.FailuresResponse: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case failures
-        case region
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let failures = failures {
-            var failuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failures)
-            for failures0 in failures {
-                try failuresContainer.encode(failures0)
-            }
-        }
-        if let region = self.region {
-            try encodeContainer.encode(region, forKey: .region)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
-        region = regionDecoded
-        let failuresContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.Failures?].self, forKey: .failures)
-        var failuresDecoded0:[SecurityLakeClientTypes.Failures]? = nil
-        if let failuresContainer = failuresContainer {
-            failuresDecoded0 = [SecurityLakeClientTypes.Failures]()
-            for structure0 in failuresContainer {
-                if let structure0 = structure0 {
-                    failuresDecoded0?.append(structure0)
-                }
-            }
-        }
-        failures = failuresDecoded0
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// Response element for actions that make changes, namely create, update, or delete actions.
-    public struct FailuresResponse: Swift.Equatable {
-        /// List of all failures.
-        public var failures: [SecurityLakeClientTypes.Failures]?
-        /// List of Amazon Web Services Regions where the failure occurred.
-        public var region: Swift.String?
-
-        public init(
-            failures: [SecurityLakeClientTypes.Failures]? = nil,
-            region: Swift.String? = nil
-        )
-        {
-            self.failures = failures
-            self.region = region
-        }
-    }
-
-}
-
-extension GetDatalakeAutoEnableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/v1/datalake/autoenable"
-    }
-}
-
-public struct GetDatalakeAutoEnableInput: Swift.Equatable {
-
-    public init() { }
-}
-
-struct GetDatalakeAutoEnableInputBody: Swift.Equatable {
-}
-
-extension GetDatalakeAutoEnableInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-public enum GetDatalakeAutoEnableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDatalakeAutoEnableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDatalakeAutoEnableOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.autoEnableNewAccounts = output.autoEnableNewAccounts
-        } else {
-            self.autoEnableNewAccounts = nil
-        }
-    }
-}
-
-public struct GetDatalakeAutoEnableOutputResponse: Swift.Equatable {
-    /// The configuration for new accounts.
-    /// This member is required.
-    public var autoEnableNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]?
-
-    public init(
-        autoEnableNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]? = nil
-    )
-    {
-        self.autoEnableNewAccounts = autoEnableNewAccounts
-    }
-}
-
-struct GetDatalakeAutoEnableOutputResponseBody: Swift.Equatable {
-    let autoEnableNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]?
-}
-
-extension GetDatalakeAutoEnableOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case autoEnableNewAccounts
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableNewAccountsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AutoEnableNewRegionConfiguration?].self, forKey: .autoEnableNewAccounts)
-        var autoEnableNewAccountsDecoded0:[SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]? = nil
-        if let autoEnableNewAccountsContainer = autoEnableNewAccountsContainer {
-            autoEnableNewAccountsDecoded0 = [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]()
-            for structure0 in autoEnableNewAccountsContainer {
-                if let structure0 = structure0 {
-                    autoEnableNewAccountsDecoded0?.append(structure0)
-                }
-            }
-        }
-        autoEnableNewAccounts = autoEnableNewAccountsDecoded0
-    }
-}
-
-extension GetDatalakeExceptionsExpiryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/v1/datalake/exceptions/expiry"
-    }
-}
-
-public struct GetDatalakeExceptionsExpiryInput: Swift.Equatable {
-
-    public init() { }
-}
-
-struct GetDatalakeExceptionsExpiryInputBody: Swift.Equatable {
-}
-
-extension GetDatalakeExceptionsExpiryInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-public enum GetDatalakeExceptionsExpiryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDatalakeExceptionsExpiryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDatalakeExceptionsExpiryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.exceptionMessageExpiry = output.exceptionMessageExpiry
-        } else {
-            self.exceptionMessageExpiry = nil
-        }
-    }
-}
-
-public struct GetDatalakeExceptionsExpiryOutputResponse: Swift.Equatable {
-    /// The expiration period and time-to-live (TTL).
-    /// This member is required.
-    public var exceptionMessageExpiry: Swift.Int?
-
-    public init(
-        exceptionMessageExpiry: Swift.Int? = nil
-    )
-    {
-        self.exceptionMessageExpiry = exceptionMessageExpiry
-    }
-}
-
-struct GetDatalakeExceptionsExpiryOutputResponseBody: Swift.Equatable {
-    let exceptionMessageExpiry: Swift.Int?
-}
-
-extension GetDatalakeExceptionsExpiryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exceptionMessageExpiry
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let exceptionMessageExpiryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exceptionMessageExpiry)
-        exceptionMessageExpiry = exceptionMessageExpiryDecoded
-    }
-}
-
-extension GetDatalakeExceptionsSubscriptionInput: ClientRuntime.URLPathProvider {
+extension GetDataLakeExceptionSubscriptionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/v1/datalake/exceptions/subscription"
     }
 }
 
-public struct GetDatalakeExceptionsSubscriptionInput: Swift.Equatable {
+public struct GetDataLakeExceptionSubscriptionInput: Swift.Equatable {
 
     public init() { }
 }
 
-struct GetDatalakeExceptionsSubscriptionInputBody: Swift.Equatable {
+struct GetDataLakeExceptionSubscriptionInputBody: Swift.Equatable {
 }
 
-extension GetDatalakeExceptionsSubscriptionInputBody: Swift.Decodable {
+extension GetDataLakeExceptionSubscriptionInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-public enum GetDatalakeExceptionsSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum GetDataLakeExceptionSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDatalakeExceptionsSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDatalakeExceptionsSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.protocolAndNotificationEndpoint = output.protocolAndNotificationEndpoint
-        } else {
-            self.protocolAndNotificationEndpoint = nil
-        }
-    }
-}
-
-public struct GetDatalakeExceptionsSubscriptionOutputResponse: Swift.Equatable {
-    /// Retrieves the exception notification subscription information.
-    /// This member is required.
-    public var protocolAndNotificationEndpoint: SecurityLakeClientTypes.ProtocolAndNotificationEndpoint?
-
-    public init(
-        protocolAndNotificationEndpoint: SecurityLakeClientTypes.ProtocolAndNotificationEndpoint? = nil
-    )
-    {
-        self.protocolAndNotificationEndpoint = protocolAndNotificationEndpoint
-    }
-}
-
-struct GetDatalakeExceptionsSubscriptionOutputResponseBody: Swift.Equatable {
-    let protocolAndNotificationEndpoint: SecurityLakeClientTypes.ProtocolAndNotificationEndpoint?
-}
-
-extension GetDatalakeExceptionsSubscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case protocolAndNotificationEndpoint
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let protocolAndNotificationEndpointDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.ProtocolAndNotificationEndpoint.self, forKey: .protocolAndNotificationEndpoint)
-        protocolAndNotificationEndpoint = protocolAndNotificationEndpointDecoded
-    }
-}
-
-extension GetDatalakeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/v1/datalake"
-    }
-}
-
-public struct GetDatalakeInput: Swift.Equatable {
-
-    public init() { }
-}
-
-struct GetDatalakeInputBody: Swift.Equatable {
-}
-
-extension GetDatalakeInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-public enum GetDatalakeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension GetDatalakeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDataLakeExceptionSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDatalakeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.configurations = output.configurations
+            let output: GetDataLakeExceptionSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.exceptionTimeToLive = output.exceptionTimeToLive
+            self.notificationEndpoint = output.notificationEndpoint
+            self.subscriptionProtocol = output.subscriptionProtocol
         } else {
-            self.configurations = nil
+            self.exceptionTimeToLive = nil
+            self.notificationEndpoint = nil
+            self.subscriptionProtocol = nil
         }
     }
 }
 
-public struct GetDatalakeOutputResponse: Swift.Equatable {
-    /// Retrieves the Security Lake configuration object.
-    /// This member is required.
-    public var configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationResponse]?
+public struct GetDataLakeExceptionSubscriptionOutputResponse: Swift.Equatable {
+    /// The expiration period and time-to-live (TTL).
+    public var exceptionTimeToLive: Swift.Int?
+    /// The Amazon Web Services account where you receive exception notifications.
+    public var notificationEndpoint: Swift.String?
+    /// The subscription protocol to which exception notifications are posted.
+    public var subscriptionProtocol: Swift.String?
 
     public init(
-        configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationResponse]? = nil
+        exceptionTimeToLive: Swift.Int? = nil,
+        notificationEndpoint: Swift.String? = nil,
+        subscriptionProtocol: Swift.String? = nil
     )
     {
-        self.configurations = configurations
+        self.exceptionTimeToLive = exceptionTimeToLive
+        self.notificationEndpoint = notificationEndpoint
+        self.subscriptionProtocol = subscriptionProtocol
     }
 }
 
-struct GetDatalakeOutputResponseBody: Swift.Equatable {
-    let configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationResponse]?
+struct GetDataLakeExceptionSubscriptionOutputResponseBody: Swift.Equatable {
+    let subscriptionProtocol: Swift.String?
+    let notificationEndpoint: Swift.String?
+    let exceptionTimeToLive: Swift.Int?
 }
 
-extension GetDatalakeOutputResponseBody: Swift.Decodable {
+extension GetDataLakeExceptionSubscriptionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case configurations
+        case exceptionTimeToLive
+        case notificationEndpoint
+        case subscriptionProtocol
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let configurationsContainer = try containerValues.decodeIfPresent([Swift.String: SecurityLakeClientTypes.LakeConfigurationResponse?].self, forKey: .configurations)
-        var configurationsDecoded0: [Swift.String:SecurityLakeClientTypes.LakeConfigurationResponse]? = nil
-        if let configurationsContainer = configurationsContainer {
-            configurationsDecoded0 = [Swift.String:SecurityLakeClientTypes.LakeConfigurationResponse]()
-            for (key0, lakeconfigurationresponse0) in configurationsContainer {
-                if let lakeconfigurationresponse0 = lakeconfigurationresponse0 {
-                    configurationsDecoded0?[key0] = lakeconfigurationresponse0
+        let subscriptionProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionProtocol)
+        subscriptionProtocol = subscriptionProtocolDecoded
+        let notificationEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notificationEndpoint)
+        notificationEndpoint = notificationEndpointDecoded
+        let exceptionTimeToLiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exceptionTimeToLive)
+        exceptionTimeToLive = exceptionTimeToLiveDecoded
+    }
+}
+
+extension GetDataLakeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/datalake/organization/configuration"
+    }
+}
+
+public struct GetDataLakeOrganizationConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetDataLakeOrganizationConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetDataLakeOrganizationConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetDataLakeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetDataLakeOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDataLakeOrganizationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.autoEnableNewAccount = output.autoEnableNewAccount
+        } else {
+            self.autoEnableNewAccount = nil
+        }
+    }
+}
+
+public struct GetDataLakeOrganizationConfigurationOutputResponse: Swift.Equatable {
+    /// The configuration for new accounts.
+    public var autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
+
+    public init(
+        autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
+    )
+    {
+        self.autoEnableNewAccount = autoEnableNewAccount
+    }
+}
+
+struct GetDataLakeOrganizationConfigurationOutputResponseBody: Swift.Equatable {
+    let autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
+}
+
+extension GetDataLakeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoEnableNewAccount
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoEnableNewAccountContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration?].self, forKey: .autoEnableNewAccount)
+        var autoEnableNewAccountDecoded0:[SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
+        if let autoEnableNewAccountContainer = autoEnableNewAccountContainer {
+            autoEnableNewAccountDecoded0 = [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]()
+            for structure0 in autoEnableNewAccountContainer {
+                if let structure0 = structure0 {
+                    autoEnableNewAccountDecoded0?.append(structure0)
                 }
             }
         }
-        configurations = configurationsDecoded0
+        autoEnableNewAccount = autoEnableNewAccountDecoded0
     }
 }
 
-extension GetDatalakeStatusInput: Swift.Encodable {
+extension GetDataLakeSourcesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accountSet
-        case maxAccountResults
+        case accounts
+        case maxResults
         case nextToken
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let accountSet = accountSet {
-            var accountSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountSet)
-            for safestring0 in accountSet {
-                try accountSetContainer.encode(safestring0)
+        if let accounts = accounts {
+            var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
+            for awsaccountid0 in accounts {
+                try accountsContainer.encode(awsaccountid0)
             }
         }
-        if let maxAccountResults = self.maxAccountResults {
-            try encodeContainer.encode(maxAccountResults, forKey: .maxAccountResults)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
@@ -3180,134 +3294,145 @@ extension GetDatalakeStatusInput: Swift.Encodable {
     }
 }
 
-extension GetDatalakeStatusInput: ClientRuntime.URLPathProvider {
+extension GetDataLakeSourcesInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        return "/v1/datalake/status"
+        return "/v1/datalake/sources"
     }
 }
 
-public struct GetDatalakeStatusInput: Swift.Equatable {
+public struct GetDataLakeSourcesInput: Swift.Equatable {
     /// The Amazon Web Services account ID for which a static snapshot of the current Amazon Web Services Region, including enabled accounts and log sources, is retrieved.
-    public var accountSet: [Swift.String]?
+    public var accounts: [Swift.String]?
     /// The maximum limit of accounts for which the static snapshot of the current Region, including enabled accounts and log sources, is retrieved.
-    public var maxAccountResults: Swift.Int?
+    public var maxResults: Swift.Int?
     /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
-        accountSet: [Swift.String]? = nil,
-        maxAccountResults: Swift.Int? = nil,
+        accounts: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
-        self.accountSet = accountSet
-        self.maxAccountResults = maxAccountResults
+        self.accounts = accounts
+        self.maxResults = maxResults
         self.nextToken = nextToken
     }
 }
 
-struct GetDatalakeStatusInputBody: Swift.Equatable {
-    let accountSet: [Swift.String]?
-    let maxAccountResults: Swift.Int?
+struct GetDataLakeSourcesInputBody: Swift.Equatable {
+    let accounts: [Swift.String]?
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
-extension GetDatalakeStatusInputBody: Swift.Decodable {
+extension GetDataLakeSourcesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accountSet
-        case maxAccountResults
+        case accounts
+        case maxResults
         case nextToken
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accountSetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountSet)
-        var accountSetDecoded0:[Swift.String]? = nil
-        if let accountSetContainer = accountSetContainer {
-            accountSetDecoded0 = [Swift.String]()
-            for string0 in accountSetContainer {
+        let accountsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accounts)
+        var accountsDecoded0:[Swift.String]? = nil
+        if let accountsContainer = accountsContainer {
+            accountsDecoded0 = [Swift.String]()
+            for string0 in accountsContainer {
                 if let string0 = string0 {
-                    accountSetDecoded0?.append(string0)
+                    accountsDecoded0?.append(string0)
                 }
             }
         }
-        accountSet = accountSetDecoded0
-        let maxAccountResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAccountResults)
-        maxAccountResults = maxAccountResultsDecoded
+        accounts = accountsDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-public enum GetDatalakeStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum GetDataLakeSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension GetDatalakeStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDataLakeSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDatalakeStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.accountSourcesList = output.accountSourcesList
+            let output: GetDataLakeSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataLakeArn = output.dataLakeArn
+            self.dataLakeSources = output.dataLakeSources
             self.nextToken = output.nextToken
         } else {
-            self.accountSourcesList = nil
+            self.dataLakeArn = nil
+            self.dataLakeSources = nil
             self.nextToken = nil
         }
     }
 }
 
-public struct GetDatalakeStatusOutputResponse: Swift.Equatable {
+public struct GetDataLakeSourcesOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html).
+    public var dataLakeArn: Swift.String?
     /// The list of enabled accounts and enabled sources.
-    /// This member is required.
-    public var accountSourcesList: [SecurityLakeClientTypes.AccountSources]?
+    public var dataLakeSources: [SecurityLakeClientTypes.DataLakeSource]?
     /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
-        accountSourcesList: [SecurityLakeClientTypes.AccountSources]? = nil,
+        dataLakeArn: Swift.String? = nil,
+        dataLakeSources: [SecurityLakeClientTypes.DataLakeSource]? = nil,
         nextToken: Swift.String? = nil
     )
     {
-        self.accountSourcesList = accountSourcesList
+        self.dataLakeArn = dataLakeArn
+        self.dataLakeSources = dataLakeSources
         self.nextToken = nextToken
     }
 }
 
-struct GetDatalakeStatusOutputResponseBody: Swift.Equatable {
-    let accountSourcesList: [SecurityLakeClientTypes.AccountSources]?
+struct GetDataLakeSourcesOutputResponseBody: Swift.Equatable {
+    let dataLakeArn: Swift.String?
+    let dataLakeSources: [SecurityLakeClientTypes.DataLakeSource]?
     let nextToken: Swift.String?
 }
 
-extension GetDatalakeStatusOutputResponseBody: Swift.Decodable {
+extension GetDataLakeSourcesOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accountSourcesList
+        case dataLakeArn
+        case dataLakeSources
         case nextToken
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accountSourcesListContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AccountSources?].self, forKey: .accountSourcesList)
-        var accountSourcesListDecoded0:[SecurityLakeClientTypes.AccountSources]? = nil
-        if let accountSourcesListContainer = accountSourcesListContainer {
-            accountSourcesListDecoded0 = [SecurityLakeClientTypes.AccountSources]()
-            for structure0 in accountSourcesListContainer {
+        let dataLakeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataLakeArn)
+        dataLakeArn = dataLakeArnDecoded
+        let dataLakeSourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeSource?].self, forKey: .dataLakeSources)
+        var dataLakeSourcesDecoded0:[SecurityLakeClientTypes.DataLakeSource]? = nil
+        if let dataLakeSourcesContainer = dataLakeSourcesContainer {
+            dataLakeSourcesDecoded0 = [SecurityLakeClientTypes.DataLakeSource]()
+            for structure0 in dataLakeSourcesContainer {
                 if let structure0 = structure0 {
-                    accountSourcesListDecoded0?.append(structure0)
+                    dataLakeSourcesDecoded0?.append(structure0)
                 }
             }
         }
-        accountSourcesList = accountSourcesListDecoded0
+        dataLakeSources = dataLakeSourcesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -3315,23 +3440,23 @@ extension GetDatalakeStatusOutputResponseBody: Swift.Decodable {
 
 extension GetSubscriberInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        guard let id = id else {
+        guard let subscriberId = subscriberId else {
             return nil
         }
-        return "/v1/subscribers/\(id.urlPercentEncoding())"
+        return "/v1/subscribers/\(subscriberId.urlPercentEncoding())"
     }
 }
 
 public struct GetSubscriberInput: Swift.Equatable {
     /// A value created by Amazon Security Lake that uniquely identifies your GetSubscriber API request.
     /// This member is required.
-    public var id: Swift.String?
+    public var subscriberId: Swift.String?
 
     public init(
-        id: Swift.String? = nil
+        subscriberId: Swift.String? = nil
     )
     {
-        self.id = id
+        self.subscriberId = subscriberId
     }
 }
 
@@ -3350,10 +3475,11 @@ public enum GetSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -3372,7 +3498,7 @@ extension GetSubscriberOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetSubscriberOutputResponse: Swift.Equatable {
-    /// The subscription information for the specified subscription ID.
+    /// The subscriber information for the specified subscriber ID.
     public var subscriber: SecurityLakeClientTypes.SubscriberResource?
 
     public init(
@@ -3400,12 +3526,12 @@ extension GetSubscriberOutputResponseBody: Swift.Decodable {
 }
 
 extension SecurityLakeClientTypes {
-    public enum HttpsMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+    public enum HttpMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case post
         case put
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [HttpsMethod] {
+        public static var allCases: [HttpMethod] {
             return [
                 .post,
                 .put,
@@ -3426,18 +3552,90 @@ extension SecurityLakeClientTypes {
         public init(from decoder: Swift.Decoder) throws {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
-            self = HttpsMethod(rawValue: rawValue) ?? HttpsMethod.sdkUnknown(rawValue)
+            self = HttpMethod(rawValue: rawValue) ?? HttpMethod.sdkUnknown(rawValue)
         }
     }
 }
 
+extension SecurityLakeClientTypes.HttpsNotificationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizationApiKeyName
+        case authorizationApiKeyValue
+        case endpoint
+        case httpMethod
+        case targetRoleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizationApiKeyName = self.authorizationApiKeyName {
+            try encodeContainer.encode(authorizationApiKeyName, forKey: .authorizationApiKeyName)
+        }
+        if let authorizationApiKeyValue = self.authorizationApiKeyValue {
+            try encodeContainer.encode(authorizationApiKeyValue, forKey: .authorizationApiKeyValue)
+        }
+        if let endpoint = self.endpoint {
+            try encodeContainer.encode(endpoint, forKey: .endpoint)
+        }
+        if let httpMethod = self.httpMethod {
+            try encodeContainer.encode(httpMethod.rawValue, forKey: .httpMethod)
+        }
+        if let targetRoleArn = self.targetRoleArn {
+            try encodeContainer.encode(targetRoleArn, forKey: .targetRoleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
+        endpoint = endpointDecoded
+        let authorizationApiKeyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizationApiKeyName)
+        authorizationApiKeyName = authorizationApiKeyNameDecoded
+        let authorizationApiKeyValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizationApiKeyValue)
+        authorizationApiKeyValue = authorizationApiKeyValueDecoded
+        let httpMethodDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.HttpMethod.self, forKey: .httpMethod)
+        httpMethod = httpMethodDecoded
+        let targetRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetRoleArn)
+        targetRoleArn = targetRoleArnDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The configurations for HTTPS subscriber notification.
+    public struct HttpsNotificationConfiguration: Swift.Equatable {
+        /// The key name for the notification subscription.
+        public var authorizationApiKeyName: Swift.String?
+        /// The key value for the notification subscription.
+        public var authorizationApiKeyValue: Swift.String?
+        /// The subscription endpoint in Security Lake. If you prefer notification with an HTTPs endpoint, populate this field.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// The HTTPS method used for the notification subscription.
+        public var httpMethod: SecurityLakeClientTypes.HttpMethod?
+        /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role that you created. For more information about ARNs and how to use them in policies, see [Managing data access](https://docs.aws.amazon.com//security-lake/latest/userguide/subscriber-data-access.html) and [Amazon Web Services Managed Policies](https://docs.aws.amazon.com/security-lake/latest/userguide/security-iam-awsmanpol.html) in the Amazon Security Lake User Guide.
+        /// This member is required.
+        public var targetRoleArn: Swift.String?
+
+        public init(
+            authorizationApiKeyName: Swift.String? = nil,
+            authorizationApiKeyValue: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            httpMethod: SecurityLakeClientTypes.HttpMethod? = nil,
+            targetRoleArn: Swift.String? = nil
+        )
+        {
+            self.authorizationApiKeyName = authorizationApiKeyName
+            self.authorizationApiKeyValue = authorizationApiKeyValue
+            self.endpoint = endpoint
+            self.httpMethod = httpMethod
+            self.targetRoleArn = targetRoleArn
+        }
+    }
+
+}
+
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            self.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        } else {
-            self.properties.retryAfterSeconds = nil
-        }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
@@ -3455,10 +3653,7 @@ extension InternalServerException {
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// Retry the request after the specified time.
-        public internal(set) var retryAfterSeconds: Swift.Int? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -3471,12 +3666,10 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int? = nil
+        message: Swift.String? = nil
     )
     {
         self.properties.message = message
-        self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
@@ -3496,559 +3689,286 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension InvalidInputException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// The request was rejected because a value that's not valid or is out of range was supplied for an input parameter.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidInputException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-struct InvalidInputExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension InvalidInputExceptionBody: Swift.Decodable {
+extension ListDataLakeExceptionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension SecurityLakeClientTypes.LakeConfigurationRequest: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case encryptionKey
-        case replicationDestinationRegions
-        case replicationRoleArn
-        case retentionSettings
-        case tagsMap
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let encryptionKey = self.encryptionKey {
-            try encodeContainer.encode(encryptionKey, forKey: .encryptionKey)
-        }
-        if let replicationDestinationRegions = replicationDestinationRegions {
-            var replicationDestinationRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationDestinationRegions)
-            for region0 in replicationDestinationRegions {
-                try replicationDestinationRegionsContainer.encode(region0.rawValue)
-            }
-        }
-        if let replicationRoleArn = self.replicationRoleArn {
-            try encodeContainer.encode(replicationRoleArn, forKey: .replicationRoleArn)
-        }
-        if let retentionSettings = retentionSettings {
-            var retentionSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .retentionSettings)
-            for retentionsetting0 in retentionSettings {
-                try retentionSettingsContainer.encode(retentionsetting0)
-            }
-        }
-        if let tagsMap = tagsMap {
-            var tagsMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tagsMap)
-            for (dictKey0, tagsMap0) in tagsMap {
-                try tagsMapContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
-            }
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let encryptionKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKey)
-        encryptionKey = encryptionKeyDecoded
-        let retentionSettingsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.RetentionSetting?].self, forKey: .retentionSettings)
-        var retentionSettingsDecoded0:[SecurityLakeClientTypes.RetentionSetting]? = nil
-        if let retentionSettingsContainer = retentionSettingsContainer {
-            retentionSettingsDecoded0 = [SecurityLakeClientTypes.RetentionSetting]()
-            for structure0 in retentionSettingsContainer {
-                if let structure0 = structure0 {
-                    retentionSettingsDecoded0?.append(structure0)
-                }
-            }
-        }
-        retentionSettings = retentionSettingsDecoded0
-        let tagsMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tagsMap)
-        var tagsMapDecoded0: [Swift.String:Swift.String]? = nil
-        if let tagsMapContainer = tagsMapContainer {
-            tagsMapDecoded0 = [Swift.String:Swift.String]()
-            for (key0, string0) in tagsMapContainer {
-                if let string0 = string0 {
-                    tagsMapDecoded0?[key0] = string0
-                }
-            }
-        }
-        tagsMap = tagsMapDecoded0
-        let replicationDestinationRegionsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.Region?].self, forKey: .replicationDestinationRegions)
-        var replicationDestinationRegionsDecoded0:[SecurityLakeClientTypes.Region]? = nil
-        if let replicationDestinationRegionsContainer = replicationDestinationRegionsContainer {
-            replicationDestinationRegionsDecoded0 = [SecurityLakeClientTypes.Region]()
-            for string0 in replicationDestinationRegionsContainer {
-                if let string0 = string0 {
-                    replicationDestinationRegionsDecoded0?.append(string0)
-                }
-            }
-        }
-        replicationDestinationRegions = replicationDestinationRegionsDecoded0
-        let replicationRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationRoleArn)
-        replicationRoleArn = replicationRoleArnDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// Provides details of Amazon Security Lake configuration object.
-    public struct LakeConfigurationRequest: Swift.Equatable {
-        /// The type of encryption key used by Amazon Security Lake to encrypt the Security Lake configuration object.
-        public var encryptionKey: Swift.String?
-        /// Replication enables automatic, asynchronous copying of objects across Amazon S3 buckets. Amazon S3 buckets that are configured for object replication can be owned by the same Amazon Web Services account or by different accounts. You can replicate objects to a single destination bucket or to multiple destination buckets. The destination buckets can be in different Amazon Web Services Regions or within the same Region as the source bucket. Set up one or more rollup Regions by providing the Region or Regions that should contribute to the central rollup Region.
-        public var replicationDestinationRegions: [SecurityLakeClientTypes.Region]?
-        /// Replication settings for the Amazon S3 buckets. This parameter uses the Identity and Access Management (IAM) role you created that is managed by Security Lake, to ensure the replication setting is correct.
-        public var replicationRoleArn: Swift.String?
-        /// Retention settings for the destination Amazon S3 buckets.
-        public var retentionSettings: [SecurityLakeClientTypes.RetentionSetting]?
-        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define.
-        public var tagsMap: [Swift.String:Swift.String]?
-
-        public init(
-            encryptionKey: Swift.String? = nil,
-            replicationDestinationRegions: [SecurityLakeClientTypes.Region]? = nil,
-            replicationRoleArn: Swift.String? = nil,
-            retentionSettings: [SecurityLakeClientTypes.RetentionSetting]? = nil,
-            tagsMap: [Swift.String:Swift.String]? = nil
-        )
-        {
-            self.encryptionKey = encryptionKey
-            self.replicationDestinationRegions = replicationDestinationRegions
-            self.replicationRoleArn = replicationRoleArn
-            self.retentionSettings = retentionSettings
-            self.tagsMap = tagsMap
-        }
-    }
-
-}
-
-extension SecurityLakeClientTypes.LakeConfigurationResponse: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case encryptionKey
-        case replicationDestinationRegions
-        case replicationRoleArn
-        case retentionSettings
-        case s3BucketArn
-        case status
-        case tagsMap
-        case updateStatus
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let encryptionKey = self.encryptionKey {
-            try encodeContainer.encode(encryptionKey, forKey: .encryptionKey)
-        }
-        if let replicationDestinationRegions = replicationDestinationRegions {
-            var replicationDestinationRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationDestinationRegions)
-            for region0 in replicationDestinationRegions {
-                try replicationDestinationRegionsContainer.encode(region0.rawValue)
-            }
-        }
-        if let replicationRoleArn = self.replicationRoleArn {
-            try encodeContainer.encode(replicationRoleArn, forKey: .replicationRoleArn)
-        }
-        if let retentionSettings = retentionSettings {
-            var retentionSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .retentionSettings)
-            for retentionsetting0 in retentionSettings {
-                try retentionSettingsContainer.encode(retentionsetting0)
-            }
-        }
-        if let s3BucketArn = self.s3BucketArn {
-            try encodeContainer.encode(s3BucketArn, forKey: .s3BucketArn)
-        }
-        if let status = self.status {
-            try encodeContainer.encode(status.rawValue, forKey: .status)
-        }
-        if let tagsMap = tagsMap {
-            var tagsMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tagsMap)
-            for (dictKey0, tagsMap0) in tagsMap {
-                try tagsMapContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
-            }
-        }
-        if let updateStatus = self.updateStatus {
-            try encodeContainer.encode(updateStatus, forKey: .updateStatus)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let encryptionKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKey)
-        encryptionKey = encryptionKeyDecoded
-        let retentionSettingsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.RetentionSetting?].self, forKey: .retentionSettings)
-        var retentionSettingsDecoded0:[SecurityLakeClientTypes.RetentionSetting]? = nil
-        if let retentionSettingsContainer = retentionSettingsContainer {
-            retentionSettingsDecoded0 = [SecurityLakeClientTypes.RetentionSetting]()
-            for structure0 in retentionSettingsContainer {
-                if let structure0 = structure0 {
-                    retentionSettingsDecoded0?.append(structure0)
-                }
-            }
-        }
-        retentionSettings = retentionSettingsDecoded0
-        let tagsMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tagsMap)
-        var tagsMapDecoded0: [Swift.String:Swift.String]? = nil
-        if let tagsMapContainer = tagsMapContainer {
-            tagsMapDecoded0 = [Swift.String:Swift.String]()
-            for (key0, string0) in tagsMapContainer {
-                if let string0 = string0 {
-                    tagsMapDecoded0?[key0] = string0
-                }
-            }
-        }
-        tagsMap = tagsMapDecoded0
-        let replicationDestinationRegionsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.Region?].self, forKey: .replicationDestinationRegions)
-        var replicationDestinationRegionsDecoded0:[SecurityLakeClientTypes.Region]? = nil
-        if let replicationDestinationRegionsContainer = replicationDestinationRegionsContainer {
-            replicationDestinationRegionsDecoded0 = [SecurityLakeClientTypes.Region]()
-            for string0 in replicationDestinationRegionsContainer {
-                if let string0 = string0 {
-                    replicationDestinationRegionsDecoded0?.append(string0)
-                }
-            }
-        }
-        replicationDestinationRegions = replicationDestinationRegionsDecoded0
-        let replicationRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationRoleArn)
-        replicationRoleArn = replicationRoleArnDecoded
-        let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
-        s3BucketArn = s3BucketArnDecoded
-        let statusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SettingsStatus.self, forKey: .status)
-        status = statusDecoded
-        let updateStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.UpdateStatus.self, forKey: .updateStatus)
-        updateStatus = updateStatusDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// Provides details of Amazon Security Lake lake configuration object.
-    public struct LakeConfigurationResponse: Swift.Equatable {
-        /// The type of encryption key used by secure the Security Lake configuration object.
-        public var encryptionKey: Swift.String?
-        /// Replication enables automatic, asynchronous copying of objects across Amazon S3 buckets. Amazon S3 buckets that are configured for object replication can be owned by the same Amazon Web Services account or by different accounts. You can replicate objects to a single destination bucket or to multiple destination buckets. The destination buckets can be in different Amazon Web Services Regions or within the same Region as the source bucket. Set up one or more rollup Regions by providing the Region or Regions that should contribute to the central rollup Region.
-        public var replicationDestinationRegions: [SecurityLakeClientTypes.Region]?
-        /// Replication settings for the Amazon S3 buckets. This parameter uses the IAM role you created that is managed by Security Lake, to ensure the replication setting is correct.
-        public var replicationRoleArn: Swift.String?
-        /// Retention settings for the destination Amazon S3 buckets.
-        public var retentionSettings: [SecurityLakeClientTypes.RetentionSetting]?
-        /// Amazon Resource Names (ARNs) uniquely identify Amazon Web Services resources. Security Lake requires an ARN when you need to specify a resource unambiguously across all of Amazon Web Services, such as in IAM policies, Amazon Relational Database Service (Amazon RDS) tags, and API calls.
-        public var s3BucketArn: Swift.String?
-        /// Retrieves the status of the configuration operation for an account in Amazon Security Lake.
-        public var status: SecurityLakeClientTypes.SettingsStatus?
-        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define.
-        public var tagsMap: [Swift.String:Swift.String]?
-        /// The status of the last UpdateDatalake or DeleteDatalake API request.
-        public var updateStatus: SecurityLakeClientTypes.UpdateStatus?
-
-        public init(
-            encryptionKey: Swift.String? = nil,
-            replicationDestinationRegions: [SecurityLakeClientTypes.Region]? = nil,
-            replicationRoleArn: Swift.String? = nil,
-            retentionSettings: [SecurityLakeClientTypes.RetentionSetting]? = nil,
-            s3BucketArn: Swift.String? = nil,
-            status: SecurityLakeClientTypes.SettingsStatus? = nil,
-            tagsMap: [Swift.String:Swift.String]? = nil,
-            updateStatus: SecurityLakeClientTypes.UpdateStatus? = nil
-        )
-        {
-            self.encryptionKey = encryptionKey
-            self.replicationDestinationRegions = replicationDestinationRegions
-            self.replicationRoleArn = replicationRoleArn
-            self.retentionSettings = retentionSettings
-            self.s3BucketArn = s3BucketArn
-            self.status = status
-            self.tagsMap = tagsMap
-            self.updateStatus = updateStatus
-        }
-    }
-
-}
-
-extension SecurityLakeClientTypes.LastUpdateFailure: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case code
-        case reason
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let code = self.code {
-            try encodeContainer.encode(code, forKey: .code)
-        }
-        if let reason = self.reason {
-            try encodeContainer.encode(reason, forKey: .reason)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
-        reason = reasonDecoded
-        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
-        code = codeDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// The details of the last UpdateDatalake or DeleteDatalake API request which failed.
-    public struct LastUpdateFailure: Swift.Equatable {
-        /// The reason code for the failure of the last UpdateDatalake or DeleteDatalake API request.
-        public var code: Swift.String?
-        /// The reason for the failure of the last UpdateDatalakeor DeleteDatalake API request.
-        public var reason: Swift.String?
-
-        public init(
-            code: Swift.String? = nil,
-            reason: Swift.String? = nil
-        )
-        {
-            self.code = code
-            self.reason = reason
-        }
-    }
-
-}
-
-extension ListDatalakeExceptionsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case maxFailures
+        case maxResults
         case nextToken
-        case regionSet
+        case regions
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let maxFailures = self.maxFailures {
-            try encodeContainer.encode(maxFailures, forKey: .maxFailures)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
-        if let regionSet = regionSet {
-            var regionSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regionSet)
-            for region0 in regionSet {
-                try regionSetContainer.encode(region0.rawValue)
+        if let regions = regions {
+            var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
+            for region0 in regions {
+                try regionsContainer.encode(region0)
             }
         }
     }
 }
 
-extension ListDatalakeExceptionsInput: ClientRuntime.URLPathProvider {
+extension ListDataLakeExceptionsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/v1/datalake/exceptions"
     }
 }
 
-public struct ListDatalakeExceptionsInput: Swift.Equatable {
+public struct ListDataLakeExceptionsInput: Swift.Equatable {
     /// List the maximum number of failures in Security Lake.
-    public var maxFailures: Swift.Int?
+    public var maxResults: Swift.Int?
     /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// List the Amazon Web Services Regions from which exceptions are retrieved.
-    public var regionSet: [SecurityLakeClientTypes.Region]?
+    public var regions: [Swift.String]?
 
     public init(
-        maxFailures: Swift.Int? = nil,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        regionSet: [SecurityLakeClientTypes.Region]? = nil
+        regions: [Swift.String]? = nil
     )
     {
-        self.maxFailures = maxFailures
+        self.maxResults = maxResults
         self.nextToken = nextToken
-        self.regionSet = regionSet
+        self.regions = regions
     }
 }
 
-struct ListDatalakeExceptionsInputBody: Swift.Equatable {
-    let regionSet: [SecurityLakeClientTypes.Region]?
-    let maxFailures: Swift.Int?
+struct ListDataLakeExceptionsInputBody: Swift.Equatable {
+    let regions: [Swift.String]?
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
-extension ListDatalakeExceptionsInputBody: Swift.Decodable {
+extension ListDataLakeExceptionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case maxFailures
+        case maxResults
         case nextToken
-        case regionSet
+        case regions
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let regionSetContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.Region?].self, forKey: .regionSet)
-        var regionSetDecoded0:[SecurityLakeClientTypes.Region]? = nil
-        if let regionSetContainer = regionSetContainer {
-            regionSetDecoded0 = [SecurityLakeClientTypes.Region]()
-            for string0 in regionSetContainer {
+        let regionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .regions)
+        var regionsDecoded0:[Swift.String]? = nil
+        if let regionsContainer = regionsContainer {
+            regionsDecoded0 = [Swift.String]()
+            for string0 in regionsContainer {
                 if let string0 = string0 {
-                    regionSetDecoded0?.append(string0)
+                    regionsDecoded0?.append(string0)
                 }
             }
         }
-        regionSet = regionSetDecoded0
-        let maxFailuresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxFailures)
-        maxFailures = maxFailuresDecoded
+        regions = regionsDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-public enum ListDatalakeExceptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum ListDataLakeExceptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension ListDatalakeExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDataLakeExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDatalakeExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDataLakeExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.exceptions = output.exceptions
             self.nextToken = output.nextToken
-            self.nonRetryableFailures = output.nonRetryableFailures
         } else {
+            self.exceptions = nil
             self.nextToken = nil
-            self.nonRetryableFailures = nil
         }
     }
 }
 
-public struct ListDatalakeExceptionsOutputResponse: Swift.Equatable {
+public struct ListDataLakeExceptionsOutputResponse: Swift.Equatable {
+    /// Lists the failures that cannot be retried in the current Region.
+    public var exceptions: [SecurityLakeClientTypes.DataLakeException]?
     /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
-    /// Lists the failures that cannot be retried in the current Region.
-    /// This member is required.
-    public var nonRetryableFailures: [SecurityLakeClientTypes.FailuresResponse]?
 
     public init(
-        nextToken: Swift.String? = nil,
-        nonRetryableFailures: [SecurityLakeClientTypes.FailuresResponse]? = nil
+        exceptions: [SecurityLakeClientTypes.DataLakeException]? = nil,
+        nextToken: Swift.String? = nil
     )
     {
+        self.exceptions = exceptions
         self.nextToken = nextToken
-        self.nonRetryableFailures = nonRetryableFailures
     }
 }
 
-struct ListDatalakeExceptionsOutputResponseBody: Swift.Equatable {
-    let nonRetryableFailures: [SecurityLakeClientTypes.FailuresResponse]?
+struct ListDataLakeExceptionsOutputResponseBody: Swift.Equatable {
+    let exceptions: [SecurityLakeClientTypes.DataLakeException]?
     let nextToken: Swift.String?
 }
 
-extension ListDatalakeExceptionsOutputResponseBody: Swift.Decodable {
+extension ListDataLakeExceptionsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exceptions
         case nextToken
-        case nonRetryableFailures
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let nonRetryableFailuresContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.FailuresResponse?].self, forKey: .nonRetryableFailures)
-        var nonRetryableFailuresDecoded0:[SecurityLakeClientTypes.FailuresResponse]? = nil
-        if let nonRetryableFailuresContainer = nonRetryableFailuresContainer {
-            nonRetryableFailuresDecoded0 = [SecurityLakeClientTypes.FailuresResponse]()
-            for structure0 in nonRetryableFailuresContainer {
+        let exceptionsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeException?].self, forKey: .exceptions)
+        var exceptionsDecoded0:[SecurityLakeClientTypes.DataLakeException]? = nil
+        if let exceptionsContainer = exceptionsContainer {
+            exceptionsDecoded0 = [SecurityLakeClientTypes.DataLakeException]()
+            for structure0 in exceptionsContainer {
                 if let structure0 = structure0 {
-                    nonRetryableFailuresDecoded0?.append(structure0)
+                    exceptionsDecoded0?.append(structure0)
                 }
             }
         }
-        nonRetryableFailures = nonRetryableFailuresDecoded0
+        exceptions = exceptionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
+extension ListDataLakesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let regions = regions {
+                regions.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "regions".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
+        }
+    }
+}
+
+extension ListDataLakesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/datalakes"
+    }
+}
+
+public struct ListDataLakesInput: Swift.Equatable {
+    /// The list of regions where Security Lake is enabled.
+    public var regions: [Swift.String]?
+
+    public init(
+        regions: [Swift.String]? = nil
+    )
+    {
+        self.regions = regions
+    }
+}
+
+struct ListDataLakesInputBody: Swift.Equatable {
+}
+
+extension ListDataLakesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListDataLakesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListDataLakesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListDataLakesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataLakes = output.dataLakes
+        } else {
+            self.dataLakes = nil
+        }
+    }
+}
+
+public struct ListDataLakesOutputResponse: Swift.Equatable {
+    /// Retrieves the Security Lake configuration object.
+    public var dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
+
+    public init(
+        dataLakes: [SecurityLakeClientTypes.DataLakeResource]? = nil
+    )
+    {
+        self.dataLakes = dataLakes
+    }
+}
+
+struct ListDataLakesOutputResponseBody: Swift.Equatable {
+    let dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
+}
+
+extension ListDataLakesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataLakes
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataLakesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeResource?].self, forKey: .dataLakes)
+        var dataLakesDecoded0:[SecurityLakeClientTypes.DataLakeResource]? = nil
+        if let dataLakesContainer = dataLakesContainer {
+            dataLakesDecoded0 = [SecurityLakeClientTypes.DataLakeResource]()
+            for structure0 in dataLakesContainer {
+                if let structure0 = structure0 {
+                    dataLakesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataLakes = dataLakesDecoded0
+    }
+}
+
 extension ListLogSourcesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case inputOrder
-        case listAllDimensions
-        case listSingleDimension
-        case listTwoDimensions
+        case accounts
         case maxResults
         case nextToken
+        case regions
+        case sources
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let inputOrder = inputOrder {
-            var inputOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputOrder)
-            for dimension0 in inputOrder {
-                try inputOrderContainer.encode(dimension0.rawValue)
-            }
-        }
-        if let listAllDimensions = listAllDimensions {
-            var listAllDimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .listAllDimensions)
-            for (dictKey0, allDimensionsMap0) in listAllDimensions {
-                var allDimensionsMap0Container = listAllDimensionsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
-                for (dictKey1, twoDimensionsMap1) in allDimensionsMap0 {
-                    var twoDimensionsMap1Container = allDimensionsMap0Container.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey1))
-                    for string2 in twoDimensionsMap1 {
-                        try twoDimensionsMap1Container.encode(string2)
-                    }
-                }
-            }
-        }
-        if let listSingleDimension = listSingleDimension {
-            var listSingleDimensionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listSingleDimension)
-            for safestring0 in listSingleDimension {
-                try listSingleDimensionContainer.encode(safestring0)
-            }
-        }
-        if let listTwoDimensions = listTwoDimensions {
-            var listTwoDimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .listTwoDimensions)
-            for (dictKey0, twoDimensionsMap0) in listTwoDimensions {
-                var twoDimensionsMap0Container = listTwoDimensionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
-                for string1 in twoDimensionsMap0 {
-                    try twoDimensionsMap0Container.encode(string1)
-                }
+        if let accounts = accounts {
+            var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
+            for awsaccountid0 in accounts {
+                try accountsContainer.encode(awsaccountid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4057,133 +3977,107 @@ extension ListLogSourcesInput: Swift.Encodable {
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
+        if let regions = regions {
+            var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
+            for region0 in regions {
+                try regionsContainer.encode(region0)
+            }
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for logsourceresource0 in sources {
+                try sourcesContainer.encode(logsourceresource0)
+            }
+        }
     }
 }
 
 extension ListLogSourcesInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        return "/v1/logsources/list"
+        return "/v1/datalake/logsources/list"
     }
 }
 
 public struct ListLogSourcesInput: Swift.Equatable {
-    /// Lists the log sources in input order, namely Region, source type, and member account.
-    public var inputOrder: [SecurityLakeClientTypes.Dimension]?
-    /// List the view of log sources for enabled Amazon Security Lake accounts for specific Amazon Web Services sources from specific accounts and specific Regions.
-    public var listAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]?
-    /// List the view of log sources for enabled Security Lake accounts for all Amazon Web Services sources from specific accounts or specific Regions.
-    public var listSingleDimension: [Swift.String]?
-    /// Lists the view of log sources for enabled Security Lake accounts for specific Amazon Web Services sources from specific accounts or specific Regions.
-    public var listTwoDimensions: [Swift.String:[Swift.String]]?
+    /// The list of Amazon Web Services accounts for which log sources are displayed.
+    public var accounts: [Swift.String]?
     /// The maximum number of accounts for which the log sources are displayed.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
+    /// The list of regions for which log sources are displayed.
+    public var regions: [Swift.String]?
+    /// The list of sources for which log sources are displayed.
+    public var sources: [SecurityLakeClientTypes.LogSourceResource]?
 
     public init(
-        inputOrder: [SecurityLakeClientTypes.Dimension]? = nil,
-        listAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]? = nil,
-        listSingleDimension: [Swift.String]? = nil,
-        listTwoDimensions: [Swift.String:[Swift.String]]? = nil,
+        accounts: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        regions: [Swift.String]? = nil,
+        sources: [SecurityLakeClientTypes.LogSourceResource]? = nil
     )
     {
-        self.inputOrder = inputOrder
-        self.listAllDimensions = listAllDimensions
-        self.listSingleDimension = listSingleDimension
-        self.listTwoDimensions = listTwoDimensions
+        self.accounts = accounts
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.regions = regions
+        self.sources = sources
     }
 }
 
 struct ListLogSourcesInputBody: Swift.Equatable {
-    let inputOrder: [SecurityLakeClientTypes.Dimension]?
-    let listAllDimensions: [Swift.String:[Swift.String:[Swift.String]]]?
-    let listTwoDimensions: [Swift.String:[Swift.String]]?
-    let listSingleDimension: [Swift.String]?
+    let accounts: [Swift.String]?
+    let regions: [Swift.String]?
+    let sources: [SecurityLakeClientTypes.LogSourceResource]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
 extension ListLogSourcesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case inputOrder
-        case listAllDimensions
-        case listSingleDimension
-        case listTwoDimensions
+        case accounts
         case maxResults
         case nextToken
+        case regions
+        case sources
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let inputOrderContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.Dimension?].self, forKey: .inputOrder)
-        var inputOrderDecoded0:[SecurityLakeClientTypes.Dimension]? = nil
-        if let inputOrderContainer = inputOrderContainer {
-            inputOrderDecoded0 = [SecurityLakeClientTypes.Dimension]()
-            for string0 in inputOrderContainer {
+        let accountsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accounts)
+        var accountsDecoded0:[Swift.String]? = nil
+        if let accountsContainer = accountsContainer {
+            accountsDecoded0 = [Swift.String]()
+            for string0 in accountsContainer {
                 if let string0 = string0 {
-                    inputOrderDecoded0?.append(string0)
+                    accountsDecoded0?.append(string0)
                 }
             }
         }
-        inputOrder = inputOrderDecoded0
-        let listAllDimensionsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [Swift.String?]?]?].self, forKey: .listAllDimensions)
-        var listAllDimensionsDecoded0: [Swift.String:[Swift.String:[Swift.String]]]? = nil
-        if let listAllDimensionsContainer = listAllDimensionsContainer {
-            listAllDimensionsDecoded0 = [Swift.String:[Swift.String:[Swift.String]]]()
-            for (key0, twodimensionsmap0) in listAllDimensionsContainer {
-                var twodimensionsmap0Decoded0: [Swift.String: [Swift.String]]? = nil
-                if let twodimensionsmap0 = twodimensionsmap0 {
-                    twodimensionsmap0Decoded0 = [Swift.String: [Swift.String]]()
-                    for (key1, valueset1) in twodimensionsmap0 {
-                        var valueset1Decoded1: [Swift.String]? = nil
-                        if let valueset1 = valueset1 {
-                            valueset1Decoded1 = [Swift.String]()
-                            for string2 in valueset1 {
-                                if let string2 = string2 {
-                                    valueset1Decoded1?.append(string2)
-                                }
-                            }
-                        }
-                        twodimensionsmap0Decoded0?[key1] = valueset1Decoded1
-                    }
-                }
-                listAllDimensionsDecoded0?[key0] = twodimensionsmap0Decoded0
-            }
-        }
-        listAllDimensions = listAllDimensionsDecoded0
-        let listTwoDimensionsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .listTwoDimensions)
-        var listTwoDimensionsDecoded0: [Swift.String:[Swift.String]]? = nil
-        if let listTwoDimensionsContainer = listTwoDimensionsContainer {
-            listTwoDimensionsDecoded0 = [Swift.String:[Swift.String]]()
-            for (key0, valueset0) in listTwoDimensionsContainer {
-                var valueset0Decoded0: [Swift.String]? = nil
-                if let valueset0 = valueset0 {
-                    valueset0Decoded0 = [Swift.String]()
-                    for string1 in valueset0 {
-                        if let string1 = string1 {
-                            valueset0Decoded0?.append(string1)
-                        }
-                    }
-                }
-                listTwoDimensionsDecoded0?[key0] = valueset0Decoded0
-            }
-        }
-        listTwoDimensions = listTwoDimensionsDecoded0
-        let listSingleDimensionContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .listSingleDimension)
-        var listSingleDimensionDecoded0:[Swift.String]? = nil
-        if let listSingleDimensionContainer = listSingleDimensionContainer {
-            listSingleDimensionDecoded0 = [Swift.String]()
-            for string0 in listSingleDimensionContainer {
+        accounts = accountsDecoded0
+        let regionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .regions)
+        var regionsDecoded0:[Swift.String]? = nil
+        if let regionsContainer = regionsContainer {
+            regionsDecoded0 = [Swift.String]()
+            for string0 in regionsContainer {
                 if let string0 = string0 {
-                    listSingleDimensionDecoded0?.append(string0)
+                    regionsDecoded0?.append(string0)
                 }
             }
         }
-        listSingleDimension = listSingleDimensionDecoded0
+        regions = regionsDecoded0
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.LogSourceResource?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.LogSourceResource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.LogSourceResource]()
+            for union0 in sourcesContainer {
+                if let union0 = union0 {
+                    sourcesDecoded0?.append(union0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
@@ -4197,10 +4091,11 @@ public enum ListLogSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -4212,10 +4107,10 @@ extension ListLogSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: ListLogSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
-            self.regionSourceTypesAccountsList = output.regionSourceTypesAccountsList
+            self.sources = output.sources
         } else {
             self.nextToken = nil
-            self.regionSourceTypesAccountsList = nil
+            self.sources = nil
         }
     }
 }
@@ -4223,67 +4118,43 @@ extension ListLogSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListLogSourcesOutputResponse: Swift.Equatable {
     /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
-    /// Lists the log sources by Regions for enabled Security Lake accounts.
-    /// This member is required.
-    public var regionSourceTypesAccountsList: [[Swift.String:[Swift.String:[Swift.String]]]]?
+    /// The list of log sources in your organization that send data to the data lake.
+    public var sources: [SecurityLakeClientTypes.LogSource]?
 
     public init(
         nextToken: Swift.String? = nil,
-        regionSourceTypesAccountsList: [[Swift.String:[Swift.String:[Swift.String]]]]? = nil
+        sources: [SecurityLakeClientTypes.LogSource]? = nil
     )
     {
         self.nextToken = nextToken
-        self.regionSourceTypesAccountsList = regionSourceTypesAccountsList
+        self.sources = sources
     }
 }
 
 struct ListLogSourcesOutputResponseBody: Swift.Equatable {
-    let regionSourceTypesAccountsList: [[Swift.String:[Swift.String:[Swift.String]]]]?
+    let sources: [SecurityLakeClientTypes.LogSource]?
     let nextToken: Swift.String?
 }
 
 extension ListLogSourcesOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
-        case regionSourceTypesAccountsList
+        case sources
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let regionSourceTypesAccountsListContainer = try containerValues.decodeIfPresent([[Swift.String: [Swift.String: [Swift.String?]?]?]?].self, forKey: .regionSourceTypesAccountsList)
-        var regionSourceTypesAccountsListDecoded0:[[Swift.String:[Swift.String:[Swift.String]]]]? = nil
-        if let regionSourceTypesAccountsListContainer = regionSourceTypesAccountsListContainer {
-            regionSourceTypesAccountsListDecoded0 = [[Swift.String:[Swift.String:[Swift.String]]]]()
-            for map0 in regionSourceTypesAccountsListContainer {
-                var regionSourceTypesAccountsListContainerDecoded0: [Swift.String: [Swift.String: [Swift.String]]]? = nil
-                if let map0 = map0 {
-                    regionSourceTypesAccountsListContainerDecoded0 = [Swift.String: [Swift.String: [Swift.String]]]()
-                    for (key1, twodimensionsmap1) in map0 {
-                        var twodimensionsmap1Decoded1: [Swift.String: [Swift.String]]? = nil
-                        if let twodimensionsmap1 = twodimensionsmap1 {
-                            twodimensionsmap1Decoded1 = [Swift.String: [Swift.String]]()
-                            for (key2, valueset2) in twodimensionsmap1 {
-                                var valueset2Decoded2: [Swift.String]? = nil
-                                if let valueset2 = valueset2 {
-                                    valueset2Decoded2 = [Swift.String]()
-                                    for string3 in valueset2 {
-                                        if let string3 = string3 {
-                                            valueset2Decoded2?.append(string3)
-                                        }
-                                    }
-                                }
-                                twodimensionsmap1Decoded1?[key2] = valueset2Decoded2
-                            }
-                        }
-                        regionSourceTypesAccountsListContainerDecoded0?[key1] = twodimensionsmap1Decoded1
-                    }
-                }
-                if let regionSourceTypesAccountsListContainerDecoded0 = regionSourceTypesAccountsListContainerDecoded0 {
-                    regionSourceTypesAccountsListDecoded0?.append(regionSourceTypesAccountsListContainerDecoded0)
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.LogSource?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.LogSource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.LogSource]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
                 }
             }
         }
-        regionSourceTypesAccountsList = regionSourceTypesAccountsListDecoded0
+        sources = sourcesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -4343,11 +4214,11 @@ public enum ListSubscribersOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -4371,7 +4242,6 @@ public struct ListSubscribersOutputResponse: Swift.Equatable {
     /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The subscribers available for the specified Security Lake account ID.
-    /// This member is required.
     public var subscribers: [SecurityLakeClientTypes.SubscriberResource]?
 
     public init(
@@ -4413,268 +4283,239 @@ extension ListSubscribersOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension SecurityLakeClientTypes.LogsStatus: Swift.Codable {
+extension SecurityLakeClientTypes.LogSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case healthStatus
-        case pathToLogs
+        case account
+        case region
+        case sources
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let healthStatus = self.healthStatus {
-            try encodeContainer.encode(healthStatus.rawValue, forKey: .healthStatus)
+        if let account = self.account {
+            try encodeContainer.encode(account, forKey: .account)
         }
-        if let pathToLogs = self.pathToLogs {
-            try encodeContainer.encode(pathToLogs, forKey: .pathToLogs)
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for logsourceresource0 in sources {
+                try sourcesContainer.encode(logsourceresource0)
+            }
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pathToLogsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pathToLogs)
-        pathToLogs = pathToLogsDecoded
-        let healthStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SourceStatus.self, forKey: .healthStatus)
-        healthStatus = healthStatusDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// Retrieves the Logs status for the Amazon Security Lake account.
-    public struct LogsStatus: Swift.Equatable {
-        /// The health status of services, including error codes and patterns.
-        /// This member is required.
-        public var healthStatus: SecurityLakeClientTypes.SourceStatus?
-        /// Defines path the stored logs are available which has information on your systems, applications, and services.
-        /// This member is required.
-        public var pathToLogs: Swift.String?
-
-        public init(
-            healthStatus: SecurityLakeClientTypes.SourceStatus? = nil,
-            pathToLogs: Swift.String? = nil
-        )
-        {
-            self.healthStatus = healthStatus
-            self.pathToLogs = pathToLogs
-        }
-    }
-
-}
-
-extension SecurityLakeClientTypes {
-    public enum OcsfEventClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case accessActivity
-        case accountChange
-        case authentication
-        case authorization
-        case cloudApi
-        case cloudStorage
-        case configState
-        case containerLifecycle
-        case databaseLifecycle
-        case dhcpActivity
-        case dnsActivity
-        case entityManagementAudit
-        case fileActivity
-        case ftpActivity
-        case httpActivity
-        case inventoryInfo
-        case kernelActivity
-        case kernelExtension
-        case memoryActivity
-        case moduleActivity
-        case networkActivity
-        case processActivity
-        case rdpActivity
-        case registryKeyActivity
-        case registryValueActivity
-        case resourceActivity
-        case rfbActivity
-        case scheduledJobActivity
-        case securityFinding
-        case smbActivity
-        case smtpActivity
-        case sshActivity
-        case virtualMachineActivity
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [OcsfEventClass] {
-            return [
-                .accessActivity,
-                .accountChange,
-                .authentication,
-                .authorization,
-                .cloudApi,
-                .cloudStorage,
-                .configState,
-                .containerLifecycle,
-                .databaseLifecycle,
-                .dhcpActivity,
-                .dnsActivity,
-                .entityManagementAudit,
-                .fileActivity,
-                .ftpActivity,
-                .httpActivity,
-                .inventoryInfo,
-                .kernelActivity,
-                .kernelExtension,
-                .memoryActivity,
-                .moduleActivity,
-                .networkActivity,
-                .processActivity,
-                .rdpActivity,
-                .registryKeyActivity,
-                .registryValueActivity,
-                .resourceActivity,
-                .rfbActivity,
-                .scheduledJobActivity,
-                .securityFinding,
-                .smbActivity,
-                .smtpActivity,
-                .sshActivity,
-                .virtualMachineActivity,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .accessActivity: return "ACCESS_ACTIVITY"
-            case .accountChange: return "ACCOUNT_CHANGE"
-            case .authentication: return "AUTHENTICATION"
-            case .authorization: return "AUTHORIZATION"
-            case .cloudApi: return "CLOUD_API"
-            case .cloudStorage: return "CLOUD_STORAGE"
-            case .configState: return "CONFIG_STATE"
-            case .containerLifecycle: return "CONTAINER_LIFECYCLE"
-            case .databaseLifecycle: return "DATABASE_LIFECYCLE"
-            case .dhcpActivity: return "DHCP_ACTIVITY"
-            case .dnsActivity: return "DNS_ACTIVITY"
-            case .entityManagementAudit: return "ENTITY_MANAGEMENT_AUDIT"
-            case .fileActivity: return "FILE_ACTIVITY"
-            case .ftpActivity: return "FTP_ACTIVITY"
-            case .httpActivity: return "HTTP_ACTIVITY"
-            case .inventoryInfo: return "INVENTORY_INFO"
-            case .kernelActivity: return "KERNEL_ACTIVITY"
-            case .kernelExtension: return "KERNEL_EXTENSION"
-            case .memoryActivity: return "MEMORY_ACTIVITY"
-            case .moduleActivity: return "MODULE_ACTIVITY"
-            case .networkActivity: return "NETWORK_ACTIVITY"
-            case .processActivity: return "PROCESS_ACTIVITY"
-            case .rdpActivity: return "RDP_ACTIVITY"
-            case .registryKeyActivity: return "REGISTRY_KEY_ACTIVITY"
-            case .registryValueActivity: return "REGISTRY_VALUE_ACTIVITY"
-            case .resourceActivity: return "RESOURCE_ACTIVITY"
-            case .rfbActivity: return "RFB_ACTIVITY"
-            case .scheduledJobActivity: return "SCHEDULED_JOB_ACTIVITY"
-            case .securityFinding: return "SECURITY_FINDING"
-            case .smbActivity: return "SMB_ACTIVITY"
-            case .smtpActivity: return "SMTP_ACTIVITY"
-            case .sshActivity: return "SSH_ACTIVITY"
-            case .virtualMachineActivity: return "VIRTUAL_MACHINE_ACTIVITY"
-            case let .sdkUnknown(s): return s
+        let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
+        account = accountDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.LogSourceResource?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.LogSourceResource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.LogSourceResource]()
+            for union0 in sourcesContainer {
+                if let union0 = union0 {
+                    sourcesDecoded0?.append(union0)
+                }
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = OcsfEventClass(rawValue: rawValue) ?? OcsfEventClass.sdkUnknown(rawValue)
-        }
+        sources = sourcesDecoded0
     }
 }
 
-extension SecurityLakeClientTypes.ProtocolAndNotificationEndpoint: Swift.Codable {
+extension SecurityLakeClientTypes {
+    /// Amazon Security Lake can collect logs and events from natively-supported Amazon Web Services services and custom sources.
+    public struct LogSource: Swift.Equatable {
+        /// Specify the account from which you want to collect logs.
+        public var account: Swift.String?
+        /// Specify the Regions from which you want to collect logs.
+        public var region: Swift.String?
+        /// Specify the sources from which you want to collect logs.
+        public var sources: [SecurityLakeClientTypes.LogSourceResource]?
+
+        public init(
+            account: Swift.String? = nil,
+            region: Swift.String? = nil,
+            sources: [SecurityLakeClientTypes.LogSourceResource]? = nil
+        )
+        {
+            self.account = account
+            self.region = region
+            self.sources = sources
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.LogSourceResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case endpoint
-        case `protocol` = "protocol"
+        case awslogsource = "awsLogSource"
+        case customlogsource = "customLogSource"
+        case sdkUnknown
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let endpoint = self.endpoint {
-            try encodeContainer.encode(endpoint, forKey: .endpoint)
-        }
-        if let `protocol` = self.`protocol` {
-            try encodeContainer.encode(`protocol`, forKey: .`protocol`)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .awslogsource(awslogsource):
+                try container.encode(awslogsource, forKey: .awslogsource)
+            case let .customlogsource(customlogsource):
+                try container.encode(customlogsource, forKey: .customlogsource)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
-        `protocol` = protocolDecoded
-        let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
-        endpoint = endpointDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// Protocol used in Amazon Security Lake that dictates how notifications are posted at the endpoint.
-    public struct ProtocolAndNotificationEndpoint: Swift.Equatable {
-        /// The account that is subscribed to receive exception notifications.
-        public var endpoint: Swift.String?
-        /// The protocol to which notification messages are posted.
-        public var `protocol`: Swift.String?
-
-        public init(
-            endpoint: Swift.String? = nil,
-            `protocol`: Swift.String? = nil
-        )
-        {
-            self.endpoint = endpoint
-            self.`protocol` = `protocol`
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let awslogsourceDecoded = try values.decodeIfPresent(SecurityLakeClientTypes.AwsLogSourceResource.self, forKey: .awslogsource)
+        if let awslogsource = awslogsourceDecoded {
+            self = .awslogsource(awslogsource)
+            return
         }
+        let customlogsourceDecoded = try values.decodeIfPresent(SecurityLakeClientTypes.CustomLogSourceResource.self, forKey: .customlogsource)
+        if let customlogsource = customlogsourceDecoded {
+            self = .customlogsource(customlogsource)
+            return
+        }
+        self = .sdkUnknown("")
     }
-
 }
 
 extension SecurityLakeClientTypes {
-    public enum Region: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case apNortheast1
-        case apSoutheast2
-        case euCentral1
-        case euWest1
-        case usEast1
-        case usEast2
-        case usWest2
+    /// The supported source types from which logs and events are collected in Amazon Security Lake. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
+    public enum LogSourceResource: Swift.Equatable {
+        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services.
+        case awslogsource(SecurityLakeClientTypes.AwsLogSourceResource)
+        /// Amazon Security Lake supports custom source types. For a detailed list, see the Amazon Security Lake User Guide.
+        case customlogsource(SecurityLakeClientTypes.CustomLogSourceResource)
         case sdkUnknown(Swift.String)
+    }
 
-        public static var allCases: [Region] {
-            return [
-                .apNortheast1,
-                .apSoutheast2,
-                .euCentral1,
-                .euWest1,
-                .usEast1,
-                .usEast2,
-                .usWest2,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .apNortheast1: return "ap-northeast-1"
-            case .apSoutheast2: return "ap-southeast-2"
-            case .euCentral1: return "eu-central-1"
-            case .euWest1: return "eu-west-1"
-            case .usEast1: return "us-east-1"
-            case .usEast2: return "us-east-2"
-            case .usWest2: return "us-west-2"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Region(rawValue: rawValue) ?? Region.sdkUnknown(rawValue)
+}
+
+extension SecurityLakeClientTypes.NotificationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case httpsnotificationconfiguration = "httpsNotificationConfiguration"
+        case sdkUnknown
+        case sqsnotificationconfiguration = "sqsNotificationConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .httpsnotificationconfiguration(httpsnotificationconfiguration):
+                try container.encode(httpsnotificationconfiguration, forKey: .httpsnotificationconfiguration)
+            case let .sqsnotificationconfiguration(sqsnotificationconfiguration):
+                try container.encode(sqsnotificationconfiguration, forKey: .sqsnotificationconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
     }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let sqsnotificationconfigurationDecoded = try values.decodeIfPresent(SecurityLakeClientTypes.SqsNotificationConfiguration.self, forKey: .sqsnotificationconfiguration)
+        if let sqsnotificationconfiguration = sqsnotificationconfigurationDecoded {
+            self = .sqsnotificationconfiguration(sqsnotificationconfiguration)
+            return
+        }
+        let httpsnotificationconfigurationDecoded = try values.decodeIfPresent(SecurityLakeClientTypes.HttpsNotificationConfiguration.self, forKey: .httpsnotificationconfiguration)
+        if let httpsnotificationconfiguration = httpsnotificationconfigurationDecoded {
+            self = .httpsnotificationconfiguration(httpsnotificationconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// Specify the configurations you want to use for subscriber notification to notify the subscriber when new data is written to the data lake for sources that the subscriber consumes in Security Lake.
+    public enum NotificationConfiguration: Swift.Equatable {
+        /// The configurations for SQS subscriber notification.
+        case sqsnotificationconfiguration(SecurityLakeClientTypes.SqsNotificationConfiguration)
+        /// The configurations for HTTPS subscriber notification.
+        case httpsnotificationconfiguration(SecurityLakeClientTypes.HttpsNotificationConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension RegisterDataLakeDelegatedAdministratorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+    }
+}
+
+extension RegisterDataLakeDelegatedAdministratorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/datalake/delegate"
+    }
+}
+
+public struct RegisterDataLakeDelegatedAdministratorInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the Security Lake delegated administrator.
+    /// This member is required.
+    public var accountId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+    }
+}
+
+struct RegisterDataLakeDelegatedAdministratorInputBody: Swift.Equatable {
+    let accountId: Swift.String?
+}
+
+extension RegisterDataLakeDelegatedAdministratorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+    }
+}
+
+public enum RegisterDataLakeDelegatedAdministratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension RegisterDataLakeDelegatedAdministratorOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RegisterDataLakeDelegatedAdministratorOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension ResourceNotFoundException {
@@ -4683,11 +4524,11 @@ extension ResourceNotFoundException {
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.properties.message = output.message
-            self.properties.resourceId = output.resourceId
+            self.properties.resourceName = output.resourceName
             self.properties.resourceType = output.resourceType
         } else {
             self.properties.message = nil
-            self.properties.resourceId = nil
+            self.properties.resourceName = nil
             self.properties.resourceType = nil
         }
         self.httpResponse = httpResponse
@@ -4700,13 +4541,10 @@ extension ResourceNotFoundException {
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The ID of the resource for which the type of resource could not be found.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
+        /// The name of the resource that could not be found.
+        public internal(set) var resourceName: Swift.String? = nil
         /// The type of the resource that could not be found.
-        /// This member is required.
         public internal(set) var resourceType: Swift.String? = nil
     }
 
@@ -4721,26 +4559,26 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
         self.properties.message = message
-        self.properties.resourceId = resourceId
+        self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
     }
 }
 
 struct ResourceNotFoundExceptionBody: Swift.Equatable {
     let message: Swift.String?
-    let resourceId: Swift.String?
+    let resourceName: Swift.String?
     let resourceType: Swift.String?
 }
 
 extension ResourceNotFoundExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
-        case resourceId
+        case resourceName
         case resourceType
     }
 
@@ -4748,399 +4586,84 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
-        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
-        resourceId = resourceIdDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
     }
 }
 
-extension SecurityLakeClientTypes.RetentionSetting: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case retentionPeriod
-        case storageClass
+extension SecurityLakeClientTypes {
+    public enum SourceCollectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case collecting
+        case misconfigured
+        case notCollecting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceCollectionStatus] {
+            return [
+                .collecting,
+                .misconfigured,
+                .notCollecting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .collecting: return "COLLECTING"
+            case .misconfigured: return "MISCONFIGURED"
+            case .notCollecting: return "NOT_COLLECTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SourceCollectionStatus(rawValue: rawValue) ?? SourceCollectionStatus.sdkUnknown(rawValue)
+        }
     }
+}
+
+extension SecurityLakeClientTypes.SqsNotificationConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let retentionPeriod = self.retentionPeriod {
-            try encodeContainer.encode(retentionPeriod, forKey: .retentionPeriod)
-        }
-        if let storageClass = self.storageClass {
-            try encodeContainer.encode(storageClass.rawValue, forKey: .storageClass)
-        }
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let storageClassDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.StorageClass.self, forKey: .storageClass)
-        storageClass = storageClassDecoded
-        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod)
-        retentionPeriod = retentionPeriodDecoded
     }
 }
 
 extension SecurityLakeClientTypes {
-    /// Retention settings for the destination Amazon S3 buckets in Amazon Security Lake.
-    public struct RetentionSetting: Swift.Equatable {
-        /// The retention period specifies a fixed period of time during which the Security Lake object remains locked. You can specify the retention period in days for one or more sources.
-        public var retentionPeriod: Swift.Int?
-        /// The range of storage classes that you can choose from based on the data access, resiliency, and cost requirements of your workloads.
-        public var storageClass: SecurityLakeClientTypes.StorageClass?
+    /// The configurations for SQS subscriber notification.
+    public struct SqsNotificationConfiguration: Swift.Equatable {
 
-        public init(
-            retentionPeriod: Swift.Int? = nil,
-            storageClass: SecurityLakeClientTypes.StorageClass? = nil
-        )
-        {
-            self.retentionPeriod = retentionPeriod
-            self.storageClass = storageClass
-        }
+        public init() { }
     }
 
-}
-
-extension S3Exception {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: S3ExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// Provides an extension of the AmazonServiceException for errors reported by Amazon S3 while processing a request. In particular, this class provides access to the Amazon S3 extended request ID. If Amazon S3 is incorrectly handling a request and you need to contact Amazon, this extended request ID may provide useful debugging information.
-public struct S3Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "S3Exception" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-struct S3ExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension S3ExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension ServiceQuotaExceededException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-            self.properties.quotaCode = output.quotaCode
-            self.properties.resourceId = output.resourceId
-            self.properties.resourceType = output.resourceType
-            self.properties.serviceCode = output.serviceCode
-        } else {
-            self.properties.message = nil
-            self.properties.quotaCode = nil
-            self.properties.resourceId = nil
-            self.properties.resourceType = nil
-            self.properties.serviceCode = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// That the rate of requests to Security Lake is exceeding the request quotas for your Amazon Web Services account.
-        /// This member is required.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The ID of the resource that exceeds the service quota.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that exceeds the service quota.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-        /// The code for the service in Service Quotas.
-        /// This member is required.
-        public internal(set) var serviceCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil,
-        serviceCode: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-        self.properties.serviceCode = serviceCode
-    }
-}
-
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-    let resourceId: Swift.String?
-    let resourceType: Swift.String?
-    let serviceCode: Swift.String?
-    let quotaCode: Swift.String?
-}
-
-extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-        case quotaCode
-        case resourceId
-        case resourceType
-        case serviceCode
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
-        resourceId = resourceIdDecoded
-        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
-        resourceType = resourceTypeDecoded
-        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
-        serviceCode = serviceCodeDecoded
-        let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
-        quotaCode = quotaCodeDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    public enum SettingsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case completed
-        case failed
-        case initialized
-        case pending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SettingsStatus] {
-            return [
-                .completed,
-                .failed,
-                .initialized,
-                .pending,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .completed: return "COMPLETED"
-            case .failed: return "FAILED"
-            case .initialized: return "INITIALIZED"
-            case .pending: return "PENDING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = SettingsStatus(rawValue: rawValue) ?? SettingsStatus.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension SecurityLakeClientTypes {
-    public enum SourceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case active
-        case deactivated
-        case pending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SourceStatus] {
-            return [
-                .active,
-                .deactivated,
-                .pending,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .deactivated: return "DEACTIVATED"
-            case .pending: return "PENDING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = SourceStatus(rawValue: rawValue) ?? SourceStatus.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension SecurityLakeClientTypes.SourceType: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case awssourcetype = "awsSourceType"
-        case customsourcetype = "customSourceType"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .awssourcetype(awssourcetype):
-                try container.encode(awssourcetype.rawValue, forKey: .awssourcetype)
-            case let .customsourcetype(customsourcetype):
-                try container.encode(customsourcetype, forKey: .customsourcetype)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let awssourcetypeDecoded = try values.decodeIfPresent(SecurityLakeClientTypes.AwsLogSourceType.self, forKey: .awssourcetype)
-        if let awssourcetype = awssourcetypeDecoded {
-            self = .awssourcetype(awssourcetype)
-            return
-        }
-        let customsourcetypeDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .customsourcetype)
-        if let customsourcetype = customsourcetypeDecoded {
-            self = .customsourcetype(customsourcetype)
-            return
-        }
-        self = .sdkUnknown("")
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// The supported source types from which logs and events are collected in Amazon Security Lake. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
-    public enum SourceType: Swift.Equatable {
-        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services.
-        case awssourcetype(SecurityLakeClientTypes.AwsLogSourceType)
-        /// Amazon Security Lake supports custom source types. For a detailed list, see the Amazon Security Lake User Guide.
-        case customsourcetype(Swift.String)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension SecurityLakeClientTypes {
-    public enum StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case deepArchive
-        case expire
-        case glacier
-        case glacierIr
-        case intelligentTiering
-        case onezoneIa
-        case standardIa
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StorageClass] {
-            return [
-                .deepArchive,
-                .expire,
-                .glacier,
-                .glacierIr,
-                .intelligentTiering,
-                .onezoneIa,
-                .standardIa,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .deepArchive: return "DEEP_ARCHIVE"
-            case .expire: return "EXPIRE"
-            case .glacier: return "GLACIER"
-            case .glacierIr: return "GLACIER_IR"
-            case .intelligentTiering: return "INTELLIGENT_TIERING"
-            case .onezoneIa: return "ONEZONE_IA"
-            case .standardIa: return "STANDARD_IA"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = StorageClass(rawValue: rawValue) ?? StorageClass.sdkUnknown(rawValue)
-        }
-    }
 }
 
 extension SecurityLakeClientTypes.SubscriberResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessTypes
-        case accountId
         case createdAt
-        case externalId
         case resourceShareArn
         case resourceShareName
         case roleArn
         case s3BucketArn
-        case snsArn
-        case sourceTypes
+        case sources
+        case subscriberArn
         case subscriberDescription
+        case subscriberEndpoint
+        case subscriberId
+        case subscriberIdentity
         case subscriberName
-        case subscriptionEndpoint
-        case subscriptionId
-        case subscriptionProtocol
-        case subscriptionStatus
+        case subscriberStatus
         case updatedAt
     }
 
@@ -5152,14 +4675,8 @@ extension SecurityLakeClientTypes.SubscriberResource: Swift.Codable {
                 try accessTypesContainer.encode(accesstype0.rawValue)
             }
         }
-        if let accountId = self.accountId {
-            try encodeContainer.encode(accountId, forKey: .accountId)
-        }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
-        }
-        if let externalId = self.externalId {
-            try encodeContainer.encode(externalId, forKey: .externalId)
         }
         if let resourceShareArn = self.resourceShareArn {
             try encodeContainer.encode(resourceShareArn, forKey: .resourceShareArn)
@@ -5173,32 +4690,32 @@ extension SecurityLakeClientTypes.SubscriberResource: Swift.Codable {
         if let s3BucketArn = self.s3BucketArn {
             try encodeContainer.encode(s3BucketArn, forKey: .s3BucketArn)
         }
-        if let snsArn = self.snsArn {
-            try encodeContainer.encode(snsArn, forKey: .snsArn)
-        }
-        if let sourceTypes = sourceTypes {
-            var sourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceTypes)
-            for sourcetype0 in sourceTypes {
-                try sourceTypesContainer.encode(sourcetype0)
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for logsourceresource0 in sources {
+                try sourcesContainer.encode(logsourceresource0)
             }
+        }
+        if let subscriberArn = self.subscriberArn {
+            try encodeContainer.encode(subscriberArn, forKey: .subscriberArn)
         }
         if let subscriberDescription = self.subscriberDescription {
             try encodeContainer.encode(subscriberDescription, forKey: .subscriberDescription)
         }
+        if let subscriberEndpoint = self.subscriberEndpoint {
+            try encodeContainer.encode(subscriberEndpoint, forKey: .subscriberEndpoint)
+        }
+        if let subscriberId = self.subscriberId {
+            try encodeContainer.encode(subscriberId, forKey: .subscriberId)
+        }
+        if let subscriberIdentity = self.subscriberIdentity {
+            try encodeContainer.encode(subscriberIdentity, forKey: .subscriberIdentity)
+        }
         if let subscriberName = self.subscriberName {
             try encodeContainer.encode(subscriberName, forKey: .subscriberName)
         }
-        if let subscriptionEndpoint = self.subscriptionEndpoint {
-            try encodeContainer.encode(subscriptionEndpoint, forKey: .subscriptionEndpoint)
-        }
-        if let subscriptionId = self.subscriptionId {
-            try encodeContainer.encode(subscriptionId, forKey: .subscriptionId)
-        }
-        if let subscriptionProtocol = self.subscriptionProtocol {
-            try encodeContainer.encode(subscriptionProtocol.rawValue, forKey: .subscriptionProtocol)
-        }
-        if let subscriptionStatus = self.subscriptionStatus {
-            try encodeContainer.encode(subscriptionStatus.rawValue, forKey: .subscriptionStatus)
+        if let subscriberStatus = self.subscriberStatus {
+            try encodeContainer.encode(subscriberStatus.rawValue, forKey: .subscriberStatus)
         }
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
@@ -5207,58 +4724,54 @@ extension SecurityLakeClientTypes.SubscriberResource: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subscriptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionId)
-        subscriptionId = subscriptionIdDecoded
-        let sourceTypesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.SourceType?].self, forKey: .sourceTypes)
-        var sourceTypesDecoded0:[SecurityLakeClientTypes.SourceType]? = nil
-        if let sourceTypesContainer = sourceTypesContainer {
-            sourceTypesDecoded0 = [SecurityLakeClientTypes.SourceType]()
-            for union0 in sourceTypesContainer {
-                if let union0 = union0 {
-                    sourceTypesDecoded0?.append(union0)
-                }
-            }
-        }
-        sourceTypes = sourceTypesDecoded0
-        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
-        accountId = accountIdDecoded
+        let subscriberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberId)
+        subscriberId = subscriberIdDecoded
+        let subscriberArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberArn)
+        subscriberArn = subscriberArnDecoded
+        let subscriberIdentityDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.AwsIdentity.self, forKey: .subscriberIdentity)
+        subscriberIdentity = subscriberIdentityDecoded
         let subscriberNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberName)
         subscriberName = subscriberNameDecoded
         let subscriberDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberDescription)
         subscriberDescription = subscriberDescriptionDecoded
-        let subscriptionStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SubscriptionStatus.self, forKey: .subscriptionStatus)
-        subscriptionStatus = subscriptionStatusDecoded
-        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
-        roleArn = roleArnDecoded
-        let snsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snsArn)
-        snsArn = snsArnDecoded
-        let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
-        s3BucketArn = s3BucketArnDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.LogSourceResource?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.LogSourceResource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.LogSourceResource]()
+            for union0 in sourcesContainer {
+                if let union0 = union0 {
+                    sourcesDecoded0?.append(union0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
         let accessTypesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.AccessType?].self, forKey: .accessTypes)
         var accessTypesDecoded0:[SecurityLakeClientTypes.AccessType]? = nil
         if let accessTypesContainer = accessTypesContainer {
             accessTypesDecoded0 = [SecurityLakeClientTypes.AccessType]()
-            for string0 in accessTypesContainer {
-                if let string0 = string0 {
-                    accessTypesDecoded0?.append(string0)
+            for enum0 in accessTypesContainer {
+                if let enum0 = enum0 {
+                    accessTypesDecoded0?.append(enum0)
                 }
             }
         }
         accessTypes = accessTypesDecoded0
-        let subscriptionEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionEndpoint)
-        subscriptionEndpoint = subscriptionEndpointDecoded
-        let subscriptionProtocolDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.EndpointProtocol.self, forKey: .subscriptionProtocol)
-        subscriptionProtocol = subscriptionProtocolDecoded
-        let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
-        externalId = externalIdDecoded
-        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
-        createdAt = createdAtDecoded
-        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
-        updatedAt = updatedAtDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
+        s3BucketArn = s3BucketArnDecoded
+        let subscriberEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberEndpoint)
+        subscriberEndpoint = subscriberEndpointDecoded
+        let subscriberStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SubscriberStatus.self, forKey: .subscriberStatus)
+        subscriberStatus = subscriberStatusDecoded
         let resourceShareArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareArn)
         resourceShareArn = resourceShareArnDecoded
         let resourceShareNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareName)
         resourceShareName = resourceShareNameDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
     }
 }
 
@@ -5267,13 +4780,8 @@ extension SecurityLakeClientTypes {
     public struct SubscriberResource: Swift.Equatable {
         /// You can choose to notify subscribers of new objects with an Amazon Simple Queue Service (Amazon SQS) queue or through messaging to an HTTPS endpoint provided by the subscriber. Subscribers can consume data by directly querying Lake Formation tables in your Amazon S3 bucket through services like Amazon Athena. This subscription type is defined as LAKEFORMATION.
         public var accessTypes: [SecurityLakeClientTypes.AccessType]?
-        /// The Amazon Web Services account ID you are using to create your Amazon Security Lake account.
-        /// This member is required.
-        public var accountId: Swift.String?
-        /// The date and time when the subscription was created.
+        /// The date and time when the subscriber was created.
         public var createdAt: ClientRuntime.Date?
-        /// The external ID of the subscriber. The external ID lets the user that is assuming the role assert the circumstances in which they are operating. It also provides a way for the account owner to permit the role to be assumed only under specific circumstances.
-        public var externalId: Swift.String?
         /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share. This field is available only for Lake Formation subscribers created after March 8, 2023.
         public var resourceShareArn: Swift.String?
         /// The name of the resource share.
@@ -5282,63 +4790,62 @@ extension SecurityLakeClientTypes {
         public var roleArn: Swift.String?
         /// The ARN for the Amazon S3 bucket.
         public var s3BucketArn: Swift.String?
-        /// The ARN for the Amazon Simple Notification Service.
-        public var snsArn: Swift.String?
         /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services. For more information, see the Amazon Security Lake User Guide.
         /// This member is required.
-        public var sourceTypes: [SecurityLakeClientTypes.SourceType]?
-        /// The subscriber descriptions for a subscriber account. The description for a subscriber includes subscriberName, accountID, externalID, and subscriptionId.
-        public var subscriberDescription: Swift.String?
-        /// The name of your Amazon Security Lake subscriber account.
-        public var subscriberName: Swift.String?
-        /// The subscription endpoint to which exception messages are posted.
-        public var subscriptionEndpoint: Swift.String?
-        /// The subscription ID of the Amazon Security Lake subscriber account.
+        public var sources: [SecurityLakeClientTypes.LogSourceResource]?
+        /// The subscriber ARN of the Amazon Security Lake subscriber account.
         /// This member is required.
-        public var subscriptionId: Swift.String?
-        /// The subscription protocol to which exception messages are posted.
-        public var subscriptionProtocol: SecurityLakeClientTypes.EndpointProtocol?
-        /// The subscription status of the Amazon Security Lake subscriber account.
-        public var subscriptionStatus: SecurityLakeClientTypes.SubscriptionStatus?
-        /// The date and time when the subscription was created.
+        public var subscriberArn: Swift.String?
+        /// The subscriber descriptions for a subscriber account. The description for a subscriber includes subscriberName, accountID, externalID, and subscriberId.
+        public var subscriberDescription: Swift.String?
+        /// The subscriber endpoint to which exception messages are posted.
+        public var subscriberEndpoint: Swift.String?
+        /// The subscriber ID of the Amazon Security Lake subscriber account.
+        /// This member is required.
+        public var subscriberId: Swift.String?
+        /// The AWS identity used to access your data.
+        /// This member is required.
+        public var subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
+        /// The name of your Amazon Security Lake subscriber account.
+        /// This member is required.
+        public var subscriberName: Swift.String?
+        /// The subscriber status of the Amazon Security Lake subscriber account.
+        public var subscriberStatus: SecurityLakeClientTypes.SubscriberStatus?
+        /// The date and time when the subscriber was last updated.
         public var updatedAt: ClientRuntime.Date?
 
         public init(
             accessTypes: [SecurityLakeClientTypes.AccessType]? = nil,
-            accountId: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
-            externalId: Swift.String? = nil,
             resourceShareArn: Swift.String? = nil,
             resourceShareName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             s3BucketArn: Swift.String? = nil,
-            snsArn: Swift.String? = nil,
-            sourceTypes: [SecurityLakeClientTypes.SourceType]? = nil,
+            sources: [SecurityLakeClientTypes.LogSourceResource]? = nil,
+            subscriberArn: Swift.String? = nil,
             subscriberDescription: Swift.String? = nil,
+            subscriberEndpoint: Swift.String? = nil,
+            subscriberId: Swift.String? = nil,
+            subscriberIdentity: SecurityLakeClientTypes.AwsIdentity? = nil,
             subscriberName: Swift.String? = nil,
-            subscriptionEndpoint: Swift.String? = nil,
-            subscriptionId: Swift.String? = nil,
-            subscriptionProtocol: SecurityLakeClientTypes.EndpointProtocol? = nil,
-            subscriptionStatus: SecurityLakeClientTypes.SubscriptionStatus? = nil,
+            subscriberStatus: SecurityLakeClientTypes.SubscriberStatus? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
             self.accessTypes = accessTypes
-            self.accountId = accountId
             self.createdAt = createdAt
-            self.externalId = externalId
             self.resourceShareArn = resourceShareArn
             self.resourceShareName = resourceShareName
             self.roleArn = roleArn
             self.s3BucketArn = s3BucketArn
-            self.snsArn = snsArn
-            self.sourceTypes = sourceTypes
+            self.sources = sources
+            self.subscriberArn = subscriberArn
             self.subscriberDescription = subscriberDescription
+            self.subscriberEndpoint = subscriberEndpoint
+            self.subscriberId = subscriberId
+            self.subscriberIdentity = subscriberIdentity
             self.subscriberName = subscriberName
-            self.subscriptionEndpoint = subscriptionEndpoint
-            self.subscriptionId = subscriptionId
-            self.subscriptionProtocol = subscriptionProtocol
-            self.subscriptionStatus = subscriptionStatus
+            self.subscriberStatus = subscriberStatus
             self.updatedAt = updatedAt
         }
     }
@@ -5346,67 +4853,14 @@ extension SecurityLakeClientTypes {
 }
 
 extension SecurityLakeClientTypes {
-    public enum SubscriptionProtocolType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case app
-        case email
-        case emailJson
-        case firehose
-        case http
-        case https
-        case lambda
-        case sms
-        case sqs
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SubscriptionProtocolType] {
-            return [
-                .app,
-                .email,
-                .emailJson,
-                .firehose,
-                .http,
-                .https,
-                .lambda,
-                .sms,
-                .sqs,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .app: return "APP"
-            case .email: return "EMAIL"
-            case .emailJson: return "EMAIL_JSON"
-            case .firehose: return "FIREHOSE"
-            case .http: return "HTTP"
-            case .https: return "HTTPS"
-            case .lambda: return "LAMBDA"
-            case .sms: return "SMS"
-            case .sqs: return "SQS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = SubscriptionProtocolType(rawValue: rawValue) ?? SubscriptionProtocolType.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension SecurityLakeClientTypes {
-    public enum SubscriptionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+    public enum SubscriberStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
         case deactivated
         case pending
         case ready
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [SubscriptionStatus] {
+        public static var allCases: [SubscriberStatus] {
             return [
                 .active,
                 .deactivated,
@@ -5431,7 +4885,7 @@ extension SecurityLakeClientTypes {
         public init(from decoder: Swift.Decoder) throws {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
-            self = SubscriptionStatus(rawValue: rawValue) ?? SubscriptionStatus.sdkUnknown(rawValue)
+            self = SubscriberStatus(rawValue: rawValue) ?? SubscriberStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -5464,7 +4918,6 @@ extension ThrottlingException {
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// That the rate of requests to Security Lake is exceeding the request quotas for your Amazon Web Services account.
         public internal(set) var quotaCode: Swift.String? = nil
@@ -5521,164 +4974,106 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UpdateDatalakeExceptionsExpiryInput: Swift.Encodable {
+extension UpdateDataLakeExceptionSubscriptionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exceptionMessageExpiry
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let exceptionMessageExpiry = self.exceptionMessageExpiry {
-            try encodeContainer.encode(exceptionMessageExpiry, forKey: .exceptionMessageExpiry)
-        }
-    }
-}
-
-extension UpdateDatalakeExceptionsExpiryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/v1/datalake/exceptions/expiry"
-    }
-}
-
-public struct UpdateDatalakeExceptionsExpiryInput: Swift.Equatable {
-    /// The time-to-live (TTL) for the exception message to remain.
-    /// This member is required.
-    public var exceptionMessageExpiry: Swift.Int?
-
-    public init(
-        exceptionMessageExpiry: Swift.Int? = nil
-    )
-    {
-        self.exceptionMessageExpiry = exceptionMessageExpiry
-    }
-}
-
-struct UpdateDatalakeExceptionsExpiryInputBody: Swift.Equatable {
-    let exceptionMessageExpiry: Swift.Int?
-}
-
-extension UpdateDatalakeExceptionsExpiryInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exceptionMessageExpiry
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let exceptionMessageExpiryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exceptionMessageExpiry)
-        exceptionMessageExpiry = exceptionMessageExpiryDecoded
-    }
-}
-
-public enum UpdateDatalakeExceptionsExpiryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateDatalakeExceptionsExpiryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateDatalakeExceptionsExpiryOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
-extension UpdateDatalakeExceptionsSubscriptionInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exceptionTimeToLive
         case notificationEndpoint
         case subscriptionProtocol
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exceptionTimeToLive = self.exceptionTimeToLive {
+            try encodeContainer.encode(exceptionTimeToLive, forKey: .exceptionTimeToLive)
+        }
         if let notificationEndpoint = self.notificationEndpoint {
             try encodeContainer.encode(notificationEndpoint, forKey: .notificationEndpoint)
         }
         if let subscriptionProtocol = self.subscriptionProtocol {
-            try encodeContainer.encode(subscriptionProtocol.rawValue, forKey: .subscriptionProtocol)
+            try encodeContainer.encode(subscriptionProtocol, forKey: .subscriptionProtocol)
         }
     }
 }
 
-extension UpdateDatalakeExceptionsSubscriptionInput: ClientRuntime.URLPathProvider {
+extension UpdateDataLakeExceptionSubscriptionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/v1/datalake/exceptions/subscription"
     }
 }
 
-public struct UpdateDatalakeExceptionsSubscriptionInput: Swift.Equatable {
+public struct UpdateDataLakeExceptionSubscriptionInput: Swift.Equatable {
+    /// The time-to-live (TTL) for the exception message to remain.
+    public var exceptionTimeToLive: Swift.Int?
     /// The account that is subscribed to receive exception notifications.
     /// This member is required.
     public var notificationEndpoint: Swift.String?
     /// The subscription protocol to which exception messages are posted.
     /// This member is required.
-    public var subscriptionProtocol: SecurityLakeClientTypes.SubscriptionProtocolType?
+    public var subscriptionProtocol: Swift.String?
 
     public init(
+        exceptionTimeToLive: Swift.Int? = nil,
         notificationEndpoint: Swift.String? = nil,
-        subscriptionProtocol: SecurityLakeClientTypes.SubscriptionProtocolType? = nil
+        subscriptionProtocol: Swift.String? = nil
     )
     {
+        self.exceptionTimeToLive = exceptionTimeToLive
         self.notificationEndpoint = notificationEndpoint
         self.subscriptionProtocol = subscriptionProtocol
     }
 }
 
-struct UpdateDatalakeExceptionsSubscriptionInputBody: Swift.Equatable {
-    let subscriptionProtocol: SecurityLakeClientTypes.SubscriptionProtocolType?
+struct UpdateDataLakeExceptionSubscriptionInputBody: Swift.Equatable {
+    let subscriptionProtocol: Swift.String?
     let notificationEndpoint: Swift.String?
+    let exceptionTimeToLive: Swift.Int?
 }
 
-extension UpdateDatalakeExceptionsSubscriptionInputBody: Swift.Decodable {
+extension UpdateDataLakeExceptionSubscriptionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exceptionTimeToLive
         case notificationEndpoint
         case subscriptionProtocol
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subscriptionProtocolDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SubscriptionProtocolType.self, forKey: .subscriptionProtocol)
+        let subscriptionProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionProtocol)
         subscriptionProtocol = subscriptionProtocolDecoded
         let notificationEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notificationEndpoint)
         notificationEndpoint = notificationEndpointDecoded
+        let exceptionTimeToLiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exceptionTimeToLive)
+        exceptionTimeToLive = exceptionTimeToLiveDecoded
     }
 }
 
-public enum UpdateDatalakeExceptionsSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum UpdateDataLakeExceptionSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension UpdateDatalakeExceptionsSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateDataLakeExceptionSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct UpdateDatalakeExceptionsSubscriptionOutputResponse: Swift.Equatable {
+public struct UpdateDataLakeExceptionSubscriptionOutputResponse: Swift.Equatable {
 
     public init() { }
 }
 
-extension UpdateDatalakeInput: Swift.Encodable {
+extension UpdateDataLakeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurations
     }
@@ -5686,51 +5081,51 @@ extension UpdateDatalakeInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurations = configurations {
-            var configurationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configurations)
-            for (dictKey0, lakeConfigurationRequestMap0) in configurations {
-                try configurationsContainer.encode(lakeConfigurationRequestMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
+            for datalakeconfiguration0 in configurations {
+                try configurationsContainer.encode(datalakeconfiguration0)
             }
         }
     }
 }
 
-extension UpdateDatalakeInput: ClientRuntime.URLPathProvider {
+extension UpdateDataLakeInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/v1/datalake"
     }
 }
 
-public struct UpdateDatalakeInput: Swift.Equatable {
+public struct UpdateDataLakeInput: Swift.Equatable {
     /// Specify the Region or Regions that will contribute data to the rollup region.
     /// This member is required.
-    public var configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]?
+    public var configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
 
     public init(
-        configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]? = nil
+        configurations: [SecurityLakeClientTypes.DataLakeConfiguration]? = nil
     )
     {
         self.configurations = configurations
     }
 }
 
-struct UpdateDatalakeInputBody: Swift.Equatable {
-    let configurations: [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]?
+struct UpdateDataLakeInputBody: Swift.Equatable {
+    let configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
 }
 
-extension UpdateDatalakeInputBody: Swift.Decodable {
+extension UpdateDataLakeInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurations
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let configurationsContainer = try containerValues.decodeIfPresent([Swift.String: SecurityLakeClientTypes.LakeConfigurationRequest?].self, forKey: .configurations)
-        var configurationsDecoded0: [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]? = nil
+        let configurationsContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeConfiguration?].self, forKey: .configurations)
+        var configurationsDecoded0:[SecurityLakeClientTypes.DataLakeConfiguration]? = nil
         if let configurationsContainer = configurationsContainer {
-            configurationsDecoded0 = [Swift.String:SecurityLakeClientTypes.LakeConfigurationRequest]()
-            for (key0, lakeconfigurationrequest0) in configurationsContainer {
-                if let lakeconfigurationrequest0 = lakeconfigurationrequest0 {
-                    configurationsDecoded0?[key0] = lakeconfigurationrequest0
+            configurationsDecoded0 = [SecurityLakeClientTypes.DataLakeConfiguration]()
+            for structure0 in configurationsContainer {
+                if let structure0 = structure0 {
+                    configurationsDecoded0?.append(structure0)
                 }
             }
         }
@@ -5738,107 +5133,92 @@ extension UpdateDatalakeInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDatalakeOutputError: ClientRuntime.HttpResponseErrorBinding {
+public enum UpdateDataLakeOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventBridgeException": return try await EventBridgeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension UpdateDatalakeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateDataLakeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateDataLakeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataLakes = output.dataLakes
+        } else {
+            self.dataLakes = nil
+        }
     }
 }
 
-public struct UpdateDatalakeOutputResponse: Swift.Equatable {
+public struct UpdateDataLakeOutputResponse: Swift.Equatable {
+    /// The created Security Lake configuration object.
+    public var dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
 
-    public init() { }
+    public init(
+        dataLakes: [SecurityLakeClientTypes.DataLakeResource]? = nil
+    )
+    {
+        self.dataLakes = dataLakes
+    }
 }
 
-extension SecurityLakeClientTypes.UpdateStatus: Swift.Codable {
+struct UpdateDataLakeOutputResponseBody: Swift.Equatable {
+    let dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
+}
+
+extension UpdateDataLakeOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case lastUpdateFailure
-        case lastUpdateRequestId
-        case lastUpdateStatus
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let lastUpdateFailure = self.lastUpdateFailure {
-            try encodeContainer.encode(lastUpdateFailure, forKey: .lastUpdateFailure)
-        }
-        if let lastUpdateRequestId = self.lastUpdateRequestId {
-            try encodeContainer.encode(lastUpdateRequestId, forKey: .lastUpdateRequestId)
-        }
-        if let lastUpdateStatus = self.lastUpdateStatus {
-            try encodeContainer.encode(lastUpdateStatus.rawValue, forKey: .lastUpdateStatus)
-        }
+        case dataLakes
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let lastUpdateRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdateRequestId)
-        lastUpdateRequestId = lastUpdateRequestIdDecoded
-        let lastUpdateStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SettingsStatus.self, forKey: .lastUpdateStatus)
-        lastUpdateStatus = lastUpdateStatusDecoded
-        let lastUpdateFailureDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.LastUpdateFailure.self, forKey: .lastUpdateFailure)
-        lastUpdateFailure = lastUpdateFailureDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// The status of the last UpdateDatalake or DeleteDatalake API request. This is set to Completed after the configuration is updated, or removed if deletion of the data lake is successful.
-    public struct UpdateStatus: Swift.Equatable {
-        /// The details of the last UpdateDatalakeor DeleteDatalake API request which failed.
-        public var lastUpdateFailure: SecurityLakeClientTypes.LastUpdateFailure?
-        /// The unique ID for the UpdateDatalake or DeleteDatalake API request.
-        public var lastUpdateRequestId: Swift.String?
-        /// The status of the last UpdateDatalake or DeleteDatalake API request that was requested.
-        public var lastUpdateStatus: SecurityLakeClientTypes.SettingsStatus?
-
-        public init(
-            lastUpdateFailure: SecurityLakeClientTypes.LastUpdateFailure? = nil,
-            lastUpdateRequestId: Swift.String? = nil,
-            lastUpdateStatus: SecurityLakeClientTypes.SettingsStatus? = nil
-        )
-        {
-            self.lastUpdateFailure = lastUpdateFailure
-            self.lastUpdateRequestId = lastUpdateRequestId
-            self.lastUpdateStatus = lastUpdateStatus
+        let dataLakesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.DataLakeResource?].self, forKey: .dataLakes)
+        var dataLakesDecoded0:[SecurityLakeClientTypes.DataLakeResource]? = nil
+        if let dataLakesContainer = dataLakesContainer {
+            dataLakesDecoded0 = [SecurityLakeClientTypes.DataLakeResource]()
+            for structure0 in dataLakesContainer {
+                if let structure0 = structure0 {
+                    dataLakesDecoded0?.append(structure0)
+                }
+            }
         }
+        dataLakes = dataLakesDecoded0
     }
-
 }
 
 extension UpdateSubscriberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case externalId
-        case sourceTypes
+        case sources
         case subscriberDescription
+        case subscriberIdentity
         case subscriberName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let externalId = self.externalId {
-            try encodeContainer.encode(externalId, forKey: .externalId)
-        }
-        if let sourceTypes = sourceTypes {
-            var sourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceTypes)
-            for sourcetype0 in sourceTypes {
-                try sourceTypesContainer.encode(sourcetype0)
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for logsourceresource0 in sources {
+                try sourcesContainer.encode(logsourceresource0)
             }
         }
         if let subscriberDescription = self.subscriberDescription {
             try encodeContainer.encode(subscriberDescription, forKey: .subscriberDescription)
+        }
+        if let subscriberIdentity = self.subscriberIdentity {
+            try encodeContainer.encode(subscriberIdentity, forKey: .subscriberIdentity)
         }
         if let subscriberName = self.subscriberName {
             try encodeContainer.encode(subscriberName, forKey: .subscriberName)
@@ -5848,77 +5228,188 @@ extension UpdateSubscriberInput: Swift.Encodable {
 
 extension UpdateSubscriberInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
-        guard let id = id else {
+        guard let subscriberId = subscriberId else {
             return nil
         }
-        return "/v1/subscribers/\(id.urlPercentEncoding())"
+        return "/v1/subscribers/\(subscriberId.urlPercentEncoding())"
     }
 }
 
 public struct UpdateSubscriberInput: Swift.Equatable {
-    /// The external ID of the Security Lake account.
-    public var externalId: Swift.String?
-    /// A value created by Security Lake that uniquely identifies your subscription.
-    /// This member is required.
-    public var id: Swift.String?
     /// The supported Amazon Web Services from which logs and events are collected. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
-    /// This member is required.
-    public var sourceTypes: [SecurityLakeClientTypes.SourceType]?
+    public var sources: [SecurityLakeClientTypes.LogSourceResource]?
     /// The description of the Security Lake account subscriber.
     public var subscriberDescription: Swift.String?
+    /// A value created by Security Lake that uniquely identifies your subscription.
+    /// This member is required.
+    public var subscriberId: Swift.String?
+    /// The AWS identity used to access your data.
+    public var subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
     /// The name of the Security Lake account subscriber.
     public var subscriberName: Swift.String?
 
     public init(
-        externalId: Swift.String? = nil,
-        id: Swift.String? = nil,
-        sourceTypes: [SecurityLakeClientTypes.SourceType]? = nil,
+        sources: [SecurityLakeClientTypes.LogSourceResource]? = nil,
         subscriberDescription: Swift.String? = nil,
+        subscriberId: Swift.String? = nil,
+        subscriberIdentity: SecurityLakeClientTypes.AwsIdentity? = nil,
         subscriberName: Swift.String? = nil
     )
     {
-        self.externalId = externalId
-        self.id = id
-        self.sourceTypes = sourceTypes
+        self.sources = sources
         self.subscriberDescription = subscriberDescription
+        self.subscriberId = subscriberId
+        self.subscriberIdentity = subscriberIdentity
         self.subscriberName = subscriberName
     }
 }
 
 struct UpdateSubscriberInputBody: Swift.Equatable {
-    let sourceTypes: [SecurityLakeClientTypes.SourceType]?
-    let externalId: Swift.String?
+    let subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
     let subscriberName: Swift.String?
     let subscriberDescription: Swift.String?
+    let sources: [SecurityLakeClientTypes.LogSourceResource]?
 }
 
 extension UpdateSubscriberInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case externalId
-        case sourceTypes
+        case sources
         case subscriberDescription
+        case subscriberIdentity
         case subscriberName
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sourceTypesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.SourceType?].self, forKey: .sourceTypes)
-        var sourceTypesDecoded0:[SecurityLakeClientTypes.SourceType]? = nil
-        if let sourceTypesContainer = sourceTypesContainer {
-            sourceTypesDecoded0 = [SecurityLakeClientTypes.SourceType]()
-            for union0 in sourceTypesContainer {
-                if let union0 = union0 {
-                    sourceTypesDecoded0?.append(union0)
-                }
-            }
-        }
-        sourceTypes = sourceTypesDecoded0
-        let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
-        externalId = externalIdDecoded
+        let subscriberIdentityDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.AwsIdentity.self, forKey: .subscriberIdentity)
+        subscriberIdentity = subscriberIdentityDecoded
         let subscriberNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberName)
         subscriberName = subscriberNameDecoded
         let subscriberDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberDescription)
         subscriberDescription = subscriberDescriptionDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.LogSourceResource?].self, forKey: .sources)
+        var sourcesDecoded0:[SecurityLakeClientTypes.LogSourceResource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [SecurityLakeClientTypes.LogSourceResource]()
+            for union0 in sourcesContainer {
+                if let union0 = union0 {
+                    sourcesDecoded0?.append(union0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+    }
+}
+
+extension UpdateSubscriberNotificationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+    }
+}
+
+extension UpdateSubscriberNotificationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let subscriberId = subscriberId else {
+            return nil
+        }
+        return "/v1/subscribers/\(subscriberId.urlPercentEncoding())/notification"
+    }
+}
+
+public struct UpdateSubscriberNotificationInput: Swift.Equatable {
+    /// The configuration for subscriber notification.
+    /// This member is required.
+    public var configuration: SecurityLakeClientTypes.NotificationConfiguration?
+    /// The subscription ID for which the subscription notification is specified.
+    /// This member is required.
+    public var subscriberId: Swift.String?
+
+    public init(
+        configuration: SecurityLakeClientTypes.NotificationConfiguration? = nil,
+        subscriberId: Swift.String? = nil
+    )
+    {
+        self.configuration = configuration
+        self.subscriberId = subscriberId
+    }
+}
+
+struct UpdateSubscriberNotificationInputBody: Swift.Equatable {
+    let configuration: SecurityLakeClientTypes.NotificationConfiguration?
+}
+
+extension UpdateSubscriberNotificationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.NotificationConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+public enum UpdateSubscriberNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateSubscriberNotificationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSubscriberNotificationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.subscriberEndpoint = output.subscriberEndpoint
+        } else {
+            self.subscriberEndpoint = nil
+        }
+    }
+}
+
+public struct UpdateSubscriberNotificationOutputResponse: Swift.Equatable {
+    /// The subscriber endpoint to which exception messages are posted.
+    public var subscriberEndpoint: Swift.String?
+
+    public init(
+        subscriberEndpoint: Swift.String? = nil
+    )
+    {
+        self.subscriberEndpoint = subscriberEndpoint
+    }
+}
+
+struct UpdateSubscriberNotificationOutputResponseBody: Swift.Equatable {
+    let subscriberEndpoint: Swift.String?
+}
+
+extension UpdateSubscriberNotificationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subscriberEndpoint
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subscriberEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriberEndpoint)
+        subscriberEndpoint = subscriberEndpointDecoded
     }
 }
 
@@ -5928,12 +5419,11 @@ public enum UpdateSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding 
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictSubscriptionException": return try await ConflictSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -5952,7 +5442,7 @@ extension UpdateSubscriberOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateSubscriberOutputResponse: Swift.Equatable {
-    /// The account of the subscriber.
+    /// The updated subscriber information.
     public var subscriber: SecurityLakeClientTypes.SubscriberResource?
 
     public init(
@@ -5976,348 +5466,5 @@ extension UpdateSubscriberOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriberDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SubscriberResource.self, forKey: .subscriber)
         subscriber = subscriberDecoded
-    }
-}
-
-extension UpdateSubscriptionNotificationConfigurationInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createSqs
-        case httpsApiKeyName
-        case httpsApiKeyValue
-        case httpsMethod
-        case roleArn
-        case subscriptionEndpoint
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let createSqs = self.createSqs {
-            try encodeContainer.encode(createSqs, forKey: .createSqs)
-        }
-        if let httpsApiKeyName = self.httpsApiKeyName {
-            try encodeContainer.encode(httpsApiKeyName, forKey: .httpsApiKeyName)
-        }
-        if let httpsApiKeyValue = self.httpsApiKeyValue {
-            try encodeContainer.encode(httpsApiKeyValue, forKey: .httpsApiKeyValue)
-        }
-        if let httpsMethod = self.httpsMethod {
-            try encodeContainer.encode(httpsMethod.rawValue, forKey: .httpsMethod)
-        }
-        if let roleArn = self.roleArn {
-            try encodeContainer.encode(roleArn, forKey: .roleArn)
-        }
-        if let subscriptionEndpoint = self.subscriptionEndpoint {
-            try encodeContainer.encode(subscriptionEndpoint, forKey: .subscriptionEndpoint)
-        }
-    }
-}
-
-extension UpdateSubscriptionNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriptionId = subscriptionId else {
-            return nil
-        }
-        return "/subscription-notifications/\(subscriptionId.urlPercentEncoding())"
-    }
-}
-
-public struct UpdateSubscriptionNotificationConfigurationInput: Swift.Equatable {
-    /// Create a new subscription notification for the specified subscription ID in Amazon Security Lake.
-    public var createSqs: Swift.Bool?
-    /// The key name for the subscription notification.
-    public var httpsApiKeyName: Swift.String?
-    /// The key value for the subscription notification.
-    public var httpsApiKeyValue: Swift.String?
-    /// The HTTPS method used for the subscription notification.
-    public var httpsMethod: SecurityLakeClientTypes.HttpsMethod?
-    /// The Amazon Resource Name (ARN) specifying the role of the subscriber. For more information about ARNs and how to use them in policies, see, see the [Managing data access](https://docs.aws.amazon.com//security-lake/latest/userguide/subscriber-data-access.html) and [Amazon Web Services Managed Policies](https://docs.aws.amazon.com/security-lake/latest/userguide/security-iam-awsmanpol.html)in the Amazon Security Lake User Guide.
-    public var roleArn: Swift.String?
-    /// The subscription endpoint in Security Lake.
-    public var subscriptionEndpoint: Swift.String?
-    /// The subscription ID for which the subscription notification is specified.
-    /// This member is required.
-    public var subscriptionId: Swift.String?
-
-    public init(
-        createSqs: Swift.Bool? = nil,
-        httpsApiKeyName: Swift.String? = nil,
-        httpsApiKeyValue: Swift.String? = nil,
-        httpsMethod: SecurityLakeClientTypes.HttpsMethod? = nil,
-        roleArn: Swift.String? = nil,
-        subscriptionEndpoint: Swift.String? = nil,
-        subscriptionId: Swift.String? = nil
-    )
-    {
-        self.createSqs = createSqs
-        self.httpsApiKeyName = httpsApiKeyName
-        self.httpsApiKeyValue = httpsApiKeyValue
-        self.httpsMethod = httpsMethod
-        self.roleArn = roleArn
-        self.subscriptionEndpoint = subscriptionEndpoint
-        self.subscriptionId = subscriptionId
-    }
-}
-
-struct UpdateSubscriptionNotificationConfigurationInputBody: Swift.Equatable {
-    let subscriptionEndpoint: Swift.String?
-    let httpsApiKeyName: Swift.String?
-    let httpsApiKeyValue: Swift.String?
-    let httpsMethod: SecurityLakeClientTypes.HttpsMethod?
-    let createSqs: Swift.Bool?
-    let roleArn: Swift.String?
-}
-
-extension UpdateSubscriptionNotificationConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createSqs
-        case httpsApiKeyName
-        case httpsApiKeyValue
-        case httpsMethod
-        case roleArn
-        case subscriptionEndpoint
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subscriptionEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionEndpoint)
-        subscriptionEndpoint = subscriptionEndpointDecoded
-        let httpsApiKeyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpsApiKeyName)
-        httpsApiKeyName = httpsApiKeyNameDecoded
-        let httpsApiKeyValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpsApiKeyValue)
-        httpsApiKeyValue = httpsApiKeyValueDecoded
-        let httpsMethodDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.HttpsMethod.self, forKey: .httpsMethod)
-        httpsMethod = httpsMethodDecoded
-        let createSqsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .createSqs)
-        createSqs = createSqsDecoded
-        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
-        roleArn = roleArnDecoded
-    }
-}
-
-public enum UpdateSubscriptionNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccountNotFoundException": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSubscriptionNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateSubscriptionNotificationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.queueArn = output.queueArn
-        } else {
-            self.queueArn = nil
-        }
-    }
-}
-
-public struct UpdateSubscriptionNotificationConfigurationOutputResponse: Swift.Equatable {
-    /// Returns the ARN of the queue.
-    public var queueArn: Swift.String?
-
-    public init(
-        queueArn: Swift.String? = nil
-    )
-    {
-        self.queueArn = queueArn
-    }
-}
-
-struct UpdateSubscriptionNotificationConfigurationOutputResponseBody: Swift.Equatable {
-    let queueArn: Swift.String?
-}
-
-extension UpdateSubscriptionNotificationConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case queueArn
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let queueArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueArn)
-        queueArn = queueArnDecoded
-    }
-}
-
-extension ValidationException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.fieldList = output.fieldList
-            self.properties.message = output.message
-            self.properties.reason = output.reason
-        } else {
-            self.properties.fieldList = nil
-            self.properties.message = nil
-            self.properties.reason = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// Your signing certificate could not be validated.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The list of parameters that failed to validate.
-        public internal(set) var fieldList: [SecurityLakeClientTypes.ValidationExceptionField]? = nil
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The reason for the validation exception.
-        /// This member is required.
-        public internal(set) var reason: SecurityLakeClientTypes.ValidationExceptionReason? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        fieldList: [SecurityLakeClientTypes.ValidationExceptionField]? = nil,
-        message: Swift.String? = nil,
-        reason: SecurityLakeClientTypes.ValidationExceptionReason? = nil
-    )
-    {
-        self.properties.fieldList = fieldList
-        self.properties.message = message
-        self.properties.reason = reason
-    }
-}
-
-struct ValidationExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-    let reason: SecurityLakeClientTypes.ValidationExceptionReason?
-    let fieldList: [SecurityLakeClientTypes.ValidationExceptionField]?
-}
-
-extension ValidationExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fieldList
-        case message
-        case reason
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-        let reasonDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.ValidationExceptionReason.self, forKey: .reason)
-        reason = reasonDecoded
-        let fieldListContainer = try containerValues.decodeIfPresent([SecurityLakeClientTypes.ValidationExceptionField?].self, forKey: .fieldList)
-        var fieldListDecoded0:[SecurityLakeClientTypes.ValidationExceptionField]? = nil
-        if let fieldListContainer = fieldListContainer {
-            fieldListDecoded0 = [SecurityLakeClientTypes.ValidationExceptionField]()
-            for structure0 in fieldListContainer {
-                if let structure0 = structure0 {
-                    fieldListDecoded0?.append(structure0)
-                }
-            }
-        }
-        fieldList = fieldListDecoded0
-    }
-}
-
-extension SecurityLakeClientTypes.ValidationExceptionField: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-        case name
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
-            try encodeContainer.encode(message, forKey: .message)
-        }
-        if let name = self.name {
-            try encodeContainer.encode(name, forKey: .name)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
-        name = nameDecoded
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension SecurityLakeClientTypes {
-    /// The input fails to meet the constraints specified in Amazon Security Lake.
-    public struct ValidationExceptionField: Swift.Equatable {
-        /// Describes the error encountered.
-        /// This member is required.
-        public var message: Swift.String?
-        /// Name of the validation exception.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            message: Swift.String? = nil,
-            name: Swift.String? = nil
-        )
-        {
-            self.message = message
-            self.name = name
-        }
-    }
-
-}
-
-extension SecurityLakeClientTypes {
-    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case cannotParse
-        case fieldValidationFailed
-        case other
-        case unknownOperation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ValidationExceptionReason] {
-            return [
-                .cannotParse,
-                .fieldValidationFailed,
-                .other,
-                .unknownOperation,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .cannotParse: return "cannotParse"
-            case .fieldValidationFailed: return "fieldValidationFailed"
-            case .other: return "other"
-            case .unknownOperation: return "unknownOperation"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
-        }
     }
 }

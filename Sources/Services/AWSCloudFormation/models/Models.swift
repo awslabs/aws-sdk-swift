@@ -186,6 +186,46 @@ extension CloudFormationClientTypes {
 
 }
 
+extension ActivateOrganizationsAccessInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        try container.encode("ActivateOrganizationsAccess", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ActivateOrganizationsAccessInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ActivateOrganizationsAccessInput: Swift.Equatable {
+
+    public init() { }
+}
+
+public enum ActivateOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ActivateOrganizationsAccessOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ActivateOrganizationsAccessOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension ActivateTypeInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -231,7 +271,7 @@ extension ActivateTypeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ActivateTypeInput: Swift.Equatable {
-    /// Whether to automatically update the extension in this account and region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. The default is true.
+    /// Whether to automatically update the extension in this account and Region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. The default is true.
     public var autoUpdate: Swift.Bool?
     /// The name of the IAM execution role to use to activate the extension.
     public var executionRoleArn: Swift.String?
@@ -247,7 +287,7 @@ public struct ActivateTypeInput: Swift.Equatable {
     public var type: CloudFormationClientTypes.ThirdPartyType?
     /// The name of the extension. Conditional: You must specify PublicTypeArn, or TypeName, Type, and PublisherId.
     public var typeName: Swift.String?
-    /// An alias to assign to the public extension, in this account and region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console. An extension alias must be unique within a given account and region. You can activate the same public resource multiple times in the same account and region, using different type name aliases.
+    /// An alias to assign to the public extension, in this account and Region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and Region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console. An extension alias must be unique within a given account and Region. You can activate the same public resource multiple times in the same account and Region, using different type name aliases.
     public var typeNameAlias: Swift.String?
     /// Manually updates a previously-activated type to a new major or minor version, if available. You can also use this parameter to update the value of AutoUpdate.
     ///
@@ -358,7 +398,7 @@ extension ActivateTypeOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ActivateTypeOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the activated extension, in this account and region.
+    /// The Amazon Resource Name (ARN) of the activated extension, in this account and Region.
     public var arn: Swift.String?
 
     public init(
@@ -845,7 +885,7 @@ extension CancelUpdateStackInput: ClientRuntime.URLPathProvider {
 public struct CancelUpdateStackInput: Swift.Equatable {
     /// A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that CloudFormation successfully received them.
     public var clientRequestToken: Swift.String?
-    /// The name or the unique stack ID that's associated with the stack.
+    /// If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] } The name or the unique stack ID that's associated with the stack.
     /// This member is required.
     public var stackName: Swift.String?
 
@@ -3398,6 +3438,46 @@ extension CreatedButModifiedExceptionBody: Swift.Decodable {
     }
 }
 
+extension DeactivateOrganizationsAccessInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        try container.encode("DeactivateOrganizationsAccess", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeactivateOrganizationsAccessInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeactivateOrganizationsAccessInput: Swift.Equatable {
+
+    public init() { }
+}
+
+public enum DeactivateOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeactivateOrganizationsAccessOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeactivateOrganizationsAccessOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DeactivateTypeInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -3422,11 +3502,11 @@ extension DeactivateTypeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeactivateTypeInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the extension, in this account and region. Conditional: You must specify either Arn, or TypeName and Type.
+    /// The Amazon Resource Name (ARN) for the extension, in this account and Region. Conditional: You must specify either Arn, or TypeName and Type.
     public var arn: Swift.String?
     /// The extension type. Conditional: You must specify either Arn, or TypeName and Type.
     public var type: CloudFormationClientTypes.ThirdPartyType?
-    /// The type name of the extension, in this account and region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
+    /// The type name of the extension, in this account and Region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
     public var typeName: Swift.String?
 
     public init(
@@ -4982,6 +5062,107 @@ extension DescribeChangeSetOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeOrganizationsAccessInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let callAs = callAs {
+            try container.encode(callAs, forKey: ClientRuntime.Key("CallAs"))
+        }
+        try container.encode("DescribeOrganizationsAccess", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeOrganizationsAccessInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeOrganizationsAccessInput: Swift.Equatable {
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified.
+    ///
+    /// * If you are signed in to the management account, specify SELF.
+    ///
+    /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
+    public var callAs: CloudFormationClientTypes.CallAs?
+
+    public init(
+        callAs: CloudFormationClientTypes.CallAs? = nil
+    )
+    {
+        self.callAs = callAs
+    }
+}
+
+struct DescribeOrganizationsAccessInputBody: Swift.Equatable {
+    let callAs: CloudFormationClientTypes.CallAs?
+}
+
+extension DescribeOrganizationsAccessInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callAs = "CallAs"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let callAsDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.CallAs.self, forKey: .callAs)
+        callAs = callAsDecoded
+    }
+}
+
+public enum DescribeOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeOrganizationsAccessOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeOrganizationsAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct DescribeOrganizationsAccessOutputResponse: Swift.Equatable {
+    /// Presents the status of the OrganizationAccess.
+    public var status: CloudFormationClientTypes.OrganizationStatus?
+
+    public init(
+        status: CloudFormationClientTypes.OrganizationStatus? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct DescribeOrganizationsAccessOutputResponseBody: Swift.Equatable {
+    let status: CloudFormationClientTypes.OrganizationStatus?
+}
+
+extension DescribeOrganizationsAccessOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeOrganizationsAccessResult"))
+        let statusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.OrganizationStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 extension DescribePublisherInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -6273,7 +6454,7 @@ extension DescribeStacksInput: ClientRuntime.URLPathProvider {
 public struct DescribeStacksInput: Swift.Equatable {
     /// A string that identifies the next page of stacks that you want to retrieve.
     public var nextToken: Swift.String?
-    /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
+    /// If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account. This requires ListStacks and DescribeStacks permissions. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] } The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
     ///
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
@@ -6569,9 +6750,9 @@ extension DescribeTypeOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeTypeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the extension.
     public var arn: Swift.String?
-    /// Whether CloudFormation automatically updates the extension in this account and region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. For more information, see [Activating public extensions for use in your account] in the CloudFormation User Guide.
+    /// Whether CloudFormation automatically updates the extension in this account and Region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. For more information, see [Activating public extensions for use in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable) in the CloudFormation User Guide.
     public var autoUpdate: Swift.Bool?
-    /// A JSON string that represent the current configuration data for the extension in this account and region. To set the configuration data for an extension, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html). For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
+    /// A JSON string that represent the current configuration data for the extension in this account and Region. To set the configuration data for an extension, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html). For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
     public var configurationSchema: Swift.String?
     /// The ID of the default version of the extension. The default version is used when the extension version isn't specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon Web Services and published by third parties, CloudFormation returns null. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html). To set the default version of an extension, use [SetTypeDefaultVersion].
     public var defaultVersionId: Swift.String?
@@ -6590,7 +6771,7 @@ public struct DescribeTypeOutputResponse: Swift.Equatable {
     public var documentationUrl: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM execution role used to register the extension. This applies only to private extensions you have registered in your account. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html). If the registered extension calls any Amazon Web Services APIs, you must create an [IAM execution role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your extension with the appropriate credentials.
     public var executionRoleArn: Swift.String?
-    /// Whether the extension is activated in the account and region. This only applies to public third-party extensions. For all other extensions, CloudFormation returns null.
+    /// Whether the extension is activated in the account and Region. This only applies to public third-party extensions. For all other extensions, CloudFormation returns null.
     public var isActivated: Swift.Bool?
     /// Whether the specified extension version is set as the default version. This applies only to private extensions you have registered in your account, and extensions published by Amazon Web Services. For public third-party extensions, whether they are activated in your account, CloudFormation returns null.
     public var isDefaultVersion: Swift.Bool?
@@ -6604,9 +6785,9 @@ public struct DescribeTypeOutputResponse: Swift.Equatable {
     public var latestPublicVersion: Swift.String?
     /// Contains logging configuration information for private extensions. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon Web Services and published by third parties, CloudFormation returns null. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html).
     public var loggingConfig: CloudFormationClientTypes.LoggingConfig?
-    /// For public extensions that have been activated for this account and region, the Amazon Resource Name (ARN) of the public extension.
+    /// For public extensions that have been activated for this account and Region, the Amazon Resource Name (ARN) of the public extension.
     public var originalTypeArn: Swift.String?
-    /// For public extensions that have been activated for this account and region, the type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and region, CloudFormation treats that alias as the extension's type name within the account and region, not the type name of the public extension. For more information, see [Specifying aliases to refer to extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias) in the CloudFormation User Guide.
+    /// For public extensions that have been activated for this account and Region, the type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and Region, CloudFormation treats that alias as the extension's type name within the account and Region, not the type name of the public extension. For more information, see [Specifying aliases to refer to extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias) in the CloudFormation User Guide.
     public var originalTypeName: Swift.String?
     /// For resource type extensions, the provisioning behavior of the resource type. CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:
     ///
@@ -10964,11 +11145,11 @@ public struct ListTypesInput: Swift.Equatable {
     public var type: CloudFormationClientTypes.RegistryType?
     /// The scope at which the extensions are visible and usable in CloudFormation operations. Valid values include:
     ///
-    /// * PRIVATE: Extensions that are visible and usable within this account and region. This includes:
+    /// * PRIVATE: Extensions that are visible and usable within this account and Region. This includes:
     ///
-    /// * Private extensions you have registered in this account and region.
+    /// * Private extensions you have registered in this account and Region.
     ///
-    /// * Public extensions that you have activated in this account and region.
+    /// * Public extensions that you have activated in this account and Region.
     ///
     ///
     ///
@@ -11225,9 +11406,9 @@ extension CloudFormationClientTypes.ModuleInfo: Swift.Codable {
 }
 
 extension CloudFormationClientTypes {
-    /// Contains information about the module from which the resource was created, if the resource was created from a module included in the stack template. For more information about modules, see [Using modules to encapsulate and reuse resource configurations] in the CloudFormation User Guide.
+    /// Contains information about the module from which the resource was created, if the resource was created from a module included in the stack template. For more information about modules, see [Using modules to encapsulate and reuse resource configurations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html) in the CloudFormation User Guide.
     public struct ModuleInfo: Swift.Equatable {
-        /// A concatenated list of the logical IDs of the module or modules containing the resource. Modules are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module, moduleA, that's nested inside a parent module, moduleB. moduleA/moduleB For more information, see [Referencing resources in a module] in the CloudFormation User Guide.
+        /// A concatenated list of the logical IDs of the module or modules containing the resource. Modules are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module, moduleA, that's nested inside a parent module, moduleB. moduleA/moduleB For more information, see [Referencing resources in a module](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html#module-ref-resources) in the CloudFormation User Guide.
         public var logicalIdHierarchy: Swift.String?
         /// A concatenated list of the module type or types containing the resource. Module types are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module of type AWS::First::Example::MODULE, that's nested inside a parent module of type AWS::Second::Example::MODULE. AWS::First::Example::MODULE/AWS::Second::Example::MODULE
         public var typeHierarchy: Swift.String?
@@ -11658,6 +11839,41 @@ extension OperationStatusCheckFailedExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension CloudFormationClientTypes {
+    public enum OrganizationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case disabledPermanently
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationStatus] {
+            return [
+                .disabled,
+                .disabledPermanently,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabledPermanently: return "DISABLED_PERMANENTLY"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OrganizationStatus(rawValue: rawValue) ?? OrganizationStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -12596,7 +12812,7 @@ extension RegisterTypeInput: ClientRuntime.URLPathProvider {
 public struct RegisterTypeInput: Swift.Equatable {
     /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of an extension from the same registration request, even if the request is submitted multiple times.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principle (resources.cloudformation.amazonaws.com). For more information about adding trust relationships, see [Modifying a role trust policy] in the Identity and Access Management User Guide. If your extension calls Amazon Web Services APIs in any of its handlers, you must create an [IAM execution role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your resource type with the appropriate credentials.
+    /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principle (resources.cloudformation.amazonaws.com). For more information about adding trust relationships, see [Modifying a role trust policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-managingrole_edit-trust-policy) in the Identity and Access Management User Guide. If your extension calls Amazon Web Services APIs in any of its handlers, you must create an [IAM execution role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your resource type with the appropriate credentials.
     public var executionRoleArn: Swift.String?
     /// Specifies logging configuration information for an extension.
     public var loggingConfig: CloudFormationClientTypes.LoggingConfig?
@@ -12906,13 +13122,13 @@ extension CloudFormationClientTypes.RequiredActivatedType: Swift.Codable {
 extension CloudFormationClientTypes {
     /// For extensions that are modules, a public third-party extension that must be activated in your account in order for the module itself to be activated. For more information, see [Activating public modules for use in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html#module-enabling) in the CloudFormation User Guide.
     public struct RequiredActivatedType: Swift.Equatable {
-        /// The type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and region, CloudFormation treats that alias as the extension's type name within the account and region, not the type name of the public extension. For more information, see [Specifying aliases to refer to extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias) in the CloudFormation User Guide.
+        /// The type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and Region, CloudFormation treats that alias as the extension's type name within the account and Region, not the type name of the public extension. For more information, see [Specifying aliases to refer to extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias) in the CloudFormation User Guide.
         public var originalTypeName: Swift.String?
         /// The publisher ID of the extension publisher.
         public var publisherId: Swift.String?
         /// A list of the major versions of the extension type that the macro supports.
         public var supportedMajorVersions: [Swift.Int]?
-        /// An alias assigned to the public extension, in this account and region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console.
+        /// An alias assigned to the public extension, in this account and Region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and Region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console.
         public var typeNameAlias: Swift.String?
 
         public init(
@@ -13986,14 +14202,14 @@ extension SetTypeConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SetTypeConfigurationInput: Swift.Equatable {
-    /// The configuration data for the extension, in this account and region. The configuration data must be formatted as JSON, and validate against the schema returned in the ConfigurationSchema response element of [API_DescribeType]. For more information, see [Defining account-level configuration data for an extension](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-model.html#resource-type-howto-configuration) in the CloudFormation CLI User Guide.
+    /// The configuration data for the extension, in this account and Region. The configuration data must be formatted as JSON, and validate against the schema returned in the ConfigurationSchema response element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). For more information, see [Defining account-level configuration data for an extension](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-model.html#resource-type-howto-configuration) in the CloudFormation CLI User Guide.
     /// This member is required.
     public var configuration: Swift.String?
     /// An alias by which to refer to this extension configuration data. Conditional: Specifying a configuration alias is required when setting a configuration for a resource type extension.
     public var configurationAlias: Swift.String?
     /// The type of extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var type: CloudFormationClientTypes.ThirdPartyType?
-    /// The Amazon Resource Name (ARN) for the extension, in this account and region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
+    /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and Region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
     public var typeArn: Swift.String?
     /// The name of the extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var typeName: Swift.String?
@@ -14070,7 +14286,7 @@ extension SetTypeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct SetTypeConfigurationOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the configuration data, in this account and region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
+    /// The Amazon Resource Name (ARN) for the configuration data, in this account and Region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var configurationArn: Swift.String?
 
     public init(
@@ -14594,7 +14810,7 @@ extension CloudFormationClientTypes {
         ///
         /// * false: enable rollback.
         public var disableRollback: Swift.Bool?
-        /// Information about whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
+        /// Information about whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
         public var driftInformation: CloudFormationClientTypes.StackDriftInformation?
         /// Whether termination protection is enabled for the stack. For [nested stacks](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html), termination protection is set on the root stack and can't be changed directly on the nested stack. For more information, see [Protecting a Stack From Being Deleted](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) in the CloudFormation User Guide.
         public var enableTerminationProtection: Swift.Bool?
@@ -16725,6 +16941,7 @@ extension CloudFormationClientTypes {
         ///
         /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Grant Service-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html).
         public var permissionModel: CloudFormationClientTypes.PermissionModels?
+        /// Returns a list of all Amazon Web Services Regions the given StackSet has stack instances deployed in. The Amazon Web Services Regions list output is in no particular order.
         public var regions: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the stack set.
         public var stackSetARN: Swift.String?
@@ -18095,7 +18312,7 @@ extension CloudFormationClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The time the stack was deleted.
         public var deletionTime: ClientRuntime.Date?
-        /// Summarizes information about whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
+        /// Summarizes information about whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
         public var driftInformation: CloudFormationClientTypes.StackDriftInformationSummary?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
         public var lastUpdatedTime: ClientRuntime.Date?
@@ -18484,7 +18701,7 @@ public struct TestTypeInput: Swift.Equatable {
     public var type: CloudFormationClientTypes.ThirdPartyType?
     /// The name of the extension to test. Conditional: You must specify Arn, or TypeName and Type.
     public var typeName: Swift.String?
-    /// The version of the extension to test. You can specify the version id with either Arn, or with TypeName and Type. If you don't specify a version, CloudFormation uses the default version of the extension in this account and region for testing.
+    /// The version of the extension to test. You can specify the version id with either Arn, or with TypeName and Type. If you don't specify a version, CloudFormation uses the default version of the extension in this account and Region for testing.
     public var versionId: Swift.String?
 
     public init(
@@ -18732,19 +18949,19 @@ extension CloudFormationClientTypes.TypeConfigurationDetails: Swift.Codable {
 }
 
 extension CloudFormationClientTypes {
-    /// Detailed information concerning the specification of a CloudFormation extension in a given account and region. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
+    /// Detailed information concerning the specification of a CloudFormation extension in a given account and Region. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
     public struct TypeConfigurationDetails: Swift.Equatable {
         /// The alias specified for this configuration, if one was specified when the configuration was set.
         public var alias: Swift.String?
-        /// The Amazon Resource Name (ARN) for the configuration data, in this account and region.
+        /// The Amazon Resource Name (ARN) for the configuration data, in this account and Region.
         public var arn: Swift.String?
-        /// A JSON string specifying the configuration data for the extension, in this account and region. If a configuration hasn't been set for a specified extension, CloudFormation returns {}.
+        /// A JSON string specifying the configuration data for the extension, in this account and Region. If a configuration hasn't been set for a specified extension, CloudFormation returns {}.
         public var configuration: Swift.String?
         /// Whether this configuration data is the default configuration for the extension.
         public var isDefaultConfiguration: Swift.Bool?
         /// When the configuration data was last updated for this extension. If a configuration hasn't been set for a specified extension, CloudFormation returns null.
         public var lastUpdated: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) for the extension, in this account and region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and region.
+        /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and Region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and Region.
         public var typeArn: Swift.String?
         /// The name of the extension.
         public var typeName: Swift.String?
@@ -18819,11 +19036,11 @@ extension CloudFormationClientTypes {
     public struct TypeConfigurationIdentifier: Swift.Equatable {
         /// The type of extension.
         public var type: CloudFormationClientTypes.ThirdPartyType?
-        /// The Amazon Resource Name (ARN) for the extension, in this account and region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and region.
+        /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and Region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and Region.
         public var typeArn: Swift.String?
         /// The alias specified for this configuration, if one was specified when the configuration was set.
         public var typeConfigurationAlias: Swift.String?
-        /// The Amazon Resource Name (ARN) for the configuration, in this account and region.
+        /// The Amazon Resource Name (ARN) for the configuration, in this account and Region.
         public var typeConfigurationArn: Swift.String?
         /// The name of the extension type to which this configuration applies.
         public var typeName: Swift.String?
@@ -18936,9 +19153,9 @@ extension CloudFormationClientTypes {
     public struct TypeFilters: Swift.Equatable {
         /// The category of extensions to return.
         ///
-        /// * REGISTERED: Private extensions that have been registered for this account and region.
+        /// * REGISTERED: Private extensions that have been registered for this account and Region.
         ///
-        /// * ACTIVATED: Public extensions that have been activated for this account and region.
+        /// * ACTIVATED: Public extensions that have been activated for this account and Region.
         ///
         /// * THIRD_PARTY: Extensions available for use from publishers other than Amazon. This includes:
         ///
@@ -19122,7 +19339,7 @@ extension CloudFormationClientTypes {
         public var defaultVersionId: Swift.String?
         /// The description of the extension.
         public var description: Swift.String?
-        /// Whether the extension is activated for this account and region. This applies only to third-party public extensions. Extensions published by Amazon are activated by default.
+        /// Whether the extension is activated for this account and Region. This applies only to third-party public extensions. Extensions published by Amazon are activated by default.
         public var isActivated: Swift.Bool?
         /// When the specified extension version was registered. This applies only to:
         ///
@@ -19133,11 +19350,11 @@ extension CloudFormationClientTypes {
         ///
         /// For all other extension types, CloudFormation returns null.
         public var lastUpdated: ClientRuntime.Date?
-        /// For public extensions that have been activated for this account and region, the latest version of the public extension that is available. For any extensions other than activated third-arty extensions, CloudFormation returns null. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extension in this account and region when a new version is released. For more information, see [Setting CloudFormation to automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
+        /// For public extensions that have been activated for this account and Region, the latest version of the public extension that is available. For any extensions other than activated third-arty extensions, CloudFormation returns null. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extension in this account and Region when a new version is released. For more information, see [Setting CloudFormation to automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
         public var latestPublicVersion: Swift.String?
-        /// For public extensions that have been activated for this account and region, the type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and region, CloudFormation treats that alias as the extension's type name within the account and region, not the type name of the public extension. For more information, see [Specifying aliases to refer to extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias) in the CloudFormation User Guide.
+        /// For public extensions that have been activated for this account and Region, the type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and Region, CloudFormation treats that alias as the extension's type name within the account and Region, not the type name of the public extension. For more information, see [Specifying aliases to refer to extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias) in the CloudFormation User Guide.
         public var originalTypeName: Swift.String?
-        /// For public extensions that have been activated for this account and region, the version of the public extension to be used for CloudFormation operations in this account and Region. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extension in this account and region when a new version is released. For more information, see [Setting CloudFormation to automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
+        /// For public extensions that have been activated for this account and Region, the version of the public extension to be used for CloudFormation operations in this account and Region. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extension in this account and Region when a new version is released. For more information, see [Setting CloudFormation to automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
         public var publicVersionNumber: Swift.String?
         /// The ID of the extension publisher, if the extension is published by a third party. Extensions published by Amazon don't return a publisher ID.
         public var publisherId: Swift.String?
@@ -19149,7 +19366,7 @@ extension CloudFormationClientTypes {
         public var type: CloudFormationClientTypes.RegistryType?
         /// The Amazon Resource Name (ARN) of the extension.
         public var typeArn: Swift.String?
-        /// The name of the extension. If you specified a TypeNameAlias when you [activate this extension](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in your account and region, CloudFormation considers that alias as the type name.
+        /// The name of the extension. If you specified a TypeNameAlias when you [activate this extension](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in your account and Region, CloudFormation considers that alias as the type name.
         public var typeName: Swift.String?
 
         public init(
@@ -19294,7 +19511,7 @@ extension CloudFormationClientTypes {
         public var description: Swift.String?
         /// Whether the specified extension version is set as the default version. This applies only to private extensions you have registered in your account, and extensions published by Amazon. For public third-party extensions, CloudFormation returns null.
         public var isDefaultVersion: Swift.Bool?
-        /// For public extensions that have been activated for this account and region, the version of the public extension to be used for CloudFormation operations in this account and region. For any extensions other than activated third-arty extensions, CloudFormation returns null. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extension in this account and region when a new version is released. For more information, see [Setting CloudFormation to automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
+        /// For public extensions that have been activated for this account and Region, the version of the public extension to be used for CloudFormation operations in this account and Region. For any extensions other than activated third-arty extensions, CloudFormation returns null. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extension in this account and Region when a new version is released. For more information, see [Setting CloudFormation to automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
         public var publicVersionNumber: Swift.String?
         /// When the version was registered.
         public var timeCreated: ClientRuntime.Date?

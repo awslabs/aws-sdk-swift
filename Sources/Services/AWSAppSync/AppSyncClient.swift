@@ -228,6 +228,78 @@ extension AppSyncClient: AppSyncClientProtocol {
         return result
     }
 
+    /// Creates an association between a Merged API and source API using the source API's identifier.
+    public func associateMergedGraphqlApi(input: AssociateMergedGraphqlApiInput) async throws -> AssociateMergedGraphqlApiOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateMergedGraphqlApi")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(id: "associateMergedGraphqlApi")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse>(xmlName: "AssociateMergedGraphqlApiRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Creates an association between a Merged API and source API using the Merged API's identifier.
+    public func associateSourceGraphqlApi(input: AssociateSourceGraphqlApiInput) async throws -> AssociateSourceGraphqlApiOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateSourceGraphqlApi")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(id: "associateSourceGraphqlApi")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse>(xmlName: "AssociateSourceGraphqlApiRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Creates a cache for the GraphQL API.
     public func createApiCache(input: CreateApiCacheInput) async throws -> CreateApiCacheOutputResponse
     {
@@ -813,6 +885,72 @@ extension AppSyncClient: AppSyncClientProtocol {
         return result
     }
 
+    /// Deletes an association between a Merged API and source API using the source API's identifier and the association ID.
+    public func disassociateMergedGraphqlApi(input: DisassociateMergedGraphqlApiInput) async throws -> DisassociateMergedGraphqlApiOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateMergedGraphqlApi")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DisassociateMergedGraphqlApiInput, DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(id: "disassociateMergedGraphqlApi")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMergedGraphqlApiInput, DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMergedGraphqlApiInput, DisassociateMergedGraphqlApiOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Deletes an association between a Merged API and source API using the Merged API's identifier and the association ID.
+    public func disassociateSourceGraphqlApi(input: DisassociateSourceGraphqlApiInput) async throws -> DisassociateSourceGraphqlApiOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateSourceGraphqlApi")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DisassociateSourceGraphqlApiInput, DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(id: "disassociateSourceGraphqlApi")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSourceGraphqlApiInput, DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSourceGraphqlApiInput, DisassociateSourceGraphqlApiOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type.
     public func evaluateCode(input: EvaluateCodeInput) async throws -> EvaluateCodeOutputResponse
     {
@@ -1216,6 +1354,39 @@ extension AppSyncClient: AppSyncClientProtocol {
         return result
     }
 
+    /// Retrieves a SourceApiAssociation object.
+    public func getSourceApiAssociation(input: GetSourceApiAssociationInput) async throws -> GetSourceApiAssociationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSourceApiAssociation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetSourceApiAssociationInput, GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(id: "getSourceApiAssociation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceApiAssociationInput, GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSourceApiAssociationInput, GetSourceApiAssociationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieves a Type object.
     public func getType(input: GetTypeInput) async throws -> GetTypeOutputResponse
     {
@@ -1488,6 +1659,40 @@ extension AppSyncClient: AppSyncClientProtocol {
         return result
     }
 
+    /// Lists the SourceApiAssociationSummary data.
+    public func listSourceApiAssociations(input: ListSourceApiAssociationsInput) async throws -> ListSourceApiAssociationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSourceApiAssociations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(id: "listSourceApiAssociations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Lists the tags for a resource.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
@@ -1555,6 +1760,40 @@ extension AppSyncClient: AppSyncClientProtocol {
         return result
     }
 
+    /// Lists Type objects by the source API association ID.
+    public func listTypesByAssociation(input: ListTypesByAssociationInput) async throws -> ListTypesByAssociationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTypesByAssociation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListTypesByAssociationInput, ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(id: "listTypesByAssociation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTypesByAssociationInput, ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTypesByAssociationInput, ListTypesByAssociationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTypesByAssociationInput, ListTypesByAssociationOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
     public func startSchemaCreation(input: StartSchemaCreationInput) async throws -> StartSchemaCreationOutputResponse
     {
@@ -1587,6 +1826,39 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Initiates a merge operation. Returns a status that shows the result of the merge operation.
+    public func startSchemaMerge(input: StartSchemaMergeInput) async throws -> StartSchemaMergeOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startSchemaMerge")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartSchemaMergeInput, StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(id: "startSchemaMerge")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSchemaMergeInput, StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSchemaMergeInput, StartSchemaMergeOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1909,6 +2181,42 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResolverOutputResponse, UpdateResolverOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResolverOutputResponse, UpdateResolverOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResolverOutputResponse, UpdateResolverOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates some of the configuration choices of a particular source API association.
+    public func updateSourceApiAssociation(input: UpdateSourceApiAssociationInput) async throws -> UpdateSourceApiAssociationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSourceApiAssociation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(id: "updateSourceApiAssociation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse>(xmlName: "UpdateSourceApiAssociationRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

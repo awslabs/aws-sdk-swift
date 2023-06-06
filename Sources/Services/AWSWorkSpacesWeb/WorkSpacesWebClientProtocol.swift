@@ -7,6 +7,8 @@ import ClientRuntime
 public protocol WorkSpacesWebClientProtocol {
     /// Associates a browser settings resource with a web portal.
     func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutputResponse
+    /// Associates an IP access settings resource with a web portal.
+    func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutputResponse
     /// Associates a network settings resource with a web portal.
     func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutputResponse
     /// Associates a trust store with a web portal.
@@ -19,6 +21,8 @@ public protocol WorkSpacesWebClientProtocol {
     func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutputResponse
     /// Creates an identity provider resource that is then associated with a web portal.
     func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutputResponse
+    /// Creates an IP access settings resource that can be associated with a web portal.
+    func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutputResponse
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
     func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutputResponse
     /// Creates a web portal.
@@ -33,6 +37,8 @@ public protocol WorkSpacesWebClientProtocol {
     func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutputResponse
     /// Deletes the identity provider.
     func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutputResponse
+    /// Deletes IP access settings.
+    func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutputResponse
     /// Deletes network settings.
     func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutputResponse
     /// Deletes a web portal.
@@ -45,6 +51,8 @@ public protocol WorkSpacesWebClientProtocol {
     func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutputResponse
     /// Disassociates browser settings from a web portal.
     func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutputResponse
+    /// Disassociates IP access settings from a web portal.
+    func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutputResponse
     /// Disassociates network settings from a web portal.
     func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutputResponse
     /// Disassociates a trust store from a web portal.
@@ -57,6 +65,8 @@ public protocol WorkSpacesWebClientProtocol {
     func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutputResponse
     /// Gets the identity provider.
     func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutputResponse
+    /// Gets the IP access settings.
+    func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutputResponse
     /// Gets the network settings.
     func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutputResponse
     /// Gets the web portal.
@@ -75,6 +85,8 @@ public protocol WorkSpacesWebClientProtocol {
     func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutputResponse
     /// Retrieves a list of identity providers for a specific web portal.
     func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutputResponse
+    /// Retrieves a list of IP access settings.
+    func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutputResponse
     /// Retrieves a list of network settings.
     func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutputResponse
     /// Retrieves a list or web portals.
@@ -97,6 +109,8 @@ public protocol WorkSpacesWebClientProtocol {
     func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutputResponse
     /// Updates the identity provider.
     func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutputResponse
+    /// Updates IP access settings.
+    func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutputResponse
     /// Updates network settings.
     func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutputResponse
     /// Updates a web portal.

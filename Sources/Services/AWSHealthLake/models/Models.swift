@@ -58,6 +58,38 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 }
 
 extension HealthLakeClientTypes {
+    public enum AuthorizationStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsAuth
+        case smartv1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthorizationStrategy] {
+            return [
+                .awsAuth,
+                .smartv1,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsAuth: return "AWS_AUTH"
+            case .smartv1: return "SMART_ON_FHIR_V1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuthorizationStrategy(rawValue: rawValue) ?? AuthorizationStrategy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
     public enum CmkType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aoCmk
         case cmCmk
@@ -149,6 +181,7 @@ extension CreateFHIRDatastoreInput: Swift.Encodable {
         case clientToken = "ClientToken"
         case datastoreName = "DatastoreName"
         case datastoreTypeVersion = "DatastoreTypeVersion"
+        case identityProviderConfiguration = "IdentityProviderConfiguration"
         case preloadDataConfig = "PreloadDataConfig"
         case sseConfiguration = "SseConfiguration"
         case tags = "Tags"
@@ -164,6 +197,9 @@ extension CreateFHIRDatastoreInput: Swift.Encodable {
         }
         if let datastoreTypeVersion = self.datastoreTypeVersion {
             try encodeContainer.encode(datastoreTypeVersion.rawValue, forKey: .datastoreTypeVersion)
+        }
+        if let identityProviderConfiguration = self.identityProviderConfiguration {
+            try encodeContainer.encode(identityProviderConfiguration, forKey: .identityProviderConfiguration)
         }
         if let preloadDataConfig = self.preloadDataConfig {
             try encodeContainer.encode(preloadDataConfig, forKey: .preloadDataConfig)
@@ -194,6 +230,8 @@ public struct CreateFHIRDatastoreInput: Swift.Equatable {
     /// The FHIR version of the Data Store. The only supported version is R4.
     /// This member is required.
     public var datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion?
+    /// The configuration of the identity provider that you want to use for your Data Store.
+    public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
     /// Optional parameter to preload data upon creation of the Data Store. Currently, the only supported preloaded data is synthetic data generated from Synthea.
     public var preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
     /// The server-side encryption key configuration for a customer provided encryption key specified for creating a Data Store.
@@ -205,6 +243,7 @@ public struct CreateFHIRDatastoreInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         datastoreName: Swift.String? = nil,
         datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion? = nil,
+        identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration? = nil,
         preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig? = nil,
         sseConfiguration: HealthLakeClientTypes.SseConfiguration? = nil,
         tags: [HealthLakeClientTypes.Tag]? = nil
@@ -213,6 +252,7 @@ public struct CreateFHIRDatastoreInput: Swift.Equatable {
         self.clientToken = clientToken
         self.datastoreName = datastoreName
         self.datastoreTypeVersion = datastoreTypeVersion
+        self.identityProviderConfiguration = identityProviderConfiguration
         self.preloadDataConfig = preloadDataConfig
         self.sseConfiguration = sseConfiguration
         self.tags = tags
@@ -226,6 +266,7 @@ struct CreateFHIRDatastoreInputBody: Swift.Equatable {
     let preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
     let clientToken: Swift.String?
     let tags: [HealthLakeClientTypes.Tag]?
+    let identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
 }
 
 extension CreateFHIRDatastoreInputBody: Swift.Decodable {
@@ -233,6 +274,7 @@ extension CreateFHIRDatastoreInputBody: Swift.Decodable {
         case clientToken = "ClientToken"
         case datastoreName = "DatastoreName"
         case datastoreTypeVersion = "DatastoreTypeVersion"
+        case identityProviderConfiguration = "IdentityProviderConfiguration"
         case preloadDataConfig = "PreloadDataConfig"
         case sseConfiguration = "SseConfiguration"
         case tags = "Tags"
@@ -261,6 +303,8 @@ extension CreateFHIRDatastoreInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let identityProviderConfigurationDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.IdentityProviderConfiguration.self, forKey: .identityProviderConfiguration)
+        identityProviderConfiguration = identityProviderConfigurationDecoded
     }
 }
 
@@ -297,10 +341,10 @@ extension CreateFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateFHIRDatastoreOutputResponse: Swift.Equatable {
-    /// The datastore ARN is generated during the creation of the Data Store and can be found in the output from the initial Data Store creation call.
+    /// The Data Store ARN is generated during the creation of the Data Store and can be found in the output from the initial Data Store creation call.
     /// This member is required.
     public var datastoreArn: Swift.String?
-    /// The AWS endpoint for the created Data Store. For preview, only US-east-1 endpoints are supported.
+    /// The AWS endpoint for the created Data Store.
     /// This member is required.
     public var datastoreEndpoint: Swift.String?
     /// The AWS-generated Data Store id. This id is in the output from the initial Data Store creation call.
@@ -426,6 +470,7 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         case datastoreName = "DatastoreName"
         case datastoreStatus = "DatastoreStatus"
         case datastoreTypeVersion = "DatastoreTypeVersion"
+        case identityProviderConfiguration = "IdentityProviderConfiguration"
         case preloadDataConfig = "PreloadDataConfig"
         case sseConfiguration = "SseConfiguration"
     }
@@ -452,6 +497,9 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         }
         if let datastoreTypeVersion = self.datastoreTypeVersion {
             try encodeContainer.encode(datastoreTypeVersion.rawValue, forKey: .datastoreTypeVersion)
+        }
+        if let identityProviderConfiguration = self.identityProviderConfiguration {
+            try encodeContainer.encode(identityProviderConfiguration, forKey: .identityProviderConfiguration)
         }
         if let preloadDataConfig = self.preloadDataConfig {
             try encodeContainer.encode(preloadDataConfig, forKey: .preloadDataConfig)
@@ -481,11 +529,13 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         sseConfiguration = sseConfigurationDecoded
         let preloadDataConfigDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.PreloadDataConfig.self, forKey: .preloadDataConfig)
         preloadDataConfig = preloadDataConfigDecoded
+        let identityProviderConfigurationDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.IdentityProviderConfiguration.self, forKey: .identityProviderConfiguration)
+        identityProviderConfiguration = identityProviderConfigurationDecoded
     }
 }
 
 extension HealthLakeClientTypes {
-    /// Displays the properties of the Data Store, including the ID, Arn, name, and the status of the Data Store.
+    /// Displays the properties of the Data Store, including the ID, ARN, name, and the status of the Data Store.
     public struct DatastoreProperties: Swift.Equatable {
         /// The time that a Data Store was created.
         public var createdAt: ClientRuntime.Date?
@@ -506,6 +556,8 @@ extension HealthLakeClientTypes {
         /// The FHIR version. Only R4 version data is supported.
         /// This member is required.
         public var datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion?
+        /// The identity provider that you selected when you created the Data Store.
+        public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
         /// The preloaded data configuration for the Data Store. Only data preloaded from Synthea is supported.
         public var preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
         /// The server-side encryption key configuration for a customer provided encryption key (CMK).
@@ -519,6 +571,7 @@ extension HealthLakeClientTypes {
             datastoreName: Swift.String? = nil,
             datastoreStatus: HealthLakeClientTypes.DatastoreStatus? = nil,
             datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion? = nil,
+            identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration? = nil,
             preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig? = nil,
             sseConfiguration: HealthLakeClientTypes.SseConfiguration? = nil
         )
@@ -530,6 +583,7 @@ extension HealthLakeClientTypes {
             self.datastoreName = datastoreName
             self.datastoreStatus = datastoreStatus
             self.datastoreTypeVersion = datastoreTypeVersion
+            self.identityProviderConfiguration = identityProviderConfiguration
             self.preloadDataConfig = preloadDataConfig
             self.sseConfiguration = sseConfiguration
         }
@@ -596,6 +650,7 @@ extension DeleteFHIRDatastoreInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteFHIRDatastoreInput: Swift.Equatable {
     /// The AWS-generated ID for the Data Store to be deleted.
+    /// This member is required.
     public var datastoreId: Swift.String?
 
     public init(
@@ -732,7 +787,8 @@ extension DescribeFHIRDatastoreInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeFHIRDatastoreInput: Swift.Equatable {
-    /// The AWS-generated Data Store id. This is part of the ‘CreateFHIRDatastore’ output.
+    /// The AWS-generated Data Store ID.
+    /// This member is required.
     public var datastoreId: Swift.String?
 
     public init(
@@ -1195,6 +1251,72 @@ extension HealthLakeClientTypes {
     }
 }
 
+extension HealthLakeClientTypes.IdentityProviderConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizationStrategy = "AuthorizationStrategy"
+        case fineGrainedAuthorizationEnabled = "FineGrainedAuthorizationEnabled"
+        case idpLambdaArn = "IdpLambdaArn"
+        case metadata = "Metadata"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizationStrategy = self.authorizationStrategy {
+            try encodeContainer.encode(authorizationStrategy.rawValue, forKey: .authorizationStrategy)
+        }
+        if fineGrainedAuthorizationEnabled != false {
+            try encodeContainer.encode(fineGrainedAuthorizationEnabled, forKey: .fineGrainedAuthorizationEnabled)
+        }
+        if let idpLambdaArn = self.idpLambdaArn {
+            try encodeContainer.encode(idpLambdaArn, forKey: .idpLambdaArn)
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizationStrategyDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.AuthorizationStrategy.self, forKey: .authorizationStrategy)
+        authorizationStrategy = authorizationStrategyDecoded
+        let fineGrainedAuthorizationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fineGrainedAuthorizationEnabled) ?? false
+        fineGrainedAuthorizationEnabled = fineGrainedAuthorizationEnabledDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadata)
+        metadata = metadataDecoded
+        let idpLambdaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idpLambdaArn)
+        idpLambdaArn = idpLambdaArnDecoded
+    }
+}
+
+extension HealthLakeClientTypes {
+    /// The identity provider configuration that you gave when the Data Store was created.
+    public struct IdentityProviderConfiguration: Swift.Equatable {
+        /// The authorization strategy that you selected when you created the Data Store.
+        /// This member is required.
+        public var authorizationStrategy: HealthLakeClientTypes.AuthorizationStrategy?
+        /// If you enabled fine-grained authorization when you created the Data Store.
+        public var fineGrainedAuthorizationEnabled: Swift.Bool
+        /// The Amazon Resource Name (ARN) of the Lambda function that you want to use to decode the access token created by the authorization server.
+        public var idpLambdaArn: Swift.String?
+        /// The JSON metadata elements that you want to use in your identity provider configuration. Required elements are listed based on the launch specification of the SMART application. For more information on all possible elements, see [Metadata](https://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#metadata) in SMART's App Launch specification. authorization_endpoint: The URL to the OAuth2 authorization endpoint. grant_types_supported: An array of grant types that are supported at the token endpoint. You must provide at least one grant type option. Valid options are authorization_code and client_credentials. token_endpoint: The URL to the OAuth2 token endpoint. capabilities: An array of strings of the SMART capabilities that the authorization server supports. code_challenge_methods_supported: An array of strings of supported PKCE code challenge methods. You must include the S256 method in the array of PKCE code challenge methods.
+        public var metadata: Swift.String?
+
+        public init(
+            authorizationStrategy: HealthLakeClientTypes.AuthorizationStrategy? = nil,
+            fineGrainedAuthorizationEnabled: Swift.Bool = false,
+            idpLambdaArn: Swift.String? = nil,
+            metadata: Swift.String? = nil
+        )
+        {
+            self.authorizationStrategy = authorizationStrategy
+            self.fineGrainedAuthorizationEnabled = fineGrainedAuthorizationEnabled
+            self.idpLambdaArn = idpLambdaArn
+            self.metadata = metadata
+        }
+    }
+
+}
+
 extension HealthLakeClientTypes.ImportJobProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataAccessRoleArn = "DataAccessRoleArn"
@@ -1288,7 +1410,7 @@ extension HealthLakeClientTypes {
         public var jobName: Swift.String?
         /// The output data configuration that was supplied when the export job was created.
         public var jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
-        /// The job status for an Import job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED, FAILED.
+        /// The job status for an Import job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED_WITH_ERRORS, COMPLETED, FAILED.
         /// This member is required.
         public var jobStatus: HealthLakeClientTypes.JobStatus?
         /// An explanation of any errors that may have occurred during the FHIR import job.
@@ -1419,6 +1541,10 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension HealthLakeClientTypes {
     public enum JobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelCompleted
+        case cancelFailed
+        case cancelInProgress
+        case cancelSubmitted
         case completed
         case completedWithErrors
         case failed
@@ -1428,6 +1554,10 @@ extension HealthLakeClientTypes {
 
         public static var allCases: [JobStatus] {
             return [
+                .cancelCompleted,
+                .cancelFailed,
+                .cancelInProgress,
+                .cancelSubmitted,
                 .completed,
                 .completedWithErrors,
                 .failed,
@@ -1442,6 +1572,10 @@ extension HealthLakeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .cancelCompleted: return "CANCEL_COMPLETED"
+            case .cancelFailed: return "CANCEL_FAILED"
+            case .cancelInProgress: return "CANCEL_IN_PROGRESS"
+            case .cancelSubmitted: return "CANCEL_SUBMITTED"
             case .completed: return "COMPLETED"
             case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
             case .failed: return "FAILED"
@@ -2783,7 +2917,7 @@ extension HealthLakeClientTypes {
         /// The key portion of a tag. Tag keys are case sensitive.
         /// This member is required.
         public var key: Swift.String?
-        /// The value portion of tag. Tag values are case sensitive.
+        /// The value portion of a tag. Tag values are case sensitive.
         /// This member is required.
         public var value: Swift.String?
 

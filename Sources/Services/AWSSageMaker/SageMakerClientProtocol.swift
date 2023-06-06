@@ -347,7 +347,7 @@ public protocol SageMakerClientProtocol {
     func describeHubContent(input: DescribeHubContentInput) async throws -> DescribeHubContentOutputResponse
     /// Returns information about the requested human task user interface (worker task template).
     func describeHumanTaskUi(input: DescribeHumanTaskUiInput) async throws -> DescribeHumanTaskUiOutputResponse
-    /// Gets a description of a hyperparameter tuning job.
+    /// Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more.
     func describeHyperParameterTuningJob(input: DescribeHyperParameterTuningJobInput) async throws -> DescribeHyperParameterTuningJobOutputResponse
     /// Describes a SageMaker image.
     func describeImage(input: DescribeImageInput) async throws -> DescribeImageOutputResponse

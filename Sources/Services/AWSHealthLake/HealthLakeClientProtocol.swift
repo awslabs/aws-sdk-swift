@@ -27,7 +27,7 @@ public protocol HealthLakeClientProtocol {
     func startFHIRExportJob(input: StartFHIRExportJobInput) async throws -> StartFHIRExportJobOutputResponse
     /// Begins a FHIR Import job.
     func startFHIRImportJob(input: StartFHIRImportJobInput) async throws -> StartFHIRImportJobOutputResponse
-    /// Adds a user specifed key and value tag to a Data Store.
+    /// Adds a user specified key and value tag to a Data Store.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from a Data Store.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
