@@ -9,7 +9,7 @@ extension QLDBSessionClientTypes.AbortTransactionRequest: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -17,7 +17,7 @@ extension QLDBSessionClientTypes {
     /// Contains the details of the transaction to abort.
     public struct AbortTransactionRequest: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -34,7 +34,7 @@ extension QLDBSessionClientTypes.AbortTransactionResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timingInformationDecoded = try containerValues.decodeIfPresent(QLDBSessionClientTypes.TimingInformation.self, forKey: .timingInformation)
         timingInformation = timingInformationDecoded
@@ -47,7 +47,7 @@ extension QLDBSessionClientTypes {
         /// Contains server-side performance information for the command.
         public var timingInformation: QLDBSessionClientTypes.TimingInformation?
 
-        public init (
+        public init(
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
         )
         {
@@ -58,42 +58,46 @@ extension QLDBSessionClientTypes {
 }
 
 extension BadRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: Swift.String?
-    public var message: Swift.String?
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -108,7 +112,7 @@ extension BadRequestExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -118,37 +122,41 @@ extension BadRequestExceptionBody: Swift.Decodable {
 }
 
 extension CapacityExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CapacityExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned when the request exceeds the processing capacity of the ledger.
-public struct CapacityExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct CapacityExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CapacityExceededException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -161,7 +169,7 @@ extension CapacityExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -184,7 +192,7 @@ extension QLDBSessionClientTypes.CommitTransactionRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
         transactionId = transactionIdDecoded
@@ -203,7 +211,7 @@ extension QLDBSessionClientTypes {
         /// This member is required.
         public var transactionId: Swift.String?
 
-        public init (
+        public init(
             commitDigest: ClientRuntime.Data? = nil,
             transactionId: Swift.String? = nil
         )
@@ -239,7 +247,7 @@ extension QLDBSessionClientTypes.CommitTransactionResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
         transactionId = transactionIdDecoded
@@ -264,7 +272,7 @@ extension QLDBSessionClientTypes {
         /// The transaction ID of the committed transaction.
         public var transactionId: Swift.String?
 
-        public init (
+        public init(
             commitDigest: ClientRuntime.Data? = nil,
             consumedIOs: QLDBSessionClientTypes.IOUsage? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil,
@@ -287,7 +295,7 @@ extension QLDBSessionClientTypes.EndSessionRequest: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -295,7 +303,7 @@ extension QLDBSessionClientTypes {
     /// Specifies a request to end the session.
     public struct EndSessionRequest: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -312,7 +320,7 @@ extension QLDBSessionClientTypes.EndSessionResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timingInformationDecoded = try containerValues.decodeIfPresent(QLDBSessionClientTypes.TimingInformation.self, forKey: .timingInformation)
         timingInformation = timingInformationDecoded
@@ -325,7 +333,7 @@ extension QLDBSessionClientTypes {
         /// Contains server-side performance information for the command.
         public var timingInformation: QLDBSessionClientTypes.TimingInformation?
 
-        public init (
+        public init(
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
         )
         {
@@ -358,7 +366,7 @@ extension QLDBSessionClientTypes.ExecuteStatementRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
         transactionId = transactionIdDecoded
@@ -390,7 +398,7 @@ extension QLDBSessionClientTypes {
         /// This member is required.
         public var transactionId: Swift.String?
 
-        public init (
+        public init(
             parameters: [QLDBSessionClientTypes.ValueHolder]? = nil,
             statement: Swift.String? = nil,
             transactionId: Swift.String? = nil
@@ -424,7 +432,7 @@ extension QLDBSessionClientTypes.ExecuteStatementResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let firstPageDecoded = try containerValues.decodeIfPresent(QLDBSessionClientTypes.Page.self, forKey: .firstPage)
         firstPage = firstPageDecoded
@@ -445,7 +453,7 @@ extension QLDBSessionClientTypes {
         /// Contains server-side performance information for the command.
         public var timingInformation: QLDBSessionClientTypes.TimingInformation?
 
-        public init (
+        public init(
             consumedIOs: QLDBSessionClientTypes.IOUsage? = nil,
             firstPage: QLDBSessionClientTypes.Page? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
@@ -475,7 +483,7 @@ extension QLDBSessionClientTypes.FetchPageRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
         transactionId = transactionIdDecoded
@@ -494,7 +502,7 @@ extension QLDBSessionClientTypes {
         /// This member is required.
         public var transactionId: Swift.String?
 
-        public init (
+        public init(
             nextPageToken: Swift.String? = nil,
             transactionId: Swift.String? = nil
         )
@@ -526,7 +534,7 @@ extension QLDBSessionClientTypes.FetchPageResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pageDecoded = try containerValues.decodeIfPresent(QLDBSessionClientTypes.Page.self, forKey: .page)
         page = pageDecoded
@@ -547,7 +555,7 @@ extension QLDBSessionClientTypes {
         /// Contains server-side performance information for the command.
         public var timingInformation: QLDBSessionClientTypes.TimingInformation?
 
-        public init (
+        public init(
             consumedIOs: QLDBSessionClientTypes.IOUsage? = nil,
             page: QLDBSessionClientTypes.Page? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
@@ -577,7 +585,7 @@ extension QLDBSessionClientTypes.IOUsage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let readIOsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .readIOs) ?? 0
         readIOs = readIOsDecoded
@@ -594,7 +602,7 @@ extension QLDBSessionClientTypes {
         /// The number of write I/O requests that the command made.
         public var writeIOs: Swift.Int
 
-        public init (
+        public init(
             readIOs: Swift.Int = 0,
             writeIOs: Swift.Int = 0
         )
@@ -607,42 +615,46 @@ extension QLDBSessionClientTypes {
 }
 
 extension InvalidSessionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidSessionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if the session doesn't exist anymore because it timed out or expired.
-public struct InvalidSessionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: Swift.String?
-    public var message: Swift.String?
+public struct InvalidSessionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSessionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -657,7 +669,7 @@ extension InvalidSessionExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -667,37 +679,41 @@ extension InvalidSessionExceptionBody: Swift.Decodable {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if a resource limit such as number of active sessions is exceeded.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -710,7 +726,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -718,37 +734,41 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension OccConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OccConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned when a transaction cannot be written to the journal due to a failure in the verification phase of optimistic concurrency control (OCC).
-public struct OccConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct OccConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OccConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -761,7 +781,7 @@ extension OccConflictExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -787,7 +807,7 @@ extension QLDBSessionClientTypes.Page: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valuesContainer = try containerValues.decodeIfPresent([QLDBSessionClientTypes.ValueHolder?].self, forKey: .values)
         var valuesDecoded0:[QLDBSessionClientTypes.ValueHolder]? = nil
@@ -813,7 +833,7 @@ extension QLDBSessionClientTypes {
         /// A structure that contains values in multiple encoding formats.
         public var values: [QLDBSessionClientTypes.ValueHolder]?
 
-        public init (
+        public init(
             nextPageToken: Swift.String? = nil,
             values: [QLDBSessionClientTypes.ValueHolder]? = nil
         )
@@ -826,37 +846,41 @@ extension QLDBSessionClientTypes {
 }
 
 extension RateExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RateExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned when the rate of requests exceeds the allowed throughput.
-public struct RateExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct RateExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RateExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -869,7 +893,7 @@ extension RateExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -941,7 +965,7 @@ public struct SendCommandInput: Swift.Equatable {
     /// Command to start a new transaction.
     public var startTransaction: QLDBSessionClientTypes.StartTransactionRequest?
 
-    public init (
+    public init(
         abortTransaction: QLDBSessionClientTypes.AbortTransactionRequest? = nil,
         commitTransaction: QLDBSessionClientTypes.CommitTransactionRequest? = nil,
         endSession: QLDBSessionClientTypes.EndSessionRequest? = nil,
@@ -986,7 +1010,7 @@ extension SendCommandInputBody: Swift.Decodable {
         case startTransaction = "StartTransaction"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
         sessionToken = sessionTokenDecoded
@@ -1007,41 +1031,25 @@ extension SendCommandInputBody: Swift.Decodable {
     }
 }
 
-extension SendCommandOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SendCommandOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CapacityExceededException" : self = .capacityExceededException(try CapacityExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSessionException" : self = .invalidSessionException(try InvalidSessionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OccConflictException" : self = .occConflictException(try OccConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateExceededException" : self = .rateExceededException(try RateExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SendCommandOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CapacityExceededException": return try await CapacityExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSessionException": return try await InvalidSessionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OccConflictException": return try await OccConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateExceededException": return try await RateExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SendCommandOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case capacityExceededException(CapacityExceededException)
-    case invalidSessionException(InvalidSessionException)
-    case limitExceededException(LimitExceededException)
-    case occConflictException(OccConflictException)
-    case rateExceededException(RateExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SendCommandOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SendCommandOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortTransaction = output.abortTransaction
@@ -1079,7 +1087,7 @@ public struct SendCommandOutputResponse: Swift.Equatable {
     /// Contains the details of the started transaction.
     public var startTransaction: QLDBSessionClientTypes.StartTransactionResult?
 
-    public init (
+    public init(
         abortTransaction: QLDBSessionClientTypes.AbortTransactionResult? = nil,
         commitTransaction: QLDBSessionClientTypes.CommitTransactionResult? = nil,
         endSession: QLDBSessionClientTypes.EndSessionResult? = nil,
@@ -1120,7 +1128,7 @@ extension SendCommandOutputResponseBody: Swift.Decodable {
         case startTransaction = "StartTransaction"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startSessionDecoded = try containerValues.decodeIfPresent(QLDBSessionClientTypes.StartSessionResult.self, forKey: .startSession)
         startSession = startSessionDecoded
@@ -1151,7 +1159,7 @@ extension QLDBSessionClientTypes.StartSessionRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ledgerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ledgerName)
         ledgerName = ledgerNameDecoded
@@ -1165,7 +1173,7 @@ extension QLDBSessionClientTypes {
         /// This member is required.
         public var ledgerName: Swift.String?
 
-        public init (
+        public init(
             ledgerName: Swift.String? = nil
         )
         {
@@ -1191,7 +1199,7 @@ extension QLDBSessionClientTypes.StartSessionResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
         sessionToken = sessionTokenDecoded
@@ -1208,7 +1216,7 @@ extension QLDBSessionClientTypes {
         /// Contains server-side performance information for the command.
         public var timingInformation: QLDBSessionClientTypes.TimingInformation?
 
-        public init (
+        public init(
             sessionToken: Swift.String? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
         )
@@ -1227,7 +1235,7 @@ extension QLDBSessionClientTypes.StartTransactionRequest: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -1235,7 +1243,7 @@ extension QLDBSessionClientTypes {
     /// Specifies a request to start a transaction.
     public struct StartTransactionRequest: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -1256,7 +1264,7 @@ extension QLDBSessionClientTypes.StartTransactionResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
         transactionId = transactionIdDecoded
@@ -1273,7 +1281,7 @@ extension QLDBSessionClientTypes {
         /// The transaction ID of the started transaction.
         public var transactionId: Swift.String?
 
-        public init (
+        public init(
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil,
             transactionId: Swift.String? = nil
         )
@@ -1297,7 +1305,7 @@ extension QLDBSessionClientTypes.TimingInformation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let processingTimeMillisecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .processingTimeMilliseconds) ?? 0
         processingTimeMilliseconds = processingTimeMillisecondsDecoded
@@ -1310,7 +1318,7 @@ extension QLDBSessionClientTypes {
         /// The amount of time that QLDB spent on processing the command, measured in milliseconds.
         public var processingTimeMilliseconds: Swift.Int
 
-        public init (
+        public init(
             processingTimeMilliseconds: Swift.Int = 0
         )
         {
@@ -1336,7 +1344,7 @@ extension QLDBSessionClientTypes.ValueHolder: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ionBinaryDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .ionBinary)
         ionBinary = ionBinaryDecoded
@@ -1353,7 +1361,7 @@ extension QLDBSessionClientTypes {
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public var ionText: Swift.String?
 
-        public init (
+        public init(
             ionBinary: ClientRuntime.Data? = nil,
             ionText: Swift.String? = nil
         )

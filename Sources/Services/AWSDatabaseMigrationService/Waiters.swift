@@ -54,7 +54,7 @@ extension DatabaseMigrationClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeEndpointsInput, DescribeEndpointsOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeEndpointsInput, result: Result<DescribeEndpointsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundFault"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundFault"
             }),
             .init(state: .failure, matcher: { (input: DescribeEndpointsInput, result: Result<DescribeEndpointsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Endpoints[].Status"
@@ -198,7 +198,7 @@ extension DatabaseMigrationClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeReplicationInstancesInput, result: Result<DescribeReplicationInstancesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundFault"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundFault"
             }),
         ]
         return try WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -284,7 +284,7 @@ extension DatabaseMigrationClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeReplicationTasksInput, result: Result<DescribeReplicationTasksOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundFault"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundFault"
             }),
         ]
         return try WaiterConfiguration<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)

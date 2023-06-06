@@ -15,10 +15,16 @@ public protocol KafkaClientProtocol {
     func createClusterV2(input: CreateClusterV2Input) async throws -> CreateClusterV2OutputResponse
     /// Creates a new MSK configuration.
     func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutputResponse
+    /// Creates a new MSK VPC connection.
+    func createVpcConnection(input: CreateVpcConnectionInput) async throws -> CreateVpcConnectionOutputResponse
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutputResponse
+    /// Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+    func deleteClusterPolicy(input: DeleteClusterPolicyInput) async throws -> DeleteClusterPolicyOutputResponse
     /// Deletes an MSK Configuration.
     func deleteConfiguration(input: DeleteConfigurationInput) async throws -> DeleteConfigurationOutputResponse
+    /// Deletes a MSK VPC connection.
+    func deleteVpcConnection(input: DeleteVpcConnectionInput) async throws -> DeleteVpcConnectionOutputResponse
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutputResponse
     /// Returns a description of the cluster operation specified by the ARN.
@@ -29,10 +35,16 @@ public protocol KafkaClientProtocol {
     func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutputResponse
     /// Returns a description of this revision of the configuration.
     func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutputResponse
+    /// Returns a description of this MSK VPC connection.
+    func describeVpcConnection(input: DescribeVpcConnectionInput) async throws -> DescribeVpcConnectionOutputResponse
     /// A list of brokers that a client application can use to bootstrap.
     func getBootstrapBrokers(input: GetBootstrapBrokersInput) async throws -> GetBootstrapBrokersOutputResponse
+    /// Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+    func getClusterPolicy(input: GetClusterPolicyInput) async throws -> GetClusterPolicyOutputResponse
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
     func getCompatibleKafkaVersions(input: GetCompatibleKafkaVersionsInput) async throws -> GetCompatibleKafkaVersionsOutputResponse
+    /// Returns a list of all the VPC connections in this Region.
+    func listClientVpcConnections(input: ListClientVpcConnectionsInput) async throws -> ListClientVpcConnectionsOutputResponse
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     func listClusterOperations(input: ListClusterOperationsInput) async throws -> ListClusterOperationsOutputResponse
     /// Returns a list of all the MSK clusters in the current Region.
@@ -51,8 +63,14 @@ public protocol KafkaClientProtocol {
     func listScramSecrets(input: ListScramSecretsInput) async throws -> ListScramSecretsOutputResponse
     /// Returns a list of the tags associated with the specified resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Returns a list of all the VPC connections in this Region.
+    func listVpcConnections(input: ListVpcConnectionsInput) async throws -> ListVpcConnectionsOutputResponse
+    /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
+    func putClusterPolicy(input: PutClusterPolicyInput) async throws -> PutClusterPolicyOutputResponse
     /// Reboots brokers.
     func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutputResponse
+    /// Returns empty response.
+    func rejectClientVpcConnection(input: RejectClientVpcConnectionInput) async throws -> RejectClientVpcConnectionOutputResponse
     /// Adds tags to the specified MSK resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes the tags associated with the keys that are provided in the query.

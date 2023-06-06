@@ -28,7 +28,7 @@ extension ConfigClientTypes.AccountAggregationSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
         var accountIdsDecoded0:[Swift.String]? = nil
@@ -68,7 +68,7 @@ extension ConfigClientTypes {
         /// The source regions being aggregated.
         public var awsRegions: [Swift.String]?
 
-        public init (
+        public init(
             accountIds: [Swift.String]? = nil,
             allAwsRegions: Swift.Bool = false,
             awsRegions: [Swift.String]? = nil
@@ -106,7 +106,7 @@ extension ConfigClientTypes.AggregateComplianceByConfigRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -131,7 +131,7 @@ extension ConfigClientTypes {
         /// The name of the Config rule.
         public var configRuleName: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
             compliance: ConfigClientTypes.Compliance? = nil,
@@ -171,7 +171,7 @@ extension ConfigClientTypes.AggregateComplianceByConformancePack: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -196,7 +196,7 @@ extension ConfigClientTypes {
         /// The name of the conformance pack.
         public var conformancePackName: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
             compliance: ConfigClientTypes.AggregateConformancePackCompliance? = nil,
@@ -228,7 +228,7 @@ extension ConfigClientTypes.AggregateComplianceCount: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -245,7 +245,7 @@ extension ConfigClientTypes {
         /// The 12-digit account ID or region based on the GroupByKey value.
         public var groupName: Swift.String?
 
-        public init (
+        public init(
             complianceSummary: ConfigClientTypes.ComplianceSummary? = nil,
             groupName: Swift.String? = nil
         )
@@ -281,7 +281,7 @@ extension ConfigClientTypes.AggregateConformancePackCompliance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConformancePackComplianceType.self, forKey: .complianceType)
         complianceType = complianceTypeDecoded
@@ -306,7 +306,7 @@ extension ConfigClientTypes {
         /// Total number of compliant rules, noncompliant rules, and the rules that do not have any applicable resources to evaluate upon resulting in insufficient data.
         public var totalRuleCount: Swift.Int
 
-        public init (
+        public init(
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
             compliantRuleCount: Swift.Int = 0,
             nonCompliantRuleCount: Swift.Int = 0,
@@ -338,7 +338,7 @@ extension ConfigClientTypes.AggregateConformancePackComplianceCount: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let compliantConformancePackCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantConformancePackCount) ?? 0
         compliantConformancePackCount = compliantConformancePackCountDecoded
@@ -355,7 +355,7 @@ extension ConfigClientTypes {
         /// Number of noncompliant conformance packs.
         public var nonCompliantConformancePackCount: Swift.Int
 
-        public init (
+        public init(
             compliantConformancePackCount: Swift.Int = 0,
             nonCompliantConformancePackCount: Swift.Int = 0
         )
@@ -391,7 +391,7 @@ extension ConfigClientTypes.AggregateConformancePackComplianceFilters: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -416,7 +416,7 @@ extension ConfigClientTypes {
         /// The name of the conformance pack.
         public var conformancePackName: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
@@ -448,7 +448,7 @@ extension ConfigClientTypes.AggregateConformancePackComplianceSummary: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceSummaryDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.AggregateConformancePackComplianceCount.self, forKey: .complianceSummary)
         complianceSummary = complianceSummaryDecoded
@@ -465,7 +465,7 @@ extension ConfigClientTypes {
         /// Groups the result based on Amazon Web Services account ID or Amazon Web Services Region.
         public var groupName: Swift.String?
 
-        public init (
+        public init(
             complianceSummary: ConfigClientTypes.AggregateConformancePackComplianceCount? = nil,
             groupName: Swift.String? = nil
         )
@@ -493,7 +493,7 @@ extension ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -510,7 +510,7 @@ extension ConfigClientTypes {
         /// The source Amazon Web Services Region from where the data is aggregated.
         public var awsRegion: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil
         )
@@ -590,7 +590,7 @@ extension ConfigClientTypes.AggregateEvaluationResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationResultIdentifierDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationResultIdentifier.self, forKey: .evaluationResultIdentifier)
         evaluationResultIdentifier = evaluationResultIdentifierDecoded
@@ -627,7 +627,7 @@ extension ConfigClientTypes {
         /// The time when Config recorded the aggregate evaluation result.
         public var resultRecordedTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             annotation: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
@@ -677,7 +677,7 @@ extension ConfigClientTypes.AggregateResourceIdentifier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceAccountId)
         sourceAccountId = sourceAccountIdDecoded
@@ -710,7 +710,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var sourceRegion: Swift.String?
 
-        public init (
+        public init(
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceType: ConfigClientTypes.ResourceType? = nil,
@@ -764,7 +764,7 @@ extension ConfigClientTypes.AggregatedSourceStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceId)
         sourceId = sourceIdDecoded
@@ -807,7 +807,7 @@ extension ConfigClientTypes {
         /// The source account or an organization.
         public var sourceType: ConfigClientTypes.AggregatedSourceType?
 
-        public init (
+        public init(
             awsRegion: Swift.String? = nil,
             lastErrorCode: Swift.String? = nil,
             lastErrorMessage: Swift.String? = nil,
@@ -920,7 +920,7 @@ extension ConfigClientTypes.AggregationAuthorization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregationAuthorizationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationAuthorizationArn)
         aggregationAuthorizationArn = aggregationAuthorizationArnDecoded
@@ -945,7 +945,7 @@ extension ConfigClientTypes {
         /// The time stamp when the aggregation authorization was created.
         public var creationTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             aggregationAuthorizationArn: Swift.String? = nil,
             authorizedAccountId: Swift.String? = nil,
             authorizedAwsRegion: Swift.String? = nil,
@@ -1028,7 +1028,7 @@ extension ConfigClientTypes.BaseConfigurationItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
@@ -1115,7 +1115,7 @@ extension ConfigClientTypes {
         /// The version number of the resource configuration.
         public var version: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
@@ -1185,7 +1185,7 @@ public struct BatchGetAggregateResourceConfigInput: Swift.Equatable {
     /// This member is required.
     public var resourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         resourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]? = nil
     )
@@ -1206,7 +1206,7 @@ extension BatchGetAggregateResourceConfigInputBody: Swift.Decodable {
         case resourceIdentifiers = "ResourceIdentifiers"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -1224,33 +1224,21 @@ extension BatchGetAggregateResourceConfigInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetAggregateResourceConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetAggregateResourceConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetAggregateResourceConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetAggregateResourceConfigOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetAggregateResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetAggregateResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseConfigurationItems = output.baseConfigurationItems
@@ -1268,7 +1256,7 @@ public struct BatchGetAggregateResourceConfigOutputResponse: Swift.Equatable {
     /// A list of resource identifiers that were not processed with current scope. The list is empty if all the resources are processed.
     public var unprocessedResourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]?
 
-    public init (
+    public init(
         baseConfigurationItems: [ConfigClientTypes.BaseConfigurationItem]? = nil,
         unprocessedResourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]? = nil
     )
@@ -1289,7 +1277,7 @@ extension BatchGetAggregateResourceConfigOutputResponseBody: Swift.Decodable {
         case unprocessedResourceIdentifiers = "UnprocessedResourceIdentifiers"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let baseConfigurationItemsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.BaseConfigurationItem?].self, forKey: .baseConfigurationItems)
         var baseConfigurationItemsDecoded0:[ConfigClientTypes.BaseConfigurationItem]? = nil
@@ -1343,7 +1331,7 @@ public struct BatchGetResourceConfigInput: Swift.Equatable {
     /// This member is required.
     public var resourceKeys: [ConfigClientTypes.ResourceKey]?
 
-    public init (
+    public init(
         resourceKeys: [ConfigClientTypes.ResourceKey]? = nil
     )
     {
@@ -1360,7 +1348,7 @@ extension BatchGetResourceConfigInputBody: Swift.Decodable {
         case resourceKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceKeysContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ResourceKey?].self, forKey: .resourceKeys)
         var resourceKeysDecoded0:[ConfigClientTypes.ResourceKey]? = nil
@@ -1376,33 +1364,21 @@ extension BatchGetResourceConfigInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetResourceConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetResourceConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoAvailableConfigurationRecorderException" : self = .noAvailableConfigurationRecorderException(try NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetResourceConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoAvailableConfigurationRecorderException": return try await NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetResourceConfigOutputError: Swift.Error, Swift.Equatable {
-    case noAvailableConfigurationRecorderException(NoAvailableConfigurationRecorderException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseConfigurationItems = output.baseConfigurationItems
@@ -1420,7 +1396,7 @@ public struct BatchGetResourceConfigOutputResponse: Swift.Equatable {
     /// A list of resource keys that were not processed with the current response. The unprocessesResourceKeys value is in the same form as ResourceKeys, so the value can be directly provided to a subsequent BatchGetResourceConfig operation. If there are no unprocessed resource keys, the response contains an empty unprocessedResourceKeys list.
     public var unprocessedResourceKeys: [ConfigClientTypes.ResourceKey]?
 
-    public init (
+    public init(
         baseConfigurationItems: [ConfigClientTypes.BaseConfigurationItem]? = nil,
         unprocessedResourceKeys: [ConfigClientTypes.ResourceKey]? = nil
     )
@@ -1441,7 +1417,7 @@ extension BatchGetResourceConfigOutputResponseBody: Swift.Decodable {
         case unprocessedResourceKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let baseConfigurationItemsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.BaseConfigurationItem?].self, forKey: .baseConfigurationItems)
         var baseConfigurationItemsDecoded0:[ConfigClientTypes.BaseConfigurationItem]? = nil
@@ -1516,7 +1492,7 @@ extension ConfigClientTypes.Compliance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ComplianceType.self, forKey: .complianceType)
         complianceType = complianceTypeDecoded
@@ -1533,7 +1509,7 @@ extension ConfigClientTypes {
         /// Indicates whether an Amazon Web Services resource or Config rule is compliant. A resource is compliant if it complies with all of the Config rules that evaluate it. A resource is noncompliant if it does not comply with one or more of these rules. A rule is compliant if all of the resources that the rule evaluates comply with it. A rule is noncompliant if any of these resources do not comply. Config returns the INSUFFICIENT_DATA value when no evaluation results are available for the Amazon Web Services resource or Config rule. For the Compliance data type, Config supports only COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA values. Config does not support the NOT_APPLICABLE value for the Compliance data type.
         public var complianceType: ConfigClientTypes.ComplianceType?
 
-        public init (
+        public init(
             complianceContributorCount: ConfigClientTypes.ComplianceContributorCount? = nil,
             complianceType: ConfigClientTypes.ComplianceType? = nil
         )
@@ -1561,7 +1537,7 @@ extension ConfigClientTypes.ComplianceByConfigRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -1578,7 +1554,7 @@ extension ConfigClientTypes {
         /// The name of the Config rule.
         public var configRuleName: Swift.String?
 
-        public init (
+        public init(
             compliance: ConfigClientTypes.Compliance? = nil,
             configRuleName: Swift.String? = nil
         )
@@ -1610,7 +1586,7 @@ extension ConfigClientTypes.ComplianceByResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -1631,7 +1607,7 @@ extension ConfigClientTypes {
         /// The type of the Amazon Web Services resource that was evaluated.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             compliance: ConfigClientTypes.Compliance? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
@@ -1661,7 +1637,7 @@ extension ConfigClientTypes.ComplianceContributorCount: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cappedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cappedCount) ?? 0
         cappedCount = cappedCountDecoded
@@ -1678,7 +1654,7 @@ extension ConfigClientTypes {
         /// The number of Amazon Web Services resources or Config rules responsible for the current compliance of the item.
         public var cappedCount: Swift.Int
 
-        public init (
+        public init(
             capExceeded: Swift.Bool = false,
             cappedCount: Swift.Int = 0
         )
@@ -1710,7 +1686,7 @@ extension ConfigClientTypes.ComplianceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let compliantResourceCountDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ComplianceContributorCount.self, forKey: .compliantResourceCount)
         compliantResourceCount = compliantResourceCountDecoded
@@ -1731,7 +1707,7 @@ extension ConfigClientTypes {
         /// The number of Config rules or Amazon Web Services resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
         public var nonCompliantResourceCount: ConfigClientTypes.ComplianceContributorCount?
 
-        public init (
+        public init(
             complianceSummaryTimestamp: ClientRuntime.Date? = nil,
             compliantResourceCount: ConfigClientTypes.ComplianceContributorCount? = nil,
             nonCompliantResourceCount: ConfigClientTypes.ComplianceContributorCount? = nil
@@ -1761,7 +1737,7 @@ extension ConfigClientTypes.ComplianceSummaryByResourceType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -1778,7 +1754,7 @@ extension ConfigClientTypes {
         /// The type of Amazon Web Services resource.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             complianceSummary: ConfigClientTypes.ComplianceSummary? = nil,
             resourceType: Swift.String? = nil
         )
@@ -1860,7 +1836,7 @@ extension ConfigClientTypes.ConfigExportDeliveryInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lastStatusDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.DeliveryStatus.self, forKey: .lastStatus)
         lastStatus = lastStatusDecoded
@@ -1893,7 +1869,7 @@ extension ConfigClientTypes {
         /// The time that the next delivery occurs.
         public var nextDeliveryTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             lastAttemptTime: ClientRuntime.Date? = nil,
             lastErrorCode: Swift.String? = nil,
             lastErrorMessage: Swift.String? = nil,
@@ -1968,7 +1944,7 @@ extension ConfigClientTypes.ConfigRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -2038,7 +2014,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var source: ConfigClientTypes.Source?
 
-        public init (
+        public init(
             configRuleArn: Swift.String? = nil,
             configRuleId: Swift.String? = nil,
             configRuleName: Swift.String? = nil,
@@ -2092,7 +2068,7 @@ extension ConfigClientTypes.ConfigRuleComplianceFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -2117,7 +2093,7 @@ extension ConfigClientTypes {
         /// The name of the Config rule.
         public var configRuleName: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
             complianceType: ConfigClientTypes.ComplianceType? = nil,
@@ -2149,7 +2125,7 @@ extension ConfigClientTypes.ConfigRuleComplianceSummaryFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -2166,7 +2142,7 @@ extension ConfigClientTypes {
         /// The source region where the data is aggregated.
         public var awsRegion: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil
         )
@@ -2278,7 +2254,7 @@ extension ConfigClientTypes.ConfigRuleEvaluationStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -2351,7 +2327,7 @@ extension ConfigClientTypes {
         /// The time that Config last successfully invoked the Config rule to evaluate your Amazon Web Services resources.
         public var lastSuccessfulInvocationTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             configRuleArn: Swift.String? = nil,
             configRuleId: Swift.String? = nil,
             configRuleName: Swift.String? = nil,
@@ -2439,7 +2415,7 @@ extension ConfigClientTypes.ConfigSnapshotDeliveryProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryFrequencyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.MaximumExecutionFrequency.self, forKey: .deliveryFrequency)
         deliveryFrequency = deliveryFrequencyDecoded
@@ -2470,7 +2446,7 @@ extension ConfigClientTypes {
         /// The frequency with which Config delivers configuration snapshots.
         public var deliveryFrequency: ConfigClientTypes.MaximumExecutionFrequency?
 
-        public init (
+        public init(
             deliveryFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil
         )
         {
@@ -2504,7 +2480,7 @@ extension ConfigClientTypes.ConfigStreamDeliveryInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lastStatusDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.DeliveryStatus.self, forKey: .lastStatus)
         lastStatus = lastStatusDecoded
@@ -2529,7 +2505,7 @@ extension ConfigClientTypes {
         /// The time from the last status change.
         public var lastStatusChangeTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             lastErrorCode: Swift.String? = nil,
             lastErrorMessage: Swift.String? = nil,
             lastStatus: ConfigClientTypes.DeliveryStatus? = nil,
@@ -2584,7 +2560,7 @@ extension ConfigClientTypes.ConfigurationAggregator: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -2630,7 +2606,7 @@ extension ConfigClientTypes {
         /// Provides an organization and list of regions to be aggregated.
         public var organizationAggregationSource: ConfigClientTypes.OrganizationAggregationSource?
 
-        public init (
+        public init(
             accountAggregationSources: [ConfigClientTypes.AccountAggregationSource]? = nil,
             configurationAggregatorArn: Swift.String? = nil,
             configurationAggregatorName: Swift.String? = nil,
@@ -2744,7 +2720,7 @@ extension ConfigClientTypes.ConfigurationItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
@@ -2874,7 +2850,7 @@ extension ConfigClientTypes {
         /// The version number of the resource configuration.
         public var version: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
@@ -2979,7 +2955,7 @@ extension ConfigClientTypes.ConfigurationRecorder: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2991,16 +2967,16 @@ extension ConfigClientTypes.ConfigurationRecorder: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// An object that represents the recording of configuration changes of an Amazon Web Services resource.
+    /// Records configuration changes to specified resource types. For more information about the configuration recorder, see [ Managing the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide.
     public struct ConfigurationRecorder: Swift.Equatable {
-        /// The name of the recorder. By default, Config automatically assigns the name "default" when creating the configuration recorder. You cannot change the assigned name.
+        /// The name of the configuration recorder. Config automatically assigns the name of "default" when creating the configuration recorder. You cannot change the name of the configuration recorder after it has been created. To change the configuration recorder name, you must delete it and create a new configuration recorder with a new name.
         public var name: Swift.String?
-        /// Specifies the types of Amazon Web Services resources for which Config records configuration changes.
+        /// Specifies which resource types Config records for configuration changes. High Number of Config Evaluations You may notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the initial bootstrapping process, Config runs evaluations on all the resources in your account that you have selected for Config to record. If you are running ephemeral workloads, you may see increased activity from Config as it records configuration changes associated with creating and deleting these temporary resources. An ephemeral workload is a temporary use of computing resources that are loaded and run when needed. Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances, Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased activity from running ephemeral workloads, you can run these types of workloads in a separate account with Config turned off to avoid increased configuration recording and rule evaluations.
         public var recordingGroup: ConfigClientTypes.RecordingGroup?
-        /// Amazon Resource Name (ARN) of the IAM role used to describe the Amazon Web Services resources associated with the account. While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder.
+        /// Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the configuration recorder. While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Pre-existing Config role If you have used an Amazon Web Services service that uses Config, such as Security Hub or Control Tower, and an Config role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the already created Config role. You must do this so that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read Amazon Simple Storage Service (Amazon S3) objects, make sure that the same permissions are granted within the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. For more information about IAM roles for Config, see [ Identity and Access Management for Config ](https://docs.aws.amazon.com/config/latest/developerguide/security-iam.html) in the Config Developer Guide.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             recordingGroup: ConfigClientTypes.RecordingGroup? = nil,
             roleARN: Swift.String? = nil
@@ -3054,7 +3030,7 @@ extension ConfigClientTypes.ConfigurationRecorderStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -3095,7 +3071,7 @@ extension ConfigClientTypes {
         /// Specifies whether or not the recorder is currently recording.
         public var recording: Swift.Bool
 
-        public init (
+        public init(
             lastErrorCode: Swift.String? = nil,
             lastErrorMessage: Swift.String? = nil,
             lastStartTime: ClientRuntime.Date? = nil,
@@ -3138,7 +3114,7 @@ extension ConfigClientTypes.ConformancePackComplianceFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configRuleNames)
         var configRuleNamesDecoded0:[Swift.String]? = nil
@@ -3164,7 +3140,7 @@ extension ConfigClientTypes {
         /// Filters the results by Config rule names.
         public var configRuleNames: [Swift.String]?
 
-        public init (
+        public init(
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
             configRuleNames: [Swift.String]? = nil
         )
@@ -3196,7 +3172,7 @@ extension ConfigClientTypes.ConformancePackComplianceScore: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .score)
         score = scoreDecoded
@@ -3217,7 +3193,7 @@ extension ConfigClientTypes {
         /// Compliance score for the conformance pack. Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
         public var score: Swift.String?
 
-        public init (
+        public init(
             conformancePackName: Swift.String? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
             score: Swift.String? = nil
@@ -3246,7 +3222,7 @@ extension ConfigClientTypes.ConformancePackComplianceScoresFilters: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .conformancePackNames)
         var conformancePackNamesDecoded0:[Swift.String]? = nil
@@ -3269,7 +3245,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var conformancePackNames: [Swift.String]?
 
-        public init (
+        public init(
             conformancePackNames: [Swift.String]? = nil
         )
         {
@@ -3295,7 +3271,7 @@ extension ConfigClientTypes.ConformancePackComplianceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -3314,7 +3290,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var conformancePackName: Swift.String?
 
-        public init (
+        public init(
             conformancePackComplianceStatus: ConfigClientTypes.ConformancePackComplianceType? = nil,
             conformancePackName: Swift.String? = nil
         )
@@ -3408,7 +3384,7 @@ extension ConfigClientTypes.ConformancePackDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -3465,7 +3441,7 @@ extension ConfigClientTypes {
         /// An object that contains the name or Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
         public var templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails?
 
-        public init (
+        public init(
             conformancePackArn: Swift.String? = nil,
             conformancePackId: Swift.String? = nil,
             conformancePackInputParameters: [ConfigClientTypes.ConformancePackInputParameter]? = nil,
@@ -3521,7 +3497,7 @@ extension ConfigClientTypes.ConformancePackEvaluationFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configRuleNames)
         var configRuleNamesDecoded0:[Swift.String]? = nil
@@ -3564,7 +3540,7 @@ extension ConfigClientTypes {
         /// Filters the results by the resource type (for example, "AWS::EC2::Instance").
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
             configRuleNames: [Swift.String]? = nil,
             resourceIds: [Swift.String]? = nil,
@@ -3608,7 +3584,7 @@ extension ConfigClientTypes.ConformancePackEvaluationResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConformancePackComplianceType.self, forKey: .complianceType)
         complianceType = complianceTypeDecoded
@@ -3641,7 +3617,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var resultRecordedTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             annotation: Swift.String? = nil,
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
             configRuleInvokedTime: ClientRuntime.Date? = nil,
@@ -3675,7 +3651,7 @@ extension ConfigClientTypes.ConformancePackInputParameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterName)
         parameterName = parameterNameDecoded
@@ -3694,7 +3670,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var parameterValue: Swift.String?
 
-        public init (
+        public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
         )
@@ -3729,7 +3705,7 @@ extension ConfigClientTypes.ConformancePackRuleCompliance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -3759,7 +3735,7 @@ extension ConfigClientTypes {
         /// Controls for the conformance pack. A control is a process to prevent or detect problems while meeting objectives. A control can align with a specific compliance regime or map to internal controls defined by an organization.
         public var controls: [Swift.String]?
 
-        public init (
+        public init(
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
             configRuleName: Swift.String? = nil,
             controls: [Swift.String]? = nil
@@ -3854,7 +3830,7 @@ extension ConfigClientTypes.ConformancePackStatusDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -3911,7 +3887,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var stackArn: Swift.String?
 
-        public init (
+        public init(
             conformancePackArn: Swift.String? = nil,
             conformancePackId: Swift.String? = nil,
             conformancePackName: Swift.String? = nil,
@@ -3936,38 +3912,42 @@ extension ConfigClientTypes {
 }
 
 extension ConformancePackTemplateValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConformancePackTemplateValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have specified a template that is not valid or supported.
-public struct ConformancePackTemplateValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct ConformancePackTemplateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConformancePackTemplateValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3980,7 +3960,7 @@ extension ConformancePackTemplateValidationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4007,7 +3987,7 @@ extension ConfigClientTypes.CustomPolicyDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyRuntimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyRuntime)
         policyRuntime = policyRuntimeDecoded
@@ -4030,7 +4010,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var policyText: Swift.String?
 
-        public init (
+        public init(
             enableDebugLogDelivery: Swift.Bool = false,
             policyRuntime: Swift.String? = nil,
             policyText: Swift.String? = nil
@@ -4075,7 +4055,7 @@ public struct DeleteAggregationAuthorizationInput: Swift.Equatable {
     /// This member is required.
     public var authorizedAwsRegion: Swift.String?
 
-    public init (
+    public init(
         authorizedAccountId: Swift.String? = nil,
         authorizedAwsRegion: Swift.String? = nil
     )
@@ -4096,7 +4076,7 @@ extension DeleteAggregationAuthorizationInputBody: Swift.Decodable {
         case authorizedAwsRegion = "AuthorizedAwsRegion"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authorizedAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizedAccountId)
         authorizedAccountId = authorizedAccountIdDecoded
@@ -4105,36 +4085,25 @@ extension DeleteAggregationAuthorizationInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteAggregationAuthorizationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAggregationAuthorizationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAggregationAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAggregationAuthorizationOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAggregationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAggregationAuthorizationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteConfigRuleInput: Swift.Encodable {
@@ -4162,7 +4131,7 @@ public struct DeleteConfigRuleInput: Swift.Equatable {
     /// This member is required.
     public var configRuleName: Swift.String?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil
     )
     {
@@ -4179,45 +4148,33 @@ extension DeleteConfigRuleInputBody: Swift.Decodable {
         case configRuleName = "ConfigRuleName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
     }
 }
 
-extension DeleteConfigRuleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConfigRuleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConfigRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConfigRuleOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteConfigRuleOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteConfigurationAggregatorInput: Swift.Encodable {
@@ -4244,7 +4201,7 @@ public struct DeleteConfigurationAggregatorInput: Swift.Equatable {
     /// This member is required.
     public var configurationAggregatorName: Swift.String?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil
     )
     {
@@ -4261,43 +4218,32 @@ extension DeleteConfigurationAggregatorInputBody: Swift.Decodable {
         case configurationAggregatorName = "ConfigurationAggregatorName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
     }
 }
 
-extension DeleteConfigurationAggregatorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConfigurationAggregatorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConfigurationAggregatorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConfigurationAggregatorOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConfigurationAggregatorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteConfigurationAggregatorOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteConfigurationRecorderInput: Swift.Encodable {
@@ -4325,7 +4271,7 @@ public struct DeleteConfigurationRecorderInput: Swift.Equatable {
     /// This member is required.
     public var configurationRecorderName: Swift.String?
 
-    public init (
+    public init(
         configurationRecorderName: Swift.String? = nil
     )
     {
@@ -4342,43 +4288,32 @@ extension DeleteConfigurationRecorderInputBody: Swift.Decodable {
         case configurationRecorderName = "ConfigurationRecorderName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationRecorderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationRecorderName)
         configurationRecorderName = configurationRecorderNameDecoded
     }
 }
 
-extension DeleteConfigurationRecorderOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConfigurationRecorderOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigurationRecorderException" : self = .noSuchConfigurationRecorderException(try NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConfigurationRecorderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigurationRecorderException": return try await NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConfigurationRecorderOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigurationRecorderException(NoSuchConfigurationRecorderException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConfigurationRecorderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteConfigurationRecorderOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteConformancePackInput: Swift.Encodable {
@@ -4405,7 +4340,7 @@ public struct DeleteConformancePackInput: Swift.Equatable {
     /// This member is required.
     public var conformancePackName: Swift.String?
 
-    public init (
+    public init(
         conformancePackName: Swift.String? = nil
     )
     {
@@ -4422,45 +4357,33 @@ extension DeleteConformancePackInputBody: Swift.Decodable {
         case conformancePackName = "ConformancePackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
     }
 }
 
-extension DeleteConformancePackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConformancePackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConformancePackException" : self = .noSuchConformancePackException(try NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConformancePackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConformancePackException": return try await NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConformancePackOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConformancePackException(NoSuchConformancePackException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConformancePackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteConformancePackOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteDeliveryChannelInput: Swift.Encodable {
@@ -4488,7 +4411,7 @@ public struct DeleteDeliveryChannelInput: Swift.Equatable {
     /// This member is required.
     public var deliveryChannelName: Swift.String?
 
-    public init (
+    public init(
         deliveryChannelName: Swift.String? = nil
     )
     {
@@ -4505,45 +4428,33 @@ extension DeleteDeliveryChannelInputBody: Swift.Decodable {
         case deliveryChannelName = "DeliveryChannelName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryChannelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryChannelName)
         deliveryChannelName = deliveryChannelNameDecoded
     }
 }
 
-extension DeleteDeliveryChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDeliveryChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LastDeliveryChannelDeleteFailedException" : self = .lastDeliveryChannelDeleteFailedException(try LastDeliveryChannelDeleteFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchDeliveryChannelException" : self = .noSuchDeliveryChannelException(try NoSuchDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDeliveryChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LastDeliveryChannelDeleteFailedException": return try await LastDeliveryChannelDeleteFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchDeliveryChannelException": return try await NoSuchDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDeliveryChannelOutputError: Swift.Error, Swift.Equatable {
-    case lastDeliveryChannelDeleteFailedException(LastDeliveryChannelDeleteFailedException)
-    case noSuchDeliveryChannelException(NoSuchDeliveryChannelException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDeliveryChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteDeliveryChannelOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteEvaluationResultsInput: Swift.Encodable {
@@ -4571,7 +4482,7 @@ public struct DeleteEvaluationResultsInput: Swift.Equatable {
     /// This member is required.
     public var configRuleName: Swift.String?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil
     )
     {
@@ -4588,46 +4499,34 @@ extension DeleteEvaluationResultsInputBody: Swift.Decodable {
         case configRuleName = "ConfigRuleName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
     }
 }
 
-extension DeleteEvaluationResultsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteEvaluationResultsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEvaluationResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteEvaluationResultsOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEvaluationResultsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// The output when you delete the evaluation results for the specified Config rule.
 public struct DeleteEvaluationResultsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteOrganizationConfigRuleInput: Swift.Encodable {
@@ -4654,7 +4553,7 @@ public struct DeleteOrganizationConfigRuleInput: Swift.Equatable {
     /// This member is required.
     public var organizationConfigRuleName: Swift.String?
 
-    public init (
+    public init(
         organizationConfigRuleName: Swift.String? = nil
     )
     {
@@ -4671,47 +4570,34 @@ extension DeleteOrganizationConfigRuleInputBody: Swift.Decodable {
         case organizationConfigRuleName = "OrganizationConfigRuleName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConfigRuleName)
         organizationConfigRuleName = organizationConfigRuleNameDecoded
     }
 }
 
-extension DeleteOrganizationConfigRuleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteOrganizationConfigRuleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchOrganizationConfigRuleException" : self = .noSuchOrganizationConfigRuleException(try NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteOrganizationConfigRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchOrganizationConfigRuleException": return try await NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteOrganizationConfigRuleOutputError: Swift.Error, Swift.Equatable {
-    case noSuchOrganizationConfigRuleException(NoSuchOrganizationConfigRuleException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteOrganizationConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteOrganizationConfigRuleOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteOrganizationConformancePackInput: Swift.Encodable {
@@ -4738,7 +4624,7 @@ public struct DeleteOrganizationConformancePackInput: Swift.Equatable {
     /// This member is required.
     public var organizationConformancePackName: Swift.String?
 
-    public init (
+    public init(
         organizationConformancePackName: Swift.String? = nil
     )
     {
@@ -4755,47 +4641,34 @@ extension DeleteOrganizationConformancePackInputBody: Swift.Decodable {
         case organizationConformancePackName = "OrganizationConformancePackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConformancePackName)
         organizationConformancePackName = organizationConformancePackNameDecoded
     }
 }
 
-extension DeleteOrganizationConformancePackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteOrganizationConformancePackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchOrganizationConformancePackException" : self = .noSuchOrganizationConformancePackException(try NoSuchOrganizationConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteOrganizationConformancePackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchOrganizationConformancePackException": return try await NoSuchOrganizationConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteOrganizationConformancePackOutputError: Swift.Error, Swift.Equatable {
-    case noSuchOrganizationConformancePackException(NoSuchOrganizationConformancePackException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteOrganizationConformancePackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteOrganizationConformancePackOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeletePendingAggregationRequestInput: Swift.Encodable {
@@ -4829,7 +4702,7 @@ public struct DeletePendingAggregationRequestInput: Swift.Equatable {
     /// This member is required.
     public var requesterAwsRegion: Swift.String?
 
-    public init (
+    public init(
         requesterAccountId: Swift.String? = nil,
         requesterAwsRegion: Swift.String? = nil
     )
@@ -4850,7 +4723,7 @@ extension DeletePendingAggregationRequestInputBody: Swift.Decodable {
         case requesterAwsRegion = "RequesterAwsRegion"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requesterAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requesterAccountId)
         requesterAccountId = requesterAccountIdDecoded
@@ -4859,36 +4732,25 @@ extension DeletePendingAggregationRequestInputBody: Swift.Decodable {
     }
 }
 
-extension DeletePendingAggregationRequestOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeletePendingAggregationRequestOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeletePendingAggregationRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeletePendingAggregationRequestOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeletePendingAggregationRequestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeletePendingAggregationRequestOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteRemediationConfigurationInput: Swift.Encodable {
@@ -4921,7 +4783,7 @@ public struct DeleteRemediationConfigurationInput: Swift.Equatable {
     /// The type of a resource.
     public var resourceType: Swift.String?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
@@ -4942,7 +4804,7 @@ extension DeleteRemediationConfigurationInputBody: Swift.Decodable {
         case resourceType = "ResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -4951,42 +4813,28 @@ extension DeleteRemediationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteRemediationConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteRemediationConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchRemediationConfigurationException" : self = .noSuchRemediationConfigurationException(try NoSuchRemediationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RemediationInProgressException" : self = .remediationInProgressException(try RemediationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteRemediationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchRemediationConfigurationException": return try await NoSuchRemediationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RemediationInProgressException": return try await RemediationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteRemediationConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchRemediationConfigurationException(NoSuchRemediationConfigurationException)
-    case remediationInProgressException(RemediationInProgressException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteRemediationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteRemediationConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteRemediationExceptionsInput: Swift.Encodable {
@@ -5023,7 +4871,7 @@ public struct DeleteRemediationExceptionsInput: Swift.Equatable {
     /// This member is required.
     public var resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]? = nil
     )
@@ -5044,7 +4892,7 @@ extension DeleteRemediationExceptionsInputBody: Swift.Decodable {
         case resourceKeys = "ResourceKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -5062,31 +4910,20 @@ extension DeleteRemediationExceptionsInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteRemediationExceptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteRemediationExceptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchRemediationExceptionException" : self = .noSuchRemediationExceptionException(try NoSuchRemediationExceptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteRemediationExceptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchRemediationExceptionException": return try await NoSuchRemediationExceptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteRemediationExceptionsOutputError: Swift.Error, Swift.Equatable {
-    case noSuchRemediationExceptionException(NoSuchRemediationExceptionException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteRemediationExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteRemediationExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedBatches = output.failedBatches
@@ -5100,7 +4937,7 @@ public struct DeleteRemediationExceptionsOutputResponse: Swift.Equatable {
     /// Returns a list of failed delete remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
     public var failedBatches: [ConfigClientTypes.FailedDeleteRemediationExceptionsBatch]?
 
-    public init (
+    public init(
         failedBatches: [ConfigClientTypes.FailedDeleteRemediationExceptionsBatch]? = nil
     )
     {
@@ -5117,7 +4954,7 @@ extension DeleteRemediationExceptionsOutputResponseBody: Swift.Decodable {
         case failedBatches = "FailedBatches"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedBatchesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.FailedDeleteRemediationExceptionsBatch?].self, forKey: .failedBatches)
         var failedBatchesDecoded0:[ConfigClientTypes.FailedDeleteRemediationExceptionsBatch]? = nil
@@ -5164,7 +5001,7 @@ public struct DeleteResourceConfigInput: Swift.Equatable {
     /// This member is required.
     public var resourceType: Swift.String?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
@@ -5185,7 +5022,7 @@ extension DeleteResourceConfigInputBody: Swift.Decodable {
         case resourceType = "ResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -5194,38 +5031,26 @@ extension DeleteResourceConfigInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteResourceConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteResourceConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoRunningConfigurationRecorderException" : self = .noRunningConfigurationRecorderException(try NoRunningConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteResourceConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoRunningConfigurationRecorderException": return try await NoRunningConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteResourceConfigOutputError: Swift.Error, Swift.Equatable {
-    case noRunningConfigurationRecorderException(NoRunningConfigurationRecorderException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteResourceConfigOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteRetentionConfigurationInput: Swift.Encodable {
@@ -5252,7 +5077,7 @@ public struct DeleteRetentionConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var retentionConfigurationName: Swift.String?
 
-    public init (
+    public init(
         retentionConfigurationName: Swift.String? = nil
     )
     {
@@ -5269,45 +5094,33 @@ extension DeleteRetentionConfigurationInputBody: Swift.Decodable {
         case retentionConfigurationName = "RetentionConfigurationName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retentionConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .retentionConfigurationName)
         retentionConfigurationName = retentionConfigurationNameDecoded
     }
 }
 
-extension DeleteRetentionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteRetentionConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchRetentionConfigurationException" : self = .noSuchRetentionConfigurationException(try NoSuchRetentionConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteRetentionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchRetentionConfigurationException": return try await NoSuchRetentionConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteRetentionConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchRetentionConfigurationException(NoSuchRetentionConfigurationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteRetentionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteRetentionConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteStoredQueryInput: Swift.Encodable {
@@ -5334,7 +5147,7 @@ public struct DeleteStoredQueryInput: Swift.Equatable {
     /// This member is required.
     public var queryName: Swift.String?
 
-    public init (
+    public init(
         queryName: Swift.String? = nil
     )
     {
@@ -5351,45 +5164,33 @@ extension DeleteStoredQueryInputBody: Swift.Decodable {
         case queryName = "QueryName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryName)
         queryName = queryNameDecoded
     }
 }
 
-extension DeleteStoredQueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteStoredQueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteStoredQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteStoredQueryOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteStoredQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteStoredQueryOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeliverConfigSnapshotInput: Swift.Encodable {
@@ -5417,7 +5218,7 @@ public struct DeliverConfigSnapshotInput: Swift.Equatable {
     /// This member is required.
     public var deliveryChannelName: Swift.String?
 
-    public init (
+    public init(
         deliveryChannelName: Swift.String? = nil
     )
     {
@@ -5434,42 +5235,29 @@ extension DeliverConfigSnapshotInputBody: Swift.Decodable {
         case deliveryChannelName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryChannelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryChannelName)
         deliveryChannelName = deliveryChannelNameDecoded
     }
 }
 
-extension DeliverConfigSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeliverConfigSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoAvailableConfigurationRecorderException" : self = .noAvailableConfigurationRecorderException(try NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoRunningConfigurationRecorderException" : self = .noRunningConfigurationRecorderException(try NoRunningConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchDeliveryChannelException" : self = .noSuchDeliveryChannelException(try NoSuchDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeliverConfigSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoAvailableConfigurationRecorderException": return try await NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoRunningConfigurationRecorderException": return try await NoRunningConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchDeliveryChannelException": return try await NoSuchDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeliverConfigSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case noAvailableConfigurationRecorderException(NoAvailableConfigurationRecorderException)
-    case noRunningConfigurationRecorderException(NoRunningConfigurationRecorderException)
-    case noSuchDeliveryChannelException(NoSuchDeliveryChannelException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeliverConfigSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeliverConfigSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configSnapshotId = output.configSnapshotId
@@ -5484,7 +5272,7 @@ public struct DeliverConfigSnapshotOutputResponse: Swift.Equatable {
     /// The ID of the snapshot that is being created.
     public var configSnapshotId: Swift.String?
 
-    public init (
+    public init(
         configSnapshotId: Swift.String? = nil
     )
     {
@@ -5501,7 +5289,7 @@ extension DeliverConfigSnapshotOutputResponseBody: Swift.Decodable {
         case configSnapshotId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configSnapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configSnapshotId)
         configSnapshotId = configSnapshotIdDecoded
@@ -5540,7 +5328,7 @@ extension ConfigClientTypes.DeliveryChannel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5573,7 +5361,7 @@ extension ConfigClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Config sends notifications about configuration changes. If you choose a topic from another account, the topic must have policies that grant access permissions to Config. For more information, see [Permissions for the Amazon SNS Topic](https://docs.aws.amazon.com/config/latest/developerguide/sns-topic-policy.html) in the Config Developer Guide.
         public var snsTopicARN: Swift.String?
 
-        public init (
+        public init(
             configSnapshotDeliveryProperties: ConfigClientTypes.ConfigSnapshotDeliveryProperties? = nil,
             name: Swift.String? = nil,
             s3BucketName: Swift.String? = nil,
@@ -5617,7 +5405,7 @@ extension ConfigClientTypes.DeliveryChannelStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5642,7 +5430,7 @@ extension ConfigClientTypes {
         /// The name of the delivery channel.
         public var name: Swift.String?
 
-        public init (
+        public init(
             configHistoryDeliveryInfo: ConfigClientTypes.ConfigExportDeliveryInfo? = nil,
             configSnapshotDeliveryInfo: ConfigClientTypes.ConfigExportDeliveryInfo? = nil,
             configStreamDeliveryInfo: ConfigClientTypes.ConfigStreamDeliveryInfo? = nil,
@@ -5735,7 +5523,7 @@ public struct DescribeAggregateComplianceByConfigRulesInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ConfigRuleComplianceFilters? = nil,
         limit: Swift.Int? = nil,
@@ -5764,7 +5552,7 @@ extension DescribeAggregateComplianceByConfigRulesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -5777,37 +5565,23 @@ extension DescribeAggregateComplianceByConfigRulesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeAggregateComplianceByConfigRulesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAggregateComplianceByConfigRulesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAggregateComplianceByConfigRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAggregateComplianceByConfigRulesOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAggregateComplianceByConfigRulesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAggregateComplianceByConfigRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateComplianceByConfigRules = output.aggregateComplianceByConfigRules
@@ -5825,7 +5599,7 @@ public struct DescribeAggregateComplianceByConfigRulesOutputResponse: Swift.Equa
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aggregateComplianceByConfigRules: [ConfigClientTypes.AggregateComplianceByConfigRule]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5846,7 +5620,7 @@ extension DescribeAggregateComplianceByConfigRulesOutputResponseBody: Swift.Deco
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregateComplianceByConfigRulesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.AggregateComplianceByConfigRule?].self, forKey: .aggregateComplianceByConfigRules)
         var aggregateComplianceByConfigRulesDecoded0:[ConfigClientTypes.AggregateComplianceByConfigRule]? = nil
@@ -5906,7 +5680,7 @@ public struct DescribeAggregateComplianceByConformancePacksInput: Swift.Equatabl
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.AggregateConformancePackComplianceFilters? = nil,
         limit: Swift.Int? = nil,
@@ -5935,7 +5709,7 @@ extension DescribeAggregateComplianceByConformancePacksInputBody: Swift.Decodabl
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -5948,37 +5722,23 @@ extension DescribeAggregateComplianceByConformancePacksInputBody: Swift.Decodabl
     }
 }
 
-extension DescribeAggregateComplianceByConformancePacksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAggregateComplianceByConformancePacksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAggregateComplianceByConformancePacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAggregateComplianceByConformancePacksOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAggregateComplianceByConformancePacksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAggregateComplianceByConformancePacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateComplianceByConformancePacks = output.aggregateComplianceByConformancePacks
@@ -5996,7 +5756,7 @@ public struct DescribeAggregateComplianceByConformancePacksOutputResponse: Swift
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aggregateComplianceByConformancePacks: [ConfigClientTypes.AggregateComplianceByConformancePack]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6017,7 +5777,7 @@ extension DescribeAggregateComplianceByConformancePacksOutputResponseBody: Swift
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregateComplianceByConformancePacksContainer = try containerValues.decodeIfPresent([ConfigClientTypes.AggregateComplianceByConformancePack?].self, forKey: .aggregateComplianceByConformancePacks)
         var aggregateComplianceByConformancePacksDecoded0:[ConfigClientTypes.AggregateComplianceByConformancePack]? = nil
@@ -6064,7 +5824,7 @@ public struct DescribeAggregationAuthorizationsInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6085,7 +5845,7 @@ extension DescribeAggregationAuthorizationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
@@ -6094,35 +5854,22 @@ extension DescribeAggregationAuthorizationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeAggregationAuthorizationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAggregationAuthorizationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAggregationAuthorizationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAggregationAuthorizationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAggregationAuthorizationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAggregationAuthorizationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregationAuthorizations = output.aggregationAuthorizations
@@ -6140,7 +5887,7 @@ public struct DescribeAggregationAuthorizationsOutputResponse: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aggregationAuthorizations: [ConfigClientTypes.AggregationAuthorization]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6161,7 +5908,7 @@ extension DescribeAggregationAuthorizationsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregationAuthorizationsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.AggregationAuthorization?].self, forKey: .aggregationAuthorizations)
         var aggregationAuthorizationsDecoded0:[ConfigClientTypes.AggregationAuthorization]? = nil
@@ -6221,7 +5968,7 @@ public struct DescribeComplianceByConfigRuleInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
         configRuleNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
@@ -6246,7 +5993,7 @@ extension DescribeComplianceByConfigRuleInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configRuleNames)
         var configRuleNamesDecoded0:[Swift.String]? = nil
@@ -6275,35 +6022,22 @@ extension DescribeComplianceByConfigRuleInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeComplianceByConfigRuleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeComplianceByConfigRuleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeComplianceByConfigRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeComplianceByConfigRuleOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeComplianceByConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeComplianceByConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.complianceByConfigRules = output.complianceByConfigRules
@@ -6322,7 +6056,7 @@ public struct DescribeComplianceByConfigRuleOutputResponse: Swift.Equatable {
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         complianceByConfigRules: [ConfigClientTypes.ComplianceByConfigRule]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6343,7 +6077,7 @@ extension DescribeComplianceByConfigRuleOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceByConfigRulesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ComplianceByConfigRule?].self, forKey: .complianceByConfigRules)
         var complianceByConfigRulesDecoded0:[ConfigClientTypes.ComplianceByConfigRule]? = nil
@@ -6412,7 +6146,7 @@ public struct DescribeComplianceByResourceInput: Swift.Equatable {
     /// The types of Amazon Web Services resources for which you want compliance information (for example, AWS::EC2::Instance). For this action, you can specify that the resource type is an Amazon Web Services account by specifying AWS::::Account.
     public var resourceType: Swift.String?
 
-    public init (
+    public init(
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -6445,7 +6179,7 @@ extension DescribeComplianceByResourceInputBody: Swift.Decodable {
         case resourceType = "ResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -6469,33 +6203,21 @@ extension DescribeComplianceByResourceInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeComplianceByResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeComplianceByResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeComplianceByResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeComplianceByResourceOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeComplianceByResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeComplianceByResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.complianceByResources = output.complianceByResources
@@ -6514,7 +6236,7 @@ public struct DescribeComplianceByResourceOutputResponse: Swift.Equatable {
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         complianceByResources: [ConfigClientTypes.ComplianceByResource]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6535,7 +6257,7 @@ extension DescribeComplianceByResourceOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceByResourcesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ComplianceByResource?].self, forKey: .complianceByResources)
         var complianceByResourcesDecoded0:[ConfigClientTypes.ComplianceByResource]? = nil
@@ -6592,7 +6314,7 @@ public struct DescribeConfigRuleEvaluationStatusInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configRuleNames: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -6617,7 +6339,7 @@ extension DescribeConfigRuleEvaluationStatusInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configRuleNames)
         var configRuleNamesDecoded0:[Swift.String]? = nil
@@ -6637,35 +6359,22 @@ extension DescribeConfigRuleEvaluationStatusInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConfigRuleEvaluationStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConfigRuleEvaluationStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConfigRuleEvaluationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConfigRuleEvaluationStatusOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConfigRuleEvaluationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConfigRuleEvaluationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configRulesEvaluationStatus = output.configRulesEvaluationStatus
@@ -6684,7 +6393,7 @@ public struct DescribeConfigRuleEvaluationStatusOutputResponse: Swift.Equatable 
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configRulesEvaluationStatus: [ConfigClientTypes.ConfigRuleEvaluationStatus]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6705,7 +6414,7 @@ extension DescribeConfigRuleEvaluationStatusOutputResponseBody: Swift.Decodable 
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRulesEvaluationStatusContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConfigRuleEvaluationStatus?].self, forKey: .configRulesEvaluationStatus)
         var configRulesEvaluationStatusDecoded0:[ConfigClientTypes.ConfigRuleEvaluationStatus]? = nil
@@ -6735,7 +6444,7 @@ extension ConfigClientTypes.DescribeConfigRulesFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
         evaluationMode = evaluationModeDecoded
@@ -6748,7 +6457,7 @@ extension ConfigClientTypes {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public var evaluationMode: ConfigClientTypes.EvaluationMode?
 
-        public init (
+        public init(
             evaluationMode: ConfigClientTypes.EvaluationMode? = nil
         )
         {
@@ -6797,7 +6506,7 @@ public struct DescribeConfigRulesInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configRuleNames: [Swift.String]? = nil,
         filters: ConfigClientTypes.DescribeConfigRulesFilters? = nil,
         nextToken: Swift.String? = nil
@@ -6822,7 +6531,7 @@ extension DescribeConfigRulesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configRuleNames)
         var configRuleNamesDecoded0:[Swift.String]? = nil
@@ -6842,35 +6551,22 @@ extension DescribeConfigRulesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConfigRulesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConfigRulesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConfigRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConfigRulesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConfigRulesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConfigRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configRules = output.configRules
@@ -6889,7 +6585,7 @@ public struct DescribeConfigRulesOutputResponse: Swift.Equatable {
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configRules: [ConfigClientTypes.ConfigRule]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6910,7 +6606,7 @@ extension DescribeConfigRulesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRulesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConfigRule?].self, forKey: .configRules)
         var configRulesDecoded0:[ConfigClientTypes.ConfigRule]? = nil
@@ -6979,7 +6675,7 @@ public struct DescribeConfigurationAggregatorSourcesStatusInput: Swift.Equatable
     /// * Valid value OUTDATED indicates the data is not the most recent.
     public var updateStatus: [ConfigClientTypes.AggregatedSourceStatusType]?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -7008,7 +6704,7 @@ extension DescribeConfigurationAggregatorSourcesStatusInputBody: Swift.Decodable
         case updateStatus = "UpdateStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -7030,37 +6726,23 @@ extension DescribeConfigurationAggregatorSourcesStatusInputBody: Swift.Decodable
     }
 }
 
-extension DescribeConfigurationAggregatorSourcesStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConfigurationAggregatorSourcesStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConfigurationAggregatorSourcesStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConfigurationAggregatorSourcesStatusOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConfigurationAggregatorSourcesStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConfigurationAggregatorSourcesStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregatedSourceStatusList = output.aggregatedSourceStatusList
@@ -7078,7 +6760,7 @@ public struct DescribeConfigurationAggregatorSourcesStatusOutputResponse: Swift.
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aggregatedSourceStatusList: [ConfigClientTypes.AggregatedSourceStatus]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7099,7 +6781,7 @@ extension DescribeConfigurationAggregatorSourcesStatusOutputResponseBody: Swift.
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregatedSourceStatusListContainer = try containerValues.decodeIfPresent([ConfigClientTypes.AggregatedSourceStatus?].self, forKey: .aggregatedSourceStatusList)
         var aggregatedSourceStatusListDecoded0:[ConfigClientTypes.AggregatedSourceStatus]? = nil
@@ -7155,7 +6837,7 @@ public struct DescribeConfigurationAggregatorsInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationAggregatorNames: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7180,7 +6862,7 @@ extension DescribeConfigurationAggregatorsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configurationAggregatorNames)
         var configurationAggregatorNamesDecoded0:[Swift.String]? = nil
@@ -7200,37 +6882,23 @@ extension DescribeConfigurationAggregatorsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConfigurationAggregatorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConfigurationAggregatorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConfigurationAggregatorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConfigurationAggregatorsOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConfigurationAggregatorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConfigurationAggregatorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationAggregators = output.configurationAggregators
@@ -7248,7 +6916,7 @@ public struct DescribeConfigurationAggregatorsOutputResponse: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationAggregators: [ConfigClientTypes.ConfigurationAggregator]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7269,7 +6937,7 @@ extension DescribeConfigurationAggregatorsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConfigurationAggregator?].self, forKey: .configurationAggregators)
         var configurationAggregatorsDecoded0:[ConfigClientTypes.ConfigurationAggregator]? = nil
@@ -7314,7 +6982,7 @@ public struct DescribeConfigurationRecorderStatusInput: Swift.Equatable {
     /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
     public var configurationRecorderNames: [Swift.String]?
 
-    public init (
+    public init(
         configurationRecorderNames: [Swift.String]? = nil
     )
     {
@@ -7331,7 +6999,7 @@ extension DescribeConfigurationRecorderStatusInputBody: Swift.Decodable {
         case configurationRecorderNames = "ConfigurationRecorderNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationRecorderNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configurationRecorderNames)
         var configurationRecorderNamesDecoded0:[Swift.String]? = nil
@@ -7347,31 +7015,20 @@ extension DescribeConfigurationRecorderStatusInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConfigurationRecorderStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConfigurationRecorderStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigurationRecorderException" : self = .noSuchConfigurationRecorderException(try NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConfigurationRecorderStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigurationRecorderException": return try await NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConfigurationRecorderStatusOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigurationRecorderException(NoSuchConfigurationRecorderException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConfigurationRecorderStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConfigurationRecorderStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationRecordersStatus = output.configurationRecordersStatus
@@ -7386,7 +7043,7 @@ public struct DescribeConfigurationRecorderStatusOutputResponse: Swift.Equatable
     /// A list that contains status of the specified recorders.
     public var configurationRecordersStatus: [ConfigClientTypes.ConfigurationRecorderStatus]?
 
-    public init (
+    public init(
         configurationRecordersStatus: [ConfigClientTypes.ConfigurationRecorderStatus]? = nil
     )
     {
@@ -7403,7 +7060,7 @@ extension DescribeConfigurationRecorderStatusOutputResponseBody: Swift.Decodable
         case configurationRecordersStatus = "ConfigurationRecordersStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationRecordersStatusContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConfigurationRecorderStatus?].self, forKey: .configurationRecordersStatus)
         var configurationRecordersStatusDecoded0:[ConfigClientTypes.ConfigurationRecorderStatus]? = nil
@@ -7446,7 +7103,7 @@ public struct DescribeConfigurationRecordersInput: Swift.Equatable {
     /// A list of configuration recorder names.
     public var configurationRecorderNames: [Swift.String]?
 
-    public init (
+    public init(
         configurationRecorderNames: [Swift.String]? = nil
     )
     {
@@ -7463,7 +7120,7 @@ extension DescribeConfigurationRecordersInputBody: Swift.Decodable {
         case configurationRecorderNames = "ConfigurationRecorderNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationRecorderNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configurationRecorderNames)
         var configurationRecorderNamesDecoded0:[Swift.String]? = nil
@@ -7479,31 +7136,20 @@ extension DescribeConfigurationRecordersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConfigurationRecordersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConfigurationRecordersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigurationRecorderException" : self = .noSuchConfigurationRecorderException(try NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConfigurationRecordersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigurationRecorderException": return try await NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConfigurationRecordersOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigurationRecorderException(NoSuchConfigurationRecorderException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConfigurationRecordersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConfigurationRecordersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationRecorders = output.configurationRecorders
@@ -7518,7 +7164,7 @@ public struct DescribeConfigurationRecordersOutputResponse: Swift.Equatable {
     /// A list that contains the descriptions of the specified configuration recorders.
     public var configurationRecorders: [ConfigClientTypes.ConfigurationRecorder]?
 
-    public init (
+    public init(
         configurationRecorders: [ConfigClientTypes.ConfigurationRecorder]? = nil
     )
     {
@@ -7535,7 +7181,7 @@ extension DescribeConfigurationRecordersOutputResponseBody: Swift.Decodable {
         case configurationRecorders = "ConfigurationRecorders"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationRecordersContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConfigurationRecorder?].self, forKey: .configurationRecorders)
         var configurationRecordersDecoded0:[ConfigClientTypes.ConfigurationRecorder]? = nil
@@ -7593,7 +7239,7 @@ public struct DescribeConformancePackComplianceInput: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackName: Swift.String? = nil,
         filters: ConfigClientTypes.ConformancePackComplianceFilters? = nil,
         limit: Swift.Int? = nil,
@@ -7622,7 +7268,7 @@ extension DescribeConformancePackComplianceInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -7635,39 +7281,24 @@ extension DescribeConformancePackComplianceInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConformancePackComplianceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConformancePackComplianceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleInConformancePackException" : self = .noSuchConfigRuleInConformancePackException(try NoSuchConfigRuleInConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConformancePackException" : self = .noSuchConformancePackException(try NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConformancePackComplianceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleInConformancePackException": return try await NoSuchConfigRuleInConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConformancePackException": return try await NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConformancePackComplianceOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigRuleInConformancePackException(NoSuchConfigRuleInConformancePackException)
-    case noSuchConformancePackException(NoSuchConformancePackException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConformancePackComplianceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConformancePackComplianceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackName = output.conformancePackName
@@ -7691,7 +7322,7 @@ public struct DescribeConformancePackComplianceOutputResponse: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackName: Swift.String? = nil,
         conformancePackRuleComplianceList: [ConfigClientTypes.ConformancePackRuleCompliance]? = nil,
         nextToken: Swift.String? = nil
@@ -7716,7 +7347,7 @@ extension DescribeConformancePackComplianceOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -7774,7 +7405,7 @@ public struct DescribeConformancePackStatusInput: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackNames: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7799,7 +7430,7 @@ extension DescribeConformancePackStatusInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .conformancePackNames)
         var conformancePackNamesDecoded0:[Swift.String]? = nil
@@ -7819,35 +7450,22 @@ extension DescribeConformancePackStatusInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConformancePackStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConformancePackStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConformancePackStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConformancePackStatusOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConformancePackStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConformancePackStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackStatusDetails = output.conformancePackStatusDetails
@@ -7865,7 +7483,7 @@ public struct DescribeConformancePackStatusOutputResponse: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackStatusDetails: [ConfigClientTypes.ConformancePackStatusDetail]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7886,7 +7504,7 @@ extension DescribeConformancePackStatusOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackStatusDetailsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConformancePackStatusDetail?].self, forKey: .conformancePackStatusDetails)
         var conformancePackStatusDetailsDecoded0:[ConfigClientTypes.ConformancePackStatusDetail]? = nil
@@ -7942,7 +7560,7 @@ public struct DescribeConformancePacksInput: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackNames: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7967,7 +7585,7 @@ extension DescribeConformancePacksInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .conformancePackNames)
         var conformancePackNamesDecoded0:[Swift.String]? = nil
@@ -7987,37 +7605,23 @@ extension DescribeConformancePacksInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConformancePacksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConformancePacksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConformancePackException" : self = .noSuchConformancePackException(try NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConformancePacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConformancePackException": return try await NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConformancePacksOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConformancePackException(NoSuchConformancePackException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConformancePacksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConformancePacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackDetails = output.conformancePackDetails
@@ -8035,7 +7639,7 @@ public struct DescribeConformancePacksOutputResponse: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackDetails: [ConfigClientTypes.ConformancePackDetail]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8056,7 +7660,7 @@ extension DescribeConformancePacksOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackDetailsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConformancePackDetail?].self, forKey: .conformancePackDetails)
         var conformancePackDetailsDecoded0:[ConfigClientTypes.ConformancePackDetail]? = nil
@@ -8101,7 +7705,7 @@ public struct DescribeDeliveryChannelStatusInput: Swift.Equatable {
     /// A list of delivery channel names.
     public var deliveryChannelNames: [Swift.String]?
 
-    public init (
+    public init(
         deliveryChannelNames: [Swift.String]? = nil
     )
     {
@@ -8118,7 +7722,7 @@ extension DescribeDeliveryChannelStatusInputBody: Swift.Decodable {
         case deliveryChannelNames = "DeliveryChannelNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryChannelNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deliveryChannelNames)
         var deliveryChannelNamesDecoded0:[Swift.String]? = nil
@@ -8134,31 +7738,20 @@ extension DescribeDeliveryChannelStatusInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDeliveryChannelStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDeliveryChannelStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchDeliveryChannelException" : self = .noSuchDeliveryChannelException(try NoSuchDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDeliveryChannelStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchDeliveryChannelException": return try await NoSuchDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDeliveryChannelStatusOutputError: Swift.Error, Swift.Equatable {
-    case noSuchDeliveryChannelException(NoSuchDeliveryChannelException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDeliveryChannelStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDeliveryChannelStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliveryChannelsStatus = output.deliveryChannelsStatus
@@ -8173,7 +7766,7 @@ public struct DescribeDeliveryChannelStatusOutputResponse: Swift.Equatable {
     /// A list that contains the status of a specified delivery channel.
     public var deliveryChannelsStatus: [ConfigClientTypes.DeliveryChannelStatus]?
 
-    public init (
+    public init(
         deliveryChannelsStatus: [ConfigClientTypes.DeliveryChannelStatus]? = nil
     )
     {
@@ -8190,7 +7783,7 @@ extension DescribeDeliveryChannelStatusOutputResponseBody: Swift.Decodable {
         case deliveryChannelsStatus = "DeliveryChannelsStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryChannelsStatusContainer = try containerValues.decodeIfPresent([ConfigClientTypes.DeliveryChannelStatus?].self, forKey: .deliveryChannelsStatus)
         var deliveryChannelsStatusDecoded0:[ConfigClientTypes.DeliveryChannelStatus]? = nil
@@ -8233,7 +7826,7 @@ public struct DescribeDeliveryChannelsInput: Swift.Equatable {
     /// A list of delivery channel names.
     public var deliveryChannelNames: [Swift.String]?
 
-    public init (
+    public init(
         deliveryChannelNames: [Swift.String]? = nil
     )
     {
@@ -8250,7 +7843,7 @@ extension DescribeDeliveryChannelsInputBody: Swift.Decodable {
         case deliveryChannelNames = "DeliveryChannelNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryChannelNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deliveryChannelNames)
         var deliveryChannelNamesDecoded0:[Swift.String]? = nil
@@ -8266,31 +7859,20 @@ extension DescribeDeliveryChannelsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDeliveryChannelsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDeliveryChannelsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchDeliveryChannelException" : self = .noSuchDeliveryChannelException(try NoSuchDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDeliveryChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchDeliveryChannelException": return try await NoSuchDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDeliveryChannelsOutputError: Swift.Error, Swift.Equatable {
-    case noSuchDeliveryChannelException(NoSuchDeliveryChannelException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDeliveryChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDeliveryChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliveryChannels = output.deliveryChannels
@@ -8305,7 +7887,7 @@ public struct DescribeDeliveryChannelsOutputResponse: Swift.Equatable {
     /// A list that contains the descriptions of the specified delivery channel.
     public var deliveryChannels: [ConfigClientTypes.DeliveryChannel]?
 
-    public init (
+    public init(
         deliveryChannels: [ConfigClientTypes.DeliveryChannel]? = nil
     )
     {
@@ -8322,7 +7904,7 @@ extension DescribeDeliveryChannelsOutputResponseBody: Swift.Decodable {
         case deliveryChannels = "DeliveryChannels"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryChannelsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.DeliveryChannel?].self, forKey: .deliveryChannels)
         var deliveryChannelsDecoded0:[ConfigClientTypes.DeliveryChannel]? = nil
@@ -8376,7 +7958,7 @@ public struct DescribeOrganizationConfigRuleStatusesInput: Swift.Equatable {
     /// The names of organization Config rules for which you want status details. If you do not specify any names, Config returns details for all your organization Config rules.
     public var organizationConfigRuleNames: [Swift.String]?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConfigRuleNames: [Swift.String]? = nil
@@ -8401,7 +7983,7 @@ extension DescribeOrganizationConfigRuleStatusesInputBody: Swift.Decodable {
         case organizationConfigRuleNames = "OrganizationConfigRuleNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .organizationConfigRuleNames)
         var organizationConfigRuleNamesDecoded0:[Swift.String]? = nil
@@ -8421,37 +8003,23 @@ extension DescribeOrganizationConfigRuleStatusesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeOrganizationConfigRuleStatusesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeOrganizationConfigRuleStatusesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchOrganizationConfigRuleException" : self = .noSuchOrganizationConfigRuleException(try NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeOrganizationConfigRuleStatusesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchOrganizationConfigRuleException": return try await NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeOrganizationConfigRuleStatusesOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchOrganizationConfigRuleException(NoSuchOrganizationConfigRuleException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeOrganizationConfigRuleStatusesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeOrganizationConfigRuleStatusesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8469,7 +8037,7 @@ public struct DescribeOrganizationConfigRuleStatusesOutputResponse: Swift.Equata
     /// A list of OrganizationConfigRuleStatus objects.
     public var organizationConfigRuleStatuses: [ConfigClientTypes.OrganizationConfigRuleStatus]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         organizationConfigRuleStatuses: [ConfigClientTypes.OrganizationConfigRuleStatus]? = nil
     )
@@ -8490,7 +8058,7 @@ extension DescribeOrganizationConfigRuleStatusesOutputResponseBody: Swift.Decoda
         case organizationConfigRuleStatuses = "OrganizationConfigRuleStatuses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleStatusesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.OrganizationConfigRuleStatus?].self, forKey: .organizationConfigRuleStatuses)
         var organizationConfigRuleStatusesDecoded0:[ConfigClientTypes.OrganizationConfigRuleStatus]? = nil
@@ -8546,7 +8114,7 @@ public struct DescribeOrganizationConfigRulesInput: Swift.Equatable {
     /// The names of organization Config rules for which you want details. If you do not specify any names, Config returns details for all your organization Config rules.
     public var organizationConfigRuleNames: [Swift.String]?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConfigRuleNames: [Swift.String]? = nil
@@ -8571,7 +8139,7 @@ extension DescribeOrganizationConfigRulesInputBody: Swift.Decodable {
         case organizationConfigRuleNames = "OrganizationConfigRuleNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .organizationConfigRuleNames)
         var organizationConfigRuleNamesDecoded0:[Swift.String]? = nil
@@ -8591,37 +8159,23 @@ extension DescribeOrganizationConfigRulesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeOrganizationConfigRulesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeOrganizationConfigRulesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchOrganizationConfigRuleException" : self = .noSuchOrganizationConfigRuleException(try NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeOrganizationConfigRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchOrganizationConfigRuleException": return try await NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeOrganizationConfigRulesOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchOrganizationConfigRuleException(NoSuchOrganizationConfigRuleException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeOrganizationConfigRulesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeOrganizationConfigRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8639,7 +8193,7 @@ public struct DescribeOrganizationConfigRulesOutputResponse: Swift.Equatable {
     /// Returns a list of OrganizationConfigRule objects.
     public var organizationConfigRules: [ConfigClientTypes.OrganizationConfigRule]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         organizationConfigRules: [ConfigClientTypes.OrganizationConfigRule]? = nil
     )
@@ -8660,7 +8214,7 @@ extension DescribeOrganizationConfigRulesOutputResponseBody: Swift.Decodable {
         case organizationConfigRules = "OrganizationConfigRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRulesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.OrganizationConfigRule?].self, forKey: .organizationConfigRules)
         var organizationConfigRulesDecoded0:[ConfigClientTypes.OrganizationConfigRule]? = nil
@@ -8716,7 +8270,7 @@ public struct DescribeOrganizationConformancePackStatusesInput: Swift.Equatable 
     /// The names of organization conformance packs for which you want status details. If you do not specify any names, Config returns details for all your organization conformance packs.
     public var organizationConformancePackNames: [Swift.String]?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConformancePackNames: [Swift.String]? = nil
@@ -8741,7 +8295,7 @@ extension DescribeOrganizationConformancePackStatusesInputBody: Swift.Decodable 
         case organizationConformancePackNames = "OrganizationConformancePackNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .organizationConformancePackNames)
         var organizationConformancePackNamesDecoded0:[Swift.String]? = nil
@@ -8761,37 +8315,23 @@ extension DescribeOrganizationConformancePackStatusesInputBody: Swift.Decodable 
     }
 }
 
-extension DescribeOrganizationConformancePackStatusesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeOrganizationConformancePackStatusesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchOrganizationConformancePackException" : self = .noSuchOrganizationConformancePackException(try NoSuchOrganizationConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeOrganizationConformancePackStatusesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchOrganizationConformancePackException": return try await NoSuchOrganizationConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeOrganizationConformancePackStatusesOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchOrganizationConformancePackException(NoSuchOrganizationConformancePackException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeOrganizationConformancePackStatusesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeOrganizationConformancePackStatusesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8809,7 +8349,7 @@ public struct DescribeOrganizationConformancePackStatusesOutputResponse: Swift.E
     /// A list of OrganizationConformancePackStatus objects.
     public var organizationConformancePackStatuses: [ConfigClientTypes.OrganizationConformancePackStatus]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         organizationConformancePackStatuses: [ConfigClientTypes.OrganizationConformancePackStatus]? = nil
     )
@@ -8830,7 +8370,7 @@ extension DescribeOrganizationConformancePackStatusesOutputResponseBody: Swift.D
         case organizationConformancePackStatuses = "OrganizationConformancePackStatuses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackStatusesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.OrganizationConformancePackStatus?].self, forKey: .organizationConformancePackStatuses)
         var organizationConformancePackStatusesDecoded0:[ConfigClientTypes.OrganizationConformancePackStatus]? = nil
@@ -8886,7 +8426,7 @@ public struct DescribeOrganizationConformancePacksInput: Swift.Equatable {
     /// The name that you assign to an organization conformance pack.
     public var organizationConformancePackNames: [Swift.String]?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConformancePackNames: [Swift.String]? = nil
@@ -8911,7 +8451,7 @@ extension DescribeOrganizationConformancePacksInputBody: Swift.Decodable {
         case organizationConformancePackNames = "OrganizationConformancePackNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .organizationConformancePackNames)
         var organizationConformancePackNamesDecoded0:[Swift.String]? = nil
@@ -8931,37 +8471,23 @@ extension DescribeOrganizationConformancePacksInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeOrganizationConformancePacksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeOrganizationConformancePacksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchOrganizationConformancePackException" : self = .noSuchOrganizationConformancePackException(try NoSuchOrganizationConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeOrganizationConformancePacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchOrganizationConformancePackException": return try await NoSuchOrganizationConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeOrganizationConformancePacksOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchOrganizationConformancePackException(NoSuchOrganizationConformancePackException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeOrganizationConformancePacksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeOrganizationConformancePacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8979,7 +8505,7 @@ public struct DescribeOrganizationConformancePacksOutputResponse: Swift.Equatabl
     /// Returns a list of OrganizationConformancePacks objects.
     public var organizationConformancePacks: [ConfigClientTypes.OrganizationConformancePack]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         organizationConformancePacks: [ConfigClientTypes.OrganizationConformancePack]? = nil
     )
@@ -9000,7 +8526,7 @@ extension DescribeOrganizationConformancePacksOutputResponseBody: Swift.Decodabl
         case organizationConformancePacks = "OrganizationConformancePacks"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePacksContainer = try containerValues.decodeIfPresent([ConfigClientTypes.OrganizationConformancePack?].self, forKey: .organizationConformancePacks)
         var organizationConformancePacksDecoded0:[ConfigClientTypes.OrganizationConformancePack]? = nil
@@ -9047,7 +8573,7 @@ public struct DescribePendingAggregationRequestsInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9068,7 +8594,7 @@ extension DescribePendingAggregationRequestsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
@@ -9077,35 +8603,22 @@ extension DescribePendingAggregationRequestsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribePendingAggregationRequestsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribePendingAggregationRequestsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribePendingAggregationRequestsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribePendingAggregationRequestsOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribePendingAggregationRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribePendingAggregationRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9123,7 +8636,7 @@ public struct DescribePendingAggregationRequestsOutputResponse: Swift.Equatable 
     /// Returns a PendingAggregationRequests object.
     public var pendingAggregationRequests: [ConfigClientTypes.PendingAggregationRequest]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pendingAggregationRequests: [ConfigClientTypes.PendingAggregationRequest]? = nil
     )
@@ -9144,7 +8657,7 @@ extension DescribePendingAggregationRequestsOutputResponseBody: Swift.Decodable 
         case pendingAggregationRequests = "PendingAggregationRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pendingAggregationRequestsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.PendingAggregationRequest?].self, forKey: .pendingAggregationRequests)
         var pendingAggregationRequestsDecoded0:[ConfigClientTypes.PendingAggregationRequest]? = nil
@@ -9189,7 +8702,7 @@ public struct DescribeRemediationConfigurationsInput: Swift.Equatable {
     /// This member is required.
     public var configRuleNames: [Swift.String]?
 
-    public init (
+    public init(
         configRuleNames: [Swift.String]? = nil
     )
     {
@@ -9206,7 +8719,7 @@ extension DescribeRemediationConfigurationsInputBody: Swift.Decodable {
         case configRuleNames = "ConfigRuleNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configRuleNames)
         var configRuleNamesDecoded0:[Swift.String]? = nil
@@ -9222,29 +8735,19 @@ extension DescribeRemediationConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeRemediationConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeRemediationConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeRemediationConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeRemediationConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeRemediationConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeRemediationConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.remediationConfigurations = output.remediationConfigurations
@@ -9258,7 +8761,7 @@ public struct DescribeRemediationConfigurationsOutputResponse: Swift.Equatable {
     /// Returns a remediation configuration object.
     public var remediationConfigurations: [ConfigClientTypes.RemediationConfiguration]?
 
-    public init (
+    public init(
         remediationConfigurations: [ConfigClientTypes.RemediationConfiguration]? = nil
     )
     {
@@ -9275,7 +8778,7 @@ extension DescribeRemediationConfigurationsOutputResponseBody: Swift.Decodable {
         case remediationConfigurations = "RemediationConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let remediationConfigurationsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.RemediationConfiguration?].self, forKey: .remediationConfigurations)
         var remediationConfigurationsDecoded0:[ConfigClientTypes.RemediationConfiguration]? = nil
@@ -9336,7 +8839,7 @@ public struct DescribeRemediationExceptionsInput: Swift.Equatable {
     /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys.
     public var resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -9365,7 +8868,7 @@ extension DescribeRemediationExceptionsInputBody: Swift.Decodable {
         case resourceKeys = "ResourceKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -9387,33 +8890,21 @@ extension DescribeRemediationExceptionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeRemediationExceptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeRemediationExceptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeRemediationExceptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeRemediationExceptionsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeRemediationExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeRemediationExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9431,7 +8922,7 @@ public struct DescribeRemediationExceptionsOutputResponse: Swift.Equatable {
     /// Returns a list of remediation exception objects.
     public var remediationExceptions: [ConfigClientTypes.RemediationException]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         remediationExceptions: [ConfigClientTypes.RemediationException]? = nil
     )
@@ -9452,7 +8943,7 @@ extension DescribeRemediationExceptionsOutputResponseBody: Swift.Decodable {
         case remediationExceptions = "RemediationExceptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let remediationExceptionsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.RemediationException?].self, forKey: .remediationExceptions)
         var remediationExceptionsDecoded0:[ConfigClientTypes.RemediationException]? = nil
@@ -9515,7 +9006,7 @@ public struct DescribeRemediationExecutionStatusInput: Swift.Equatable {
     /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
     public var resourceKeys: [ConfigClientTypes.ResourceKey]?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -9544,7 +9035,7 @@ extension DescribeRemediationExecutionStatusInputBody: Swift.Decodable {
         case resourceKeys = "ResourceKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -9566,35 +9057,22 @@ extension DescribeRemediationExecutionStatusInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeRemediationExecutionStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeRemediationExecutionStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchRemediationConfigurationException" : self = .noSuchRemediationConfigurationException(try NoSuchRemediationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeRemediationExecutionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchRemediationConfigurationException": return try await NoSuchRemediationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeRemediationExecutionStatusOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchRemediationConfigurationException(NoSuchRemediationConfigurationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeRemediationExecutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeRemediationExecutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9612,7 +9090,7 @@ public struct DescribeRemediationExecutionStatusOutputResponse: Swift.Equatable 
     /// Returns a list of remediation execution statuses objects.
     public var remediationExecutionStatuses: [ConfigClientTypes.RemediationExecutionStatus]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         remediationExecutionStatuses: [ConfigClientTypes.RemediationExecutionStatus]? = nil
     )
@@ -9633,7 +9111,7 @@ extension DescribeRemediationExecutionStatusOutputResponseBody: Swift.Decodable 
         case remediationExecutionStatuses = "RemediationExecutionStatuses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let remediationExecutionStatusesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.RemediationExecutionStatus?].self, forKey: .remediationExecutionStatuses)
         var remediationExecutionStatusesDecoded0:[ConfigClientTypes.RemediationExecutionStatus]? = nil
@@ -9683,7 +9161,7 @@ public struct DescribeRetentionConfigurationsInput: Swift.Equatable {
     /// A list of names of retention configurations for which you want details. If you do not specify a name, Config returns details for all the retention configurations for that account. Currently, Config supports only one retention configuration per region in your account.
     public var retentionConfigurationNames: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         retentionConfigurationNames: [Swift.String]? = nil
     )
@@ -9704,7 +9182,7 @@ extension DescribeRetentionConfigurationsInputBody: Swift.Decodable {
         case retentionConfigurationNames = "RetentionConfigurationNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retentionConfigurationNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .retentionConfigurationNames)
         var retentionConfigurationNamesDecoded0:[Swift.String]? = nil
@@ -9722,35 +9200,22 @@ extension DescribeRetentionConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeRetentionConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeRetentionConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchRetentionConfigurationException" : self = .noSuchRetentionConfigurationException(try NoSuchRetentionConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeRetentionConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchRetentionConfigurationException": return try await NoSuchRetentionConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeRetentionConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchRetentionConfigurationException(NoSuchRetentionConfigurationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeRetentionConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeRetentionConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9768,7 +9233,7 @@ public struct DescribeRetentionConfigurationsOutputResponse: Swift.Equatable {
     /// Returns a retention configuration object.
     public var retentionConfigurations: [ConfigClientTypes.RetentionConfiguration]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         retentionConfigurations: [ConfigClientTypes.RetentionConfiguration]? = nil
     )
@@ -9789,7 +9254,7 @@ extension DescribeRetentionConfigurationsOutputResponseBody: Swift.Decodable {
         case retentionConfigurations = "RetentionConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retentionConfigurationsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.RetentionConfiguration?].self, forKey: .retentionConfigurations)
         var retentionConfigurationsDecoded0:[ConfigClientTypes.RetentionConfiguration]? = nil
@@ -9835,7 +9300,7 @@ extension ConfigClientTypes.Evaluation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceResourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .complianceResourceType)
         complianceResourceType = complianceResourceTypeDecoded
@@ -9868,7 +9333,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var orderingTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             annotation: Swift.String? = nil,
             complianceResourceId: Swift.String? = nil,
             complianceResourceType: Swift.String? = nil,
@@ -9898,7 +9363,7 @@ extension ConfigClientTypes.EvaluationContext: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationContextIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationContextIdentifier)
         evaluationContextIdentifier = evaluationContextIdentifierDecoded
@@ -9911,7 +9376,7 @@ extension ConfigClientTypes {
         /// A unique EvaluationContextIdentifier ID for an EvaluationContext.
         public var evaluationContextIdentifier: Swift.String?
 
-        public init (
+        public init(
             evaluationContextIdentifier: Swift.String? = nil
         )
         {
@@ -9965,7 +9430,7 @@ extension ConfigClientTypes.EvaluationModeConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .mode)
         mode = modeDecoded
@@ -9978,7 +9443,7 @@ extension ConfigClientTypes {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public var mode: ConfigClientTypes.EvaluationMode?
 
-        public init (
+        public init(
             mode: ConfigClientTypes.EvaluationMode? = nil
         )
         {
@@ -10020,7 +9485,7 @@ extension ConfigClientTypes.EvaluationResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationResultIdentifierDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationResultIdentifier.self, forKey: .evaluationResultIdentifier)
         evaluationResultIdentifier = evaluationResultIdentifierDecoded
@@ -10053,7 +9518,7 @@ extension ConfigClientTypes {
         /// An encrypted token that associates an evaluation with an Config rule. The token identifies the rule, the Amazon Web Services resource being evaluated, and the event that triggered the evaluation.
         public var resultToken: Swift.String?
 
-        public init (
+        public init(
             annotation: Swift.String? = nil,
             complianceType: ConfigClientTypes.ComplianceType? = nil,
             configRuleInvokedTime: ClientRuntime.Date? = nil,
@@ -10093,7 +9558,7 @@ extension ConfigClientTypes.EvaluationResultIdentifier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationResultQualifierDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationResultQualifier.self, forKey: .evaluationResultQualifier)
         evaluationResultQualifier = evaluationResultQualifierDecoded
@@ -10114,7 +9579,7 @@ extension ConfigClientTypes {
         /// A Unique ID for an evaluation result.
         public var resourceEvaluationId: Swift.String?
 
-        public init (
+        public init(
             evaluationResultQualifier: ConfigClientTypes.EvaluationResultQualifier? = nil,
             orderingTimestamp: ClientRuntime.Date? = nil,
             resourceEvaluationId: Swift.String? = nil
@@ -10152,7 +9617,7 @@ extension ConfigClientTypes.EvaluationResultQualifier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -10177,7 +9642,7 @@ extension ConfigClientTypes {
         /// The type of Amazon Web Services resource that was evaluated.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             configRuleName: Swift.String? = nil,
             evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
             resourceId: Swift.String? = nil,
@@ -10209,7 +9674,7 @@ extension ConfigClientTypes.EvaluationStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceEvaluationStatus.self, forKey: .status)
         status = statusDecoded
@@ -10227,7 +9692,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var status: ConfigClientTypes.ResourceEvaluationStatus?
 
-        public init (
+        public init(
             failureReason: Swift.String? = nil,
             status: ConfigClientTypes.ResourceEvaluationStatus? = nil
         )
@@ -10268,6 +9733,53 @@ extension ConfigClientTypes {
     }
 }
 
+extension ConfigClientTypes.ExclusionByResourceTypes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceTypes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceTypes = resourceTypes {
+            var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
+            for resourcetype0 in resourceTypes {
+                try resourceTypesContainer.encode(resourcetype0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceTypesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ResourceType?].self, forKey: .resourceTypes)
+        var resourceTypesDecoded0:[ConfigClientTypes.ResourceType]? = nil
+        if let resourceTypesContainer = resourceTypesContainer {
+            resourceTypesDecoded0 = [ConfigClientTypes.ResourceType]()
+            for enum0 in resourceTypesContainer {
+                if let enum0 = enum0 {
+                    resourceTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        resourceTypes = resourceTypesDecoded0
+    }
+}
+
+extension ConfigClientTypes {
+    /// Specifies whether the configuration recorder excludes resource types from being recorded. Use the resourceTypes field to enter a comma-separated list of resource types to exclude as exemptions.
+    public struct ExclusionByResourceTypes: Swift.Equatable {
+        /// A comma-separated list of resource types to exclude from recording by the configuration recorder.
+        public var resourceTypes: [ConfigClientTypes.ResourceType]?
+
+        public init(
+            resourceTypes: [ConfigClientTypes.ResourceType]? = nil
+        )
+        {
+            self.resourceTypes = resourceTypes
+        }
+    }
+
+}
+
 extension ConfigClientTypes.ExecutionControls: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ssmControls = "SsmControls"
@@ -10280,7 +9792,7 @@ extension ConfigClientTypes.ExecutionControls: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ssmControlsDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.SsmControls.self, forKey: .ssmControls)
         ssmControls = ssmControlsDecoded
@@ -10293,7 +9805,7 @@ extension ConfigClientTypes {
         /// A SsmControls object.
         public var ssmControls: ConfigClientTypes.SsmControls?
 
-        public init (
+        public init(
             ssmControls: ConfigClientTypes.SsmControls? = nil
         )
         {
@@ -10331,7 +9843,7 @@ extension ConfigClientTypes.ExternalEvaluation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceResourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .complianceResourceType)
         complianceResourceType = complianceResourceTypeDecoded
@@ -10364,7 +9876,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var orderingTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             annotation: Swift.String? = nil,
             complianceResourceId: Swift.String? = nil,
             complianceResourceType: Swift.String? = nil,
@@ -10401,7 +9913,7 @@ extension ConfigClientTypes.FailedDeleteRemediationExceptionsBatch: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failureMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureMessage)
         failureMessage = failureMessageDecoded
@@ -10427,7 +9939,7 @@ extension ConfigClientTypes {
         /// Returns a failure message for delete remediation exception. For example, Config creates an exception due to an internal error.
         public var failureMessage: Swift.String?
 
-        public init (
+        public init(
             failedItems: [ConfigClientTypes.RemediationExceptionResourceKey]? = nil,
             failureMessage: Swift.String? = nil
         )
@@ -10458,7 +9970,7 @@ extension ConfigClientTypes.FailedRemediationBatch: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failureMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureMessage)
         failureMessage = failureMessageDecoded
@@ -10484,7 +9996,7 @@ extension ConfigClientTypes {
         /// Returns a failure message. For example, the resource is already compliant.
         public var failureMessage: Swift.String?
 
-        public init (
+        public init(
             failedItems: [ConfigClientTypes.RemediationConfiguration]? = nil,
             failureMessage: Swift.String? = nil
         )
@@ -10515,7 +10027,7 @@ extension ConfigClientTypes.FailedRemediationExceptionBatch: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failureMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureMessage)
         failureMessage = failureMessageDecoded
@@ -10541,7 +10053,7 @@ extension ConfigClientTypes {
         /// Returns a failure message. For example, the auto-remediation has failed.
         public var failureMessage: Swift.String?
 
-        public init (
+        public init(
             failedItems: [ConfigClientTypes.RemediationException]? = nil,
             failureMessage: Swift.String? = nil
         )
@@ -10565,7 +10077,7 @@ extension ConfigClientTypes.FieldInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -10578,7 +10090,7 @@ extension ConfigClientTypes {
         /// Name of the field.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -10651,7 +10163,7 @@ public struct GetAggregateComplianceDetailsByConfigRuleInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         awsRegion: Swift.String? = nil,
         complianceType: ConfigClientTypes.ComplianceType? = nil,
@@ -10692,7 +10204,7 @@ extension GetAggregateComplianceDetailsByConfigRuleInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -10711,37 +10223,23 @@ extension GetAggregateComplianceDetailsByConfigRuleInputBody: Swift.Decodable {
     }
 }
 
-extension GetAggregateComplianceDetailsByConfigRuleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAggregateComplianceDetailsByConfigRuleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAggregateComplianceDetailsByConfigRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAggregateComplianceDetailsByConfigRuleOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAggregateComplianceDetailsByConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAggregateComplianceDetailsByConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateEvaluationResults = output.aggregateEvaluationResults
@@ -10759,7 +10257,7 @@ public struct GetAggregateComplianceDetailsByConfigRuleOutputResponse: Swift.Equ
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aggregateEvaluationResults: [ConfigClientTypes.AggregateEvaluationResult]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10780,7 +10278,7 @@ extension GetAggregateComplianceDetailsByConfigRuleOutputResponseBody: Swift.Dec
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregateEvaluationResultsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.AggregateEvaluationResult?].self, forKey: .aggregateEvaluationResults)
         var aggregateEvaluationResultsDecoded0:[ConfigClientTypes.AggregateEvaluationResult]? = nil
@@ -10846,7 +10344,7 @@ public struct GetAggregateConfigRuleComplianceSummaryInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ConfigRuleComplianceSummaryFilters? = nil,
         groupByKey: ConfigClientTypes.ConfigRuleComplianceSummaryGroupKey? = nil,
@@ -10879,7 +10377,7 @@ extension GetAggregateConfigRuleComplianceSummaryInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -10894,37 +10392,23 @@ extension GetAggregateConfigRuleComplianceSummaryInputBody: Swift.Decodable {
     }
 }
 
-extension GetAggregateConfigRuleComplianceSummaryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAggregateConfigRuleComplianceSummaryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAggregateConfigRuleComplianceSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAggregateConfigRuleComplianceSummaryOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAggregateConfigRuleComplianceSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAggregateConfigRuleComplianceSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateComplianceCounts = output.aggregateComplianceCounts
@@ -10946,7 +10430,7 @@ public struct GetAggregateConfigRuleComplianceSummaryOutputResponse: Swift.Equat
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aggregateComplianceCounts: [ConfigClientTypes.AggregateComplianceCount]? = nil,
         groupByKey: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -10971,7 +10455,7 @@ extension GetAggregateConfigRuleComplianceSummaryOutputResponseBody: Swift.Decod
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupByKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupByKey)
         groupByKey = groupByKeyDecoded
@@ -11039,7 +10523,7 @@ public struct GetAggregateConformancePackComplianceSummaryInput: Swift.Equatable
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters? = nil,
         groupByKey: ConfigClientTypes.AggregateConformancePackComplianceSummaryGroupKey? = nil,
@@ -11072,7 +10556,7 @@ extension GetAggregateConformancePackComplianceSummaryInputBody: Swift.Decodable
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -11087,37 +10571,23 @@ extension GetAggregateConformancePackComplianceSummaryInputBody: Swift.Decodable
     }
 }
 
-extension GetAggregateConformancePackComplianceSummaryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAggregateConformancePackComplianceSummaryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAggregateConformancePackComplianceSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAggregateConformancePackComplianceSummaryOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAggregateConformancePackComplianceSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAggregateConformancePackComplianceSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateConformancePackComplianceSummaries = output.aggregateConformancePackComplianceSummaries
@@ -11139,7 +10609,7 @@ public struct GetAggregateConformancePackComplianceSummaryOutputResponse: Swift.
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aggregateConformancePackComplianceSummaries: [ConfigClientTypes.AggregateConformancePackComplianceSummary]? = nil,
         groupByKey: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -11164,7 +10634,7 @@ extension GetAggregateConformancePackComplianceSummaryOutputResponseBody: Swift.
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregateConformancePackComplianceSummariesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.AggregateConformancePackComplianceSummary?].self, forKey: .aggregateConformancePackComplianceSummaries)
         var aggregateConformancePackComplianceSummariesDecoded0:[ConfigClientTypes.AggregateConformancePackComplianceSummary]? = nil
@@ -11232,7 +10702,7 @@ public struct GetAggregateDiscoveredResourceCountsInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ResourceCountFilters? = nil,
         groupByKey: ConfigClientTypes.ResourceCountGroupKey? = nil,
@@ -11265,7 +10735,7 @@ extension GetAggregateDiscoveredResourceCountsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -11280,37 +10750,23 @@ extension GetAggregateDiscoveredResourceCountsInputBody: Swift.Decodable {
     }
 }
 
-extension GetAggregateDiscoveredResourceCountsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAggregateDiscoveredResourceCountsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAggregateDiscoveredResourceCountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAggregateDiscoveredResourceCountsOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAggregateDiscoveredResourceCountsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAggregateDiscoveredResourceCountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupByKey = output.groupByKey
@@ -11337,7 +10793,7 @@ public struct GetAggregateDiscoveredResourceCountsOutputResponse: Swift.Equatabl
     /// This member is required.
     public var totalDiscoveredResources: Swift.Int
 
-    public init (
+    public init(
         groupByKey: Swift.String? = nil,
         groupedResourceCounts: [ConfigClientTypes.GroupedResourceCount]? = nil,
         nextToken: Swift.String? = nil,
@@ -11366,7 +10822,7 @@ extension GetAggregateDiscoveredResourceCountsOutputResponseBody: Swift.Decodabl
         case totalDiscoveredResources = "TotalDiscoveredResources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let totalDiscoveredResourcesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalDiscoveredResources) ?? 0
         totalDiscoveredResources = totalDiscoveredResourcesDecoded
@@ -11419,7 +10875,7 @@ public struct GetAggregateResourceConfigInput: Swift.Equatable {
     /// This member is required.
     public var resourceIdentifier: ConfigClientTypes.AggregateResourceIdentifier?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         resourceIdentifier: ConfigClientTypes.AggregateResourceIdentifier? = nil
     )
@@ -11440,7 +10896,7 @@ extension GetAggregateResourceConfigInputBody: Swift.Decodable {
         case resourceIdentifier = "ResourceIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -11449,37 +10905,23 @@ extension GetAggregateResourceConfigInputBody: Swift.Decodable {
     }
 }
 
-extension GetAggregateResourceConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAggregateResourceConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OversizedConfigurationItemException" : self = .oversizedConfigurationItemException(try OversizedConfigurationItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotDiscoveredException" : self = .resourceNotDiscoveredException(try ResourceNotDiscoveredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAggregateResourceConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OversizedConfigurationItemException": return try await OversizedConfigurationItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotDiscoveredException": return try await ResourceNotDiscoveredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAggregateResourceConfigOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case oversizedConfigurationItemException(OversizedConfigurationItemException)
-    case resourceNotDiscoveredException(ResourceNotDiscoveredException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAggregateResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAggregateResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationItem = output.configurationItem
@@ -11493,7 +10935,7 @@ public struct GetAggregateResourceConfigOutputResponse: Swift.Equatable {
     /// Returns a ConfigurationItem object.
     public var configurationItem: ConfigClientTypes.ConfigurationItem?
 
-    public init (
+    public init(
         configurationItem: ConfigClientTypes.ConfigurationItem? = nil
     )
     {
@@ -11510,7 +10952,7 @@ extension GetAggregateResourceConfigOutputResponseBody: Swift.Decodable {
         case configurationItem = "ConfigurationItem"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationItemDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConfigurationItem.self, forKey: .configurationItem)
         configurationItem = configurationItemDecoded
@@ -11563,7 +11005,7 @@ public struct GetComplianceDetailsByConfigRuleInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
         configRuleName: Swift.String? = nil,
         limit: Swift.Int? = nil,
@@ -11592,7 +11034,7 @@ extension GetComplianceDetailsByConfigRuleInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -11614,35 +11056,22 @@ extension GetComplianceDetailsByConfigRuleInputBody: Swift.Decodable {
     }
 }
 
-extension GetComplianceDetailsByConfigRuleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetComplianceDetailsByConfigRuleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetComplianceDetailsByConfigRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetComplianceDetailsByConfigRuleOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetComplianceDetailsByConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetComplianceDetailsByConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluationResults = output.evaluationResults
@@ -11661,7 +11090,7 @@ public struct GetComplianceDetailsByConfigRuleOutputResponse: Swift.Equatable {
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         evaluationResults: [ConfigClientTypes.EvaluationResult]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -11682,7 +11111,7 @@ extension GetComplianceDetailsByConfigRuleOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationResultsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.EvaluationResult?].self, forKey: .evaluationResults)
         var evaluationResultsDecoded0:[ConfigClientTypes.EvaluationResult]? = nil
@@ -11751,7 +11180,7 @@ public struct GetComplianceDetailsByResourceInput: Swift.Equatable {
     /// The type of the Amazon Web Services resource for which you want compliance information.
     public var resourceType: Swift.String?
 
-    public init (
+    public init(
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
         nextToken: Swift.String? = nil,
         resourceEvaluationId: Swift.String? = nil,
@@ -11784,7 +11213,7 @@ extension GetComplianceDetailsByResourceInputBody: Swift.Decodable {
         case resourceType = "ResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -11808,31 +11237,20 @@ extension GetComplianceDetailsByResourceInputBody: Swift.Decodable {
     }
 }
 
-extension GetComplianceDetailsByResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetComplianceDetailsByResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetComplianceDetailsByResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetComplianceDetailsByResourceOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetComplianceDetailsByResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetComplianceDetailsByResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluationResults = output.evaluationResults
@@ -11851,7 +11269,7 @@ public struct GetComplianceDetailsByResourceOutputResponse: Swift.Equatable {
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         evaluationResults: [ConfigClientTypes.EvaluationResult]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -11872,7 +11290,7 @@ extension GetComplianceDetailsByResourceOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationResultsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.EvaluationResult?].self, forKey: .evaluationResults)
         var evaluationResultsDecoded0:[ConfigClientTypes.EvaluationResult]? = nil
@@ -11906,7 +11324,7 @@ extension GetComplianceSummaryByConfigRuleInput: ClientRuntime.URLPathProvider {
 
 public struct GetComplianceSummaryByConfigRuleInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetComplianceSummaryByConfigRuleInputBody: Swift.Equatable {
@@ -11914,33 +11332,23 @@ struct GetComplianceSummaryByConfigRuleInputBody: Swift.Equatable {
 
 extension GetComplianceSummaryByConfigRuleInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetComplianceSummaryByConfigRuleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetComplianceSummaryByConfigRuleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetComplianceSummaryByConfigRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetComplianceSummaryByConfigRuleOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetComplianceSummaryByConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetComplianceSummaryByConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.complianceSummary = output.complianceSummary
@@ -11955,7 +11363,7 @@ public struct GetComplianceSummaryByConfigRuleOutputResponse: Swift.Equatable {
     /// The number of Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
     public var complianceSummary: ConfigClientTypes.ComplianceSummary?
 
-    public init (
+    public init(
         complianceSummary: ConfigClientTypes.ComplianceSummary? = nil
     )
     {
@@ -11972,7 +11380,7 @@ extension GetComplianceSummaryByConfigRuleOutputResponseBody: Swift.Decodable {
         case complianceSummary = "ComplianceSummary"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceSummaryDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ComplianceSummary.self, forKey: .complianceSummary)
         complianceSummary = complianceSummaryDecoded
@@ -12006,7 +11414,7 @@ public struct GetComplianceSummaryByResourceTypeInput: Swift.Equatable {
     /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an Amazon Web Services resource type such as AWS::EC2::Instance. You can specify that the resource type is an Amazon Web Services account by specifying AWS::::Account.
     public var resourceTypes: [Swift.String]?
 
-    public init (
+    public init(
         resourceTypes: [Swift.String]? = nil
     )
     {
@@ -12023,7 +11431,7 @@ extension GetComplianceSummaryByResourceTypeInputBody: Swift.Decodable {
         case resourceTypes = "ResourceTypes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceTypes)
         var resourceTypesDecoded0:[Swift.String]? = nil
@@ -12039,31 +11447,20 @@ extension GetComplianceSummaryByResourceTypeInputBody: Swift.Decodable {
     }
 }
 
-extension GetComplianceSummaryByResourceTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetComplianceSummaryByResourceTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetComplianceSummaryByResourceTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetComplianceSummaryByResourceTypeOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetComplianceSummaryByResourceTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetComplianceSummaryByResourceTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.complianceSummariesByResourceType = output.complianceSummariesByResourceType
@@ -12078,7 +11475,7 @@ public struct GetComplianceSummaryByResourceTypeOutputResponse: Swift.Equatable 
     /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
     public var complianceSummariesByResourceType: [ConfigClientTypes.ComplianceSummaryByResourceType]?
 
-    public init (
+    public init(
         complianceSummariesByResourceType: [ConfigClientTypes.ComplianceSummaryByResourceType]? = nil
     )
     {
@@ -12095,7 +11492,7 @@ extension GetComplianceSummaryByResourceTypeOutputResponseBody: Swift.Decodable 
         case complianceSummariesByResourceType = "ComplianceSummariesByResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceSummariesByResourceTypeContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ComplianceSummaryByResourceType?].self, forKey: .complianceSummariesByResourceType)
         var complianceSummariesByResourceTypeDecoded0:[ConfigClientTypes.ComplianceSummaryByResourceType]? = nil
@@ -12153,7 +11550,7 @@ public struct GetConformancePackComplianceDetailsInput: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackName: Swift.String? = nil,
         filters: ConfigClientTypes.ConformancePackEvaluationFilters? = nil,
         limit: Swift.Int? = nil,
@@ -12182,7 +11579,7 @@ extension GetConformancePackComplianceDetailsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -12195,39 +11592,24 @@ extension GetConformancePackComplianceDetailsInputBody: Swift.Decodable {
     }
 }
 
-extension GetConformancePackComplianceDetailsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetConformancePackComplianceDetailsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleInConformancePackException" : self = .noSuchConfigRuleInConformancePackException(try NoSuchConfigRuleInConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConformancePackException" : self = .noSuchConformancePackException(try NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetConformancePackComplianceDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleInConformancePackException": return try await NoSuchConfigRuleInConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConformancePackException": return try await NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetConformancePackComplianceDetailsOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigRuleInConformancePackException(NoSuchConfigRuleInConformancePackException)
-    case noSuchConformancePackException(NoSuchConformancePackException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetConformancePackComplianceDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetConformancePackComplianceDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackName = output.conformancePackName
@@ -12250,7 +11632,7 @@ public struct GetConformancePackComplianceDetailsOutputResponse: Swift.Equatable
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackName: Swift.String? = nil,
         conformancePackRuleEvaluationResults: [ConfigClientTypes.ConformancePackEvaluationResult]? = nil,
         nextToken: Swift.String? = nil
@@ -12275,7 +11657,7 @@ extension GetConformancePackComplianceDetailsOutputResponseBody: Swift.Decodable
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -12334,7 +11716,7 @@ public struct GetConformancePackComplianceSummaryInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackNames: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -12359,7 +11741,7 @@ extension GetConformancePackComplianceSummaryInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .conformancePackNames)
         var conformancePackNamesDecoded0:[Swift.String]? = nil
@@ -12379,35 +11761,22 @@ extension GetConformancePackComplianceSummaryInputBody: Swift.Decodable {
     }
 }
 
-extension GetConformancePackComplianceSummaryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetConformancePackComplianceSummaryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConformancePackException" : self = .noSuchConformancePackException(try NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetConformancePackComplianceSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConformancePackException": return try await NoSuchConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetConformancePackComplianceSummaryOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConformancePackException(NoSuchConformancePackException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetConformancePackComplianceSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetConformancePackComplianceSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackComplianceSummaryList = output.conformancePackComplianceSummaryList
@@ -12425,7 +11794,7 @@ public struct GetConformancePackComplianceSummaryOutputResponse: Swift.Equatable
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackComplianceSummaryList: [ConfigClientTypes.ConformancePackComplianceSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -12446,7 +11815,7 @@ extension GetConformancePackComplianceSummaryOutputResponseBody: Swift.Decodable
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackComplianceSummaryListContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConformancePackComplianceSummary?].self, forKey: .conformancePackComplianceSummaryList)
         var conformancePackComplianceSummaryListDecoded0:[ConfigClientTypes.ConformancePackComplianceSummary]? = nil
@@ -12487,7 +11856,7 @@ public struct GetCustomRulePolicyInput: Swift.Equatable {
     /// The name of your Config Custom Policy rule.
     public var configRuleName: Swift.String?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil
     )
     {
@@ -12504,38 +11873,27 @@ extension GetCustomRulePolicyInputBody: Swift.Decodable {
         case configRuleName = "ConfigRuleName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
     }
 }
 
-extension GetCustomRulePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetCustomRulePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetCustomRulePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetCustomRulePolicyOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetCustomRulePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetCustomRulePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyText = output.policyText
@@ -12549,7 +11907,7 @@ public struct GetCustomRulePolicyOutputResponse: Swift.Equatable {
     /// The policy definition containing the logic for your Config Custom Policy rule.
     public var policyText: Swift.String?
 
-    public init (
+    public init(
         policyText: Swift.String? = nil
     )
     {
@@ -12566,7 +11924,7 @@ extension GetCustomRulePolicyOutputResponseBody: Swift.Decodable {
         case policyText = "PolicyText"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyText)
         policyText = policyTextDecoded
@@ -12611,7 +11969,7 @@ public struct GetDiscoveredResourceCountsInput: Swift.Equatable {
     /// The comma-separated list that specifies the resource types that you want Config to return (for example, "AWS::EC2::Instance", "AWS::IAM::User"). If a value for resourceTypes is not specified, Config returns all resource types that Config is recording in the region for your account. If the configuration recorder is turned off, Config returns an empty list of [ResourceCount] objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of [ResourceCount] objects.
     public var resourceTypes: [Swift.String]?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil
@@ -12636,7 +11994,7 @@ extension GetDiscoveredResourceCountsInputBody: Swift.Decodable {
         case resourceTypes
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceTypes)
         var resourceTypesDecoded0:[Swift.String]? = nil
@@ -12656,35 +12014,22 @@ extension GetDiscoveredResourceCountsInputBody: Swift.Decodable {
     }
 }
 
-extension GetDiscoveredResourceCountsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDiscoveredResourceCountsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDiscoveredResourceCountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDiscoveredResourceCountsOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDiscoveredResourceCountsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDiscoveredResourceCountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -12712,7 +12057,7 @@ public struct GetDiscoveredResourceCountsOutputResponse: Swift.Equatable {
     /// * Config returns 25 for totalDiscoveredResources.
     public var totalDiscoveredResources: Swift.Int
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceCounts: [ConfigClientTypes.ResourceCount]? = nil,
         totalDiscoveredResources: Swift.Int = 0
@@ -12737,7 +12082,7 @@ extension GetDiscoveredResourceCountsOutputResponseBody: Swift.Decodable {
         case totalDiscoveredResources
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let totalDiscoveredResourcesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalDiscoveredResources) ?? 0
         totalDiscoveredResources = totalDiscoveredResourcesDecoded
@@ -12799,7 +12144,7 @@ public struct GetOrganizationConfigRuleDetailedStatusInput: Swift.Equatable {
     /// This member is required.
     public var organizationConfigRuleName: Swift.String?
 
-    public init (
+    public init(
         filters: ConfigClientTypes.StatusDetailFilters? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -12828,7 +12173,7 @@ extension GetOrganizationConfigRuleDetailedStatusInputBody: Swift.Decodable {
         case organizationConfigRuleName = "OrganizationConfigRuleName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConfigRuleName)
         organizationConfigRuleName = organizationConfigRuleNameDecoded
@@ -12841,37 +12186,23 @@ extension GetOrganizationConfigRuleDetailedStatusInputBody: Swift.Decodable {
     }
 }
 
-extension GetOrganizationConfigRuleDetailedStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetOrganizationConfigRuleDetailedStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchOrganizationConfigRuleException" : self = .noSuchOrganizationConfigRuleException(try NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetOrganizationConfigRuleDetailedStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchOrganizationConfigRuleException": return try await NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetOrganizationConfigRuleDetailedStatusOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchOrganizationConfigRuleException(NoSuchOrganizationConfigRuleException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetOrganizationConfigRuleDetailedStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetOrganizationConfigRuleDetailedStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -12889,7 +12220,7 @@ public struct GetOrganizationConfigRuleDetailedStatusOutputResponse: Swift.Equat
     /// A list of MemberAccountStatus objects.
     public var organizationConfigRuleDetailedStatus: [ConfigClientTypes.MemberAccountStatus]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         organizationConfigRuleDetailedStatus: [ConfigClientTypes.MemberAccountStatus]? = nil
     )
@@ -12910,7 +12241,7 @@ extension GetOrganizationConfigRuleDetailedStatusOutputResponseBody: Swift.Decod
         case organizationConfigRuleDetailedStatus = "OrganizationConfigRuleDetailedStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleDetailedStatusContainer = try containerValues.decodeIfPresent([ConfigClientTypes.MemberAccountStatus?].self, forKey: .organizationConfigRuleDetailedStatus)
         var organizationConfigRuleDetailedStatusDecoded0:[ConfigClientTypes.MemberAccountStatus]? = nil
@@ -12970,7 +12301,7 @@ public struct GetOrganizationConformancePackDetailedStatusInput: Swift.Equatable
     /// This member is required.
     public var organizationConformancePackName: Swift.String?
 
-    public init (
+    public init(
         filters: ConfigClientTypes.OrganizationResourceDetailedStatusFilters? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -12999,7 +12330,7 @@ extension GetOrganizationConformancePackDetailedStatusInputBody: Swift.Decodable
         case organizationConformancePackName = "OrganizationConformancePackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConformancePackName)
         organizationConformancePackName = organizationConformancePackNameDecoded
@@ -13012,37 +12343,23 @@ extension GetOrganizationConformancePackDetailedStatusInputBody: Swift.Decodable
     }
 }
 
-extension GetOrganizationConformancePackDetailedStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetOrganizationConformancePackDetailedStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchOrganizationConformancePackException" : self = .noSuchOrganizationConformancePackException(try NoSuchOrganizationConformancePackException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetOrganizationConformancePackDetailedStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchOrganizationConformancePackException": return try await NoSuchOrganizationConformancePackException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetOrganizationConformancePackDetailedStatusOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchOrganizationConformancePackException(NoSuchOrganizationConformancePackException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetOrganizationConformancePackDetailedStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetOrganizationConformancePackDetailedStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -13060,7 +12377,7 @@ public struct GetOrganizationConformancePackDetailedStatusOutputResponse: Swift.
     /// A list of OrganizationConformancePackDetailedStatus objects.
     public var organizationConformancePackDetailedStatuses: [ConfigClientTypes.OrganizationConformancePackDetailedStatus]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         organizationConformancePackDetailedStatuses: [ConfigClientTypes.OrganizationConformancePackDetailedStatus]? = nil
     )
@@ -13081,7 +12398,7 @@ extension GetOrganizationConformancePackDetailedStatusOutputResponseBody: Swift.
         case organizationConformancePackDetailedStatuses = "OrganizationConformancePackDetailedStatuses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackDetailedStatusesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.OrganizationConformancePackDetailedStatus?].self, forKey: .organizationConformancePackDetailedStatuses)
         var organizationConformancePackDetailedStatusesDecoded0:[ConfigClientTypes.OrganizationConformancePackDetailedStatus]? = nil
@@ -13123,7 +12440,7 @@ public struct GetOrganizationCustomRulePolicyInput: Swift.Equatable {
     /// This member is required.
     public var organizationConfigRuleName: Swift.String?
 
-    public init (
+    public init(
         organizationConfigRuleName: Swift.String? = nil
     )
     {
@@ -13140,40 +12457,28 @@ extension GetOrganizationCustomRulePolicyInputBody: Swift.Decodable {
         case organizationConfigRuleName = "OrganizationConfigRuleName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConfigRuleName)
         organizationConfigRuleName = organizationConfigRuleNameDecoded
     }
 }
 
-extension GetOrganizationCustomRulePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetOrganizationCustomRulePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchOrganizationConfigRuleException" : self = .noSuchOrganizationConfigRuleException(try NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetOrganizationCustomRulePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchOrganizationConfigRuleException": return try await NoSuchOrganizationConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetOrganizationCustomRulePolicyOutputError: Swift.Error, Swift.Equatable {
-    case noSuchOrganizationConfigRuleException(NoSuchOrganizationConfigRuleException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetOrganizationCustomRulePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetOrganizationCustomRulePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyText = output.policyText
@@ -13187,7 +12492,7 @@ public struct GetOrganizationCustomRulePolicyOutputResponse: Swift.Equatable {
     /// The policy definition containing the logic for your organization Config Custom Policy rule.
     public var policyText: Swift.String?
 
-    public init (
+    public init(
         policyText: Swift.String? = nil
     )
     {
@@ -13204,7 +12509,7 @@ extension GetOrganizationCustomRulePolicyOutputResponseBody: Swift.Decodable {
         case policyText = "PolicyText"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyText)
         policyText = policyTextDecoded
@@ -13273,7 +12578,7 @@ public struct GetResourceConfigHistoryInput: Swift.Equatable {
     /// This member is required.
     public var resourceType: ConfigClientTypes.ResourceType?
 
-    public init (
+    public init(
         chronologicalOrder: ConfigClientTypes.ChronologicalOrder? = nil,
         earlierTime: ClientRuntime.Date? = nil,
         laterTime: ClientRuntime.Date? = nil,
@@ -13314,7 +12619,7 @@ extension GetResourceConfigHistoryInputBody: Swift.Decodable {
         case resourceType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -13333,41 +12638,25 @@ extension GetResourceConfigHistoryInputBody: Swift.Decodable {
     }
 }
 
-extension GetResourceConfigHistoryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetResourceConfigHistoryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTimeRangeException" : self = .invalidTimeRangeException(try InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoAvailableConfigurationRecorderException" : self = .noAvailableConfigurationRecorderException(try NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotDiscoveredException" : self = .resourceNotDiscoveredException(try ResourceNotDiscoveredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetResourceConfigHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTimeRangeException": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoAvailableConfigurationRecorderException": return try await NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotDiscoveredException": return try await ResourceNotDiscoveredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetResourceConfigHistoryOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidTimeRangeException(InvalidTimeRangeException)
-    case noAvailableConfigurationRecorderException(NoAvailableConfigurationRecorderException)
-    case resourceNotDiscoveredException(ResourceNotDiscoveredException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetResourceConfigHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetResourceConfigHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationItems = output.configurationItems
@@ -13386,7 +12675,7 @@ public struct GetResourceConfigHistoryOutputResponse: Swift.Equatable {
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationItems: [ConfigClientTypes.ConfigurationItem]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -13407,7 +12696,7 @@ extension GetResourceConfigHistoryOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationItemsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ConfigurationItem?].self, forKey: .configurationItems)
         var configurationItemsDecoded0:[ConfigClientTypes.ConfigurationItem]? = nil
@@ -13449,7 +12738,7 @@ public struct GetResourceEvaluationSummaryInput: Swift.Equatable {
     /// This member is required.
     public var resourceEvaluationId: Swift.String?
 
-    public init (
+    public init(
         resourceEvaluationId: Swift.String? = nil
     )
     {
@@ -13466,38 +12755,27 @@ extension GetResourceEvaluationSummaryInputBody: Swift.Decodable {
         case resourceEvaluationId = "ResourceEvaluationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
         resourceEvaluationId = resourceEvaluationIdDecoded
     }
 }
 
-extension GetResourceEvaluationSummaryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetResourceEvaluationSummaryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetResourceEvaluationSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetResourceEvaluationSummaryOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetResourceEvaluationSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetResourceEvaluationSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compliance = output.compliance
@@ -13535,7 +12813,7 @@ public struct GetResourceEvaluationSummaryOutputResponse: Swift.Equatable {
     /// The unique ResourceEvaluationId of Amazon Web Services resource execution for which you want to retrieve the evaluation summary.
     public var resourceEvaluationId: Swift.String?
 
-    public init (
+    public init(
         compliance: ConfigClientTypes.ComplianceType? = nil,
         evaluationContext: ConfigClientTypes.EvaluationContext? = nil,
         evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
@@ -13576,7 +12854,7 @@ extension GetResourceEvaluationSummaryOutputResponseBody: Swift.Decodable {
         case resourceEvaluationId = "ResourceEvaluationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
         resourceEvaluationId = resourceEvaluationIdDecoded
@@ -13619,7 +12897,7 @@ public struct GetStoredQueryInput: Swift.Equatable {
     /// This member is required.
     public var queryName: Swift.String?
 
-    public init (
+    public init(
         queryName: Swift.String? = nil
     )
     {
@@ -13636,40 +12914,28 @@ extension GetStoredQueryInputBody: Swift.Decodable {
         case queryName = "QueryName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryName)
         queryName = queryNameDecoded
     }
 }
 
-extension GetStoredQueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetStoredQueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetStoredQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetStoredQueryOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetStoredQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetStoredQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.storedQuery = output.storedQuery
@@ -13683,7 +12949,7 @@ public struct GetStoredQueryOutputResponse: Swift.Equatable {
     /// Returns a StoredQuery object.
     public var storedQuery: ConfigClientTypes.StoredQuery?
 
-    public init (
+    public init(
         storedQuery: ConfigClientTypes.StoredQuery? = nil
     )
     {
@@ -13700,7 +12966,7 @@ extension GetStoredQueryOutputResponseBody: Swift.Decodable {
         case storedQuery = "StoredQuery"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storedQueryDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.StoredQuery.self, forKey: .storedQuery)
         storedQuery = storedQueryDecoded
@@ -13723,7 +12989,7 @@ extension ConfigClientTypes.GroupedResourceCount: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -13742,7 +13008,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var resourceCount: Swift.Int
 
-        public init (
+        public init(
             groupName: Swift.String? = nil,
             resourceCount: Swift.Int = 0
         )
@@ -13755,37 +13021,41 @@ extension ConfigClientTypes {
 }
 
 extension IdempotentParameterMismatch {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IdempotentParameterMismatchBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Using the same client token with one or more different parameters. Specify a new client token with the parameter changes and try again.
-public struct IdempotentParameterMismatch: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IdempotentParameterMismatch" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13798,7 +13068,7 @@ extension IdempotentParameterMismatchBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13806,38 +13076,42 @@ extension IdempotentParameterMismatchBody: Swift.Decodable {
 }
 
 extension InsufficientDeliveryPolicyException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InsufficientDeliveryPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Your Amazon S3 bucket policy does not permit Config to write to it.
-public struct InsufficientDeliveryPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientDeliveryPolicyException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13850,7 +13124,7 @@ extension InsufficientDeliveryPolicyExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13858,18 +13132,17 @@ extension InsufficientDeliveryPolicyExceptionBody: Swift.Decodable {
 }
 
 extension InsufficientPermissionsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InsufficientPermissionsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -13886,22 +13159,27 @@ extension InsufficientPermissionsException {
 /// * You do not have permission to call IAM GetRole action or create a service-linked role.
 ///
 /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
-public struct InsufficientPermissionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientPermissionsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13914,7 +13192,7 @@ extension InsufficientPermissionsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13922,38 +13200,42 @@ extension InsufficientPermissionsExceptionBody: Swift.Decodable {
 }
 
 extension InvalidConfigurationRecorderNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidConfigurationRecorderNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-/// You have provided a configuration recorder name that is not valid.
-public struct InvalidConfigurationRecorderNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+/// You have provided a name for the configuration recorder that is not valid.
+public struct InvalidConfigurationRecorderNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidConfigurationRecorderNameException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13966,7 +13248,7 @@ extension InvalidConfigurationRecorderNameExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13974,38 +13256,42 @@ extension InvalidConfigurationRecorderNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeliveryChannelNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeliveryChannelNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified delivery channel name is not valid.
-public struct InvalidDeliveryChannelNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidDeliveryChannelNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeliveryChannelNameException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14018,7 +13304,7 @@ extension InvalidDeliveryChannelNameExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14026,38 +13312,42 @@ extension InvalidDeliveryChannelNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidExpressionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidExpressionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The syntax of the query is incorrect.
-public struct InvalidExpressionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidExpressionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidExpressionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14070,7 +13360,7 @@ extension InvalidExpressionExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14078,38 +13368,42 @@ extension InvalidExpressionExceptionBody: Swift.Decodable {
 }
 
 extension InvalidLimitException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidLimitExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified limit is outside the allowable range.
-public struct InvalidLimitException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidLimitException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14122,7 +13416,7 @@ extension InvalidLimitExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14130,38 +13424,42 @@ extension InvalidLimitExceptionBody: Swift.Decodable {
 }
 
 extension InvalidNextTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextTokenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14174,7 +13472,7 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14182,38 +13480,42 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 }
 
 extension InvalidParameterValueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterValueException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14226,7 +13528,7 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14234,38 +13536,57 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRecordingGroupException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRecordingGroupExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-/// Config throws an exception if the recording group does not contain a valid list of resource types. Values that are not valid might also be incorrectly formatted.
-public struct InvalidRecordingGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+/// Indicates one of the following errors:
+///
+/// * You have provided a combination of parameter values that is not valid. For example:
+///
+/// * Setting the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true, but providing a non-empty list for the resourceTypesfield of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
+///
+/// * Setting the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true, but also setting the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES.
+///
+///
+///
+///
+/// * Every parameter is either null, false, or empty.
+///
+/// * You have reached the limit of the number of resource types you can provide for the recording group.
+///
+/// * You have provided resource types or a recording strategy that are not valid.
+public struct InvalidRecordingGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRecordingGroupException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14278,7 +13599,7 @@ extension InvalidRecordingGroupExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14286,38 +13607,42 @@ extension InvalidRecordingGroupExceptionBody: Swift.Decodable {
 }
 
 extension InvalidResultTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidResultTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified ResultToken is not valid.
-public struct InvalidResultTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidResultTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResultTokenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14330,7 +13655,7 @@ extension InvalidResultTokenExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14338,38 +13663,42 @@ extension InvalidResultTokenExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRoleException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRoleExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-/// You have provided a null or empty role ARN.
-public struct InvalidRoleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+/// You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the configuration recorder.
+public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRoleException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14382,7 +13711,7 @@ extension InvalidRoleExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14390,38 +13719,42 @@ extension InvalidRoleExceptionBody: Swift.Decodable {
 }
 
 extension InvalidS3KeyPrefixException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidS3KeyPrefixExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified Amazon S3 key prefix is not valid.
-public struct InvalidS3KeyPrefixException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidS3KeyPrefixException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidS3KeyPrefixException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14434,7 +13767,7 @@ extension InvalidS3KeyPrefixExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14442,38 +13775,42 @@ extension InvalidS3KeyPrefixExceptionBody: Swift.Decodable {
 }
 
 extension InvalidS3KmsKeyArnException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidS3KmsKeyArnExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified Amazon KMS Key ARN is not valid.
-public struct InvalidS3KmsKeyArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidS3KmsKeyArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidS3KmsKeyArnException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14486,7 +13823,7 @@ extension InvalidS3KmsKeyArnExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14494,38 +13831,42 @@ extension InvalidS3KmsKeyArnExceptionBody: Swift.Decodable {
 }
 
 extension InvalidSNSTopicARNException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidSNSTopicARNExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified Amazon SNS topic does not exist.
-public struct InvalidSNSTopicARNException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidSNSTopicARNException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSNSTopicARNException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14538,7 +13879,7 @@ extension InvalidSNSTopicARNExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14546,38 +13887,42 @@ extension InvalidSNSTopicARNExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTimeRangeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTimeRangeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified time range is not valid. The earlier time is not chronologically before the later time.
-public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTimeRangeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14590,7 +13935,7 @@ extension InvalidTimeRangeExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14598,38 +13943,42 @@ extension InvalidTimeRangeExceptionBody: Swift.Decodable {
 }
 
 extension LastDeliveryChannelDeleteFailedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LastDeliveryChannelDeleteFailedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You cannot delete the delivery channel you specified because the configuration recorder is running.
-public struct LastDeliveryChannelDeleteFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct LastDeliveryChannelDeleteFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LastDeliveryChannelDeleteFailedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14642,7 +13991,7 @@ extension LastDeliveryChannelDeleteFailedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14650,38 +13999,42 @@ extension LastDeliveryChannelDeleteFailedExceptionBody: Swift.Decodable {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14694,7 +14047,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14750,7 +14103,7 @@ public struct ListAggregateDiscoveredResourcesInput: Swift.Equatable {
     /// This member is required.
     public var resourceType: ConfigClientTypes.ResourceType?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ResourceFilters? = nil,
         limit: Swift.Int? = nil,
@@ -14783,7 +14136,7 @@ extension ListAggregateDiscoveredResourcesInputBody: Swift.Decodable {
         case resourceType = "ResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -14798,37 +14151,23 @@ extension ListAggregateDiscoveredResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension ListAggregateDiscoveredResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAggregateDiscoveredResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAggregateDiscoveredResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAggregateDiscoveredResourcesOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAggregateDiscoveredResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAggregateDiscoveredResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -14846,7 +14185,7 @@ public struct ListAggregateDiscoveredResourcesOutputResponse: Swift.Equatable {
     /// Returns a list of ResourceIdentifiers objects.
     public var resourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]? = nil
     )
@@ -14867,7 +14206,7 @@ extension ListAggregateDiscoveredResourcesOutputResponseBody: Swift.Decodable {
         case resourceIdentifiers = "ResourceIdentifiers"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdentifiersContainer = try containerValues.decodeIfPresent([ConfigClientTypes.AggregateResourceIdentifier?].self, forKey: .resourceIdentifiers)
         var resourceIdentifiersDecoded0:[ConfigClientTypes.AggregateResourceIdentifier]? = nil
@@ -14932,7 +14271,7 @@ public struct ListConformancePackComplianceScoresInput: Swift.Equatable {
     /// Determines the order in which conformance pack compliance scores are sorted. Either in ascending or descending order. By default, conformance pack compliance scores are sorted in alphabetical order by name of the conformance pack. Conformance pack compliance scores are sorted in reverse alphabetical order if you enter DESCENDING. You can sort conformance pack compliance scores by the numerical value of the compliance score by entering SCORE in the SortBy action. When compliance scores are sorted by SCORE, conformance packs with a compliance score of INSUFFICIENT_DATA will be last when sorting by ascending order and first when sorting by descending order.
     public var sortOrder: ConfigClientTypes.SortOrder?
 
-    public init (
+    public init(
         filters: ConfigClientTypes.ConformancePackComplianceScoresFilters? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -14965,7 +14304,7 @@ extension ListConformancePackComplianceScoresInputBody: Swift.Decodable {
         case sortOrder = "SortOrder"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConformancePackComplianceScoresFilters.self, forKey: .filters)
         filters = filtersDecoded
@@ -14980,35 +14319,22 @@ extension ListConformancePackComplianceScoresInputBody: Swift.Decodable {
     }
 }
 
-extension ListConformancePackComplianceScoresOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListConformancePackComplianceScoresOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListConformancePackComplianceScoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListConformancePackComplianceScoresOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListConformancePackComplianceScoresOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListConformancePackComplianceScoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackComplianceScores = output.conformancePackComplianceScores
@@ -15027,7 +14353,7 @@ public struct ListConformancePackComplianceScoresOutputResponse: Swift.Equatable
     /// The nextToken string that you can use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         conformancePackComplianceScores: [ConfigClientTypes.ConformancePackComplianceScore]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -15048,7 +14374,7 @@ extension ListConformancePackComplianceScoresOutputResponseBody: Swift.Decodable
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -15124,7 +14450,7 @@ public struct ListDiscoveredResourcesInput: Swift.Equatable {
     /// This member is required.
     public var resourceType: ConfigClientTypes.ResourceType?
 
-    public init (
+    public init(
         includeDeletedResources: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -15161,7 +14487,7 @@ extension ListDiscoveredResourcesInputBody: Swift.Decodable {
         case resourceType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -15187,37 +14513,23 @@ extension ListDiscoveredResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension ListDiscoveredResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDiscoveredResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoAvailableConfigurationRecorderException" : self = .noAvailableConfigurationRecorderException(try NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDiscoveredResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoAvailableConfigurationRecorderException": return try await NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDiscoveredResourcesOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noAvailableConfigurationRecorderException(NoAvailableConfigurationRecorderException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDiscoveredResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDiscoveredResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -15236,7 +14548,7 @@ public struct ListDiscoveredResourcesOutputResponse: Swift.Equatable {
     /// The details that identify a resource that is discovered by Config, including the resource type, ID, and (if available) the custom resource name.
     public var resourceIdentifiers: [ConfigClientTypes.ResourceIdentifier]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceIdentifiers: [ConfigClientTypes.ResourceIdentifier]? = nil
     )
@@ -15257,7 +14569,7 @@ extension ListDiscoveredResourcesOutputResponseBody: Swift.Decodable {
         case resourceIdentifiers
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdentifiersContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ResourceIdentifier?].self, forKey: .resourceIdentifiers)
         var resourceIdentifiersDecoded0:[ConfigClientTypes.ResourceIdentifier]? = nil
@@ -15310,7 +14622,7 @@ public struct ListResourceEvaluationsInput: Swift.Equatable {
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: ConfigClientTypes.ResourceEvaluationFilters? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -15335,7 +14647,7 @@ extension ListResourceEvaluationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceEvaluationFilters.self, forKey: .filters)
         filters = filtersDecoded
@@ -15346,35 +14658,22 @@ extension ListResourceEvaluationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListResourceEvaluationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListResourceEvaluationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTimeRangeException" : self = .invalidTimeRangeException(try InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListResourceEvaluationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTimeRangeException": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListResourceEvaluationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidTimeRangeException(InvalidTimeRangeException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListResourceEvaluationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListResourceEvaluationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -15392,7 +14691,7 @@ public struct ListResourceEvaluationsOutputResponse: Swift.Equatable {
     /// Returns a ResourceEvaluations object.
     public var resourceEvaluations: [ConfigClientTypes.ResourceEvaluation]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceEvaluations: [ConfigClientTypes.ResourceEvaluation]? = nil
     )
@@ -15413,7 +14712,7 @@ extension ListResourceEvaluationsOutputResponseBody: Swift.Decodable {
         case resourceEvaluations = "ResourceEvaluations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceEvaluationsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ResourceEvaluation?].self, forKey: .resourceEvaluations)
         var resourceEvaluationsDecoded0:[ConfigClientTypes.ResourceEvaluation]? = nil
@@ -15460,7 +14759,7 @@ public struct ListStoredQueriesInput: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -15481,7 +14780,7 @@ extension ListStoredQueriesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -15490,33 +14789,21 @@ extension ListStoredQueriesInputBody: Swift.Decodable {
     }
 }
 
-extension ListStoredQueriesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListStoredQueriesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListStoredQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListStoredQueriesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListStoredQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListStoredQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -15534,7 +14821,7 @@ public struct ListStoredQueriesOutputResponse: Swift.Equatable {
     /// A list of StoredQueryMetadata objects.
     public var storedQueryMetadata: [ConfigClientTypes.StoredQueryMetadata]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         storedQueryMetadata: [ConfigClientTypes.StoredQueryMetadata]? = nil
     )
@@ -15555,7 +14842,7 @@ extension ListStoredQueriesOutputResponseBody: Swift.Decodable {
         case storedQueryMetadata = "StoredQueryMetadata"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storedQueryMetadataContainer = try containerValues.decodeIfPresent([ConfigClientTypes.StoredQueryMetadata?].self, forKey: .storedQueryMetadata)
         var storedQueryMetadataDecoded0:[ConfigClientTypes.StoredQueryMetadata]? = nil
@@ -15609,7 +14896,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
@@ -15634,7 +14921,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -15645,37 +14932,23 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -15693,7 +14966,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The tags for the resource.
     public var tags: [ConfigClientTypes.Tag]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
     )
@@ -15714,7 +14987,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[ConfigClientTypes.Tag]? = nil
@@ -15733,38 +15006,42 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 }
 
 extension MaxActiveResourcesExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxActiveResourcesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using [DeleteResourceConfig](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html).
-public struct MaxActiveResourcesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct MaxActiveResourcesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxActiveResourcesExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15777,7 +15054,7 @@ extension MaxActiveResourcesExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15785,38 +15062,42 @@ extension MaxActiveResourcesExceededExceptionBody: Swift.Decodable {
 }
 
 extension MaxNumberOfConfigRulesExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxNumberOfConfigRulesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Failed to add the Config rule because the account already contains the maximum number of 150 rules. Consider deleting any deactivated rules before you add new rules.
-public struct MaxNumberOfConfigRulesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct MaxNumberOfConfigRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxNumberOfConfigRulesExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15829,7 +15110,7 @@ extension MaxNumberOfConfigRulesExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15837,38 +15118,42 @@ extension MaxNumberOfConfigRulesExceededExceptionBody: Swift.Decodable {
 }
 
 extension MaxNumberOfConfigurationRecordersExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxNumberOfConfigurationRecordersExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-/// You have reached the limit of the number of recorders you can create.
-public struct MaxNumberOfConfigurationRecordersExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+/// You have reached the limit of the number of configuration recorders you can create.
+public struct MaxNumberOfConfigurationRecordersExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxNumberOfConfigurationRecordersExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15881,7 +15166,7 @@ extension MaxNumberOfConfigurationRecordersExceededExceptionBody: Swift.Decodabl
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15889,38 +15174,42 @@ extension MaxNumberOfConfigurationRecordersExceededExceptionBody: Swift.Decodabl
 }
 
 extension MaxNumberOfConformancePacksExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxNumberOfConformancePacksExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have reached the limit of the number of conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfConformancePacksExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct MaxNumberOfConformancePacksExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxNumberOfConformancePacksExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15933,7 +15222,7 @@ extension MaxNumberOfConformancePacksExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15941,38 +15230,42 @@ extension MaxNumberOfConformancePacksExceededExceptionBody: Swift.Decodable {
 }
 
 extension MaxNumberOfDeliveryChannelsExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxNumberOfDeliveryChannelsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have reached the limit of the number of delivery channels you can create.
-public struct MaxNumberOfDeliveryChannelsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct MaxNumberOfDeliveryChannelsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxNumberOfDeliveryChannelsExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15985,7 +15278,7 @@ extension MaxNumberOfDeliveryChannelsExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15993,38 +15286,42 @@ extension MaxNumberOfDeliveryChannelsExceededExceptionBody: Swift.Decodable {
 }
 
 extension MaxNumberOfOrganizationConfigRulesExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxNumberOfOrganizationConfigRulesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have reached the limit of the number of organization Config rules you can create. For more information, see see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfOrganizationConfigRulesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct MaxNumberOfOrganizationConfigRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxNumberOfOrganizationConfigRulesExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16037,7 +15334,7 @@ extension MaxNumberOfOrganizationConfigRulesExceededExceptionBody: Swift.Decodab
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16045,38 +15342,42 @@ extension MaxNumberOfOrganizationConfigRulesExceededExceptionBody: Swift.Decodab
 }
 
 extension MaxNumberOfOrganizationConformancePacksExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxNumberOfOrganizationConformancePacksExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have reached the limit of the number of organization conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfOrganizationConformancePacksExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct MaxNumberOfOrganizationConformancePacksExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxNumberOfOrganizationConformancePacksExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16089,7 +15390,7 @@ extension MaxNumberOfOrganizationConformancePacksExceededExceptionBody: Swift.De
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16097,38 +15398,42 @@ extension MaxNumberOfOrganizationConformancePacksExceededExceptionBody: Swift.De
 }
 
 extension MaxNumberOfRetentionConfigurationsExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxNumberOfRetentionConfigurationsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Failed to add the retention configuration because a retention configuration with that name already exists.
-public struct MaxNumberOfRetentionConfigurationsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct MaxNumberOfRetentionConfigurationsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxNumberOfRetentionConfigurationsExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16141,7 +15446,7 @@ extension MaxNumberOfRetentionConfigurationsExceededExceptionBody: Swift.Decodab
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16274,7 +15579,7 @@ extension ConfigClientTypes.MemberAccountStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -16328,7 +15633,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var memberAccountRuleStatus: ConfigClientTypes.MemberAccountRuleStatus?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             configRuleName: Swift.String? = nil,
             errorCode: Swift.String? = nil,
@@ -16387,38 +15692,42 @@ extension ConfigClientTypes {
 }
 
 extension NoAvailableConfigurationRecorderException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoAvailableConfigurationRecorderExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
-public struct NoAvailableConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoAvailableConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoAvailableConfigurationRecorderException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16431,7 +15740,7 @@ extension NoAvailableConfigurationRecorderExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16439,38 +15748,42 @@ extension NoAvailableConfigurationRecorderExceptionBody: Swift.Decodable {
 }
 
 extension NoAvailableDeliveryChannelException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoAvailableDeliveryChannelExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There is no delivery channel available to record configurations.
-public struct NoAvailableDeliveryChannelException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoAvailableDeliveryChannelException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoAvailableDeliveryChannelException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16483,7 +15796,7 @@ extension NoAvailableDeliveryChannelExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16491,38 +15804,42 @@ extension NoAvailableDeliveryChannelExceptionBody: Swift.Decodable {
 }
 
 extension NoAvailableOrganizationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoAvailableOrganizationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Organization is no longer available.
-public struct NoAvailableOrganizationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoAvailableOrganizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoAvailableOrganizationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16535,7 +15852,7 @@ extension NoAvailableOrganizationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16543,38 +15860,42 @@ extension NoAvailableOrganizationExceptionBody: Swift.Decodable {
 }
 
 extension NoRunningConfigurationRecorderException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoRunningConfigurationRecorderExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There is no configuration recorder running.
-public struct NoRunningConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoRunningConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoRunningConfigurationRecorderException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16587,7 +15908,7 @@ extension NoRunningConfigurationRecorderExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16595,38 +15916,42 @@ extension NoRunningConfigurationRecorderExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchBucketException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchBucketExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified Amazon S3 bucket does not exist.
-public struct NoSuchBucketException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchBucketException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchBucketException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16639,7 +15964,7 @@ extension NoSuchBucketExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16647,38 +15972,42 @@ extension NoSuchBucketExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchConfigRuleException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchConfigRuleExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-public struct NoSuchConfigRuleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchConfigRuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchConfigRuleException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16691,7 +16020,7 @@ extension NoSuchConfigRuleExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16699,38 +16028,42 @@ extension NoSuchConfigRuleExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchConfigRuleInConformancePackException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchConfigRuleInConformancePackExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Config rule that you passed in the filter does not exist.
-public struct NoSuchConfigRuleInConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchConfigRuleInConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchConfigRuleInConformancePackException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16743,7 +16076,7 @@ extension NoSuchConfigRuleInConformancePackExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16751,38 +16084,42 @@ extension NoSuchConfigRuleInConformancePackExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchConfigurationAggregatorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchConfigurationAggregatorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have specified a configuration aggregator that does not exist.
-public struct NoSuchConfigurationAggregatorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchConfigurationAggregatorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchConfigurationAggregatorException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16795,7 +16132,7 @@ extension NoSuchConfigurationAggregatorExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16803,38 +16140,42 @@ extension NoSuchConfigurationAggregatorExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchConfigurationRecorderException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchConfigurationRecorderExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have specified a configuration recorder that does not exist.
-public struct NoSuchConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchConfigurationRecorderException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16847,7 +16188,7 @@ extension NoSuchConfigurationRecorderExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16855,38 +16196,42 @@ extension NoSuchConfigurationRecorderExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchConformancePackException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchConformancePackExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You specified one or more conformance packs that do not exist.
-public struct NoSuchConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchConformancePackException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16899,7 +16244,7 @@ extension NoSuchConformancePackExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16907,38 +16252,42 @@ extension NoSuchConformancePackExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchDeliveryChannelException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchDeliveryChannelExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have specified a delivery channel that does not exist.
-public struct NoSuchDeliveryChannelException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchDeliveryChannelException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchDeliveryChannelException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16951,7 +16300,7 @@ extension NoSuchDeliveryChannelExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16959,38 +16308,42 @@ extension NoSuchDeliveryChannelExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchOrganizationConfigRuleException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchOrganizationConfigRuleExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Config rule in the request is not valid. Verify that the rule is an organization Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-public struct NoSuchOrganizationConfigRuleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchOrganizationConfigRuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchOrganizationConfigRuleException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17003,7 +16356,7 @@ extension NoSuchOrganizationConfigRuleExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17011,38 +16364,42 @@ extension NoSuchOrganizationConfigRuleExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchOrganizationConformancePackException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchOrganizationConformancePackExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Config organization conformance pack that you passed in the filter does not exist. For DeleteOrganizationConformancePack, you tried to delete an organization conformance pack that does not exist.
-public struct NoSuchOrganizationConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchOrganizationConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchOrganizationConformancePackException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17055,7 +16412,7 @@ extension NoSuchOrganizationConformancePackExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17063,38 +16420,42 @@ extension NoSuchOrganizationConformancePackExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchRemediationConfigurationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchRemediationConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You specified an Config rule without a remediation configuration.
-public struct NoSuchRemediationConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchRemediationConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchRemediationConfigurationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17107,7 +16468,7 @@ extension NoSuchRemediationConfigurationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17115,38 +16476,42 @@ extension NoSuchRemediationConfigurationExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchRemediationExceptionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchRemediationExceptionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You tried to delete a remediation exception that does not exist.
-public struct NoSuchRemediationExceptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchRemediationExceptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchRemediationExceptionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17159,7 +16524,7 @@ extension NoSuchRemediationExceptionExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17167,38 +16532,42 @@ extension NoSuchRemediationExceptionExceptionBody: Swift.Decodable {
 }
 
 extension NoSuchRetentionConfigurationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoSuchRetentionConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have specified a retention configuration that does not exist.
-public struct NoSuchRetentionConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct NoSuchRetentionConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchRetentionConfigurationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17211,7 +16580,7 @@ extension NoSuchRetentionConfigurationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17219,18 +16588,17 @@ extension NoSuchRetentionConfigurationExceptionBody: Swift.Decodable {
 }
 
 extension OrganizationAccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OrganizationAccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -17246,22 +16614,27 @@ extension OrganizationAccessDeniedException {
 ///
 ///
 /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-public struct OrganizationAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct OrganizationAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationAccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17274,7 +16647,7 @@ extension OrganizationAccessDeniedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17304,7 +16677,7 @@ extension ConfigClientTypes.OrganizationAggregationSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
@@ -17335,7 +16708,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var roleArn: Swift.String?
 
-        public init (
+        public init(
             allAwsRegions: Swift.Bool = false,
             awsRegions: [Swift.String]? = nil,
             roleArn: Swift.String? = nil
@@ -17350,38 +16723,42 @@ extension ConfigClientTypes {
 }
 
 extension OrganizationAllFeaturesNotEnabledException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OrganizationAllFeaturesNotEnabledExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Config resource cannot be created because your organization does not have all features enabled.
-public struct OrganizationAllFeaturesNotEnabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct OrganizationAllFeaturesNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationAllFeaturesNotEnabledException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17394,7 +16771,7 @@ extension OrganizationAllFeaturesNotEnabledExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17440,7 +16817,7 @@ extension ConfigClientTypes.OrganizationConfigRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConfigRuleName)
         organizationConfigRuleName = organizationConfigRuleNameDecoded
@@ -17488,7 +16865,7 @@ extension ConfigClientTypes {
         /// An OrganizationManagedRuleMetadata object.
         public var organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata?
 
-        public init (
+        public init(
             excludedAccounts: [Swift.String]? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
             organizationConfigRuleArn: Swift.String? = nil,
@@ -17538,7 +16915,7 @@ extension ConfigClientTypes.OrganizationConfigRuleStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConfigRuleName)
         organizationConfigRuleName = organizationConfigRuleNameDecoded
@@ -17587,7 +16964,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var organizationRuleStatus: ConfigClientTypes.OrganizationRuleStatus?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
@@ -17714,7 +17091,7 @@ extension ConfigClientTypes.OrganizationConformancePack: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConformancePackName)
         organizationConformancePackName = organizationConformancePackNameDecoded
@@ -17772,7 +17149,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var organizationConformancePackName: Swift.String?
 
-        public init (
+        public init(
             conformancePackInputParameters: [ConfigClientTypes.ConformancePackInputParameter]? = nil,
             deliveryS3Bucket: Swift.String? = nil,
             deliveryS3KeyPrefix: Swift.String? = nil,
@@ -17826,7 +17203,7 @@ extension ConfigClientTypes.OrganizationConformancePackDetailedStatus: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -17880,7 +17257,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var status: ConfigClientTypes.OrganizationResourceDetailedStatus?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             conformancePackName: Swift.String? = nil,
             errorCode: Swift.String? = nil,
@@ -17928,7 +17305,7 @@ extension ConfigClientTypes.OrganizationConformancePackStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConformancePackName)
         organizationConformancePackName = organizationConformancePackNameDecoded
@@ -17977,7 +17354,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var status: ConfigClientTypes.OrganizationResourceStatus?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
@@ -17996,38 +17373,42 @@ extension ConfigClientTypes {
 }
 
 extension OrganizationConformancePackTemplateValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OrganizationConformancePackTemplateValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have specified a template that is not valid or supported.
-public struct OrganizationConformancePackTemplateValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct OrganizationConformancePackTemplateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationConformancePackTemplateValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18040,7 +17421,7 @@ extension OrganizationConformancePackTemplateValidationExceptionBody: Swift.Deco
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18108,7 +17489,7 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -18194,7 +17575,7 @@ extension ConfigClientTypes {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public var tagValueScope: Swift.String?
 
-        public init (
+        public init(
             debugLogDeliveryAccounts: [Swift.String]? = nil,
             description: Swift.String? = nil,
             inputParameters: Swift.String? = nil,
@@ -18281,7 +17662,7 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -18334,7 +17715,7 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy: Swift.
 }
 
 extension ConfigClientTypes {
-    /// An object that specifies metadata for your organization Config Custom Policy rule including the runtime system in use, which accounts have debug logging enabled, and other custom rule metadata such as resource type, resource ID of Amazon Web Services resource, and organization trigger types that trigger Config to evaluate Amazon Web Services resources against a rule.
+    /// metadata for your organization Config Custom Policy rule including the runtime system in use, which accounts have debug logging enabled, and other custom rule metadata such as resource type, resource ID of Amazon Web Services resource, and organization trigger types that trigger Config to evaluate Amazon Web Services resources against a rule.
     public struct OrganizationCustomPolicyRuleMetadataNoPolicy: Swift.Equatable {
         /// A list of accounts that you can enable debug logging for your organization Config Custom Policy rule. List is null when debug logging is enabled for all accounts.
         public var debugLogDeliveryAccounts: [Swift.String]?
@@ -18361,7 +17742,7 @@ extension ConfigClientTypes {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public var tagValueScope: Swift.String?
 
-        public init (
+        public init(
             debugLogDeliveryAccounts: [Swift.String]? = nil,
             description: Swift.String? = nil,
             inputParameters: Swift.String? = nil,
@@ -18439,7 +17820,7 @@ extension ConfigClientTypes.OrganizationCustomRuleMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -18481,7 +17862,7 @@ extension ConfigClientTypes.OrganizationCustomRuleMetadata: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// An object that specifies organization custom rule metadata such as resource type, resource ID of Amazon Web Services resource, Lambda function ARN, and organization trigger types that trigger Config to evaluate your Amazon Web Services resources against a rule. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
+    /// organization custom rule metadata such as resource type, resource ID of Amazon Web Services resource, Lambda function ARN, and organization trigger types that trigger Config to evaluate your Amazon Web Services resources against a rule. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
     public struct OrganizationCustomRuleMetadata: Swift.Equatable {
         /// The description that you provide for your organization Config rule.
         public var description: Swift.String?
@@ -18510,7 +17891,7 @@ extension ConfigClientTypes {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public var tagValueScope: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             inputParameters: Swift.String? = nil,
             lambdaFunctionArn: Swift.String? = nil,
@@ -18579,7 +17960,7 @@ extension ConfigClientTypes.OrganizationManagedRuleMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -18610,7 +17991,7 @@ extension ConfigClientTypes.OrganizationManagedRuleMetadata: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// An object that specifies organization managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
+    /// organization managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
     public struct OrganizationManagedRuleMetadata: Swift.Equatable {
         /// The description that you provide for your organization Config rule.
         public var description: Swift.String?
@@ -18630,7 +18011,7 @@ extension ConfigClientTypes {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public var tagValueScope: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             inputParameters: Swift.String? = nil,
             maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil,
@@ -18723,7 +18104,7 @@ extension ConfigClientTypes.OrganizationResourceDetailedStatusFilters: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -18758,7 +18139,7 @@ extension ConfigClientTypes {
         /// * UPDATE_FAILED when conformance pack deletion has failed in the member account.
         public var status: ConfigClientTypes.OrganizationResourceDetailedStatus?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             status: ConfigClientTypes.OrganizationResourceDetailedStatus? = nil
         )
@@ -18877,38 +18258,42 @@ extension ConfigClientTypes {
 }
 
 extension OversizedConfigurationItemException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OversizedConfigurationItemExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The configuration item size is outside the allowable range.
-public struct OversizedConfigurationItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct OversizedConfigurationItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OversizedConfigurationItemException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18921,7 +18306,7 @@ extension OversizedConfigurationItemExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18979,7 +18364,7 @@ extension ConfigClientTypes.PendingAggregationRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requesterAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requesterAccountId)
         requesterAccountId = requesterAccountIdDecoded
@@ -18996,7 +18381,7 @@ extension ConfigClientTypes {
         /// The region requesting to aggregate data.
         public var requesterAwsRegion: Swift.String?
 
-        public init (
+        public init(
             requesterAccountId: Swift.String? = nil,
             requesterAwsRegion: Swift.String? = nil
         )
@@ -19048,7 +18433,7 @@ public struct PutAggregationAuthorizationInput: Swift.Equatable {
     /// An array of tag object.
     public var tags: [ConfigClientTypes.Tag]?
 
-    public init (
+    public init(
         authorizedAccountId: Swift.String? = nil,
         authorizedAwsRegion: Swift.String? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
@@ -19073,7 +18458,7 @@ extension PutAggregationAuthorizationInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authorizedAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizedAccountId)
         authorizedAccountId = authorizedAccountIdDecoded
@@ -19093,31 +18478,20 @@ extension PutAggregationAuthorizationInputBody: Swift.Decodable {
     }
 }
 
-extension PutAggregationAuthorizationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutAggregationAuthorizationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutAggregationAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutAggregationAuthorizationOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutAggregationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutAggregationAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregationAuthorization = output.aggregationAuthorization
@@ -19131,7 +18505,7 @@ public struct PutAggregationAuthorizationOutputResponse: Swift.Equatable {
     /// Returns an AggregationAuthorization object.
     public var aggregationAuthorization: ConfigClientTypes.AggregationAuthorization?
 
-    public init (
+    public init(
         aggregationAuthorization: ConfigClientTypes.AggregationAuthorization? = nil
     )
     {
@@ -19148,7 +18522,7 @@ extension PutAggregationAuthorizationOutputResponseBody: Swift.Decodable {
         case aggregationAuthorization = "AggregationAuthorization"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregationAuthorizationDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.AggregationAuthorization.self, forKey: .aggregationAuthorization)
         aggregationAuthorization = aggregationAuthorizationDecoded
@@ -19188,7 +18562,7 @@ public struct PutConfigRuleInput: Swift.Equatable {
     /// An array of tag object.
     public var tags: [ConfigClientTypes.Tag]?
 
-    public init (
+    public init(
         configRule: ConfigClientTypes.ConfigRule? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
     )
@@ -19209,7 +18583,7 @@ extension PutConfigRuleInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConfigRule.self, forKey: .configRule)
         configRule = configRuleDecoded
@@ -19227,44 +18601,29 @@ extension PutConfigRuleInputBody: Swift.Decodable {
     }
 }
 
-extension PutConfigRuleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigRuleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxNumberOfConfigRulesExceededException" : self = .maxNumberOfConfigRulesExceededException(try MaxNumberOfConfigRulesExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoAvailableConfigurationRecorderException" : self = .noAvailableConfigurationRecorderException(try NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxNumberOfConfigRulesExceededException": return try await MaxNumberOfConfigRulesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoAvailableConfigurationRecorderException": return try await NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigRuleOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case maxNumberOfConfigRulesExceededException(MaxNumberOfConfigRulesExceededException)
-    case noAvailableConfigurationRecorderException(NoAvailableConfigurationRecorderException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutConfigRuleOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutConfigurationAggregatorInput: Swift.Encodable {
@@ -19315,7 +18674,7 @@ public struct PutConfigurationAggregatorInput: Swift.Equatable {
     /// An array of tag object.
     public var tags: [ConfigClientTypes.Tag]?
 
-    public init (
+    public init(
         accountAggregationSources: [ConfigClientTypes.AccountAggregationSource]? = nil,
         configurationAggregatorName: Swift.String? = nil,
         organizationAggregationSource: ConfigClientTypes.OrganizationAggregationSource? = nil,
@@ -19344,7 +18703,7 @@ extension PutConfigurationAggregatorInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
@@ -19375,41 +18734,25 @@ extension PutConfigurationAggregatorInputBody: Swift.Decodable {
     }
 }
 
-extension PutConfigurationAggregatorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigurationAggregatorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoAvailableOrganizationException" : self = .noAvailableOrganizationException(try NoAvailableOrganizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAllFeaturesNotEnabledException" : self = .organizationAllFeaturesNotEnabledException(try OrganizationAllFeaturesNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigurationAggregatorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoAvailableOrganizationException": return try await NoAvailableOrganizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAllFeaturesNotEnabledException": return try await OrganizationAllFeaturesNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigurationAggregatorOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidRoleException(InvalidRoleException)
-    case limitExceededException(LimitExceededException)
-    case noAvailableOrganizationException(NoAvailableOrganizationException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case organizationAllFeaturesNotEnabledException(OrganizationAllFeaturesNotEnabledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigurationAggregatorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutConfigurationAggregatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationAggregator = output.configurationAggregator
@@ -19423,7 +18766,7 @@ public struct PutConfigurationAggregatorOutputResponse: Swift.Equatable {
     /// Returns a ConfigurationAggregator object.
     public var configurationAggregator: ConfigClientTypes.ConfigurationAggregator?
 
-    public init (
+    public init(
         configurationAggregator: ConfigClientTypes.ConfigurationAggregator? = nil
     )
     {
@@ -19440,7 +18783,7 @@ extension PutConfigurationAggregatorOutputResponseBody: Swift.Decodable {
         case configurationAggregator = "ConfigurationAggregator"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationAggregatorDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConfigurationAggregator.self, forKey: .configurationAggregator)
         configurationAggregator = configurationAggregatorDecoded
@@ -19468,11 +18811,11 @@ extension PutConfigurationRecorderInput: ClientRuntime.URLPathProvider {
 
 /// The input for the [PutConfigurationRecorder] action.
 public struct PutConfigurationRecorderInput: Swift.Equatable {
-    /// The configuration recorder object that records each configuration change made to the resources.
+    /// An object for the configuration recorder to record configuration changes for specified resource types.
     /// This member is required.
     public var configurationRecorder: ConfigClientTypes.ConfigurationRecorder?
 
-    public init (
+    public init(
         configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil
     )
     {
@@ -19489,49 +18832,35 @@ extension PutConfigurationRecorderInputBody: Swift.Decodable {
         case configurationRecorder = "ConfigurationRecorder"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationRecorderDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConfigurationRecorder.self, forKey: .configurationRecorder)
         configurationRecorder = configurationRecorderDecoded
     }
 }
 
-extension PutConfigurationRecorderOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConfigurationRecorderOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidConfigurationRecorderNameException" : self = .invalidConfigurationRecorderNameException(try InvalidConfigurationRecorderNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRecordingGroupException" : self = .invalidRecordingGroupException(try InvalidRecordingGroupException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxNumberOfConfigurationRecordersExceededException" : self = .maxNumberOfConfigurationRecordersExceededException(try MaxNumberOfConfigurationRecordersExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConfigurationRecorderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidConfigurationRecorderNameException": return try await InvalidConfigurationRecorderNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRecordingGroupException": return try await InvalidRecordingGroupException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxNumberOfConfigurationRecordersExceededException": return try await MaxNumberOfConfigurationRecordersExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConfigurationRecorderOutputError: Swift.Error, Swift.Equatable {
-    case invalidConfigurationRecorderNameException(InvalidConfigurationRecorderNameException)
-    case invalidRecordingGroupException(InvalidRecordingGroupException)
-    case invalidRoleException(InvalidRoleException)
-    case maxNumberOfConfigurationRecordersExceededException(MaxNumberOfConfigurationRecordersExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConfigurationRecorderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutConfigurationRecorderOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutConformancePackInput: Swift.Encodable {
@@ -19597,7 +18926,7 @@ public struct PutConformancePackInput: Swift.Equatable {
     /// An object of type TemplateSSMDocumentDetails, which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
     public var templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails?
 
-    public init (
+    public init(
         conformancePackInputParameters: [ConfigClientTypes.ConformancePackInputParameter]? = nil,
         conformancePackName: Swift.String? = nil,
         deliveryS3Bucket: Swift.String? = nil,
@@ -19638,7 +18967,7 @@ extension PutConformancePackInputBody: Swift.Decodable {
         case templateSSMDocumentDetails = "TemplateSSMDocumentDetails"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackName)
         conformancePackName = conformancePackNameDecoded
@@ -19666,39 +18995,24 @@ extension PutConformancePackInputBody: Swift.Decodable {
     }
 }
 
-extension PutConformancePackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutConformancePackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConformancePackTemplateValidationException" : self = .conformancePackTemplateValidationException(try ConformancePackTemplateValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxNumberOfConformancePacksExceededException" : self = .maxNumberOfConformancePacksExceededException(try MaxNumberOfConformancePacksExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutConformancePackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConformancePackTemplateValidationException": return try await ConformancePackTemplateValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxNumberOfConformancePacksExceededException": return try await MaxNumberOfConformancePacksExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutConformancePackOutputError: Swift.Error, Swift.Equatable {
-    case conformancePackTemplateValidationException(ConformancePackTemplateValidationException)
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case maxNumberOfConformancePacksExceededException(MaxNumberOfConformancePacksExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutConformancePackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutConformancePackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackArn = output.conformancePackArn
@@ -19712,7 +19026,7 @@ public struct PutConformancePackOutputResponse: Swift.Equatable {
     /// ARN of the conformance pack.
     public var conformancePackArn: Swift.String?
 
-    public init (
+    public init(
         conformancePackArn: Swift.String? = nil
     )
     {
@@ -19729,7 +19043,7 @@ extension PutConformancePackOutputResponseBody: Swift.Decodable {
         case conformancePackArn = "ConformancePackArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conformancePackArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conformancePackArn)
         conformancePackArn = conformancePackArnDecoded
@@ -19761,7 +19075,7 @@ public struct PutDeliveryChannelInput: Swift.Equatable {
     /// This member is required.
     public var deliveryChannel: ConfigClientTypes.DeliveryChannel?
 
-    public init (
+    public init(
         deliveryChannel: ConfigClientTypes.DeliveryChannel? = nil
     )
     {
@@ -19778,57 +19092,39 @@ extension PutDeliveryChannelInputBody: Swift.Decodable {
         case deliveryChannel = "DeliveryChannel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryChannelDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.DeliveryChannel.self, forKey: .deliveryChannel)
         deliveryChannel = deliveryChannelDecoded
     }
 }
 
-extension PutDeliveryChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutDeliveryChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientDeliveryPolicyException" : self = .insufficientDeliveryPolicyException(try InsufficientDeliveryPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeliveryChannelNameException" : self = .invalidDeliveryChannelNameException(try InvalidDeliveryChannelNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidS3KeyPrefixException" : self = .invalidS3KeyPrefixException(try InvalidS3KeyPrefixException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidS3KmsKeyArnException" : self = .invalidS3KmsKeyArnException(try InvalidS3KmsKeyArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSNSTopicARNException" : self = .invalidSNSTopicARNException(try InvalidSNSTopicARNException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxNumberOfDeliveryChannelsExceededException" : self = .maxNumberOfDeliveryChannelsExceededException(try MaxNumberOfDeliveryChannelsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoAvailableConfigurationRecorderException" : self = .noAvailableConfigurationRecorderException(try NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchBucketException" : self = .noSuchBucketException(try NoSuchBucketException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutDeliveryChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientDeliveryPolicyException": return try await InsufficientDeliveryPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeliveryChannelNameException": return try await InvalidDeliveryChannelNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3KeyPrefixException": return try await InvalidS3KeyPrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3KmsKeyArnException": return try await InvalidS3KmsKeyArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSNSTopicARNException": return try await InvalidSNSTopicARNException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxNumberOfDeliveryChannelsExceededException": return try await MaxNumberOfDeliveryChannelsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoAvailableConfigurationRecorderException": return try await NoAvailableConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchBucketException": return try await NoSuchBucketException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutDeliveryChannelOutputError: Swift.Error, Swift.Equatable {
-    case insufficientDeliveryPolicyException(InsufficientDeliveryPolicyException)
-    case invalidDeliveryChannelNameException(InvalidDeliveryChannelNameException)
-    case invalidS3KeyPrefixException(InvalidS3KeyPrefixException)
-    case invalidS3KmsKeyArnException(InvalidS3KmsKeyArnException)
-    case invalidSNSTopicARNException(InvalidSNSTopicARNException)
-    case maxNumberOfDeliveryChannelsExceededException(MaxNumberOfDeliveryChannelsExceededException)
-    case noAvailableConfigurationRecorderException(NoAvailableConfigurationRecorderException)
-    case noSuchBucketException(NoSuchBucketException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutDeliveryChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutDeliveryChannelOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutEvaluationsInput: Swift.Encodable {
@@ -19871,7 +19167,7 @@ public struct PutEvaluationsInput: Swift.Equatable {
     /// Use this parameter to specify a test run for PutEvaluations. You can verify whether your Lambda function will deliver evaluation results to Config. No updates occur to your existing evaluations, and evaluation results are not sent to Config. When TestMode is true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null.
     public var testMode: Swift.Bool?
 
-    public init (
+    public init(
         evaluations: [ConfigClientTypes.Evaluation]? = nil,
         resultToken: Swift.String? = nil,
         testMode: Swift.Bool? = nil
@@ -19896,7 +19192,7 @@ extension PutEvaluationsInputBody: Swift.Decodable {
         case testMode = "TestMode"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.Evaluation?].self, forKey: .evaluations)
         var evaluationsDecoded0:[ConfigClientTypes.Evaluation]? = nil
@@ -19916,35 +19212,22 @@ extension PutEvaluationsInputBody: Swift.Decodable {
     }
 }
 
-extension PutEvaluationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutEvaluationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResultTokenException" : self = .invalidResultTokenException(try InvalidResultTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutEvaluationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResultTokenException": return try await InvalidResultTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutEvaluationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidResultTokenException(InvalidResultTokenException)
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutEvaluationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutEvaluationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedEvaluations = output.failedEvaluations
@@ -19959,7 +19242,7 @@ public struct PutEvaluationsOutputResponse: Swift.Equatable {
     /// Requests that failed because of a client or server error.
     public var failedEvaluations: [ConfigClientTypes.Evaluation]?
 
-    public init (
+    public init(
         failedEvaluations: [ConfigClientTypes.Evaluation]? = nil
     )
     {
@@ -19976,7 +19259,7 @@ extension PutEvaluationsOutputResponseBody: Swift.Decodable {
         case failedEvaluations = "FailedEvaluations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedEvaluationsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.Evaluation?].self, forKey: .failedEvaluations)
         var failedEvaluationsDecoded0:[ConfigClientTypes.Evaluation]? = nil
@@ -20023,7 +19306,7 @@ public struct PutExternalEvaluationInput: Swift.Equatable {
     /// This member is required.
     public var externalEvaluation: ConfigClientTypes.ExternalEvaluation?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil,
         externalEvaluation: ConfigClientTypes.ExternalEvaluation? = nil
     )
@@ -20044,7 +19327,7 @@ extension PutExternalEvaluationInputBody: Swift.Decodable {
         case externalEvaluation = "ExternalEvaluation"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -20053,38 +19336,26 @@ extension PutExternalEvaluationInputBody: Swift.Decodable {
     }
 }
 
-extension PutExternalEvaluationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutExternalEvaluationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutExternalEvaluationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutExternalEvaluationOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutExternalEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutExternalEvaluationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutOrganizationConfigRuleInput: Swift.Encodable {
@@ -20138,7 +19409,7 @@ public struct PutOrganizationConfigRuleInput: Swift.Equatable {
     /// An OrganizationManagedRuleMetadata object. This object specifies organization managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
     public var organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata?
 
-    public init (
+    public init(
         excludedAccounts: [Swift.String]? = nil,
         organizationConfigRuleName: Swift.String? = nil,
         organizationCustomPolicyRuleMetadata: ConfigClientTypes.OrganizationCustomPolicyRuleMetadata? = nil,
@@ -20171,7 +19442,7 @@ extension PutOrganizationConfigRuleInputBody: Swift.Decodable {
         case organizationManagedRuleMetadata = "OrganizationManagedRuleMetadata"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConfigRuleName)
         organizationConfigRuleName = organizationConfigRuleNameDecoded
@@ -20195,45 +19466,27 @@ extension PutOrganizationConfigRuleInputBody: Swift.Decodable {
     }
 }
 
-extension PutOrganizationConfigRuleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutOrganizationConfigRuleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxNumberOfOrganizationConfigRulesExceededException" : self = .maxNumberOfOrganizationConfigRulesExceededException(try MaxNumberOfOrganizationConfigRulesExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoAvailableOrganizationException" : self = .noAvailableOrganizationException(try NoAvailableOrganizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAllFeaturesNotEnabledException" : self = .organizationAllFeaturesNotEnabledException(try OrganizationAllFeaturesNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutOrganizationConfigRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxNumberOfOrganizationConfigRulesExceededException": return try await MaxNumberOfOrganizationConfigRulesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoAvailableOrganizationException": return try await NoAvailableOrganizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAllFeaturesNotEnabledException": return try await OrganizationAllFeaturesNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutOrganizationConfigRuleOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case maxNumberOfOrganizationConfigRulesExceededException(MaxNumberOfOrganizationConfigRulesExceededException)
-    case noAvailableOrganizationException(NoAvailableOrganizationException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case organizationAllFeaturesNotEnabledException(OrganizationAllFeaturesNotEnabledException)
-    case resourceInUseException(ResourceInUseException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutOrganizationConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutOrganizationConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.organizationConfigRuleArn = output.organizationConfigRuleArn
@@ -20247,7 +19500,7 @@ public struct PutOrganizationConfigRuleOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of an organization Config rule.
     public var organizationConfigRuleArn: Swift.String?
 
-    public init (
+    public init(
         organizationConfigRuleArn: Swift.String? = nil
     )
     {
@@ -20264,7 +19517,7 @@ extension PutOrganizationConfigRuleOutputResponseBody: Swift.Decodable {
         case organizationConfigRuleArn = "OrganizationConfigRuleArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConfigRuleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConfigRuleArn)
         organizationConfigRuleArn = organizationConfigRuleArnDecoded
@@ -20337,7 +19590,7 @@ public struct PutOrganizationConformancePackInput: Swift.Equatable {
     /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). You must have access to read Amazon S3 bucket.
     public var templateS3Uri: Swift.String?
 
-    public init (
+    public init(
         conformancePackInputParameters: [ConfigClientTypes.ConformancePackInputParameter]? = nil,
         deliveryS3Bucket: Swift.String? = nil,
         deliveryS3KeyPrefix: Swift.String? = nil,
@@ -20378,7 +19631,7 @@ extension PutOrganizationConformancePackInputBody: Swift.Decodable {
         case templateS3Uri = "TemplateS3Uri"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConformancePackName)
         organizationConformancePackName = organizationConformancePackNameDecoded
@@ -20415,45 +19668,27 @@ extension PutOrganizationConformancePackInputBody: Swift.Decodable {
     }
 }
 
-extension PutOrganizationConformancePackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutOrganizationConformancePackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxNumberOfOrganizationConformancePacksExceededException" : self = .maxNumberOfOrganizationConformancePacksExceededException(try MaxNumberOfOrganizationConformancePacksExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoAvailableOrganizationException" : self = .noAvailableOrganizationException(try NoAvailableOrganizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAccessDeniedException" : self = .organizationAccessDeniedException(try OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationAllFeaturesNotEnabledException" : self = .organizationAllFeaturesNotEnabledException(try OrganizationAllFeaturesNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationConformancePackTemplateValidationException" : self = .organizationConformancePackTemplateValidationException(try OrganizationConformancePackTemplateValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutOrganizationConformancePackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxNumberOfOrganizationConformancePacksExceededException": return try await MaxNumberOfOrganizationConformancePacksExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoAvailableOrganizationException": return try await NoAvailableOrganizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAccessDeniedException": return try await OrganizationAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationAllFeaturesNotEnabledException": return try await OrganizationAllFeaturesNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationConformancePackTemplateValidationException": return try await OrganizationConformancePackTemplateValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutOrganizationConformancePackOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case maxNumberOfOrganizationConformancePacksExceededException(MaxNumberOfOrganizationConformancePacksExceededException)
-    case noAvailableOrganizationException(NoAvailableOrganizationException)
-    case organizationAccessDeniedException(OrganizationAccessDeniedException)
-    case organizationAllFeaturesNotEnabledException(OrganizationAllFeaturesNotEnabledException)
-    case organizationConformancePackTemplateValidationException(OrganizationConformancePackTemplateValidationException)
-    case resourceInUseException(ResourceInUseException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutOrganizationConformancePackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutOrganizationConformancePackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.organizationConformancePackArn = output.organizationConformancePackArn
@@ -20467,7 +19702,7 @@ public struct PutOrganizationConformancePackOutputResponse: Swift.Equatable {
     /// ARN of the organization conformance pack.
     public var organizationConformancePackArn: Swift.String?
 
-    public init (
+    public init(
         organizationConformancePackArn: Swift.String? = nil
     )
     {
@@ -20484,7 +19719,7 @@ extension PutOrganizationConformancePackOutputResponseBody: Swift.Decodable {
         case organizationConformancePackArn = "OrganizationConformancePackArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationConformancePackArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationConformancePackArn)
         organizationConformancePackArn = organizationConformancePackArnDecoded
@@ -20518,7 +19753,7 @@ public struct PutRemediationConfigurationsInput: Swift.Equatable {
     /// This member is required.
     public var remediationConfigurations: [ConfigClientTypes.RemediationConfiguration]?
 
-    public init (
+    public init(
         remediationConfigurations: [ConfigClientTypes.RemediationConfiguration]? = nil
     )
     {
@@ -20535,7 +19770,7 @@ extension PutRemediationConfigurationsInputBody: Swift.Decodable {
         case remediationConfigurations = "RemediationConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let remediationConfigurationsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.RemediationConfiguration?].self, forKey: .remediationConfigurations)
         var remediationConfigurationsDecoded0:[ConfigClientTypes.RemediationConfiguration]? = nil
@@ -20551,33 +19786,21 @@ extension PutRemediationConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension PutRemediationConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutRemediationConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutRemediationConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutRemediationConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutRemediationConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutRemediationConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedBatches = output.failedBatches
@@ -20591,7 +19814,7 @@ public struct PutRemediationConfigurationsOutputResponse: Swift.Equatable {
     /// Returns a list of failed remediation batch objects.
     public var failedBatches: [ConfigClientTypes.FailedRemediationBatch]?
 
-    public init (
+    public init(
         failedBatches: [ConfigClientTypes.FailedRemediationBatch]? = nil
     )
     {
@@ -20608,7 +19831,7 @@ extension PutRemediationConfigurationsOutputResponseBody: Swift.Decodable {
         case failedBatches = "FailedBatches"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedBatchesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.FailedRemediationBatch?].self, forKey: .failedBatches)
         var failedBatchesDecoded0:[ConfigClientTypes.FailedRemediationBatch]? = nil
@@ -20670,7 +19893,7 @@ public struct PutRemediationExceptionsInput: Swift.Equatable {
     /// This member is required.
     public var resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil,
         expirationTime: ClientRuntime.Date? = nil,
         message: Swift.String? = nil,
@@ -20699,7 +19922,7 @@ extension PutRemediationExceptionsInputBody: Swift.Decodable {
         case resourceKeys = "ResourceKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -20721,33 +19944,21 @@ extension PutRemediationExceptionsInputBody: Swift.Decodable {
     }
 }
 
-extension PutRemediationExceptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutRemediationExceptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutRemediationExceptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutRemediationExceptionsOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutRemediationExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutRemediationExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedBatches = output.failedBatches
@@ -20761,7 +19972,7 @@ public struct PutRemediationExceptionsOutputResponse: Swift.Equatable {
     /// Returns a list of failed remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
     public var failedBatches: [ConfigClientTypes.FailedRemediationExceptionBatch]?
 
-    public init (
+    public init(
         failedBatches: [ConfigClientTypes.FailedRemediationExceptionBatch]? = nil
     )
     {
@@ -20778,7 +19989,7 @@ extension PutRemediationExceptionsOutputResponseBody: Swift.Decodable {
         case failedBatches = "FailedBatches"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedBatchesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.FailedRemediationExceptionBatch?].self, forKey: .failedBatches)
         var failedBatchesDecoded0:[ConfigClientTypes.FailedRemediationExceptionBatch]? = nil
@@ -20854,7 +20065,7 @@ public struct PutResourceConfigInput: Swift.Equatable {
     /// Tags associated with the resource. This field is not to be confused with the Amazon Web Services-wide tag feature for Amazon Web Services resources. Tags for PutResourceConfig are tags that you supply for the configuration items of your custom resources.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         configuration: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceName: Swift.String? = nil,
@@ -20891,7 +20102,7 @@ extension PutResourceConfigInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -20917,42 +20128,28 @@ extension PutResourceConfigInputBody: Swift.Decodable {
     }
 }
 
-extension PutResourceConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutResourceConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxActiveResourcesExceededException" : self = .maxActiveResourcesExceededException(try MaxActiveResourcesExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoRunningConfigurationRecorderException" : self = .noRunningConfigurationRecorderException(try NoRunningConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutResourceConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxActiveResourcesExceededException": return try await MaxActiveResourcesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoRunningConfigurationRecorderException": return try await NoRunningConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutResourceConfigOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case maxActiveResourcesExceededException(MaxActiveResourcesExceededException)
-    case noRunningConfigurationRecorderException(NoRunningConfigurationRecorderException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutResourceConfigOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutRetentionConfigurationInput: Swift.Encodable {
@@ -20979,7 +20176,7 @@ public struct PutRetentionConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var retentionPeriodInDays: Swift.Int?
 
-    public init (
+    public init(
         retentionPeriodInDays: Swift.Int? = nil
     )
     {
@@ -20996,40 +20193,28 @@ extension PutRetentionConfigurationInputBody: Swift.Decodable {
         case retentionPeriodInDays = "RetentionPeriodInDays"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retentionPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodInDays)
         retentionPeriodInDays = retentionPeriodInDaysDecoded
     }
 }
 
-extension PutRetentionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutRetentionConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxNumberOfRetentionConfigurationsExceededException" : self = .maxNumberOfRetentionConfigurationsExceededException(try MaxNumberOfRetentionConfigurationsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutRetentionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxNumberOfRetentionConfigurationsExceededException": return try await MaxNumberOfRetentionConfigurationsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutRetentionConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case maxNumberOfRetentionConfigurationsExceededException(MaxNumberOfRetentionConfigurationsExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutRetentionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutRetentionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.retentionConfiguration = output.retentionConfiguration
@@ -21043,7 +20228,7 @@ public struct PutRetentionConfigurationOutputResponse: Swift.Equatable {
     /// Returns a retention configuration object.
     public var retentionConfiguration: ConfigClientTypes.RetentionConfiguration?
 
-    public init (
+    public init(
         retentionConfiguration: ConfigClientTypes.RetentionConfiguration? = nil
     )
     {
@@ -21060,7 +20245,7 @@ extension PutRetentionConfigurationOutputResponseBody: Swift.Decodable {
         case retentionConfiguration = "RetentionConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retentionConfigurationDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RetentionConfiguration.self, forKey: .retentionConfiguration)
         retentionConfiguration = retentionConfigurationDecoded
@@ -21100,7 +20285,7 @@ public struct PutStoredQueryInput: Swift.Equatable {
     /// A list of Tags object.
     public var tags: [ConfigClientTypes.Tag]?
 
-    public init (
+    public init(
         storedQuery: ConfigClientTypes.StoredQuery? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
     )
@@ -21121,7 +20306,7 @@ extension PutStoredQueryInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storedQueryDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.StoredQuery.self, forKey: .storedQuery)
         storedQuery = storedQueryDecoded
@@ -21139,35 +20324,22 @@ extension PutStoredQueryInputBody: Swift.Decodable {
     }
 }
 
-extension PutStoredQueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutStoredQueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceConcurrentModificationException" : self = .resourceConcurrentModificationException(try ResourceConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutStoredQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceConcurrentModificationException": return try await ResourceConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutStoredQueryOutputError: Swift.Error, Swift.Equatable {
-    case resourceConcurrentModificationException(ResourceConcurrentModificationException)
-    case tooManyTagsException(TooManyTagsException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutStoredQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutStoredQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queryArn = output.queryArn
@@ -21181,7 +20353,7 @@ public struct PutStoredQueryOutputResponse: Swift.Equatable {
     /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
     public var queryArn: Swift.String?
 
-    public init (
+    public init(
         queryArn: Swift.String? = nil
     )
     {
@@ -21198,7 +20370,7 @@ extension PutStoredQueryOutputResponseBody: Swift.Decodable {
         case queryArn = "QueryArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryArn)
         queryArn = queryArnDecoded
@@ -21220,7 +20392,7 @@ extension ConfigClientTypes.QueryInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let selectFieldsContainer = try containerValues.decodeIfPresent([ConfigClientTypes.FieldInfo?].self, forKey: .selectFields)
         var selectFieldsDecoded0:[ConfigClientTypes.FieldInfo]? = nil
@@ -21242,7 +20414,7 @@ extension ConfigClientTypes {
         /// Returns a FieldInfo object.
         public var selectFields: [ConfigClientTypes.FieldInfo]?
 
-        public init (
+        public init(
             selectFields: [ConfigClientTypes.FieldInfo]? = nil
         )
         {
@@ -21290,7 +20462,9 @@ extension ConfigClientTypes {
 extension ConfigClientTypes.RecordingGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allSupported
+        case exclusionByResourceTypes
         case includeGlobalResourceTypes
+        case recordingStrategy
         case resourceTypes
     }
 
@@ -21299,8 +20473,14 @@ extension ConfigClientTypes.RecordingGroup: Swift.Codable {
         if allSupported != false {
             try encodeContainer.encode(allSupported, forKey: .allSupported)
         }
+        if let exclusionByResourceTypes = self.exclusionByResourceTypes {
+            try encodeContainer.encode(exclusionByResourceTypes, forKey: .exclusionByResourceTypes)
+        }
         if includeGlobalResourceTypes != false {
             try encodeContainer.encode(includeGlobalResourceTypes, forKey: .includeGlobalResourceTypes)
+        }
+        if let recordingStrategy = self.recordingStrategy {
+            try encodeContainer.encode(recordingStrategy, forKey: .recordingStrategy)
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
@@ -21310,7 +20490,7 @@ extension ConfigClientTypes.RecordingGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let allSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allSupported) ?? false
         allSupported = allSupportedDecoded
@@ -21327,31 +20507,131 @@ extension ConfigClientTypes.RecordingGroup: Swift.Codable {
             }
         }
         resourceTypes = resourceTypesDecoded0
+        let exclusionByResourceTypesDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ExclusionByResourceTypes.self, forKey: .exclusionByResourceTypes)
+        exclusionByResourceTypes = exclusionByResourceTypesDecoded
+        let recordingStrategyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RecordingStrategy.self, forKey: .recordingStrategy)
+        recordingStrategy = recordingStrategyDecoded
     }
 }
 
 extension ConfigClientTypes {
-    /// Specifies which Amazon Web Services resource types Config records for configuration changes. In the recording group, you specify whether you want to record all supported resource types or only specific types of resources. By default, Config records the configuration changes for all supported types of regional resources that Config discovers in the region in which it is running. Regional resources are tied to a region and can be used only in that region. Examples of regional resources are EC2 instances and EBS volumes. You can also have Config record supported types of global resources. Global resources are not tied to a specific region and can be used in all regions. The global resource types that Config supports include IAM users, groups, roles, and customer managed policies. Global resource types onboarded to Config recording after February 2022 will only be recorded in the service's home region for the commercial partition and Amazon Web Services GovCloud (US) West for the GovCloud partition. You can view the Configuration Items for these new global resource types only in their home region and Amazon Web Services GovCloud (US) West. Supported global resource types onboarded before February 2022 such as AWS::IAM::Group, AWS::IAM::Policy, AWS::IAM::Role, AWS::IAM::User remain unchanged, and they will continue to deliver Configuration Items in all supported regions in Config. The change will only affect new global resource types onboarded after February 2022. To record global resource types onboarded after February 2022, enable All Supported Resource Types in the home region of the global resource type you want to record. If you don't want Config to record all resources, you can specify which types of resources it will record with the resourceTypes parameter. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources). For more information and a table of the Home Regions for Global Resource Types Onboarded after February 2022, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html).
+    /// Specifies which resource types Config records for configuration changes. In the recording group, you specify whether you want to record all supported resource types or to include or exclude specific types of resources. By default, Config records configuration changes for all supported types of Regional resources that Config discovers in the Amazon Web Services Region in which it is running. Regional resources are tied to a Region and can be used only in that Region. Examples of Regional resources are Amazon EC2 instances and Amazon EBS volumes. You can also have Config record supported types of global resources. Global resources are not tied to a specific Region and can be used in all Regions. The global resource types that Config supports include IAM users, groups, roles, and customer managed policies. Global resource types onboarded to Config recording after February 2022 will be recorded only in the service's home Region for the commercial partition and Amazon Web Services GovCloud (US-West) for the Amazon Web Services GovCloud (US) partition. You can view the Configuration Items for these new global resource types only in their home Region and Amazon Web Services GovCloud (US-West). If you don't want Config to record all resources, you can specify which types of resources Config records with the resourceTypes parameter. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. For more information and a table of the Home Regions for Global Resource Types Onboarded after February 2022, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html) in the Config developer guide.
     public struct RecordingGroup: Swift.Equatable {
-        /// Specifies whether Config records configuration changes for every supported type of regional resource. If you set this option to true, when Config adds support for a new type of regional resource, it starts recording resources of that type automatically. If you set this option to true, you cannot enumerate a list of resourceTypes.
+        /// Specifies whether Config records configuration changes for all supported regional resource types. If you set this field to true, when Config adds support for a new type of regional resource, Config starts recording resources of that type automatically. If you set this field to true, you cannot enumerate specific resource types to record in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), or to exclude in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
         public var allSupported: Swift.Bool
-        /// Specifies whether Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when Config adds support for a new type of global resource, it starts recording resources of that type automatically. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing Config in only one region to record global resources.
+        /// An object that specifies how Config excludes resource types from being recorded by the configuration recorder. To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES.
+        public var exclusionByResourceTypes: ConfigClientTypes.ExclusionByResourceTypes?
+        /// Specifies whether Config records configuration changes for all supported global resources. Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. If you set this field to true, when Config adds support for a new type of global resource in the Region where you set up the configuration recorder, Config starts recording resources of that type automatically. If you set this field to false but list global resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to global resource types, make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
         public var includeGlobalResourceTypes: Swift.Bool
-        /// A comma-separated list that specifies the types of Amazon Web Services resources for which Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). To record all configuration changes, you must set the allSupported option to true. If you set the AllSupported option to false and populate the ResourceTypes option with values, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources).
+        /// An object that specifies the recording strategy for the configuration recorder.
+        ///
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regional resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new type of regional resource, Config automatically starts recording resources of that type.
+        ///
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
+        ///
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types except the resource types that you specify as exemptions to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+        ///
+        ///
+        /// The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global resource types will still be automatically recorded in this option unless those resource types are specifically listed as exemptions in the resourceTypes field of exclusionByResourceTypes. By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically.
+        public var recordingStrategy: ConfigClientTypes.RecordingStrategy?
+        /// A comma-separated list that specifies which resource types Config records. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES. To record all configuration changes, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true, and either omit this field or don't specify any resource types in this field. If you set the allSupported field to false and specify values for resourceTypes, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the Resource Type Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. Region Availability Before specifying a resource type for Config to track, check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if the resource type is supported in the Amazon Web Services Region where you set up Config. If a resource type is supported by Config in at least one Region, you can enable the recording of that resource type in all Regions supported by Config, even if the specified resource type is not supported in the Amazon Web Services Region where you set up Config.
         public var resourceTypes: [ConfigClientTypes.ResourceType]?
 
-        public init (
+        public init(
             allSupported: Swift.Bool = false,
+            exclusionByResourceTypes: ConfigClientTypes.ExclusionByResourceTypes? = nil,
             includeGlobalResourceTypes: Swift.Bool = false,
+            recordingStrategy: ConfigClientTypes.RecordingStrategy? = nil,
             resourceTypes: [ConfigClientTypes.ResourceType]? = nil
         )
         {
             self.allSupported = allSupported
+            self.exclusionByResourceTypes = exclusionByResourceTypes
             self.includeGlobalResourceTypes = includeGlobalResourceTypes
+            self.recordingStrategy = recordingStrategy
             self.resourceTypes = resourceTypes
         }
     }
 
+}
+
+extension ConfigClientTypes.RecordingStrategy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case useOnly
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let useOnly = self.useOnly {
+            try encodeContainer.encode(useOnly.rawValue, forKey: .useOnly)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let useOnlyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RecordingStrategyType.self, forKey: .useOnly)
+        useOnly = useOnlyDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// Specifies the recording strategy of the configuration recorder.
+    public struct RecordingStrategy: Swift.Equatable {
+        /// The recording strategy for the configuration recorder.
+        ///
+        /// * If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regional resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new type of regional resource, Config automatically starts recording resources of that type. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide.
+        ///
+        /// * If you set this option to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types that you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
+        ///
+        /// * If you set this option to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types, except the resource types that you specify as exemptions to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+        ///
+        ///
+        /// The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global resource types will still be automatically recorded in this option unless those resource types are specifically listed as exemptions in the resourceTypes field of exclusionByResourceTypes. By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically.
+        public var useOnly: ConfigClientTypes.RecordingStrategyType?
+
+        public init(
+            useOnly: ConfigClientTypes.RecordingStrategyType? = nil
+        )
+        {
+            self.useOnly = useOnly
+        }
+    }
+
+}
+
+extension ConfigClientTypes {
+    public enum RecordingStrategyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allSupportedResourceTypes
+        case exclusionByResourceTypes
+        case inclusionByResourceTypes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordingStrategyType] {
+            return [
+                .allSupportedResourceTypes,
+                .exclusionByResourceTypes,
+                .inclusionByResourceTypes,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allSupportedResourceTypes: return "ALL_SUPPORTED_RESOURCE_TYPES"
+            case .exclusionByResourceTypes: return "EXCLUSION_BY_RESOURCE_TYPES"
+            case .inclusionByResourceTypes: return "INCLUSION_BY_RESOURCE_TYPES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecordingStrategyType(rawValue: rawValue) ?? RecordingStrategyType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ConfigClientTypes.Relationship: Swift.Codable {
@@ -21378,7 +20658,7 @@ extension ConfigClientTypes.Relationship: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -21403,7 +20683,7 @@ extension ConfigClientTypes {
         /// The resource type of the related resource.
         public var resourceType: ConfigClientTypes.ResourceType?
 
-        public init (
+        public init(
             relationshipName: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil,
@@ -21478,7 +20758,7 @@ extension ConfigClientTypes.RemediationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -21547,7 +20827,7 @@ extension ConfigClientTypes {
         /// Version of the target. For example, version of the SSM document. If you make backward incompatible changes to the SSM document, you must call PutRemediationConfiguration API again to ensure the remediations can run.
         public var targetVersion: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             automatic: Swift.Bool = false,
             configRuleName: Swift.String? = nil,
@@ -21607,7 +20887,7 @@ extension ConfigClientTypes.RemediationException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -21639,7 +20919,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             configRuleName: Swift.String? = nil,
             expirationTime: ClientRuntime.Date? = nil,
             message: Swift.String? = nil,
@@ -21673,7 +20953,7 @@ extension ConfigClientTypes.RemediationExceptionResourceKey: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -21690,7 +20970,7 @@ extension ConfigClientTypes {
         /// The type of a resource.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
         )
@@ -21771,7 +21051,7 @@ extension ConfigClientTypes.RemediationExecutionStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceKeyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceKey.self, forKey: .resourceKey)
         resourceKey = resourceKeyDecoded
@@ -21809,7 +21089,7 @@ extension ConfigClientTypes {
         /// Details of every step.
         public var stepDetails: [ConfigClientTypes.RemediationExecutionStep]?
 
-        public init (
+        public init(
             invocationTime: ClientRuntime.Date? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
             resourceKey: ConfigClientTypes.ResourceKey? = nil,
@@ -21855,7 +21135,7 @@ extension ConfigClientTypes.RemediationExecutionStep: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -21884,7 +21164,7 @@ extension ConfigClientTypes {
         /// The time when the step stopped.
         public var stopTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             errorMessage: Swift.String? = nil,
             name: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
@@ -21938,38 +21218,42 @@ extension ConfigClientTypes {
 }
 
 extension RemediationInProgressException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RemediationInProgressExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
-public struct RemediationInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct RemediationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RemediationInProgressException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -21982,7 +21266,7 @@ extension RemediationInProgressExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22005,7 +21289,7 @@ extension ConfigClientTypes.RemediationParameterValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceValueDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceValue.self, forKey: .resourceValue)
         resourceValue = resourceValueDecoded
@@ -22022,7 +21306,7 @@ extension ConfigClientTypes {
         /// The value is static and does not change at run-time.
         public var staticValue: ConfigClientTypes.StaticValue?
 
-        public init (
+        public init(
             resourceValue: ConfigClientTypes.ResourceValue? = nil,
             staticValue: ConfigClientTypes.StaticValue? = nil
         )
@@ -22064,37 +21348,41 @@ extension ConfigClientTypes {
 }
 
 extension ResourceConcurrentModificationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Two users are trying to modify the same query at the same time. Wait for a moment and try again.
-public struct ResourceConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceConcurrentModificationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22107,7 +21395,7 @@ extension ResourceConcurrentModificationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22159,7 +21447,7 @@ extension ConfigClientTypes.ResourceCount: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -22176,7 +21464,7 @@ extension ConfigClientTypes {
         /// The resource type (for example, "AWS::EC2::Instance").
         public var resourceType: ConfigClientTypes.ResourceType?
 
-        public init (
+        public init(
             count: Swift.Int = 0,
             resourceType: ConfigClientTypes.ResourceType? = nil
         )
@@ -22208,7 +21496,7 @@ extension ConfigClientTypes.ResourceCountFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -22229,7 +21517,7 @@ extension ConfigClientTypes {
         /// The type of the Amazon Web Services resource.
         public var resourceType: ConfigClientTypes.ResourceType?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             region: Swift.String? = nil,
             resourceType: ConfigClientTypes.ResourceType? = nil
@@ -22302,7 +21590,7 @@ extension ConfigClientTypes.ResourceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -22330,7 +21618,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             resourceConfiguration: Swift.String? = nil,
             resourceConfigurationSchemaType: ConfigClientTypes.ResourceConfigurationSchemaType? = nil,
             resourceId: Swift.String? = nil,
@@ -22366,7 +21654,7 @@ extension ConfigClientTypes.ResourceEvaluation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
         resourceEvaluationId = resourceEvaluationIdDecoded
@@ -22387,7 +21675,7 @@ extension ConfigClientTypes {
         /// The ResourceEvaluationId of a evaluation.
         public var resourceEvaluationId: Swift.String?
 
-        public init (
+        public init(
             evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
             evaluationStartTimestamp: ClientRuntime.Date? = nil,
             resourceEvaluationId: Swift.String? = nil
@@ -22421,7 +21709,7 @@ extension ConfigClientTypes.ResourceEvaluationFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
         evaluationMode = evaluationModeDecoded
@@ -22442,7 +21730,7 @@ extension ConfigClientTypes {
         /// Returns a TimeWindow object.
         public var timeWindow: ConfigClientTypes.TimeWindow?
 
-        public init (
+        public init(
             evaluationContextIdentifier: Swift.String? = nil,
             evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
             timeWindow: ConfigClientTypes.TimeWindow? = nil
@@ -22515,7 +21803,7 @@ extension ConfigClientTypes.ResourceFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -22540,7 +21828,7 @@ extension ConfigClientTypes {
         /// The name of the resource.
         public var resourceName: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             region: Swift.String? = nil,
             resourceId: Swift.String? = nil,
@@ -22580,7 +21868,7 @@ extension ConfigClientTypes.ResourceIdentifier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -22605,7 +21893,7 @@ extension ConfigClientTypes {
         /// The type of resource.
         public var resourceType: ConfigClientTypes.ResourceType?
 
-        public init (
+        public init(
             resourceDeletionTime: ClientRuntime.Date? = nil,
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil,
@@ -22622,18 +21910,17 @@ extension ConfigClientTypes {
 }
 
 extension ResourceInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -22652,22 +21939,27 @@ extension ResourceInUseException {
 /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
 ///
 /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22680,7 +21972,7 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22703,7 +21995,7 @@ extension ConfigClientTypes.ResourceKey: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -22722,7 +22014,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var resourceType: ConfigClientTypes.ResourceType?
 
-        public init (
+        public init(
             resourceId: Swift.String? = nil,
             resourceType: ConfigClientTypes.ResourceType? = nil
         )
@@ -22735,38 +22027,42 @@ extension ConfigClientTypes {
 }
 
 extension ResourceNotDiscoveredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotDiscoveredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have specified a resource that is either unknown or has not been discovered.
-public struct ResourceNotDiscoveredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct ResourceNotDiscoveredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotDiscoveredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22779,7 +22075,7 @@ extension ResourceNotDiscoveredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22787,38 +22083,42 @@ extension ResourceNotDiscoveredExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have specified a resource that does not exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22831,7 +22131,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22847,7 +22147,9 @@ extension ConfigClientTypes {
         case api
         case appconfigapplication
         case appconfigconfigurationprofile
+        case appconfigdeploymentstrategy
         case appconfigenvironment
+        case appflowflow
         case appstreamdirectoryconfig
         case appsyncgraphqlapi
         case application
@@ -22855,6 +22157,7 @@ extension ConfigClientTypes {
         case associationcompliance
         case athenadatacatalog
         case athenaworkgroup
+        case auditmanagerassessment
         case autoscalinggroup
         case autoscalingwarmpool
         case backupplan
@@ -22870,6 +22173,7 @@ extension ConfigClientTypes {
         case cloud9environmentec2
         case cloudformationproduct
         case cloudformationprovisionedproduct
+        case cloudwatchmetricstream
         case cluster
         case clusterparametergroup
         case clustersecuritygroup
@@ -22902,16 +22206,21 @@ extension ConfigClientTypes {
         case datasynclocationsmb
         case datasynctask
         case detectivegraph
+        case devicefarminstanceprofile
+        case devicefarmproject
         case devicefarmtestgridproject
         case distribution
         case domain
         case ec2dhcpoptions
+        case ec2ec2fleet
         case ec2ipam
         case ec2networkinsightspath
+        case ec2subnetroutetableassociation
         case ec2trafficmirrorfilter
         case ec2trafficmirrorsession
         case ec2trafficmirrortarget
         case ecrpublicrepository
+        case ecrpullthroughcacherule
         case ecrregistrypolicy
         case ecrrepository
         case ecscluster
@@ -22953,6 +22262,7 @@ extension ConfigClientTypes {
         case glueclassifier
         case gluejob
         case gluemltransform
+        case groundstationconfig
         case group
         case guarddutydetector
         case guarddutyfilter
@@ -22966,6 +22276,7 @@ extension ConfigClientTypes {
         case ivsrecordingconfiguration
         case imagebuildercontainerrecipe
         case imagebuilderdistributionconfiguration
+        case imagebuilderimagepipeline
         case imagebuilderinfrastructureconfiguration
         case instance
         case internetgateway
@@ -22980,6 +22291,7 @@ extension ConfigClientTypes {
         case ioteventsalarmmodel
         case ioteventsdetectormodel
         case ioteventsinput
+        case iotfleetmetric
         case iotmitigationaction
         case iotpolicy
         case iotrolealias
@@ -22993,6 +22305,7 @@ extension ConfigClientTypes {
         case iottwinmakerentity
         case iottwinmakerscene
         case iottwinmakerworkspace
+        case iotwirelessserviceprofile
         case key
         case kinesisanalyticsv2application
         case kinesisstream
@@ -23023,9 +22336,15 @@ extension ConfigClientTypes {
         case networkfirewallrulegroup
         case networkinsightsaccessscopeanalysis
         case networkinterface
+        case networkmanagerdevice
+        case networkmanagerglobalnetwork
+        case networkmanagerlink
+        case networkmanagersite
         case networkmanagertransitgatewayregistration
         case opensearchdomain
+        case panoramapackage
         case patchcompliance
+        case pinpointapp
         case pinpointapplicationsettings
         case pinpointsegment
         case pipeline
@@ -23039,6 +22358,7 @@ extension ConfigClientTypes {
         case rumappmonitor
         case ratebasedrule
         case redshifteventsubscription
+        case redshiftscheduledaction
         case regexpatternsetv2
         case regionalprotection
         case regionalratebasedrule
@@ -23063,6 +22383,7 @@ extension ConfigClientTypes {
         case route53recoveryreadinessrecoverygroup
         case route53recoveryreadinessresourceset
         case route53resolverfirewalldomainlist
+        case route53resolverfirewallrulegroupassociation
         case route53resolverresolverendpoint
         case route53resolverresolverrule
         case route53resolverresolverruleassociation
@@ -23077,7 +22398,9 @@ extension ConfigClientTypes {
         case sesreceiptfilter
         case sesreceiptruleset
         case sestemplate
+        case sagemakerappimageconfig
         case sagemakercoderepository
+        case sagemakerimage
         case sagemakermodel
         case sagemakernotebookinstancelifecycleconfig
         case sagemakerworkteam
@@ -23125,7 +22448,9 @@ extension ConfigClientTypes {
                 .api,
                 .appconfigapplication,
                 .appconfigconfigurationprofile,
+                .appconfigdeploymentstrategy,
                 .appconfigenvironment,
+                .appflowflow,
                 .appstreamdirectoryconfig,
                 .appsyncgraphqlapi,
                 .application,
@@ -23133,6 +22458,7 @@ extension ConfigClientTypes {
                 .associationcompliance,
                 .athenadatacatalog,
                 .athenaworkgroup,
+                .auditmanagerassessment,
                 .autoscalinggroup,
                 .autoscalingwarmpool,
                 .backupplan,
@@ -23148,6 +22474,7 @@ extension ConfigClientTypes {
                 .cloud9environmentec2,
                 .cloudformationproduct,
                 .cloudformationprovisionedproduct,
+                .cloudwatchmetricstream,
                 .cluster,
                 .clusterparametergroup,
                 .clustersecuritygroup,
@@ -23180,16 +22507,21 @@ extension ConfigClientTypes {
                 .datasynclocationsmb,
                 .datasynctask,
                 .detectivegraph,
+                .devicefarminstanceprofile,
+                .devicefarmproject,
                 .devicefarmtestgridproject,
                 .distribution,
                 .domain,
                 .ec2dhcpoptions,
+                .ec2ec2fleet,
                 .ec2ipam,
                 .ec2networkinsightspath,
+                .ec2subnetroutetableassociation,
                 .ec2trafficmirrorfilter,
                 .ec2trafficmirrorsession,
                 .ec2trafficmirrortarget,
                 .ecrpublicrepository,
+                .ecrpullthroughcacherule,
                 .ecrregistrypolicy,
                 .ecrrepository,
                 .ecscluster,
@@ -23231,6 +22563,7 @@ extension ConfigClientTypes {
                 .glueclassifier,
                 .gluejob,
                 .gluemltransform,
+                .groundstationconfig,
                 .group,
                 .guarddutydetector,
                 .guarddutyfilter,
@@ -23244,6 +22577,7 @@ extension ConfigClientTypes {
                 .ivsrecordingconfiguration,
                 .imagebuildercontainerrecipe,
                 .imagebuilderdistributionconfiguration,
+                .imagebuilderimagepipeline,
                 .imagebuilderinfrastructureconfiguration,
                 .instance,
                 .internetgateway,
@@ -23258,6 +22592,7 @@ extension ConfigClientTypes {
                 .ioteventsalarmmodel,
                 .ioteventsdetectormodel,
                 .ioteventsinput,
+                .iotfleetmetric,
                 .iotmitigationaction,
                 .iotpolicy,
                 .iotrolealias,
@@ -23271,6 +22606,7 @@ extension ConfigClientTypes {
                 .iottwinmakerentity,
                 .iottwinmakerscene,
                 .iottwinmakerworkspace,
+                .iotwirelessserviceprofile,
                 .key,
                 .kinesisanalyticsv2application,
                 .kinesisstream,
@@ -23301,9 +22637,15 @@ extension ConfigClientTypes {
                 .networkfirewallrulegroup,
                 .networkinsightsaccessscopeanalysis,
                 .networkinterface,
+                .networkmanagerdevice,
+                .networkmanagerglobalnetwork,
+                .networkmanagerlink,
+                .networkmanagersite,
                 .networkmanagertransitgatewayregistration,
                 .opensearchdomain,
+                .panoramapackage,
                 .patchcompliance,
+                .pinpointapp,
                 .pinpointapplicationsettings,
                 .pinpointsegment,
                 .pipeline,
@@ -23317,6 +22659,7 @@ extension ConfigClientTypes {
                 .rumappmonitor,
                 .ratebasedrule,
                 .redshifteventsubscription,
+                .redshiftscheduledaction,
                 .regexpatternsetv2,
                 .regionalprotection,
                 .regionalratebasedrule,
@@ -23341,6 +22684,7 @@ extension ConfigClientTypes {
                 .route53recoveryreadinessrecoverygroup,
                 .route53recoveryreadinessresourceset,
                 .route53resolverfirewalldomainlist,
+                .route53resolverfirewallrulegroupassociation,
                 .route53resolverresolverendpoint,
                 .route53resolverresolverrule,
                 .route53resolverresolverruleassociation,
@@ -23355,7 +22699,9 @@ extension ConfigClientTypes {
                 .sesreceiptfilter,
                 .sesreceiptruleset,
                 .sestemplate,
+                .sagemakerappimageconfig,
                 .sagemakercoderepository,
+                .sagemakerimage,
                 .sagemakermodel,
                 .sagemakernotebookinstancelifecycleconfig,
                 .sagemakerworkteam,
@@ -23408,7 +22754,9 @@ extension ConfigClientTypes {
             case .api: return "AWS::ApiGatewayV2::Api"
             case .appconfigapplication: return "AWS::AppConfig::Application"
             case .appconfigconfigurationprofile: return "AWS::AppConfig::ConfigurationProfile"
+            case .appconfigdeploymentstrategy: return "AWS::AppConfig::DeploymentStrategy"
             case .appconfigenvironment: return "AWS::AppConfig::Environment"
+            case .appflowflow: return "AWS::AppFlow::Flow"
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
@@ -23416,6 +22764,7 @@ extension ConfigClientTypes {
             case .associationcompliance: return "AWS::SSM::AssociationCompliance"
             case .athenadatacatalog: return "AWS::Athena::DataCatalog"
             case .athenaworkgroup: return "AWS::Athena::WorkGroup"
+            case .auditmanagerassessment: return "AWS::AuditManager::Assessment"
             case .autoscalinggroup: return "AWS::AutoScaling::AutoScalingGroup"
             case .autoscalingwarmpool: return "AWS::AutoScaling::WarmPool"
             case .backupplan: return "AWS::Backup::BackupPlan"
@@ -23431,6 +22780,7 @@ extension ConfigClientTypes {
             case .cloud9environmentec2: return "AWS::Cloud9::EnvironmentEC2"
             case .cloudformationproduct: return "AWS::ServiceCatalog::CloudFormationProduct"
             case .cloudformationprovisionedproduct: return "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
+            case .cloudwatchmetricstream: return "AWS::CloudWatch::MetricStream"
             case .cluster: return "AWS::Redshift::Cluster"
             case .clusterparametergroup: return "AWS::Redshift::ClusterParameterGroup"
             case .clustersecuritygroup: return "AWS::Redshift::ClusterSecurityGroup"
@@ -23463,16 +22813,21 @@ extension ConfigClientTypes {
             case .datasynclocationsmb: return "AWS::DataSync::LocationSMB"
             case .datasynctask: return "AWS::DataSync::Task"
             case .detectivegraph: return "AWS::Detective::Graph"
+            case .devicefarminstanceprofile: return "AWS::DeviceFarm::InstanceProfile"
+            case .devicefarmproject: return "AWS::DeviceFarm::Project"
             case .devicefarmtestgridproject: return "AWS::DeviceFarm::TestGridProject"
             case .distribution: return "AWS::CloudFront::Distribution"
             case .domain: return "AWS::Elasticsearch::Domain"
             case .ec2dhcpoptions: return "AWS::EC2::DHCPOptions"
+            case .ec2ec2fleet: return "AWS::EC2::EC2Fleet"
             case .ec2ipam: return "AWS::EC2::IPAM"
             case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
+            case .ec2subnetroutetableassociation: return "AWS::EC2::SubnetRouteTableAssociation"
             case .ec2trafficmirrorfilter: return "AWS::EC2::TrafficMirrorFilter"
             case .ec2trafficmirrorsession: return "AWS::EC2::TrafficMirrorSession"
             case .ec2trafficmirrortarget: return "AWS::EC2::TrafficMirrorTarget"
             case .ecrpublicrepository: return "AWS::ECR::PublicRepository"
+            case .ecrpullthroughcacherule: return "AWS::ECR::PullThroughCacheRule"
             case .ecrregistrypolicy: return "AWS::ECR::RegistryPolicy"
             case .ecrrepository: return "AWS::ECR::Repository"
             case .ecscluster: return "AWS::ECS::Cluster"
@@ -23514,6 +22869,7 @@ extension ConfigClientTypes {
             case .glueclassifier: return "AWS::Glue::Classifier"
             case .gluejob: return "AWS::Glue::Job"
             case .gluemltransform: return "AWS::Glue::MLTransform"
+            case .groundstationconfig: return "AWS::GroundStation::Config"
             case .group: return "AWS::IAM::Group"
             case .guarddutydetector: return "AWS::GuardDuty::Detector"
             case .guarddutyfilter: return "AWS::GuardDuty::Filter"
@@ -23527,6 +22883,7 @@ extension ConfigClientTypes {
             case .ivsrecordingconfiguration: return "AWS::IVS::RecordingConfiguration"
             case .imagebuildercontainerrecipe: return "AWS::ImageBuilder::ContainerRecipe"
             case .imagebuilderdistributionconfiguration: return "AWS::ImageBuilder::DistributionConfiguration"
+            case .imagebuilderimagepipeline: return "AWS::ImageBuilder::ImagePipeline"
             case .imagebuilderinfrastructureconfiguration: return "AWS::ImageBuilder::InfrastructureConfiguration"
             case .instance: return "AWS::EC2::Instance"
             case .internetgateway: return "AWS::EC2::InternetGateway"
@@ -23541,6 +22898,7 @@ extension ConfigClientTypes {
             case .ioteventsalarmmodel: return "AWS::IoTEvents::AlarmModel"
             case .ioteventsdetectormodel: return "AWS::IoTEvents::DetectorModel"
             case .ioteventsinput: return "AWS::IoTEvents::Input"
+            case .iotfleetmetric: return "AWS::IoT::FleetMetric"
             case .iotmitigationaction: return "AWS::IoT::MitigationAction"
             case .iotpolicy: return "AWS::IoT::Policy"
             case .iotrolealias: return "AWS::IoT::RoleAlias"
@@ -23554,6 +22912,7 @@ extension ConfigClientTypes {
             case .iottwinmakerentity: return "AWS::IoTTwinMaker::Entity"
             case .iottwinmakerscene: return "AWS::IoTTwinMaker::Scene"
             case .iottwinmakerworkspace: return "AWS::IoTTwinMaker::Workspace"
+            case .iotwirelessserviceprofile: return "AWS::IoTWireless::ServiceProfile"
             case .key: return "AWS::KMS::Key"
             case .kinesisanalyticsv2application: return "AWS::KinesisAnalyticsV2::Application"
             case .kinesisstream: return "AWS::Kinesis::Stream"
@@ -23584,9 +22943,15 @@ extension ConfigClientTypes {
             case .networkfirewallrulegroup: return "AWS::NetworkFirewall::RuleGroup"
             case .networkinsightsaccessscopeanalysis: return "AWS::EC2::NetworkInsightsAccessScopeAnalysis"
             case .networkinterface: return "AWS::EC2::NetworkInterface"
+            case .networkmanagerdevice: return "AWS::NetworkManager::Device"
+            case .networkmanagerglobalnetwork: return "AWS::NetworkManager::GlobalNetwork"
+            case .networkmanagerlink: return "AWS::NetworkManager::Link"
+            case .networkmanagersite: return "AWS::NetworkManager::Site"
             case .networkmanagertransitgatewayregistration: return "AWS::NetworkManager::TransitGatewayRegistration"
             case .opensearchdomain: return "AWS::OpenSearch::Domain"
+            case .panoramapackage: return "AWS::Panorama::Package"
             case .patchcompliance: return "AWS::SSM::PatchCompliance"
+            case .pinpointapp: return "AWS::Pinpoint::App"
             case .pinpointapplicationsettings: return "AWS::Pinpoint::ApplicationSettings"
             case .pinpointsegment: return "AWS::Pinpoint::Segment"
             case .pipeline: return "AWS::CodePipeline::Pipeline"
@@ -23600,6 +22965,7 @@ extension ConfigClientTypes {
             case .rumappmonitor: return "AWS::RUM::AppMonitor"
             case .ratebasedrule: return "AWS::WAF::RateBasedRule"
             case .redshifteventsubscription: return "AWS::Redshift::EventSubscription"
+            case .redshiftscheduledaction: return "AWS::Redshift::ScheduledAction"
             case .regexpatternsetv2: return "AWS::WAFv2::RegexPatternSet"
             case .regionalprotection: return "AWS::ShieldRegional::Protection"
             case .regionalratebasedrule: return "AWS::WAFRegional::RateBasedRule"
@@ -23624,6 +22990,7 @@ extension ConfigClientTypes {
             case .route53recoveryreadinessrecoverygroup: return "AWS::Route53RecoveryReadiness::RecoveryGroup"
             case .route53recoveryreadinessresourceset: return "AWS::Route53RecoveryReadiness::ResourceSet"
             case .route53resolverfirewalldomainlist: return "AWS::Route53Resolver::FirewallDomainList"
+            case .route53resolverfirewallrulegroupassociation: return "AWS::Route53Resolver::FirewallRuleGroupAssociation"
             case .route53resolverresolverendpoint: return "AWS::Route53Resolver::ResolverEndpoint"
             case .route53resolverresolverrule: return "AWS::Route53Resolver::ResolverRule"
             case .route53resolverresolverruleassociation: return "AWS::Route53Resolver::ResolverRuleAssociation"
@@ -23638,7 +23005,9 @@ extension ConfigClientTypes {
             case .sesreceiptfilter: return "AWS::SES::ReceiptFilter"
             case .sesreceiptruleset: return "AWS::SES::ReceiptRuleSet"
             case .sestemplate: return "AWS::SES::Template"
+            case .sagemakerappimageconfig: return "AWS::SageMaker::AppImageConfig"
             case .sagemakercoderepository: return "AWS::SageMaker::CodeRepository"
+            case .sagemakerimage: return "AWS::SageMaker::Image"
             case .sagemakermodel: return "AWS::SageMaker::Model"
             case .sagemakernotebookinstancelifecycleconfig: return "AWS::SageMaker::NotebookInstanceLifecycleConfig"
             case .sagemakerworkteam: return "AWS::SageMaker::Workteam"
@@ -23698,7 +23067,7 @@ extension ConfigClientTypes.ResourceValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceValueType.self, forKey: .value)
         value = valueDecoded
@@ -23712,7 +23081,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var value: ConfigClientTypes.ResourceValueType?
 
-        public init (
+        public init(
             value: ConfigClientTypes.ResourceValueType? = nil
         )
         {
@@ -23767,7 +23136,7 @@ extension ConfigClientTypes.RetentionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -23786,7 +23155,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var retentionPeriodInDays: Swift.Int
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             retentionPeriodInDays: Swift.Int = 0
         )
@@ -23825,7 +23194,7 @@ extension ConfigClientTypes.Scope: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let complianceResourceTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .complianceResourceTypes)
         var complianceResourceTypesDecoded0:[Swift.String]? = nil
@@ -23859,7 +23228,7 @@ extension ConfigClientTypes {
         /// The tag value applied to only those Amazon Web Services resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue, you must also specify a value for TagKey.
         public var tagValue: Swift.String?
 
-        public init (
+        public init(
             complianceResourceId: Swift.String? = nil,
             complianceResourceTypes: [Swift.String]? = nil,
             tagKey: Swift.String? = nil,
@@ -23924,7 +23293,7 @@ public struct SelectAggregateResourceConfigInput: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         configurationAggregatorName: Swift.String? = nil,
         expression: Swift.String? = nil,
         limit: Swift.Int? = nil,
@@ -23957,7 +23326,7 @@ extension SelectAggregateResourceConfigInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
         expression = expressionDecoded
@@ -23972,37 +23341,23 @@ extension SelectAggregateResourceConfigInputBody: Swift.Decodable {
     }
 }
 
-extension SelectAggregateResourceConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SelectAggregateResourceConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidExpressionException" : self = .invalidExpressionException(try InvalidExpressionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationAggregatorException" : self = .noSuchConfigurationAggregatorException(try NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SelectAggregateResourceConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidExpressionException": return try await InvalidExpressionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationAggregatorException": return try await NoSuchConfigurationAggregatorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SelectAggregateResourceConfigOutputError: Swift.Error, Swift.Equatable {
-    case invalidExpressionException(InvalidExpressionException)
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noSuchConfigurationAggregatorException(NoSuchConfigurationAggregatorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SelectAggregateResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SelectAggregateResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -24024,7 +23379,7 @@ public struct SelectAggregateResourceConfigOutputResponse: Swift.Equatable {
     /// Returns the results for the SQL query.
     public var results: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         queryInfo: ConfigClientTypes.QueryInfo? = nil,
         results: [Swift.String]? = nil
@@ -24049,7 +23404,7 @@ extension SelectAggregateResourceConfigOutputResponseBody: Swift.Decodable {
         case results = "Results"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .results)
         var resultsDecoded0:[Swift.String]? = nil
@@ -24105,7 +23460,7 @@ public struct SelectResourceConfigInput: Swift.Equatable {
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         expression: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -24130,7 +23485,7 @@ extension SelectResourceConfigInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
         expression = expressionDecoded
@@ -24141,35 +23496,22 @@ extension SelectResourceConfigInputBody: Swift.Decodable {
     }
 }
 
-extension SelectResourceConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SelectResourceConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidExpressionException" : self = .invalidExpressionException(try InvalidExpressionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidLimitException" : self = .invalidLimitException(try InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SelectResourceConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidExpressionException": return try await InvalidExpressionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLimitException": return try await InvalidLimitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SelectResourceConfigOutputError: Swift.Error, Swift.Equatable {
-    case invalidExpressionException(InvalidExpressionException)
-    case invalidLimitException(InvalidLimitException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SelectResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SelectResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -24191,7 +23533,7 @@ public struct SelectResourceConfigOutputResponse: Swift.Equatable {
     /// Returns the results for the SQL query.
     public var results: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         queryInfo: ConfigClientTypes.QueryInfo? = nil,
         results: [Swift.String]? = nil
@@ -24216,7 +23558,7 @@ extension SelectResourceConfigOutputResponseBody: Swift.Decodable {
         case results = "Results"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .results)
         var resultsDecoded0:[Swift.String]? = nil
@@ -24324,7 +23666,7 @@ extension ConfigClientTypes.Source: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.Owner.self, forKey: .owner)
         owner = ownerDecoded
@@ -24359,7 +23701,7 @@ extension ConfigClientTypes {
         /// For Config Managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). For Config Custom Lambda rules, the identifier is the Amazon Resource Name (ARN) of the rule's Lambda function, such as arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name. For Config Custom Policy rules, this field will be ignored.
         public var sourceIdentifier: Swift.String?
 
-        public init (
+        public init(
             customPolicyDetails: ConfigClientTypes.CustomPolicyDetails? = nil,
             owner: ConfigClientTypes.Owner? = nil,
             sourceDetails: [ConfigClientTypes.SourceDetail]? = nil,
@@ -24395,7 +23737,7 @@ extension ConfigClientTypes.SourceDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventSourceDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EventSource.self, forKey: .eventSource)
         eventSource = eventSourceDecoded
@@ -24427,7 +23769,7 @@ extension ConfigClientTypes {
         /// If you want your custom rule to be triggered by configuration changes, specify two SourceDetail objects, one for ConfigurationItemChangeNotification and one for OversizedConfigurationItemChangeNotification.
         public var messageType: ConfigClientTypes.MessageType?
 
-        public init (
+        public init(
             eventSource: ConfigClientTypes.EventSource? = nil,
             maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil,
             messageType: ConfigClientTypes.MessageType? = nil
@@ -24457,7 +23799,7 @@ extension ConfigClientTypes.SsmControls: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let concurrentExecutionRatePercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .concurrentExecutionRatePercentage)
         concurrentExecutionRatePercentage = concurrentExecutionRatePercentageDecoded
@@ -24474,7 +23816,7 @@ extension ConfigClientTypes {
         /// The percentage of errors that are allowed before SSM stops running automations on non-compliant resources for that specific rule. You can specify a percentage of errors, for example 10%. If you do not specifiy a percentage, the default is 50%. For example, if you set the ErrorPercentage to 40% for 10 non-compliant resources, then SSM stops running the automations when the fifth error is received.
         public var errorPercentage: Swift.Int?
 
-        public init (
+        public init(
             concurrentExecutionRatePercentage: Swift.Int? = nil,
             errorPercentage: Swift.Int? = nil
         )
@@ -24513,7 +23855,7 @@ public struct StartConfigRulesEvaluationInput: Swift.Equatable {
     /// The list of names of Config rules that you want to run evaluations for.
     public var configRuleNames: [Swift.String]?
 
-    public init (
+    public init(
         configRuleNames: [Swift.String]? = nil
     )
     {
@@ -24530,7 +23872,7 @@ extension StartConfigRulesEvaluationInputBody: Swift.Decodable {
         case configRuleNames = "ConfigRuleNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configRuleNames)
         var configRuleNamesDecoded0:[Swift.String]? = nil
@@ -24546,43 +23888,29 @@ extension StartConfigRulesEvaluationInputBody: Swift.Decodable {
     }
 }
 
-extension StartConfigRulesEvaluationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartConfigRulesEvaluationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigRuleException" : self = .noSuchConfigRuleException(try NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartConfigRulesEvaluationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigRuleException": return try await NoSuchConfigRuleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartConfigRulesEvaluationOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case limitExceededException(LimitExceededException)
-    case noSuchConfigRuleException(NoSuchConfigRuleException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartConfigRulesEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// The output when you start the evaluation for the specified Config rule.
 public struct StartConfigRulesEvaluationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension StartConfigurationRecorderInput: Swift.Encodable {
@@ -24610,7 +23938,7 @@ public struct StartConfigurationRecorderInput: Swift.Equatable {
     /// This member is required.
     public var configurationRecorderName: Swift.String?
 
-    public init (
+    public init(
         configurationRecorderName: Swift.String? = nil
     )
     {
@@ -24627,45 +23955,33 @@ extension StartConfigurationRecorderInputBody: Swift.Decodable {
         case configurationRecorderName = "ConfigurationRecorderName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationRecorderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationRecorderName)
         configurationRecorderName = configurationRecorderNameDecoded
     }
 }
 
-extension StartConfigurationRecorderOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartConfigurationRecorderOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoAvailableDeliveryChannelException" : self = .noAvailableDeliveryChannelException(try NoAvailableDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchConfigurationRecorderException" : self = .noSuchConfigurationRecorderException(try NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartConfigurationRecorderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoAvailableDeliveryChannelException": return try await NoAvailableDeliveryChannelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchConfigurationRecorderException": return try await NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartConfigurationRecorderOutputError: Swift.Error, Swift.Equatable {
-    case noAvailableDeliveryChannelException(NoAvailableDeliveryChannelException)
-    case noSuchConfigurationRecorderException(NoSuchConfigurationRecorderException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartConfigurationRecorderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StartConfigurationRecorderOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension StartRemediationExecutionInput: Swift.Encodable {
@@ -24702,7 +24018,7 @@ public struct StartRemediationExecutionInput: Swift.Equatable {
     /// This member is required.
     public var resourceKeys: [ConfigClientTypes.ResourceKey]?
 
-    public init (
+    public init(
         configRuleName: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.ResourceKey]? = nil
     )
@@ -24723,7 +24039,7 @@ extension StartRemediationExecutionInputBody: Swift.Decodable {
         case resourceKeys = "ResourceKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configRuleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configRuleName)
         configRuleName = configRuleNameDecoded
@@ -24741,35 +24057,22 @@ extension StartRemediationExecutionInputBody: Swift.Decodable {
     }
 }
 
-extension StartRemediationExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartRemediationExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPermissionsException" : self = .insufficientPermissionsException(try InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoSuchRemediationConfigurationException" : self = .noSuchRemediationConfigurationException(try NoSuchRemediationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartRemediationExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientPermissionsException": return try await InsufficientPermissionsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoSuchRemediationConfigurationException": return try await NoSuchRemediationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartRemediationExecutionOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPermissionsException(InsufficientPermissionsException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noSuchRemediationConfigurationException(NoSuchRemediationConfigurationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartRemediationExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartRemediationExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedItems = output.failedItems
@@ -24787,7 +24090,7 @@ public struct StartRemediationExecutionOutputResponse: Swift.Equatable {
     /// Returns a failure message. For example, the resource is already compliant.
     public var failureMessage: Swift.String?
 
-    public init (
+    public init(
         failedItems: [ConfigClientTypes.ResourceKey]? = nil,
         failureMessage: Swift.String? = nil
     )
@@ -24808,7 +24111,7 @@ extension StartRemediationExecutionOutputResponseBody: Swift.Decodable {
         case failureMessage = "FailureMessage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failureMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureMessage)
         failureMessage = failureMessageDecoded
@@ -24875,7 +24178,7 @@ public struct StartResourceEvaluationInput: Swift.Equatable {
     /// This member is required.
     public var resourceDetails: ConfigClientTypes.ResourceDetails?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         evaluationContext: ConfigClientTypes.EvaluationContext? = nil,
         evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
@@ -24908,7 +24211,7 @@ extension StartResourceEvaluationInputBody: Swift.Decodable {
         case resourceDetails = "ResourceDetails"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceDetailsDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceDetails.self, forKey: .resourceDetails)
         resourceDetails = resourceDetailsDecoded
@@ -24923,33 +24226,21 @@ extension StartResourceEvaluationInputBody: Swift.Decodable {
     }
 }
 
-extension StartResourceEvaluationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartResourceEvaluationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "IdempotentParameterMismatch" : self = .idempotentParameterMismatch(try IdempotentParameterMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartResourceEvaluationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatch": return try await IdempotentParameterMismatch(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartResourceEvaluationOutputError: Swift.Error, Swift.Equatable {
-    case idempotentParameterMismatch(IdempotentParameterMismatch)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartResourceEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartResourceEvaluationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceEvaluationId = output.resourceEvaluationId
@@ -24963,7 +24254,7 @@ public struct StartResourceEvaluationOutputResponse: Swift.Equatable {
     /// A unique ResourceEvaluationId that is associated with a single execution.
     public var resourceEvaluationId: Swift.String?
 
-    public init (
+    public init(
         resourceEvaluationId: Swift.String? = nil
     )
     {
@@ -24980,7 +24271,7 @@ extension StartResourceEvaluationOutputResponseBody: Swift.Decodable {
         case resourceEvaluationId = "ResourceEvaluationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceEvaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceEvaluationId)
         resourceEvaluationId = resourceEvaluationIdDecoded
@@ -25002,7 +24293,7 @@ extension ConfigClientTypes.StaticValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
         var valuesDecoded0:[Swift.String]? = nil
@@ -25025,7 +24316,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             values: [Swift.String]? = nil
         )
         {
@@ -25051,7 +24342,7 @@ extension ConfigClientTypes.StatusDetailFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -25086,7 +24377,7 @@ extension ConfigClientTypes {
         /// * UPDATE_FAILED when Config rule deletion has failed in the member account.
         public var memberAccountRuleStatus: ConfigClientTypes.MemberAccountRuleStatus?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             memberAccountRuleStatus: ConfigClientTypes.MemberAccountRuleStatus? = nil
         )
@@ -25123,7 +24414,7 @@ public struct StopConfigurationRecorderInput: Swift.Equatable {
     /// This member is required.
     public var configurationRecorderName: Swift.String?
 
-    public init (
+    public init(
         configurationRecorderName: Swift.String? = nil
     )
     {
@@ -25140,43 +24431,32 @@ extension StopConfigurationRecorderInputBody: Swift.Decodable {
         case configurationRecorderName = "ConfigurationRecorderName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationRecorderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationRecorderName)
         configurationRecorderName = configurationRecorderNameDecoded
     }
 }
 
-extension StopConfigurationRecorderOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopConfigurationRecorderOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "NoSuchConfigurationRecorderException" : self = .noSuchConfigurationRecorderException(try NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopConfigurationRecorderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "NoSuchConfigurationRecorderException": return try await NoSuchConfigurationRecorderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopConfigurationRecorderOutputError: Swift.Error, Swift.Equatable {
-    case noSuchConfigurationRecorderException(NoSuchConfigurationRecorderException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopConfigurationRecorderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StopConfigurationRecorderOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ConfigClientTypes.StoredQuery: Swift.Codable {
@@ -25207,7 +24487,7 @@ extension ConfigClientTypes.StoredQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
@@ -25237,7 +24517,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var queryName: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             expression: Swift.String? = nil,
             queryArn: Swift.String? = nil,
@@ -25279,7 +24559,7 @@ extension ConfigClientTypes.StoredQueryMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
@@ -25307,7 +24587,7 @@ extension ConfigClientTypes {
         /// This member is required.
         public var queryName: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             queryArn: Swift.String? = nil,
             queryId: Swift.String? = nil,
@@ -25339,7 +24619,7 @@ extension ConfigClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -25356,7 +24636,7 @@ extension ConfigClientTypes {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -25402,7 +24682,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [ConfigClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
     )
@@ -25423,7 +24703,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -25441,40 +24721,27 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyTagsException(TooManyTagsException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ConfigClientTypes.TemplateSSMDocumentDetails: Swift.Codable {
@@ -25493,7 +24760,7 @@ extension ConfigClientTypes.TemplateSSMDocumentDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentName)
         documentName = documentNameDecoded
@@ -25511,7 +24778,7 @@ extension ConfigClientTypes {
         /// The version of the SSM document to use to create a conformance pack. By default, Config uses the latest version. This field is optional.
         public var documentVersion: Swift.String?
 
-        public init (
+        public init(
             documentName: Swift.String? = nil,
             documentVersion: Swift.String? = nil
         )
@@ -25539,7 +24806,7 @@ extension ConfigClientTypes.TimeWindow: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -25556,7 +24823,7 @@ extension ConfigClientTypes {
         /// The start time of an execution.
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             endTime: ClientRuntime.Date? = nil,
             startTime: ClientRuntime.Date? = nil
         )
@@ -25569,38 +24836,42 @@ extension ConfigClientTypes {
 }
 
 extension TooManyTagsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -25613,7 +24884,7 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -25654,7 +24925,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -25675,7 +24946,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -25693,73 +24964,65 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Error executing the command
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -25772,7 +25035,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded

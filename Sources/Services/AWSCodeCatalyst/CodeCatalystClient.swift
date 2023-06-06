@@ -585,6 +585,38 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
         return result
     }
 
+    /// Retrieves a list of active sessions for a Dev Environment in a project.
+    public func listDevEnvironmentSessions(input: ListDevEnvironmentSessionsInput) async throws -> ListDevEnvironmentSessionsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDevEnvironmentSessions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>(id: "listDevEnvironmentSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutputResponse>(xmlName: "ListDevEnvironmentSessionsRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>(retryer: config.retryer))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentSessionsOutputResponse, ListDevEnvironmentSessionsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieves a list of Dev Environments in a project.
     public func listDevEnvironments(input: ListDevEnvironmentsInput) async throws -> ListDevEnvironmentsOutputResponse
     {

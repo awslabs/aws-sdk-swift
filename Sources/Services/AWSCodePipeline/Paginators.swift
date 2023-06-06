@@ -25,6 +25,15 @@ extension ListActionExecutionsInput: ClientRuntime.PaginateToken {
             pipelineName: self.pipelineName
         )}
 }
+
+extension PaginatorSequence where Input == ListActionExecutionsInput, Output == ListActionExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listActionExecutionsPaginated`
+    /// to access the nested member `[CodePipelineClientTypes.ActionExecutionDetail]`
+    /// - Returns: `[CodePipelineClientTypes.ActionExecutionDetail]`
+    public func actionExecutionDetails() async throws -> [CodePipelineClientTypes.ActionExecutionDetail] {
+        return try await self.asyncCompactMap { item in item.actionExecutionDetails }
+    }
+}
 extension CodePipelineClient {
     /// Paginate over `[ListActionTypesOutputResponse]` results.
     ///
@@ -46,6 +55,15 @@ extension ListActionTypesInput: ClientRuntime.PaginateToken {
             nextToken: token,
             regionFilter: self.regionFilter
         )}
+}
+
+extension PaginatorSequence where Input == ListActionTypesInput, Output == ListActionTypesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listActionTypesPaginated`
+    /// to access the nested member `[CodePipelineClientTypes.ActionType]`
+    /// - Returns: `[CodePipelineClientTypes.ActionType]`
+    public func actionTypes() async throws -> [CodePipelineClientTypes.ActionType] {
+        return try await self.asyncCompactMap { item in item.actionTypes }
+    }
 }
 extension CodePipelineClient {
     /// Paginate over `[ListPipelineExecutionsOutputResponse]` results.
@@ -69,6 +87,15 @@ extension ListPipelineExecutionsInput: ClientRuntime.PaginateToken {
             pipelineName: self.pipelineName
         )}
 }
+
+extension PaginatorSequence where Input == ListPipelineExecutionsInput, Output == ListPipelineExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPipelineExecutionsPaginated`
+    /// to access the nested member `[CodePipelineClientTypes.PipelineExecutionSummary]`
+    /// - Returns: `[CodePipelineClientTypes.PipelineExecutionSummary]`
+    public func pipelineExecutionSummaries() async throws -> [CodePipelineClientTypes.PipelineExecutionSummary] {
+        return try await self.asyncCompactMap { item in item.pipelineExecutionSummaries }
+    }
+}
 extension CodePipelineClient {
     /// Paginate over `[ListPipelinesOutputResponse]` results.
     ///
@@ -89,6 +116,15 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
+    /// to access the nested member `[CodePipelineClientTypes.PipelineSummary]`
+    /// - Returns: `[CodePipelineClientTypes.PipelineSummary]`
+    public func pipelines() async throws -> [CodePipelineClientTypes.PipelineSummary] {
+        return try await self.asyncCompactMap { item in item.pipelines }
+    }
 }
 extension CodePipelineClient {
     /// Paginate over `[ListTagsForResourceOutputResponse]` results.
@@ -112,6 +148,15 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
             resourceArn: self.resourceArn
         )}
 }
+
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
+    /// to access the nested member `[CodePipelineClientTypes.Tag]`
+    /// - Returns: `[CodePipelineClientTypes.Tag]`
+    public func tags() async throws -> [CodePipelineClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}
 extension CodePipelineClient {
     /// Paginate over `[ListWebhooksOutputResponse]` results.
     ///
@@ -132,4 +177,13 @@ extension ListWebhooksInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListWebhooksInput, Output == ListWebhooksOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWebhooksPaginated`
+    /// to access the nested member `[CodePipelineClientTypes.ListWebhookItem]`
+    /// - Returns: `[CodePipelineClientTypes.ListWebhookItem]`
+    public func webhooks() async throws -> [CodePipelineClientTypes.ListWebhookItem] {
+        return try await self.asyncCompactMap { item in item.webhooks }
+    }
 }

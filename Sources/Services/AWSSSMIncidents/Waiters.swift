@@ -66,7 +66,7 @@ extension SSMIncidentsClientProtocol {
         let acceptors: [WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
             .init(state: .retry, matcher: { (input: GetReplicationSetInput, result: Result<GetReplicationSetOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "replicationSet.status"

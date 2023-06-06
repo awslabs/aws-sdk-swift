@@ -3,37 +3,41 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user is not authorized to access a resource.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -46,7 +50,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -117,7 +121,7 @@ extension WorkSpacesClientTypes.AccountModification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modificationStateDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DedicatedTenancyModificationStateEnum.self, forKey: .modificationState)
         modificationState = modificationStateDecoded
@@ -150,7 +154,7 @@ extension WorkSpacesClientTypes {
         /// The timestamp when the modification of the BYOL configuration was started.
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             dedicatedTenancyManagementCidrRange: Swift.String? = nil,
             dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum? = nil,
             errorCode: Swift.String? = nil,
@@ -233,7 +237,7 @@ public struct AssociateConnectionAliasInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         aliasId: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
@@ -254,7 +258,7 @@ extension AssociateConnectionAliasInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aliasId)
         aliasId = aliasIdDecoded
@@ -263,41 +267,25 @@ extension AssociateConnectionAliasInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateConnectionAliasOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateConnectionAliasOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAssociatedException" : self = .resourceAssociatedException(try ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateConnectionAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAssociatedException": return try await ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateConnectionAliasOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceAssociatedException(ResourceAssociatedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateConnectionAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateConnectionAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionIdentifier = output.connectionIdentifier
@@ -311,7 +299,7 @@ public struct AssociateConnectionAliasOutputResponse: Swift.Equatable {
     /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies.
     public var connectionIdentifier: Swift.String?
 
-    public init (
+    public init(
         connectionIdentifier: Swift.String? = nil
     )
     {
@@ -328,7 +316,7 @@ extension AssociateConnectionAliasOutputResponseBody: Swift.Decodable {
         case connectionIdentifier = "ConnectionIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionIdentifier)
         connectionIdentifier = connectionIdentifierDecoded
@@ -369,7 +357,7 @@ public struct AssociateIpGroupsInput: Swift.Equatable {
     /// This member is required.
     public var groupIds: [Swift.String]?
 
-    public init (
+    public init(
         directoryId: Swift.String? = nil,
         groupIds: [Swift.String]? = nil
     )
@@ -390,7 +378,7 @@ extension AssociateIpGroupsInputBody: Swift.Decodable {
         case groupIds = "GroupIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
         directoryId = directoryIdDecoded
@@ -408,46 +396,30 @@ extension AssociateIpGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateIpGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateIpGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateIpGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateIpGroupsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateIpGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AssociateIpGroupsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WorkSpacesClientTypes {
@@ -525,7 +497,7 @@ public struct AuthorizeIpRulesInput: Swift.Equatable {
     /// This member is required.
     public var userRules: [WorkSpacesClientTypes.IpRuleItem]?
 
-    public init (
+    public init(
         groupId: Swift.String? = nil,
         userRules: [WorkSpacesClientTypes.IpRuleItem]? = nil
     )
@@ -546,7 +518,7 @@ extension AuthorizeIpRulesInputBody: Swift.Decodable {
         case userRules = "UserRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -564,44 +536,29 @@ extension AuthorizeIpRulesInputBody: Swift.Decodable {
     }
 }
 
-extension AuthorizeIpRulesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AuthorizeIpRulesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AuthorizeIpRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AuthorizeIpRulesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AuthorizeIpRulesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AuthorizeIpRulesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WorkSpacesClientTypes {
@@ -652,7 +609,7 @@ extension WorkSpacesClientTypes.CertificateBasedAuthProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.CertificateBasedAuthStatusEnum.self, forKey: .status)
         status = statusDecoded
@@ -669,7 +626,7 @@ extension WorkSpacesClientTypes {
         /// The status of the certificate-based authentication properties.
         public var status: WorkSpacesClientTypes.CertificateBasedAuthStatusEnum?
 
-        public init (
+        public init(
             certificateAuthorityArn: Swift.String? = nil,
             status: WorkSpacesClientTypes.CertificateBasedAuthStatusEnum? = nil
         )
@@ -773,7 +730,7 @@ extension WorkSpacesClientTypes.ClientProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reconnectEnabledDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.ReconnectEnum.self, forKey: .reconnectEnabled)
         reconnectEnabled = reconnectEnabledDecoded
@@ -790,7 +747,7 @@ extension WorkSpacesClientTypes {
         /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials.
         public var reconnectEnabled: WorkSpacesClientTypes.ReconnectEnum?
 
-        public init (
+        public init(
             logUploadEnabled: WorkSpacesClientTypes.LogUploadEnum? = nil,
             reconnectEnabled: WorkSpacesClientTypes.ReconnectEnum? = nil
         )
@@ -818,7 +775,7 @@ extension WorkSpacesClientTypes.ClientPropertiesResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -835,7 +792,7 @@ extension WorkSpacesClientTypes {
         /// The resource identifier, in the form of a directory ID.
         public var resourceId: Swift.String?
 
-        public init (
+        public init(
             clientProperties: WorkSpacesClientTypes.ClientProperties? = nil,
             resourceId: Swift.String? = nil
         )
@@ -912,7 +869,7 @@ extension WorkSpacesClientTypes.ComputeType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.Compute.self, forKey: .name)
         name = nameDecoded
@@ -925,7 +882,7 @@ extension WorkSpacesClientTypes {
         /// The compute type.
         public var name: WorkSpacesClientTypes.Compute?
 
-        public init (
+        public init(
             name: WorkSpacesClientTypes.Compute? = nil
         )
         {
@@ -959,7 +916,7 @@ extension WorkSpacesClientTypes.ConnectClientAddIn: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addInIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addInId)
         addInId = addInIdDecoded
@@ -984,7 +941,7 @@ extension WorkSpacesClientTypes {
         /// The endpoint URL of the client add-in.
         public var url: Swift.String?
 
-        public init (
+        public init(
             addInId: Swift.String? = nil,
             name: Swift.String? = nil,
             resourceId: Swift.String? = nil,
@@ -1031,7 +988,7 @@ extension WorkSpacesClientTypes.ConnectionAlias: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionString)
         connectionString = connectionStringDecoded
@@ -1069,7 +1026,7 @@ extension WorkSpacesClientTypes {
         /// The current state of the connection alias.
         public var state: WorkSpacesClientTypes.ConnectionAliasState?
 
-        public init (
+        public init(
             aliasId: Swift.String? = nil,
             associations: [WorkSpacesClientTypes.ConnectionAliasAssociation]? = nil,
             connectionString: Swift.String? = nil,
@@ -1111,7 +1068,7 @@ extension WorkSpacesClientTypes.ConnectionAliasAssociation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let associationStatusDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.AssociationStatus.self, forKey: .associationStatus)
         associationStatus = associationStatusDecoded
@@ -1136,7 +1093,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the directory associated with a connection alias.
         public var resourceId: Swift.String?
 
-        public init (
+        public init(
             associatedAccountId: Swift.String? = nil,
             associationStatus: WorkSpacesClientTypes.AssociationStatus? = nil,
             connectionIdentifier: Swift.String? = nil,
@@ -1168,7 +1125,7 @@ extension WorkSpacesClientTypes.ConnectionAliasPermission: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sharedAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sharedAccountId)
         sharedAccountId = sharedAccountIdDecoded
@@ -1187,7 +1144,7 @@ extension WorkSpacesClientTypes {
         /// This member is required.
         public var sharedAccountId: Swift.String?
 
-        public init (
+        public init(
             allowAssociation: Swift.Bool? = nil,
             sharedAccountId: Swift.String? = nil
         )
@@ -1322,7 +1279,7 @@ public struct CopyWorkspaceImageInput: Swift.Equatable {
     /// The tags for the image.
     public var tags: [WorkSpacesClientTypes.Tag]?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         sourceImageId: Swift.String? = nil,
@@ -1355,7 +1312,7 @@ extension CopyWorkspaceImageInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1379,43 +1336,26 @@ extension CopyWorkspaceImageInputBody: Swift.Decodable {
     }
 }
 
-extension CopyWorkspaceImageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CopyWorkspaceImageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CopyWorkspaceImageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CopyWorkspaceImageOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CopyWorkspaceImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CopyWorkspaceImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageId = output.imageId
@@ -1429,7 +1369,7 @@ public struct CopyWorkspaceImageOutputResponse: Swift.Equatable {
     /// The identifier of the image.
     public var imageId: Swift.String?
 
-    public init (
+    public init(
         imageId: Swift.String? = nil
     )
     {
@@ -1446,7 +1386,7 @@ extension CopyWorkspaceImageOutputResponseBody: Swift.Decodable {
         case imageId = "ImageId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
@@ -1491,7 +1431,7 @@ public struct CreateConnectClientAddInInput: Swift.Equatable {
     /// This member is required.
     public var url: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         url: Swift.String? = nil
@@ -1516,7 +1456,7 @@ extension CreateConnectClientAddInInputBody: Swift.Decodable {
         case url = "URL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -1527,39 +1467,24 @@ extension CreateConnectClientAddInInputBody: Swift.Decodable {
     }
 }
 
-extension CreateConnectClientAddInOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateConnectClientAddInOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceCreationFailedException" : self = .resourceCreationFailedException(try ResourceCreationFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateConnectClientAddInOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceCreationFailedException": return try await ResourceCreationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateConnectClientAddInOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceCreationFailedException(ResourceCreationFailedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateConnectClientAddInOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateConnectClientAddInOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addInId = output.addInId
@@ -1573,7 +1498,7 @@ public struct CreateConnectClientAddInOutputResponse: Swift.Equatable {
     /// The client add-in identifier.
     public var addInId: Swift.String?
 
-    public init (
+    public init(
         addInId: Swift.String? = nil
     )
     {
@@ -1590,7 +1515,7 @@ extension CreateConnectClientAddInOutputResponseBody: Swift.Decodable {
         case addInId = "AddInId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addInIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addInId)
         addInId = addInIdDecoded
@@ -1630,7 +1555,7 @@ public struct CreateConnectionAliasInput: Swift.Equatable {
     /// The tags to associate with the connection alias.
     public var tags: [WorkSpacesClientTypes.Tag]?
 
-    public init (
+    public init(
         connectionString: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil
     )
@@ -1651,7 +1576,7 @@ extension CreateConnectionAliasInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionString)
         connectionString = connectionStringDecoded
@@ -1669,41 +1594,25 @@ extension CreateConnectionAliasInputBody: Swift.Decodable {
     }
 }
 
-extension CreateConnectionAliasOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateConnectionAliasOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateConnectionAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateConnectionAliasOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateConnectionAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateConnectionAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aliasId = output.aliasId
@@ -1717,7 +1626,7 @@ public struct CreateConnectionAliasOutputResponse: Swift.Equatable {
     /// The identifier of the connection alias.
     public var aliasId: Swift.String?
 
-    public init (
+    public init(
         aliasId: Swift.String? = nil
     )
     {
@@ -1734,7 +1643,7 @@ extension CreateConnectionAliasOutputResponseBody: Swift.Decodable {
         case aliasId = "AliasId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aliasId)
         aliasId = aliasIdDecoded
@@ -1789,7 +1698,7 @@ public struct CreateIpGroupInput: Swift.Equatable {
     /// The rules to add to the group.
     public var userRules: [WorkSpacesClientTypes.IpRuleItem]?
 
-    public init (
+    public init(
         groupDesc: Swift.String? = nil,
         groupName: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
@@ -1818,7 +1727,7 @@ extension CreateIpGroupInputBody: Swift.Decodable {
         case userRules = "UserRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -1849,39 +1758,24 @@ extension CreateIpGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateIpGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateIpGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceCreationFailedException" : self = .resourceCreationFailedException(try ResourceCreationFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateIpGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceCreationFailedException": return try await ResourceCreationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateIpGroupOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceCreationFailedException(ResourceCreationFailedException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateIpGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateIpGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupId = output.groupId
@@ -1895,7 +1789,7 @@ public struct CreateIpGroupOutputResponse: Swift.Equatable {
     /// The identifier of the group.
     public var groupId: Swift.String?
 
-    public init (
+    public init(
         groupId: Swift.String? = nil
     )
     {
@@ -1912,7 +1806,7 @@ extension CreateIpGroupOutputResponseBody: Swift.Decodable {
         case groupId = "GroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -1953,7 +1847,7 @@ public struct CreateStandbyWorkspacesInput: Swift.Equatable {
     /// This member is required.
     public var standbyWorkspaces: [WorkSpacesClientTypes.StandbyWorkspace]?
 
-    public init (
+    public init(
         primaryRegion: Swift.String? = nil,
         standbyWorkspaces: [WorkSpacesClientTypes.StandbyWorkspace]? = nil
     )
@@ -1974,7 +1868,7 @@ extension CreateStandbyWorkspacesInputBody: Swift.Decodable {
         case standbyWorkspaces = "StandbyWorkspaces"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let primaryRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryRegion)
         primaryRegion = primaryRegionDecoded
@@ -1992,39 +1886,24 @@ extension CreateStandbyWorkspacesInputBody: Swift.Decodable {
     }
 }
 
-extension CreateStandbyWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateStandbyWorkspacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateStandbyWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateStandbyWorkspacesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateStandbyWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateStandbyWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedStandbyRequests = output.failedStandbyRequests
@@ -2042,7 +1921,7 @@ public struct CreateStandbyWorkspacesOutputResponse: Swift.Equatable {
     /// Information about the standby WorkSpace that was created.
     public var pendingStandbyRequests: [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]?
 
-    public init (
+    public init(
         failedStandbyRequests: [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]? = nil,
         pendingStandbyRequests: [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]? = nil
     )
@@ -2063,7 +1942,7 @@ extension CreateStandbyWorkspacesOutputResponseBody: Swift.Decodable {
         case pendingStandbyRequests = "PendingStandbyRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedStandbyRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest?].self, forKey: .failedStandbyRequests)
         var failedStandbyRequestsDecoded0:[WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]? = nil
@@ -2124,7 +2003,7 @@ public struct CreateTagsInput: Swift.Equatable {
     /// This member is required.
     public var tags: [WorkSpacesClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil
     )
@@ -2145,7 +2024,7 @@ extension CreateTagsInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -2163,40 +2042,27 @@ extension CreateTagsInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTagsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CreateTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateUpdatedWorkspaceImageInput: Swift.Encodable {
@@ -2246,7 +2112,7 @@ public struct CreateUpdatedWorkspaceImageInput: Swift.Equatable {
     /// The tags that you want to add to the new updated WorkSpace image. To add tags at the same time when you're creating the updated image, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags.
     public var tags: [WorkSpacesClientTypes.Tag]?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         sourceImageId: Swift.String? = nil,
@@ -2275,7 +2141,7 @@ extension CreateUpdatedWorkspaceImageInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2297,43 +2163,26 @@ extension CreateUpdatedWorkspaceImageInputBody: Swift.Decodable {
     }
 }
 
-extension CreateUpdatedWorkspaceImageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateUpdatedWorkspaceImageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateUpdatedWorkspaceImageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateUpdatedWorkspaceImageOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateUpdatedWorkspaceImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateUpdatedWorkspaceImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageId = output.imageId
@@ -2347,7 +2196,7 @@ public struct CreateUpdatedWorkspaceImageOutputResponse: Swift.Equatable {
     /// The identifier of the new updated WorkSpace image.
     public var imageId: Swift.String?
 
-    public init (
+    public init(
         imageId: Swift.String? = nil
     )
     {
@@ -2364,7 +2213,7 @@ extension CreateUpdatedWorkspaceImageOutputResponseBody: Swift.Decodable {
         case imageId = "ImageId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
@@ -2438,7 +2287,7 @@ public struct CreateWorkspaceBundleInput: Swift.Equatable {
     /// This member is required.
     public var userStorage: WorkSpacesClientTypes.UserStorage?
 
-    public init (
+    public init(
         bundleDescription: Swift.String? = nil,
         bundleName: Swift.String? = nil,
         computeType: WorkSpacesClientTypes.ComputeType? = nil,
@@ -2479,7 +2328,7 @@ extension CreateWorkspaceBundleInputBody: Swift.Decodable {
         case userStorage = "UserStorage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bundleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bundleName)
         bundleName = bundleNameDecoded
@@ -2507,41 +2356,25 @@ extension CreateWorkspaceBundleInputBody: Swift.Decodable {
     }
 }
 
-extension CreateWorkspaceBundleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateWorkspaceBundleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateWorkspaceBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateWorkspaceBundleOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateWorkspaceBundleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateWorkspaceBundleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.workspaceBundle = output.workspaceBundle
@@ -2555,7 +2388,7 @@ public struct CreateWorkspaceBundleOutputResponse: Swift.Equatable {
     /// Describes a WorkSpace bundle.
     public var workspaceBundle: WorkSpacesClientTypes.WorkspaceBundle?
 
-    public init (
+    public init(
         workspaceBundle: WorkSpacesClientTypes.WorkspaceBundle? = nil
     )
     {
@@ -2572,7 +2405,7 @@ extension CreateWorkspaceBundleOutputResponseBody: Swift.Decodable {
         case workspaceBundle = "WorkspaceBundle"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceBundleDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.WorkspaceBundle.self, forKey: .workspaceBundle)
         workspaceBundle = workspaceBundleDecoded
@@ -2626,7 +2459,7 @@ public struct CreateWorkspaceImageInput: Swift.Equatable {
     /// This member is required.
     public var workspaceId: Swift.String?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
@@ -2655,7 +2488,7 @@ extension CreateWorkspaceImageInputBody: Swift.Decodable {
         case workspaceId = "WorkspaceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2677,43 +2510,26 @@ extension CreateWorkspaceImageInputBody: Swift.Decodable {
     }
 }
 
-extension CreateWorkspaceImageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateWorkspaceImageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateWorkspaceImageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateWorkspaceImageOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateWorkspaceImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateWorkspaceImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.created = output.created
@@ -2755,7 +2571,7 @@ public struct CreateWorkspaceImageOutputResponse: Swift.Equatable {
     /// The availability status of the image.
     public var state: WorkSpacesClientTypes.WorkspaceImageState?
 
-    public init (
+    public init(
         created: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         imageId: Swift.String? = nil,
@@ -2800,7 +2616,7 @@ extension CreateWorkspaceImageOutputResponseBody: Swift.Decodable {
         case state = "State"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
@@ -2848,7 +2664,7 @@ public struct CreateWorkspacesInput: Swift.Equatable {
     /// This member is required.
     public var workspaces: [WorkSpacesClientTypes.WorkspaceRequest]?
 
-    public init (
+    public init(
         workspaces: [WorkSpacesClientTypes.WorkspaceRequest]? = nil
     )
     {
@@ -2865,7 +2681,7 @@ extension CreateWorkspacesInputBody: Swift.Decodable {
         case workspaces = "Workspaces"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspacesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.WorkspaceRequest?].self, forKey: .workspaces)
         var workspacesDecoded0:[WorkSpacesClientTypes.WorkspaceRequest]? = nil
@@ -2881,33 +2697,21 @@ extension CreateWorkspacesInputBody: Swift.Decodable {
     }
 }
 
-extension CreateWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateWorkspacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateWorkspacesOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedRequests = output.failedRequests
@@ -2925,7 +2729,7 @@ public struct CreateWorkspacesOutputResponse: Swift.Equatable {
     /// Information about the WorkSpaces that were created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call [DescribeWorkspaces] before the WorkSpace is created, the information returned can be incomplete.
     public var pendingRequests: [WorkSpacesClientTypes.Workspace]?
 
-    public init (
+    public init(
         failedRequests: [WorkSpacesClientTypes.FailedCreateWorkspaceRequest]? = nil,
         pendingRequests: [WorkSpacesClientTypes.Workspace]? = nil
     )
@@ -2946,7 +2750,7 @@ extension CreateWorkspacesOutputResponseBody: Swift.Decodable {
         case pendingRequests = "PendingRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.FailedCreateWorkspaceRequest?].self, forKey: .failedRequests)
         var failedRequestsDecoded0:[WorkSpacesClientTypes.FailedCreateWorkspaceRequest]? = nil
@@ -3100,7 +2904,7 @@ extension WorkSpacesClientTypes.DefaultClientBrandingAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logoUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logoUrl)
         logoUrl = logoUrlDecoded
@@ -3146,7 +2950,7 @@ extension WorkSpacesClientTypes {
         /// * The default support link is workspaces-feedback@amazon.com.
         public var supportLink: Swift.String?
 
-        public init (
+        public init(
             forgotPasswordLink: Swift.String? = nil,
             loginMessage: [Swift.String:Swift.String]? = nil,
             logoUrl: Swift.String? = nil,
@@ -3195,7 +2999,7 @@ extension WorkSpacesClientTypes.DefaultImportClientBrandingAttributes: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logoDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .logo)
         logo = logoDecoded
@@ -3241,7 +3045,7 @@ extension WorkSpacesClientTypes {
         /// * The default support link is workspaces-feedback@amazon.com.
         public var supportLink: Swift.String?
 
-        public init (
+        public init(
             forgotPasswordLink: Swift.String? = nil,
             loginMessage: [Swift.String:Swift.String]? = nil,
             logo: ClientRuntime.Data? = nil,
@@ -3291,7 +3095,7 @@ extension WorkSpacesClientTypes.DefaultWorkspaceCreationProperties: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enableWorkDocsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableWorkDocs)
         enableWorkDocs = enableWorkDocsDecoded
@@ -3324,7 +3128,7 @@ extension WorkSpacesClientTypes {
         /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
         public var userEnabledAsLocalAdministrator: Swift.Bool?
 
-        public init (
+        public init(
             customSecurityGroupId: Swift.String? = nil,
             defaultOu: Swift.String? = nil,
             enableInternetAccess: Swift.Bool? = nil,
@@ -3439,7 +3243,7 @@ public struct DeleteClientBrandingInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         platforms: [WorkSpacesClientTypes.ClientDeviceType]? = nil,
         resourceId: Swift.String? = nil
     )
@@ -3460,7 +3264,7 @@ extension DeleteClientBrandingInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -3478,40 +3282,27 @@ extension DeleteClientBrandingInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteClientBrandingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteClientBrandingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteClientBrandingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteClientBrandingOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteClientBrandingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteClientBrandingOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteConnectClientAddInInput: Swift.Encodable {
@@ -3545,7 +3336,7 @@ public struct DeleteConnectClientAddInInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         addInId: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
@@ -3566,7 +3357,7 @@ extension DeleteConnectClientAddInInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addInIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addInId)
         addInId = addInIdDecoded
@@ -3575,40 +3366,27 @@ extension DeleteConnectClientAddInInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteConnectClientAddInOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConnectClientAddInOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConnectClientAddInOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConnectClientAddInOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConnectClientAddInOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteConnectClientAddInOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteConnectionAliasInput: Swift.Encodable {
@@ -3635,7 +3413,7 @@ public struct DeleteConnectionAliasInput: Swift.Equatable {
     /// This member is required.
     public var aliasId: Swift.String?
 
-    public init (
+    public init(
         aliasId: Swift.String? = nil
     )
     {
@@ -3652,53 +3430,37 @@ extension DeleteConnectionAliasInputBody: Swift.Decodable {
         case aliasId = "AliasId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aliasId)
         aliasId = aliasIdDecoded
     }
 }
 
-extension DeleteConnectionAliasOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConnectionAliasOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAssociatedException" : self = .resourceAssociatedException(try ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConnectionAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAssociatedException": return try await ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConnectionAliasOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceAssociatedException(ResourceAssociatedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConnectionAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteConnectionAliasOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteIpGroupInput: Swift.Encodable {
@@ -3725,7 +3487,7 @@ public struct DeleteIpGroupInput: Swift.Equatable {
     /// This member is required.
     public var groupId: Swift.String?
 
-    public init (
+    public init(
         groupId: Swift.String? = nil
     )
     {
@@ -3742,49 +3504,35 @@ extension DeleteIpGroupInputBody: Swift.Decodable {
         case groupId = "GroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
     }
 }
 
-extension DeleteIpGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteIpGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAssociatedException" : self = .resourceAssociatedException(try ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteIpGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAssociatedException": return try await ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteIpGroupOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceAssociatedException(ResourceAssociatedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteIpGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteIpGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteTagsInput: Swift.Encodable {
@@ -3821,7 +3569,7 @@ public struct DeleteTagsInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -3842,7 +3590,7 @@ extension DeleteTagsInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -3860,38 +3608,26 @@ extension DeleteTagsInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTagsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteWorkspaceBundleInput: Swift.Encodable {
@@ -3917,7 +3653,7 @@ public struct DeleteWorkspaceBundleInput: Swift.Equatable {
     /// The identifier of the bundle.
     public var bundleId: Swift.String?
 
-    public init (
+    public init(
         bundleId: Swift.String? = nil
     )
     {
@@ -3934,49 +3670,35 @@ extension DeleteWorkspaceBundleInputBody: Swift.Decodable {
         case bundleId = "BundleId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bundleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bundleId)
         bundleId = bundleIdDecoded
     }
 }
 
-extension DeleteWorkspaceBundleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteWorkspaceBundleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAssociatedException" : self = .resourceAssociatedException(try ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteWorkspaceBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAssociatedException": return try await ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteWorkspaceBundleOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceAssociatedException(ResourceAssociatedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteWorkspaceBundleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteWorkspaceBundleOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteWorkspaceImageInput: Swift.Encodable {
@@ -4003,7 +3725,7 @@ public struct DeleteWorkspaceImageInput: Swift.Equatable {
     /// This member is required.
     public var imageId: Swift.String?
 
-    public init (
+    public init(
         imageId: Swift.String? = nil
     )
     {
@@ -4020,47 +3742,34 @@ extension DeleteWorkspaceImageInputBody: Swift.Decodable {
         case imageId = "ImageId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
     }
 }
 
-extension DeleteWorkspaceImageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteWorkspaceImageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAssociatedException" : self = .resourceAssociatedException(try ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteWorkspaceImageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAssociatedException": return try await ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteWorkspaceImageOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case resourceAssociatedException(ResourceAssociatedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteWorkspaceImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteWorkspaceImageOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeregisterWorkspaceDirectoryInput: Swift.Encodable {
@@ -4087,7 +3796,7 @@ public struct DeregisterWorkspaceDirectoryInput: Swift.Equatable {
     /// This member is required.
     public var directoryId: Swift.String?
 
-    public init (
+    public init(
         directoryId: Swift.String? = nil
     )
     {
@@ -4104,51 +3813,36 @@ extension DeregisterWorkspaceDirectoryInputBody: Swift.Decodable {
         case directoryId = "DirectoryId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
         directoryId = directoryIdDecoded
     }
 }
 
-extension DeregisterWorkspaceDirectoryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeregisterWorkspaceDirectoryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeregisterWorkspaceDirectoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeregisterWorkspaceDirectoryOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeregisterWorkspaceDirectoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeregisterWorkspaceDirectoryOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeAccountInput: Swift.Encodable {
@@ -4167,7 +3861,7 @@ extension DescribeAccountInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeAccountInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct DescribeAccountInputBody: Swift.Equatable {
@@ -4175,7 +3869,7 @@ struct DescribeAccountInputBody: Swift.Equatable {
 
 extension DescribeAccountInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -4202,7 +3896,7 @@ public struct DescribeAccountModificationsInput: Swift.Equatable {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -4219,38 +3913,27 @@ extension DescribeAccountModificationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension DescribeAccountModificationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAccountModificationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAccountModificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAccountModificationsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAccountModificationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAccountModificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountModifications = output.accountModifications
@@ -4268,7 +3951,7 @@ public struct DescribeAccountModificationsOutputResponse: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         accountModifications: [WorkSpacesClientTypes.AccountModification]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4289,7 +3972,7 @@ extension DescribeAccountModificationsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountModificationsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.AccountModification?].self, forKey: .accountModifications)
         var accountModificationsDecoded0:[WorkSpacesClientTypes.AccountModification]? = nil
@@ -4307,31 +3990,20 @@ extension DescribeAccountModificationsOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension DescribeAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAccountOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dedicatedTenancyManagementCidrRange = output.dedicatedTenancyManagementCidrRange
@@ -4349,7 +4021,7 @@ public struct DescribeAccountOutputResponse: Swift.Equatable {
     /// The status of BYOL (whether BYOL is enabled or disabled).
     public var dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum?
 
-    public init (
+    public init(
         dedicatedTenancyManagementCidrRange: Swift.String? = nil,
         dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum? = nil
     )
@@ -4370,7 +4042,7 @@ extension DescribeAccountOutputResponseBody: Swift.Decodable {
         case dedicatedTenancySupport = "DedicatedTenancySupport"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dedicatedTenancySupportDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DedicatedTenancySupportResultEnum.self, forKey: .dedicatedTenancySupport)
         dedicatedTenancySupport = dedicatedTenancySupportDecoded
@@ -4403,7 +4075,7 @@ public struct DescribeClientBrandingInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil
     )
     {
@@ -4420,42 +4092,29 @@ extension DescribeClientBrandingInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
     }
 }
 
-extension DescribeClientBrandingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeClientBrandingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeClientBrandingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeClientBrandingOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeClientBrandingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeClientBrandingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceTypeAndroid = output.deviceTypeAndroid
@@ -4489,7 +4148,7 @@ public struct DescribeClientBrandingOutputResponse: Swift.Equatable {
     /// The branding information for Windows devices.
     public var deviceTypeWindows: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
 
-    public init (
+    public init(
         deviceTypeAndroid: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil,
         deviceTypeIos: WorkSpacesClientTypes.IosClientBrandingAttributes? = nil,
         deviceTypeLinux: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil,
@@ -4526,7 +4185,7 @@ extension DescribeClientBrandingOutputResponseBody: Swift.Decodable {
         case deviceTypeWindows = "DeviceTypeWindows"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deviceTypeWindowsDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DefaultClientBrandingAttributes.self, forKey: .deviceTypeWindows)
         deviceTypeWindows = deviceTypeWindowsDecoded
@@ -4570,7 +4229,7 @@ public struct DescribeClientPropertiesInput: Swift.Equatable {
     /// This member is required.
     public var resourceIds: [Swift.String]?
 
-    public init (
+    public init(
         resourceIds: [Swift.String]? = nil
     )
     {
@@ -4587,7 +4246,7 @@ extension DescribeClientPropertiesInputBody: Swift.Decodable {
         case resourceIds = "ResourceIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIds)
         var resourceIdsDecoded0:[Swift.String]? = nil
@@ -4603,35 +4262,22 @@ extension DescribeClientPropertiesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeClientPropertiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeClientPropertiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeClientPropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeClientPropertiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeClientPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeClientPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientPropertiesList = output.clientPropertiesList
@@ -4645,7 +4291,7 @@ public struct DescribeClientPropertiesOutputResponse: Swift.Equatable {
     /// Information about the specified Amazon WorkSpaces clients.
     public var clientPropertiesList: [WorkSpacesClientTypes.ClientPropertiesResult]?
 
-    public init (
+    public init(
         clientPropertiesList: [WorkSpacesClientTypes.ClientPropertiesResult]? = nil
     )
     {
@@ -4662,7 +4308,7 @@ extension DescribeClientPropertiesOutputResponseBody: Swift.Decodable {
         case clientPropertiesList = "ClientPropertiesList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientPropertiesListContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.ClientPropertiesResult?].self, forKey: .clientPropertiesList)
         var clientPropertiesListDecoded0:[WorkSpacesClientTypes.ClientPropertiesResult]? = nil
@@ -4714,7 +4360,7 @@ public struct DescribeConnectClientAddInsInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
@@ -4739,7 +4385,7 @@ extension DescribeConnectClientAddInsInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -4750,35 +4396,22 @@ extension DescribeConnectClientAddInsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectClientAddInsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectClientAddInsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectClientAddInsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectClientAddInsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectClientAddInsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectClientAddInsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addIns = output.addIns
@@ -4796,7 +4429,7 @@ public struct DescribeConnectClientAddInsOutputResponse: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         addIns: [WorkSpacesClientTypes.ConnectClientAddIn]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4817,7 +4450,7 @@ extension DescribeConnectClientAddInsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addInsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.ConnectClientAddIn?].self, forKey: .addIns)
         var addInsDecoded0:[WorkSpacesClientTypes.ConnectClientAddIn]? = nil
@@ -4871,7 +4504,7 @@ public struct DescribeConnectionAliasPermissionsInput: Swift.Equatable {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aliasId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -4896,7 +4529,7 @@ extension DescribeConnectionAliasPermissionsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aliasId)
         aliasId = aliasIdDecoded
@@ -4907,37 +4540,23 @@ extension DescribeConnectionAliasPermissionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectionAliasPermissionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectionAliasPermissionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectionAliasPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectionAliasPermissionsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectionAliasPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectionAliasPermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aliasId = output.aliasId
@@ -4959,7 +4578,7 @@ public struct DescribeConnectionAliasPermissionsOutputResponse: Swift.Equatable 
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         aliasId: Swift.String? = nil,
         connectionAliasPermissions: [WorkSpacesClientTypes.ConnectionAliasPermission]? = nil,
         nextToken: Swift.String? = nil
@@ -4984,7 +4603,7 @@ extension DescribeConnectionAliasPermissionsOutputResponseBody: Swift.Decodable 
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aliasId)
         aliasId = aliasIdDecoded
@@ -5048,7 +4667,7 @@ public struct DescribeConnectionAliasesInput: Swift.Equatable {
     /// The identifier of the directory associated with the connection alias.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         aliasIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -5077,7 +4696,7 @@ extension DescribeConnectionAliasesInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aliasIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .aliasIds)
         var aliasIdsDecoded0:[Swift.String]? = nil
@@ -5099,35 +4718,22 @@ extension DescribeConnectionAliasesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectionAliasesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectionAliasesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectionAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectionAliasesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectionAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectionAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionAliases = output.connectionAliases
@@ -5145,7 +4751,7 @@ public struct DescribeConnectionAliasesOutputResponse: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         connectionAliases: [WorkSpacesClientTypes.ConnectionAlias]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5166,7 +4772,7 @@ extension DescribeConnectionAliasesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionAliasesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.ConnectionAlias?].self, forKey: .connectionAliases)
         var connectionAliasesDecoded0:[WorkSpacesClientTypes.ConnectionAlias]? = nil
@@ -5222,7 +4828,7 @@ public struct DescribeIpGroupsInput: Swift.Equatable {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         groupIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5247,7 +4853,7 @@ extension DescribeIpGroupsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .groupIds)
         var groupIdsDecoded0:[Swift.String]? = nil
@@ -5267,33 +4873,21 @@ extension DescribeIpGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeIpGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeIpGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeIpGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeIpGroupsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeIpGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeIpGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -5311,7 +4905,7 @@ public struct DescribeIpGroupsOutputResponse: Swift.Equatable {
     /// Information about the IP access control groups.
     public var result: [WorkSpacesClientTypes.WorkspacesIpGroup]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         result: [WorkSpacesClientTypes.WorkspacesIpGroup]? = nil
     )
@@ -5332,7 +4926,7 @@ extension DescribeIpGroupsOutputResponseBody: Swift.Decodable {
         case result = "Result"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.WorkspacesIpGroup?].self, forKey: .result)
         var resultDecoded0:[WorkSpacesClientTypes.WorkspacesIpGroup]? = nil
@@ -5374,7 +4968,7 @@ public struct DescribeTagsInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil
     )
     {
@@ -5391,38 +4985,27 @@ extension DescribeTagsInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
     }
 }
 
-extension DescribeTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTagsOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
@@ -5436,7 +5019,7 @@ public struct DescribeTagsOutputResponse: Swift.Equatable {
     /// The tags.
     public var tagList: [WorkSpacesClientTypes.Tag]?
 
-    public init (
+    public init(
         tagList: [WorkSpacesClientTypes.Tag]? = nil
     )
     {
@@ -5453,7 +5036,7 @@ extension DescribeTagsOutputResponseBody: Swift.Decodable {
         case tagList = "TagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagListContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.Tag?].self, forKey: .tagList)
         var tagListDecoded0:[WorkSpacesClientTypes.Tag]? = nil
@@ -5507,7 +5090,7 @@ public struct DescribeWorkspaceBundlesInput: Swift.Equatable {
     /// The owner of the bundles. You cannot combine this parameter with any other filter. To describe the bundles provided by Amazon Web Services, specify AMAZON. To describe the bundles that belong to your account, don't specify a value.
     public var owner: Swift.String?
 
-    public init (
+    public init(
         bundleIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         owner: Swift.String? = nil
@@ -5532,7 +5115,7 @@ extension DescribeWorkspaceBundlesInputBody: Swift.Decodable {
         case owner = "Owner"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bundleIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .bundleIds)
         var bundleIdsDecoded0:[Swift.String]? = nil
@@ -5552,31 +5135,20 @@ extension DescribeWorkspaceBundlesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWorkspaceBundlesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkspaceBundlesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkspaceBundlesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkspaceBundlesOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkspaceBundlesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkspaceBundlesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bundles = output.bundles
@@ -5594,7 +5166,7 @@ public struct DescribeWorkspaceBundlesOutputResponse: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return. This token is valid for one day and must be used within that time frame.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         bundles: [WorkSpacesClientTypes.WorkspaceBundle]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5615,7 +5187,7 @@ extension DescribeWorkspaceBundlesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bundlesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.WorkspaceBundle?].self, forKey: .bundles)
         var bundlesDecoded0:[WorkSpacesClientTypes.WorkspaceBundle]? = nil
@@ -5671,7 +5243,7 @@ public struct DescribeWorkspaceDirectoriesInput: Swift.Equatable {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         directoryIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5696,7 +5268,7 @@ extension DescribeWorkspaceDirectoriesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .directoryIds)
         var directoryIdsDecoded0:[Swift.String]? = nil
@@ -5716,31 +5288,20 @@ extension DescribeWorkspaceDirectoriesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWorkspaceDirectoriesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkspaceDirectoriesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkspaceDirectoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkspaceDirectoriesOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkspaceDirectoriesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkspaceDirectoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directories = output.directories
@@ -5758,7 +5319,7 @@ public struct DescribeWorkspaceDirectoriesOutputResponse: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         directories: [WorkSpacesClientTypes.WorkspaceDirectory]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5779,7 +5340,7 @@ extension DescribeWorkspaceDirectoriesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoriesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.WorkspaceDirectory?].self, forKey: .directories)
         var directoriesDecoded0:[WorkSpacesClientTypes.WorkspaceDirectory]? = nil
@@ -5833,7 +5394,7 @@ public struct DescribeWorkspaceImagePermissionsInput: Swift.Equatable {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         imageId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5858,7 +5419,7 @@ extension DescribeWorkspaceImagePermissionsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
@@ -5869,35 +5430,22 @@ extension DescribeWorkspaceImagePermissionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWorkspaceImagePermissionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkspaceImagePermissionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkspaceImagePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkspaceImagePermissionsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkspaceImagePermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkspaceImagePermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageId = output.imageId
@@ -5919,7 +5467,7 @@ public struct DescribeWorkspaceImagePermissionsOutputResponse: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         imageId: Swift.String? = nil,
         imagePermissions: [WorkSpacesClientTypes.ImagePermission]? = nil,
         nextToken: Swift.String? = nil
@@ -5944,7 +5492,7 @@ extension DescribeWorkspaceImagePermissionsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
@@ -6008,7 +5556,7 @@ public struct DescribeWorkspaceImagesInput: Swift.Equatable {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         imageIds: [Swift.String]? = nil,
         imageType: WorkSpacesClientTypes.ImageType? = nil,
         maxResults: Swift.Int? = nil,
@@ -6037,7 +5585,7 @@ extension DescribeWorkspaceImagesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .imageIds)
         var imageIdsDecoded0:[Swift.String]? = nil
@@ -6059,31 +5607,20 @@ extension DescribeWorkspaceImagesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWorkspaceImagesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkspaceImagesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkspaceImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkspaceImagesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkspaceImagesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkspaceImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.images = output.images
@@ -6101,7 +5638,7 @@ public struct DescribeWorkspaceImagesOutputResponse: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         images: [WorkSpacesClientTypes.WorkspaceImage]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6122,7 +5659,7 @@ extension DescribeWorkspaceImagesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imagesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.WorkspaceImage?].self, forKey: .images)
         var imagesDecoded0:[WorkSpacesClientTypes.WorkspaceImage]? = nil
@@ -6164,7 +5701,7 @@ public struct DescribeWorkspaceSnapshotsInput: Swift.Equatable {
     /// This member is required.
     public var workspaceId: Swift.String?
 
-    public init (
+    public init(
         workspaceId: Swift.String? = nil
     )
     {
@@ -6181,42 +5718,29 @@ extension DescribeWorkspaceSnapshotsInputBody: Swift.Decodable {
         case workspaceId = "WorkspaceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
     }
 }
 
-extension DescribeWorkspaceSnapshotsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkspaceSnapshotsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkspaceSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkspaceSnapshotsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkspaceSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkspaceSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rebuildSnapshots = output.rebuildSnapshots
@@ -6234,7 +5758,7 @@ public struct DescribeWorkspaceSnapshotsOutputResponse: Swift.Equatable {
     /// Information about the snapshots that can be used to restore a WorkSpace. These snapshots include both the root volume and the user volume.
     public var restoreSnapshots: [WorkSpacesClientTypes.Snapshot]?
 
-    public init (
+    public init(
         rebuildSnapshots: [WorkSpacesClientTypes.Snapshot]? = nil,
         restoreSnapshots: [WorkSpacesClientTypes.Snapshot]? = nil
     )
@@ -6255,7 +5779,7 @@ extension DescribeWorkspaceSnapshotsOutputResponseBody: Swift.Decodable {
         case restoreSnapshots = "RestoreSnapshots"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rebuildSnapshotsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.Snapshot?].self, forKey: .rebuildSnapshots)
         var rebuildSnapshotsDecoded0:[WorkSpacesClientTypes.Snapshot]? = nil
@@ -6314,7 +5838,7 @@ public struct DescribeWorkspacesConnectionStatusInput: Swift.Equatable {
     /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
     public var workspaceIds: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         workspaceIds: [Swift.String]? = nil
     )
@@ -6335,7 +5859,7 @@ extension DescribeWorkspacesConnectionStatusInputBody: Swift.Decodable {
         case workspaceIds = "WorkspaceIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .workspaceIds)
         var workspaceIdsDecoded0:[Swift.String]? = nil
@@ -6353,31 +5877,20 @@ extension DescribeWorkspacesConnectionStatusInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWorkspacesConnectionStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkspacesConnectionStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkspacesConnectionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkspacesConnectionStatusOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkspacesConnectionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkspacesConnectionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -6395,7 +5908,7 @@ public struct DescribeWorkspacesConnectionStatusOutputResponse: Swift.Equatable 
     /// Information about the connection status of the WorkSpace.
     public var workspacesConnectionStatus: [WorkSpacesClientTypes.WorkspaceConnectionStatus]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         workspacesConnectionStatus: [WorkSpacesClientTypes.WorkspaceConnectionStatus]? = nil
     )
@@ -6416,7 +5929,7 @@ extension DescribeWorkspacesConnectionStatusOutputResponseBody: Swift.Decodable 
         case workspacesConnectionStatus = "WorkspacesConnectionStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspacesConnectionStatusContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.WorkspaceConnectionStatus?].self, forKey: .workspacesConnectionStatus)
         var workspacesConnectionStatusDecoded0:[WorkSpacesClientTypes.WorkspaceConnectionStatus]? = nil
@@ -6490,7 +6003,7 @@ public struct DescribeWorkspacesInput: Swift.Equatable {
     /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the [CreateWorkspaces] operation is asynchronous, the identifier it returns is not immediately available. If you immediately call [DescribeWorkspaces] with this identifier, no information is returned.
     public var workspaceIds: [Swift.String]?
 
-    public init (
+    public init(
         bundleId: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         limit: Swift.Int? = nil,
@@ -6527,7 +6040,7 @@ extension DescribeWorkspacesInputBody: Swift.Decodable {
         case workspaceIds = "WorkspaceIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .workspaceIds)
         var workspaceIdsDecoded0:[Swift.String]? = nil
@@ -6553,33 +6066,21 @@ extension DescribeWorkspacesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkspacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkspacesOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -6597,7 +6098,7 @@ public struct DescribeWorkspacesOutputResponse: Swift.Equatable {
     /// Information about the WorkSpaces. Because [CreateWorkspaces] is an asynchronous operation, some of the returned information could be incomplete.
     public var workspaces: [WorkSpacesClientTypes.Workspace]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         workspaces: [WorkSpacesClientTypes.Workspace]? = nil
     )
@@ -6618,7 +6119,7 @@ extension DescribeWorkspacesOutputResponseBody: Swift.Decodable {
         case workspaces = "Workspaces"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspacesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.Workspace?].self, forKey: .workspaces)
         var workspacesDecoded0:[WorkSpacesClientTypes.Workspace]? = nil
@@ -6660,7 +6161,7 @@ public struct DisassociateConnectionAliasInput: Swift.Equatable {
     /// This member is required.
     public var aliasId: Swift.String?
 
-    public init (
+    public init(
         aliasId: Swift.String? = nil
     )
     {
@@ -6677,51 +6178,36 @@ extension DisassociateConnectionAliasInputBody: Swift.Decodable {
         case aliasId = "AliasId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aliasId)
         aliasId = aliasIdDecoded
     }
 }
 
-extension DisassociateConnectionAliasOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateConnectionAliasOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateConnectionAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateConnectionAliasOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateConnectionAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DisassociateConnectionAliasOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DisassociateIpGroupsInput: Swift.Encodable {
@@ -6758,7 +6244,7 @@ public struct DisassociateIpGroupsInput: Swift.Equatable {
     /// This member is required.
     public var groupIds: [Swift.String]?
 
-    public init (
+    public init(
         directoryId: Swift.String? = nil,
         groupIds: [Swift.String]? = nil
     )
@@ -6779,7 +6265,7 @@ extension DisassociateIpGroupsInputBody: Swift.Decodable {
         case groupIds = "GroupIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
         directoryId = directoryIdDecoded
@@ -6797,42 +6283,28 @@ extension DisassociateIpGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DisassociateIpGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateIpGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateIpGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateIpGroupsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateIpGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DisassociateIpGroupsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest: Swift.Codable {
@@ -6855,7 +6327,7 @@ extension WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let standbyWorkspaceRequestDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.StandbyWorkspace.self, forKey: .standbyWorkspaceRequest)
         standbyWorkspaceRequest = standbyWorkspaceRequestDecoded
@@ -6876,7 +6348,7 @@ extension WorkSpacesClientTypes {
         /// Information about the standby WorkSpace that could not be created.
         public var standbyWorkspaceRequest: WorkSpacesClientTypes.StandbyWorkspace?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             standbyWorkspaceRequest: WorkSpacesClientTypes.StandbyWorkspace? = nil
@@ -6910,7 +6382,7 @@ extension WorkSpacesClientTypes.FailedCreateWorkspaceRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceRequestDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.WorkspaceRequest.self, forKey: .workspaceRequest)
         workspaceRequest = workspaceRequestDecoded
@@ -6931,7 +6403,7 @@ extension WorkSpacesClientTypes {
         /// Information about the WorkSpace.
         public var workspaceRequest: WorkSpacesClientTypes.WorkspaceRequest?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             workspaceRequest: WorkSpacesClientTypes.WorkspaceRequest? = nil
@@ -6965,7 +6437,7 @@ extension WorkSpacesClientTypes.FailedWorkspaceChangeRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -6986,7 +6458,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the WorkSpace.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             workspaceId: Swift.String? = nil
@@ -7012,7 +6484,7 @@ extension WorkSpacesClientTypes.ImagePermission: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sharedAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sharedAccountId)
         sharedAccountId = sharedAccountIdDecoded
@@ -7025,7 +6497,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the Amazon Web Services account that an image has been shared with.
         public var sharedAccountId: Swift.String?
 
-        public init (
+        public init(
             sharedAccountId: Swift.String? = nil
         )
         {
@@ -7127,7 +6599,7 @@ public struct ImportClientBrandingInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         deviceTypeAndroid: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes? = nil,
         deviceTypeIos: WorkSpacesClientTypes.IosImportClientBrandingAttributes? = nil,
         deviceTypeLinux: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes? = nil,
@@ -7168,7 +6640,7 @@ extension ImportClientBrandingInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -7187,37 +6659,23 @@ extension ImportClientBrandingInputBody: Swift.Decodable {
     }
 }
 
-extension ImportClientBrandingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ImportClientBrandingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ImportClientBrandingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ImportClientBrandingOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ImportClientBrandingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportClientBrandingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceTypeAndroid = output.deviceTypeAndroid
@@ -7251,7 +6709,7 @@ public struct ImportClientBrandingOutputResponse: Swift.Equatable {
     /// The branding information configured for Windows devices.
     public var deviceTypeWindows: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
 
-    public init (
+    public init(
         deviceTypeAndroid: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil,
         deviceTypeIos: WorkSpacesClientTypes.IosClientBrandingAttributes? = nil,
         deviceTypeLinux: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil,
@@ -7288,7 +6746,7 @@ extension ImportClientBrandingOutputResponseBody: Swift.Decodable {
         case deviceTypeWindows = "DeviceTypeWindows"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deviceTypeWindowsDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DefaultClientBrandingAttributes.self, forKey: .deviceTypeWindows)
         deviceTypeWindows = deviceTypeWindowsDecoded
@@ -7351,7 +6809,11 @@ extension ImportWorkspaceImageInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportWorkspaceImageInput: Swift.Equatable {
-    /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 BYOL images. For more information about subscribing to Office for BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html). Although this parameter is an array, only one item is allowed at this time.
+    /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
+    ///
+    /// * Although this parameter is an array, only one item is allowed at this time.
+    ///
+    /// * Windows 11 only supports Microsoft_Office_2019.
     public var applications: [WorkSpacesClientTypes.Application]?
     /// The identifier of the EC2 image.
     /// This member is required.
@@ -7368,7 +6830,7 @@ public struct ImportWorkspaceImageInput: Swift.Equatable {
     /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
     public var tags: [WorkSpacesClientTypes.Tag]?
 
-    public init (
+    public init(
         applications: [WorkSpacesClientTypes.Application]? = nil,
         ec2ImageId: Swift.String? = nil,
         imageDescription: Swift.String? = nil,
@@ -7405,7 +6867,7 @@ extension ImportWorkspaceImageInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2ImageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ec2ImageId)
         ec2ImageId = ec2ImageIdDecoded
@@ -7440,41 +6902,25 @@ extension ImportWorkspaceImageInputBody: Swift.Decodable {
     }
 }
 
-extension ImportWorkspaceImageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ImportWorkspaceImageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ImportWorkspaceImageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ImportWorkspaceImageOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ImportWorkspaceImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportWorkspaceImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageId = output.imageId
@@ -7488,7 +6934,7 @@ public struct ImportWorkspaceImageOutputResponse: Swift.Equatable {
     /// The identifier of the WorkSpace image.
     public var imageId: Swift.String?
 
-    public init (
+    public init(
         imageId: Swift.String? = nil
     )
     {
@@ -7505,7 +6951,7 @@ extension ImportWorkspaceImageOutputResponseBody: Swift.Decodable {
         case imageId = "ImageId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
@@ -7513,38 +6959,42 @@ extension ImportWorkspaceImageOutputResponseBody: Swift.Decodable {
 }
 
 extension InvalidParameterValuesException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidParameterValuesExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more parameter values are not valid.
-public struct InvalidParameterValuesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct InvalidParameterValuesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterValuesException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7557,7 +7007,7 @@ extension InvalidParameterValuesExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7565,37 +7015,41 @@ extension InvalidParameterValuesExceptionBody: Swift.Decodable {
 }
 
 extension InvalidResourceStateException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidResourceStateExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The state of the resource is not valid for this operation.
-public struct InvalidResourceStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceStateException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7608,7 +7062,7 @@ extension InvalidResourceStateExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7654,7 +7108,7 @@ extension WorkSpacesClientTypes.IosClientBrandingAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logoUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logoUrl)
         logoUrl = logoUrlDecoded
@@ -7708,7 +7162,7 @@ extension WorkSpacesClientTypes {
         /// * The default support link is workspaces-feedback@amazon.com.
         public var supportLink: Swift.String?
 
-        public init (
+        public init(
             forgotPasswordLink: Swift.String? = nil,
             loginMessage: [Swift.String:Swift.String]? = nil,
             logo2xUrl: Swift.String? = nil,
@@ -7769,7 +7223,7 @@ extension WorkSpacesClientTypes.IosImportClientBrandingAttributes: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logoDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .logo)
         logo = logoDecoded
@@ -7823,7 +7277,7 @@ extension WorkSpacesClientTypes {
         /// * The default support link is workspaces-feedback@amazon.com.
         public var supportLink: Swift.String?
 
-        public init (
+        public init(
             forgotPasswordLink: Swift.String? = nil,
             loginMessage: [Swift.String:Swift.String]? = nil,
             logo: ClientRuntime.Data? = nil,
@@ -7861,7 +7315,7 @@ extension WorkSpacesClientTypes.IpRuleItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipRuleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipRule)
         ipRule = ipRuleDecoded
@@ -7878,7 +7332,7 @@ extension WorkSpacesClientTypes {
         /// The description.
         public var ruleDesc: Swift.String?
 
-        public init (
+        public init(
             ipRule: Swift.String? = nil,
             ruleDesc: Swift.String? = nil
         )
@@ -7926,7 +7380,7 @@ public struct ListAvailableManagementCidrRangesInput: Swift.Equatable {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         managementCidrRangeConstraint: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7951,7 +7405,7 @@ extension ListAvailableManagementCidrRangesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let managementCidrRangeConstraintDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .managementCidrRangeConstraint)
         managementCidrRangeConstraint = managementCidrRangeConstraintDecoded
@@ -7962,33 +7416,21 @@ extension ListAvailableManagementCidrRangesInputBody: Swift.Decodable {
     }
 }
 
-extension ListAvailableManagementCidrRangesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAvailableManagementCidrRangesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAvailableManagementCidrRangesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAvailableManagementCidrRangesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAvailableManagementCidrRangesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAvailableManagementCidrRangesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managementCidrRanges = output.managementCidrRanges
@@ -8006,7 +7448,7 @@ public struct ListAvailableManagementCidrRangesOutputResponse: Swift.Equatable {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         managementCidrRanges: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8027,7 +7469,7 @@ extension ListAvailableManagementCidrRangesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let managementCidrRangesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .managementCidrRanges)
         var managementCidrRangesDecoded0:[Swift.String]? = nil
@@ -8108,7 +7550,7 @@ public struct MigrateWorkspaceInput: Swift.Equatable {
     /// This member is required.
     public var sourceWorkspaceId: Swift.String?
 
-    public init (
+    public init(
         bundleId: Swift.String? = nil,
         sourceWorkspaceId: Swift.String? = nil
     )
@@ -8129,7 +7571,7 @@ extension MigrateWorkspaceInputBody: Swift.Decodable {
         case sourceWorkspaceId = "SourceWorkspaceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceWorkspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceWorkspaceId)
         sourceWorkspaceId = sourceWorkspaceIdDecoded
@@ -8138,41 +7580,25 @@ extension MigrateWorkspaceInputBody: Swift.Decodable {
     }
 }
 
-extension MigrateWorkspaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension MigrateWorkspaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum MigrateWorkspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum MigrateWorkspaceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationInProgressException(OperationInProgressException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension MigrateWorkspaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MigrateWorkspaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sourceWorkspaceId = output.sourceWorkspaceId
@@ -8190,7 +7616,7 @@ public struct MigrateWorkspaceOutputResponse: Swift.Equatable {
     /// The new identifier of the WorkSpace that is being migrated. If the migration does not succeed, the target WorkSpace ID will not be used, and the WorkSpace will still have the original WorkSpace ID.
     public var targetWorkspaceId: Swift.String?
 
-    public init (
+    public init(
         sourceWorkspaceId: Swift.String? = nil,
         targetWorkspaceId: Swift.String? = nil
     )
@@ -8211,7 +7637,7 @@ extension MigrateWorkspaceOutputResponseBody: Swift.Decodable {
         case targetWorkspaceId = "TargetWorkspaceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceWorkspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceWorkspaceId)
         sourceWorkspaceId = sourceWorkspaceIdDecoded
@@ -8271,7 +7697,7 @@ extension WorkSpacesClientTypes.ModificationState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.ModificationResourceEnum.self, forKey: .resource)
         resource = resourceDecoded
@@ -8288,7 +7714,7 @@ extension WorkSpacesClientTypes {
         /// The modification state.
         public var state: WorkSpacesClientTypes.ModificationStateEnum?
 
-        public init (
+        public init(
             resource: WorkSpacesClientTypes.ModificationResourceEnum? = nil,
             state: WorkSpacesClientTypes.ModificationStateEnum? = nil
         )
@@ -8361,7 +7787,7 @@ public struct ModifyAccountInput: Swift.Equatable {
     /// The status of BYOL.
     public var dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportEnum?
 
-    public init (
+    public init(
         dedicatedTenancyManagementCidrRange: Swift.String? = nil,
         dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportEnum? = nil
     )
@@ -8382,7 +7808,7 @@ extension ModifyAccountInputBody: Swift.Decodable {
         case dedicatedTenancySupport = "DedicatedTenancySupport"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dedicatedTenancySupportDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DedicatedTenancySupportEnum.self, forKey: .dedicatedTenancySupport)
         dedicatedTenancySupport = dedicatedTenancySupportDecoded
@@ -8391,44 +7817,29 @@ extension ModifyAccountInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyAccountOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifyAccountOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ModifyCertificateBasedAuthPropertiesInput: Swift.Encodable {
@@ -8470,7 +7881,7 @@ public struct ModifyCertificateBasedAuthPropertiesInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties? = nil,
         propertiesToDelete: [WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty]? = nil,
         resourceId: Swift.String? = nil
@@ -8495,7 +7906,7 @@ extension ModifyCertificateBasedAuthPropertiesInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -8515,42 +7926,28 @@ extension ModifyCertificateBasedAuthPropertiesInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyCertificateBasedAuthPropertiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyCertificateBasedAuthPropertiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyCertificateBasedAuthPropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyCertificateBasedAuthPropertiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyCertificateBasedAuthPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifyCertificateBasedAuthPropertiesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ModifyClientPropertiesInput: Swift.Encodable {
@@ -8584,7 +7981,7 @@ public struct ModifyClientPropertiesInput: Swift.Equatable {
     /// This member is required.
     public var resourceId: Swift.String?
 
-    public init (
+    public init(
         clientProperties: WorkSpacesClientTypes.ClientProperties? = nil,
         resourceId: Swift.String? = nil
     )
@@ -8605,7 +8002,7 @@ extension ModifyClientPropertiesInputBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -8614,40 +8011,27 @@ extension ModifyClientPropertiesInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyClientPropertiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyClientPropertiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyClientPropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyClientPropertiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyClientPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifyClientPropertiesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ModifySamlPropertiesInput: Swift.Encodable {
@@ -8693,7 +8077,7 @@ public struct ModifySamlPropertiesInput: Swift.Equatable {
     /// The properties for configuring SAML 2.0 authentication.
     public var samlProperties: WorkSpacesClientTypes.SamlProperties?
 
-    public init (
+    public init(
         propertiesToDelete: [WorkSpacesClientTypes.DeletableSamlProperty]? = nil,
         resourceId: Swift.String? = nil,
         samlProperties: WorkSpacesClientTypes.SamlProperties? = nil
@@ -8718,7 +8102,7 @@ extension ModifySamlPropertiesInputBody: Swift.Decodable {
         case samlProperties = "SamlProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -8738,42 +8122,28 @@ extension ModifySamlPropertiesInputBody: Swift.Decodable {
     }
 }
 
-extension ModifySamlPropertiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifySamlPropertiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifySamlPropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifySamlPropertiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifySamlPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifySamlPropertiesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ModifySelfservicePermissionsInput: Swift.Encodable {
@@ -8807,7 +8177,7 @@ public struct ModifySelfservicePermissionsInput: Swift.Equatable {
     /// This member is required.
     public var selfservicePermissions: WorkSpacesClientTypes.SelfservicePermissions?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil,
         selfservicePermissions: WorkSpacesClientTypes.SelfservicePermissions? = nil
     )
@@ -8828,7 +8198,7 @@ extension ModifySelfservicePermissionsInputBody: Swift.Decodable {
         case selfservicePermissions = "SelfservicePermissions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -8837,40 +8207,27 @@ extension ModifySelfservicePermissionsInputBody: Swift.Decodable {
     }
 }
 
-extension ModifySelfservicePermissionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifySelfservicePermissionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifySelfservicePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifySelfservicePermissionsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifySelfservicePermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifySelfservicePermissionsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ModifyWorkspaceAccessPropertiesInput: Swift.Encodable {
@@ -8904,7 +8261,7 @@ public struct ModifyWorkspaceAccessPropertiesInput: Swift.Equatable {
     /// This member is required.
     public var workspaceAccessProperties: WorkSpacesClientTypes.WorkspaceAccessProperties?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil,
         workspaceAccessProperties: WorkSpacesClientTypes.WorkspaceAccessProperties? = nil
     )
@@ -8925,7 +8282,7 @@ extension ModifyWorkspaceAccessPropertiesInputBody: Swift.Decodable {
         case workspaceAccessProperties = "WorkspaceAccessProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -8934,38 +8291,26 @@ extension ModifyWorkspaceAccessPropertiesInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyWorkspaceAccessPropertiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyWorkspaceAccessPropertiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyWorkspaceAccessPropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyWorkspaceAccessPropertiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyWorkspaceAccessPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifyWorkspaceAccessPropertiesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ModifyWorkspaceCreationPropertiesInput: Swift.Encodable {
@@ -8999,7 +8344,7 @@ public struct ModifyWorkspaceCreationPropertiesInput: Swift.Equatable {
     /// This member is required.
     public var workspaceCreationProperties: WorkSpacesClientTypes.WorkspaceCreationProperties?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil,
         workspaceCreationProperties: WorkSpacesClientTypes.WorkspaceCreationProperties? = nil
     )
@@ -9020,7 +8365,7 @@ extension ModifyWorkspaceCreationPropertiesInputBody: Swift.Decodable {
         case workspaceCreationProperties = "WorkspaceCreationProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -9029,42 +8374,28 @@ extension ModifyWorkspaceCreationPropertiesInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyWorkspaceCreationPropertiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyWorkspaceCreationPropertiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyWorkspaceCreationPropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyWorkspaceCreationPropertiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyWorkspaceCreationPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifyWorkspaceCreationPropertiesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ModifyWorkspacePropertiesInput: Swift.Encodable {
@@ -9098,7 +8429,7 @@ public struct ModifyWorkspacePropertiesInput: Swift.Equatable {
     /// This member is required.
     public var workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?
 
-    public init (
+    public init(
         workspaceId: Swift.String? = nil,
         workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties? = nil
     )
@@ -9119,7 +8450,7 @@ extension ModifyWorkspacePropertiesInputBody: Swift.Decodable {
         case workspaceProperties = "WorkspaceProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -9128,48 +8459,31 @@ extension ModifyWorkspacePropertiesInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyWorkspacePropertiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyWorkspacePropertiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedWorkspaceConfigurationException" : self = .unsupportedWorkspaceConfigurationException(try UnsupportedWorkspaceConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyWorkspacePropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedWorkspaceConfigurationException": return try await UnsupportedWorkspaceConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyWorkspacePropertiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationInProgressException(OperationInProgressException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case unsupportedWorkspaceConfigurationException(UnsupportedWorkspaceConfigurationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyWorkspacePropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifyWorkspacePropertiesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ModifyWorkspaceStateInput: Swift.Encodable {
@@ -9203,7 +8517,7 @@ public struct ModifyWorkspaceStateInput: Swift.Equatable {
     /// This member is required.
     public var workspaceState: WorkSpacesClientTypes.TargetWorkspaceState?
 
-    public init (
+    public init(
         workspaceId: Swift.String? = nil,
         workspaceState: WorkSpacesClientTypes.TargetWorkspaceState? = nil
     )
@@ -9224,7 +8538,7 @@ extension ModifyWorkspaceStateInputBody: Swift.Decodable {
         case workspaceState = "WorkspaceState"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -9233,42 +8547,28 @@ extension ModifyWorkspaceStateInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyWorkspaceStateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ModifyWorkspaceStateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyWorkspaceStateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ModifyWorkspaceStateOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyWorkspaceStateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ModifyWorkspaceStateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WorkSpacesClientTypes.OperatingSystem: Swift.Codable {
@@ -9283,7 +8583,7 @@ extension WorkSpacesClientTypes.OperatingSystem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.OperatingSystemType.self, forKey: .type)
         type = typeDecoded
@@ -9296,7 +8596,7 @@ extension WorkSpacesClientTypes {
         /// The operating system.
         public var type: WorkSpacesClientTypes.OperatingSystemType?
 
-        public init (
+        public init(
             type: WorkSpacesClientTypes.OperatingSystemType? = nil
         )
         {
@@ -9339,37 +8639,41 @@ extension WorkSpacesClientTypes {
 }
 
 extension OperationInProgressException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OperationInProgressExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The properties of this WorkSpace are currently being modified. Try again in a moment.
-public struct OperationInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationInProgressException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9382,7 +8686,7 @@ extension OperationInProgressExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9390,44 +8694,48 @@ extension OperationInProgressExceptionBody: Swift.Decodable {
 }
 
 extension OperationNotSupportedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OperationNotSupportedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.reason = output.reason
+            self.properties.message = output.message
+            self.properties.reason = output.reason
         } else {
-            self.message = nil
-            self.reason = nil
+            self.properties.message = nil
+            self.properties.reason = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This operation is not supported.
-public struct OperationNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
-    /// The exception error reason.
-    public var reason: Swift.String?
+public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception error reason.
+        public internal(set) var reason: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotSupportedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         reason: Swift.String? = nil
     )
     {
-        self.message = message
-        self.reason = reason
+        self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -9442,7 +8750,7 @@ extension OperationNotSupportedExceptionBody: Swift.Decodable {
         case reason
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9475,7 +8783,7 @@ extension WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
         userName = userNameDecoded
@@ -9500,7 +8808,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the standby WorkSpace.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             directoryId: Swift.String? = nil,
             state: WorkSpacesClientTypes.WorkspaceState? = nil,
             userName: Swift.String? = nil,
@@ -9560,7 +8868,7 @@ extension WorkSpacesClientTypes.RebootRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -9574,7 +8882,7 @@ extension WorkSpacesClientTypes {
         /// This member is required.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             workspaceId: Swift.String? = nil
         )
         {
@@ -9611,7 +8919,7 @@ public struct RebootWorkspacesInput: Swift.Equatable {
     /// This member is required.
     public var rebootWorkspaceRequests: [WorkSpacesClientTypes.RebootRequest]?
 
-    public init (
+    public init(
         rebootWorkspaceRequests: [WorkSpacesClientTypes.RebootRequest]? = nil
     )
     {
@@ -9628,7 +8936,7 @@ extension RebootWorkspacesInputBody: Swift.Decodable {
         case rebootWorkspaceRequests = "RebootWorkspaceRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rebootWorkspaceRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.RebootRequest?].self, forKey: .rebootWorkspaceRequests)
         var rebootWorkspaceRequestsDecoded0:[WorkSpacesClientTypes.RebootRequest]? = nil
@@ -9644,31 +8952,20 @@ extension RebootWorkspacesInputBody: Swift.Decodable {
     }
 }
 
-extension RebootWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RebootWorkspacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RebootWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RebootWorkspacesOutputError: Swift.Error, Swift.Equatable {
-    case operationNotSupportedException(OperationNotSupportedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RebootWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RebootWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedRequests = output.failedRequests
@@ -9682,7 +8979,7 @@ public struct RebootWorkspacesOutputResponse: Swift.Equatable {
     /// Information about the WorkSpaces that could not be rebooted.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
-    public init (
+    public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
     )
     {
@@ -9699,7 +8996,7 @@ extension RebootWorkspacesOutputResponseBody: Swift.Decodable {
         case failedRequests = "FailedRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.FailedWorkspaceChangeRequest?].self, forKey: .failedRequests)
         var failedRequestsDecoded0:[WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
@@ -9727,7 +9024,7 @@ extension WorkSpacesClientTypes.RebuildRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -9741,7 +9038,7 @@ extension WorkSpacesClientTypes {
         /// This member is required.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             workspaceId: Swift.String? = nil
         )
         {
@@ -9778,7 +9075,7 @@ public struct RebuildWorkspacesInput: Swift.Equatable {
     /// This member is required.
     public var rebuildWorkspaceRequests: [WorkSpacesClientTypes.RebuildRequest]?
 
-    public init (
+    public init(
         rebuildWorkspaceRequests: [WorkSpacesClientTypes.RebuildRequest]? = nil
     )
     {
@@ -9795,7 +9092,7 @@ extension RebuildWorkspacesInputBody: Swift.Decodable {
         case rebuildWorkspaceRequests = "RebuildWorkspaceRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rebuildWorkspaceRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.RebuildRequest?].self, forKey: .rebuildWorkspaceRequests)
         var rebuildWorkspaceRequestsDecoded0:[WorkSpacesClientTypes.RebuildRequest]? = nil
@@ -9811,31 +9108,20 @@ extension RebuildWorkspacesInputBody: Swift.Decodable {
     }
 }
 
-extension RebuildWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RebuildWorkspacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RebuildWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RebuildWorkspacesOutputError: Swift.Error, Swift.Equatable {
-    case operationNotSupportedException(OperationNotSupportedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RebuildWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RebuildWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedRequests = output.failedRequests
@@ -9849,7 +9135,7 @@ public struct RebuildWorkspacesOutputResponse: Swift.Equatable {
     /// Information about the WorkSpace that could not be rebuilt.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
-    public init (
+    public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
     )
     {
@@ -9866,7 +9152,7 @@ extension RebuildWorkspacesOutputResponseBody: Swift.Decodable {
         case failedRequests = "FailedRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.FailedWorkspaceChangeRequest?].self, forKey: .failedRequests)
         var failedRequestsDecoded0:[WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
@@ -9975,7 +9261,7 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Equatable {
     /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon Web Services account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more information about BYOL images, see [Bring Your Own Windows Desktop Images](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
     public var tenancy: WorkSpacesClientTypes.Tenancy?
 
-    public init (
+    public init(
         directoryId: Swift.String? = nil,
         enableSelfService: Swift.Bool? = nil,
         enableWorkDocs: Swift.Bool? = nil,
@@ -10012,7 +9298,7 @@ extension RegisterWorkspaceDirectoryInputBody: Swift.Decodable {
         case tenancy = "Tenancy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
         directoryId = directoryIdDecoded
@@ -10047,50 +9333,32 @@ extension RegisterWorkspaceDirectoryInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterWorkspaceDirectoryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterWorkspaceDirectoryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedNetworkConfigurationException" : self = .unsupportedNetworkConfigurationException(try UnsupportedNetworkConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WorkspacesDefaultRoleNotFoundException" : self = .workspacesDefaultRoleNotFoundException(try WorkspacesDefaultRoleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterWorkspaceDirectoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedNetworkConfigurationException": return try await UnsupportedNetworkConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WorkspacesDefaultRoleNotFoundException": return try await WorkspacesDefaultRoleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterWorkspaceDirectoryOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedNetworkConfigurationException(UnsupportedNetworkConfigurationException)
-    case workspacesDefaultRoleNotFoundException(WorkspacesDefaultRoleNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterWorkspaceDirectoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RegisterWorkspaceDirectoryOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WorkSpacesClientTypes.RelatedWorkspaceProperties: Swift.Codable {
@@ -10117,7 +9385,7 @@ extension WorkSpacesClientTypes.RelatedWorkspaceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -10142,7 +9410,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the related WorkSpace.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             region: Swift.String? = nil,
             state: WorkSpacesClientTypes.WorkspaceState? = nil,
             type: WorkSpacesClientTypes.StandbyWorkspaceRelationshipType? = nil,
@@ -10159,37 +9427,41 @@ extension WorkSpacesClientTypes {
 }
 
 extension ResourceAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource already exists.
-public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10202,7 +9474,7 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10210,37 +9482,41 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension ResourceAssociatedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceAssociatedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource is associated with a directory.
-public struct ResourceAssociatedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceAssociatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAssociatedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10253,7 +9529,7 @@ extension ResourceAssociatedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10261,37 +9537,41 @@ extension ResourceAssociatedExceptionBody: Swift.Decodable {
 }
 
 extension ResourceCreationFailedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceCreationFailedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource could not be created.
-public struct ResourceCreationFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceCreationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceCreationFailedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10304,7 +9584,7 @@ extension ResourceCreationFailedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10312,38 +9592,42 @@ extension ResourceCreationFailedExceptionBody: Swift.Decodable {
 }
 
 extension ResourceLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Your resource limits have been exceeded.
-public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10356,7 +9640,7 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10364,44 +9648,48 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.resourceId = nil
-            self.message = nil
+            self.properties.resourceId = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The resource could not be found.
-    public var message: Swift.String?
-    /// The ID of the resource that could not be found.
-    public var resourceId: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The resource could not be found.
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the resource that could not be found.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -10416,7 +9704,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10426,44 +9714,48 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension ResourceUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.resourceId = nil
-            self.message = nil
+            self.properties.resourceId = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource is not available.
-public struct ResourceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
-    /// The identifier of the resource that is not available.
-    public var resourceId: Swift.String?
+public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+        /// The identifier of the resource that is not available.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceUnavailableException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -10478,7 +9770,7 @@ extension ResourceUnavailableExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10511,7 +9803,7 @@ public struct RestoreWorkspaceInput: Swift.Equatable {
     /// This member is required.
     public var workspaceId: Swift.String?
 
-    public init (
+    public init(
         workspaceId: Swift.String? = nil
     )
     {
@@ -10528,49 +9820,35 @@ extension RestoreWorkspaceInputBody: Swift.Decodable {
         case workspaceId = "WorkspaceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
     }
 }
 
-extension RestoreWorkspaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RestoreWorkspaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RestoreWorkspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RestoreWorkspaceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RestoreWorkspaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RestoreWorkspaceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RevokeIpRulesInput: Swift.Encodable {
@@ -10607,7 +9885,7 @@ public struct RevokeIpRulesInput: Swift.Equatable {
     /// This member is required.
     public var userRules: [Swift.String]?
 
-    public init (
+    public init(
         groupId: Swift.String? = nil,
         userRules: [Swift.String]? = nil
     )
@@ -10628,7 +9906,7 @@ extension RevokeIpRulesInputBody: Swift.Decodable {
         case userRules = "UserRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -10646,42 +9924,28 @@ extension RevokeIpRulesInputBody: Swift.Decodable {
     }
 }
 
-extension RevokeIpRulesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RevokeIpRulesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RevokeIpRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RevokeIpRulesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RevokeIpRulesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RevokeIpRulesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WorkSpacesClientTypes.RootStorage: Swift.Codable {
@@ -10696,7 +9960,7 @@ extension WorkSpacesClientTypes.RootStorage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let capacityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacity)
         capacity = capacityDecoded
@@ -10709,7 +9973,7 @@ extension WorkSpacesClientTypes {
         /// The size of the root volume.
         public var capacity: Swift.String?
 
-        public init (
+        public init(
             capacity: Swift.String? = nil
         )
         {
@@ -10774,7 +10038,7 @@ extension WorkSpacesClientTypes.SamlProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.SamlStatusEnum.self, forKey: .status)
         status = statusDecoded
@@ -10801,7 +10065,7 @@ extension WorkSpacesClientTypes {
         /// The SAML 2.0 identity provider (IdP) user access URL is the URL a user would navigate to in their web browser in order to federate from the IdP and directly access the application, without any SAML 2.0 service provider (SP) bindings.
         public var userAccessUrl: Swift.String?
 
-        public init (
+        public init(
             relayStateParameterName: Swift.String? = nil,
             status: WorkSpacesClientTypes.SamlStatusEnum? = nil,
             userAccessUrl: Swift.String? = nil
@@ -10878,7 +10142,7 @@ extension WorkSpacesClientTypes.SelfservicePermissions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let restartWorkspaceDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.ReconnectEnum.self, forKey: .restartWorkspace)
         restartWorkspace = restartWorkspaceDecoded
@@ -10907,7 +10171,7 @@ extension WorkSpacesClientTypes {
         /// Specifies whether users can switch the running mode of their WorkSpace.
         public var switchRunningMode: WorkSpacesClientTypes.ReconnectEnum?
 
-        public init (
+        public init(
             changeComputeType: WorkSpacesClientTypes.ReconnectEnum? = nil,
             increaseVolumeSize: WorkSpacesClientTypes.ReconnectEnum? = nil,
             rebuildWorkspace: WorkSpacesClientTypes.ReconnectEnum? = nil,
@@ -10937,7 +10201,7 @@ extension WorkSpacesClientTypes.Snapshot: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .snapshotTime)
         snapshotTime = snapshotTimeDecoded
@@ -10950,7 +10214,7 @@ extension WorkSpacesClientTypes {
         /// The time when the snapshot was created.
         public var snapshotTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             snapshotTime: ClientRuntime.Date? = nil
         )
         {
@@ -10987,7 +10251,7 @@ extension WorkSpacesClientTypes.StandbyWorkspace: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let primaryWorkspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryWorkspaceId)
         primaryWorkspaceId = primaryWorkspaceIdDecoded
@@ -11023,7 +10287,7 @@ extension WorkSpacesClientTypes {
         /// The volume encryption key of the standby WorkSpace.
         public var volumeEncryptionKey: Swift.String?
 
-        public init (
+        public init(
             directoryId: Swift.String? = nil,
             primaryWorkspaceId: Swift.String? = nil,
             tags: [WorkSpacesClientTypes.Tag]? = nil,
@@ -11083,7 +10347,7 @@ extension WorkSpacesClientTypes.StartRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -11096,7 +10360,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the WorkSpace.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             workspaceId: Swift.String? = nil
         )
         {
@@ -11133,7 +10397,7 @@ public struct StartWorkspacesInput: Swift.Equatable {
     /// This member is required.
     public var startWorkspaceRequests: [WorkSpacesClientTypes.StartRequest]?
 
-    public init (
+    public init(
         startWorkspaceRequests: [WorkSpacesClientTypes.StartRequest]? = nil
     )
     {
@@ -11150,7 +10414,7 @@ extension StartWorkspacesInputBody: Swift.Decodable {
         case startWorkspaceRequests = "StartWorkspaceRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startWorkspaceRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.StartRequest?].self, forKey: .startWorkspaceRequests)
         var startWorkspaceRequestsDecoded0:[WorkSpacesClientTypes.StartRequest]? = nil
@@ -11166,29 +10430,19 @@ extension StartWorkspacesInputBody: Swift.Decodable {
     }
 }
 
-extension StartWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartWorkspacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartWorkspacesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedRequests = output.failedRequests
@@ -11202,7 +10456,7 @@ public struct StartWorkspacesOutputResponse: Swift.Equatable {
     /// Information about the WorkSpaces that could not be started.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
-    public init (
+    public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
     )
     {
@@ -11219,7 +10473,7 @@ extension StartWorkspacesOutputResponseBody: Swift.Decodable {
         case failedRequests = "FailedRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.FailedWorkspaceChangeRequest?].self, forKey: .failedRequests)
         var failedRequestsDecoded0:[WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
@@ -11247,7 +10501,7 @@ extension WorkSpacesClientTypes.StopRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -11260,7 +10514,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the WorkSpace.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             workspaceId: Swift.String? = nil
         )
         {
@@ -11297,7 +10551,7 @@ public struct StopWorkspacesInput: Swift.Equatable {
     /// This member is required.
     public var stopWorkspaceRequests: [WorkSpacesClientTypes.StopRequest]?
 
-    public init (
+    public init(
         stopWorkspaceRequests: [WorkSpacesClientTypes.StopRequest]? = nil
     )
     {
@@ -11314,7 +10568,7 @@ extension StopWorkspacesInputBody: Swift.Decodable {
         case stopWorkspaceRequests = "StopWorkspaceRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stopWorkspaceRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.StopRequest?].self, forKey: .stopWorkspaceRequests)
         var stopWorkspaceRequestsDecoded0:[WorkSpacesClientTypes.StopRequest]? = nil
@@ -11330,29 +10584,19 @@ extension StopWorkspacesInputBody: Swift.Decodable {
     }
 }
 
-extension StopWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopWorkspacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopWorkspacesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedRequests = output.failedRequests
@@ -11366,7 +10610,7 @@ public struct StopWorkspacesOutputResponse: Swift.Equatable {
     /// Information about the WorkSpaces that could not be stopped.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
-    public init (
+    public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
     )
     {
@@ -11383,7 +10627,7 @@ extension StopWorkspacesOutputResponseBody: Swift.Decodable {
         case failedRequests = "FailedRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.FailedWorkspaceChangeRequest?].self, forKey: .failedRequests)
         var failedRequestsDecoded0:[WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
@@ -11415,7 +10659,7 @@ extension WorkSpacesClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -11433,7 +10677,7 @@ extension WorkSpacesClientTypes {
         /// The value of the tag.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -11521,7 +10765,7 @@ extension WorkSpacesClientTypes.TerminateRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -11535,7 +10779,7 @@ extension WorkSpacesClientTypes {
         /// This member is required.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             workspaceId: Swift.String? = nil
         )
         {
@@ -11572,7 +10816,7 @@ public struct TerminateWorkspacesInput: Swift.Equatable {
     /// This member is required.
     public var terminateWorkspaceRequests: [WorkSpacesClientTypes.TerminateRequest]?
 
-    public init (
+    public init(
         terminateWorkspaceRequests: [WorkSpacesClientTypes.TerminateRequest]? = nil
     )
     {
@@ -11589,7 +10833,7 @@ extension TerminateWorkspacesInputBody: Swift.Decodable {
         case terminateWorkspaceRequests = "TerminateWorkspaceRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let terminateWorkspaceRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.TerminateRequest?].self, forKey: .terminateWorkspaceRequests)
         var terminateWorkspaceRequestsDecoded0:[WorkSpacesClientTypes.TerminateRequest]? = nil
@@ -11605,29 +10849,19 @@ extension TerminateWorkspacesInputBody: Swift.Decodable {
     }
 }
 
-extension TerminateWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TerminateWorkspacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TerminateWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TerminateWorkspacesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TerminateWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TerminateWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedRequests = output.failedRequests
@@ -11641,7 +10875,7 @@ public struct TerminateWorkspacesOutputResponse: Swift.Equatable {
     /// Information about the WorkSpaces that could not be terminated.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
-    public init (
+    public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
     )
     {
@@ -11658,7 +10892,7 @@ extension TerminateWorkspacesOutputResponseBody: Swift.Decodable {
         case failedRequests = "FailedRequests"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.FailedWorkspaceChangeRequest?].self, forKey: .failedRequests)
         var failedRequestsDecoded0:[WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
@@ -11675,37 +10909,41 @@ extension TerminateWorkspacesOutputResponseBody: Swift.Decodable {
 }
 
 extension UnsupportedNetworkConfigurationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedNetworkConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The configuration of this network is not supported for this operation, or your network configuration conflicts with the Amazon WorkSpaces management network IP range. For more information, see [ Configure a VPC for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html).
-public struct UnsupportedNetworkConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedNetworkConfigurationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11718,7 +10956,7 @@ extension UnsupportedNetworkConfigurationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11726,37 +10964,41 @@ extension UnsupportedNetworkConfigurationExceptionBody: Swift.Decodable {
 }
 
 extension UnsupportedWorkspaceConfigurationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedWorkspaceConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The configuration of this WorkSpace is not supported for this operation. For more information, see [Required Configuration and Service Components for WorkSpaces ](https://docs.aws.amazon.com/workspaces/latest/adminguide/required-service-components.html).
-public struct UnsupportedWorkspaceConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnsupportedWorkspaceConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedWorkspaceConfigurationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11769,7 +11011,7 @@ extension UnsupportedWorkspaceConfigurationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11819,7 +11061,7 @@ public struct UpdateConnectClientAddInInput: Swift.Equatable {
     /// The endpoint URL of the Amazon Connect client add-in.
     public var url: Swift.String?
 
-    public init (
+    public init(
         addInId: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceId: Swift.String? = nil,
@@ -11848,7 +11090,7 @@ extension UpdateConnectClientAddInInputBody: Swift.Decodable {
         case url = "URL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addInIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addInId)
         addInId = addInIdDecoded
@@ -11861,40 +11103,27 @@ extension UpdateConnectClientAddInInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateConnectClientAddInOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateConnectClientAddInOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateConnectClientAddInOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateConnectClientAddInOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateConnectClientAddInOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateConnectClientAddInOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateConnectionAliasPermissionInput: Swift.Encodable {
@@ -11928,7 +11157,7 @@ public struct UpdateConnectionAliasPermissionInput: Swift.Equatable {
     /// This member is required.
     public var connectionAliasPermission: WorkSpacesClientTypes.ConnectionAliasPermission?
 
-    public init (
+    public init(
         aliasId: Swift.String? = nil,
         connectionAliasPermission: WorkSpacesClientTypes.ConnectionAliasPermission? = nil
     )
@@ -11949,7 +11178,7 @@ extension UpdateConnectionAliasPermissionInputBody: Swift.Decodable {
         case connectionAliasPermission = "ConnectionAliasPermission"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aliasId)
         aliasId = aliasIdDecoded
@@ -11958,48 +11187,31 @@ extension UpdateConnectionAliasPermissionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateConnectionAliasPermissionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateConnectionAliasPermissionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAssociatedException" : self = .resourceAssociatedException(try ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateConnectionAliasPermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAssociatedException": return try await ResourceAssociatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateConnectionAliasPermissionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceAssociatedException(ResourceAssociatedException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateConnectionAliasPermissionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateConnectionAliasPermissionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WorkSpacesClientTypes.UpdateResult: Swift.Codable {
@@ -12018,7 +11230,7 @@ extension WorkSpacesClientTypes.UpdateResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let updateAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateAvailable)
         updateAvailable = updateAvailableDecoded
@@ -12035,7 +11247,7 @@ extension WorkSpacesClientTypes {
         /// Indicates whether updated drivers or other components are available for the specified WorkSpace image.
         public var updateAvailable: Swift.Bool?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             updateAvailable: Swift.Bool? = nil
         )
@@ -12081,7 +11293,7 @@ public struct UpdateRulesOfIpGroupInput: Swift.Equatable {
     /// This member is required.
     public var userRules: [WorkSpacesClientTypes.IpRuleItem]?
 
-    public init (
+    public init(
         groupId: Swift.String? = nil,
         userRules: [WorkSpacesClientTypes.IpRuleItem]? = nil
     )
@@ -12102,7 +11314,7 @@ extension UpdateRulesOfIpGroupInputBody: Swift.Decodable {
         case userRules = "UserRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -12120,44 +11332,29 @@ extension UpdateRulesOfIpGroupInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateRulesOfIpGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateRulesOfIpGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateRulesOfIpGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateException": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateRulesOfIpGroupOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateRulesOfIpGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateRulesOfIpGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateWorkspaceBundleInput: Swift.Encodable {
@@ -12189,7 +11386,7 @@ public struct UpdateWorkspaceBundleInput: Swift.Equatable {
     /// The identifier of the image.
     public var imageId: Swift.String?
 
-    public init (
+    public init(
         bundleId: Swift.String? = nil,
         imageId: Swift.String? = nil
     )
@@ -12210,7 +11407,7 @@ extension UpdateWorkspaceBundleInputBody: Swift.Decodable {
         case imageId = "ImageId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bundleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bundleId)
         bundleId = bundleIdDecoded
@@ -12219,44 +11416,29 @@ extension UpdateWorkspaceBundleInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateWorkspaceBundleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateWorkspaceBundleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateWorkspaceBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateWorkspaceBundleOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateWorkspaceBundleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateWorkspaceBundleOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateWorkspaceImagePermissionInput: Swift.Encodable {
@@ -12297,7 +11479,7 @@ public struct UpdateWorkspaceImagePermissionInput: Swift.Equatable {
     /// This member is required.
     public var sharedAccountId: Swift.String?
 
-    public init (
+    public init(
         allowCopyImage: Swift.Bool? = nil,
         imageId: Swift.String? = nil,
         sharedAccountId: Swift.String? = nil
@@ -12322,7 +11504,7 @@ extension UpdateWorkspaceImagePermissionInputBody: Swift.Decodable {
         case sharedAccountId = "SharedAccountId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
@@ -12333,44 +11515,29 @@ extension UpdateWorkspaceImagePermissionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateWorkspaceImagePermissionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateWorkspaceImagePermissionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateWorkspaceImagePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValuesException": return try await InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateWorkspaceImagePermissionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case invalidParameterValuesException(InvalidParameterValuesException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateWorkspaceImagePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateWorkspaceImagePermissionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WorkSpacesClientTypes.UserStorage: Swift.Codable {
@@ -12385,7 +11552,7 @@ extension WorkSpacesClientTypes.UserStorage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let capacityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacity)
         capacity = capacityDecoded
@@ -12398,7 +11565,7 @@ extension WorkSpacesClientTypes {
         /// The size of the user volume.
         public var capacity: Swift.String?
 
-        public init (
+        public init(
             capacity: Swift.String? = nil
         )
         {
@@ -12486,7 +11653,7 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -12577,7 +11744,7 @@ extension WorkSpacesClientTypes {
         /// The properties of the WorkSpace.
         public var workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?
 
-        public init (
+        public init(
             bundleId: Swift.String? = nil,
             computerName: Swift.String? = nil,
             directoryId: Swift.String? = nil,
@@ -12657,7 +11824,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deviceTypeWindowsDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.AccessPropertyValue.self, forKey: .deviceTypeWindows)
         deviceTypeWindows = deviceTypeWindowsDecoded
@@ -12698,7 +11865,7 @@ extension WorkSpacesClientTypes {
         /// Indicates whether users can use zero client devices to access their WorkSpaces.
         public var deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue?
 
-        public init (
+        public init(
             deviceTypeAndroid: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeChromeOs: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeIos: WorkSpacesClientTypes.AccessPropertyValue? = nil,
@@ -12778,7 +11945,7 @@ extension WorkSpacesClientTypes.WorkspaceBundle: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bundleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bundleId)
         bundleId = bundleIdDecoded
@@ -12835,7 +12002,7 @@ extension WorkSpacesClientTypes {
         /// The size of the user volume.
         public var userStorage: WorkSpacesClientTypes.UserStorage?
 
-        public init (
+        public init(
             bundleId: Swift.String? = nil,
             bundleType: WorkSpacesClientTypes.BundleType? = nil,
             computeType: WorkSpacesClientTypes.ComputeType? = nil,
@@ -12926,7 +12093,7 @@ extension WorkSpacesClientTypes.WorkspaceConnectionStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
         workspaceId = workspaceIdDecoded
@@ -12951,7 +12118,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the WorkSpace.
         public var workspaceId: Swift.String?
 
-        public init (
+        public init(
             connectionState: WorkSpacesClientTypes.ConnectionState? = nil,
             connectionStateCheckTimestamp: ClientRuntime.Date? = nil,
             lastKnownUserConnectionTimestamp: ClientRuntime.Date? = nil,
@@ -12999,7 +12166,7 @@ extension WorkSpacesClientTypes.WorkspaceCreationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enableWorkDocsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableWorkDocs)
         enableWorkDocs = enableWorkDocsDecoded
@@ -13036,7 +12203,7 @@ extension WorkSpacesClientTypes {
         /// Indicates whether users are local administrators of their WorkSpaces.
         public var userEnabledAsLocalAdministrator: Swift.Bool?
 
-        public init (
+        public init(
             customSecurityGroupId: Swift.String? = nil,
             defaultOu: Swift.String? = nil,
             enableInternetAccess: Swift.Bool? = nil,
@@ -13145,7 +12312,7 @@ extension WorkSpacesClientTypes.WorkspaceDirectory: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
         directoryId = directoryIdDecoded
@@ -13253,7 +12420,7 @@ extension WorkSpacesClientTypes {
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public var workspaceSecurityGroupId: Swift.String?
 
-        public init (
+        public init(
             alias: Swift.String? = nil,
             certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties? = nil,
             customerUserName: Swift.String? = nil,
@@ -13422,7 +12589,7 @@ extension WorkSpacesClientTypes.WorkspaceImage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
         imageId = imageIdDecoded
@@ -13475,7 +12642,7 @@ extension WorkSpacesClientTypes {
         /// The updates (if any) that are available for the specified image.
         public var updates: WorkSpacesClientTypes.UpdateResult?
 
-        public init (
+        public init(
             created: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             errorCode: Swift.String? = nil,
@@ -13654,7 +12821,7 @@ extension WorkSpacesClientTypes.WorkspaceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let runningModeDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.RunningMode.self, forKey: .runningMode)
         runningMode = runningModeDecoded
@@ -13702,7 +12869,7 @@ extension WorkSpacesClientTypes {
         /// The size of the user storage. For important information about how to modify the size of the root and user volumes, see [Modify a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html).
         public var userVolumeSizeGib: Swift.Int?
 
-        public init (
+        public init(
             computeTypeName: WorkSpacesClientTypes.Compute? = nil,
             protocols: [WorkSpacesClientTypes.ModelProtocol]? = nil,
             rootVolumeSizeGib: Swift.Int? = nil,
@@ -13765,7 +12932,7 @@ extension WorkSpacesClientTypes.WorkspaceRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
         directoryId = directoryIdDecoded
@@ -13818,7 +12985,7 @@ extension WorkSpacesClientTypes {
         /// The WorkSpace properties.
         public var workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?
 
-        public init (
+        public init(
             bundleId: Swift.String? = nil,
             directoryId: Swift.String? = nil,
             rootVolumeEncryptionEnabled: Swift.Bool? = nil,
@@ -13920,37 +13087,41 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkspacesDefaultRoleNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WorkspacesDefaultRoleNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The workspaces_DefaultRole role could not be found. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see [Creating the workspaces_DefaultRole Role](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-access-control.html#create-default-role).
-public struct WorkspacesDefaultRoleNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WorkspacesDefaultRoleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WorkspacesDefaultRoleNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13963,7 +13134,7 @@ extension WorkspacesDefaultRoleNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13997,7 +13168,7 @@ extension WorkSpacesClientTypes.WorkspacesIpGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -14031,7 +13202,7 @@ extension WorkSpacesClientTypes {
         /// The rules.
         public var userRules: [WorkSpacesClientTypes.IpRuleItem]?
 
-        public init (
+        public init(
             groupDesc: Swift.String? = nil,
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil,

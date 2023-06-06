@@ -29,6 +29,8 @@ import ClientRuntime
 ///
 /// * Amazon SageMaker endpoint variants
 ///
+/// * Amazon SageMaker Serverless endpoint provisioned concurrency
+///
 /// * Spot Fleets (Amazon EC2)
 ///
 /// * Custom resources provided by your own applications or services

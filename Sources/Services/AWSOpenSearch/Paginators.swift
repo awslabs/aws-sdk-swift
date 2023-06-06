@@ -219,8 +219,10 @@ extension ListInstanceTypeDetailsInput: ClientRuntime.PaginateToken {
         return ListInstanceTypeDetailsInput(
             domainName: self.domainName,
             engineVersion: self.engineVersion,
+            instanceType: self.instanceType,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            retrieveAZs: self.retrieveAZs
         )}
 }
 extension OpenSearchClient {

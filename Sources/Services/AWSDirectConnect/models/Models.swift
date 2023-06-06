@@ -49,7 +49,7 @@ public struct AcceptDirectConnectGatewayAssociationProposalInput: Swift.Equatabl
     /// This member is required.
     public var proposalId: Swift.String?
 
-    public init (
+    public init(
         associatedGatewayOwnerAccount: Swift.String? = nil,
         directConnectGatewayId: Swift.String? = nil,
         overrideAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -78,7 +78,7 @@ extension AcceptDirectConnectGatewayAssociationProposalInputBody: Swift.Decodabl
         case proposalId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -100,33 +100,21 @@ extension AcceptDirectConnectGatewayAssociationProposalInputBody: Swift.Decodabl
     }
 }
 
-extension AcceptDirectConnectGatewayAssociationProposalOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AcceptDirectConnectGatewayAssociationProposalOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AcceptDirectConnectGatewayAssociationProposalOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AcceptDirectConnectGatewayAssociationProposalOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AcceptDirectConnectGatewayAssociationProposalOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AcceptDirectConnectGatewayAssociationProposalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociation = output.directConnectGatewayAssociation
@@ -140,7 +128,7 @@ public struct AcceptDirectConnectGatewayAssociationProposalOutputResponse: Swift
     /// Information about an association between a Direct Connect gateway and a virtual private gateway or transit gateway.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
-    public init (
+    public init(
         directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation? = nil
     )
     {
@@ -157,7 +145,7 @@ extension AcceptDirectConnectGatewayAssociationProposalOutputResponseBody: Swift
         case directConnectGatewayAssociation
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAssociationDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGatewayAssociation.self, forKey: .directConnectGatewayAssociation)
         directConnectGatewayAssociation = directConnectGatewayAssociationDecoded
@@ -248,7 +236,7 @@ public struct AllocateConnectionOnInterconnectInput: Swift.Equatable {
     /// This member is required.
     public var vlan: Swift.Int?
 
-    public init (
+    public init(
         bandwidth: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         interconnectId: Swift.String? = nil,
@@ -281,7 +269,7 @@ extension AllocateConnectionOnInterconnectInputBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bandwidthDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bandwidth)
         bandwidth = bandwidthDecoded
@@ -296,33 +284,21 @@ extension AllocateConnectionOnInterconnectInputBody: Swift.Decodable {
     }
 }
 
-extension AllocateConnectionOnInterconnectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AllocateConnectionOnInterconnectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AllocateConnectionOnInterconnectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AllocateConnectionOnInterconnectOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AllocateConnectionOnInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AllocateConnectionOnInterconnectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -440,7 +416,7 @@ public struct AllocateConnectionOnInterconnectOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -541,7 +517,7 @@ extension AllocateConnectionOnInterconnectOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -669,7 +645,7 @@ public struct AllocateHostedConnectionInput: Swift.Equatable {
     /// This member is required.
     public var vlan: Swift.Int?
 
-    public init (
+    public init(
         bandwidth: Swift.String? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
@@ -706,7 +682,7 @@ extension AllocateHostedConnectionInputBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -732,37 +708,23 @@ extension AllocateHostedConnectionInputBody: Swift.Decodable {
     }
 }
 
-extension AllocateHostedConnectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AllocateHostedConnectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AllocateHostedConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AllocateHostedConnectionOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AllocateHostedConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AllocateHostedConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -880,7 +842,7 @@ public struct AllocateHostedConnectionOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -981,7 +943,7 @@ extension AllocateHostedConnectionOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -1086,7 +1048,7 @@ public struct AllocatePrivateVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var ownerAccount: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         newPrivateVirtualInterfaceAllocation: DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation? = nil,
         ownerAccount: Swift.String? = nil
@@ -1111,7 +1073,7 @@ extension AllocatePrivateVirtualInterfaceInputBody: Swift.Decodable {
         case ownerAccount
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -1122,37 +1084,23 @@ extension AllocatePrivateVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension AllocatePrivateVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AllocatePrivateVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AllocatePrivateVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AllocatePrivateVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AllocatePrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AllocatePrivateVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
@@ -1242,7 +1190,7 @@ public struct AllocatePrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -1285,7 +1233,7 @@ public struct AllocatePrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
@@ -1402,7 +1350,7 @@ extension AllocatePrivateVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -1524,7 +1472,7 @@ public struct AllocatePublicVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var ownerAccount: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         newPublicVirtualInterfaceAllocation: DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation? = nil,
         ownerAccount: Swift.String? = nil
@@ -1549,7 +1497,7 @@ extension AllocatePublicVirtualInterfaceInputBody: Swift.Decodable {
         case ownerAccount
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -1560,37 +1508,23 @@ extension AllocatePublicVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension AllocatePublicVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AllocatePublicVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AllocatePublicVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AllocatePublicVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AllocatePublicVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AllocatePublicVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
@@ -1680,7 +1614,7 @@ public struct AllocatePublicVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -1723,7 +1657,7 @@ public struct AllocatePublicVirtualInterfaceOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
@@ -1840,7 +1774,7 @@ extension AllocatePublicVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -1962,7 +1896,7 @@ public struct AllocateTransitVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var ownerAccount: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         newTransitVirtualInterfaceAllocation: DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation? = nil,
         ownerAccount: Swift.String? = nil
@@ -1987,7 +1921,7 @@ extension AllocateTransitVirtualInterfaceInputBody: Swift.Decodable {
         case ownerAccount
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -1998,37 +1932,23 @@ extension AllocateTransitVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension AllocateTransitVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AllocateTransitVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AllocateTransitVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AllocateTransitVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AllocateTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AllocateTransitVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterface = output.virtualInterface
@@ -2042,7 +1962,7 @@ public struct AllocateTransitVirtualInterfaceOutputResponse: Swift.Equatable {
     /// Information about a virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
-    public init (
+    public init(
         virtualInterface: DirectConnectClientTypes.VirtualInterface? = nil
     )
     {
@@ -2059,7 +1979,7 @@ extension AllocateTransitVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case virtualInterface
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterface.self, forKey: .virtualInterface)
         virtualInterface = virtualInterfaceDecoded
@@ -2097,7 +2017,7 @@ public struct AssociateConnectionWithLagInput: Swift.Equatable {
     /// This member is required.
     public var lagId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         lagId: Swift.String? = nil
     )
@@ -2118,7 +2038,7 @@ extension AssociateConnectionWithLagInputBody: Swift.Decodable {
         case lagId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -2127,33 +2047,21 @@ extension AssociateConnectionWithLagInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateConnectionWithLagOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateConnectionWithLagOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateConnectionWithLagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateConnectionWithLagOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateConnectionWithLagOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateConnectionWithLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -2271,7 +2179,7 @@ public struct AssociateConnectionWithLagOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -2372,7 +2280,7 @@ extension AssociateConnectionWithLagOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -2470,7 +2378,7 @@ public struct AssociateHostedConnectionInput: Swift.Equatable {
     /// This member is required.
     public var parentConnectionId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         parentConnectionId: Swift.String? = nil
     )
@@ -2491,7 +2399,7 @@ extension AssociateHostedConnectionInputBody: Swift.Decodable {
         case parentConnectionId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -2500,33 +2408,21 @@ extension AssociateHostedConnectionInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateHostedConnectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateHostedConnectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateHostedConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateHostedConnectionOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateHostedConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateHostedConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -2644,7 +2540,7 @@ public struct AssociateHostedConnectionOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -2745,7 +2641,7 @@ extension AssociateHostedConnectionOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -2854,7 +2750,7 @@ public struct AssociateMacSecKeyInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the dedicated connection. You can use [DescribeConnections] or [DescribeLags] to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
     public var secretARN: Swift.String?
 
-    public init (
+    public init(
         cak: Swift.String? = nil,
         ckn: Swift.String? = nil,
         connectionId: Swift.String? = nil,
@@ -2883,7 +2779,7 @@ extension AssociateMacSecKeyInputBody: Swift.Decodable {
         case secretARN
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -2896,33 +2792,21 @@ extension AssociateMacSecKeyInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateMacSecKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateMacSecKeyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateMacSecKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateMacSecKeyOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateMacSecKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateMacSecKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionId = output.connectionId
@@ -2940,7 +2824,7 @@ public struct AssociateMacSecKeyOutputResponse: Swift.Equatable {
     /// The MAC Security (MACsec) security keys associated with the dedicated connection.
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil
     )
@@ -2961,7 +2845,7 @@ extension AssociateMacSecKeyOutputResponseBody: Swift.Decodable {
         case macSecKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -3010,7 +2894,7 @@ public struct AssociateVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
     )
@@ -3031,7 +2915,7 @@ extension AssociateVirtualInterfaceInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
@@ -3040,33 +2924,21 @@ extension AssociateVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
@@ -3156,7 +3028,7 @@ public struct AssociateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -3199,7 +3071,7 @@ public struct AssociateVirtualInterfaceOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
@@ -3316,7 +3188,7 @@ extension AssociateVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -3424,7 +3296,7 @@ extension DirectConnectClientTypes.AssociatedGateway: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -3449,7 +3321,7 @@ extension DirectConnectClientTypes {
         /// The type of associated gateway.
         public var type: DirectConnectClientTypes.GatewayType?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             ownerAccount: Swift.String? = nil,
             region: Swift.String? = nil,
@@ -3513,7 +3385,7 @@ extension DirectConnectClientTypes.BGPPeer: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bgpPeerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bgpPeerId)
         bgpPeerId = bgpPeerIdDecoded
@@ -3578,7 +3450,7 @@ extension DirectConnectClientTypes {
         /// The IP address assigned to the customer interface.
         public var customerAddress: Swift.String?
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
@@ -3706,7 +3578,7 @@ public struct ConfirmConnectionInput: Swift.Equatable {
     /// This member is required.
     public var connectionId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil
     )
     {
@@ -3723,40 +3595,28 @@ extension ConfirmConnectionInputBody: Swift.Decodable {
         case connectionId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
     }
 }
 
-extension ConfirmConnectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ConfirmConnectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ConfirmConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ConfirmConnectionOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ConfirmConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConfirmConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionState = output.connectionState
@@ -3788,7 +3648,7 @@ public struct ConfirmConnectionOutputResponse: Swift.Equatable {
     /// * unknown: The state of the connection is not available.
     public var connectionState: DirectConnectClientTypes.ConnectionState?
 
-    public init (
+    public init(
         connectionState: DirectConnectClientTypes.ConnectionState? = nil
     )
     {
@@ -3805,7 +3665,7 @@ extension ConfirmConnectionOutputResponseBody: Swift.Decodable {
         case connectionState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionStateDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.ConnectionState.self, forKey: .connectionState)
         connectionState = connectionStateDecoded
@@ -3835,7 +3695,7 @@ public struct ConfirmCustomerAgreementInput: Swift.Equatable {
     /// The name of the customer agreement.
     public var agreementName: Swift.String?
 
-    public init (
+    public init(
         agreementName: Swift.String? = nil
     )
     {
@@ -3852,40 +3712,28 @@ extension ConfirmCustomerAgreementInputBody: Swift.Decodable {
         case agreementName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agreementNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agreementName)
         agreementName = agreementNameDecoded
     }
 }
 
-extension ConfirmCustomerAgreementOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ConfirmCustomerAgreementOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ConfirmCustomerAgreementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ConfirmCustomerAgreementOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ConfirmCustomerAgreementOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConfirmCustomerAgreementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -3899,7 +3747,7 @@ public struct ConfirmCustomerAgreementOutputResponse: Swift.Equatable {
     /// The status of the customer agreement when the connection was created. This will be either signed or unsigned.
     public var status: Swift.String?
 
-    public init (
+    public init(
         status: Swift.String? = nil
     )
     {
@@ -3916,7 +3764,7 @@ extension ConfirmCustomerAgreementOutputResponseBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -3959,7 +3807,7 @@ public struct ConfirmPrivateVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayId: Swift.String? = nil,
         virtualGatewayId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
@@ -3984,7 +3832,7 @@ extension ConfirmPrivateVirtualInterfaceInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
@@ -3995,33 +3843,21 @@ extension ConfirmPrivateVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension ConfirmPrivateVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ConfirmPrivateVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ConfirmPrivateVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ConfirmPrivateVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ConfirmPrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConfirmPrivateVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceState = output.virtualInterfaceState
@@ -4053,7 +3889,7 @@ public struct ConfirmPrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
 
-    public init (
+    public init(
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil
     )
     {
@@ -4070,7 +3906,7 @@ extension ConfirmPrivateVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case virtualInterfaceState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceStateDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterfaceState.self, forKey: .virtualInterfaceState)
         virtualInterfaceState = virtualInterfaceStateDecoded
@@ -4101,7 +3937,7 @@ public struct ConfirmPublicVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         virtualInterfaceId: Swift.String? = nil
     )
     {
@@ -4118,40 +3954,28 @@ extension ConfirmPublicVirtualInterfaceInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
     }
 }
 
-extension ConfirmPublicVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ConfirmPublicVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ConfirmPublicVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ConfirmPublicVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ConfirmPublicVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConfirmPublicVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceState = output.virtualInterfaceState
@@ -4183,7 +4007,7 @@ public struct ConfirmPublicVirtualInterfaceOutputResponse: Swift.Equatable {
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
 
-    public init (
+    public init(
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil
     )
     {
@@ -4200,7 +4024,7 @@ extension ConfirmPublicVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case virtualInterfaceState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceStateDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterfaceState.self, forKey: .virtualInterfaceState)
         virtualInterfaceState = virtualInterfaceStateDecoded
@@ -4238,7 +4062,7 @@ public struct ConfirmTransitVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
     )
@@ -4259,7 +4083,7 @@ extension ConfirmTransitVirtualInterfaceInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
@@ -4268,33 +4092,21 @@ extension ConfirmTransitVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension ConfirmTransitVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ConfirmTransitVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ConfirmTransitVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ConfirmTransitVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ConfirmTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConfirmTransitVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceState = output.virtualInterfaceState
@@ -4326,7 +4138,7 @@ public struct ConfirmTransitVirtualInterfaceOutputResponse: Swift.Equatable {
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
 
-    public init (
+    public init(
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil
     )
     {
@@ -4343,7 +4155,7 @@ extension ConfirmTransitVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case virtualInterfaceState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceStateDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterfaceState.self, forKey: .virtualInterfaceState)
         virtualInterfaceState = virtualInterfaceStateDecoded
@@ -4452,7 +4264,7 @@ extension DirectConnectClientTypes.Connection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -4586,7 +4398,7 @@ extension DirectConnectClientTypes {
         /// The ID of the VLAN.
         public var vlan: Swift.Int
 
-        public init (
+        public init(
             awsDevice: Swift.String? = nil,
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
@@ -4720,7 +4532,7 @@ public struct CreateBGPPeerInput: Swift.Equatable {
     /// The ID of the virtual interface.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         newBGPPeer: DirectConnectClientTypes.NewBGPPeer? = nil,
         virtualInterfaceId: Swift.String? = nil
     )
@@ -4741,7 +4553,7 @@ extension CreateBGPPeerInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
@@ -4750,33 +4562,21 @@ extension CreateBGPPeerInputBody: Swift.Decodable {
     }
 }
 
-extension CreateBGPPeerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateBGPPeerOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateBGPPeerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateBGPPeerOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateBGPPeerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateBGPPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterface = output.virtualInterface
@@ -4790,7 +4590,7 @@ public struct CreateBGPPeerOutputResponse: Swift.Equatable {
     /// The virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
-    public init (
+    public init(
         virtualInterface: DirectConnectClientTypes.VirtualInterface? = nil
     )
     {
@@ -4807,7 +4607,7 @@ extension CreateBGPPeerOutputResponseBody: Swift.Decodable {
         case virtualInterface
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterface.self, forKey: .virtualInterface)
         virtualInterface = virtualInterfaceDecoded
@@ -4879,7 +4679,7 @@ public struct CreateConnectionInput: Swift.Equatable {
     /// The tags to associate with the lag.
     public var tags: [DirectConnectClientTypes.Tag]?
 
-    public init (
+    public init(
         bandwidth: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         lagId: Swift.String? = nil,
@@ -4920,7 +4720,7 @@ extension CreateConnectionInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
@@ -4948,37 +4748,23 @@ extension CreateConnectionInputBody: Swift.Decodable {
     }
 }
 
-extension CreateConnectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateConnectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateConnectionOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -5096,7 +4882,7 @@ public struct CreateConnectionOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -5197,7 +4983,7 @@ extension CreateConnectionOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -5309,7 +5095,7 @@ public struct CreateDirectConnectGatewayAssociationInput: Swift.Equatable {
     /// The ID of the virtual private gateway.
     public var virtualGatewayId: Swift.String?
 
-    public init (
+    public init(
         addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         directConnectGatewayId: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
@@ -5338,7 +5124,7 @@ extension CreateDirectConnectGatewayAssociationInputBody: Swift.Decodable {
         case virtualGatewayId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -5360,33 +5146,21 @@ extension CreateDirectConnectGatewayAssociationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDirectConnectGatewayAssociationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDirectConnectGatewayAssociationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDirectConnectGatewayAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDirectConnectGatewayAssociationOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDirectConnectGatewayAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDirectConnectGatewayAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociation = output.directConnectGatewayAssociation
@@ -5400,7 +5174,7 @@ public struct CreateDirectConnectGatewayAssociationOutputResponse: Swift.Equatab
     /// The association to be created.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
-    public init (
+    public init(
         directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation? = nil
     )
     {
@@ -5417,7 +5191,7 @@ extension CreateDirectConnectGatewayAssociationOutputResponseBody: Swift.Decodab
         case directConnectGatewayAssociation
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAssociationDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGatewayAssociation.self, forKey: .directConnectGatewayAssociation)
         directConnectGatewayAssociation = directConnectGatewayAssociationDecoded
@@ -5480,7 +5254,7 @@ public struct CreateDirectConnectGatewayAssociationProposalInput: Swift.Equatabl
     /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway.
     public var removeAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
 
-    public init (
+    public init(
         addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         directConnectGatewayId: Swift.String? = nil,
         directConnectGatewayOwnerAccount: Swift.String? = nil,
@@ -5513,7 +5287,7 @@ extension CreateDirectConnectGatewayAssociationProposalInputBody: Swift.Decodabl
         case removeAllowedPrefixesToDirectConnectGateway
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -5546,33 +5320,21 @@ extension CreateDirectConnectGatewayAssociationProposalInputBody: Swift.Decodabl
     }
 }
 
-extension CreateDirectConnectGatewayAssociationProposalOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDirectConnectGatewayAssociationProposalOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDirectConnectGatewayAssociationProposalOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDirectConnectGatewayAssociationProposalOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDirectConnectGatewayAssociationProposalOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDirectConnectGatewayAssociationProposalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociationProposal = output.directConnectGatewayAssociationProposal
@@ -5586,7 +5348,7 @@ public struct CreateDirectConnectGatewayAssociationProposalOutputResponse: Swift
     /// Information about the Direct Connect gateway proposal.
     public var directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal?
 
-    public init (
+    public init(
         directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal? = nil
     )
     {
@@ -5603,7 +5365,7 @@ extension CreateDirectConnectGatewayAssociationProposalOutputResponseBody: Swift
         case directConnectGatewayAssociationProposal
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAssociationProposalDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGatewayAssociationProposal.self, forKey: .directConnectGatewayAssociationProposal)
         directConnectGatewayAssociationProposal = directConnectGatewayAssociationProposalDecoded
@@ -5640,7 +5402,7 @@ public struct CreateDirectConnectGatewayInput: Swift.Equatable {
     /// This member is required.
     public var directConnectGatewayName: Swift.String?
 
-    public init (
+    public init(
         amazonSideAsn: Swift.Int? = nil,
         directConnectGatewayName: Swift.String? = nil
     )
@@ -5661,7 +5423,7 @@ extension CreateDirectConnectGatewayInputBody: Swift.Decodable {
         case directConnectGatewayName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayName)
         directConnectGatewayName = directConnectGatewayNameDecoded
@@ -5670,33 +5432,21 @@ extension CreateDirectConnectGatewayInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDirectConnectGatewayOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDirectConnectGatewayOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDirectConnectGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDirectConnectGatewayOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDirectConnectGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGateway = output.directConnectGateway
@@ -5710,7 +5460,7 @@ public struct CreateDirectConnectGatewayOutputResponse: Swift.Equatable {
     /// The Direct Connect gateway.
     public var directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 
-    public init (
+    public init(
         directConnectGateway: DirectConnectClientTypes.DirectConnectGateway? = nil
     )
     {
@@ -5727,7 +5477,7 @@ extension CreateDirectConnectGatewayOutputResponseBody: Swift.Decodable {
         case directConnectGateway
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGateway.self, forKey: .directConnectGateway)
         directConnectGateway = directConnectGatewayDecoded
@@ -5793,7 +5543,7 @@ public struct CreateInterconnectInput: Swift.Equatable {
     /// The tags to associate with the interconnect.
     public var tags: [DirectConnectClientTypes.Tag]?
 
-    public init (
+    public init(
         bandwidth: Swift.String? = nil,
         interconnectName: Swift.String? = nil,
         lagId: Swift.String? = nil,
@@ -5830,7 +5580,7 @@ extension CreateInterconnectInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectName)
         interconnectName = interconnectNameDecoded
@@ -5856,37 +5606,23 @@ extension CreateInterconnectInputBody: Swift.Decodable {
     }
 }
 
-extension CreateInterconnectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateInterconnectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateInterconnectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateInterconnectOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateInterconnectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -5972,7 +5708,7 @@ public struct CreateInterconnectOutputResponse: Swift.Equatable {
     /// The tags associated with the interconnect.
     public var tags: [DirectConnectClientTypes.Tag]?
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -6045,7 +5781,7 @@ extension CreateInterconnectOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectId)
         interconnectId = interconnectIdDecoded
@@ -6160,7 +5896,7 @@ public struct CreateLagInput: Swift.Equatable {
     /// The location for the LAG.
     /// This member is required.
     public var location: Swift.String?
-    /// The number of physical dedicated connections initially provisioned and bundled by the LAG.
+    /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1G or 10G, or two when the port speed is 100G.
     /// This member is required.
     public var numberOfConnections: Swift.Int?
     /// The name of the service provider associated with the LAG.
@@ -6170,7 +5906,7 @@ public struct CreateLagInput: Swift.Equatable {
     /// The tags to associate with the LAG.
     public var tags: [DirectConnectClientTypes.Tag]?
 
-    public init (
+    public init(
         childConnectionTags: [DirectConnectClientTypes.Tag]? = nil,
         connectionId: Swift.String? = nil,
         connectionsBandwidth: Swift.String? = nil,
@@ -6219,7 +5955,7 @@ extension CreateLagInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let numberOfConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfConnections)
         numberOfConnections = numberOfConnectionsDecoded
@@ -6260,37 +5996,23 @@ extension CreateLagInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLagOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLagOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLagOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLagOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowsHostedConnections = output.allowsHostedConnections
@@ -6400,7 +6122,7 @@ public struct CreateLagOutputResponse: Swift.Equatable {
     /// The tags associated with the LAG.
     public var tags: [DirectConnectClientTypes.Tag]?
 
-    public init (
+    public init(
         allowsHostedConnections: Swift.Bool = false,
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
@@ -6497,7 +6219,7 @@ extension CreateLagOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionsBandwidthDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionsBandwidth)
         connectionsBandwidth = connectionsBandwidthDecoded
@@ -6602,7 +6324,7 @@ public struct CreatePrivateVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var newPrivateVirtualInterface: DirectConnectClientTypes.NewPrivateVirtualInterface?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         newPrivateVirtualInterface: DirectConnectClientTypes.NewPrivateVirtualInterface? = nil
     )
@@ -6623,7 +6345,7 @@ extension CreatePrivateVirtualInterfaceInputBody: Swift.Decodable {
         case newPrivateVirtualInterface
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -6632,37 +6354,23 @@ extension CreatePrivateVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension CreatePrivateVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreatePrivateVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreatePrivateVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreatePrivateVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreatePrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreatePrivateVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
@@ -6752,7 +6460,7 @@ public struct CreatePrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -6795,7 +6503,7 @@ public struct CreatePrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
@@ -6912,7 +6620,7 @@ extension CreatePrivateVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -7027,7 +6735,7 @@ public struct CreatePublicVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var newPublicVirtualInterface: DirectConnectClientTypes.NewPublicVirtualInterface?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         newPublicVirtualInterface: DirectConnectClientTypes.NewPublicVirtualInterface? = nil
     )
@@ -7048,7 +6756,7 @@ extension CreatePublicVirtualInterfaceInputBody: Swift.Decodable {
         case newPublicVirtualInterface
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -7057,37 +6765,23 @@ extension CreatePublicVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension CreatePublicVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreatePublicVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreatePublicVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreatePublicVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreatePublicVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreatePublicVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
@@ -7177,7 +6871,7 @@ public struct CreatePublicVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -7220,7 +6914,7 @@ public struct CreatePublicVirtualInterfaceOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
@@ -7337,7 +7031,7 @@ extension CreatePublicVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -7452,7 +7146,7 @@ public struct CreateTransitVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var newTransitVirtualInterface: DirectConnectClientTypes.NewTransitVirtualInterface?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         newTransitVirtualInterface: DirectConnectClientTypes.NewTransitVirtualInterface? = nil
     )
@@ -7473,7 +7167,7 @@ extension CreateTransitVirtualInterfaceInputBody: Swift.Decodable {
         case newTransitVirtualInterface
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -7482,37 +7176,23 @@ extension CreateTransitVirtualInterfaceInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTransitVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTransitVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTransitVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTransitVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTransitVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterface = output.virtualInterface
@@ -7526,7 +7206,7 @@ public struct CreateTransitVirtualInterfaceOutputResponse: Swift.Equatable {
     /// Information about a virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
-    public init (
+    public init(
         virtualInterface: DirectConnectClientTypes.VirtualInterface? = nil
     )
     {
@@ -7543,7 +7223,7 @@ extension CreateTransitVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case virtualInterface
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterface.self, forKey: .virtualInterface)
         virtualInterface = virtualInterfaceDecoded
@@ -7566,7 +7246,7 @@ extension DirectConnectClientTypes.CustomerAgreement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agreementNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agreementName)
         agreementName = agreementNameDecoded
@@ -7583,7 +7263,7 @@ extension DirectConnectClientTypes {
         /// The status of the customer agreement. This will be either signed or unsigned
         public var status: Swift.String?
 
-        public init (
+        public init(
             agreementName: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -7636,7 +7316,7 @@ public struct DeleteBGPPeerInput: Swift.Equatable {
     /// The ID of the virtual interface.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         asn: Swift.Int? = nil,
         bgpPeerId: Swift.String? = nil,
         customerAddress: Swift.String? = nil,
@@ -7665,7 +7345,7 @@ extension DeleteBGPPeerInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
@@ -7678,33 +7358,21 @@ extension DeleteBGPPeerInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteBGPPeerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteBGPPeerOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteBGPPeerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteBGPPeerOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteBGPPeerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteBGPPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterface = output.virtualInterface
@@ -7718,7 +7386,7 @@ public struct DeleteBGPPeerOutputResponse: Swift.Equatable {
     /// The virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
-    public init (
+    public init(
         virtualInterface: DirectConnectClientTypes.VirtualInterface? = nil
     )
     {
@@ -7735,7 +7403,7 @@ extension DeleteBGPPeerOutputResponseBody: Swift.Decodable {
         case virtualInterface
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterface.self, forKey: .virtualInterface)
         virtualInterface = virtualInterfaceDecoded
@@ -7766,7 +7434,7 @@ public struct DeleteConnectionInput: Swift.Equatable {
     /// This member is required.
     public var connectionId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil
     )
     {
@@ -7783,40 +7451,28 @@ extension DeleteConnectionInputBody: Swift.Decodable {
         case connectionId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
     }
 }
 
-extension DeleteConnectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConnectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConnectionOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -7934,7 +7590,7 @@ public struct DeleteConnectionOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -8035,7 +7691,7 @@ extension DeleteConnectionOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -8137,7 +7793,7 @@ public struct DeleteDirectConnectGatewayAssociationInput: Swift.Equatable {
     /// The ID of the virtual private gateway.
     public var virtualGatewayId: Swift.String?
 
-    public init (
+    public init(
         associationId: Swift.String? = nil,
         directConnectGatewayId: Swift.String? = nil,
         virtualGatewayId: Swift.String? = nil
@@ -8162,7 +7818,7 @@ extension DeleteDirectConnectGatewayAssociationInputBody: Swift.Decodable {
         case virtualGatewayId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let associationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationId)
         associationId = associationIdDecoded
@@ -8173,33 +7829,21 @@ extension DeleteDirectConnectGatewayAssociationInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteDirectConnectGatewayAssociationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDirectConnectGatewayAssociationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDirectConnectGatewayAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDirectConnectGatewayAssociationOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDirectConnectGatewayAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteDirectConnectGatewayAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociation = output.directConnectGatewayAssociation
@@ -8213,7 +7857,7 @@ public struct DeleteDirectConnectGatewayAssociationOutputResponse: Swift.Equatab
     /// Information about the deleted association.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
-    public init (
+    public init(
         directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation? = nil
     )
     {
@@ -8230,7 +7874,7 @@ extension DeleteDirectConnectGatewayAssociationOutputResponseBody: Swift.Decodab
         case directConnectGatewayAssociation
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAssociationDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGatewayAssociation.self, forKey: .directConnectGatewayAssociation)
         directConnectGatewayAssociation = directConnectGatewayAssociationDecoded
@@ -8261,7 +7905,7 @@ public struct DeleteDirectConnectGatewayAssociationProposalInput: Swift.Equatabl
     /// This member is required.
     public var proposalId: Swift.String?
 
-    public init (
+    public init(
         proposalId: Swift.String? = nil
     )
     {
@@ -8278,40 +7922,28 @@ extension DeleteDirectConnectGatewayAssociationProposalInputBody: Swift.Decodabl
         case proposalId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let proposalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .proposalId)
         proposalId = proposalIdDecoded
     }
 }
 
-extension DeleteDirectConnectGatewayAssociationProposalOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDirectConnectGatewayAssociationProposalOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDirectConnectGatewayAssociationProposalOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDirectConnectGatewayAssociationProposalOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDirectConnectGatewayAssociationProposalOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteDirectConnectGatewayAssociationProposalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociationProposal = output.directConnectGatewayAssociationProposal
@@ -8325,7 +7957,7 @@ public struct DeleteDirectConnectGatewayAssociationProposalOutputResponse: Swift
     /// The ID of the associated gateway.
     public var directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal?
 
-    public init (
+    public init(
         directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal? = nil
     )
     {
@@ -8342,7 +7974,7 @@ extension DeleteDirectConnectGatewayAssociationProposalOutputResponseBody: Swift
         case directConnectGatewayAssociationProposal
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAssociationProposalDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGatewayAssociationProposal.self, forKey: .directConnectGatewayAssociationProposal)
         directConnectGatewayAssociationProposal = directConnectGatewayAssociationProposalDecoded
@@ -8373,7 +8005,7 @@ public struct DeleteDirectConnectGatewayInput: Swift.Equatable {
     /// This member is required.
     public var directConnectGatewayId: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayId: Swift.String? = nil
     )
     {
@@ -8390,40 +8022,28 @@ extension DeleteDirectConnectGatewayInputBody: Swift.Decodable {
         case directConnectGatewayId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
     }
 }
 
-extension DeleteDirectConnectGatewayOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDirectConnectGatewayOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDirectConnectGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDirectConnectGatewayOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteDirectConnectGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGateway = output.directConnectGateway
@@ -8437,7 +8057,7 @@ public struct DeleteDirectConnectGatewayOutputResponse: Swift.Equatable {
     /// The Direct Connect gateway.
     public var directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 
-    public init (
+    public init(
         directConnectGateway: DirectConnectClientTypes.DirectConnectGateway? = nil
     )
     {
@@ -8454,7 +8074,7 @@ extension DeleteDirectConnectGatewayOutputResponseBody: Swift.Decodable {
         case directConnectGateway
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGateway.self, forKey: .directConnectGateway)
         directConnectGateway = directConnectGatewayDecoded
@@ -8485,7 +8105,7 @@ public struct DeleteInterconnectInput: Swift.Equatable {
     /// This member is required.
     public var interconnectId: Swift.String?
 
-    public init (
+    public init(
         interconnectId: Swift.String? = nil
     )
     {
@@ -8502,40 +8122,28 @@ extension DeleteInterconnectInputBody: Swift.Decodable {
         case interconnectId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectId)
         interconnectId = interconnectIdDecoded
     }
 }
 
-extension DeleteInterconnectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteInterconnectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteInterconnectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteInterconnectOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteInterconnectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interconnectState = output.interconnectState
@@ -8563,7 +8171,7 @@ public struct DeleteInterconnectOutputResponse: Swift.Equatable {
     /// * unknown: The state of the interconnect is not available.
     public var interconnectState: DirectConnectClientTypes.InterconnectState?
 
-    public init (
+    public init(
         interconnectState: DirectConnectClientTypes.InterconnectState? = nil
     )
     {
@@ -8580,7 +8188,7 @@ extension DeleteInterconnectOutputResponseBody: Swift.Decodable {
         case interconnectState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectStateDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.InterconnectState.self, forKey: .interconnectState)
         interconnectState = interconnectStateDecoded
@@ -8611,7 +8219,7 @@ public struct DeleteLagInput: Swift.Equatable {
     /// This member is required.
     public var lagId: Swift.String?
 
-    public init (
+    public init(
         lagId: Swift.String? = nil
     )
     {
@@ -8628,40 +8236,28 @@ extension DeleteLagInputBody: Swift.Decodable {
         case lagId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lagIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lagId)
         lagId = lagIdDecoded
     }
 }
 
-extension DeleteLagOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteLagOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteLagOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLagOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowsHostedConnections = output.allowsHostedConnections
@@ -8771,7 +8367,7 @@ public struct DeleteLagOutputResponse: Swift.Equatable {
     /// The tags associated with the LAG.
     public var tags: [DirectConnectClientTypes.Tag]?
 
-    public init (
+    public init(
         allowsHostedConnections: Swift.Bool = false,
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
@@ -8868,7 +8464,7 @@ extension DeleteLagOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionsBandwidthDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionsBandwidth)
         connectionsBandwidth = connectionsBandwidthDecoded
@@ -8966,7 +8562,7 @@ public struct DeleteVirtualInterfaceInput: Swift.Equatable {
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         virtualInterfaceId: Swift.String? = nil
     )
     {
@@ -8983,40 +8579,28 @@ extension DeleteVirtualInterfaceInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
     }
 }
 
-extension DeleteVirtualInterfaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteVirtualInterfaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteVirtualInterfaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceState = output.virtualInterfaceState
@@ -9048,7 +8632,7 @@ public struct DeleteVirtualInterfaceOutputResponse: Swift.Equatable {
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
 
-    public init (
+    public init(
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil
     )
     {
@@ -9065,7 +8649,7 @@ extension DeleteVirtualInterfaceOutputResponseBody: Swift.Decodable {
         case virtualInterfaceState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceStateDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterfaceState.self, forKey: .virtualInterfaceState)
         virtualInterfaceState = virtualInterfaceStateDecoded
@@ -9108,7 +8692,7 @@ public struct DescribeConnectionLoaInput: Swift.Equatable {
     /// The name of the APN partner or service provider who establishes connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
     public var providerName: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil,
         providerName: Swift.String? = nil
@@ -9133,7 +8717,7 @@ extension DescribeConnectionLoaInputBody: Swift.Decodable {
         case providerName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -9144,33 +8728,21 @@ extension DescribeConnectionLoaInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectionLoaOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectionLoaOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectionLoaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectionLoaOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectionLoaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectionLoaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loa = output.loa
@@ -9184,7 +8756,7 @@ public struct DescribeConnectionLoaOutputResponse: Swift.Equatable {
     /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
     public var loa: DirectConnectClientTypes.Loa?
 
-    public init (
+    public init(
         loa: DirectConnectClientTypes.Loa? = nil
     )
     {
@@ -9201,7 +8773,7 @@ extension DescribeConnectionLoaOutputResponseBody: Swift.Decodable {
         case loa
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loaDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.Loa.self, forKey: .loa)
         loa = loaDecoded
@@ -9231,7 +8803,7 @@ public struct DescribeConnectionsInput: Swift.Equatable {
     /// The ID of the connection.
     public var connectionId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil
     )
     {
@@ -9248,7 +8820,7 @@ extension DescribeConnectionsInputBody: Swift.Decodable {
         case connectionId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -9279,7 +8851,7 @@ public struct DescribeConnectionsOnInterconnectInput: Swift.Equatable {
     /// This member is required.
     public var interconnectId: Swift.String?
 
-    public init (
+    public init(
         interconnectId: Swift.String? = nil
     )
     {
@@ -9296,40 +8868,28 @@ extension DescribeConnectionsOnInterconnectInputBody: Swift.Decodable {
         case interconnectId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectId)
         interconnectId = interconnectIdDecoded
     }
 }
 
-extension DescribeConnectionsOnInterconnectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectionsOnInterconnectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectionsOnInterconnectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectionsOnInterconnectOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectionsOnInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectionsOnInterconnectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
@@ -9343,7 +8903,7 @@ public struct DescribeConnectionsOnInterconnectOutputResponse: Swift.Equatable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
 
-    public init (
+    public init(
         connections: [DirectConnectClientTypes.Connection]? = nil
     )
     {
@@ -9360,7 +8920,7 @@ extension DescribeConnectionsOnInterconnectOutputResponseBody: Swift.Decodable {
         case connections
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.Connection?].self, forKey: .connections)
         var connectionsDecoded0:[DirectConnectClientTypes.Connection]? = nil
@@ -9376,33 +8936,21 @@ extension DescribeConnectionsOnInterconnectOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectionsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
@@ -9416,7 +8964,7 @@ public struct DescribeConnectionsOutputResponse: Swift.Equatable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
 
-    public init (
+    public init(
         connections: [DirectConnectClientTypes.Connection]? = nil
     )
     {
@@ -9433,7 +8981,7 @@ extension DescribeConnectionsOutputResponseBody: Swift.Decodable {
         case connections
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.Connection?].self, forKey: .connections)
         var connectionsDecoded0:[DirectConnectClientTypes.Connection]? = nil
@@ -9465,7 +9013,7 @@ extension DescribeCustomerMetadataInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeCustomerMetadataInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct DescribeCustomerMetadataInputBody: Swift.Equatable {
@@ -9473,37 +9021,25 @@ struct DescribeCustomerMetadataInputBody: Swift.Equatable {
 
 extension DescribeCustomerMetadataInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeCustomerMetadataOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeCustomerMetadataOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCustomerMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeCustomerMetadataOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCustomerMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCustomerMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agreements = output.agreements
@@ -9527,7 +9063,7 @@ public struct DescribeCustomerMetadataOutputResponse: Swift.Equatable {
     /// * nonPartner: The customer is not a partner.
     public var nniPartnerType: DirectConnectClientTypes.NniPartnerType?
 
-    public init (
+    public init(
         agreements: [DirectConnectClientTypes.CustomerAgreement]? = nil,
         nniPartnerType: DirectConnectClientTypes.NniPartnerType? = nil
     )
@@ -9548,7 +9084,7 @@ extension DescribeCustomerMetadataOutputResponseBody: Swift.Decodable {
         case nniPartnerType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agreementsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.CustomerAgreement?].self, forKey: .agreements)
         var agreementsDecoded0:[DirectConnectClientTypes.CustomerAgreement]? = nil
@@ -9613,7 +9149,7 @@ public struct DescribeDirectConnectGatewayAssociationProposalsInput: Swift.Equat
     /// The ID of the proposal.
     public var proposalId: Swift.String?
 
-    public init (
+    public init(
         associatedGatewayId: Swift.String? = nil,
         directConnectGatewayId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -9646,7 +9182,7 @@ extension DescribeDirectConnectGatewayAssociationProposalsInputBody: Swift.Decod
         case proposalId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -9661,33 +9197,21 @@ extension DescribeDirectConnectGatewayAssociationProposalsInputBody: Swift.Decod
     }
 }
 
-extension DescribeDirectConnectGatewayAssociationProposalsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDirectConnectGatewayAssociationProposalsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDirectConnectGatewayAssociationProposalsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDirectConnectGatewayAssociationProposalsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDirectConnectGatewayAssociationProposalsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDirectConnectGatewayAssociationProposalsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociationProposals = output.directConnectGatewayAssociationProposals
@@ -9705,7 +9229,7 @@ public struct DescribeDirectConnectGatewayAssociationProposalsOutputResponse: Sw
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayAssociationProposals: [DirectConnectClientTypes.DirectConnectGatewayAssociationProposal]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9726,7 +9250,7 @@ extension DescribeDirectConnectGatewayAssociationProposalsOutputResponseBody: Sw
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAssociationProposalsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.DirectConnectGatewayAssociationProposal?].self, forKey: .directConnectGatewayAssociationProposals)
         var directConnectGatewayAssociationProposalsDecoded0:[DirectConnectClientTypes.DirectConnectGatewayAssociationProposal]? = nil
@@ -9797,7 +9321,7 @@ public struct DescribeDirectConnectGatewayAssociationsInput: Swift.Equatable {
     /// The ID of the virtual private gateway or transit gateway.
     public var virtualGatewayId: Swift.String?
 
-    public init (
+    public init(
         associatedGatewayId: Swift.String? = nil,
         associationId: Swift.String? = nil,
         directConnectGatewayId: Swift.String? = nil,
@@ -9834,7 +9358,7 @@ extension DescribeDirectConnectGatewayAssociationsInputBody: Swift.Decodable {
         case virtualGatewayId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let associationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationId)
         associationId = associationIdDecoded
@@ -9851,33 +9375,21 @@ extension DescribeDirectConnectGatewayAssociationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDirectConnectGatewayAssociationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDirectConnectGatewayAssociationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDirectConnectGatewayAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDirectConnectGatewayAssociationsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDirectConnectGatewayAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDirectConnectGatewayAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociations = output.directConnectGatewayAssociations
@@ -9895,7 +9407,7 @@ public struct DescribeDirectConnectGatewayAssociationsOutputResponse: Swift.Equa
     /// The token to retrieve the next page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayAssociations: [DirectConnectClientTypes.DirectConnectGatewayAssociation]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9916,7 +9428,7 @@ extension DescribeDirectConnectGatewayAssociationsOutputResponseBody: Swift.Deco
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAssociationsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.DirectConnectGatewayAssociation?].self, forKey: .directConnectGatewayAssociations)
         var directConnectGatewayAssociationsDecoded0:[DirectConnectClientTypes.DirectConnectGatewayAssociation]? = nil
@@ -9975,7 +9487,7 @@ public struct DescribeDirectConnectGatewayAttachmentsInput: Swift.Equatable {
     /// The ID of the virtual interface.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -10004,7 +9516,7 @@ extension DescribeDirectConnectGatewayAttachmentsInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -10017,33 +9529,21 @@ extension DescribeDirectConnectGatewayAttachmentsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDirectConnectGatewayAttachmentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDirectConnectGatewayAttachmentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDirectConnectGatewayAttachmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDirectConnectGatewayAttachmentsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDirectConnectGatewayAttachmentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDirectConnectGatewayAttachmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAttachments = output.directConnectGatewayAttachments
@@ -10061,7 +9561,7 @@ public struct DescribeDirectConnectGatewayAttachmentsOutputResponse: Swift.Equat
     /// The token to retrieve the next page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayAttachments: [DirectConnectClientTypes.DirectConnectGatewayAttachment]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10082,7 +9582,7 @@ extension DescribeDirectConnectGatewayAttachmentsOutputResponseBody: Swift.Decod
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAttachmentsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.DirectConnectGatewayAttachment?].self, forKey: .directConnectGatewayAttachments)
         var directConnectGatewayAttachmentsDecoded0:[DirectConnectClientTypes.DirectConnectGatewayAttachment]? = nil
@@ -10135,7 +9635,7 @@ public struct DescribeDirectConnectGatewaysInput: Swift.Equatable {
     /// The token provided in the previous call to retrieve the next page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -10160,7 +9660,7 @@ extension DescribeDirectConnectGatewaysInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -10171,33 +9671,21 @@ extension DescribeDirectConnectGatewaysInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDirectConnectGatewaysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDirectConnectGatewaysOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDirectConnectGatewaysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDirectConnectGatewaysOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDirectConnectGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDirectConnectGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGateways = output.directConnectGateways
@@ -10215,7 +9703,7 @@ public struct DescribeDirectConnectGatewaysOutputResponse: Swift.Equatable {
     /// The token to retrieve the next page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         directConnectGateways: [DirectConnectClientTypes.DirectConnectGateway]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10236,7 +9724,7 @@ extension DescribeDirectConnectGatewaysOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewaysContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.DirectConnectGateway?].self, forKey: .directConnectGateways)
         var directConnectGatewaysDecoded0:[DirectConnectClientTypes.DirectConnectGateway]? = nil
@@ -10278,7 +9766,7 @@ public struct DescribeHostedConnectionsInput: Swift.Equatable {
     /// This member is required.
     public var connectionId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil
     )
     {
@@ -10295,40 +9783,28 @@ extension DescribeHostedConnectionsInputBody: Swift.Decodable {
         case connectionId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
     }
 }
 
-extension DescribeHostedConnectionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeHostedConnectionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeHostedConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeHostedConnectionsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeHostedConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeHostedConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
@@ -10342,7 +9818,7 @@ public struct DescribeHostedConnectionsOutputResponse: Swift.Equatable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
 
-    public init (
+    public init(
         connections: [DirectConnectClientTypes.Connection]? = nil
     )
     {
@@ -10359,7 +9835,7 @@ extension DescribeHostedConnectionsOutputResponseBody: Swift.Decodable {
         case connections
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.Connection?].self, forKey: .connections)
         var connectionsDecoded0:[DirectConnectClientTypes.Connection]? = nil
@@ -10411,7 +9887,7 @@ public struct DescribeInterconnectLoaInput: Swift.Equatable {
     /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
     public var providerName: Swift.String?
 
-    public init (
+    public init(
         interconnectId: Swift.String? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil,
         providerName: Swift.String? = nil
@@ -10436,7 +9912,7 @@ extension DescribeInterconnectLoaInputBody: Swift.Decodable {
         case providerName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectId)
         interconnectId = interconnectIdDecoded
@@ -10447,33 +9923,21 @@ extension DescribeInterconnectLoaInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeInterconnectLoaOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeInterconnectLoaOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeInterconnectLoaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeInterconnectLoaOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeInterconnectLoaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeInterconnectLoaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loa = output.loa
@@ -10487,7 +9951,7 @@ public struct DescribeInterconnectLoaOutputResponse: Swift.Equatable {
     /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
     public var loa: DirectConnectClientTypes.Loa?
 
-    public init (
+    public init(
         loa: DirectConnectClientTypes.Loa? = nil
     )
     {
@@ -10504,7 +9968,7 @@ extension DescribeInterconnectLoaOutputResponseBody: Swift.Decodable {
         case loa
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loaDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.Loa.self, forKey: .loa)
         loa = loaDecoded
@@ -10534,7 +9998,7 @@ public struct DescribeInterconnectsInput: Swift.Equatable {
     /// The ID of the interconnect.
     public var interconnectId: Swift.String?
 
-    public init (
+    public init(
         interconnectId: Swift.String? = nil
     )
     {
@@ -10551,40 +10015,28 @@ extension DescribeInterconnectsInputBody: Swift.Decodable {
         case interconnectId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectId)
         interconnectId = interconnectIdDecoded
     }
 }
 
-extension DescribeInterconnectsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeInterconnectsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeInterconnectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeInterconnectsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeInterconnectsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeInterconnectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interconnects = output.interconnects
@@ -10598,7 +10050,7 @@ public struct DescribeInterconnectsOutputResponse: Swift.Equatable {
     /// The interconnects.
     public var interconnects: [DirectConnectClientTypes.Interconnect]?
 
-    public init (
+    public init(
         interconnects: [DirectConnectClientTypes.Interconnect]? = nil
     )
     {
@@ -10615,7 +10067,7 @@ extension DescribeInterconnectsOutputResponseBody: Swift.Decodable {
         case interconnects
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.Interconnect?].self, forKey: .interconnects)
         var interconnectsDecoded0:[DirectConnectClientTypes.Interconnect]? = nil
@@ -10654,7 +10106,7 @@ public struct DescribeLagsInput: Swift.Equatable {
     /// The ID of the LAG.
     public var lagId: Swift.String?
 
-    public init (
+    public init(
         lagId: Swift.String? = nil
     )
     {
@@ -10671,40 +10123,28 @@ extension DescribeLagsInputBody: Swift.Decodable {
         case lagId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lagIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lagId)
         lagId = lagIdDecoded
     }
 }
 
-extension DescribeLagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLagsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lags = output.lags
@@ -10718,7 +10158,7 @@ public struct DescribeLagsOutputResponse: Swift.Equatable {
     /// The LAGs.
     public var lags: [DirectConnectClientTypes.Lag]?
 
-    public init (
+    public init(
         lags: [DirectConnectClientTypes.Lag]? = nil
     )
     {
@@ -10735,7 +10175,7 @@ extension DescribeLagsOutputResponseBody: Swift.Decodable {
         case lags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lagsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.Lag?].self, forKey: .lags)
         var lagsDecoded0:[DirectConnectClientTypes.Lag]? = nil
@@ -10787,7 +10227,7 @@ public struct DescribeLoaInput: Swift.Equatable {
     /// The name of the service provider who establishes connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
     public var providerName: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil,
         providerName: Swift.String? = nil
@@ -10812,7 +10252,7 @@ extension DescribeLoaInputBody: Swift.Decodable {
         case providerName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -10823,33 +10263,21 @@ extension DescribeLoaInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeLoaOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLoaOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLoaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLoaOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLoaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLoaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loaContent = output.loaContent
@@ -10868,7 +10296,7 @@ public struct DescribeLoaOutputResponse: Swift.Equatable {
     /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
     public var loaContentType: DirectConnectClientTypes.LoaContentType?
 
-    public init (
+    public init(
         loaContent: ClientRuntime.Data? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil
     )
@@ -10889,7 +10317,7 @@ extension DescribeLoaOutputResponseBody: Swift.Decodable {
         case loaContentType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loaContentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .loaContent)
         loaContent = loaContentDecoded
@@ -10914,7 +10342,7 @@ extension DescribeLocationsInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeLocationsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct DescribeLocationsInputBody: Swift.Equatable {
@@ -10922,37 +10350,25 @@ struct DescribeLocationsInputBody: Swift.Equatable {
 
 extension DescribeLocationsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeLocationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locations = output.locations
@@ -10966,7 +10382,7 @@ public struct DescribeLocationsOutputResponse: Swift.Equatable {
     /// The locations.
     public var locations: [DirectConnectClientTypes.Location]?
 
-    public init (
+    public init(
         locations: [DirectConnectClientTypes.Location]? = nil
     )
     {
@@ -10983,7 +10399,7 @@ extension DescribeLocationsOutputResponseBody: Swift.Decodable {
         case locations
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.Location?].self, forKey: .locations)
         var locationsDecoded0:[DirectConnectClientTypes.Location]? = nil
@@ -11030,7 +10446,7 @@ public struct DescribeRouterConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         routerTypeIdentifier: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
     )
@@ -11051,7 +10467,7 @@ extension DescribeRouterConfigurationInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
@@ -11060,33 +10476,21 @@ extension DescribeRouterConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeRouterConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeRouterConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeRouterConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeRouterConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeRouterConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeRouterConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerRouterConfig = output.customerRouterConfig
@@ -11112,7 +10516,7 @@ public struct DescribeRouterConfigurationOutputResponse: Swift.Equatable {
     /// Provides the details about a virtual interface's router.
     public var virtualInterfaceName: Swift.String?
 
-    public init (
+    public init(
         customerRouterConfig: Swift.String? = nil,
         router: DirectConnectClientTypes.RouterType? = nil,
         virtualInterfaceId: Swift.String? = nil,
@@ -11141,7 +10545,7 @@ extension DescribeRouterConfigurationOutputResponseBody: Swift.Decodable {
         case virtualInterfaceName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customerRouterConfigDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerRouterConfig)
         customerRouterConfig = customerRouterConfigDecoded
@@ -11181,7 +10585,7 @@ public struct DescribeTagsInput: Swift.Equatable {
     /// This member is required.
     public var resourceArns: [Swift.String]?
 
-    public init (
+    public init(
         resourceArns: [Swift.String]? = nil
     )
     {
@@ -11198,7 +10602,7 @@ extension DescribeTagsInputBody: Swift.Decodable {
         case resourceArns
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceArns)
         var resourceArnsDecoded0:[Swift.String]? = nil
@@ -11214,33 +10618,21 @@ extension DescribeTagsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTagsOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTags = output.resourceTags
@@ -11254,7 +10646,7 @@ public struct DescribeTagsOutputResponse: Swift.Equatable {
     /// Information about the tags.
     public var resourceTags: [DirectConnectClientTypes.ResourceTag]?
 
-    public init (
+    public init(
         resourceTags: [DirectConnectClientTypes.ResourceTag]? = nil
     )
     {
@@ -11271,7 +10663,7 @@ extension DescribeTagsOutputResponseBody: Swift.Decodable {
         case resourceTags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTagsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.ResourceTag?].self, forKey: .resourceTags)
         var resourceTagsDecoded0:[DirectConnectClientTypes.ResourceTag]? = nil
@@ -11303,7 +10695,7 @@ extension DescribeVirtualGatewaysInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeVirtualGatewaysInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct DescribeVirtualGatewaysInputBody: Swift.Equatable {
@@ -11311,37 +10703,25 @@ struct DescribeVirtualGatewaysInputBody: Swift.Equatable {
 
 extension DescribeVirtualGatewaysInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeVirtualGatewaysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeVirtualGatewaysOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeVirtualGatewaysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeVirtualGatewaysOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeVirtualGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeVirtualGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualGateways = output.virtualGateways
@@ -11355,7 +10735,7 @@ public struct DescribeVirtualGatewaysOutputResponse: Swift.Equatable {
     /// The virtual private gateways.
     public var virtualGateways: [DirectConnectClientTypes.VirtualGateway]?
 
-    public init (
+    public init(
         virtualGateways: [DirectConnectClientTypes.VirtualGateway]? = nil
     )
     {
@@ -11372,7 +10752,7 @@ extension DescribeVirtualGatewaysOutputResponseBody: Swift.Decodable {
         case virtualGateways
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualGatewaysContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.VirtualGateway?].self, forKey: .virtualGateways)
         var virtualGatewaysDecoded0:[DirectConnectClientTypes.VirtualGateway]? = nil
@@ -11417,7 +10797,7 @@ public struct DescribeVirtualInterfacesInput: Swift.Equatable {
     /// The ID of the virtual interface.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
     )
@@ -11438,7 +10818,7 @@ extension DescribeVirtualInterfacesInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -11447,33 +10827,21 @@ extension DescribeVirtualInterfacesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeVirtualInterfacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeVirtualInterfacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeVirtualInterfacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeVirtualInterfacesOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeVirtualInterfacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeVirtualInterfacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaces = output.virtualInterfaces
@@ -11487,7 +10855,7 @@ public struct DescribeVirtualInterfacesOutputResponse: Swift.Equatable {
     /// The virtual interfaces
     public var virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]?
 
-    public init (
+    public init(
         virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]? = nil
     )
     {
@@ -11504,7 +10872,7 @@ extension DescribeVirtualInterfacesOutputResponseBody: Swift.Decodable {
         case virtualInterfaces
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfacesContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.VirtualInterface?].self, forKey: .virtualInterfaces)
         var virtualInterfacesDecoded0:[DirectConnectClientTypes.VirtualInterface]? = nil
@@ -11521,37 +10889,41 @@ extension DescribeVirtualInterfacesOutputResponseBody: Swift.Decodable {
 }
 
 extension DirectConnectClientException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DirectConnectClientExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more parameters are not valid.
-public struct DirectConnectClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DirectConnectClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DirectConnectClientException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11564,7 +10936,7 @@ extension DirectConnectClientExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11603,7 +10975,7 @@ extension DirectConnectClientTypes.DirectConnectGateway: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -11644,7 +11016,7 @@ extension DirectConnectClientTypes {
         /// The error message if the state of an object failed to advance.
         public var stateChangeError: Swift.String?
 
-        public init (
+        public init(
             amazonSideAsn: Swift.Int? = nil,
             directConnectGatewayId: Swift.String? = nil,
             directConnectGatewayName: Swift.String? = nil,
@@ -11715,7 +11087,7 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociation: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -11784,7 +11156,7 @@ extension DirectConnectClientTypes {
         @available(*, deprecated)
         public var virtualGatewayRegion: Swift.String?
 
-        public init (
+        public init(
             allowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
             associatedGateway: DirectConnectClientTypes.AssociatedGateway? = nil,
             associationId: Swift.String? = nil,
@@ -11854,7 +11226,7 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociationProposal: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let proposalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .proposalId)
         proposalId = proposalIdDecoded
@@ -11915,7 +11287,7 @@ extension DirectConnectClientTypes {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public var requestedAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
 
-        public init (
+        public init(
             associatedGateway: DirectConnectClientTypes.AssociatedGateway? = nil,
             directConnectGatewayId: Swift.String? = nil,
             directConnectGatewayOwnerAccount: Swift.String? = nil,
@@ -12049,7 +11421,7 @@ extension DirectConnectClientTypes.DirectConnectGatewayAttachment: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -12094,7 +11466,7 @@ extension DirectConnectClientTypes {
         /// The Amazon Web Services Region where the virtual interface is located.
         public var virtualInterfaceRegion: Swift.String?
 
-        public init (
+        public init(
             attachmentState: DirectConnectClientTypes.DirectConnectGatewayAttachmentState? = nil,
             attachmentType: DirectConnectClientTypes.DirectConnectGatewayAttachmentType? = nil,
             directConnectGatewayId: Swift.String? = nil,
@@ -12225,37 +11597,41 @@ extension DirectConnectClientTypes {
 }
 
 extension DirectConnectServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DirectConnectServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A server-side error occurred.
-public struct DirectConnectServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct DirectConnectServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DirectConnectServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12268,7 +11644,7 @@ extension DirectConnectServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12306,7 +11682,7 @@ public struct DisassociateConnectionFromLagInput: Swift.Equatable {
     /// This member is required.
     public var lagId: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         lagId: Swift.String? = nil
     )
@@ -12327,7 +11703,7 @@ extension DisassociateConnectionFromLagInputBody: Swift.Decodable {
         case lagId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -12336,33 +11712,21 @@ extension DisassociateConnectionFromLagInputBody: Swift.Decodable {
     }
 }
 
-extension DisassociateConnectionFromLagOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateConnectionFromLagOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateConnectionFromLagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateConnectionFromLagOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateConnectionFromLagOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisassociateConnectionFromLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -12480,7 +11844,7 @@ public struct DisassociateConnectionFromLagOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -12581,7 +11945,7 @@ extension DisassociateConnectionFromLagOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -12679,7 +12043,7 @@ public struct DisassociateMacSecKeyInput: Swift.Equatable {
     /// This member is required.
     public var secretARN: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         secretARN: Swift.String? = nil
     )
@@ -12700,7 +12064,7 @@ extension DisassociateMacSecKeyInputBody: Swift.Decodable {
         case secretARN
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -12709,33 +12073,21 @@ extension DisassociateMacSecKeyInputBody: Swift.Decodable {
     }
 }
 
-extension DisassociateMacSecKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateMacSecKeyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateMacSecKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateMacSecKeyOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateMacSecKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisassociateMacSecKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionId = output.connectionId
@@ -12753,7 +12105,7 @@ public struct DisassociateMacSecKeyOutputResponse: Swift.Equatable {
     /// The MAC Security (MACsec) security keys no longer associated with the dedicated connection.
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil
     )
@@ -12774,7 +12126,7 @@ extension DisassociateMacSecKeyOutputResponseBody: Swift.Decodable {
         case macSecKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -12793,37 +12145,41 @@ extension DisassociateMacSecKeyOutputResponseBody: Swift.Decodable {
 }
 
 extension DuplicateTagKeysException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DuplicateTagKeysExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A tag key was specified more than once.
-public struct DuplicateTagKeysException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DuplicateTagKeysException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12836,7 +12192,7 @@ extension DuplicateTagKeysExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12981,7 +12337,7 @@ extension DirectConnectClientTypes.Interconnect: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let interconnectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectId)
         interconnectId = interconnectIdDecoded
@@ -13074,7 +12430,7 @@ extension DirectConnectClientTypes {
         /// The tags associated with the interconnect.
         public var tags: [DirectConnectClientTypes.Tag]?
 
-        public init (
+        public init(
             awsDevice: Swift.String? = nil,
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
@@ -13260,7 +12616,7 @@ extension DirectConnectClientTypes.Lag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionsBandwidthDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionsBandwidth)
         connectionsBandwidth = connectionsBandwidthDecoded
@@ -13395,7 +12751,7 @@ extension DirectConnectClientTypes {
         /// The tags associated with the LAG.
         public var tags: [DirectConnectClientTypes.Tag]?
 
-        public init (
+        public init(
             allowsHostedConnections: Swift.Bool = false,
             awsDevice: Swift.String? = nil,
             awsDeviceV2: Swift.String? = nil,
@@ -13548,7 +12904,7 @@ public struct ListVirtualInterfaceTestHistoryInput: Swift.Equatable {
     /// The ID of the virtual interface that was tested.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         bgpPeers: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -13585,7 +12941,7 @@ extension ListVirtualInterfaceTestHistoryInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let testIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testId)
         testId = testIdDecoded
@@ -13611,33 +12967,21 @@ extension ListVirtualInterfaceTestHistoryInputBody: Swift.Decodable {
     }
 }
 
-extension ListVirtualInterfaceTestHistoryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListVirtualInterfaceTestHistoryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListVirtualInterfaceTestHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListVirtualInterfaceTestHistoryOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListVirtualInterfaceTestHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListVirtualInterfaceTestHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -13655,7 +12999,7 @@ public struct ListVirtualInterfaceTestHistoryOutputResponse: Swift.Equatable {
     /// The ID of the tested virtual interface.
     public var virtualInterfaceTestHistory: [DirectConnectClientTypes.VirtualInterfaceTestHistory]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         virtualInterfaceTestHistory: [DirectConnectClientTypes.VirtualInterfaceTestHistory]? = nil
     )
@@ -13676,7 +13020,7 @@ extension ListVirtualInterfaceTestHistoryOutputResponseBody: Swift.Decodable {
         case virtualInterfaceTestHistory
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceTestHistoryContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.VirtualInterfaceTestHistory?].self, forKey: .virtualInterfaceTestHistory)
         var virtualInterfaceTestHistoryDecoded0:[DirectConnectClientTypes.VirtualInterfaceTestHistory]? = nil
@@ -13710,7 +13054,7 @@ extension DirectConnectClientTypes.Loa: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loaContentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .loaContent)
         loaContent = loaContentDecoded
@@ -13727,7 +13071,7 @@ extension DirectConnectClientTypes {
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
         public var loaContentType: DirectConnectClientTypes.LoaContentType?
 
-        public init (
+        public init(
             loaContent: ClientRuntime.Data? = nil,
             loaContentType: DirectConnectClientTypes.LoaContentType? = nil
         )
@@ -13809,7 +13153,7 @@ extension DirectConnectClientTypes.Location: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationCode)
         locationCode = locationCodeDecoded
@@ -13869,7 +13213,7 @@ extension DirectConnectClientTypes {
         /// The Amazon Web Services Region for the location.
         public var region: Swift.String?
 
-        public init (
+        public init(
             availableMacSecPortSpeeds: [Swift.String]? = nil,
             availablePortSpeeds: [Swift.String]? = nil,
             availableProviders: [Swift.String]? = nil,
@@ -13913,7 +13257,7 @@ extension DirectConnectClientTypes.MacSecKey: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let secretARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretARN)
         secretARN = secretARNDecoded
@@ -13946,7 +13290,7 @@ extension DirectConnectClientTypes {
         /// * disassociated: The MAC Security (MACsec) secret key is no longer associated with the connection or LAG.
         public var state: Swift.String?
 
-        public init (
+        public init(
             ckn: Swift.String? = nil,
             secretARN: Swift.String? = nil,
             startOn: Swift.String? = nil,
@@ -13990,7 +13334,7 @@ extension DirectConnectClientTypes.NewBGPPeer: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let asnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .asn) ?? 0
         asn = asnDecoded
@@ -14019,7 +13363,7 @@ extension DirectConnectClientTypes {
         /// The IP address assigned to the customer interface.
         public var customerAddress: Swift.String?
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
@@ -14096,7 +13440,7 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterface: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceName)
         virtualInterfaceName = virtualInterfaceNameDecoded
@@ -14165,7 +13509,7 @@ extension DirectConnectClientTypes {
         /// This member is required.
         public var vlan: Swift.Int
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
@@ -14244,7 +13588,7 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceName)
         virtualInterfaceName = virtualInterfaceNameDecoded
@@ -14301,7 +13645,7 @@ extension DirectConnectClientTypes {
         /// This member is required.
         public var vlan: Swift.Int
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
@@ -14377,7 +13721,7 @@ extension DirectConnectClientTypes.NewPublicVirtualInterface: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceName)
         virtualInterfaceName = virtualInterfaceNameDecoded
@@ -14443,7 +13787,7 @@ extension DirectConnectClientTypes {
         /// This member is required.
         public var vlan: Swift.Int
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
@@ -14519,7 +13863,7 @@ extension DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceName)
         virtualInterfaceName = virtualInterfaceNameDecoded
@@ -14585,7 +13929,7 @@ extension DirectConnectClientTypes {
         /// This member is required.
         public var vlan: Swift.Int
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
@@ -14666,7 +14010,7 @@ extension DirectConnectClientTypes.NewTransitVirtualInterface: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceName)
         virtualInterfaceName = virtualInterfaceNameDecoded
@@ -14719,7 +14063,7 @@ extension DirectConnectClientTypes {
         public var directConnectGatewayId: Swift.String?
         /// Indicates whether to enable or disable SiteLink.
         public var enableSiteLink: Swift.Bool?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
         /// The tags associated with the transitive virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
@@ -14728,7 +14072,7 @@ extension DirectConnectClientTypes {
         /// The ID of the VLAN.
         public var vlan: Swift.Int
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
@@ -14805,7 +14149,7 @@ extension DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceName)
         virtualInterfaceName = virtualInterfaceNameDecoded
@@ -14850,7 +14194,7 @@ extension DirectConnectClientTypes {
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
         public var customerAddress: Swift.String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
         public var mtu: Swift.Int?
         /// The tags associated with the transitive virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
@@ -14859,7 +14203,7 @@ extension DirectConnectClientTypes {
         /// The ID of the VLAN.
         public var vlan: Swift.Int
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
@@ -14939,7 +14283,7 @@ extension DirectConnectClientTypes.ResourceTag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -14965,7 +14309,7 @@ extension DirectConnectClientTypes {
         /// The tags.
         public var tags: [DirectConnectClientTypes.Tag]?
 
-        public init (
+        public init(
             resourceArn: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil
         )
@@ -14989,7 +14333,7 @@ extension DirectConnectClientTypes.RouteFilterPrefix: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidr)
         cidr = cidrDecoded
@@ -15002,7 +14346,7 @@ extension DirectConnectClientTypes {
         /// The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter.
         public var cidr: Swift.String?
 
-        public init (
+        public init(
             cidr: Swift.String? = nil
         )
         {
@@ -15044,7 +14388,7 @@ extension DirectConnectClientTypes.RouterType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vendorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendor)
         vendor = vendorDecoded
@@ -15077,7 +14421,7 @@ extension DirectConnectClientTypes {
         /// The MAC Security (MACsec) template for the virtual interface's router.
         public var xsltTemplateNameForMacSec: Swift.String?
 
-        public init (
+        public init(
             platform: Swift.String? = nil,
             routerTypeIdentifier: Swift.String? = nil,
             software: Swift.String? = nil,
@@ -15136,7 +14480,7 @@ public struct StartBgpFailoverTestInput: Swift.Equatable {
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         bgpPeers: [Swift.String]? = nil,
         testDurationInMinutes: Swift.Int? = nil,
         virtualInterfaceId: Swift.String? = nil
@@ -15161,7 +14505,7 @@ extension StartBgpFailoverTestInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
@@ -15181,33 +14525,21 @@ extension StartBgpFailoverTestInputBody: Swift.Decodable {
     }
 }
 
-extension StartBgpFailoverTestOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartBgpFailoverTestOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartBgpFailoverTestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartBgpFailoverTestOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartBgpFailoverTestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartBgpFailoverTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceTest = output.virtualInterfaceTest
@@ -15221,7 +14553,7 @@ public struct StartBgpFailoverTestOutputResponse: Swift.Equatable {
     /// Information about the virtual interface failover test.
     public var virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory?
 
-    public init (
+    public init(
         virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory? = nil
     )
     {
@@ -15238,7 +14570,7 @@ extension StartBgpFailoverTestOutputResponseBody: Swift.Decodable {
         case virtualInterfaceTest
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceTestDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterfaceTestHistory.self, forKey: .virtualInterfaceTest)
         virtualInterfaceTest = virtualInterfaceTestDecoded
@@ -15269,7 +14601,7 @@ public struct StopBgpFailoverTestInput: Swift.Equatable {
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
 
-    public init (
+    public init(
         virtualInterfaceId: Swift.String? = nil
     )
     {
@@ -15286,40 +14618,28 @@ extension StopBgpFailoverTestInputBody: Swift.Decodable {
         case virtualInterfaceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
     }
 }
 
-extension StopBgpFailoverTestOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopBgpFailoverTestOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopBgpFailoverTestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopBgpFailoverTestOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopBgpFailoverTestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopBgpFailoverTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceTest = output.virtualInterfaceTest
@@ -15333,7 +14653,7 @@ public struct StopBgpFailoverTestOutputResponse: Swift.Equatable {
     /// Information about the virtual interface failover test.
     public var virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory?
 
-    public init (
+    public init(
         virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory? = nil
     )
     {
@@ -15350,7 +14670,7 @@ extension StopBgpFailoverTestOutputResponseBody: Swift.Decodable {
         case virtualInterfaceTest
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceTestDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.VirtualInterfaceTestHistory.self, forKey: .virtualInterfaceTest)
         virtualInterfaceTest = virtualInterfaceTestDecoded
@@ -15373,7 +14693,7 @@ extension DirectConnectClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -15391,7 +14711,7 @@ extension DirectConnectClientTypes {
         /// The value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -15437,7 +14757,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [DirectConnectClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
     )
@@ -15458,7 +14778,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -15476,76 +14796,66 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateTagKeysException": return try await DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case duplicateTagKeysException(DuplicateTagKeysException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension TooManyTagsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have reached the limit on the number of tags that can be assigned.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15558,7 +14868,7 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15599,7 +14909,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -15620,7 +14930,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -15638,38 +14948,26 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateConnectionInput: Swift.Encodable {
@@ -15708,7 +15006,7 @@ public struct UpdateConnectionInput: Swift.Equatable {
     /// The connection MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
     public var encryptionMode: Swift.String?
 
-    public init (
+    public init(
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         encryptionMode: Swift.String? = nil
@@ -15733,7 +15031,7 @@ extension UpdateConnectionInputBody: Swift.Decodable {
         case encryptionMode
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
@@ -15744,33 +15042,21 @@ extension UpdateConnectionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateConnectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateConnectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateConnectionOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
@@ -15888,7 +15174,7 @@ public struct UpdateConnectionOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -15989,7 +15275,7 @@ extension UpdateConnectionOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -16097,7 +15383,7 @@ public struct UpdateDirectConnectGatewayAssociationInput: Swift.Equatable {
     /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway.
     public var removeAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
 
-    public init (
+    public init(
         addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         associationId: Swift.String? = nil,
         removeAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil
@@ -16122,7 +15408,7 @@ extension UpdateDirectConnectGatewayAssociationInputBody: Swift.Decodable {
         case removeAllowedPrefixesToDirectConnectGateway
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let associationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationId)
         associationId = associationIdDecoded
@@ -16151,33 +15437,21 @@ extension UpdateDirectConnectGatewayAssociationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDirectConnectGatewayAssociationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateDirectConnectGatewayAssociationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateDirectConnectGatewayAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateDirectConnectGatewayAssociationOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateDirectConnectGatewayAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateDirectConnectGatewayAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociation = output.directConnectGatewayAssociation
@@ -16191,7 +15465,7 @@ public struct UpdateDirectConnectGatewayAssociationOutputResponse: Swift.Equatab
     /// Information about an association between a Direct Connect gateway and a virtual private gateway or transit gateway.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
-    public init (
+    public init(
         directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation? = nil
     )
     {
@@ -16208,7 +15482,7 @@ extension UpdateDirectConnectGatewayAssociationOutputResponseBody: Swift.Decodab
         case directConnectGatewayAssociation
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayAssociationDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGatewayAssociation.self, forKey: .directConnectGatewayAssociation)
         directConnectGatewayAssociation = directConnectGatewayAssociationDecoded
@@ -16246,7 +15520,7 @@ public struct UpdateDirectConnectGatewayInput: Swift.Equatable {
     /// This member is required.
     public var newDirectConnectGatewayName: Swift.String?
 
-    public init (
+    public init(
         directConnectGatewayId: Swift.String? = nil,
         newDirectConnectGatewayName: Swift.String? = nil
     )
@@ -16267,7 +15541,7 @@ extension UpdateDirectConnectGatewayInputBody: Swift.Decodable {
         case newDirectConnectGatewayName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directConnectGatewayId)
         directConnectGatewayId = directConnectGatewayIdDecoded
@@ -16276,33 +15550,21 @@ extension UpdateDirectConnectGatewayInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDirectConnectGatewayOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateDirectConnectGatewayOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateDirectConnectGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateDirectConnectGatewayOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateDirectConnectGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGateway = output.directConnectGateway
@@ -16316,7 +15578,7 @@ public struct UpdateDirectConnectGatewayOutputResponse: Swift.Equatable {
     /// Information about a Direct Connect gateway, which enables you to connect virtual interfaces and virtual private gateway or transit gateways.
     public var directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 
-    public init (
+    public init(
         directConnectGateway: DirectConnectClientTypes.DirectConnectGateway? = nil
     )
     {
@@ -16333,7 +15595,7 @@ extension UpdateDirectConnectGatewayOutputResponseBody: Swift.Decodable {
         case directConnectGateway
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directConnectGatewayDecoded = try containerValues.decodeIfPresent(DirectConnectClientTypes.DirectConnectGateway.self, forKey: .directConnectGateway)
         directConnectGateway = directConnectGatewayDecoded
@@ -16382,7 +15644,7 @@ public struct UpdateLagInput: Swift.Equatable {
     /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
     public var minimumLinks: Swift.Int?
 
-    public init (
+    public init(
         encryptionMode: Swift.String? = nil,
         lagId: Swift.String? = nil,
         lagName: Swift.String? = nil,
@@ -16411,7 +15673,7 @@ extension UpdateLagInputBody: Swift.Decodable {
         case minimumLinks
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lagIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lagId)
         lagId = lagIdDecoded
@@ -16424,33 +15686,21 @@ extension UpdateLagInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLagOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLagOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLagOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLagOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowsHostedConnections = output.allowsHostedConnections
@@ -16560,7 +15810,7 @@ public struct UpdateLagOutputResponse: Swift.Equatable {
     /// The tags associated with the LAG.
     public var tags: [DirectConnectClientTypes.Tag]?
 
-    public init (
+    public init(
         allowsHostedConnections: Swift.Bool = false,
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
@@ -16657,7 +15907,7 @@ extension UpdateLagOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionsBandwidthDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionsBandwidth)
         connectionsBandwidth = connectionsBandwidthDecoded
@@ -16773,7 +16023,7 @@ public struct UpdateVirtualInterfaceAttributesInput: Swift.Equatable {
     /// The name of the virtual private interface.
     public var virtualInterfaceName: Swift.String?
 
-    public init (
+    public init(
         enableSiteLink: Swift.Bool? = nil,
         mtu: Swift.Int? = nil,
         virtualInterfaceId: Swift.String? = nil,
@@ -16802,7 +16052,7 @@ extension UpdateVirtualInterfaceAttributesInputBody: Swift.Decodable {
         case virtualInterfaceName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
@@ -16815,33 +16065,21 @@ extension UpdateVirtualInterfaceAttributesInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateVirtualInterfaceAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateVirtualInterfaceAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateVirtualInterfaceAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectConnectClientException": return try await DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectConnectServerException": return try await DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateVirtualInterfaceAttributesOutputError: Swift.Error, Swift.Equatable {
-    case directConnectClientException(DirectConnectClientException)
-    case directConnectServerException(DirectConnectServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateVirtualInterfaceAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateVirtualInterfaceAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
@@ -16931,7 +16169,7 @@ public struct UpdateVirtualInterfaceAttributesOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -16974,7 +16212,7 @@ public struct UpdateVirtualInterfaceAttributesOutputResponse: Swift.Equatable {
     /// The ID of the VLAN.
     public var vlan: Swift.Int
 
-    public init (
+    public init(
         addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
@@ -17091,7 +16329,7 @@ extension UpdateVirtualInterfaceAttributesOutputResponseBody: Swift.Decodable {
         case vlan
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -17191,7 +16429,7 @@ extension DirectConnectClientTypes.VirtualGateway: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualGatewayId)
         virtualGatewayId = virtualGatewayIdDecoded
@@ -17216,7 +16454,7 @@ extension DirectConnectClientTypes {
         /// * deleted: The virtual private gateway is deleted. The private virtual interface is unable to send traffic over this gateway.
         public var virtualGatewayState: Swift.String?
 
-        public init (
+        public init(
             virtualGatewayId: Swift.String? = nil,
             virtualGatewayState: Swift.String? = nil
         )
@@ -17349,7 +16587,7 @@ extension DirectConnectClientTypes.VirtualInterface: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
@@ -17464,7 +16702,7 @@ extension DirectConnectClientTypes {
         public var jumboFrameCapable: Swift.Bool?
         /// The location of the connection.
         public var location: Swift.String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
         public var mtu: Swift.Int?
         /// The ID of the Amazon Web Services account that owns the virtual interface.
         public var ownerAccount: Swift.String?
@@ -17507,7 +16745,7 @@ extension DirectConnectClientTypes {
         /// The ID of the VLAN.
         public var vlan: Swift.Int
 
-        public init (
+        public init(
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             amazonSideAsn: Swift.Int? = nil,
@@ -17663,7 +16901,7 @@ extension DirectConnectClientTypes.VirtualInterfaceTestHistory: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let testIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testId)
         testId = testIdDecoded
@@ -17713,7 +16951,7 @@ extension DirectConnectClientTypes {
         /// The ID of the tested virtual interface.
         public var virtualInterfaceId: Swift.String?
 
-        public init (
+        public init(
             bgpPeers: [Swift.String]? = nil,
             endTime: ClientRuntime.Date? = nil,
             ownerAccount: Swift.String? = nil,

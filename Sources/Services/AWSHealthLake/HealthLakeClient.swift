@@ -623,7 +623,7 @@ extension HealthLakeClient: HealthLakeClientProtocol {
         return result
     }
 
-    /// Adds a user specifed key and value tag to a Data Store.
+    /// Adds a user specified key and value tag to a Data Store.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

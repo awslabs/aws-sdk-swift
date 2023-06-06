@@ -229,7 +229,7 @@ extension HealthClient: HealthClientProtocol {
         return result
     }
 
-    /// Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. Events that have impact beyond that of the affected entities, or where the extent of impact is unknown, include at least one entity indicating this. At least one event ARN is required.
+    /// Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Service. Events that have impact beyond that of the affected entities, or where the extent of impact is unknown, include at least one entity indicating this. At least one event ARN is required.
     ///
     /// * This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
@@ -270,7 +270,7 @@ extension HealthClient: HealthClientProtocol {
         return result
     }
 
-    /// Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. At least one event Amazon Resource Name (ARN) and account ID are required. Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account.
+    /// Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Service. At least one event Amazon Resource Name (ARN) and account ID are required. Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account.
     ///
     /// * This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
@@ -466,7 +466,7 @@ extension HealthClient: HealthClientProtocol {
         return result
     }
 
-    /// Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the Health event, such as the category, Amazon Web Services service, and event code. The metadata for each event appears in the [EventType](https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html) object. If you don't specify a filter criteria, the API operation returns all event types, in no particular order. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
+    /// Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the Health event, such as the category, Amazon Web Service, and event code. The metadata for each event appears in the [EventType](https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html) object. If you don't specify a filter criteria, the API operation returns all event types, in no particular order. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     public func describeEventTypes(input: DescribeEventTypesInput) async throws -> DescribeEventTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -590,7 +590,7 @@ extension HealthClient: HealthClientProtocol {
         return result
     }
 
-    /// This operation provides status information on enabling or disabling Health to work with your organization. To call this operation, you must sign in as an IAM user, assume an IAM role, or sign in as the root user (not recommended) in the organization's management account.
+    /// This operation provides status information on enabling or disabling Health to work with your organization. To call this operation, you must use the organization's management account.
     public func describeHealthServiceStatusForOrganization(input: DescribeHealthServiceStatusForOrganizationInput) async throws -> DescribeHealthServiceStatusForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -627,7 +627,7 @@ extension HealthClient: HealthClientProtocol {
         return result
     }
 
-    /// Disables Health from working with Organizations. To call this operation, you must sign in as an Identity and Access Management (IAM) user, assume an IAM role, or sign in as the root user (not recommended) in the organization's management account. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html) in the Health User Guide. This operation doesn't remove the service-linked role from the management account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see [Deleting a Service-Linked Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role) in the IAM User Guide. You can also disable the organizational feature by using the Organizations [DisableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_DisableAWSServiceAccess.html) API operation. After you call this operation, Health stops aggregating events for all other Amazon Web Services accounts in your organization. If you call the Health API operations for organizational view, Health returns an error. Health continues to aggregate health events for your Amazon Web Services account.
+    /// Disables Health from working with Organizations. To call this operation, you must sign in to the organization's management account. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html) in the Health User Guide. This operation doesn't remove the service-linked role from the management account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see [Deleting a Service-Linked Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role) in the IAM User Guide. You can also disable the organizational feature by using the Organizations [DisableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_DisableAWSServiceAccess.html) API operation. After you call this operation, Health stops aggregating events for all other Amazon Web Services accounts in your organization. If you call the Health API operations for organizational view, Health returns an error. Health continues to aggregate health events for your Amazon Web Services account.
     public func disableHealthServiceAccessForOrganization(input: DisableHealthServiceAccessForOrganizationInput) async throws -> DisableHealthServiceAccessForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

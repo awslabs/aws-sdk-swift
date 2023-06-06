@@ -21,7 +21,7 @@ class S3ExpiresTest {
                 public var expires: Swift.String?
                 public var payload1: Swift.String?
             
-                public init (
+                public init(
                     expires: Swift.String? = nil,
                     payload1: Swift.String? = nil
                 )
@@ -45,7 +45,7 @@ class S3ExpiresTest {
                 public var expires: ClientRuntime.Date?
                 public var payload1: Swift.String?
             
-                public init (
+                public init(
                     expires: ClientRuntime.Date? = nil,
                     payload1: Swift.String? = nil
                 )
@@ -69,7 +69,7 @@ class S3ExpiresTest {
                 public var expires: ClientRuntime.Date?
                 public var payload1: Swift.String?
             
-                public init (
+                public init(
                     expires: ClientRuntime.Date? = nil,
                     payload1: Swift.String? = nil
                 )

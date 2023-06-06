@@ -7,12 +7,16 @@ import ClientRuntime
 public protocol CustomerProfilesClientProtocol {
     /// Associates a new key value with a specific profile, such as a Contact Record ContactId. A profile object can have a single unique key and any number of additional keys that can be used to identify the profile that it belongs to.
     func addProfileKey(input: AddProfileKeyInput) async throws -> AddProfileKeyOutputResponse
+    /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the [GetCalculatedAttributeForProfile](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html) API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
+    func createCalculatedAttributeDefinition(input: CreateCalculatedAttributeDefinitionInput) async throws -> CreateCalculatedAttributeDefinitionOutputResponse
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply.
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
     /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     func createIntegrationWorkflow(input: CreateIntegrationWorkflowInput) async throws -> CreateIntegrationWorkflowOutputResponse
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
     func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
+    /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
+    func deleteCalculatedAttributeDefinition(input: DeleteCalculatedAttributeDefinitionInput) async throws -> DeleteCalculatedAttributeDefinitionOutputResponse
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     /// Removes an integration from a specific domain.
@@ -29,6 +33,10 @@ public protocol CustomerProfilesClientProtocol {
     func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be merged. We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
     func getAutoMergingPreview(input: GetAutoMergingPreviewInput) async throws -> GetAutoMergingPreviewOutputResponse
+    /// Provides more information on a calculated attribute definition for Customer Profiles.
+    func getCalculatedAttributeDefinition(input: GetCalculatedAttributeDefinitionInput) async throws -> GetCalculatedAttributeDefinitionOutputResponse
+    /// Retrieve a calculated attribute for a customer profile.
+    func getCalculatedAttributeForProfile(input: GetCalculatedAttributeForProfileInput) async throws -> GetCalculatedAttributeForProfileOutputResponse
     /// Returns information about a specific domain.
     func getDomain(input: GetDomainInput) async throws -> GetDomainOutputResponse
     /// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see [Use Identity Resolution to consolidate similar profiles](https://docs.aws.amazon.com/connect/latest/adminguide/use-identity-resolution.html).
@@ -66,6 +74,10 @@ public protocol CustomerProfilesClientProtocol {
     func getWorkflowSteps(input: GetWorkflowStepsInput) async throws -> GetWorkflowStepsOutputResponse
     /// Lists all of the integrations associated to a specific URI in the AWS account.
     func listAccountIntegrations(input: ListAccountIntegrationsInput) async throws -> ListAccountIntegrationsOutputResponse
+    /// Lists calculated attribute definitions for Customer Profiles
+    func listCalculatedAttributeDefinitions(input: ListCalculatedAttributeDefinitionsInput) async throws -> ListCalculatedAttributeDefinitionsOutputResponse
+    /// Retrieve a list of calculated attributes for a customer profile.
+    func listCalculatedAttributesForProfile(input: ListCalculatedAttributesForProfileInput) async throws -> ListCalculatedAttributesForProfileOutputResponse
     /// Returns a list of all the domains for an AWS account that have been created.
     func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutputResponse
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
@@ -123,6 +135,8 @@ public protocol CustomerProfilesClientProtocol {
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range.
+    func updateCalculatedAttributeDefinition(input: UpdateCalculatedAttributeDefinitionInput) async throws -> UpdateCalculatedAttributeDefinitionOutputResponse
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. To add or remove tags on an existing Domain, see [TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutputResponse
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.

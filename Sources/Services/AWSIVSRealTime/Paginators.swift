@@ -3,6 +3,56 @@
 import ClientRuntime
 
 extension IVSRealTimeClient {
+    /// Paginate over `[ListParticipantEventsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListParticipantEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListParticipantEventsOutputResponse`
+    public func listParticipantEventsPaginated(input: ListParticipantEventsInput) -> ClientRuntime.PaginatorSequence<ListParticipantEventsInput, ListParticipantEventsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListParticipantEventsInput, ListParticipantEventsOutputResponse>(input: input, inputKey: \ListParticipantEventsInput.nextToken, outputKey: \ListParticipantEventsOutputResponse.nextToken, paginationFunction: self.listParticipantEvents(input:))
+    }
+}
+
+extension ListParticipantEventsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListParticipantEventsInput {
+        return ListParticipantEventsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            participantId: self.participantId,
+            sessionId: self.sessionId,
+            stageArn: self.stageArn
+        )}
+}
+extension IVSRealTimeClient {
+    /// Paginate over `[ListParticipantsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListParticipantsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListParticipantsOutputResponse`
+    public func listParticipantsPaginated(input: ListParticipantsInput) -> ClientRuntime.PaginatorSequence<ListParticipantsInput, ListParticipantsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListParticipantsInput, ListParticipantsOutputResponse>(input: input, inputKey: \ListParticipantsInput.nextToken, outputKey: \ListParticipantsOutputResponse.nextToken, paginationFunction: self.listParticipants(input:))
+    }
+}
+
+extension ListParticipantsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListParticipantsInput {
+        return ListParticipantsInput(
+            filterByPublished: self.filterByPublished,
+            filterByState: self.filterByState,
+            filterByUserId: self.filterByUserId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionId: self.sessionId,
+            stageArn: self.stageArn
+        )}
+}
+extension IVSRealTimeClient {
     /// Paginate over `[ListStagesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -21,5 +71,27 @@ extension ListStagesInput: ClientRuntime.PaginateToken {
         return ListStagesInput(
             maxResults: self.maxResults,
             nextToken: token
+        )}
+}
+extension IVSRealTimeClient {
+    /// Paginate over `[ListStageSessionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStageSessionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStageSessionsOutputResponse`
+    public func listStageSessionsPaginated(input: ListStageSessionsInput) -> ClientRuntime.PaginatorSequence<ListStageSessionsInput, ListStageSessionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListStageSessionsInput, ListStageSessionsOutputResponse>(input: input, inputKey: \ListStageSessionsInput.nextToken, outputKey: \ListStageSessionsOutputResponse.nextToken, paginationFunction: self.listStageSessions(input:))
+    }
+}
+
+extension ListStageSessionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListStageSessionsInput {
+        return ListStageSessionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            stageArn: self.stageArn
         )}
 }

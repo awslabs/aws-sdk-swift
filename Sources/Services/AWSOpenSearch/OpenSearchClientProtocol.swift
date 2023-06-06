@@ -41,6 +41,10 @@ public protocol OpenSearchClientProtocol {
     func describeDomainChangeProgress(input: DescribeDomainChangeProgressInput) async throws -> DescribeDomainChangeProgressOutputResponse
     /// Returns the configuration of an Amazon OpenSearch Service domain.
     func describeDomainConfig(input: DescribeDomainConfigInput) async throws -> DescribeDomainConfigOutputResponse
+    /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node.
+    func describeDomainHealth(input: DescribeDomainHealthInput) async throws -> DescribeDomainHealthOutputResponse
+    /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states.
+    func describeDomainNodes(input: DescribeDomainNodesInput) async throws -> DescribeDomainNodesOutputResponse
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
     func describeDomains(input: DescribeDomainsInput) async throws -> DescribeDomainsOutputResponse
     /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see [Determining whether a change will cause a blue/green deployment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#dryrun).
@@ -63,7 +67,7 @@ public protocol OpenSearchClientProtocol {
     func dissociatePackage(input: DissociatePackageInput) async throws -> DissociatePackageOutputResponse
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
     func getCompatibleVersions(input: GetCompatibleVersionsInput) async throws -> GetCompatibleVersionsOutputResponse
-    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time and commit message. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     func getPackageVersionHistory(input: GetPackageVersionHistoryInput) async throws -> GetPackageVersionHistoryOutputResponse
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
     func getUpgradeHistory(input: GetUpgradeHistoryInput) async throws -> GetUpgradeHistoryOutputResponse
@@ -99,7 +103,7 @@ public protocol OpenSearchClientProtocol {
     func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutputResponse
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
     func startServiceSoftwareUpdate(input: StartServiceSoftwareUpdateInput) async throws -> StartServiceSoftwareUpdateOutputResponse
-    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
+    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.sl
     func updateDomainConfig(input: UpdateDomainConfigInput) async throws -> UpdateDomainConfigOutputResponse
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutputResponse

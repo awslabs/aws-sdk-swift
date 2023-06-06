@@ -192,7 +192,7 @@ public struct EMRClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension EMRClient: EMRClientProtocol {
-    /// Adds an instance fleet to a running cluster. The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x.
+    /// Adds an instance fleet to a running cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x.
     public func addInstanceFleet(input: AddInstanceFleetInput) async throws -> AddInstanceFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -340,7 +340,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that a step will be canceled, even if the request is successfully submitted. When you use Amazon EMR versions 5.28.0 and later, you can cancel steps that are in a PENDING or RUNNING state. In earlier versions of Amazon EMR, you can only cancel steps that are in a PENDING state.
+    /// Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that a step will be canceled, even if the request is successfully submitted. When you use Amazon EMR releases 5.28.0 and later, you can cancel steps that are in a PENDING or RUNNING state. In earlier versions of Amazon EMR, you can only cancel steps that are in a PENDING state.
     public func cancelSteps(input: CancelStepsInput) async throws -> CancelStepsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -718,7 +718,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Provides EMR release label details, such as releases available the region where the API request is run, and the available applications for a specific EMR release label. Can also list EMR release versions that support a specified version of Spark.
+    /// Provides Amazon EMR release label details, such as the releases available the Region where the API request is run, and the available applications for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a specified version of Spark.
     public func describeReleaseLabel(input: DescribeReleaseLabelInput) async throws -> DescribeReleaseLabelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1125,7 +1125,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Lists all available details about the instance fleets in a cluster. The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.
+    /// Lists all available details about the instance fleets in a cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
     public func listInstanceFleets(input: ListInstanceFleetsInput) async throws -> ListInstanceFleetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1199,7 +1199,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Provides information for all active EC2 instances and EC2 instances terminated in the last 30 days, up to a maximum of 2,000. EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
+    /// Provides information for all active Amazon EC2 instances and Amazon EC2 instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
     public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1236,7 +1236,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecution calls.
+    /// Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecutions calls.
     public func listNotebookExecutions(input: ListNotebookExecutionsInput) async throws -> ListNotebookExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1273,7 +1273,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Retrieves release labels of EMR services in the region where the API is called.
+    /// Retrieves release labels of Amazon EMR services in the Region where the API is called.
     public func listReleaseLabels(input: ListReleaseLabelsInput) async throws -> ListReleaseLabelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1495,7 +1495,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically. The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.
+    /// Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
     public func modifyInstanceFleet(input: ModifyInstanceFleetInput) async throws -> ModifyInstanceFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1569,7 +1569,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Creates or updates an automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric.
+    /// Creates or updates an automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates Amazon EC2 instances in response to the value of a CloudWatch metric.
     public func putAutoScalingPolicy(input: PutAutoScalingPolicyInput) async throws -> PutAutoScalingPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1606,7 +1606,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Auto-termination is supported in Amazon EMR versions 5.30.0 and 6.1.0 and later. For more information, see [Using an auto-termination policy](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html). Creates or updates an auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see [Control cluster termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html).
+    /// Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see [Using an auto-termination policy](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html). Creates or updates an auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see [Control cluster termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html).
     public func putAutoTerminationPolicy(input: PutAutoTerminationPolicyInput) async throws -> PutAutoTerminationPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1680,7 +1680,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling policy defines the limits for resources, such as EC2 instances that can be added or terminated from a cluster. The policy only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
+    /// Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling policy defines the limits for resources, such as Amazon EC2 instances that can be added or terminated from a cluster. The policy only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
     public func putManagedScalingPolicy(input: PutManagedScalingPolicyInput) async throws -> PutManagedScalingPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1717,7 +1717,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Removes an automatic scaling policy from a specified instance group within an EMR cluster.
+    /// Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster.
     public func removeAutoScalingPolicy(input: RemoveAutoScalingPolicyInput) async throws -> RemoveAutoScalingPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1791,7 +1791,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Removes a managed scaling policy from a specified EMR cluster.
+    /// Removes a managed scaling policy from a specified Amazon EMR cluster.
     public func removeManagedScalingPolicy(input: RemoveManagedScalingPolicyInput) async throws -> RemoveManagedScalingPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1865,7 +1865,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps specified. After the steps complete, the cluster stops and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the [JobFlowInstancesConfig]KeepJobFlowAliveWhenNoSteps parameter is set to TRUE, the cluster transitions to the WAITING state rather than shutting down after the steps have completed. For additional protection, you can set the [JobFlowInstancesConfig]TerminationProtected parameter to TRUE to lock the cluster and prevent it from being terminated by API call, user intervention, or in the event of a job flow error. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For long-running clusters, we recommend that you periodically store your results. The instance fleets configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but not both.
+    /// RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps specified. After the steps complete, the cluster stops and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the [JobFlowInstancesConfig]KeepJobFlowAliveWhenNoSteps parameter is set to TRUE, the cluster transitions to the WAITING state rather than shutting down after the steps have completed. For additional protection, you can set the [JobFlowInstancesConfig]TerminationProtected parameter to TRUE to lock the cluster and prevent it from being terminated by API call, user intervention, or in the event of a job flow error. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For long-running clusters, we recommend that you periodically store your results. The instance fleets configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but not both.
     public func runJobFlow(input: RunJobFlowInput) async throws -> RunJobFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1902,7 +1902,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// SetTerminationProtection locks a cluster (job flow) so the EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all EC2 instances in a cluster. SetTerminationProtection is used to prevent accidental termination of a cluster and to ensure that in the event of an error, the instances persist so that you can recover any data stored in their ephemeral instance storage. To terminate a cluster that has been locked by setting SetTerminationProtection to true, you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false. For more information, see[Managing Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html) in the Amazon EMR Management Guide.
+    /// SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all Amazon EC2 instances in a cluster. SetTerminationProtection is used to prevent accidental termination of a cluster and to ensure that in the event of an error, the instances persist so that you can recover any data stored in their ephemeral instance storage. To terminate a cluster that has been locked by setting SetTerminationProtection to true, you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false. For more information, see[Managing Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html) in the Amazon EMR Management Guide.
     public func setTerminationProtection(input: SetTerminationProtectionInput) async throws -> SetTerminationProtectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1939,7 +1939,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// The SetVisibleToAllUsers parameter is no longer supported. Your cluster may be visible to all users in your account. To restrict cluster access using an IAM policy, see [Identity and Access Management for EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-access-iam.html). Sets the [Cluster$VisibleToAllUsers] value for an EMR cluster. When true, IAM principals in the Amazon Web Services account can perform EMR cluster actions that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform EMR actions on the cluster, regardless of IAM permissions policies attached to other IAM principals. This action works on running clusters. When you create a cluster, use the [RunJobFlowInput$VisibleToAllUsers] parameter. For more information, see [Understanding the EMR Cluster VisibleToAllUsers Setting](https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_iam_emr-with-iam.html#security_set_visible_to_all_users) in the Amazon EMRManagement Guide.
+    /// The SetVisibleToAllUsers parameter is no longer supported. Your cluster may be visible to all users in your account. To restrict cluster access using an IAM policy, see [Identity and Access Management for Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-access-IAM.html). Sets the [Cluster$VisibleToAllUsers] value for an Amazon EMR cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions on the cluster, regardless of IAM permissions policies attached to other IAM principals. This action works on running clusters. When you create a cluster, use the [RunJobFlowInput$VisibleToAllUsers] parameter. For more information, see [Understanding the Amazon EMR Cluster VisibleToAllUsers Setting](https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_IAM_emr-with-IAM.html#security_set_visible_to_all_users) in the Amazon EMR Management Guide.
     public func setVisibleToAllUsers(input: SetVisibleToAllUsersInput) async throws -> SetVisibleToAllUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2050,7 +2050,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut down, any step not yet completed is canceled and the EC2 instances on which the cluster is running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri was specified when the cluster was created. The maximum number of clusters allowed is 10. The call to TerminateJobFlows is asynchronous. Depending on the configuration of the cluster, it may take up to 1-5 minutes for the cluster to completely terminate and release allocated resources, such as Amazon EC2 instances.
+    /// TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut down, any step not yet completed is canceled and the Amazon EC2 instances on which the cluster is running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri was specified when the cluster was created. The maximum number of clusters allowed is 10. The call to TerminateJobFlows is asynchronous. Depending on the configuration of the cluster, it may take up to 1-5 minutes for the cluster to completely terminate and release allocated resources, such as Amazon EC2 instances.
     public func terminateJobFlows(input: TerminateJobFlowsInput) async throws -> TerminateJobFlowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

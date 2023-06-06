@@ -114,6 +114,8 @@ public protocol GuardDutyClientProtocol {
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     func listThreatIntelSets(input: ListThreatIntelSetsInput) async throws -> ListThreatIntelSetsOutputResponse
+    /// Initiates the malware scan. Invoking this API will automatically create the [Service-linked role ](https://docs.aws.amazon.com/guardduty/latest/ug/slr-permissions-malware-protection.html) in the corresponding account.
+    func startMalwareScan(input: StartMalwareScanInput) async throws -> StartMalwareScanOutputResponse
     /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the [StopMonitoringMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_StopMonitoringMembers.html) operation.
     func startMonitoringMembers(input: StartMonitoringMembersInput) async throws -> StartMonitoringMembersOutputResponse
     /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.

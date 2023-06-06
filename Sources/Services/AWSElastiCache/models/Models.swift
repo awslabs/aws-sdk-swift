@@ -3,37 +3,40 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension APICallRateForCustomerExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<APICallRateForCustomerExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The customer has exceeded the allowed rate of API calls.
-public struct APICallRateForCustomerExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "APICallRateForCustomerExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -46,7 +49,7 @@ extension APICallRateForCustomerExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -123,7 +126,7 @@ public struct AddTagsToResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceName: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
     )
@@ -144,7 +147,7 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
@@ -170,52 +173,30 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
-extension AddTagsToResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AddTagsToResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetGroupNotFoundFault" : self = .cacheSubnetGroupNotFoundFault(try CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidARN" : self = .invalidARNFault(try InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReservedCacheNodeNotFound" : self = .reservedCacheNodeNotFoundFault(try ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupNotFound" : self = .userGroupNotFoundFault(try UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
-    case invalidARNFault(InvalidARNFault)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case reservedCacheNodeNotFoundFault(ReservedCacheNodeNotFoundFault)
-    case snapshotNotFoundFault(SnapshotNotFoundFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case userGroupNotFoundFault(UserGroupNotFoundFault)
-    case userNotFoundFault(UserNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddTagsToResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
@@ -230,7 +211,7 @@ public struct AddTagsToResourceOutputResponse: Swift.Equatable {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         tagList: [ElastiCacheClientTypes.Tag]? = nil
     )
     {
@@ -247,7 +228,7 @@ extension AddTagsToResourceOutputResponseBody: Swift.Decodable {
         case tagList = "TagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AddTagsToResourceResult"))
         if containerValues.contains(.tagList) {
@@ -355,7 +336,7 @@ extension ElastiCacheClientTypes.Authentication: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.AuthenticationType.self, forKey: .type)
         type = typeDecoded
@@ -372,7 +353,7 @@ extension ElastiCacheClientTypes {
         /// Indicates whether the user requires a password to authenticate.
         public var type: ElastiCacheClientTypes.AuthenticationType?
 
-        public init (
+        public init(
             passwordCount: Swift.Int? = nil,
             type: ElastiCacheClientTypes.AuthenticationType? = nil
         )
@@ -409,7 +390,7 @@ extension ElastiCacheClientTypes.AuthenticationMode: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.InputAuthenticationType.self, forKey: .type)
         type = typeDecoded
@@ -443,7 +424,7 @@ extension ElastiCacheClientTypes {
         /// Specifies the authentication type. Possible options are IAM authentication, password and no password.
         public var type: ElastiCacheClientTypes.InputAuthenticationType?
 
-        public init (
+        public init(
             passwords: [Swift.String]? = nil,
             type: ElastiCacheClientTypes.InputAuthenticationType? = nil
         )
@@ -491,37 +472,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension AuthorizationAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified Amazon EC2 security group is already authorized for the specified cache security group.
-public struct AuthorizationAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AuthorizationAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -534,7 +518,7 @@ extension AuthorizationAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -542,37 +526,40 @@ extension AuthorizationAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension AuthorizationNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified Amazon EC2 security group is not authorized for the specified cache security group.
-public struct AuthorizationNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AuthorizationNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -585,7 +572,7 @@ extension AuthorizationNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -627,7 +614,7 @@ public struct AuthorizeCacheSecurityGroupIngressInput: Swift.Equatable {
     /// This member is required.
     public var ec2SecurityGroupOwnerId: Swift.String?
 
-    public init (
+    public init(
         cacheSecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupOwnerId: Swift.String? = nil
@@ -652,7 +639,7 @@ extension AuthorizeCacheSecurityGroupIngressInputBody: Swift.Decodable {
         case ec2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSecurityGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSecurityGroupName)
         cacheSecurityGroupName = cacheSecurityGroupNameDecoded
@@ -663,38 +650,23 @@ extension AuthorizeCacheSecurityGroupIngressInputBody: Swift.Decodable {
     }
 }
 
-extension AuthorizeCacheSecurityGroupIngressOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AuthorizeCacheSecurityGroupIngressOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AuthorizationAlreadyExists" : self = .authorizationAlreadyExistsFault(try AuthorizationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheSecurityGroupState" : self = .invalidCacheSecurityGroupStateFault(try InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AuthorizeCacheSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AuthorizationAlreadyExists": return try await AuthorizationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AuthorizeCacheSecurityGroupIngressOutputError: Swift.Error, Swift.Equatable {
-    case authorizationAlreadyExistsFault(AuthorizationAlreadyExistsFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case invalidCacheSecurityGroupStateFault(InvalidCacheSecurityGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AuthorizeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AuthorizeCacheSecurityGroupIngressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
@@ -714,7 +686,7 @@ public struct AuthorizeCacheSecurityGroupIngressOutputResponse: Swift.Equatable 
     /// * RevokeCacheSecurityGroupIngress
     public var cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup?
 
-    public init (
+    public init(
         cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup? = nil
     )
     {
@@ -731,7 +703,7 @@ extension AuthorizeCacheSecurityGroupIngressOutputResponseBody: Swift.Decodable 
         case cacheSecurityGroup = "CacheSecurityGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AuthorizeCacheSecurityGroupIngressResult"))
         let cacheSecurityGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSecurityGroup.self, forKey: .cacheSecurityGroup)
@@ -789,7 +761,7 @@ extension ElastiCacheClientTypes.AvailabilityZone: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -802,7 +774,7 @@ extension ElastiCacheClientTypes {
         /// The name of the Availability Zone.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -862,7 +834,7 @@ public struct BatchApplyUpdateActionInput: Swift.Equatable {
     /// This member is required.
     public var serviceUpdateName: Swift.String?
 
-    public init (
+    public init(
         cacheClusterIds: [Swift.String]? = nil,
         replicationGroupIds: [Swift.String]? = nil,
         serviceUpdateName: Swift.String? = nil
@@ -887,7 +859,7 @@ extension BatchApplyUpdateActionInputBody: Swift.Decodable {
         case serviceUpdateName = "ServiceUpdateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.replicationGroupIds) {
             struct KeyVal0{struct member{}}
@@ -932,32 +904,20 @@ extension BatchApplyUpdateActionInputBody: Swift.Decodable {
     }
 }
 
-extension BatchApplyUpdateActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension BatchApplyUpdateActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUpdateNotFoundFault" : self = .serviceUpdateNotFoundFault(try ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchApplyUpdateActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum BatchApplyUpdateActionOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case serviceUpdateNotFoundFault(ServiceUpdateNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchApplyUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchApplyUpdateActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.processedUpdateActions = output.processedUpdateActions
@@ -975,7 +935,7 @@ public struct BatchApplyUpdateActionOutputResponse: Swift.Equatable {
     /// Update actions that haven't been processed successfully
     public var unprocessedUpdateActions: [ElastiCacheClientTypes.UnprocessedUpdateAction]?
 
-    public init (
+    public init(
         processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]? = nil,
         unprocessedUpdateActions: [ElastiCacheClientTypes.UnprocessedUpdateAction]? = nil
     )
@@ -996,7 +956,7 @@ extension BatchApplyUpdateActionOutputResponseBody: Swift.Decodable {
         case unprocessedUpdateActions = "UnprocessedUpdateActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("BatchApplyUpdateActionResult"))
         if containerValues.contains(.processedUpdateActions) {
@@ -1090,7 +1050,7 @@ public struct BatchStopUpdateActionInput: Swift.Equatable {
     /// This member is required.
     public var serviceUpdateName: Swift.String?
 
-    public init (
+    public init(
         cacheClusterIds: [Swift.String]? = nil,
         replicationGroupIds: [Swift.String]? = nil,
         serviceUpdateName: Swift.String? = nil
@@ -1115,7 +1075,7 @@ extension BatchStopUpdateActionInputBody: Swift.Decodable {
         case serviceUpdateName = "ServiceUpdateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.replicationGroupIds) {
             struct KeyVal0{struct member{}}
@@ -1160,32 +1120,20 @@ extension BatchStopUpdateActionInputBody: Swift.Decodable {
     }
 }
 
-extension BatchStopUpdateActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension BatchStopUpdateActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUpdateNotFoundFault" : self = .serviceUpdateNotFoundFault(try ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchStopUpdateActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum BatchStopUpdateActionOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case serviceUpdateNotFoundFault(ServiceUpdateNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchStopUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchStopUpdateActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.processedUpdateActions = output.processedUpdateActions
@@ -1203,7 +1151,7 @@ public struct BatchStopUpdateActionOutputResponse: Swift.Equatable {
     /// Update actions that haven't been processed successfully
     public var unprocessedUpdateActions: [ElastiCacheClientTypes.UnprocessedUpdateAction]?
 
-    public init (
+    public init(
         processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]? = nil,
         unprocessedUpdateActions: [ElastiCacheClientTypes.UnprocessedUpdateAction]? = nil
     )
@@ -1224,7 +1172,7 @@ extension BatchStopUpdateActionOutputResponseBody: Swift.Decodable {
         case unprocessedUpdateActions = "UnprocessedUpdateActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("BatchStopUpdateActionResult"))
         if containerValues.contains(.processedUpdateActions) {
@@ -1444,7 +1392,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -1659,11 +1607,11 @@ extension ElastiCacheClientTypes {
         public var engine: Swift.String?
         /// The version of the cache engine that is used in this cluster.
         public var engineVersion: Swift.String?
-        /// The network type associated with the cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// The network type associated with the cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
         /// Returns the destination, format and type of the logs.
         public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfiguration]?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var networkType: ElastiCacheClientTypes.NetworkType?
         /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS).
         public var notificationConfiguration: ElastiCacheClientTypes.NotificationConfiguration?
@@ -1709,7 +1657,7 @@ extension ElastiCacheClientTypes {
         /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
         public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             atRestEncryptionEnabled: Swift.Bool? = nil,
             authTokenEnabled: Swift.Bool? = nil,
@@ -1784,37 +1732,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension CacheClusterAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheClusterAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You already have a cluster with the given identifier.
-public struct CacheClusterAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheClusterAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1827,7 +1778,7 @@ extension CacheClusterAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1835,37 +1786,40 @@ extension CacheClusterAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension CacheClusterNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheClusterNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cluster ID does not refer to an existing cluster.
-public struct CacheClusterNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheClusterNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1878,7 +1832,7 @@ extension CacheClusterNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1913,7 +1867,7 @@ extension ElastiCacheClientTypes.CacheEngineVersion: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -1935,14 +1889,14 @@ extension ElastiCacheClientTypes {
         public var cacheEngineDescription: Swift.String?
         /// The description of the cache engine version.
         public var cacheEngineVersionDescription: Swift.String?
-        /// The name of the cache parameter group family associated with this cache engine. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x
+        /// The name of the cache parameter group family associated with this cache engine. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
         public var cacheParameterGroupFamily: Swift.String?
         /// The name of the cache engine.
         public var engine: Swift.String?
         /// The version number of the cache engine.
         public var engineVersion: Swift.String?
 
-        public init (
+        public init(
             cacheEngineDescription: Swift.String? = nil,
             cacheEngineVersionDescription: Swift.String? = nil,
             cacheParameterGroupFamily: Swift.String? = nil,
@@ -2000,7 +1954,7 @@ extension ElastiCacheClientTypes.CacheNode: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheNodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheNodeId)
         cacheNodeId = cacheNodeIdDecoded
@@ -2080,7 +2034,7 @@ extension ElastiCacheClientTypes {
         /// The ID of the primary node to which this read replica node is synchronized. If this field is empty, this node is not associated with a primary cluster.
         public var sourceCacheNodeId: Swift.String?
 
-        public init (
+        public init(
             cacheNodeCreateTime: ClientRuntime.Date? = nil,
             cacheNodeId: Swift.String? = nil,
             cacheNodeStatus: Swift.String? = nil,
@@ -2157,7 +2111,7 @@ extension ElastiCacheClientTypes.CacheNodeTypeSpecificParameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterName)
         parameterName = parameterNameDecoded
@@ -2219,7 +2173,7 @@ extension ElastiCacheClientTypes {
         /// The source of the parameter value.
         public var source: Swift.String?
 
-        public init (
+        public init(
             allowedValues: Swift.String? = nil,
             cacheNodeTypeSpecificValues: [ElastiCacheClientTypes.CacheNodeTypeSpecificValue]? = nil,
             changeType: ElastiCacheClientTypes.ChangeType? = nil,
@@ -2261,7 +2215,7 @@ extension ElastiCacheClientTypes.CacheNodeTypeSpecificValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheNodeType)
         cacheNodeType = cacheNodeTypeDecoded
@@ -2278,7 +2232,7 @@ extension ElastiCacheClientTypes {
         /// The value for the cache node type.
         public var value: Swift.String?
 
-        public init (
+        public init(
             cacheNodeType: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -2330,7 +2284,7 @@ extension ElastiCacheClientTypes.CacheNodeUpdateStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheNodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheNodeId)
         cacheNodeId = cacheNodeIdDecoded
@@ -2371,7 +2325,7 @@ extension ElastiCacheClientTypes {
         /// The date when the NodeUpdateStatus was last modified>
         public var nodeUpdateStatusModifiedDate: ClientRuntime.Date?
 
-        public init (
+        public init(
             cacheNodeId: Swift.String? = nil,
             nodeDeletionDate: ClientRuntime.Date? = nil,
             nodeUpdateEndDate: ClientRuntime.Date? = nil,
@@ -2423,7 +2377,7 @@ extension ElastiCacheClientTypes.CacheParameterGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
@@ -2443,7 +2397,7 @@ extension ElastiCacheClientTypes {
     public struct CacheParameterGroup: Swift.Equatable {
         /// The ARN (Amazon Resource Name) of the cache parameter group.
         public var arn: Swift.String?
-        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |
+        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
         public var cacheParameterGroupFamily: Swift.String?
         /// The name of the cache parameter group.
         public var cacheParameterGroupName: Swift.String?
@@ -2452,7 +2406,7 @@ extension ElastiCacheClientTypes {
         /// Indicates whether the parameter group is associated with a Global datastore
         public var isGlobal: Swift.Bool
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             cacheParameterGroupFamily: Swift.String? = nil,
             cacheParameterGroupName: Swift.String? = nil,
@@ -2471,37 +2425,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension CacheParameterGroupAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheParameterGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A cache parameter group with the requested name already exists.
-public struct CacheParameterGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheParameterGroupAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2514,7 +2471,7 @@ extension CacheParameterGroupAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2522,37 +2479,40 @@ extension CacheParameterGroupAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension CacheParameterGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheParameterGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cache parameter group name does not refer to an existing cache parameter group.
-public struct CacheParameterGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheParameterGroupNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2565,7 +2525,7 @@ extension CacheParameterGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2573,37 +2533,40 @@ extension CacheParameterGroupNotFoundFaultBody: Swift.Decodable {
 }
 
 extension CacheParameterGroupQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheParameterGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the maximum number of cache security groups.
-public struct CacheParameterGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheParameterGroupQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2616,7 +2579,7 @@ extension CacheParameterGroupQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2652,7 +2615,7 @@ extension ElastiCacheClientTypes.CacheParameterGroupStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
@@ -2690,7 +2653,7 @@ extension ElastiCacheClientTypes {
         /// The status of parameter updates.
         public var parameterApplyStatus: Swift.String?
 
-        public init (
+        public init(
             cacheNodeIdsToReboot: [Swift.String]? = nil,
             cacheParameterGroupName: Swift.String? = nil,
             parameterApplyStatus: Swift.String? = nil
@@ -2741,7 +2704,7 @@ extension ElastiCacheClientTypes.CacheSecurityGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
         ownerId = ownerIdDecoded
@@ -2793,7 +2756,7 @@ extension ElastiCacheClientTypes {
         /// The Amazon account ID of the cache security group owner.
         public var ownerId: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             cacheSecurityGroupName: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -2812,37 +2775,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension CacheSecurityGroupAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSecurityGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A cache security group with the specified name already exists.
-public struct CacheSecurityGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheSecurityGroupAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2855,7 +2821,7 @@ extension CacheSecurityGroupAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2878,7 +2844,7 @@ extension ElastiCacheClientTypes.CacheSecurityGroupMembership: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSecurityGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSecurityGroupName)
         cacheSecurityGroupName = cacheSecurityGroupNameDecoded
@@ -2895,7 +2861,7 @@ extension ElastiCacheClientTypes {
         /// The membership status in the cache security group. The status changes when a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
         public var status: Swift.String?
 
-        public init (
+        public init(
             cacheSecurityGroupName: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -2908,37 +2874,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension CacheSecurityGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSecurityGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cache security group name does not refer to an existing cache security group.
-public struct CacheSecurityGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheSecurityGroupNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2951,7 +2920,7 @@ extension CacheSecurityGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2959,37 +2928,40 @@ extension CacheSecurityGroupNotFoundFaultBody: Swift.Decodable {
 }
 
 extension CacheSecurityGroupQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSecurityGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the allowed number of cache security groups.
-public struct CacheSecurityGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "QuotaExceeded.CacheSecurityGroup" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3002,7 +2974,7 @@ extension CacheSecurityGroupQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3059,7 +3031,7 @@ extension ElastiCacheClientTypes.CacheSubnetGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSubnetGroupName)
         cacheSubnetGroupName = cacheSubnetGroupNameDecoded
@@ -3125,12 +3097,12 @@ extension ElastiCacheClientTypes {
         public var cacheSubnetGroupName: Swift.String?
         /// A list of subnets associated with the cache subnet group.
         public var subnets: [ElastiCacheClientTypes.Subnet]?
-        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var supportedNetworkTypes: [ElastiCacheClientTypes.NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             cacheSubnetGroupDescription: Swift.String? = nil,
             cacheSubnetGroupName: Swift.String? = nil,
@@ -3151,37 +3123,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension CacheSubnetGroupAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cache subnet group name is already in use by an existing cache subnet group.
-public struct CacheSubnetGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheSubnetGroupAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3194,7 +3169,7 @@ extension CacheSubnetGroupAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3202,37 +3177,40 @@ extension CacheSubnetGroupAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension CacheSubnetGroupInUse {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetGroupInUseBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cache subnet group is currently in use.
-public struct CacheSubnetGroupInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheSubnetGroupInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheSubnetGroupInUse" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3245,7 +3223,7 @@ extension CacheSubnetGroupInUseBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3253,37 +3231,40 @@ extension CacheSubnetGroupInUseBody: Swift.Decodable {
 }
 
 extension CacheSubnetGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cache subnet group name does not refer to an existing cache subnet group.
-public struct CacheSubnetGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheSubnetGroupNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3296,7 +3277,7 @@ extension CacheSubnetGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3304,37 +3285,40 @@ extension CacheSubnetGroupNotFoundFaultBody: Swift.Decodable {
 }
 
 extension CacheSubnetGroupQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the allowed number of cache subnet groups.
-public struct CacheSubnetGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheSubnetGroupQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3347,7 +3331,7 @@ extension CacheSubnetGroupQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3355,37 +3339,40 @@ extension CacheSubnetGroupQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension CacheSubnetQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the allowed number of subnets in a cache subnet group.
-public struct CacheSubnetQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CacheSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CacheSubnetQuotaExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3398,7 +3385,7 @@ extension CacheSubnetQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3449,7 +3436,7 @@ extension ElastiCacheClientTypes.CloudWatchLogsDestinationDetails: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroup)
         logGroup = logGroupDecoded
@@ -3462,7 +3449,7 @@ extension ElastiCacheClientTypes {
         /// The name of the CloudWatch Logs log group.
         public var logGroup: Swift.String?
 
-        public init (
+        public init(
             logGroup: Swift.String? = nil
         )
         {
@@ -3472,38 +3459,76 @@ extension ElastiCacheClientTypes {
 
 }
 
-extension ClusterQuotaForCustomerExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
-            let output: AWSClientRuntime.ErrorResponseContainer<ClusterQuotaForCustomerExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
-        } else {
-            self.message = nil
+extension ElastiCacheClientTypes {
+    public enum ClusterMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case compatible
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterMode] {
+            return [
+                .compatible,
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .compatible: return "compatible"
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ClusterMode(rawValue: rawValue) ?? ClusterMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ClusterQuotaForCustomerExceededFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<ClusterQuotaForCustomerExceededFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the allowed number of clusters per customer.
-public struct ClusterQuotaForCustomerExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterQuotaForCustomerExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3516,7 +3541,7 @@ extension ClusterQuotaForCustomerExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3550,7 +3575,7 @@ public struct CompleteMigrationInput: Swift.Equatable {
     /// This member is required.
     public var replicationGroupId: Swift.String?
 
-    public init (
+    public init(
         force: Swift.Bool = false,
         replicationGroupId: Swift.String? = nil
     )
@@ -3571,7 +3596,7 @@ extension CompleteMigrationInputBody: Swift.Decodable {
         case replicationGroupId = "ReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -3580,34 +3605,21 @@ extension CompleteMigrationInputBody: Swift.Decodable {
     }
 }
 
-extension CompleteMigrationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CompleteMigrationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotUnderMigrationFault" : self = .replicationGroupNotUnderMigrationFault(try ReplicationGroupNotUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CompleteMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotUnderMigrationFault": return try await ReplicationGroupNotUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CompleteMigrationOutputError: Swift.Error, Swift.Equatable {
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case replicationGroupNotUnderMigrationFault(ReplicationGroupNotUnderMigrationFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CompleteMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CompleteMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -3621,7 +3633,7 @@ public struct CompleteMigrationOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -3638,7 +3650,7 @@ extension CompleteMigrationOutputResponseBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CompleteMigrationResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -3688,7 +3700,7 @@ extension ElastiCacheClientTypes.ConfigureShard: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeGroupId)
         nodeGroupId = nodeGroupIdDecoded
@@ -3760,7 +3772,7 @@ extension ElastiCacheClientTypes {
         /// The outpost ARNs in which the cache cluster is created.
         public var preferredOutpostArns: [Swift.String]?
 
-        public init (
+        public init(
             newReplicaCount: Swift.Int = 0,
             nodeGroupId: Swift.String? = nil,
             preferredAvailabilityZones: [Swift.String]? = nil,
@@ -3829,7 +3841,7 @@ public struct CopySnapshotInput: Swift.Equatable {
     /// This member is required.
     public var targetSnapshotName: Swift.String?
 
-    public init (
+    public init(
         kmsKeyId: Swift.String? = nil,
         sourceSnapshotName: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil,
@@ -3862,7 +3874,7 @@ extension CopySnapshotInputBody: Swift.Decodable {
         case targetSnapshotName = "TargetSnapshotName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceSnapshotName)
         sourceSnapshotName = sourceSnapshotNameDecoded
@@ -3894,42 +3906,25 @@ extension CopySnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension CopySnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CopySnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSnapshotState" : self = .invalidSnapshotStateFault(try InvalidSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotAlreadyExistsFault" : self = .snapshotAlreadyExistsFault(try SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotQuotaExceededFault" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CopySnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSnapshotState": return try await InvalidSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotAlreadyExistsFault": return try await SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceededFault": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CopySnapshotOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidSnapshotStateFault(InvalidSnapshotStateFault)
-    case snapshotAlreadyExistsFault(SnapshotAlreadyExistsFault)
-    case snapshotNotFoundFault(SnapshotNotFoundFault)
-    case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CopySnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CopySnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
@@ -3943,7 +3938,7 @@ public struct CopySnapshotOutputResponse: Swift.Equatable {
     /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
     public var snapshot: ElastiCacheClientTypes.Snapshot?
 
-    public init (
+    public init(
         snapshot: ElastiCacheClientTypes.Snapshot? = nil
     )
     {
@@ -3960,7 +3955,7 @@ extension CopySnapshotOutputResponseBody: Swift.Decodable {
         case snapshot = "Snapshot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopySnapshotResult"))
         let snapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Snapshot.self, forKey: .snapshot)
@@ -4212,11 +4207,11 @@ public struct CreateCacheClusterInput: Swift.Equatable {
     public var engine: Swift.String?
     /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
-    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     /// Specifies the destination, format and type of the logs.
     public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
-    /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var networkType: ElastiCacheClientTypes.NetworkType?
     /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent. The Amazon SNS topic owner must be the same as the cluster owner.
     public var notificationTopicArn: Swift.String?
@@ -4250,10 +4245,10 @@ public struct CreateCacheClusterInput: Swift.Equatable {
     public var snapshotWindow: Swift.String?
     /// A list of tags to be added to this resource.
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// A flag that enables in-transit encryption when set to true. Only available when creating a cache cluster in an Amazon VPC using Memcached version 1.6.12 or later.
+    /// A flag that enables in-transit encryption when set to true.
     public var transitEncryptionEnabled: Swift.Bool?
 
-    public init (
+    public init(
         authToken: Swift.String? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         azMode: ElastiCacheClientTypes.AZMode? = nil,
@@ -4386,7 +4381,7 @@ extension CreateCacheClusterInputBody: Swift.Decodable {
         case transitEncryptionEnabled = "TransitEncryptionEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -4570,56 +4565,32 @@ extension CreateCacheClusterInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCacheClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateCacheClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterAlreadyExists" : self = .cacheClusterAlreadyExistsFault(try CacheClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetGroupNotFoundFault" : self = .cacheSubnetGroupNotFoundFault(try CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ClusterQuotaForCustomerExceeded" : self = .clusterQuotaForCustomerExceededFault(try ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCacheClusterCapacity" : self = .insufficientCacheClusterCapacityFault(try InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForClusterExceeded" : self = .nodeQuotaForClusterExceededFault(try NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForCustomerExceeded" : self = .nodeQuotaForCustomerExceededFault(try NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterAlreadyExists": return try await CacheClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ClusterQuotaForCustomerExceeded": return try await ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCacheClusterCapacity": return try await InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForClusterExceeded": return try await NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateCacheClusterOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterAlreadyExistsFault(CacheClusterAlreadyExistsFault)
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
-    case clusterQuotaForCustomerExceededFault(ClusterQuotaForCustomerExceededFault)
-    case insufficientCacheClusterCapacityFault(InsufficientCacheClusterCapacityFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case nodeQuotaForClusterExceededFault(NodeQuotaForClusterExceededFault)
-    case nodeQuotaForCustomerExceededFault(NodeQuotaForCustomerExceededFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
@@ -4633,7 +4604,7 @@ public struct CreateCacheClusterOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
-    public init (
+    public init(
         cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
     )
     {
@@ -4650,7 +4621,7 @@ extension CreateCacheClusterOutputResponseBody: Swift.Decodable {
         case cacheCluster = "CacheCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheClusterResult"))
         let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
@@ -4695,7 +4666,7 @@ extension CreateCacheParameterGroupInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a CreateCacheParameterGroup operation.
 public struct CreateCacheParameterGroupInput: Swift.Equatable {
-    /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x
+    /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
     /// This member is required.
     public var cacheParameterGroupFamily: Swift.String?
     /// A user-specified name for the cache parameter group.
@@ -4707,7 +4678,7 @@ public struct CreateCacheParameterGroupInput: Swift.Equatable {
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     public var tags: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         cacheParameterGroupFamily: Swift.String? = nil,
         cacheParameterGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -4736,7 +4707,7 @@ extension CreateCacheParameterGroupInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
@@ -4766,40 +4737,24 @@ extension CreateCacheParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCacheParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateCacheParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheParameterGroupAlreadyExists" : self = .cacheParameterGroupAlreadyExistsFault(try CacheParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheParameterGroupQuotaExceeded" : self = .cacheParameterGroupQuotaExceededFault(try CacheParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheParameterGroupState" : self = .invalidCacheParameterGroupStateFault(try InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupAlreadyExists": return try await CacheParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupQuotaExceeded": return try await CacheParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheParameterGroupState": return try await InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheParameterGroupAlreadyExistsFault(CacheParameterGroupAlreadyExistsFault)
-    case cacheParameterGroupQuotaExceededFault(CacheParameterGroupQuotaExceededFault)
-    case invalidCacheParameterGroupStateFault(InvalidCacheParameterGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroup = output.cacheParameterGroup
@@ -4813,7 +4768,7 @@ public struct CreateCacheParameterGroupOutputResponse: Swift.Equatable {
     /// Represents the output of a CreateCacheParameterGroup operation.
     public var cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup?
 
-    public init (
+    public init(
         cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup? = nil
     )
     {
@@ -4830,7 +4785,7 @@ extension CreateCacheParameterGroupOutputResponseBody: Swift.Decodable {
         case cacheParameterGroup = "CacheParameterGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheParameterGroupResult"))
         let cacheParameterGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheParameterGroup.self, forKey: .cacheParameterGroup)
@@ -4881,7 +4836,7 @@ public struct CreateCacheSecurityGroupInput: Swift.Equatable {
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     public var tags: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         cacheSecurityGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
@@ -4906,7 +4861,7 @@ extension CreateCacheSecurityGroupInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSecurityGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSecurityGroupName)
         cacheSecurityGroupName = cacheSecurityGroupNameDecoded
@@ -4934,38 +4889,23 @@ extension CreateCacheSecurityGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCacheSecurityGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateCacheSecurityGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheSecurityGroupAlreadyExists" : self = .cacheSecurityGroupAlreadyExistsFault(try CacheSecurityGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "QuotaExceeded.CacheSecurityGroup" : self = .cacheSecurityGroupQuotaExceededFault(try CacheSecurityGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCacheSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSecurityGroupAlreadyExists": return try await CacheSecurityGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "QuotaExceeded.CacheSecurityGroup": return try await CacheSecurityGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateCacheSecurityGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheSecurityGroupAlreadyExistsFault(CacheSecurityGroupAlreadyExistsFault)
-    case cacheSecurityGroupQuotaExceededFault(CacheSecurityGroupQuotaExceededFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCacheSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCacheSecurityGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
@@ -4985,7 +4925,7 @@ public struct CreateCacheSecurityGroupOutputResponse: Swift.Equatable {
     /// * RevokeCacheSecurityGroupIngress
     public var cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup?
 
-    public init (
+    public init(
         cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup? = nil
     )
     {
@@ -5002,7 +4942,7 @@ extension CreateCacheSecurityGroupOutputResponseBody: Swift.Decodable {
         case cacheSecurityGroup = "CacheSecurityGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheSecurityGroupResult"))
         let cacheSecurityGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSecurityGroup.self, forKey: .cacheSecurityGroup)
@@ -5068,7 +5008,7 @@ public struct CreateCacheSubnetGroupInput: Swift.Equatable {
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     public var tags: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         cacheSubnetGroupDescription: Swift.String? = nil,
         cacheSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -5097,7 +5037,7 @@ extension CreateCacheSubnetGroupInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSubnetGroupName)
         cacheSubnetGroupName = cacheSubnetGroupNameDecoded
@@ -5144,40 +5084,24 @@ extension CreateCacheSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCacheSubnetGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateCacheSubnetGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheSubnetGroupAlreadyExists" : self = .cacheSubnetGroupAlreadyExistsFault(try CacheSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetGroupQuotaExceeded" : self = .cacheSubnetGroupQuotaExceededFault(try CacheSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetQuotaExceededFault" : self = .cacheSubnetQuotaExceededFault(try CacheSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubnetNotAllowedFault" : self = .subnetNotAllowedFault(try SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSubnetGroupAlreadyExists": return try await CacheSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupQuotaExceeded": return try await CacheSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetQuotaExceededFault": return try await CacheSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetNotAllowedFault": return try await SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateCacheSubnetGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheSubnetGroupAlreadyExistsFault(CacheSubnetGroupAlreadyExistsFault)
-    case cacheSubnetGroupQuotaExceededFault(CacheSubnetGroupQuotaExceededFault)
-    case cacheSubnetQuotaExceededFault(CacheSubnetQuotaExceededFault)
-    case invalidSubnet(InvalidSubnet)
-    case subnetNotAllowedFault(SubnetNotAllowedFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCacheSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroup = output.cacheSubnetGroup
@@ -5195,7 +5119,7 @@ public struct CreateCacheSubnetGroupOutputResponse: Swift.Equatable {
     /// * ModifyCacheSubnetGroup
     public var cacheSubnetGroup: ElastiCacheClientTypes.CacheSubnetGroup?
 
-    public init (
+    public init(
         cacheSubnetGroup: ElastiCacheClientTypes.CacheSubnetGroup? = nil
     )
     {
@@ -5212,7 +5136,7 @@ extension CreateCacheSubnetGroupOutputResponseBody: Swift.Decodable {
         case cacheSubnetGroup = "CacheSubnetGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheSubnetGroupResult"))
         let cacheSubnetGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSubnetGroup.self, forKey: .cacheSubnetGroup)
@@ -5253,7 +5177,7 @@ public struct CreateGlobalReplicationGroupInput: Swift.Equatable {
     /// This member is required.
     public var primaryReplicationGroupId: Swift.String?
 
-    public init (
+    public init(
         globalReplicationGroupDescription: Swift.String? = nil,
         globalReplicationGroupIdSuffix: Swift.String? = nil,
         primaryReplicationGroupId: Swift.String? = nil
@@ -5278,7 +5202,7 @@ extension CreateGlobalReplicationGroupInputBody: Swift.Decodable {
         case primaryReplicationGroupId = "PrimaryReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdSuffixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupIdSuffix)
         globalReplicationGroupIdSuffix = globalReplicationGroupIdSuffixDecoded
@@ -5289,38 +5213,23 @@ extension CreateGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateGlobalReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupAlreadyExistsFault" : self = .globalReplicationGroupAlreadyExistsFault(try GlobalReplicationGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupAlreadyExistsFault": return try await GlobalReplicationGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupAlreadyExistsFault(GlobalReplicationGroupAlreadyExistsFault)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
@@ -5336,7 +5245,7 @@ public struct CreateGlobalReplicationGroupOutputResponse: Swift.Equatable {
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
     public var globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 
-    public init (
+    public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     )
     {
@@ -5353,7 +5262,7 @@ extension CreateGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
@@ -5396,6 +5305,9 @@ extension CreateReplicationGroupInput: Swift.Encodable {
         }
         if let cacheSubnetGroupName = cacheSubnetGroupName {
             try container.encode(cacheSubnetGroupName, forKey: ClientRuntime.Key("CacheSubnetGroupName"))
+        }
+        if let clusterMode = clusterMode {
+            try container.encode(clusterMode, forKey: ClientRuntime.Key("ClusterMode"))
         }
         if let dataTieringEnabled = dataTieringEnabled {
             try container.encode(dataTieringEnabled, forKey: ClientRuntime.Key("DataTieringEnabled"))
@@ -5628,6 +5540,8 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var cacheSecurityGroupNames: [Swift.String]?
     /// The name of the cache subnet group to be used for the replication group. If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see [Subnets and Subnet Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.html).
     public var cacheSubnetGroupName: Swift.String?
+    /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+    public var clusterMode: ElastiCacheClientTypes.ClusterMode?
     /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html).
     public var dataTieringEnabled: Swift.Bool?
     /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to Redis.
@@ -5636,7 +5550,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var engineVersion: Swift.String?
     /// The name of the Global datastore
     public var globalReplicationGroupId: Swift.String?
-    /// The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     /// The ID of the KMS key used to encrypt the disk in the cluster.
     public var kmsKeyId: Swift.String?
@@ -5644,7 +5558,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
     /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see [Minimizing Downtime: Multi-AZ](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html).
     public var multiAZEnabled: Swift.Bool?
-    /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var networkType: ElastiCacheClientTypes.NetworkType?
     /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
     public var nodeGroupConfiguration: [ElastiCacheClientTypes.NodeGroupConfiguration]?
@@ -5707,12 +5621,12 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var tags: [ElastiCacheClientTypes.Tag]?
     /// A flag that enables in-transit encryption when set to true. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
     public var transitEncryptionEnabled: Swift.Bool?
-    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred first, after that you can set TransitEncryptionMode to required.
+    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required. This process will not trigger the replacement of the replication group.
     public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
     /// The user group to associate with the replication group.
     public var userGroupIds: [Swift.String]?
 
-    public init (
+    public init(
         atRestEncryptionEnabled: Swift.Bool? = nil,
         authToken: Swift.String? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
@@ -5721,6 +5635,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
         cacheParameterGroupName: Swift.String? = nil,
         cacheSecurityGroupNames: [Swift.String]? = nil,
         cacheSubnetGroupName: Swift.String? = nil,
+        clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
         dataTieringEnabled: Swift.Bool? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
@@ -5760,6 +5675,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
         self.cacheParameterGroupName = cacheParameterGroupName
         self.cacheSecurityGroupNames = cacheSecurityGroupNames
         self.cacheSubnetGroupName = cacheSubnetGroupName
+        self.clusterMode = clusterMode
         self.dataTieringEnabled = dataTieringEnabled
         self.engine = engine
         self.engineVersion = engineVersion
@@ -5830,6 +5746,7 @@ struct CreateReplicationGroupInputBody: Swift.Equatable {
     let networkType: ElastiCacheClientTypes.NetworkType?
     let ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     let transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
+    let clusterMode: ElastiCacheClientTypes.ClusterMode?
 }
 
 extension CreateReplicationGroupInputBody: Swift.Decodable {
@@ -5842,6 +5759,7 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         case cacheParameterGroupName = "CacheParameterGroupName"
         case cacheSecurityGroupNames = "CacheSecurityGroupNames"
         case cacheSubnetGroupName = "CacheSubnetGroupName"
+        case clusterMode = "ClusterMode"
         case dataTieringEnabled = "DataTieringEnabled"
         case engine = "Engine"
         case engineVersion = "EngineVersion"
@@ -5873,7 +5791,7 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         case userGroupIds = "UserGroupIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -6085,69 +6003,42 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         ipDiscovery = ipDiscoveryDecoded
         let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
         transitEncryptionMode = transitEncryptionModeDecoded
+        let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
+        clusterMode = clusterModeDecoded
     }
 }
 
-extension CreateReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetGroupNotFoundFault" : self = .cacheSubnetGroupNotFoundFault(try CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ClusterQuotaForCustomerExceeded" : self = .clusterQuotaForCustomerExceededFault(try ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCacheClusterCapacity" : self = .insufficientCacheClusterCapacityFault(try InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidUserGroupState" : self = .invalidUserGroupStateFault(try InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeGroupsPerReplicationGroupQuotaExceeded" : self = .nodeGroupsPerReplicationGroupQuotaExceededFault(try NodeGroupsPerReplicationGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForClusterExceeded" : self = .nodeQuotaForClusterExceededFault(try NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForCustomerExceeded" : self = .nodeQuotaForCustomerExceededFault(try NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupAlreadyExists" : self = .replicationGroupAlreadyExistsFault(try ReplicationGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupNotFound" : self = .userGroupNotFoundFault(try UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ClusterQuotaForCustomerExceeded": return try await ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCacheClusterCapacity": return try await InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeGroupsPerReplicationGroupQuotaExceeded": return try await NodeGroupsPerReplicationGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForClusterExceeded": return try await NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupAlreadyExists": return try await ReplicationGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
-    case clusterQuotaForCustomerExceededFault(ClusterQuotaForCustomerExceededFault)
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case insufficientCacheClusterCapacityFault(InsufficientCacheClusterCapacityFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidUserGroupStateFault(InvalidUserGroupStateFault)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case nodeGroupsPerReplicationGroupQuotaExceededFault(NodeGroupsPerReplicationGroupQuotaExceededFault)
-    case nodeQuotaForClusterExceededFault(NodeQuotaForClusterExceededFault)
-    case nodeQuotaForCustomerExceededFault(NodeQuotaForCustomerExceededFault)
-    case replicationGroupAlreadyExistsFault(ReplicationGroupAlreadyExistsFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case userGroupNotFoundFault(UserGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -6161,7 +6052,7 @@ public struct CreateReplicationGroupOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -6178,7 +6069,7 @@ extension CreateReplicationGroupOutputResponseBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateReplicationGroupResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -6238,7 +6129,7 @@ public struct CreateSnapshotInput: Swift.Equatable {
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     public var tags: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         cacheClusterId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil,
@@ -6271,7 +6162,7 @@ extension CreateSnapshotInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -6303,48 +6194,28 @@ extension CreateSnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension CreateSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotAlreadyExistsFault" : self = .snapshotAlreadyExistsFault(try SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotFeatureNotSupportedFault" : self = .snapshotFeatureNotSupportedFault(try SnapshotFeatureNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotQuotaExceededFault" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotAlreadyExistsFault": return try await SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotFeatureNotSupportedFault": return try await SnapshotFeatureNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceededFault": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case snapshotAlreadyExistsFault(SnapshotAlreadyExistsFault)
-    case snapshotFeatureNotSupportedFault(SnapshotFeatureNotSupportedFault)
-    case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
@@ -6358,7 +6229,7 @@ public struct CreateSnapshotOutputResponse: Swift.Equatable {
     /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
     public var snapshot: ElastiCacheClientTypes.Snapshot?
 
-    public init (
+    public init(
         snapshot: ElastiCacheClientTypes.Snapshot? = nil
     )
     {
@@ -6375,7 +6246,7 @@ extension CreateSnapshotOutputResponseBody: Swift.Decodable {
         case snapshot = "Snapshot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateSnapshotResult"))
         let snapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Snapshot.self, forKey: .snapshot)
@@ -6439,7 +6310,7 @@ public struct CreateUserGroupInput: Swift.Equatable {
     /// The list of user IDs that belong to the user group.
     public var userIds: [Swift.String]?
 
-    public init (
+    public init(
         engine: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil,
         userGroupId: Swift.String? = nil,
@@ -6468,7 +6339,7 @@ extension CreateUserGroupInputBody: Swift.Decodable {
         case userIds = "UserIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
         userGroupId = userGroupIdDecoded
@@ -6515,44 +6386,26 @@ extension CreateUserGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateUserGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateUserGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DefaultUserRequired" : self = .defaultUserRequired(try DefaultUserRequired(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateUserName" : self = .duplicateUserNameFault(try DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupAlreadyExists" : self = .userGroupAlreadyExistsFault(try UserGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupQuotaExceeded" : self = .userGroupQuotaExceededFault(try UserGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DefaultUserRequired": return try await DefaultUserRequired(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupAlreadyExists": return try await UserGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupQuotaExceeded": return try await UserGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateUserGroupOutputError: Swift.Error, Swift.Equatable {
-    case defaultUserRequired(DefaultUserRequired)
-    case duplicateUserNameFault(DuplicateUserNameFault)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case userGroupAlreadyExistsFault(UserGroupAlreadyExistsFault)
-    case userGroupQuotaExceededFault(UserGroupQuotaExceededFault)
-    case userNotFoundFault(UserNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -6594,7 +6447,7 @@ public struct CreateUserGroupOutputResponse: Swift.Equatable {
     /// The list of user IDs that belong to the user group.
     public var userIds: [Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         engine: Swift.String? = nil,
         minimumEngineVersion: Swift.String? = nil,
@@ -6639,7 +6492,7 @@ extension CreateUserGroupOutputResponseBody: Swift.Decodable {
         case userIds = "UserIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateUserGroupResult"))
         let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
@@ -6773,7 +6626,7 @@ public struct CreateUserInput: Swift.Equatable {
     /// This member is required.
     public var userName: Swift.String?
 
-    public init (
+    public init(
         accessString: Swift.String? = nil,
         authenticationMode: ElastiCacheClientTypes.AuthenticationMode? = nil,
         engine: Swift.String? = nil,
@@ -6818,7 +6671,7 @@ extension CreateUserInputBody: Swift.Decodable {
         case userName = "UserName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
         userId = userIdDecoded
@@ -6873,42 +6726,25 @@ extension CreateUserInputBody: Swift.Decodable {
     }
 }
 
-extension CreateUserOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateUserOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateUserName" : self = .duplicateUserNameFault(try DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserAlreadyExists" : self = .userAlreadyExistsFault(try UserAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserQuotaExceeded" : self = .userQuotaExceededFault(try UserQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserAlreadyExists": return try await UserAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserQuotaExceeded": return try await UserQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateUserOutputError: Swift.Error, Swift.Equatable {
-    case duplicateUserNameFault(DuplicateUserNameFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case userAlreadyExistsFault(UserAlreadyExistsFault)
-    case userQuotaExceededFault(UserQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
@@ -6954,7 +6790,7 @@ public struct CreateUserOutputResponse: Swift.Equatable {
     /// The username of the user.
     public var userName: Swift.String?
 
-    public init (
+    public init(
         accessString: Swift.String? = nil,
         arn: Swift.String? = nil,
         authentication: ElastiCacheClientTypes.Authentication? = nil,
@@ -7003,7 +6839,7 @@ extension CreateUserOutputResponseBody: Swift.Decodable {
         case userName = "UserName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateUserResult"))
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
@@ -7060,7 +6896,7 @@ extension ElastiCacheClientTypes.CustomerNodeEndpoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -7077,7 +6913,7 @@ extension ElastiCacheClientTypes {
         /// The port of the node endpoint
         public var port: Swift.Int?
 
-        public init (
+        public init(
             address: Swift.String? = nil,
             port: Swift.Int? = nil
         )
@@ -7183,7 +7019,7 @@ public struct DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
     /// This member is required.
     public var nodeGroupCount: Swift.Int
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         globalNodeGroupsToRemove: [Swift.String]? = nil,
         globalNodeGroupsToRetain: [Swift.String]? = nil,
@@ -7216,7 +7052,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         case nodeGroupCount = "NodeGroupCount"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -7265,36 +7101,22 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DecreaseNodeGroupsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DecreaseNodeGroupsInGlobalReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DecreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
@@ -7310,7 +7132,7 @@ public struct DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse: Swift.Eq
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
     public var globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 
-    public init (
+    public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     )
     {
@@ -7327,7 +7149,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.De
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DecreaseNodeGroupsInGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
@@ -7407,7 +7229,7 @@ public struct DecreaseReplicaCountInput: Swift.Equatable {
     /// This member is required.
     public var replicationGroupId: Swift.String?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         newReplicaCount: Swift.Int? = nil,
         replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]? = nil,
@@ -7440,7 +7262,7 @@ extension DecreaseReplicaCountInputBody: Swift.Decodable {
         case replicationGroupId = "ReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -7489,52 +7311,30 @@ extension DecreaseReplicaCountInputBody: Swift.Decodable {
     }
 }
 
-extension DecreaseReplicaCountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DecreaseReplicaCountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClusterQuotaForCustomerExceeded" : self = .clusterQuotaForCustomerExceededFault(try ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCacheClusterCapacity" : self = .insufficientCacheClusterCapacityFault(try InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeGroupsPerReplicationGroupQuotaExceeded" : self = .nodeGroupsPerReplicationGroupQuotaExceededFault(try NodeGroupsPerReplicationGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForCustomerExceeded" : self = .nodeQuotaForCustomerExceededFault(try NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoOperationFault" : self = .noOperationFault(try NoOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DecreaseReplicaCountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ClusterQuotaForCustomerExceeded": return try await ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCacheClusterCapacity": return try await InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeGroupsPerReplicationGroupQuotaExceeded": return try await NodeGroupsPerReplicationGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoOperationFault": return try await NoOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DecreaseReplicaCountOutputError: Swift.Error, Swift.Equatable {
-    case clusterQuotaForCustomerExceededFault(ClusterQuotaForCustomerExceededFault)
-    case insufficientCacheClusterCapacityFault(InsufficientCacheClusterCapacityFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case nodeGroupsPerReplicationGroupQuotaExceededFault(NodeGroupsPerReplicationGroupQuotaExceededFault)
-    case nodeQuotaForCustomerExceededFault(NodeQuotaForCustomerExceededFault)
-    case noOperationFault(NoOperationFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DecreaseReplicaCountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DecreaseReplicaCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -7548,7 +7348,7 @@ public struct DecreaseReplicaCountOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -7565,7 +7365,7 @@ extension DecreaseReplicaCountOutputResponseBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DecreaseReplicaCountResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -7574,37 +7374,40 @@ extension DecreaseReplicaCountOutputResponseBody: Swift.Decodable {
 }
 
 extension DefaultUserAssociatedToUserGroupFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DefaultUserAssociatedToUserGroupFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The default user assigned to the user group.
-public struct DefaultUserAssociatedToUserGroupFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DefaultUserAssociatedToUserGroupFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DefaultUserAssociatedToUserGroup" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7617,7 +7420,7 @@ extension DefaultUserAssociatedToUserGroupFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7625,37 +7428,40 @@ extension DefaultUserAssociatedToUserGroupFaultBody: Swift.Decodable {
 }
 
 extension DefaultUserRequired {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DefaultUserRequiredBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You must add default user to a user group.
-public struct DefaultUserRequired: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DefaultUserRequired" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7668,7 +7474,7 @@ extension DefaultUserRequiredBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7703,7 +7509,7 @@ public struct DeleteCacheClusterInput: Swift.Equatable {
     /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cluster immediately afterward.
     public var finalSnapshotIdentifier: Swift.String?
 
-    public init (
+    public init(
         cacheClusterId: Swift.String? = nil,
         finalSnapshotIdentifier: Swift.String? = nil
     )
@@ -7724,7 +7530,7 @@ extension DeleteCacheClusterInputBody: Swift.Decodable {
         case finalSnapshotIdentifier = "FinalSnapshotIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -7733,42 +7539,25 @@ extension DeleteCacheClusterInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteCacheClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteCacheClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotAlreadyExistsFault" : self = .snapshotAlreadyExistsFault(try SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotFeatureNotSupportedFault" : self = .snapshotFeatureNotSupportedFault(try SnapshotFeatureNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotQuotaExceededFault" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotAlreadyExistsFault": return try await SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotFeatureNotSupportedFault": return try await SnapshotFeatureNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceededFault": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteCacheClusterOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case snapshotAlreadyExistsFault(SnapshotAlreadyExistsFault)
-    case snapshotFeatureNotSupportedFault(SnapshotFeatureNotSupportedFault)
-    case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
@@ -7782,7 +7571,7 @@ public struct DeleteCacheClusterOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
-    public init (
+    public init(
         cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
     )
     {
@@ -7799,7 +7588,7 @@ extension DeleteCacheClusterOutputResponseBody: Swift.Decodable {
         case cacheCluster = "CacheCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteCacheClusterResult"))
         let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
@@ -7830,7 +7619,7 @@ public struct DeleteCacheParameterGroupInput: Swift.Equatable {
     /// This member is required.
     public var cacheParameterGroupName: Swift.String?
 
-    public init (
+    public init(
         cacheParameterGroupName: Swift.String? = nil
     )
     {
@@ -7847,48 +7636,34 @@ extension DeleteCacheParameterGroupInputBody: Swift.Decodable {
         case cacheParameterGroupName = "CacheParameterGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
     }
 }
 
-extension DeleteCacheParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteCacheParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheParameterGroupState" : self = .invalidCacheParameterGroupStateFault(try InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheParameterGroupState": return try await InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case invalidCacheParameterGroupStateFault(InvalidCacheParameterGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteCacheParameterGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteCacheSecurityGroupInput: Swift.Encodable {
@@ -7914,7 +7689,7 @@ public struct DeleteCacheSecurityGroupInput: Swift.Equatable {
     /// This member is required.
     public var cacheSecurityGroupName: Swift.String?
 
-    public init (
+    public init(
         cacheSecurityGroupName: Swift.String? = nil
     )
     {
@@ -7931,48 +7706,34 @@ extension DeleteCacheSecurityGroupInputBody: Swift.Decodable {
         case cacheSecurityGroupName = "CacheSecurityGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSecurityGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSecurityGroupName)
         cacheSecurityGroupName = cacheSecurityGroupNameDecoded
     }
 }
 
-extension DeleteCacheSecurityGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteCacheSecurityGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheSecurityGroupState" : self = .invalidCacheSecurityGroupStateFault(try InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteCacheSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteCacheSecurityGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case invalidCacheSecurityGroupStateFault(InvalidCacheSecurityGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteCacheSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteCacheSecurityGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteCacheSubnetGroupInput: Swift.Encodable {
@@ -7998,7 +7759,7 @@ public struct DeleteCacheSubnetGroupInput: Swift.Equatable {
     /// This member is required.
     public var cacheSubnetGroupName: Swift.String?
 
-    public init (
+    public init(
         cacheSubnetGroupName: Swift.String? = nil
     )
     {
@@ -8015,44 +7776,32 @@ extension DeleteCacheSubnetGroupInputBody: Swift.Decodable {
         case cacheSubnetGroupName = "CacheSubnetGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSubnetGroupName)
         cacheSubnetGroupName = cacheSubnetGroupNameDecoded
     }
 }
 
-extension DeleteCacheSubnetGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteCacheSubnetGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheSubnetGroupInUse" : self = .cacheSubnetGroupInUse(try CacheSubnetGroupInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetGroupNotFoundFault" : self = .cacheSubnetGroupNotFoundFault(try CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSubnetGroupInUse": return try await CacheSubnetGroupInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteCacheSubnetGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheSubnetGroupInUse(CacheSubnetGroupInUse)
-    case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteCacheSubnetGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteGlobalReplicationGroupInput: Swift.Encodable {
@@ -8083,7 +7832,7 @@ public struct DeleteGlobalReplicationGroupInput: Swift.Equatable {
     /// This member is required.
     public var retainPrimaryReplicationGroup: Swift.Bool
 
-    public init (
+    public init(
         globalReplicationGroupId: Swift.String? = nil,
         retainPrimaryReplicationGroup: Swift.Bool = false
     )
@@ -8104,7 +7853,7 @@ extension DeleteGlobalReplicationGroupInputBody: Swift.Decodable {
         case retainPrimaryReplicationGroup = "RetainPrimaryReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -8113,34 +7862,21 @@ extension DeleteGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteGlobalReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
@@ -8156,7 +7892,7 @@ public struct DeleteGlobalReplicationGroupOutputResponse: Swift.Equatable {
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
     public var globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 
-    public init (
+    public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     )
     {
@@ -8173,7 +7909,7 @@ extension DeleteGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
@@ -8214,7 +7950,7 @@ public struct DeleteReplicationGroupInput: Swift.Equatable {
     /// If set to true, all of the read replicas are deleted, but the primary node is retained.
     public var retainPrimaryCluster: Swift.Bool?
 
-    public init (
+    public init(
         finalSnapshotIdentifier: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil,
         retainPrimaryCluster: Swift.Bool? = nil
@@ -8239,7 +7975,7 @@ extension DeleteReplicationGroupInputBody: Swift.Decodable {
         case retainPrimaryCluster = "RetainPrimaryCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -8250,42 +7986,25 @@ extension DeleteReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotAlreadyExistsFault" : self = .snapshotAlreadyExistsFault(try SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotFeatureNotSupportedFault" : self = .snapshotFeatureNotSupportedFault(try SnapshotFeatureNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotQuotaExceededFault" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotAlreadyExistsFault": return try await SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotFeatureNotSupportedFault": return try await SnapshotFeatureNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotQuotaExceededFault": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case snapshotAlreadyExistsFault(SnapshotAlreadyExistsFault)
-    case snapshotFeatureNotSupportedFault(SnapshotFeatureNotSupportedFault)
-    case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -8299,7 +8018,7 @@ public struct DeleteReplicationGroupOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -8316,7 +8035,7 @@ extension DeleteReplicationGroupOutputResponseBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteReplicationGroupResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -8347,7 +8066,7 @@ public struct DeleteSnapshotInput: Swift.Equatable {
     /// This member is required.
     public var snapshotName: Swift.String?
 
-    public init (
+    public init(
         snapshotName: Swift.String? = nil
     )
     {
@@ -8364,43 +8083,29 @@ extension DeleteSnapshotInputBody: Swift.Decodable {
         case snapshotName = "SnapshotName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotName)
         snapshotName = snapshotNameDecoded
     }
 }
 
-extension DeleteSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSnapshotState" : self = .invalidSnapshotStateFault(try InvalidSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSnapshotState": return try await InvalidSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidSnapshotStateFault(InvalidSnapshotStateFault)
-    case snapshotNotFoundFault(SnapshotNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
@@ -8414,7 +8119,7 @@ public struct DeleteSnapshotOutputResponse: Swift.Equatable {
     /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
     public var snapshot: ElastiCacheClientTypes.Snapshot?
 
-    public init (
+    public init(
         snapshot: ElastiCacheClientTypes.Snapshot? = nil
     )
     {
@@ -8431,7 +8136,7 @@ extension DeleteSnapshotOutputResponseBody: Swift.Decodable {
         case snapshot = "Snapshot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteSnapshotResult"))
         let snapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Snapshot.self, forKey: .snapshot)
@@ -8461,7 +8166,7 @@ public struct DeleteUserGroupInput: Swift.Equatable {
     /// This member is required.
     public var userGroupId: Swift.String?
 
-    public init (
+    public init(
         userGroupId: Swift.String? = nil
     )
     {
@@ -8478,43 +8183,29 @@ extension DeleteUserGroupInputBody: Swift.Decodable {
         case userGroupId = "UserGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
         userGroupId = userGroupIdDecoded
     }
 }
 
-extension DeleteUserGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteUserGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidUserGroupState" : self = .invalidUserGroupStateFault(try InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupNotFound" : self = .userGroupNotFoundFault(try UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteUserGroupOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidUserGroupStateFault(InvalidUserGroupStateFault)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case userGroupNotFoundFault(UserGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -8556,7 +8247,7 @@ public struct DeleteUserGroupOutputResponse: Swift.Equatable {
     /// The list of user IDs that belong to the user group.
     public var userIds: [Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         engine: Swift.String? = nil,
         minimumEngineVersion: Swift.String? = nil,
@@ -8601,7 +8292,7 @@ extension DeleteUserGroupOutputResponseBody: Swift.Decodable {
         case userIds = "UserIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteUserGroupResult"))
         let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
@@ -8679,7 +8370,7 @@ public struct DeleteUserInput: Swift.Equatable {
     /// This member is required.
     public var userId: Swift.String?
 
-    public init (
+    public init(
         userId: Swift.String? = nil
     )
     {
@@ -8696,45 +8387,30 @@ extension DeleteUserInputBody: Swift.Decodable {
         case userId = "UserId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
         userId = userIdDecoded
     }
 }
 
-extension DeleteUserOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteUserOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DefaultUserAssociatedToUserGroup" : self = .defaultUserAssociatedToUserGroupFault(try DefaultUserAssociatedToUserGroupFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidUserState" : self = .invalidUserStateFault(try InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DefaultUserAssociatedToUserGroup": return try await DefaultUserAssociatedToUserGroupFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserState": return try await InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteUserOutputError: Swift.Error, Swift.Equatable {
-    case defaultUserAssociatedToUserGroupFault(DefaultUserAssociatedToUserGroupFault)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidUserStateFault(InvalidUserStateFault)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case userNotFoundFault(UserNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
@@ -8780,7 +8456,7 @@ public struct DeleteUserOutputResponse: Swift.Equatable {
     /// The username of the user.
     public var userName: Swift.String?
 
-    public init (
+    public init(
         accessString: Swift.String? = nil,
         arn: Swift.String? = nil,
         authentication: ElastiCacheClientTypes.Authentication? = nil,
@@ -8829,7 +8505,7 @@ extension DeleteUserOutputResponseBody: Swift.Decodable {
         case userName = "UserName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteUserResult"))
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
@@ -8912,7 +8588,7 @@ public struct DescribeCacheClustersInput: Swift.Equatable {
     /// An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
     public var showCacheNodeInfo: Swift.Bool?
 
-    public init (
+    public init(
         cacheClusterId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
@@ -8945,7 +8621,7 @@ extension DescribeCacheClustersInputBody: Swift.Decodable {
         case showCacheNodeInfo = "ShowCacheNodeInfo"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -8960,48 +8636,21 @@ extension DescribeCacheClustersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCacheClustersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeCacheClustersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCacheClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DescribeCacheClustersOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .cacheClusterNotFoundFault: return "CacheClusterNotFound"
-        case .invalidParameterCombinationException: return "InvalidParameterCombination"
-        case .invalidParameterValueException: return "InvalidParameterValue"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeCacheClustersOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeCacheClustersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCacheClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheClusters = output.cacheClusters
@@ -9020,7 +8669,7 @@ public struct DescribeCacheClustersOutputResponse: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         cacheClusters: [ElastiCacheClientTypes.CacheCluster]? = nil,
         marker: Swift.String? = nil
     )
@@ -9041,7 +8690,7 @@ extension DescribeCacheClustersOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeCacheClustersResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -9121,7 +8770,7 @@ public struct DescribeCacheEngineVersionsInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         cacheParameterGroupFamily: Swift.String? = nil,
         defaultOnly: Swift.Bool = false,
         engine: Swift.String? = nil,
@@ -9158,7 +8807,7 @@ extension DescribeCacheEngineVersionsInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -9175,28 +8824,18 @@ extension DescribeCacheEngineVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCacheEngineVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeCacheEngineVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCacheEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeCacheEngineVersionsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCacheEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCacheEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheEngineVersions = output.cacheEngineVersions
@@ -9215,7 +8854,7 @@ public struct DescribeCacheEngineVersionsOutputResponse: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         cacheEngineVersions: [ElastiCacheClientTypes.CacheEngineVersion]? = nil,
         marker: Swift.String? = nil
     )
@@ -9236,7 +8875,7 @@ extension DescribeCacheEngineVersionsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeCacheEngineVersionsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -9295,7 +8934,7 @@ public struct DescribeCacheParameterGroupsInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         cacheParameterGroupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
@@ -9320,7 +8959,7 @@ extension DescribeCacheParameterGroupsInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
@@ -9331,34 +8970,21 @@ extension DescribeCacheParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCacheParameterGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeCacheParameterGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCacheParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeCacheParameterGroupsOutputError: Swift.Error, Swift.Equatable {
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCacheParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCacheParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroups = output.cacheParameterGroups
@@ -9377,7 +9003,7 @@ public struct DescribeCacheParameterGroupsOutputResponse: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         cacheParameterGroups: [ElastiCacheClientTypes.CacheParameterGroup]? = nil,
         marker: Swift.String? = nil
     )
@@ -9398,7 +9024,7 @@ extension DescribeCacheParameterGroupsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeCacheParameterGroupsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -9463,7 +9089,7 @@ public struct DescribeCacheParametersInput: Swift.Equatable {
     /// The parameter types to return. Valid values: user | system | engine-default
     public var source: Swift.String?
 
-    public init (
+    public init(
         cacheParameterGroupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
@@ -9492,7 +9118,7 @@ extension DescribeCacheParametersInputBody: Swift.Decodable {
         case source = "Source"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
@@ -9505,34 +9131,21 @@ extension DescribeCacheParametersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCacheParametersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeCacheParametersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCacheParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeCacheParametersOutputError: Swift.Error, Swift.Equatable {
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCacheParametersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCacheParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheNodeTypeSpecificParameters = output.cacheNodeTypeSpecificParameters
@@ -9555,7 +9168,7 @@ public struct DescribeCacheParametersOutputResponse: Swift.Equatable {
     /// A list of [Parameter] instances.
     public var parameters: [ElastiCacheClientTypes.Parameter]?
 
-    public init (
+    public init(
         cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]? = nil,
         marker: Swift.String? = nil,
         parameters: [ElastiCacheClientTypes.Parameter]? = nil
@@ -9580,7 +9193,7 @@ extension DescribeCacheParametersOutputResponseBody: Swift.Decodable {
         case parameters = "Parameters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeCacheParametersResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -9658,7 +9271,7 @@ public struct DescribeCacheSecurityGroupsInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         cacheSecurityGroupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
@@ -9683,7 +9296,7 @@ extension DescribeCacheSecurityGroupsInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSecurityGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSecurityGroupName)
         cacheSecurityGroupName = cacheSecurityGroupNameDecoded
@@ -9694,34 +9307,21 @@ extension DescribeCacheSecurityGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCacheSecurityGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeCacheSecurityGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCacheSecurityGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeCacheSecurityGroupsOutputError: Swift.Error, Swift.Equatable {
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCacheSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCacheSecurityGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroups = output.cacheSecurityGroups
@@ -9740,7 +9340,7 @@ public struct DescribeCacheSecurityGroupsOutputResponse: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         cacheSecurityGroups: [ElastiCacheClientTypes.CacheSecurityGroup]? = nil,
         marker: Swift.String? = nil
     )
@@ -9761,7 +9361,7 @@ extension DescribeCacheSecurityGroupsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeCacheSecurityGroupsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -9820,7 +9420,7 @@ public struct DescribeCacheSubnetGroupsInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         cacheSubnetGroupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
@@ -9845,7 +9445,7 @@ extension DescribeCacheSubnetGroupsInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSubnetGroupName)
         cacheSubnetGroupName = cacheSubnetGroupNameDecoded
@@ -9856,30 +9456,19 @@ extension DescribeCacheSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCacheSubnetGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeCacheSubnetGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheSubnetGroupNotFoundFault" : self = .cacheSubnetGroupNotFoundFault(try CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCacheSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeCacheSubnetGroupsOutputError: Swift.Error, Swift.Equatable {
-    case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCacheSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCacheSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroups = output.cacheSubnetGroups
@@ -9898,7 +9487,7 @@ public struct DescribeCacheSubnetGroupsOutputResponse: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         cacheSubnetGroups: [ElastiCacheClientTypes.CacheSubnetGroup]? = nil,
         marker: Swift.String? = nil
     )
@@ -9919,7 +9508,7 @@ extension DescribeCacheSubnetGroupsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeCacheSubnetGroupsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -9979,7 +9568,7 @@ public struct DescribeEngineDefaultParametersInput: Swift.Equatable {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
     public var maxRecords: Swift.Int?
 
-    public init (
+    public init(
         cacheParameterGroupFamily: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
@@ -10004,7 +9593,7 @@ extension DescribeEngineDefaultParametersInputBody: Swift.Decodable {
         case maxRecords = "MaxRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupFamilyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupFamily)
         cacheParameterGroupFamily = cacheParameterGroupFamilyDecoded
@@ -10015,32 +9604,20 @@ extension DescribeEngineDefaultParametersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEngineDefaultParametersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEngineDefaultParametersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEngineDefaultParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEngineDefaultParametersOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEngineDefaultParametersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEngineDefaultParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.engineDefaults = output.engineDefaults
@@ -10054,7 +9631,7 @@ public struct DescribeEngineDefaultParametersOutputResponse: Swift.Equatable {
     /// Represents the output of a DescribeEngineDefaultParameters operation.
     public var engineDefaults: ElastiCacheClientTypes.EngineDefaults?
 
-    public init (
+    public init(
         engineDefaults: ElastiCacheClientTypes.EngineDefaults? = nil
     )
     {
@@ -10071,7 +9648,7 @@ extension DescribeEngineDefaultParametersOutputResponseBody: Swift.Decodable {
         case engineDefaults = "EngineDefaults"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEngineDefaultParametersResult"))
         let engineDefaultsDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.EngineDefaults.self, forKey: .engineDefaults)
@@ -10131,7 +9708,7 @@ public struct DescribeEventsInput: Swift.Equatable {
     /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. Example: 2017-03-30T07:03:49.555Z
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         duration: Swift.Int? = nil,
         endTime: ClientRuntime.Date? = nil,
         marker: Swift.String? = nil,
@@ -10172,7 +9749,7 @@ extension DescribeEventsInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentifier)
         sourceIdentifier = sourceIdentifierDecoded
@@ -10191,32 +9768,20 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEventsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEventsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
@@ -10235,7 +9800,7 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         events: [ElastiCacheClientTypes.Event]? = nil,
         marker: Swift.String? = nil
     )
@@ -10256,7 +9821,7 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEventsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -10319,7 +9884,7 @@ public struct DescribeGlobalReplicationGroupsInput: Swift.Equatable {
     /// Returns the list of members that comprise the Global datastore.
     public var showMemberInfo: Swift.Bool?
 
-    public init (
+    public init(
         globalReplicationGroupId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
@@ -10348,7 +9913,7 @@ extension DescribeGlobalReplicationGroupsInputBody: Swift.Decodable {
         case showMemberInfo = "ShowMemberInfo"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -10361,34 +9926,21 @@ extension DescribeGlobalReplicationGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeGlobalReplicationGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeGlobalReplicationGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeGlobalReplicationGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeGlobalReplicationGroupsOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeGlobalReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeGlobalReplicationGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroups = output.globalReplicationGroups
@@ -10406,7 +9958,7 @@ public struct DescribeGlobalReplicationGroupsOutputResponse: Swift.Equatable {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
     public var marker: Swift.String?
 
-    public init (
+    public init(
         globalReplicationGroups: [ElastiCacheClientTypes.GlobalReplicationGroup]? = nil,
         marker: Swift.String? = nil
     )
@@ -10427,7 +9979,7 @@ extension DescribeGlobalReplicationGroupsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeGlobalReplicationGroupsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -10486,7 +10038,7 @@ public struct DescribeReplicationGroupsInput: Swift.Equatable {
     /// The identifier for the replication group to be described. This parameter is not case sensitive. If you do not specify this parameter, information about all replication groups is returned.
     public var replicationGroupId: Swift.String?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         replicationGroupId: Swift.String? = nil
@@ -10511,7 +10063,7 @@ extension DescribeReplicationGroupsInputBody: Swift.Decodable {
         case replicationGroupId = "ReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -10522,48 +10074,21 @@ extension DescribeReplicationGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeReplicationGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeReplicationGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeReplicationGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DescribeReplicationGroupsOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .invalidParameterCombinationException: return "InvalidParameterCombination"
-        case .invalidParameterValueException: return "InvalidParameterValue"
-        case .replicationGroupNotFoundFault: return "ReplicationGroupNotFoundFault"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeReplicationGroupsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeReplicationGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -10582,7 +10107,7 @@ public struct DescribeReplicationGroupsOutputResponse: Swift.Equatable {
     /// A list of replication groups. Each item in the list contains detailed information about one replication group.
     public var replicationGroups: [ElastiCacheClientTypes.ReplicationGroup]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         replicationGroups: [ElastiCacheClientTypes.ReplicationGroup]? = nil
     )
@@ -10603,7 +10128,7 @@ extension DescribeReplicationGroupsOutputResponseBody: Swift.Decodable {
         case replicationGroups = "ReplicationGroups"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeReplicationGroupsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -10726,7 +10251,7 @@ public struct DescribeReservedCacheNodesInput: Swift.Equatable {
     /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
     public var reservedCacheNodesOfferingId: Swift.String?
 
-    public init (
+    public init(
         cacheNodeType: Swift.String? = nil,
         duration: Swift.String? = nil,
         marker: Swift.String? = nil,
@@ -10771,7 +10296,7 @@ extension DescribeReservedCacheNodesInputBody: Swift.Decodable {
         case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reservedCacheNodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedCacheNodeId)
         reservedCacheNodeId = reservedCacheNodeIdDecoded
@@ -10883,7 +10408,7 @@ public struct DescribeReservedCacheNodesOfferingsInput: Swift.Equatable {
     /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
     public var reservedCacheNodesOfferingId: Swift.String?
 
-    public init (
+    public init(
         cacheNodeType: Swift.String? = nil,
         duration: Swift.String? = nil,
         marker: Swift.String? = nil,
@@ -10924,7 +10449,7 @@ extension DescribeReservedCacheNodesOfferingsInputBody: Swift.Decodable {
         case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reservedCacheNodesOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedCacheNodesOfferingId)
         reservedCacheNodesOfferingId = reservedCacheNodesOfferingIdDecoded
@@ -10943,34 +10468,21 @@ extension DescribeReservedCacheNodesOfferingsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeReservedCacheNodesOfferingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeReservedCacheNodesOfferingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReservedCacheNodesOfferingNotFound" : self = .reservedCacheNodesOfferingNotFoundFault(try ReservedCacheNodesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeReservedCacheNodesOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodesOfferingNotFound": return try await ReservedCacheNodesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeReservedCacheNodesOfferingsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case reservedCacheNodesOfferingNotFoundFault(ReservedCacheNodesOfferingNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeReservedCacheNodesOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeReservedCacheNodesOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -10989,7 +10501,7 @@ public struct DescribeReservedCacheNodesOfferingsOutputResponse: Swift.Equatable
     /// A list of reserved cache node offerings. Each element in the list contains detailed information about one offering.
     public var reservedCacheNodesOfferings: [ElastiCacheClientTypes.ReservedCacheNodesOffering]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         reservedCacheNodesOfferings: [ElastiCacheClientTypes.ReservedCacheNodesOffering]? = nil
     )
@@ -11010,7 +10522,7 @@ extension DescribeReservedCacheNodesOfferingsOutputResponseBody: Swift.Decodable
         case reservedCacheNodesOfferings = "ReservedCacheNodesOfferings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeReservedCacheNodesOfferingsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -11037,34 +10549,21 @@ extension DescribeReservedCacheNodesOfferingsOutputResponseBody: Swift.Decodable
     }
 }
 
-extension DescribeReservedCacheNodesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeReservedCacheNodesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReservedCacheNodeNotFound" : self = .reservedCacheNodeNotFoundFault(try ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeReservedCacheNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeReservedCacheNodesOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case reservedCacheNodeNotFoundFault(ReservedCacheNodeNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeReservedCacheNodesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeReservedCacheNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -11083,7 +10582,7 @@ public struct DescribeReservedCacheNodesOutputResponse: Swift.Equatable {
     /// A list of reserved cache nodes. Each element in the list contains detailed information about one node.
     public var reservedCacheNodes: [ElastiCacheClientTypes.ReservedCacheNode]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         reservedCacheNodes: [ElastiCacheClientTypes.ReservedCacheNode]? = nil
     )
@@ -11104,7 +10603,7 @@ extension DescribeReservedCacheNodesOutputResponseBody: Swift.Decodable {
         case reservedCacheNodes = "ReservedCacheNodes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeReservedCacheNodesResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -11176,7 +10675,7 @@ public struct DescribeServiceUpdatesInput: Swift.Equatable {
     /// The status of the service update
     public var serviceUpdateStatus: [ElastiCacheClientTypes.ServiceUpdateStatus]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         serviceUpdateName: Swift.String? = nil,
@@ -11205,7 +10704,7 @@ extension DescribeServiceUpdatesInputBody: Swift.Decodable {
         case serviceUpdateStatus = "ServiceUpdateStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceUpdateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceUpdateName)
         serviceUpdateName = serviceUpdateNameDecoded
@@ -11235,34 +10734,21 @@ extension DescribeServiceUpdatesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeServiceUpdatesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeServiceUpdatesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUpdateNotFoundFault" : self = .serviceUpdateNotFoundFault(try ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeServiceUpdatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeServiceUpdatesOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case serviceUpdateNotFoundFault(ServiceUpdateNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeServiceUpdatesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeServiceUpdatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -11280,7 +10766,7 @@ public struct DescribeServiceUpdatesOutputResponse: Swift.Equatable {
     /// A list of service updates
     public var serviceUpdates: [ElastiCacheClientTypes.ServiceUpdate]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         serviceUpdates: [ElastiCacheClientTypes.ServiceUpdate]? = nil
     )
@@ -11301,7 +10787,7 @@ extension DescribeServiceUpdatesOutputResponseBody: Swift.Decodable {
         case serviceUpdates = "ServiceUpdates"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeServiceUpdatesResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -11380,7 +10866,7 @@ public struct DescribeSnapshotsInput: Swift.Equatable {
     /// If set to system, the output shows snapshots that were automatically created by ElastiCache. If set to user the output shows snapshots that were manually created. If omitted, the output shows both automatically and manually created snapshots.
     public var snapshotSource: Swift.String?
 
-    public init (
+    public init(
         cacheClusterId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
@@ -11421,7 +10907,7 @@ extension DescribeSnapshotsInputBody: Swift.Decodable {
         case snapshotSource = "SnapshotSource"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -11440,36 +10926,22 @@ extension DescribeSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeSnapshotsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeSnapshotsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeSnapshotsOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case snapshotNotFoundFault(SnapshotNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -11488,7 +10960,7 @@ public struct DescribeSnapshotsOutputResponse: Swift.Equatable {
     /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
     public var snapshots: [ElastiCacheClientTypes.Snapshot]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         snapshots: [ElastiCacheClientTypes.Snapshot]? = nil
     )
@@ -11509,7 +10981,7 @@ extension DescribeSnapshotsOutputResponseBody: Swift.Decodable {
         case snapshots = "Snapshots"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeSnapshotsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -11638,7 +11110,7 @@ public struct DescribeUpdateActionsInput: Swift.Equatable {
     /// The status of the update action.
     public var updateActionStatus: [ElastiCacheClientTypes.UpdateActionStatus]?
 
-    public init (
+    public init(
         cacheClusterIds: [Swift.String]? = nil,
         engine: Swift.String? = nil,
         marker: Swift.String? = nil,
@@ -11691,7 +11163,7 @@ extension DescribeUpdateActionsInputBody: Swift.Decodable {
         case updateActionStatus = "UpdateActionStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceUpdateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceUpdateName)
         serviceUpdateName = serviceUpdateNameDecoded
@@ -11784,32 +11256,20 @@ extension DescribeUpdateActionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeUpdateActionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeUpdateActionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeUpdateActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeUpdateActionsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeUpdateActionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeUpdateActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -11827,7 +11287,7 @@ public struct DescribeUpdateActionsOutputResponse: Swift.Equatable {
     /// Returns a list of update actions
     public var updateActions: [ElastiCacheClientTypes.UpdateAction]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         updateActions: [ElastiCacheClientTypes.UpdateAction]? = nil
     )
@@ -11848,7 +11308,7 @@ extension DescribeUpdateActionsOutputResponseBody: Swift.Decodable {
         case updateActions = "UpdateActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeUpdateActionsResult"))
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
@@ -11906,7 +11366,7 @@ public struct DescribeUserGroupsInput: Swift.Equatable {
     /// The ID of the user group.
     public var userGroupId: Swift.String?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         userGroupId: Swift.String? = nil
@@ -11931,7 +11391,7 @@ extension DescribeUserGroupsInputBody: Swift.Decodable {
         case userGroupId = "UserGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
         userGroupId = userGroupIdDecoded
@@ -11942,34 +11402,21 @@ extension DescribeUserGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeUserGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeUserGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupNotFound" : self = .userGroupNotFoundFault(try UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeUserGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeUserGroupsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case userGroupNotFoundFault(UserGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeUserGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeUserGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -11987,7 +11434,7 @@ public struct DescribeUserGroupsOutputResponse: Swift.Equatable {
     /// Returns a list of user groups.
     public var userGroups: [ElastiCacheClientTypes.UserGroup]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         userGroups: [ElastiCacheClientTypes.UserGroup]? = nil
     )
@@ -12008,7 +11455,7 @@ extension DescribeUserGroupsOutputResponseBody: Swift.Decodable {
         case userGroups = "UserGroups"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeUserGroupsResult"))
         if containerValues.contains(.userGroups) {
@@ -12085,7 +11532,7 @@ public struct DescribeUsersInput: Swift.Equatable {
     /// The ID of the user.
     public var userId: Swift.String?
 
-    public init (
+    public init(
         engine: Swift.String? = nil,
         filters: [ElastiCacheClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
@@ -12118,7 +11565,7 @@ extension DescribeUsersInputBody: Swift.Decodable {
         case userId = "UserId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -12150,34 +11597,21 @@ extension DescribeUsersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeUsersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeUsersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeUsersOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case userNotFoundFault(UserNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeUsersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -12195,7 +11629,7 @@ public struct DescribeUsersOutputResponse: Swift.Equatable {
     /// A list of users.
     public var users: [ElastiCacheClientTypes.User]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         users: [ElastiCacheClientTypes.User]? = nil
     )
@@ -12216,7 +11650,7 @@ extension DescribeUsersOutputResponseBody: Swift.Decodable {
         case users = "Users"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeUsersResult"))
         if containerValues.contains(.users) {
@@ -12259,7 +11693,7 @@ extension ElastiCacheClientTypes.DestinationDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudWatchLogsDetailsDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CloudWatchLogsDestinationDetails.self, forKey: .cloudWatchLogsDetails)
         cloudWatchLogsDetails = cloudWatchLogsDetailsDecoded
@@ -12276,7 +11710,7 @@ extension ElastiCacheClientTypes {
         /// The configuration details of the Kinesis Data Firehose destination.
         public var kinesisFirehoseDetails: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails?
 
-        public init (
+        public init(
             cloudWatchLogsDetails: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails? = nil,
             kinesisFirehoseDetails: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails? = nil
         )
@@ -12354,7 +11788,7 @@ public struct DisassociateGlobalReplicationGroupInput: Swift.Equatable {
     /// This member is required.
     public var replicationGroupRegion: Swift.String?
 
-    public init (
+    public init(
         globalReplicationGroupId: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil,
         replicationGroupRegion: Swift.String? = nil
@@ -12379,7 +11813,7 @@ extension DisassociateGlobalReplicationGroupInputBody: Swift.Decodable {
         case replicationGroupRegion = "ReplicationGroupRegion"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -12390,36 +11824,22 @@ extension DisassociateGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DisassociateGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DisassociateGlobalReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DisassociateGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisassociateGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
@@ -12435,7 +11855,7 @@ public struct DisassociateGlobalReplicationGroupOutputResponse: Swift.Equatable 
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
     public var globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 
-    public init (
+    public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     )
     {
@@ -12452,7 +11872,7 @@ extension DisassociateGlobalReplicationGroupOutputResponseBody: Swift.Decodable 
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DisassociateGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
@@ -12461,37 +11881,40 @@ extension DisassociateGlobalReplicationGroupOutputResponseBody: Swift.Decodable 
 }
 
 extension DuplicateUserNameFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DuplicateUserNameFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A user with this username already exists.
-public struct DuplicateUserNameFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DuplicateUserName" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12504,7 +11927,7 @@ extension DuplicateUserNameFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12531,7 +11954,7 @@ extension ElastiCacheClientTypes.EC2SecurityGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -12552,7 +11975,7 @@ extension ElastiCacheClientTypes {
         /// The status of the Amazon EC2 security group.
         public var status: Swift.String?
 
-        public init (
+        public init(
             ec2SecurityGroupName: Swift.String? = nil,
             ec2SecurityGroupOwnerId: Swift.String? = nil,
             status: Swift.String? = nil
@@ -12582,7 +12005,7 @@ extension ElastiCacheClientTypes.Endpoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -12599,7 +12022,7 @@ extension ElastiCacheClientTypes {
         /// The port number that the cache engine is listening on.
         public var port: Swift.Int
 
-        public init (
+        public init(
             address: Swift.String? = nil,
             port: Swift.Int = 0
         )
@@ -12653,7 +12076,7 @@ extension ElastiCacheClientTypes.EngineDefaults: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupFamilyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupFamily)
         cacheParameterGroupFamily = cacheParameterGroupFamilyDecoded
@@ -12705,14 +12128,14 @@ extension ElastiCacheClientTypes {
     public struct EngineDefaults: Swift.Equatable {
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         public var cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]?
-        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.x
+        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.x | redis7
         public var cacheParameterGroupFamily: Swift.String?
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: Swift.String?
         /// Contains a list of engine default parameters.
         public var parameters: [ElastiCacheClientTypes.Parameter]?
 
-        public init (
+        public init(
             cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]? = nil,
             cacheParameterGroupFamily: Swift.String? = nil,
             marker: Swift.String? = nil,
@@ -12752,7 +12175,7 @@ extension ElastiCacheClientTypes.Event: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentifier)
         sourceIdentifier = sourceIdentifierDecoded
@@ -12777,7 +12200,7 @@ extension ElastiCacheClientTypes {
         /// Specifies the origin of this event - a cluster, a parameter group, a security group, etc.
         public var sourceType: ElastiCacheClientTypes.SourceType?
 
-        public init (
+        public init(
             date: ClientRuntime.Date? = nil,
             message: Swift.String? = nil,
             sourceIdentifier: Swift.String? = nil,
@@ -12827,7 +12250,7 @@ public struct FailoverGlobalReplicationGroupInput: Swift.Equatable {
     /// This member is required.
     public var primaryReplicationGroupId: Swift.String?
 
-    public init (
+    public init(
         globalReplicationGroupId: Swift.String? = nil,
         primaryRegion: Swift.String? = nil,
         primaryReplicationGroupId: Swift.String? = nil
@@ -12852,7 +12275,7 @@ extension FailoverGlobalReplicationGroupInputBody: Swift.Decodable {
         case primaryReplicationGroupId = "PrimaryReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -12863,36 +12286,22 @@ extension FailoverGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension FailoverGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension FailoverGlobalReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum FailoverGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum FailoverGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension FailoverGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: FailoverGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
@@ -12908,7 +12317,7 @@ public struct FailoverGlobalReplicationGroupOutputResponse: Swift.Equatable {
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
     public var globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 
-    public init (
+    public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     )
     {
@@ -12925,7 +12334,7 @@ extension FailoverGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FailoverGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
@@ -12958,7 +12367,7 @@ extension ElastiCacheClientTypes.Filter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -12994,7 +12403,7 @@ extension ElastiCacheClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
         )
@@ -13022,7 +12431,7 @@ extension ElastiCacheClientTypes.GlobalNodeGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalNodeGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalNodeGroupId)
         globalNodeGroupId = globalNodeGroupIdDecoded
@@ -13039,7 +12448,7 @@ extension ElastiCacheClientTypes {
         /// The keyspace for this node group
         public var slots: Swift.String?
 
-        public init (
+        public init(
             globalNodeGroupId: Swift.String? = nil,
             slots: Swift.String? = nil
         )
@@ -13129,7 +12538,7 @@ extension ElastiCacheClientTypes.GlobalReplicationGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -13226,7 +12635,7 @@ extension ElastiCacheClientTypes {
         /// A flag that enables in-transit encryption when set to true. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
         public var transitEncryptionEnabled: Swift.Bool?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             atRestEncryptionEnabled: Swift.Bool? = nil,
             authTokenEnabled: Swift.Bool? = nil,
@@ -13261,37 +12670,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension GlobalReplicationGroupAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalReplicationGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Global datastore name already exists.
-public struct GlobalReplicationGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct GlobalReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GlobalReplicationGroupAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13304,7 +12716,7 @@ extension GlobalReplicationGroupAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13327,7 +12739,7 @@ extension ElastiCacheClientTypes.GlobalReplicationGroupInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -13344,7 +12756,7 @@ extension ElastiCacheClientTypes {
         /// The role of the replication group in a Global datastore. Can be primary or secondary.
         public var globalReplicationGroupMemberRole: Swift.String?
 
-        public init (
+        public init(
             globalReplicationGroupId: Swift.String? = nil,
             globalReplicationGroupMemberRole: Swift.String? = nil
         )
@@ -13384,7 +12796,7 @@ extension ElastiCacheClientTypes.GlobalReplicationGroupMember: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -13413,7 +12825,7 @@ extension ElastiCacheClientTypes {
         /// The status of the membership of the replication group.
         public var status: Swift.String?
 
-        public init (
+        public init(
             automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus? = nil,
             replicationGroupId: Swift.String? = nil,
             replicationGroupRegion: Swift.String? = nil,
@@ -13432,37 +12844,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension GlobalReplicationGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalReplicationGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Global datastore does not exist
-public struct GlobalReplicationGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct GlobalReplicationGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GlobalReplicationGroupNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13475,7 +12890,7 @@ extension GlobalReplicationGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13530,7 +12945,7 @@ public struct IncreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
     /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore
     public var regionalConfigurations: [ElastiCacheClientTypes.RegionalConfiguration]?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         globalReplicationGroupId: Swift.String? = nil,
         nodeGroupCount: Swift.Int = 0,
@@ -13559,7 +12974,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         case regionalConfigurations = "RegionalConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -13589,34 +13004,21 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension IncreaseNodeGroupsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension IncreaseNodeGroupsInGlobalReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IncreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
@@ -13632,7 +13034,7 @@ public struct IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse: Swift.Eq
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
     public var globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 
-    public init (
+    public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     )
     {
@@ -13649,7 +13051,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.De
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("IncreaseNodeGroupsInGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
@@ -13704,7 +13106,7 @@ public struct IncreaseReplicaCountInput: Swift.Equatable {
     /// This member is required.
     public var replicationGroupId: Swift.String?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         newReplicaCount: Swift.Int? = nil,
         replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]? = nil,
@@ -13733,7 +13135,7 @@ extension IncreaseReplicaCountInputBody: Swift.Decodable {
         case replicationGroupId = "ReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -13763,52 +13165,30 @@ extension IncreaseReplicaCountInputBody: Swift.Decodable {
     }
 }
 
-extension IncreaseReplicaCountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension IncreaseReplicaCountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClusterQuotaForCustomerExceeded" : self = .clusterQuotaForCustomerExceededFault(try ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCacheClusterCapacity" : self = .insufficientCacheClusterCapacityFault(try InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKMSKeyFault" : self = .invalidKMSKeyFault(try InvalidKMSKeyFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeGroupsPerReplicationGroupQuotaExceeded" : self = .nodeGroupsPerReplicationGroupQuotaExceededFault(try NodeGroupsPerReplicationGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForCustomerExceeded" : self = .nodeQuotaForCustomerExceededFault(try NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoOperationFault" : self = .noOperationFault(try NoOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum IncreaseReplicaCountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ClusterQuotaForCustomerExceeded": return try await ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCacheClusterCapacity": return try await InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidKMSKeyFault": return try await InvalidKMSKeyFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeGroupsPerReplicationGroupQuotaExceeded": return try await NodeGroupsPerReplicationGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoOperationFault": return try await NoOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum IncreaseReplicaCountOutputError: Swift.Error, Swift.Equatable {
-    case clusterQuotaForCustomerExceededFault(ClusterQuotaForCustomerExceededFault)
-    case insufficientCacheClusterCapacityFault(InsufficientCacheClusterCapacityFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidKMSKeyFault(InvalidKMSKeyFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case nodeGroupsPerReplicationGroupQuotaExceededFault(NodeGroupsPerReplicationGroupQuotaExceededFault)
-    case nodeQuotaForCustomerExceededFault(NodeQuotaForCustomerExceededFault)
-    case noOperationFault(NoOperationFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension IncreaseReplicaCountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IncreaseReplicaCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -13822,7 +13202,7 @@ public struct IncreaseReplicaCountOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -13839,7 +13219,7 @@ extension IncreaseReplicaCountOutputResponseBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("IncreaseReplicaCountResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -13883,37 +13263,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension InsufficientCacheClusterCapacityFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientCacheClusterCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
-public struct InsufficientCacheClusterCapacityFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InsufficientCacheClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientCacheClusterCapacity" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13926,7 +13309,7 @@ extension InsufficientCacheClusterCapacityFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13934,37 +13317,40 @@ extension InsufficientCacheClusterCapacityFaultBody: Swift.Decodable {
 }
 
 extension InvalidARNFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidARNFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
-public struct InvalidARNFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidARN" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13977,7 +13363,7 @@ extension InvalidARNFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13985,37 +13371,40 @@ extension InvalidARNFaultBody: Swift.Decodable {
 }
 
 extension InvalidCacheClusterStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidCacheClusterStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cluster is not in the available state.
-public struct InvalidCacheClusterStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidCacheClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCacheClusterState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14028,7 +13417,7 @@ extension InvalidCacheClusterStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14036,37 +13425,40 @@ extension InvalidCacheClusterStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidCacheParameterGroupStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidCacheParameterGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The current state of the cache parameter group does not allow the requested operation to occur.
-public struct InvalidCacheParameterGroupStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidCacheParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCacheParameterGroupState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14079,7 +13471,7 @@ extension InvalidCacheParameterGroupStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14087,37 +13479,40 @@ extension InvalidCacheParameterGroupStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidCacheSecurityGroupStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidCacheSecurityGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The current state of the cache security group does not allow deletion.
-public struct InvalidCacheSecurityGroupStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidCacheSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCacheSecurityGroupState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14130,7 +13525,7 @@ extension InvalidCacheSecurityGroupStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14138,37 +13533,40 @@ extension InvalidCacheSecurityGroupStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidGlobalReplicationGroupStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidGlobalReplicationGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Global datastore is not available or in primary-only state.
-public struct InvalidGlobalReplicationGroupStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidGlobalReplicationGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidGlobalReplicationGroupState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14181,7 +13579,7 @@ extension InvalidGlobalReplicationGroupStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14189,37 +13587,40 @@ extension InvalidGlobalReplicationGroupStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidKMSKeyFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidKMSKeyFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The KMS key supplied is not valid.
-public struct InvalidKMSKeyFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidKMSKeyFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14232,7 +13633,7 @@ extension InvalidKMSKeyFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14240,38 +13641,41 @@ extension InvalidKMSKeyFaultBody: Swift.Decodable {
 }
 
 extension InvalidParameterCombinationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidParameterCombinationExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Two or more incompatible parameters were specified.
-public struct InvalidParameterCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Two or more parameters that must not be used together were used together.
-    public var message: Swift.String?
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Two or more parameters that must not be used together were used together.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterCombination" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14284,7 +13688,7 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14292,38 +13696,41 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidParameterValueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidParameterValueExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The value for a parameter is invalid.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A parameter value is invalid.
-    public var message: Swift.String?
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A parameter value is invalid.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterValue" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14336,7 +13743,7 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14344,37 +13751,40 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
 }
 
 extension InvalidReplicationGroupStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidReplicationGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested replication group is not in the available state.
-public struct InvalidReplicationGroupStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidReplicationGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidReplicationGroupState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14387,7 +13797,7 @@ extension InvalidReplicationGroupStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14395,37 +13805,40 @@ extension InvalidReplicationGroupStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidSnapshotStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSnapshotStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The current state of the snapshot does not allow the requested operation to occur.
-public struct InvalidSnapshotStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSnapshotState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14438,7 +13851,7 @@ extension InvalidSnapshotStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14446,37 +13859,40 @@ extension InvalidSnapshotStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidSubnet {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSubnetBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An invalid subnet identifier was specified.
-public struct InvalidSubnet: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSubnet" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14489,7 +13905,7 @@ extension InvalidSubnetBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14497,37 +13913,40 @@ extension InvalidSubnetBody: Swift.Decodable {
 }
 
 extension InvalidUserGroupStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidUserGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user group is not in an active state.
-public struct InvalidUserGroupStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidUserGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidUserGroupState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14540,7 +13959,7 @@ extension InvalidUserGroupStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14548,37 +13967,40 @@ extension InvalidUserGroupStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidUserStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidUserStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user is not in active state.
-public struct InvalidUserStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidUserState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14591,7 +14013,7 @@ extension InvalidUserStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14599,37 +14021,40 @@ extension InvalidUserStateFaultBody: Swift.Decodable {
 }
 
 extension InvalidVPCNetworkStateFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidVPCNetworkStateFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The VPC network is in an invalid state.
-public struct InvalidVPCNetworkStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidVPCNetworkStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14642,7 +14067,7 @@ extension InvalidVPCNetworkStateFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14693,7 +14118,7 @@ extension ElastiCacheClientTypes.KinesisFirehoseDestinationDetails: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStream)
         deliveryStream = deliveryStreamDecoded
@@ -14706,7 +14131,7 @@ extension ElastiCacheClientTypes {
         /// The name of the Kinesis Data Firehose delivery stream.
         public var deliveryStream: Swift.String?
 
-        public init (
+        public init(
             deliveryStream: Swift.String? = nil
         )
         {
@@ -14743,7 +14168,7 @@ public struct ListAllowedNodeTypeModificationsInput: Swift.Equatable {
     /// The name of the replication group want to scale up to a larger node type. ElastiCache uses the replication group id to identify the current node type being used by this replication group, and from that to create a list of node types you can scale up to. You must provide a value for either the CacheClusterId or the ReplicationGroupId.
     public var replicationGroupId: Swift.String?
 
-    public init (
+    public init(
         cacheClusterId: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil
     )
@@ -14764,7 +14189,7 @@ extension ListAllowedNodeTypeModificationsInputBody: Swift.Decodable {
         case replicationGroupId = "ReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -14773,36 +14198,22 @@ extension ListAllowedNodeTypeModificationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListAllowedNodeTypeModificationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListAllowedNodeTypeModificationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAllowedNodeTypeModificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListAllowedNodeTypeModificationsOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAllowedNodeTypeModificationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAllowedNodeTypeModificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.scaleDownModifications = output.scaleDownModifications
@@ -14821,7 +14232,7 @@ public struct ListAllowedNodeTypeModificationsOutputResponse: Swift.Equatable {
     /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
     public var scaleUpModifications: [Swift.String]?
 
-    public init (
+    public init(
         scaleDownModifications: [Swift.String]? = nil,
         scaleUpModifications: [Swift.String]? = nil
     )
@@ -14842,7 +14253,7 @@ extension ListAllowedNodeTypeModificationsOutputResponseBody: Swift.Decodable {
         case scaleUpModifications = "ScaleUpModifications"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListAllowedNodeTypeModificationsResult"))
         if containerValues.contains(.scaleUpModifications) {
@@ -14909,7 +14320,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         resourceName: Swift.String? = nil
     )
     {
@@ -14926,57 +14337,36 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceName = "ResourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetGroupNotFoundFault" : self = .cacheSubnetGroupNotFoundFault(try CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidARN" : self = .invalidARNFault(try InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReservedCacheNodeNotFound" : self = .reservedCacheNodeNotFoundFault(try ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupNotFound" : self = .userGroupNotFoundFault(try UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
-    case invalidARNFault(InvalidARNFault)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case reservedCacheNodeNotFoundFault(ReservedCacheNodeNotFoundFault)
-    case snapshotNotFoundFault(SnapshotNotFoundFault)
-    case userGroupNotFoundFault(UserGroupNotFoundFault)
-    case userNotFoundFault(UserNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
@@ -14991,7 +14381,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         tagList: [ElastiCacheClientTypes.Tag]? = nil
     )
     {
@@ -15008,7 +14398,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tagList = "TagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListTagsForResourceResult"))
         if containerValues.contains(.tagList) {
@@ -15065,7 +14455,7 @@ extension ElastiCacheClientTypes.LogDeliveryConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logTypeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.LogType.self, forKey: .logType)
         logType = logTypeDecoded
@@ -15098,7 +14488,7 @@ extension ElastiCacheClientTypes {
         /// Returns the log delivery configuration status. Values are one of enabling | disabling | modifying | active | error
         public var status: ElastiCacheClientTypes.LogDeliveryConfigurationStatus?
 
-        public init (
+        public init(
             destinationDetails: ElastiCacheClientTypes.DestinationDetails? = nil,
             destinationType: ElastiCacheClientTypes.DestinationType? = nil,
             logFormat: ElastiCacheClientTypes.LogFormat? = nil,
@@ -15146,7 +14536,7 @@ extension ElastiCacheClientTypes.LogDeliveryConfigurationRequest: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logTypeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.LogType.self, forKey: .logType)
         logType = logTypeDecoded
@@ -15175,7 +14565,7 @@ extension ElastiCacheClientTypes {
         /// Refers to [slow-log](https://redis.io/commands/slowlog) or engine-log..
         public var logType: ElastiCacheClientTypes.LogType?
 
-        public init (
+        public init(
             destinationDetails: ElastiCacheClientTypes.DestinationDetails? = nil,
             destinationType: ElastiCacheClientTypes.DestinationType? = nil,
             enabled: Swift.Bool? = nil,
@@ -15461,7 +14851,7 @@ public struct ModifyCacheClusterInput: Swift.Equatable {
     public var cacheSecurityGroupNames: [Swift.String]?
     /// The upgraded version of the cache engine to be run on the cache nodes. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
-    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     /// Specifies the destination, format and type of the logs.
     public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
@@ -15549,7 +14939,7 @@ public struct ModifyCacheClusterInput: Swift.Equatable {
     /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster.
     public var snapshotWindow: Swift.String?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         authToken: Swift.String? = nil,
         authTokenUpdateStrategy: ElastiCacheClientTypes.AuthTokenUpdateStrategyType? = nil,
@@ -15646,7 +15036,7 @@ extension ModifyCacheClusterInputBody: Swift.Decodable {
         case snapshotWindow = "SnapshotWindow"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -15778,50 +15168,29 @@ extension ModifyCacheClusterInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyCacheClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyCacheClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCacheClusterCapacity" : self = .insufficientCacheClusterCapacityFault(try InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheSecurityGroupState" : self = .invalidCacheSecurityGroupStateFault(try InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForClusterExceeded" : self = .nodeQuotaForClusterExceededFault(try NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForCustomerExceeded" : self = .nodeQuotaForCustomerExceededFault(try NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCacheClusterCapacity": return try await InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForClusterExceeded": return try await NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyCacheClusterOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case insufficientCacheClusterCapacityFault(InsufficientCacheClusterCapacityFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidCacheSecurityGroupStateFault(InvalidCacheSecurityGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case nodeQuotaForClusterExceededFault(NodeQuotaForClusterExceededFault)
-    case nodeQuotaForCustomerExceededFault(NodeQuotaForCustomerExceededFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
@@ -15835,7 +15204,7 @@ public struct ModifyCacheClusterOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
-    public init (
+    public init(
         cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
     )
     {
@@ -15852,7 +15221,7 @@ extension ModifyCacheClusterOutputResponseBody: Swift.Decodable {
         case cacheCluster = "CacheCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyCacheClusterResult"))
         let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
@@ -15898,7 +15267,7 @@ public struct ModifyCacheParameterGroupInput: Swift.Equatable {
     /// This member is required.
     public var parameterNameValues: [ElastiCacheClientTypes.ParameterNameValue]?
 
-    public init (
+    public init(
         cacheParameterGroupName: Swift.String? = nil,
         parameterNameValues: [ElastiCacheClientTypes.ParameterNameValue]? = nil
     )
@@ -15919,7 +15288,7 @@ extension ModifyCacheParameterGroupInputBody: Swift.Decodable {
         case parameterNameValues = "ParameterNameValues"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
@@ -15945,38 +15314,23 @@ extension ModifyCacheParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyCacheParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyCacheParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheParameterGroupState" : self = .invalidCacheParameterGroupStateFault(try InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheParameterGroupState": return try await InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case invalidCacheParameterGroupStateFault(InvalidCacheParameterGroupStateFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroupName = output.cacheParameterGroupName
@@ -15995,7 +15349,7 @@ public struct ModifyCacheParameterGroupOutputResponse: Swift.Equatable {
     /// The name of the cache parameter group.
     public var cacheParameterGroupName: Swift.String?
 
-    public init (
+    public init(
         cacheParameterGroupName: Swift.String? = nil
     )
     {
@@ -16012,7 +15366,7 @@ extension ModifyCacheParameterGroupOutputResponseBody: Swift.Decodable {
         case cacheParameterGroupName = "CacheParameterGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyCacheParameterGroupResult"))
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
@@ -16062,7 +15416,7 @@ public struct ModifyCacheSubnetGroupInput: Swift.Equatable {
     /// The EC2 subnet IDs for the cache subnet group.
     public var subnetIds: [Swift.String]?
 
-    public init (
+    public init(
         cacheSubnetGroupDescription: Swift.String? = nil,
         cacheSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
@@ -16087,7 +15441,7 @@ extension ModifyCacheSubnetGroupInputBody: Swift.Decodable {
         case subnetIds = "SubnetIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSubnetGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSubnetGroupName)
         cacheSubnetGroupName = cacheSubnetGroupNameDecoded
@@ -16115,38 +15469,23 @@ extension ModifyCacheSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyCacheSubnetGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyCacheSubnetGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheSubnetGroupNotFoundFault" : self = .cacheSubnetGroupNotFoundFault(try CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetQuotaExceededFault" : self = .cacheSubnetQuotaExceededFault(try CacheSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubnetInUse" : self = .subnetInUse(try SubnetInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SubnetNotAllowedFault" : self = .subnetNotAllowedFault(try SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetQuotaExceededFault": return try await CacheSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetInUse": return try await SubnetInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetNotAllowedFault": return try await SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyCacheSubnetGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
-    case cacheSubnetQuotaExceededFault(CacheSubnetQuotaExceededFault)
-    case invalidSubnet(InvalidSubnet)
-    case subnetInUse(SubnetInUse)
-    case subnetNotAllowedFault(SubnetNotAllowedFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyCacheSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroup = output.cacheSubnetGroup
@@ -16164,7 +15503,7 @@ public struct ModifyCacheSubnetGroupOutputResponse: Swift.Equatable {
     /// * ModifyCacheSubnetGroup
     public var cacheSubnetGroup: ElastiCacheClientTypes.CacheSubnetGroup?
 
-    public init (
+    public init(
         cacheSubnetGroup: ElastiCacheClientTypes.CacheSubnetGroup? = nil
     )
     {
@@ -16181,7 +15520,7 @@ extension ModifyCacheSubnetGroupOutputResponseBody: Swift.Decodable {
         case cacheSubnetGroup = "CacheSubnetGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyCacheSubnetGroupResult"))
         let cacheSubnetGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSubnetGroup.self, forKey: .cacheSubnetGroup)
@@ -16242,7 +15581,7 @@ public struct ModifyGlobalReplicationGroupInput: Swift.Equatable {
     /// This member is required.
     public var globalReplicationGroupId: Swift.String?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         automaticFailoverEnabled: Swift.Bool? = nil,
         cacheNodeType: Swift.String? = nil,
@@ -16283,7 +15622,7 @@ extension ModifyGlobalReplicationGroupInputBody: Swift.Decodable {
         case globalReplicationGroupId = "GlobalReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -16302,34 +15641,21 @@ extension ModifyGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyGlobalReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
@@ -16345,7 +15671,7 @@ public struct ModifyGlobalReplicationGroupOutputResponse: Swift.Equatable {
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
     public var globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 
-    public init (
+    public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     )
     {
@@ -16362,7 +15688,7 @@ extension ModifyGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
@@ -16405,6 +15731,9 @@ extension ModifyReplicationGroupInput: Swift.Encodable {
                 var cacheSecurityGroupNamesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("CacheSecurityGroupNames"))
                 try cacheSecurityGroupNamesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let clusterMode = clusterMode {
+            try container.encode(clusterMode, forKey: ClientRuntime.Key("ClusterMode"))
         }
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
@@ -16547,9 +15876,11 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
     public var cacheParameterGroupName: Swift.String?
     /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
     public var cacheSecurityGroupNames: [Swift.String]?
+    /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+    public var clusterMode: ElastiCacheClientTypes.ClusterMode?
     /// The upgraded version of the cache engine to be run on the clusters in the replication group. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
-    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     /// Specifies the destination, format and type of the logs.
     public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
@@ -16600,14 +15931,14 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
     public var snapshottingClusterId: Swift.String?
     /// A flag that enables in-transit encryption when set to true. If you are enabling in-transit encryption for an existing cluster, you must also set TransitEncryptionMode to preferred.
     public var transitEncryptionEnabled: Swift.Bool?
-    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred first, after that you can set TransitEncryptionMode to required.
+    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required.
     public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
     /// The ID of the user group you are associating with the replication group.
     public var userGroupIdsToAdd: [Swift.String]?
     /// The ID of the user group to disassociate from the replication group, meaning the users in the group no longer can access the replication group.
     public var userGroupIdsToRemove: [Swift.String]?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         authToken: Swift.String? = nil,
         authTokenUpdateStrategy: ElastiCacheClientTypes.AuthTokenUpdateStrategyType? = nil,
@@ -16616,6 +15947,7 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
         cacheNodeType: Swift.String? = nil,
         cacheParameterGroupName: Swift.String? = nil,
         cacheSecurityGroupNames: [Swift.String]? = nil,
+        clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
         engineVersion: Swift.String? = nil,
         ipDiscovery: ElastiCacheClientTypes.IpDiscovery? = nil,
         logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]? = nil,
@@ -16646,6 +15978,7 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
         self.cacheNodeType = cacheNodeType
         self.cacheParameterGroupName = cacheParameterGroupName
         self.cacheSecurityGroupNames = cacheSecurityGroupNames
+        self.clusterMode = clusterMode
         self.engineVersion = engineVersion
         self.ipDiscovery = ipDiscovery
         self.logDeliveryConfigurations = logDeliveryConfigurations
@@ -16698,6 +16031,7 @@ struct ModifyReplicationGroupInputBody: Swift.Equatable {
     let ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     let transitEncryptionEnabled: Swift.Bool?
     let transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
+    let clusterMode: ElastiCacheClientTypes.ClusterMode?
 }
 
 extension ModifyReplicationGroupInputBody: Swift.Decodable {
@@ -16710,6 +16044,7 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         case cacheNodeType = "CacheNodeType"
         case cacheParameterGroupName = "CacheParameterGroupName"
         case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+        case clusterMode = "ClusterMode"
         case engineVersion = "EngineVersion"
         case ipDiscovery = "IpDiscovery"
         case logDeliveryConfigurations = "LogDeliveryConfigurations"
@@ -16732,7 +16067,7 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         case userGroupIdsToRemove = "UserGroupIdsToRemove"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -16875,63 +16210,39 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         transitEncryptionEnabled = transitEncryptionEnabledDecoded
         let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
         transitEncryptionMode = transitEncryptionModeDecoded
+        let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
+        clusterMode = clusterModeDecoded
     }
 }
 
-extension ModifyReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCacheClusterCapacity" : self = .insufficientCacheClusterCapacityFault(try InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheSecurityGroupState" : self = .invalidCacheSecurityGroupStateFault(try InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKMSKeyFault" : self = .invalidKMSKeyFault(try InvalidKMSKeyFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidUserGroupState" : self = .invalidUserGroupStateFault(try InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForClusterExceeded" : self = .nodeQuotaForClusterExceededFault(try NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForCustomerExceeded" : self = .nodeQuotaForCustomerExceededFault(try NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupNotFound" : self = .userGroupNotFoundFault(try UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCacheClusterCapacity": return try await InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidKMSKeyFault": return try await InvalidKMSKeyFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForClusterExceeded": return try await NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case insufficientCacheClusterCapacityFault(InsufficientCacheClusterCapacityFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidCacheSecurityGroupStateFault(InvalidCacheSecurityGroupStateFault)
-    case invalidKMSKeyFault(InvalidKMSKeyFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case invalidUserGroupStateFault(InvalidUserGroupStateFault)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case nodeQuotaForClusterExceededFault(NodeQuotaForClusterExceededFault)
-    case nodeQuotaForCustomerExceededFault(NodeQuotaForCustomerExceededFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case userGroupNotFoundFault(UserGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -16945,7 +16256,7 @@ public struct ModifyReplicationGroupOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -16962,7 +16273,7 @@ extension ModifyReplicationGroupOutputResponseBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyReplicationGroupResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -17047,7 +16358,7 @@ public struct ModifyReplicationGroupShardConfigurationInput: Swift.Equatable {
     /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
     public var reshardingConfiguration: [ElastiCacheClientTypes.ReshardingConfiguration]?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         nodeGroupCount: Swift.Int = 0,
         nodeGroupsToRemove: [Swift.String]? = nil,
@@ -17084,7 +16395,7 @@ extension ModifyReplicationGroupShardConfigurationInputBody: Swift.Decodable {
         case reshardingConfiguration = "ReshardingConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -17152,48 +16463,28 @@ extension ModifyReplicationGroupShardConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyReplicationGroupShardConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyReplicationGroupShardConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientCacheClusterCapacity" : self = .insufficientCacheClusterCapacityFault(try InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKMSKeyFault" : self = .invalidKMSKeyFault(try InvalidKMSKeyFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeGroupsPerReplicationGroupQuotaExceeded" : self = .nodeGroupsPerReplicationGroupQuotaExceededFault(try NodeGroupsPerReplicationGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeQuotaForCustomerExceeded" : self = .nodeQuotaForCustomerExceededFault(try NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyReplicationGroupShardConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientCacheClusterCapacity": return try await InsufficientCacheClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidKMSKeyFault": return try await InvalidKMSKeyFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeGroupsPerReplicationGroupQuotaExceeded": return try await NodeGroupsPerReplicationGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyReplicationGroupShardConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case insufficientCacheClusterCapacityFault(InsufficientCacheClusterCapacityFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidKMSKeyFault(InvalidKMSKeyFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
-    case nodeGroupsPerReplicationGroupQuotaExceededFault(NodeGroupsPerReplicationGroupQuotaExceededFault)
-    case nodeQuotaForCustomerExceededFault(NodeQuotaForCustomerExceededFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyReplicationGroupShardConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyReplicationGroupShardConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -17207,7 +16498,7 @@ public struct ModifyReplicationGroupShardConfigurationOutputResponse: Swift.Equa
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -17224,7 +16515,7 @@ extension ModifyReplicationGroupShardConfigurationOutputResponseBody: Swift.Deco
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyReplicationGroupShardConfigurationResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -17282,7 +16573,7 @@ public struct ModifyUserGroupInput: Swift.Equatable {
     /// The list of user IDs to remove from the user group.
     public var userIdsToRemove: [Swift.String]?
 
-    public init (
+    public init(
         userGroupId: Swift.String? = nil,
         userIdsToAdd: [Swift.String]? = nil,
         userIdsToRemove: [Swift.String]? = nil
@@ -17307,7 +16598,7 @@ extension ModifyUserGroupInputBody: Swift.Decodable {
         case userIdsToRemove = "UserIdsToRemove"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
         userGroupId = userGroupIdDecoded
@@ -17352,44 +16643,26 @@ extension ModifyUserGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyUserGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyUserGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DefaultUserRequired" : self = .defaultUserRequired(try DefaultUserRequired(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateUserName" : self = .duplicateUserNameFault(try DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidUserGroupState" : self = .invalidUserGroupStateFault(try InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupNotFound" : self = .userGroupNotFoundFault(try UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DefaultUserRequired": return try await DefaultUserRequired(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyUserGroupOutputError: Swift.Error, Swift.Equatable {
-    case defaultUserRequired(DefaultUserRequired)
-    case duplicateUserNameFault(DuplicateUserNameFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidUserGroupStateFault(InvalidUserGroupStateFault)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case userGroupNotFoundFault(UserGroupNotFoundFault)
-    case userNotFoundFault(UserNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -17431,7 +16704,7 @@ public struct ModifyUserGroupOutputResponse: Swift.Equatable {
     /// The list of user IDs that belong to the user group.
     public var userIds: [Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         engine: Swift.String? = nil,
         minimumEngineVersion: Swift.String? = nil,
@@ -17476,7 +16749,7 @@ extension ModifyUserGroupOutputResponseBody: Swift.Decodable {
         case userIds = "UserIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyUserGroupResult"))
         let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
@@ -17588,7 +16861,7 @@ public struct ModifyUserInput: Swift.Equatable {
     /// This member is required.
     public var userId: Swift.String?
 
-    public init (
+    public init(
         accessString: Swift.String? = nil,
         appendAccessString: Swift.String? = nil,
         authenticationMode: ElastiCacheClientTypes.AuthenticationMode? = nil,
@@ -17625,7 +16898,7 @@ extension ModifyUserInputBody: Swift.Decodable {
         case userId = "UserId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
         userId = userIdDecoded
@@ -17659,38 +16932,23 @@ extension ModifyUserInputBody: Swift.Decodable {
     }
 }
 
-extension ModifyUserOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ModifyUserOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidUserState" : self = .invalidUserStateFault(try InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ModifyUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserState": return try await InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ModifyUserOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidUserStateFault(InvalidUserStateFault)
-    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
-    case userNotFoundFault(UserNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ModifyUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ModifyUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
@@ -17736,7 +16994,7 @@ public struct ModifyUserOutputResponse: Swift.Equatable {
     /// The username of the user.
     public var userName: Swift.String?
 
-    public init (
+    public init(
         accessString: Swift.String? = nil,
         arn: Swift.String? = nil,
         authentication: ElastiCacheClientTypes.Authentication? = nil,
@@ -17785,7 +17043,7 @@ extension ModifyUserOutputResponseBody: Swift.Decodable {
         case userName = "UserName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyUserResult"))
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
@@ -17894,37 +17152,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension NoOperationFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoOperationFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation was not performed because no changes were required.
-public struct NoOperationFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoOperationFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17937,7 +17198,7 @@ extension NoOperationFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17985,7 +17246,7 @@ extension ElastiCacheClientTypes.NodeGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeGroupId)
         nodeGroupId = nodeGroupIdDecoded
@@ -18035,7 +17296,7 @@ extension ElastiCacheClientTypes {
         /// The current state of this replication group - creating, available, modifying, deleting.
         public var status: Swift.String?
 
-        public init (
+        public init(
             nodeGroupId: Swift.String? = nil,
             nodeGroupMembers: [ElastiCacheClientTypes.NodeGroupMember]? = nil,
             primaryEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
@@ -18109,7 +17370,7 @@ extension ElastiCacheClientTypes.NodeGroupConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeGroupId)
         nodeGroupId = nodeGroupIdDecoded
@@ -18180,7 +17441,7 @@ extension ElastiCacheClientTypes {
         /// A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999"
         public var slots: Swift.String?
 
-        public init (
+        public init(
             nodeGroupId: Swift.String? = nil,
             primaryAvailabilityZone: Swift.String? = nil,
             primaryOutpostArn: Swift.String? = nil,
@@ -18234,7 +17495,7 @@ extension ElastiCacheClientTypes.NodeGroupMember: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -18267,7 +17528,7 @@ extension ElastiCacheClientTypes {
         /// The information required for client programs to connect to a node for read operations. The read endpoint is only applicable on Redis (cluster mode disabled) clusters.
         public var readEndpoint: ElastiCacheClientTypes.Endpoint?
 
-        public init (
+        public init(
             cacheClusterId: Swift.String? = nil,
             cacheNodeId: Swift.String? = nil,
             currentRole: Swift.String? = nil,
@@ -18331,7 +17592,7 @@ extension ElastiCacheClientTypes.NodeGroupMemberUpdateStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -18376,7 +17637,7 @@ extension ElastiCacheClientTypes {
         /// The date when the NodeUpdateStatus was last modified
         public var nodeUpdateStatusModifiedDate: ClientRuntime.Date?
 
-        public init (
+        public init(
             cacheClusterId: Swift.String? = nil,
             cacheNodeId: Swift.String? = nil,
             nodeDeletionDate: ClientRuntime.Date? = nil,
@@ -18403,37 +17664,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension NodeGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NodeGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The node group specified by the NodeGroupId parameter could not be found. Please verify that the node group exists and that you spelled the NodeGroupId value correctly.
-public struct NodeGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NodeGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NodeGroupNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18446,7 +17710,7 @@ extension NodeGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18478,7 +17742,7 @@ extension ElastiCacheClientTypes.NodeGroupUpdateStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeGroupId)
         nodeGroupId = nodeGroupIdDecoded
@@ -18512,7 +17776,7 @@ extension ElastiCacheClientTypes {
         /// The status of the service update on the node group member
         public var nodeGroupMemberUpdateStatus: [ElastiCacheClientTypes.NodeGroupMemberUpdateStatus]?
 
-        public init (
+        public init(
             nodeGroupId: Swift.String? = nil,
             nodeGroupMemberUpdateStatus: [ElastiCacheClientTypes.NodeGroupMemberUpdateStatus]? = nil
         )
@@ -18525,37 +17789,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension NodeGroupsPerReplicationGroupQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NodeGroupsPerReplicationGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the maximum allowed number of node groups (shards) in a single replication group. The default maximum is 90
-public struct NodeGroupsPerReplicationGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NodeGroupsPerReplicationGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NodeGroupsPerReplicationGroupQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18568,7 +17835,7 @@ extension NodeGroupsPerReplicationGroupQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18576,37 +17843,40 @@ extension NodeGroupsPerReplicationGroupQuotaExceededFaultBody: Swift.Decodable {
 }
 
 extension NodeQuotaForClusterExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NodeQuotaForClusterExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the allowed number of cache nodes in a single cluster.
-public struct NodeQuotaForClusterExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NodeQuotaForClusterExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18619,7 +17889,7 @@ extension NodeQuotaForClusterExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18627,37 +17897,40 @@ extension NodeQuotaForClusterExceededFaultBody: Swift.Decodable {
 }
 
 extension NodeQuotaForCustomerExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NodeQuotaForCustomerExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
-public struct NodeQuotaForCustomerExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NodeQuotaForCustomerExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18670,7 +17943,7 @@ extension NodeQuotaForCustomerExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18713,7 +17986,7 @@ extension ElastiCacheClientTypes.NodeSnapshot: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -18750,7 +18023,7 @@ extension ElastiCacheClientTypes {
         /// The date and time when the source node's metadata and cache data set was obtained for the snapshot.
         public var snapshotCreateTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             cacheClusterId: Swift.String? = nil,
             cacheNodeCreateTime: ClientRuntime.Date? = nil,
             cacheNodeId: Swift.String? = nil,
@@ -18864,7 +18137,7 @@ extension ElastiCacheClientTypes.NotificationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
         topicArn = topicArnDecoded
@@ -18881,7 +18154,7 @@ extension ElastiCacheClientTypes {
         /// The current state of the topic.
         public var topicStatus: Swift.String?
 
-        public init (
+        public init(
             topicArn: Swift.String? = nil,
             topicStatus: Swift.String? = nil
         )
@@ -18969,7 +18242,7 @@ extension ElastiCacheClientTypes.Parameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterName)
         parameterName = parameterNameDecoded
@@ -19014,7 +18287,7 @@ extension ElastiCacheClientTypes {
         /// The source of the parameter.
         public var source: Swift.String?
 
-        public init (
+        public init(
             allowedValues: Swift.String? = nil,
             changeType: ElastiCacheClientTypes.ChangeType? = nil,
             dataType: Swift.String? = nil,
@@ -19056,7 +18329,7 @@ extension ElastiCacheClientTypes.ParameterNameValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterName)
         parameterName = parameterNameDecoded
@@ -19073,7 +18346,7 @@ extension ElastiCacheClientTypes {
         /// The value of the parameter.
         public var parameterValue: Swift.String?
 
-        public init (
+        public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
         )
@@ -19141,7 +18414,7 @@ extension ElastiCacheClientTypes.PendingLogDeliveryConfiguration: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logTypeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.LogType.self, forKey: .logType)
         logType = logTypeDecoded
@@ -19166,7 +18439,7 @@ extension ElastiCacheClientTypes {
         /// Refers to [slow-log](https://redis.io/commands/slowlog) or engine-log..
         public var logType: ElastiCacheClientTypes.LogType?
 
-        public init (
+        public init(
             destinationDetails: ElastiCacheClientTypes.DestinationDetails? = nil,
             destinationType: ElastiCacheClientTypes.DestinationType? = nil,
             logFormat: ElastiCacheClientTypes.LogFormat? = nil,
@@ -19240,7 +18513,7 @@ extension ElastiCacheClientTypes.PendingModifiedValues: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let numCacheNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numCacheNodes)
         numCacheNodes = numCacheNodesDecoded
@@ -19315,7 +18588,7 @@ extension ElastiCacheClientTypes {
         /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
         public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
 
-        public init (
+        public init(
             authTokenStatus: ElastiCacheClientTypes.AuthTokenUpdateStatus? = nil,
             cacheNodeIdsToRemove: [Swift.String]? = nil,
             cacheNodeType: Swift.String? = nil,
@@ -19363,7 +18636,7 @@ extension ElastiCacheClientTypes.ProcessedUpdateAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -19388,7 +18661,7 @@ extension ElastiCacheClientTypes {
         /// The status of the update action on the Redis cluster
         public var updateActionStatus: ElastiCacheClientTypes.UpdateActionStatus?
 
-        public init (
+        public init(
             cacheClusterId: Swift.String? = nil,
             replicationGroupId: Swift.String? = nil,
             serviceUpdateName: Swift.String? = nil,
@@ -19451,7 +18724,7 @@ public struct PurchaseReservedCacheNodesOfferingInput: Swift.Equatable {
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     public var tags: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         cacheNodeCount: Swift.Int? = nil,
         reservedCacheNodeId: Swift.String? = nil,
         reservedCacheNodesOfferingId: Swift.String? = nil,
@@ -19480,7 +18753,7 @@ extension PurchaseReservedCacheNodesOfferingInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reservedCacheNodesOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedCacheNodesOfferingId)
         reservedCacheNodesOfferingId = reservedCacheNodesOfferingIdDecoded
@@ -19510,40 +18783,24 @@ extension PurchaseReservedCacheNodesOfferingInputBody: Swift.Decodable {
     }
 }
 
-extension PurchaseReservedCacheNodesOfferingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension PurchaseReservedCacheNodesOfferingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReservedCacheNodeAlreadyExists" : self = .reservedCacheNodeAlreadyExistsFault(try ReservedCacheNodeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReservedCacheNodeQuotaExceeded" : self = .reservedCacheNodeQuotaExceededFault(try ReservedCacheNodeQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReservedCacheNodesOfferingNotFound" : self = .reservedCacheNodesOfferingNotFoundFault(try ReservedCacheNodesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PurchaseReservedCacheNodesOfferingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeAlreadyExists": return try await ReservedCacheNodeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeQuotaExceeded": return try await ReservedCacheNodeQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodesOfferingNotFound": return try await ReservedCacheNodesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum PurchaseReservedCacheNodesOfferingOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case reservedCacheNodeAlreadyExistsFault(ReservedCacheNodeAlreadyExistsFault)
-    case reservedCacheNodeQuotaExceededFault(ReservedCacheNodeQuotaExceededFault)
-    case reservedCacheNodesOfferingNotFoundFault(ReservedCacheNodesOfferingNotFoundFault)
-    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PurchaseReservedCacheNodesOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PurchaseReservedCacheNodesOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reservedCacheNode = output.reservedCacheNode
@@ -19557,7 +18814,7 @@ public struct PurchaseReservedCacheNodesOfferingOutputResponse: Swift.Equatable 
     /// Represents the output of a PurchaseReservedCacheNodesOffering operation.
     public var reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode?
 
-    public init (
+    public init(
         reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode? = nil
     )
     {
@@ -19574,7 +18831,7 @@ extension PurchaseReservedCacheNodesOfferingOutputResponseBody: Swift.Decodable 
         case reservedCacheNode = "ReservedCacheNode"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("PurchaseReservedCacheNodesOfferingResult"))
         let reservedCacheNodeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReservedCacheNode.self, forKey: .reservedCacheNode)
@@ -19610,7 +18867,7 @@ public struct RebalanceSlotsInGlobalReplicationGroupInput: Swift.Equatable {
     /// This member is required.
     public var globalReplicationGroupId: Swift.String?
 
-    public init (
+    public init(
         applyImmediately: Swift.Bool = false,
         globalReplicationGroupId: Swift.String? = nil
     )
@@ -19631,7 +18888,7 @@ extension RebalanceSlotsInGlobalReplicationGroupInputBody: Swift.Decodable {
         case globalReplicationGroupId = "GlobalReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
@@ -19640,34 +18897,21 @@ extension RebalanceSlotsInGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-extension RebalanceSlotsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RebalanceSlotsInGlobalReplicationGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalReplicationGroupNotFoundFault" : self = .globalReplicationGroupNotFoundFault(try GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RebalanceSlotsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RebalanceSlotsInGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatable {
-    case globalReplicationGroupNotFoundFault(GlobalReplicationGroupNotFoundFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RebalanceSlotsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RebalanceSlotsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
@@ -19683,7 +18927,7 @@ public struct RebalanceSlotsInGlobalReplicationGroupOutputResponse: Swift.Equata
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
     public var globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 
-    public init (
+    public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     )
     {
@@ -19700,7 +18944,7 @@ extension RebalanceSlotsInGlobalReplicationGroupOutputResponseBody: Swift.Decoda
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RebalanceSlotsInGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
@@ -19746,7 +18990,7 @@ public struct RebootCacheClusterInput: Swift.Equatable {
     /// This member is required.
     public var cacheNodeIdsToReboot: [Swift.String]?
 
-    public init (
+    public init(
         cacheClusterId: Swift.String? = nil,
         cacheNodeIdsToReboot: [Swift.String]? = nil
     )
@@ -19767,7 +19011,7 @@ extension RebootCacheClusterInputBody: Swift.Decodable {
         case cacheNodeIdsToReboot = "CacheNodeIdsToReboot"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterId)
         cacheClusterId = cacheClusterIdDecoded
@@ -19793,32 +19037,20 @@ extension RebootCacheClusterInputBody: Swift.Decodable {
     }
 }
 
-extension RebootCacheClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RebootCacheClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RebootCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RebootCacheClusterOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RebootCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RebootCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
@@ -19832,7 +19064,7 @@ public struct RebootCacheClusterOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
-    public init (
+    public init(
         cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
     )
     {
@@ -19849,7 +19081,7 @@ extension RebootCacheClusterOutputResponseBody: Swift.Decodable {
         case cacheCluster = "CacheCluster"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RebootCacheClusterResult"))
         let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
@@ -19873,7 +19105,7 @@ extension ElastiCacheClientTypes.RecurringCharge: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recurringChargeAmountDecoded = try containerValues.decode(Swift.Double.self, forKey: .recurringChargeAmount)
         recurringChargeAmount = recurringChargeAmountDecoded
@@ -19890,7 +19122,7 @@ extension ElastiCacheClientTypes {
         /// The frequency of the recurring charge.
         public var recurringChargeFrequency: Swift.String?
 
-        public init (
+        public init(
             recurringChargeAmount: Swift.Double = 0.0,
             recurringChargeFrequency: Swift.String? = nil
         )
@@ -19931,7 +19163,7 @@ extension ElastiCacheClientTypes.RegionalConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -19972,7 +19204,7 @@ extension ElastiCacheClientTypes {
         /// This member is required.
         public var reshardingConfiguration: [ElastiCacheClientTypes.ReshardingConfiguration]?
 
-        public init (
+        public init(
             replicationGroupId: Swift.String? = nil,
             replicationGroupRegion: Swift.String? = nil,
             reshardingConfiguration: [ElastiCacheClientTypes.ReshardingConfiguration]? = nil
@@ -20024,7 +19256,7 @@ public struct RemoveTagsFromResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -20045,7 +19277,7 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
@@ -20071,52 +19303,30 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RemoveTagsFromResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheClusterNotFound" : self = .cacheClusterNotFoundFault(try CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSubnetGroupNotFoundFault" : self = .cacheSubnetGroupNotFoundFault(try CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidARN" : self = .invalidARNFault(try InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReservedCacheNodeNotFound" : self = .reservedCacheNodeNotFoundFault(try ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagNotFound" : self = .tagNotFoundFault(try TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserGroupNotFound" : self = .userGroupNotFoundFault(try UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagNotFound": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
-    case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
-    case invalidARNFault(InvalidARNFault)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case reservedCacheNodeNotFoundFault(ReservedCacheNodeNotFoundFault)
-    case snapshotNotFoundFault(SnapshotNotFoundFault)
-    case tagNotFoundFault(TagNotFoundFault)
-    case userGroupNotFoundFault(UserGroupNotFoundFault)
-    case userNotFoundFault(UserNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RemoveTagsFromResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
@@ -20131,7 +19341,7 @@ public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
-    public init (
+    public init(
         tagList: [ElastiCacheClientTypes.Tag]? = nil
     )
     {
@@ -20148,7 +19358,7 @@ extension RemoveTagsFromResourceOutputResponseBody: Swift.Decodable {
         case tagList = "TagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RemoveTagsFromResourceResult"))
         if containerValues.contains(.tagList) {
@@ -20183,6 +19393,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         case automaticFailover = "AutomaticFailover"
         case cacheNodeType = "CacheNodeType"
         case clusterEnabled = "ClusterEnabled"
+        case clusterMode = "ClusterMode"
         case configurationEndpoint = "ConfigurationEndpoint"
         case dataTiering = "DataTiering"
         case description = "Description"
@@ -20232,6 +19443,9 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         }
         if let clusterEnabled = clusterEnabled {
             try container.encode(clusterEnabled, forKey: ClientRuntime.Key("ClusterEnabled"))
+        }
+        if let clusterMode = clusterMode {
+            try container.encode(clusterMode, forKey: ClientRuntime.Key("ClusterMode"))
         }
         if let configurationEndpoint = configurationEndpoint {
             try container.encode(configurationEndpoint, forKey: ClientRuntime.Key("ConfigurationEndpoint"))
@@ -20346,7 +19560,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -20493,6 +19707,8 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         ipDiscovery = ipDiscoveryDecoded
         let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
         transitEncryptionMode = transitEncryptionModeDecoded
+        let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
+        clusterMode = clusterModeDecoded
     }
 }
 
@@ -20507,7 +19723,7 @@ extension ElastiCacheClientTypes {
         public var authTokenEnabled: Swift.Bool?
         /// The date the auth token was last modified
         public var authTokenLastModifiedDate: ClientRuntime.Date?
-        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+        /// If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public var autoMinorVersionUpgrade: Swift.Bool
         /// Indicates the status of automatic failover for this Redis replication group.
         public var automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus?
@@ -20515,6 +19731,8 @@ extension ElastiCacheClientTypes {
         public var cacheNodeType: Swift.String?
         /// A flag indicating whether or not this replication group is cluster enabled; i.e., whether its data can be partitioned across multiple shards (API/CLI: node groups). Valid values: true | false
         public var clusterEnabled: Swift.Bool?
+        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+        public var clusterMode: ElastiCacheClientTypes.ClusterMode?
         /// The configuration endpoint for this replication group. Use the configuration endpoint to connect to this replication group.
         public var configurationEndpoint: ElastiCacheClientTypes.Endpoint?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html).
@@ -20523,7 +19741,7 @@ extension ElastiCacheClientTypes {
         public var description: Swift.String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
         public var globalReplicationGroupInfo: ElastiCacheClientTypes.GlobalReplicationGroupInfo?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public var kmsKeyId: Swift.String?
@@ -20535,7 +19753,7 @@ extension ElastiCacheClientTypes {
         public var memberClustersOutpostArns: [Swift.String]?
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see [Minimizing Downtime: Multi-AZ](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html)
         public var multiAZ: ElastiCacheClientTypes.MultiAZStatus?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var networkType: ElastiCacheClientTypes.NetworkType?
         /// A list of node groups in this replication group. For Redis (cluster mode disabled) replication groups, this is a single-element list. For Redis (cluster mode enabled) replication groups, the list contains an entry for each node group (shard).
         public var nodeGroups: [ElastiCacheClientTypes.NodeGroup]?
@@ -20560,7 +19778,7 @@ extension ElastiCacheClientTypes {
         /// The ID of the user group associated to the replication group.
         public var userGroupIds: [Swift.String]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             atRestEncryptionEnabled: Swift.Bool? = nil,
             authTokenEnabled: Swift.Bool? = nil,
@@ -20569,6 +19787,7 @@ extension ElastiCacheClientTypes {
             automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus? = nil,
             cacheNodeType: Swift.String? = nil,
             clusterEnabled: Swift.Bool? = nil,
+            clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
             configurationEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
             dataTiering: ElastiCacheClientTypes.DataTieringStatus? = nil,
             description: Swift.String? = nil,
@@ -20601,6 +19820,7 @@ extension ElastiCacheClientTypes {
             self.automaticFailover = automaticFailover
             self.cacheNodeType = cacheNodeType
             self.clusterEnabled = clusterEnabled
+            self.clusterMode = clusterMode
             self.configurationEndpoint = configurationEndpoint
             self.dataTiering = dataTiering
             self.description = description
@@ -20629,37 +19849,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension ReplicationGroupAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReplicationGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified replication group already exists.
-public struct ReplicationGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicationGroupAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -20672,7 +19895,7 @@ extension ReplicationGroupAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -20680,37 +19903,40 @@ extension ReplicationGroupAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension ReplicationGroupAlreadyUnderMigrationFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReplicationGroupAlreadyUnderMigrationFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The targeted replication group is not available.
-public struct ReplicationGroupAlreadyUnderMigrationFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReplicationGroupAlreadyUnderMigrationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicationGroupAlreadyUnderMigrationFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -20723,7 +19949,7 @@ extension ReplicationGroupAlreadyUnderMigrationFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -20731,37 +19957,40 @@ extension ReplicationGroupAlreadyUnderMigrationFaultBody: Swift.Decodable {
 }
 
 extension ReplicationGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReplicationGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified replication group does not exist.
-public struct ReplicationGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReplicationGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicationGroupNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -20774,7 +20003,7 @@ extension ReplicationGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -20782,37 +20011,40 @@ extension ReplicationGroupNotFoundFaultBody: Swift.Decodable {
 }
 
 extension ReplicationGroupNotUnderMigrationFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReplicationGroupNotUnderMigrationFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The designated replication group is not available for data migration.
-public struct ReplicationGroupNotUnderMigrationFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReplicationGroupNotUnderMigrationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicationGroupNotUnderMigrationFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -20825,7 +20057,7 @@ extension ReplicationGroupNotUnderMigrationFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -20836,6 +20068,7 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authTokenStatus = "AuthTokenStatus"
         case automaticFailoverStatus = "AutomaticFailoverStatus"
+        case clusterMode = "ClusterMode"
         case logDeliveryConfigurations = "LogDeliveryConfigurations"
         case primaryClusterId = "PrimaryClusterId"
         case resharding = "Resharding"
@@ -20851,6 +20084,9 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
         }
         if let automaticFailoverStatus = automaticFailoverStatus {
             try container.encode(automaticFailoverStatus, forKey: ClientRuntime.Key("AutomaticFailoverStatus"))
+        }
+        if let clusterMode = clusterMode {
+            try container.encode(clusterMode, forKey: ClientRuntime.Key("ClusterMode"))
         }
         if let logDeliveryConfigurations = logDeliveryConfigurations {
             if !logDeliveryConfigurations.isEmpty {
@@ -20881,7 +20117,7 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let primaryClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryClusterId)
         primaryClusterId = primaryClusterIdDecoded
@@ -20916,6 +20152,8 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
         transitEncryptionEnabled = transitEncryptionEnabledDecoded
         let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
         transitEncryptionMode = transitEncryptionModeDecoded
+        let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
+        clusterMode = clusterModeDecoded
     }
 }
 
@@ -20926,6 +20164,8 @@ extension ElastiCacheClientTypes {
         public var authTokenStatus: ElastiCacheClientTypes.AuthTokenUpdateStatus?
         /// Indicates the status of automatic failover for this Redis replication group.
         public var automaticFailoverStatus: ElastiCacheClientTypes.PendingAutomaticFailoverStatus?
+        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+        public var clusterMode: ElastiCacheClientTypes.ClusterMode?
         /// The log delivery configurations being modified
         public var logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]?
         /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
@@ -20939,9 +20179,10 @@ extension ElastiCacheClientTypes {
         /// The user group being modified.
         public var userGroups: ElastiCacheClientTypes.UserGroupsUpdateStatus?
 
-        public init (
+        public init(
             authTokenStatus: ElastiCacheClientTypes.AuthTokenUpdateStatus? = nil,
             automaticFailoverStatus: ElastiCacheClientTypes.PendingAutomaticFailoverStatus? = nil,
+            clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
             logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]? = nil,
             primaryClusterId: Swift.String? = nil,
             resharding: ElastiCacheClientTypes.ReshardingStatus? = nil,
@@ -20952,6 +20193,7 @@ extension ElastiCacheClientTypes {
         {
             self.authTokenStatus = authTokenStatus
             self.automaticFailoverStatus = automaticFailoverStatus
+            self.clusterMode = clusterMode
             self.logDeliveryConfigurations = logDeliveryConfigurations
             self.primaryClusterId = primaryClusterId
             self.resharding = resharding
@@ -21032,7 +20274,7 @@ extension ElastiCacheClientTypes.ReservedCacheNode: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reservedCacheNodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedCacheNodeId)
         reservedCacheNodeId = reservedCacheNodeIdDecoded
@@ -21149,7 +20391,7 @@ extension ElastiCacheClientTypes {
         /// The hourly price charged for this reserved cache node.
         public var usagePrice: Swift.Double
 
-        public init (
+        public init(
             cacheNodeCount: Swift.Int = 0,
             cacheNodeType: Swift.String? = nil,
             duration: Swift.Int = 0,
@@ -21184,37 +20426,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension ReservedCacheNodeAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedCacheNodeAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You already have a reservation with the given identifier.
-public struct ReservedCacheNodeAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReservedCacheNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReservedCacheNodeAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -21227,7 +20472,7 @@ extension ReservedCacheNodeAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -21235,37 +20480,40 @@ extension ReservedCacheNodeAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension ReservedCacheNodeNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedCacheNodeNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested reserved cache node was not found.
-public struct ReservedCacheNodeNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReservedCacheNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReservedCacheNodeNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -21278,7 +20526,7 @@ extension ReservedCacheNodeNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -21286,37 +20534,40 @@ extension ReservedCacheNodeNotFoundFaultBody: Swift.Decodable {
 }
 
 extension ReservedCacheNodeQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedCacheNodeQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the user's cache node quota.
-public struct ReservedCacheNodeQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReservedCacheNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReservedCacheNodeQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -21329,7 +20580,7 @@ extension ReservedCacheNodeQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -21385,7 +20636,7 @@ extension ElastiCacheClientTypes.ReservedCacheNodesOffering: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reservedCacheNodesOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedCacheNodesOfferingId)
         reservedCacheNodesOfferingId = reservedCacheNodesOfferingIdDecoded
@@ -21482,7 +20733,7 @@ extension ElastiCacheClientTypes {
         /// The hourly price charged for this offering.
         public var usagePrice: Swift.Double
 
-        public init (
+        public init(
             cacheNodeType: Swift.String? = nil,
             duration: Swift.Int = 0,
             fixedPrice: Swift.Double = 0.0,
@@ -21507,37 +20758,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension ReservedCacheNodesOfferingNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedCacheNodesOfferingNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested cache node offering does not exist.
-public struct ReservedCacheNodesOfferingNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReservedCacheNodesOfferingNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReservedCacheNodesOfferingNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -21550,7 +20804,7 @@ extension ReservedCacheNodesOfferingNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -21599,7 +20853,7 @@ public struct ResetCacheParameterGroupInput: Swift.Equatable {
     /// If true, all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false
     public var resetAllParameters: Swift.Bool
 
-    public init (
+    public init(
         cacheParameterGroupName: Swift.String? = nil,
         parameterNameValues: [ElastiCacheClientTypes.ParameterNameValue]? = nil,
         resetAllParameters: Swift.Bool = false
@@ -21624,7 +20878,7 @@ extension ResetCacheParameterGroupInputBody: Swift.Decodable {
         case resetAllParameters = "ResetAllParameters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
@@ -21652,38 +20906,23 @@ extension ResetCacheParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ResetCacheParameterGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ResetCacheParameterGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CacheParameterGroupNotFound" : self = .cacheParameterGroupNotFoundFault(try CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheParameterGroupState" : self = .invalidCacheParameterGroupStateFault(try InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGlobalReplicationGroupState" : self = .invalidGlobalReplicationGroupStateFault(try InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ResetCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheParameterGroupState": return try await InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ResetCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
-    case cacheParameterGroupNotFoundFault(CacheParameterGroupNotFoundFault)
-    case invalidCacheParameterGroupStateFault(InvalidCacheParameterGroupStateFault)
-    case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ResetCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResetCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroupName = output.cacheParameterGroupName
@@ -21702,7 +20941,7 @@ public struct ResetCacheParameterGroupOutputResponse: Swift.Equatable {
     /// The name of the cache parameter group.
     public var cacheParameterGroupName: Swift.String?
 
-    public init (
+    public init(
         cacheParameterGroupName: Swift.String? = nil
     )
     {
@@ -21719,7 +20958,7 @@ extension ResetCacheParameterGroupOutputResponseBody: Swift.Decodable {
         case cacheParameterGroupName = "CacheParameterGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ResetCacheParameterGroupResult"))
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
@@ -21752,7 +20991,7 @@ extension ElastiCacheClientTypes.ReshardingConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeGroupId)
         nodeGroupId = nodeGroupIdDecoded
@@ -21786,7 +21025,7 @@ extension ElastiCacheClientTypes {
         /// A list of preferred availability zones for the nodes in this cluster.
         public var preferredAvailabilityZones: [Swift.String]?
 
-        public init (
+        public init(
             nodeGroupId: Swift.String? = nil,
             preferredAvailabilityZones: [Swift.String]? = nil
         )
@@ -21810,7 +21049,7 @@ extension ElastiCacheClientTypes.ReshardingStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let slotMigrationDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.SlotMigration.self, forKey: .slotMigration)
         slotMigration = slotMigrationDecoded
@@ -21823,7 +21062,7 @@ extension ElastiCacheClientTypes {
         /// Represents the progress of an online resharding operation.
         public var slotMigration: ElastiCacheClientTypes.SlotMigration?
 
-        public init (
+        public init(
             slotMigration: ElastiCacheClientTypes.SlotMigration? = nil
         )
         {
@@ -21868,7 +21107,7 @@ public struct RevokeCacheSecurityGroupIngressInput: Swift.Equatable {
     /// This member is required.
     public var ec2SecurityGroupOwnerId: Swift.String?
 
-    public init (
+    public init(
         cacheSecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupOwnerId: Swift.String? = nil
@@ -21893,7 +21132,7 @@ extension RevokeCacheSecurityGroupIngressInputBody: Swift.Decodable {
         case ec2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheSecurityGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheSecurityGroupName)
         cacheSecurityGroupName = cacheSecurityGroupNameDecoded
@@ -21904,38 +21143,23 @@ extension RevokeCacheSecurityGroupIngressInputBody: Swift.Decodable {
     }
 }
 
-extension RevokeCacheSecurityGroupIngressOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RevokeCacheSecurityGroupIngressOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AuthorizationNotFound" : self = .authorizationNotFoundFault(try AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CacheSecurityGroupNotFound" : self = .cacheSecurityGroupNotFoundFault(try CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheSecurityGroupState" : self = .invalidCacheSecurityGroupStateFault(try InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RevokeCacheSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AuthorizationNotFound": return try await AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RevokeCacheSecurityGroupIngressOutputError: Swift.Error, Swift.Equatable {
-    case authorizationNotFoundFault(AuthorizationNotFoundFault)
-    case cacheSecurityGroupNotFoundFault(CacheSecurityGroupNotFoundFault)
-    case invalidCacheSecurityGroupStateFault(InvalidCacheSecurityGroupStateFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RevokeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RevokeCacheSecurityGroupIngressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
@@ -21955,7 +21179,7 @@ public struct RevokeCacheSecurityGroupIngressOutputResponse: Swift.Equatable {
     /// * RevokeCacheSecurityGroupIngress
     public var cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup?
 
-    public init (
+    public init(
         cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup? = nil
     )
     {
@@ -21972,7 +21196,7 @@ extension RevokeCacheSecurityGroupIngressOutputResponseBody: Swift.Decodable {
         case cacheSecurityGroup = "CacheSecurityGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RevokeCacheSecurityGroupIngressResult"))
         let cacheSecurityGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSecurityGroup.self, forKey: .cacheSecurityGroup)
@@ -21996,7 +21220,7 @@ extension ElastiCacheClientTypes.SecurityGroupMembership: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityGroupId)
         securityGroupId = securityGroupIdDecoded
@@ -22013,7 +21237,7 @@ extension ElastiCacheClientTypes {
         /// The status of the cache security group membership. The status changes whenever a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
         public var status: Swift.String?
 
-        public init (
+        public init(
             securityGroupId: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -22026,37 +21250,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension ServiceLinkedRoleNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ServiceLinkedRoleNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified service linked role (SLR) was not found.
-public struct ServiceLinkedRoleNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceLinkedRoleNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22069,7 +21296,7 @@ extension ServiceLinkedRoleNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22132,7 +21359,7 @@ extension ElastiCacheClientTypes.ServiceUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceUpdateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceUpdateName)
         serviceUpdateName = serviceUpdateNameDecoded
@@ -22189,7 +21416,7 @@ extension ElastiCacheClientTypes {
         /// Reflects the nature of the service update
         public var serviceUpdateType: ElastiCacheClientTypes.ServiceUpdateType?
 
-        public init (
+        public init(
             autoUpdateAfterRecommendedApplyByDate: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
@@ -22222,37 +21449,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension ServiceUpdateNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ServiceUpdateNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service update doesn't exist
-public struct ServiceUpdateNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUpdateNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22265,7 +21495,7 @@ extension ServiceUpdateNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22421,7 +21651,7 @@ extension ElastiCacheClientTypes.SlotMigration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let progressPercentageDecoded = try containerValues.decode(Swift.Double.self, forKey: .progressPercentage)
         progressPercentage = progressPercentageDecoded
@@ -22434,7 +21664,7 @@ extension ElastiCacheClientTypes {
         /// The percentage of the slot migration that is complete.
         public var progressPercentage: Swift.Double
 
-        public init (
+        public init(
             progressPercentage: Swift.Double = 0.0
         )
         {
@@ -22573,7 +21803,7 @@ extension ElastiCacheClientTypes.Snapshot: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotName)
         snapshotName = snapshotNameDecoded
@@ -22767,7 +21997,7 @@ extension ElastiCacheClientTypes {
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group for the source cluster.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             autoMinorVersionUpgrade: Swift.Bool = false,
             automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus? = nil,
@@ -22832,37 +22062,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension SnapshotAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You already have a snapshot with the given name.
-public struct SnapshotAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapshotAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22875,7 +22108,7 @@ extension SnapshotAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22883,18 +22116,16 @@ extension SnapshotAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension SnapshotFeatureNotSupportedFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotFeatureNotSupportedFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -22906,21 +22137,26 @@ extension SnapshotFeatureNotSupportedFault {
 ///
 ///
 /// Neither of these are supported by ElastiCache.
-public struct SnapshotFeatureNotSupportedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SnapshotFeatureNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapshotFeatureNotSupportedFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22933,7 +22169,7 @@ extension SnapshotFeatureNotSupportedFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22941,37 +22177,40 @@ extension SnapshotFeatureNotSupportedFaultBody: Swift.Decodable {
 }
 
 extension SnapshotNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested snapshot name does not refer to an existing snapshot.
-public struct SnapshotNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapshotNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -22984,7 +22223,7 @@ extension SnapshotNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22992,37 +22231,40 @@ extension SnapshotNotFoundFaultBody: Swift.Decodable {
 }
 
 extension SnapshotQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the maximum number of snapshots.
-public struct SnapshotQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapshotQuotaExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -23035,7 +22277,7 @@ extension SnapshotQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -23126,7 +22368,7 @@ public struct StartMigrationInput: Swift.Equatable {
     /// This member is required.
     public var replicationGroupId: Swift.String?
 
-    public init (
+    public init(
         customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]? = nil,
         replicationGroupId: Swift.String? = nil
     )
@@ -23147,7 +22389,7 @@ extension StartMigrationInputBody: Swift.Decodable {
         case replicationGroupId = "ReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -23173,36 +22415,22 @@ extension StartMigrationInputBody: Swift.Decodable {
     }
 }
 
-extension StartMigrationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension StartMigrationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupAlreadyUnderMigrationFault" : self = .replicationGroupAlreadyUnderMigrationFault(try ReplicationGroupAlreadyUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupAlreadyUnderMigrationFault": return try await ReplicationGroupAlreadyUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum StartMigrationOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case replicationGroupAlreadyUnderMigrationFault(ReplicationGroupAlreadyUnderMigrationFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -23216,7 +22444,7 @@ public struct StartMigrationOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -23233,7 +22461,7 @@ extension StartMigrationOutputResponseBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartMigrationResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -23274,7 +22502,7 @@ extension ElastiCacheClientTypes.Subnet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetIdentifier)
         subnetIdentifier = subnetIdentifierDecoded
@@ -23313,10 +22541,10 @@ extension ElastiCacheClientTypes {
         public var subnetIdentifier: Swift.String?
         /// The outpost ARN of the subnet.
         public var subnetOutpost: ElastiCacheClientTypes.SubnetOutpost?
-        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var supportedNetworkTypes: [ElastiCacheClientTypes.NetworkType]?
 
-        public init (
+        public init(
             subnetAvailabilityZone: ElastiCacheClientTypes.AvailabilityZone? = nil,
             subnetIdentifier: Swift.String? = nil,
             subnetOutpost: ElastiCacheClientTypes.SubnetOutpost? = nil,
@@ -23333,37 +22561,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension SubnetInUse {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubnetInUseBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested subnet is being used by another cache subnet group.
-public struct SubnetInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubnetInUse" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -23376,7 +22607,7 @@ extension SubnetInUseBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -23384,37 +22615,40 @@ extension SubnetInUseBody: Swift.Decodable {
 }
 
 extension SubnetNotAllowedFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubnetNotAllowedFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
-public struct SubnetNotAllowedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubnetNotAllowedFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -23427,7 +22661,7 @@ extension SubnetNotAllowedFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -23446,7 +22680,7 @@ extension ElastiCacheClientTypes.SubnetOutpost: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetOutpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetOutpostArn)
         subnetOutpostArn = subnetOutpostArnDecoded
@@ -23459,7 +22693,7 @@ extension ElastiCacheClientTypes {
         /// The outpost ARN of the subnet.
         public var subnetOutpostArn: Swift.String?
 
-        public init (
+        public init(
             subnetOutpostArn: Swift.String? = nil
         )
         {
@@ -23485,7 +22719,7 @@ extension ElastiCacheClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -23502,7 +22736,7 @@ extension ElastiCacheClientTypes {
         /// The tag's value. May be null.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -23515,37 +22749,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension TagNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TagNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested tag was not found on this resource.
-public struct TagNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TagNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -23558,7 +22795,7 @@ extension TagNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -23566,37 +22803,40 @@ extension TagNotFoundFaultBody: Swift.Decodable {
 }
 
 extension TagQuotaPerResourceExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TagQuotaPerResourceExceededBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-public struct TagQuotaPerResourceExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TagQuotaPerResourceExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -23609,7 +22849,7 @@ extension TagQuotaPerResourceExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -23644,7 +22884,7 @@ public struct TestFailoverInput: Swift.Equatable {
     /// This member is required.
     public var replicationGroupId: Swift.String?
 
-    public init (
+    public init(
         nodeGroupId: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil
     )
@@ -23665,7 +22905,7 @@ extension TestFailoverInputBody: Swift.Decodable {
         case replicationGroupId = "ReplicationGroupId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -23675,37 +22915,40 @@ extension TestFailoverInputBody: Swift.Decodable {
 }
 
 extension TestFailoverNotAvailableFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TestFailoverNotAvailableFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The TestFailover action is not available.
-public struct TestFailoverNotAvailableFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TestFailoverNotAvailableFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -23718,53 +22961,34 @@ extension TestFailoverNotAvailableFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
 }
 
-extension TestFailoverOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension TestFailoverOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "APICallRateForCustomerExceeded" : self = .aPICallRateForCustomerExceededFault(try APICallRateForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCacheClusterState" : self = .invalidCacheClusterStateFault(try InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKMSKeyFault" : self = .invalidKMSKeyFault(try InvalidKMSKeyFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidReplicationGroupState" : self = .invalidReplicationGroupStateFault(try InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NodeGroupNotFoundFault" : self = .nodeGroupNotFoundFault(try NodeGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicationGroupNotFoundFault" : self = .replicationGroupNotFoundFault(try ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TestFailoverNotAvailableFault" : self = .testFailoverNotAvailableFault(try TestFailoverNotAvailableFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TestFailoverOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "APICallRateForCustomerExceeded": return try await APICallRateForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidKMSKeyFault": return try await InvalidKMSKeyFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NodeGroupNotFoundFault": return try await NodeGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TestFailoverNotAvailableFault": return try await TestFailoverNotAvailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum TestFailoverOutputError: Swift.Error, Swift.Equatable {
-    case aPICallRateForCustomerExceededFault(APICallRateForCustomerExceededFault)
-    case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
-    case invalidKMSKeyFault(InvalidKMSKeyFault)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidReplicationGroupStateFault(InvalidReplicationGroupStateFault)
-    case nodeGroupNotFoundFault(NodeGroupNotFoundFault)
-    case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
-    case testFailoverNotAvailableFault(TestFailoverNotAvailableFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TestFailoverOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TestFailoverOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
@@ -23778,7 +23002,7 @@ public struct TestFailoverOutputResponse: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
-    public init (
+    public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
     )
     {
@@ -23795,7 +23019,7 @@ extension TestFailoverOutputResponseBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TestFailoverResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
@@ -23819,7 +23043,7 @@ extension ElastiCacheClientTypes.TimeRangeFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
         startTime = startTimeDecoded
@@ -23836,7 +23060,7 @@ extension ElastiCacheClientTypes {
         /// The start time of the time range filter
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             endTime: ClientRuntime.Date? = nil,
             startTime: ClientRuntime.Date? = nil
         )
@@ -23908,7 +23132,7 @@ extension ElastiCacheClientTypes.UnprocessedUpdateAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -23937,7 +23161,7 @@ extension ElastiCacheClientTypes {
         /// The unique ID of the service update
         public var serviceUpdateName: Swift.String?
 
-        public init (
+        public init(
             cacheClusterId: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil,
@@ -24049,7 +23273,7 @@ extension ElastiCacheClientTypes.UpdateAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
@@ -24160,7 +23384,7 @@ extension ElastiCacheClientTypes {
         /// The date when the UpdateActionStatus was last modified
         public var updateActionStatusModifiedDate: ClientRuntime.Date?
 
-        public init (
+        public init(
             cacheClusterId: Swift.String? = nil,
             cacheNodeUpdateStatus: [ElastiCacheClientTypes.CacheNodeUpdateStatus]? = nil,
             engine: Swift.String? = nil,
@@ -24308,7 +23532,7 @@ extension ElastiCacheClientTypes.User: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
         userId = userIdDecoded
@@ -24369,7 +23593,7 @@ extension ElastiCacheClientTypes {
         /// The username of the user.
         public var userName: Swift.String?
 
-        public init (
+        public init(
             accessString: Swift.String? = nil,
             arn: Swift.String? = nil,
             authentication: ElastiCacheClientTypes.Authentication? = nil,
@@ -24396,37 +23620,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension UserAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A user with this ID already exists.
-public struct UserAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UserAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -24439,7 +23666,7 @@ extension UserAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -24504,7 +23731,7 @@ extension ElastiCacheClientTypes.UserGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
         userGroupId = userGroupIdDecoded
@@ -24578,7 +23805,7 @@ extension ElastiCacheClientTypes {
         /// The list of user IDs that belong to the user group.
         public var userIds: [Swift.String]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             engine: Swift.String? = nil,
             minimumEngineVersion: Swift.String? = nil,
@@ -24603,37 +23830,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension UserGroupAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user group with this ID already exists.
-public struct UserGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UserGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UserGroupAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -24646,7 +23876,7 @@ extension UserGroupAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -24654,37 +23884,40 @@ extension UserGroupAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension UserGroupNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user group was not found or does not exist
-public struct UserGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UserGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UserGroupNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -24697,7 +23930,7 @@ extension UserGroupNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -24738,7 +23971,7 @@ extension ElastiCacheClientTypes.UserGroupPendingChanges: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.userIdsToRemove) {
             struct KeyVal0{struct member{}}
@@ -24789,7 +24022,7 @@ extension ElastiCacheClientTypes {
         /// The list of user IDs to remove.
         public var userIdsToRemove: [Swift.String]?
 
-        public init (
+        public init(
             userIdsToAdd: [Swift.String]? = nil,
             userIdsToRemove: [Swift.String]? = nil
         )
@@ -24802,37 +24035,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension UserGroupQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of users exceeds the user group limit.
-public struct UserGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UserGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UserGroupQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -24845,7 +24081,7 @@ extension UserGroupQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -24886,7 +24122,7 @@ extension ElastiCacheClientTypes.UserGroupsUpdateStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.userGroupIdsToAdd) {
             struct KeyVal0{struct member{}}
@@ -24937,7 +24173,7 @@ extension ElastiCacheClientTypes {
         /// The ID of the user group to remove.
         public var userGroupIdsToRemove: [Swift.String]?
 
-        public init (
+        public init(
             userGroupIdsToAdd: [Swift.String]? = nil,
             userGroupIdsToRemove: [Swift.String]? = nil
         )
@@ -24950,37 +24186,40 @@ extension ElastiCacheClientTypes {
 }
 
 extension UserNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user does not exist or could not be found.
-public struct UserNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UserNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -24993,7 +24232,7 @@ extension UserNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -25001,37 +24240,40 @@ extension UserNotFoundFaultBody: Swift.Decodable {
 }
 
 extension UserQuotaExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The quota of users has been exceeded.
-public struct UserQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UserQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -25044,7 +24286,7 @@ extension UserQuotaExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded

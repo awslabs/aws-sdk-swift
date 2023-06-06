@@ -3,25 +3,448 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
+}
+
+extension FinspaceClientTypes.AutoScalingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingMetric
+        case maxNodeCount
+        case metricTarget
+        case minNodeCount
+        case scaleInCooldownSeconds
+        case scaleOutCooldownSeconds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoScalingMetric = self.autoScalingMetric {
+            try encodeContainer.encode(autoScalingMetric.rawValue, forKey: .autoScalingMetric)
+        }
+        if let maxNodeCount = self.maxNodeCount {
+            try encodeContainer.encode(maxNodeCount, forKey: .maxNodeCount)
+        }
+        if let metricTarget = self.metricTarget {
+            try encodeContainer.encode(metricTarget, forKey: .metricTarget)
+        }
+        if let minNodeCount = self.minNodeCount {
+            try encodeContainer.encode(minNodeCount, forKey: .minNodeCount)
+        }
+        if let scaleInCooldownSeconds = self.scaleInCooldownSeconds {
+            try encodeContainer.encode(scaleInCooldownSeconds, forKey: .scaleInCooldownSeconds)
+        }
+        if let scaleOutCooldownSeconds = self.scaleOutCooldownSeconds {
+            try encodeContainer.encode(scaleOutCooldownSeconds, forKey: .scaleOutCooldownSeconds)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minNodeCount)
+        minNodeCount = minNodeCountDecoded
+        let maxNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNodeCount)
+        maxNodeCount = maxNodeCountDecoded
+        let autoScalingMetricDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.AutoScalingMetric.self, forKey: .autoScalingMetric)
+        autoScalingMetric = autoScalingMetricDecoded
+        let metricTargetDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .metricTarget)
+        metricTarget = metricTargetDecoded
+        let scaleInCooldownSecondsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .scaleInCooldownSeconds)
+        scaleInCooldownSeconds = scaleInCooldownSecondsDecoded
+        let scaleOutCooldownSecondsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .scaleOutCooldownSeconds)
+        scaleOutCooldownSeconds = scaleOutCooldownSecondsDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The configuration based on which FinSpace will scale in or scale out nodes in your cluster.
+    public struct AutoScalingConfiguration: Swift.Equatable {
+        /// The metric your cluster will track in order to scale in and out. For example, CPU_UTILIZATION_PERCENTAGE is the average CPU usage across all the nodes in a cluster.
+        public var autoScalingMetric: FinspaceClientTypes.AutoScalingMetric?
+        /// The highest number of nodes to scale. This value cannot be greater than 5.
+        public var maxNodeCount: Swift.Int?
+        /// The desired value of the chosen autoScalingMetric. When the metric drops below this value, the cluster will scale in. When the metric goes above this value, the cluster will scale out. You can set the target value between 1 and 100 percent.
+        public var metricTarget: Swift.Double?
+        /// The lowest number of nodes to scale. This value must be at least 1 and less than the maxNodeCount. If the nodes in a cluster belong to multiple availability zones, then minNodeCount must be at least 3.
+        public var minNodeCount: Swift.Int?
+        /// The duration in seconds that FinSpace will wait after a scale in event before initiating another scaling event.
+        public var scaleInCooldownSeconds: Swift.Double?
+        /// The duration in seconds that FinSpace will wait after a scale out event before initiating another scaling event.
+        public var scaleOutCooldownSeconds: Swift.Double?
+
+        public init(
+            autoScalingMetric: FinspaceClientTypes.AutoScalingMetric? = nil,
+            maxNodeCount: Swift.Int? = nil,
+            metricTarget: Swift.Double? = nil,
+            minNodeCount: Swift.Int? = nil,
+            scaleInCooldownSeconds: Swift.Double? = nil,
+            scaleOutCooldownSeconds: Swift.Double? = nil
+        )
+        {
+            self.autoScalingMetric = autoScalingMetric
+            self.maxNodeCount = maxNodeCount
+            self.metricTarget = metricTarget
+            self.minNodeCount = minNodeCount
+            self.scaleInCooldownSeconds = scaleInCooldownSeconds
+            self.scaleOutCooldownSeconds = scaleOutCooldownSeconds
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum AutoScalingMetric: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cpuUtilizationPercentage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoScalingMetric] {
+            return [
+                .cpuUtilizationPercentage,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cpuUtilizationPercentage: return "CPU_UTILIZATION_PERCENTAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AutoScalingMetric(rawValue: rawValue) ?? AutoScalingMetric.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes.CapacityConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nodeCount
+        case nodeType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let nodeCount = self.nodeCount {
+            try encodeContainer.encode(nodeCount, forKey: .nodeCount)
+        }
+        if let nodeType = self.nodeType {
+            try encodeContainer.encode(nodeType, forKey: .nodeType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
+        nodeType = nodeTypeDecoded
+        let nodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeCount)
+        nodeCount = nodeCountDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+    public struct CapacityConfiguration: Swift.Equatable {
+        /// The number of instances running in a cluster.
+        public var nodeCount: Swift.Int?
+        /// The type that determines the hardware of the host computer used for your cluster instance. Each node type offers different memory and storage capabilities. Choose a node type based on the requirements of the application or software that you plan to run on your instance. You can only specify one of the following values:
+        ///
+        /// * kx.s.large – The node type with a configuration of 12 GiB memory and 2 vCPUs.
+        ///
+        /// * kx.s.xlarge – The node type with a configuration of 27 GiB memory and 4 vCPUs.
+        ///
+        /// * kx.s.2xlarge – The node type with a configuration of 54 GiB memory and 8 vCPUs.
+        ///
+        /// * kx.s.4xlarge – The node type with a configuration of 108 GiB memory and 16 vCPUs.
+        ///
+        /// * kx.s.8xlarge – The node type with a configuration of 216 GiB memory and 32 vCPUs.
+        ///
+        /// * kx.s.16xlarge – The node type with a configuration of 432 GiB memory and 64 vCPUs.
+        ///
+        /// * kx.s.32xlarge – The node type with a configuration of 864 GiB memory and 128 vCPUs.
+        public var nodeType: Swift.String?
+
+        public init(
+            nodeCount: Swift.Int? = nil,
+            nodeType: Swift.String? = nil
+        )
+        {
+            self.nodeCount = nodeCount
+            self.nodeType = nodeType
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.ChangeRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeType
+        case dbPath
+        case s3Path
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let changeType = self.changeType {
+            try encodeContainer.encode(changeType.rawValue, forKey: .changeType)
+        }
+        if let dbPath = self.dbPath {
+            try encodeContainer.encode(dbPath, forKey: .dbPath)
+        }
+        if let s3Path = self.s3Path {
+            try encodeContainer.encode(s3Path, forKey: .s3Path)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.ChangeType.self, forKey: .changeType)
+        changeType = changeTypeDecoded
+        let s3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Path)
+        s3Path = s3PathDecoded
+        let dbPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbPath)
+        dbPath = dbPathDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// A list of change request objects.
+    public struct ChangeRequest: Swift.Equatable {
+        /// Defines the type of change request. A changeType can have the following values:
+        ///
+        /// * PUT – Adds or updates files in a database.
+        ///
+        /// * DELETE – Deletes files in a database.
+        /// This member is required.
+        public var changeType: FinspaceClientTypes.ChangeType?
+        /// Defines the path within the database directory.
+        /// This member is required.
+        public var dbPath: Swift.String?
+        /// Defines the S3 path of the source file that is required to add or update files in a database.
+        public var s3Path: Swift.String?
+
+        public init(
+            changeType: FinspaceClientTypes.ChangeType? = nil,
+            dbPath: Swift.String? = nil,
+            s3Path: Swift.String? = nil
+        )
+        {
+            self.changeType = changeType
+            self.dbPath = dbPath
+            self.s3Path = s3Path
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum ChangeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case delete
+        case put
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeType] {
+            return [
+                .delete,
+                .put,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .put: return "PUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ChangeType(rawValue: rawValue) ?? ChangeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes {
+    public enum ChangesetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case pending
+        case processing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangesetStatus] {
+            return [
+                .completed,
+                .failed,
+                .pending,
+                .processing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .processing: return "PROCESSING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ChangesetStatus(rawValue: rawValue) ?? ChangesetStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes.CodeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Bucket
+        case s3Key
+        case s3ObjectVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Bucket = self.s3Bucket {
+            try encodeContainer.encode(s3Bucket, forKey: .s3Bucket)
+        }
+        if let s3Key = self.s3Key {
+            try encodeContainer.encode(s3Key, forKey: .s3Key)
+        }
+        if let s3ObjectVersion = self.s3ObjectVersion {
+            try encodeContainer.encode(s3ObjectVersion, forKey: .s3ObjectVersion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
+        s3Bucket = s3BucketDecoded
+        let s3KeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Key)
+        s3Key = s3KeyDecoded
+        let s3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3ObjectVersion)
+        s3ObjectVersion = s3ObjectVersionDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure of the customer code available within the running cluster.
+    public struct CodeConfiguration: Swift.Equatable {
+        /// A unique name for the S3 bucket.
+        public var s3Bucket: Swift.String?
+        /// The full S3 path (excluding bucket) to the .zip file. This file contains the code that is loaded onto the cluster when it's started.
+        public var s3Key: Swift.String?
+        /// The version of an S3 object.
+        public var s3ObjectVersion: Swift.String?
+
+        public init(
+            s3Bucket: Swift.String? = nil,
+            s3Key: Swift.String? = nil,
+            s3ObjectVersion: Swift.String? = nil
+        )
+        {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+            self.s3ObjectVersion = s3ObjectVersion
+        }
+    }
+
+}
+
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+            self.properties.reason = output.reason
+        } else {
+            self.properties.message = nil
+            self.properties.reason = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// There was a conflict with this action, and it could not be completed.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The reason for the conflict exception.
+        public internal(set) var reason: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reason: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let reason: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case reason
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+    }
 }
 
 extension CreateEnvironmentInput: Swift.Encodable {
@@ -104,7 +527,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     /// Add tags to your FinSpace environment.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         dataBundles: [Swift.String]? = nil,
         description: Swift.String? = nil,
         federationMode: FinspaceClientTypes.FederationMode? = nil,
@@ -149,7 +572,7 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -188,41 +611,25 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-extension CreateEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case limitExceededException(LimitExceededException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environmentArn = output.environmentArn
@@ -241,10 +648,10 @@ public struct CreateEnvironmentOutputResponse: Swift.Equatable {
     public var environmentArn: Swift.String?
     /// The unique identifier for FinSpace environment that you created.
     public var environmentId: Swift.String?
-    /// The sign-in url for the web application of the FinSpace environment you created.
+    /// The sign-in URL for the web application of the FinSpace environment you created.
     public var environmentUrl: Swift.String?
 
-    public init (
+    public init(
         environmentArn: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         environmentUrl: Swift.String? = nil
@@ -269,7 +676,7 @@ extension CreateEnvironmentOutputResponseBody: Swift.Decodable {
         case environmentUrl
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -278,6 +685,1557 @@ extension CreateEnvironmentOutputResponseBody: Swift.Decodable {
         let environmentUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentUrl)
         environmentUrl = environmentUrlDecoded
     }
+}
+
+extension CreateKxChangesetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeRequests
+        case clientToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let changeRequests = changeRequests {
+            var changeRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .changeRequests)
+            for changerequest0 in changeRequests {
+                try changeRequestsContainer.encode(changerequest0)
+            }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+    }
+}
+
+extension CreateKxChangesetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/changesets"
+    }
+}
+
+public struct CreateKxChangesetInput: Swift.Equatable {
+    /// A list of change request objects that are run in order. A change request object consists of changeType , s3Path, and a dbPath. A changeType can has the following values:
+    ///
+    /// * PUT – Adds or updates files in a database.
+    ///
+    /// * DELETE – Deletes files in a database.
+    ///
+    ///
+    /// All the change requests require a mandatory dbPath attribute that defines the path within the database directory. The s3Path attribute defines the s3 source file path and is required for a PUT change type. Here is an example of how you can use the change request object: [ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"}, { "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"}, { "changeType": "DELETE", "dbPath": "/2020.01.01/"} ] In this example, the first request with PUT change type allows you to add files in the given s3Path under the 2020.01.02 partition of the database. The second request with PUT change type allows you to add a single sym file at database root location. The last request with DELETE change type allows you to delete the files under the 2020.01.01 partition of the database.
+    /// This member is required.
+    public var changeRequests: [FinspaceClientTypes.ChangeRequest]?
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the kdb database.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A unique identifier of the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        changeRequests: [FinspaceClientTypes.ChangeRequest]? = nil,
+        clientToken: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.changeRequests = changeRequests
+        self.clientToken = clientToken
+        self.databaseName = databaseName
+        self.environmentId = environmentId
+    }
+}
+
+struct CreateKxChangesetInputBody: Swift.Equatable {
+    let changeRequests: [FinspaceClientTypes.ChangeRequest]?
+    let clientToken: Swift.String?
+}
+
+extension CreateKxChangesetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeRequests
+        case clientToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeRequestsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.ChangeRequest?].self, forKey: .changeRequests)
+        var changeRequestsDecoded0:[FinspaceClientTypes.ChangeRequest]? = nil
+        if let changeRequestsContainer = changeRequestsContainer {
+            changeRequestsDecoded0 = [FinspaceClientTypes.ChangeRequest]()
+            for structure0 in changeRequestsContainer {
+                if let structure0 = structure0 {
+                    changeRequestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        changeRequests = changeRequestsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum CreateKxChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateKxChangesetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKxChangesetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.changeRequests = output.changeRequests
+            self.changesetId = output.changesetId
+            self.createdTimestamp = output.createdTimestamp
+            self.databaseName = output.databaseName
+            self.environmentId = output.environmentId
+            self.errorInfo = output.errorInfo
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.status = output.status
+        } else {
+            self.changeRequests = nil
+            self.changesetId = nil
+            self.createdTimestamp = nil
+            self.databaseName = nil
+            self.environmentId = nil
+            self.errorInfo = nil
+            self.lastModifiedTimestamp = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct CreateKxChangesetOutputResponse: Swift.Equatable {
+    /// A list of change requests.
+    public var changeRequests: [FinspaceClientTypes.ChangeRequest]?
+    /// A unique identifier for the changeset.
+    public var changesetId: Swift.String?
+    /// The timestamp at which the changeset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The name of the kdb database.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// The details of the error that you receive when creating a changeset. It consists of the type of error and the error message.
+    public var errorInfo: FinspaceClientTypes.ErrorInfo?
+    /// The timestamp at which the changeset was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// Status of the changeset creation process.
+    ///
+    /// * Pending – Changeset creation is pending.
+    ///
+    /// * Processing – Changeset creation is running.
+    ///
+    /// * Failed – Changeset creation has failed.
+    ///
+    /// * Complete – Changeset creation has succeeded.
+    public var status: FinspaceClientTypes.ChangesetStatus?
+
+    public init(
+        changeRequests: [FinspaceClientTypes.ChangeRequest]? = nil,
+        changesetId: Swift.String? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databaseName: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        errorInfo: FinspaceClientTypes.ErrorInfo? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        status: FinspaceClientTypes.ChangesetStatus? = nil
+    )
+    {
+        self.changeRequests = changeRequests
+        self.changesetId = changesetId
+        self.createdTimestamp = createdTimestamp
+        self.databaseName = databaseName
+        self.environmentId = environmentId
+        self.errorInfo = errorInfo
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.status = status
+    }
+}
+
+struct CreateKxChangesetOutputResponseBody: Swift.Equatable {
+    let changesetId: Swift.String?
+    let databaseName: Swift.String?
+    let environmentId: Swift.String?
+    let changeRequests: [FinspaceClientTypes.ChangeRequest]?
+    let createdTimestamp: ClientRuntime.Date?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let status: FinspaceClientTypes.ChangesetStatus?
+    let errorInfo: FinspaceClientTypes.ErrorInfo?
+}
+
+extension CreateKxChangesetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeRequests
+        case changesetId
+        case createdTimestamp
+        case databaseName
+        case environmentId
+        case errorInfo
+        case lastModifiedTimestamp
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let changeRequestsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.ChangeRequest?].self, forKey: .changeRequests)
+        var changeRequestsDecoded0:[FinspaceClientTypes.ChangeRequest]? = nil
+        if let changeRequestsContainer = changeRequestsContainer {
+            changeRequestsDecoded0 = [FinspaceClientTypes.ChangeRequest]()
+            for structure0 in changeRequestsContainer {
+                if let structure0 = structure0 {
+                    changeRequestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        changeRequests = changeRequestsDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.ChangesetStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorInfoDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.ErrorInfo.self, forKey: .errorInfo)
+        errorInfo = errorInfoDecoded
+    }
+}
+
+extension CreateKxClusterInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfiguration
+        case availabilityZoneId
+        case azMode
+        case cacheStorageConfigurations
+        case capacityConfiguration
+        case clientToken
+        case clusterDescription
+        case clusterName
+        case clusterType
+        case code
+        case commandLineArguments
+        case databases
+        case executionRole
+        case initializationScript
+        case releaseLabel
+        case savedownStorageConfiguration
+        case tags
+        case vpcConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoScalingConfiguration = self.autoScalingConfiguration {
+            try encodeContainer.encode(autoScalingConfiguration, forKey: .autoScalingConfiguration)
+        }
+        if let availabilityZoneId = self.availabilityZoneId {
+            try encodeContainer.encode(availabilityZoneId, forKey: .availabilityZoneId)
+        }
+        if let azMode = self.azMode {
+            try encodeContainer.encode(azMode.rawValue, forKey: .azMode)
+        }
+        if let cacheStorageConfigurations = cacheStorageConfigurations {
+            var cacheStorageConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cacheStorageConfigurations)
+            for kxcachestorageconfiguration0 in cacheStorageConfigurations {
+                try cacheStorageConfigurationsContainer.encode(kxcachestorageconfiguration0)
+            }
+        }
+        if let capacityConfiguration = self.capacityConfiguration {
+            try encodeContainer.encode(capacityConfiguration, forKey: .capacityConfiguration)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let clusterDescription = self.clusterDescription {
+            try encodeContainer.encode(clusterDescription, forKey: .clusterDescription)
+        }
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let clusterType = self.clusterType {
+            try encodeContainer.encode(clusterType.rawValue, forKey: .clusterType)
+        }
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let commandLineArguments = commandLineArguments {
+            var commandLineArgumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .commandLineArguments)
+            for kxcommandlineargument0 in commandLineArguments {
+                try commandLineArgumentsContainer.encode(kxcommandlineargument0)
+            }
+        }
+        if let databases = databases {
+            var databasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databases)
+            for kxdatabaseconfiguration0 in databases {
+                try databasesContainer.encode(kxdatabaseconfiguration0)
+            }
+        }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
+        }
+        if let initializationScript = self.initializationScript {
+            try encodeContainer.encode(initializationScript, forKey: .initializationScript)
+        }
+        if let releaseLabel = self.releaseLabel {
+            try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
+        }
+        if let savedownStorageConfiguration = self.savedownStorageConfiguration {
+            try encodeContainer.encode(savedownStorageConfiguration, forKey: .savedownStorageConfiguration)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let vpcConfiguration = self.vpcConfiguration {
+            try encodeContainer.encode(vpcConfiguration, forKey: .vpcConfiguration)
+        }
+    }
+}
+
+extension CreateKxClusterInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters"
+    }
+}
+
+public struct CreateKxClusterInput: Swift.Equatable {
+    /// The configuration based on which FinSpace will scale in or scale out nodes in your cluster.
+    public var autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
+    /// The availability zone identifiers for the requested regions.
+    public var availabilityZoneId: Swift.String?
+    /// The number of availability zones you want to assign per cluster. This can be one of the following
+    ///
+    /// * SINGLE – Assigns one availability zone per cluster.
+    ///
+    /// * MULTI – Assigns all the availability zones per cluster.
+    /// This member is required.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
+    public var cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
+    /// A structure for the metadata of a cluster. It includes information about like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+    /// This member is required.
+    public var capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A description of the cluster.
+    public var clusterDescription: Swift.String?
+    /// A unique name for the cluster that you want to create.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// Specifies the type of KDB database that is being created. The following types are available:
+    ///
+    /// * HDB – A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb databases mounted to the cluster.
+    ///
+    /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
+    ///
+    /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+    /// This member is required.
+    public var clusterType: FinspaceClientTypes.KxClusterType?
+    /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
+    public var code: FinspaceClientTypes.CodeConfiguration?
+    /// Defines the key-value pairs to make them available inside the cluster.
+    public var commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
+    /// A list of databases that will be available for querying.
+    public var databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// An IAM role that defines a set of permissions associated with a cluster. These permissions are assumed when a cluster attempts to access another cluster.
+    public var executionRole: Swift.String?
+    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
+    public var initializationScript: Swift.String?
+    /// The version of FinSpace managed kdb to run.
+    /// This member is required.
+    public var releaseLabel: Swift.String?
+    /// The size and type of the temporary storage that is used to hold data during the savedown process. This parameter is required when you choose clusterType as RDB. All the data written to this storage space is lost when the cluster node is restarted.
+    public var savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    /// A list of key-value pairs to label the cluster. You can add up to 50 tags to a cluster.
+    public var tags: [Swift.String:Swift.String]?
+    /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
+    public var vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
+
+    public init(
+        autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration? = nil,
+        availabilityZoneId: Swift.String? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]? = nil,
+        capacityConfiguration: FinspaceClientTypes.CapacityConfiguration? = nil,
+        clientToken: Swift.String? = nil,
+        clusterDescription: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        clusterType: FinspaceClientTypes.KxClusterType? = nil,
+        code: FinspaceClientTypes.CodeConfiguration? = nil,
+        commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]? = nil,
+        databases: [FinspaceClientTypes.KxDatabaseConfiguration]? = nil,
+        environmentId: Swift.String? = nil,
+        executionRole: Swift.String? = nil,
+        initializationScript: Swift.String? = nil,
+        releaseLabel: Swift.String? = nil,
+        savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
+    )
+    {
+        self.autoScalingConfiguration = autoScalingConfiguration
+        self.availabilityZoneId = availabilityZoneId
+        self.azMode = azMode
+        self.cacheStorageConfigurations = cacheStorageConfigurations
+        self.capacityConfiguration = capacityConfiguration
+        self.clientToken = clientToken
+        self.clusterDescription = clusterDescription
+        self.clusterName = clusterName
+        self.clusterType = clusterType
+        self.code = code
+        self.commandLineArguments = commandLineArguments
+        self.databases = databases
+        self.environmentId = environmentId
+        self.executionRole = executionRole
+        self.initializationScript = initializationScript
+        self.releaseLabel = releaseLabel
+        self.savedownStorageConfiguration = savedownStorageConfiguration
+        self.tags = tags
+        self.vpcConfiguration = vpcConfiguration
+    }
+}
+
+struct CreateKxClusterInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let clusterName: Swift.String?
+    let clusterType: FinspaceClientTypes.KxClusterType?
+    let databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    let cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
+    let autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
+    let clusterDescription: Swift.String?
+    let capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
+    let releaseLabel: Swift.String?
+    let vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
+    let initializationScript: Swift.String?
+    let commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
+    let code: FinspaceClientTypes.CodeConfiguration?
+    let executionRole: Swift.String?
+    let savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateKxClusterInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfiguration
+        case availabilityZoneId
+        case azMode
+        case cacheStorageConfigurations
+        case capacityConfiguration
+        case clientToken
+        case clusterDescription
+        case clusterName
+        case clusterType
+        case code
+        case commandLineArguments
+        case databases
+        case executionRole
+        case initializationScript
+        case releaseLabel
+        case savedownStorageConfiguration
+        case tags
+        case vpcConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let clusterTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterType.self, forKey: .clusterType)
+        clusterType = clusterTypeDecoded
+        let databasesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseConfiguration?].self, forKey: .databases)
+        var databasesDecoded0:[FinspaceClientTypes.KxDatabaseConfiguration]? = nil
+        if let databasesContainer = databasesContainer {
+            databasesDecoded0 = [FinspaceClientTypes.KxDatabaseConfiguration]()
+            for structure0 in databasesContainer {
+                if let structure0 = structure0 {
+                    databasesDecoded0?.append(structure0)
+                }
+            }
+        }
+        databases = databasesDecoded0
+        let cacheStorageConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxCacheStorageConfiguration?].self, forKey: .cacheStorageConfigurations)
+        var cacheStorageConfigurationsDecoded0:[FinspaceClientTypes.KxCacheStorageConfiguration]? = nil
+        if let cacheStorageConfigurationsContainer = cacheStorageConfigurationsContainer {
+            cacheStorageConfigurationsDecoded0 = [FinspaceClientTypes.KxCacheStorageConfiguration]()
+            for structure0 in cacheStorageConfigurationsContainer {
+                if let structure0 = structure0 {
+                    cacheStorageConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cacheStorageConfigurations = cacheStorageConfigurationsDecoded0
+        let autoScalingConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.AutoScalingConfiguration.self, forKey: .autoScalingConfiguration)
+        autoScalingConfiguration = autoScalingConfigurationDecoded
+        let clusterDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterDescription)
+        clusterDescription = clusterDescriptionDecoded
+        let capacityConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.CapacityConfiguration.self, forKey: .capacityConfiguration)
+        capacityConfiguration = capacityConfigurationDecoded
+        let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
+        releaseLabel = releaseLabelDecoded
+        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
+        vpcConfiguration = vpcConfigurationDecoded
+        let initializationScriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initializationScript)
+        initializationScript = initializationScriptDecoded
+        let commandLineArgumentsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxCommandLineArgument?].self, forKey: .commandLineArguments)
+        var commandLineArgumentsDecoded0:[FinspaceClientTypes.KxCommandLineArgument]? = nil
+        if let commandLineArgumentsContainer = commandLineArgumentsContainer {
+            commandLineArgumentsDecoded0 = [FinspaceClientTypes.KxCommandLineArgument]()
+            for structure0 in commandLineArgumentsContainer {
+                if let structure0 = structure0 {
+                    commandLineArgumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        commandLineArguments = commandLineArgumentsDecoded0
+        let codeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.CodeConfiguration.self, forKey: .code)
+        code = codeDecoded
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let savedownStorageConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxSavedownStorageConfiguration.self, forKey: .savedownStorageConfiguration)
+        savedownStorageConfiguration = savedownStorageConfigurationDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateKxClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKxClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.autoScalingConfiguration = output.autoScalingConfiguration
+            self.availabilityZoneId = output.availabilityZoneId
+            self.azMode = output.azMode
+            self.cacheStorageConfigurations = output.cacheStorageConfigurations
+            self.capacityConfiguration = output.capacityConfiguration
+            self.clusterDescription = output.clusterDescription
+            self.clusterName = output.clusterName
+            self.clusterType = output.clusterType
+            self.code = output.code
+            self.commandLineArguments = output.commandLineArguments
+            self.createdTimestamp = output.createdTimestamp
+            self.databases = output.databases
+            self.environmentId = output.environmentId
+            self.executionRole = output.executionRole
+            self.initializationScript = output.initializationScript
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.releaseLabel = output.releaseLabel
+            self.savedownStorageConfiguration = output.savedownStorageConfiguration
+            self.status = output.status
+            self.statusReason = output.statusReason
+            self.vpcConfiguration = output.vpcConfiguration
+        } else {
+            self.autoScalingConfiguration = nil
+            self.availabilityZoneId = nil
+            self.azMode = nil
+            self.cacheStorageConfigurations = nil
+            self.capacityConfiguration = nil
+            self.clusterDescription = nil
+            self.clusterName = nil
+            self.clusterType = nil
+            self.code = nil
+            self.commandLineArguments = nil
+            self.createdTimestamp = nil
+            self.databases = nil
+            self.environmentId = nil
+            self.executionRole = nil
+            self.initializationScript = nil
+            self.lastModifiedTimestamp = nil
+            self.releaseLabel = nil
+            self.savedownStorageConfiguration = nil
+            self.status = nil
+            self.statusReason = nil
+            self.vpcConfiguration = nil
+        }
+    }
+}
+
+public struct CreateKxClusterOutputResponse: Swift.Equatable {
+    /// The configuration based on which FinSpace will scale in or scale out nodes in your cluster.
+    public var autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
+    /// The availability zone identifiers for the requested regions.
+    public var availabilityZoneId: Swift.String?
+    /// The number of availability zones you want to assign per cluster. This can be one of the following
+    ///
+    /// * SINGLE – Assigns one availability zone per cluster.
+    ///
+    /// * MULTI – Assigns all the availability zones per cluster.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
+    public var cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
+    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+    public var capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
+    /// A description of the cluster.
+    public var clusterDescription: Swift.String?
+    /// A unique name for the cluster.
+    public var clusterName: Swift.String?
+    /// Specifies the type of KDB database that is being created. The following types are available:
+    ///
+    /// * HDB – A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb databases mounted to the cluster.
+    ///
+    /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
+    ///
+    /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+    public var clusterType: FinspaceClientTypes.KxClusterType?
+    /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
+    public var code: FinspaceClientTypes.CodeConfiguration?
+    /// Defines the key-value pairs to make them available inside the cluster.
+    public var commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
+    /// The timestamp at which the cluster was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// A list of databases that will be available for querying.
+    public var databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// An IAM role that defines a set of permissions associated with a cluster. These permissions are assumed when a cluster attempts to access another cluster.
+    public var executionRole: Swift.String?
+    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
+    public var initializationScript: Swift.String?
+    /// The last time that the cluster was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// A version of the FinSpace managed kdb to run.
+    public var releaseLabel: Swift.String?
+    /// The size and type of the temporary storage that is used to hold data during the savedown process. This parameter is required when you choose clusterType as RDB. All the data written to this storage space is lost when the cluster node is restarted.
+    public var savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    /// The status of cluster creation.
+    ///
+    /// * PENDING – The cluster is pending creation.
+    ///
+    /// * CREATING – The cluster creation process is in progress.
+    ///
+    /// * CREATE_FAILED – The cluster creation process has failed.
+    ///
+    /// * RUNNING – The cluster creation process is running.
+    ///
+    /// * UPDATING – The cluster is in the process of being updated.
+    ///
+    /// * DELETING – The cluster is in the process of being deleted.
+    ///
+    /// * DELETED – The cluster has been deleted.
+    ///
+    /// * DELETE_FAILED – The cluster failed to delete.
+    public var status: FinspaceClientTypes.KxClusterStatus?
+    /// The error message when a failed state occurs.
+    public var statusReason: Swift.String?
+    /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
+    public var vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
+
+    public init(
+        autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration? = nil,
+        availabilityZoneId: Swift.String? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]? = nil,
+        capacityConfiguration: FinspaceClientTypes.CapacityConfiguration? = nil,
+        clusterDescription: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        clusterType: FinspaceClientTypes.KxClusterType? = nil,
+        code: FinspaceClientTypes.CodeConfiguration? = nil,
+        commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databases: [FinspaceClientTypes.KxDatabaseConfiguration]? = nil,
+        environmentId: Swift.String? = nil,
+        executionRole: Swift.String? = nil,
+        initializationScript: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        releaseLabel: Swift.String? = nil,
+        savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration? = nil,
+        status: FinspaceClientTypes.KxClusterStatus? = nil,
+        statusReason: Swift.String? = nil,
+        vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
+    )
+    {
+        self.autoScalingConfiguration = autoScalingConfiguration
+        self.availabilityZoneId = availabilityZoneId
+        self.azMode = azMode
+        self.cacheStorageConfigurations = cacheStorageConfigurations
+        self.capacityConfiguration = capacityConfiguration
+        self.clusterDescription = clusterDescription
+        self.clusterName = clusterName
+        self.clusterType = clusterType
+        self.code = code
+        self.commandLineArguments = commandLineArguments
+        self.createdTimestamp = createdTimestamp
+        self.databases = databases
+        self.environmentId = environmentId
+        self.executionRole = executionRole
+        self.initializationScript = initializationScript
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.releaseLabel = releaseLabel
+        self.savedownStorageConfiguration = savedownStorageConfiguration
+        self.status = status
+        self.statusReason = statusReason
+        self.vpcConfiguration = vpcConfiguration
+    }
+}
+
+struct CreateKxClusterOutputResponseBody: Swift.Equatable {
+    let environmentId: Swift.String?
+    let status: FinspaceClientTypes.KxClusterStatus?
+    let statusReason: Swift.String?
+    let clusterName: Swift.String?
+    let clusterType: FinspaceClientTypes.KxClusterType?
+    let databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    let cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
+    let autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
+    let clusterDescription: Swift.String?
+    let capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
+    let releaseLabel: Swift.String?
+    let vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
+    let initializationScript: Swift.String?
+    let commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
+    let code: FinspaceClientTypes.CodeConfiguration?
+    let executionRole: Swift.String?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneId: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension CreateKxClusterOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfiguration
+        case availabilityZoneId
+        case azMode
+        case cacheStorageConfigurations
+        case capacityConfiguration
+        case clusterDescription
+        case clusterName
+        case clusterType
+        case code
+        case commandLineArguments
+        case createdTimestamp
+        case databases
+        case environmentId
+        case executionRole
+        case initializationScript
+        case lastModifiedTimestamp
+        case releaseLabel
+        case savedownStorageConfiguration
+        case status
+        case statusReason
+        case vpcConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let clusterTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterType.self, forKey: .clusterType)
+        clusterType = clusterTypeDecoded
+        let databasesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseConfiguration?].self, forKey: .databases)
+        var databasesDecoded0:[FinspaceClientTypes.KxDatabaseConfiguration]? = nil
+        if let databasesContainer = databasesContainer {
+            databasesDecoded0 = [FinspaceClientTypes.KxDatabaseConfiguration]()
+            for structure0 in databasesContainer {
+                if let structure0 = structure0 {
+                    databasesDecoded0?.append(structure0)
+                }
+            }
+        }
+        databases = databasesDecoded0
+        let cacheStorageConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxCacheStorageConfiguration?].self, forKey: .cacheStorageConfigurations)
+        var cacheStorageConfigurationsDecoded0:[FinspaceClientTypes.KxCacheStorageConfiguration]? = nil
+        if let cacheStorageConfigurationsContainer = cacheStorageConfigurationsContainer {
+            cacheStorageConfigurationsDecoded0 = [FinspaceClientTypes.KxCacheStorageConfiguration]()
+            for structure0 in cacheStorageConfigurationsContainer {
+                if let structure0 = structure0 {
+                    cacheStorageConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cacheStorageConfigurations = cacheStorageConfigurationsDecoded0
+        let autoScalingConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.AutoScalingConfiguration.self, forKey: .autoScalingConfiguration)
+        autoScalingConfiguration = autoScalingConfigurationDecoded
+        let clusterDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterDescription)
+        clusterDescription = clusterDescriptionDecoded
+        let capacityConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.CapacityConfiguration.self, forKey: .capacityConfiguration)
+        capacityConfiguration = capacityConfigurationDecoded
+        let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
+        releaseLabel = releaseLabelDecoded
+        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
+        vpcConfiguration = vpcConfigurationDecoded
+        let initializationScriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initializationScript)
+        initializationScript = initializationScriptDecoded
+        let commandLineArgumentsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxCommandLineArgument?].self, forKey: .commandLineArguments)
+        var commandLineArgumentsDecoded0:[FinspaceClientTypes.KxCommandLineArgument]? = nil
+        if let commandLineArgumentsContainer = commandLineArgumentsContainer {
+            commandLineArgumentsDecoded0 = [FinspaceClientTypes.KxCommandLineArgument]()
+            for structure0 in commandLineArgumentsContainer {
+                if let structure0 = structure0 {
+                    commandLineArgumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        commandLineArguments = commandLineArgumentsDecoded0
+        let codeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.CodeConfiguration.self, forKey: .code)
+        code = codeDecoded
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let savedownStorageConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxSavedownStorageConfiguration.self, forKey: .savedownStorageConfiguration)
+        savedownStorageConfiguration = savedownStorageConfigurationDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+extension CreateKxDatabaseInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case databaseName
+        case description
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateKxDatabaseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases"
+    }
+}
+
+public struct CreateKxDatabaseInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the kdb database.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A description of the database.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// A list of key-value pairs to label the kdb database. You can add up to 50 tags to your kdb database
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.databaseName = databaseName
+        self.description = description
+        self.environmentId = environmentId
+        self.tags = tags
+    }
+}
+
+struct CreateKxDatabaseInputBody: Swift.Equatable {
+    let databaseName: Swift.String?
+    let description: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let clientToken: Swift.String?
+}
+
+extension CreateKxDatabaseInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case databaseName
+        case description
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum CreateKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateKxDatabaseOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKxDatabaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createdTimestamp = output.createdTimestamp
+            self.databaseArn = output.databaseArn
+            self.databaseName = output.databaseName
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+        } else {
+            self.createdTimestamp = nil
+            self.databaseArn = nil
+            self.databaseName = nil
+            self.description = nil
+            self.environmentId = nil
+            self.lastModifiedTimestamp = nil
+        }
+    }
+}
+
+public struct CreateKxDatabaseOutputResponse: Swift.Equatable {
+    /// The timestamp at which the database is created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The ARN identifier of the database.
+    public var databaseArn: Swift.String?
+    /// The name of the kdb database.
+    public var databaseName: Swift.String?
+    /// A description of the database.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// The last time that the database was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+
+    public init(
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databaseArn: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.databaseArn = databaseArn
+        self.databaseName = databaseName
+        self.description = description
+        self.environmentId = environmentId
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+    }
+}
+
+struct CreateKxDatabaseOutputResponseBody: Swift.Equatable {
+    let databaseName: Swift.String?
+    let databaseArn: Swift.String?
+    let environmentId: Swift.String?
+    let description: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+}
+
+extension CreateKxDatabaseOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp
+        case databaseArn
+        case databaseName
+        case description
+        case environmentId
+        case lastModifiedTimestamp
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let databaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseArn)
+        databaseArn = databaseArnDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+    }
+}
+
+extension CreateKxEnvironmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case kmsKeyId
+        case name
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateKxEnvironmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/kx/environments"
+    }
+}
+
+public struct CreateKxEnvironmentInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A description for the kdb environment.
+    public var description: Swift.String?
+    /// The KMS key ID to encrypt your data in the FinSpace environment.
+    /// This member is required.
+    public var kmsKeyId: Swift.String?
+    /// The name of the kdb environment that you want to create.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of key-value pairs to label the kdb environment. You can add up to 50 tags to your kdb environment.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateKxEnvironmentInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let kmsKeyId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let clientToken: Swift.String?
+}
+
+extension CreateKxEnvironmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case kmsKeyId
+        case name
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum CreateKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateKxEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKxEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTimestamp = output.creationTimestamp
+            self.description = output.description
+            self.environmentArn = output.environmentArn
+            self.environmentId = output.environmentId
+            self.kmsKeyId = output.kmsKeyId
+            self.name = output.name
+            self.status = output.status
+        } else {
+            self.creationTimestamp = nil
+            self.description = nil
+            self.environmentArn = nil
+            self.environmentId = nil
+            self.kmsKeyId = nil
+            self.name = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct CreateKxEnvironmentOutputResponse: Swift.Equatable {
+    /// The timestamp at which the kdb environment was created in FinSpace.
+    public var creationTimestamp: ClientRuntime.Date?
+    /// A description for the kdb environment.
+    public var description: Swift.String?
+    /// The ARN identifier of the environment.
+    public var environmentArn: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// The KMS key ID to encrypt your data in the FinSpace environment.
+    public var kmsKeyId: Swift.String?
+    /// The name of the kdb environment.
+    public var name: Swift.String?
+    /// The status of the kdb environment.
+    public var status: FinspaceClientTypes.EnvironmentStatus?
+
+    public init(
+        creationTimestamp: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        environmentArn: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: FinspaceClientTypes.EnvironmentStatus? = nil
+    )
+    {
+        self.creationTimestamp = creationTimestamp
+        self.description = description
+        self.environmentArn = environmentArn
+        self.environmentId = environmentId
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.status = status
+    }
+}
+
+struct CreateKxEnvironmentOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+    let status: FinspaceClientTypes.EnvironmentStatus?
+    let environmentId: Swift.String?
+    let description: Swift.String?
+    let environmentArn: Swift.String?
+    let kmsKeyId: Swift.String?
+    let creationTimestamp: ClientRuntime.Date?
+}
+
+extension CreateKxEnvironmentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTimestamp
+        case description
+        case environmentArn
+        case environmentId
+        case kmsKeyId
+        case name
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.EnvironmentStatus.self, forKey: .status)
+        status = statusDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let environmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentArn)
+        environmentArn = environmentArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let creationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+    }
+}
+
+extension CreateKxUserInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case iamRole
+        case tags
+        case userName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let iamRole = self.iamRole {
+            try encodeContainer.encode(iamRole, forKey: .iamRole)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let userName = self.userName {
+            try encodeContainer.encode(userName, forKey: .userName)
+        }
+    }
+}
+
+extension CreateKxUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/users"
+    }
+}
+
+public struct CreateKxUserInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A unique identifier for the kdb environment where you want to create a user.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The IAM role ARN that will be associated with the user.
+    /// This member is required.
+    public var iamRole: Swift.String?
+    /// A list of key-value pairs to label the user. You can add up to 50 tags to a user.
+    public var tags: [Swift.String:Swift.String]?
+    /// A unique identifier for the user.
+    /// This member is required.
+    public var userName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        iamRole: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.environmentId = environmentId
+        self.iamRole = iamRole
+        self.tags = tags
+        self.userName = userName
+    }
+}
+
+struct CreateKxUserInputBody: Swift.Equatable {
+    let userName: Swift.String?
+    let iamRole: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let clientToken: Swift.String?
+}
+
+extension CreateKxUserInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case iamRole
+        case tags
+        case userName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
+        userName = userNameDecoded
+        let iamRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum CreateKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateKxUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKxUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.environmentId = output.environmentId
+            self.iamRole = output.iamRole
+            self.userArn = output.userArn
+            self.userName = output.userName
+        } else {
+            self.environmentId = nil
+            self.iamRole = nil
+            self.userArn = nil
+            self.userName = nil
+        }
+    }
+}
+
+public struct CreateKxUserOutputResponse: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// The IAM role ARN that will be associated with the user.
+    public var iamRole: Swift.String?
+    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+    public var userArn: Swift.String?
+    /// A unique identifier for the user.
+    public var userName: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        iamRole: Swift.String? = nil,
+        userArn: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.iamRole = iamRole
+        self.userArn = userArn
+        self.userName = userName
+    }
+}
+
+struct CreateKxUserOutputResponseBody: Swift.Equatable {
+    let userName: Swift.String?
+    let userArn: Swift.String?
+    let environmentId: Swift.String?
+    let iamRole: Swift.String?
+}
+
+extension CreateKxUserOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentId
+        case iamRole
+        case userArn
+        case userName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
+        userName = userNameDecoded
+        let userArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userArn)
+        userArn = userArnDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let iamRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+    }
+}
+
+extension FinspaceClientTypes.CustomDNSServer: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDNSServerIP
+        case customDNSServerName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customDNSServerIP = self.customDNSServerIP {
+            try encodeContainer.encode(customDNSServerIP, forKey: .customDNSServerIP)
+        }
+        if let customDNSServerName = self.customDNSServerName {
+            try encodeContainer.encode(customDNSServerName, forKey: .customDNSServerName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDNSServerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDNSServerName)
+        customDNSServerName = customDNSServerNameDecoded
+        let customDNSServerIPDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDNSServerIP)
+        customDNSServerIP = customDNSServerIPDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
+    public struct CustomDNSServer: Swift.Equatable {
+        /// The IP address of the DNS server.
+        /// This member is required.
+        public var customDNSServerIP: Swift.String?
+        /// The name of the DNS server.
+        /// This member is required.
+        public var customDNSServerName: Swift.String?
+
+        public init(
+            customDNSServerIP: Swift.String? = nil,
+            customDNSServerName: Swift.String? = nil
+        )
+        {
+            self.customDNSServerIP = customDNSServerIP
+            self.customDNSServerName = customDNSServerName
+        }
+    }
+
 }
 
 extension DeleteEnvironmentInput: ClientRuntime.URLPathProvider {
@@ -294,7 +2252,7 @@ public struct DeleteEnvironmentInput: Swift.Equatable {
     /// This member is required.
     public var environmentId: Swift.String?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil
     )
     {
@@ -307,48 +2265,362 @@ struct DeleteEnvironmentInputBody: Swift.Equatable {
 
 extension DeleteEnvironmentInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteEnvironmentOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension DeleteKxClusterInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeleteKxClusterInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKxClusterInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// The name of the cluster that you want to delete.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.clusterName = clusterName
+        self.environmentId = environmentId
+    }
+}
+
+struct DeleteKxClusterInputBody: Swift.Equatable {
+}
+
+extension DeleteKxClusterInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteKxClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKxClusterOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteKxDatabaseInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientToken = clientToken else {
+                let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteKxDatabaseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKxDatabaseInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the kdb database that you want to delete.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.databaseName = databaseName
+        self.environmentId = environmentId
+    }
+}
+
+struct DeleteKxDatabaseInputBody: Swift.Equatable {
+}
+
+extension DeleteKxDatabaseInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteKxDatabaseOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKxDatabaseOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteKxEnvironmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKxEnvironmentInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+    }
+}
+
+struct DeleteKxEnvironmentInputBody: Swift.Equatable {
+}
+
+extension DeleteKxEnvironmentInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteKxEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKxEnvironmentOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteKxUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let userName = userName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKxUserInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// A unique identifier for the user that you want to delete.
+    /// This member is required.
+    public var userName: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.userName = userName
+    }
+}
+
+struct DeleteKxUserInputBody: Swift.Equatable {
+}
+
+extension DeleteKxUserInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteKxUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKxUserOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension FinspaceClientTypes {
+    public enum DnsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failedUpdate
+        case `none`
+        case successfullyUpdated
+        case updateRequested
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DnsStatus] {
+            return [
+                .failedUpdate,
+                .none,
+                .successfullyUpdated,
+                .updateRequested,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedUpdate: return "FAILED_UPDATE"
+            case .none: return "NONE"
+            case .successfullyUpdated: return "SUCCESSFULLY_UPDATED"
+            case .updateRequested: return "UPDATE_REQUESTED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DnsStatus(rawValue: rawValue) ?? DnsStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension FinspaceClientTypes.Environment: Swift.Codable {
@@ -407,7 +2679,7 @@ extension FinspaceClientTypes.Environment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -449,7 +2721,7 @@ extension FinspaceClientTypes {
         public var environmentArn: Swift.String?
         /// The identifier of the FinSpace environment.
         public var environmentId: Swift.String?
-        /// The sign-in url for the web application of your FinSpace environment.
+        /// The sign-in URL for the web application of your FinSpace environment.
         public var environmentUrl: Swift.String?
         /// The authentication mode for the environment.
         public var federationMode: FinspaceClientTypes.FederationMode?
@@ -459,12 +2731,12 @@ extension FinspaceClientTypes {
         public var kmsKeyId: Swift.String?
         /// The name of the FinSpace environment.
         public var name: Swift.String?
-        /// The url of the integrated FinSpace notebook environment in your web application.
+        /// The URL of the integrated FinSpace notebook environment in your web application.
         public var sageMakerStudioDomainUrl: Swift.String?
         /// The current status of creation of the FinSpace environment.
         public var status: FinspaceClientTypes.EnvironmentStatus?
 
-        public init (
+        public init(
             awsAccountId: Swift.String? = nil,
             dedicatedServiceAccountId: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -506,8 +2778,11 @@ extension FinspaceClientTypes {
         case deleting
         case failedCreation
         case failedDeletion
+        case failedUpdatingNetwork
         case retryDeletion
         case suspended
+        case updateNetworkRequested
+        case updatingNetwork
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EnvironmentStatus] {
@@ -520,8 +2795,11 @@ extension FinspaceClientTypes {
                 .deleting,
                 .failedCreation,
                 .failedDeletion,
+                .failedUpdatingNetwork,
                 .retryDeletion,
                 .suspended,
+                .updateNetworkRequested,
+                .updatingNetwork,
                 .sdkUnknown("")
             ]
         }
@@ -539,8 +2817,11 @@ extension FinspaceClientTypes {
             case .deleting: return "DELETING"
             case .failedCreation: return "FAILED_CREATION"
             case .failedDeletion: return "FAILED_DELETION"
+            case .failedUpdatingNetwork: return "FAILED_UPDATING_NETWORK"
             case .retryDeletion: return "RETRY_DELETION"
             case .suspended: return "SUSPENDED"
+            case .updateNetworkRequested: return "UPDATE_NETWORK_REQUESTED"
+            case .updatingNetwork: return "UPDATING_NETWORK"
             case let .sdkUnknown(s): return s
             }
         }
@@ -550,6 +2831,101 @@ extension FinspaceClientTypes {
             self = EnvironmentStatus(rawValue: rawValue) ?? EnvironmentStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension FinspaceClientTypes {
+    public enum ErrorDetails: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accessDenied
+        case cancelled
+        case internalServiceException
+        case resourceNotFound
+        case serviceQuotaExceeded
+        case throttling
+        case userRecoverable
+        case validation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ErrorDetails] {
+            return [
+                .accessDenied,
+                .cancelled,
+                .internalServiceException,
+                .resourceNotFound,
+                .serviceQuotaExceeded,
+                .throttling,
+                .userRecoverable,
+                .validation,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "Missing required permission to perform this request."
+            case .cancelled: return "Cancelled"
+            case .internalServiceException: return "An internal error has occurred."
+            case .resourceNotFound: return "One or more inputs to this request were not found."
+            case .serviceQuotaExceeded: return "Service limits have been exceeded."
+            case .throttling: return "The system temporarily lacks sufficient resources to process the request."
+            case .userRecoverable: return "A user recoverable error has occurred"
+            case .validation: return "The inputs to this request are invalid."
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ErrorDetails(rawValue: rawValue) ?? ErrorDetails.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes.ErrorInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage
+        case errorType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let errorType = self.errorType {
+            try encodeContainer.encode(errorType.rawValue, forKey: .errorType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let errorTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.ErrorDetails.self, forKey: .errorType)
+        errorType = errorTypeDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// Provides details in the event of a failed flow, including the error type and the related error message.
+    public struct ErrorInfo: Swift.Equatable {
+        /// Specifies the error message that appears if a flow fails.
+        public var errorMessage: Swift.String?
+        /// Specifies the type of error.
+        public var errorType: FinspaceClientTypes.ErrorDetails?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            errorType: FinspaceClientTypes.ErrorDetails? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+        }
+    }
+
 }
 
 extension FinspaceClientTypes {
@@ -619,7 +2995,7 @@ extension FinspaceClientTypes.FederationParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let samlMetadataDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .samlMetadataDocument)
         samlMetadataDocument = samlMetadataDocumentDecoded
@@ -635,9 +3011,9 @@ extension FinspaceClientTypes.FederationParameters: Swift.Codable {
         var attributeMapDecoded0: [Swift.String:Swift.String]? = nil
         if let attributeMapContainer = attributeMapContainer {
             attributeMapDecoded0 = [Swift.String:Swift.String]()
-            for (key0, url0) in attributeMapContainer {
-                if let url0 = url0 {
-                    attributeMapDecoded0?[key0] = url0
+            for (key0, federationattributevalue0) in attributeMapContainer {
+                if let federationattributevalue0 = federationattributevalue0 {
+                    attributeMapDecoded0?[key0] = federationattributevalue0
                 }
             }
         }
@@ -661,7 +3037,7 @@ extension FinspaceClientTypes {
         /// Provide the metadata URL from your SAML 2.0 compliant identity provider (IdP).
         public var samlMetadataURL: Swift.String?
 
-        public init (
+        public init(
             applicationCallBackURL: Swift.String? = nil,
             attributeMap: [Swift.String:Swift.String]? = nil,
             federationProviderName: Swift.String? = nil,
@@ -695,7 +3071,7 @@ public struct GetEnvironmentInput: Swift.Equatable {
     /// This member is required.
     public var environmentId: Swift.String?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil
     )
     {
@@ -708,41 +3084,27 @@ struct GetEnvironmentInputBody: Swift.Equatable {
 
 extension GetEnvironmentInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environment = output.environment
@@ -756,7 +3118,7 @@ public struct GetEnvironmentOutputResponse: Swift.Equatable {
     /// The name of the FinSpace environment.
     public var environment: FinspaceClientTypes.Environment?
 
-    public init (
+    public init(
         environment: FinspaceClientTypes.Environment? = nil
     )
     {
@@ -773,45 +3135,1309 @@ extension GetEnvironmentOutputResponseBody: Swift.Decodable {
         case environment
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
     }
 }
 
+extension GetKxChangesetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        guard let changesetId = changesetId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/changesets/\(changesetId.urlPercentEncoding())"
+    }
+}
+
+public struct GetKxChangesetInput: Swift.Equatable {
+    /// A unique identifier of the changeset for which you want to retrieve data.
+    /// This member is required.
+    public var changesetId: Swift.String?
+    /// The name of the kdb database.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        changesetId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.changesetId = changesetId
+        self.databaseName = databaseName
+        self.environmentId = environmentId
+    }
+}
+
+struct GetKxChangesetInputBody: Swift.Equatable {
+}
+
+extension GetKxChangesetInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetKxChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetKxChangesetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxChangesetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.activeFromTimestamp = output.activeFromTimestamp
+            self.changeRequests = output.changeRequests
+            self.changesetId = output.changesetId
+            self.createdTimestamp = output.createdTimestamp
+            self.databaseName = output.databaseName
+            self.environmentId = output.environmentId
+            self.errorInfo = output.errorInfo
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.status = output.status
+        } else {
+            self.activeFromTimestamp = nil
+            self.changeRequests = nil
+            self.changesetId = nil
+            self.createdTimestamp = nil
+            self.databaseName = nil
+            self.environmentId = nil
+            self.errorInfo = nil
+            self.lastModifiedTimestamp = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetKxChangesetOutputResponse: Swift.Equatable {
+    /// Beginning time from which the changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var activeFromTimestamp: ClientRuntime.Date?
+    /// A list of change request objects that are run in order.
+    public var changeRequests: [FinspaceClientTypes.ChangeRequest]?
+    /// A unique identifier for the changeset.
+    public var changesetId: Swift.String?
+    /// The timestamp at which the changeset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The name of the kdb database.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// Provides details in the event of a failed flow, including the error type and the related error message.
+    public var errorInfo: FinspaceClientTypes.ErrorInfo?
+    /// The timestamp at which the changeset was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// Status of the changeset creation process.
+    ///
+    /// * Pending – Changeset creation is pending.
+    ///
+    /// * Processing – Changeset creation is running.
+    ///
+    /// * Failed – Changeset creation has failed.
+    ///
+    /// * Complete – Changeset creation has succeeded.
+    public var status: FinspaceClientTypes.ChangesetStatus?
+
+    public init(
+        activeFromTimestamp: ClientRuntime.Date? = nil,
+        changeRequests: [FinspaceClientTypes.ChangeRequest]? = nil,
+        changesetId: Swift.String? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databaseName: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        errorInfo: FinspaceClientTypes.ErrorInfo? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        status: FinspaceClientTypes.ChangesetStatus? = nil
+    )
+    {
+        self.activeFromTimestamp = activeFromTimestamp
+        self.changeRequests = changeRequests
+        self.changesetId = changesetId
+        self.createdTimestamp = createdTimestamp
+        self.databaseName = databaseName
+        self.environmentId = environmentId
+        self.errorInfo = errorInfo
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.status = status
+    }
+}
+
+struct GetKxChangesetOutputResponseBody: Swift.Equatable {
+    let changesetId: Swift.String?
+    let databaseName: Swift.String?
+    let environmentId: Swift.String?
+    let changeRequests: [FinspaceClientTypes.ChangeRequest]?
+    let createdTimestamp: ClientRuntime.Date?
+    let activeFromTimestamp: ClientRuntime.Date?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let status: FinspaceClientTypes.ChangesetStatus?
+    let errorInfo: FinspaceClientTypes.ErrorInfo?
+}
+
+extension GetKxChangesetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeFromTimestamp
+        case changeRequests
+        case changesetId
+        case createdTimestamp
+        case databaseName
+        case environmentId
+        case errorInfo
+        case lastModifiedTimestamp
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let changeRequestsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.ChangeRequest?].self, forKey: .changeRequests)
+        var changeRequestsDecoded0:[FinspaceClientTypes.ChangeRequest]? = nil
+        if let changeRequestsContainer = changeRequestsContainer {
+            changeRequestsDecoded0 = [FinspaceClientTypes.ChangeRequest]()
+            for structure0 in changeRequestsContainer {
+                if let structure0 = structure0 {
+                    changeRequestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        changeRequests = changeRequestsDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let activeFromTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .activeFromTimestamp)
+        activeFromTimestamp = activeFromTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.ChangesetStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorInfoDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.ErrorInfo.self, forKey: .errorInfo)
+        errorInfo = errorInfoDecoded
+    }
+}
+
+extension GetKxClusterInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())"
+    }
+}
+
+public struct GetKxClusterInput: Swift.Equatable {
+    /// The name of the cluster that you want to retrieve.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.environmentId = environmentId
+    }
+}
+
+struct GetKxClusterInputBody: Swift.Equatable {
+}
+
+extension GetKxClusterInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetKxClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.autoScalingConfiguration = output.autoScalingConfiguration
+            self.availabilityZoneId = output.availabilityZoneId
+            self.azMode = output.azMode
+            self.cacheStorageConfigurations = output.cacheStorageConfigurations
+            self.capacityConfiguration = output.capacityConfiguration
+            self.clusterDescription = output.clusterDescription
+            self.clusterName = output.clusterName
+            self.clusterType = output.clusterType
+            self.code = output.code
+            self.commandLineArguments = output.commandLineArguments
+            self.createdTimestamp = output.createdTimestamp
+            self.databases = output.databases
+            self.executionRole = output.executionRole
+            self.initializationScript = output.initializationScript
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.releaseLabel = output.releaseLabel
+            self.savedownStorageConfiguration = output.savedownStorageConfiguration
+            self.status = output.status
+            self.statusReason = output.statusReason
+            self.vpcConfiguration = output.vpcConfiguration
+        } else {
+            self.autoScalingConfiguration = nil
+            self.availabilityZoneId = nil
+            self.azMode = nil
+            self.cacheStorageConfigurations = nil
+            self.capacityConfiguration = nil
+            self.clusterDescription = nil
+            self.clusterName = nil
+            self.clusterType = nil
+            self.code = nil
+            self.commandLineArguments = nil
+            self.createdTimestamp = nil
+            self.databases = nil
+            self.executionRole = nil
+            self.initializationScript = nil
+            self.lastModifiedTimestamp = nil
+            self.releaseLabel = nil
+            self.savedownStorageConfiguration = nil
+            self.status = nil
+            self.statusReason = nil
+            self.vpcConfiguration = nil
+        }
+    }
+}
+
+public struct GetKxClusterOutputResponse: Swift.Equatable {
+    /// The configuration based on which FinSpace will scale in or scale out nodes in your cluster.
+    public var autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
+    /// The availability zone identifiers for the requested regions.
+    public var availabilityZoneId: Swift.String?
+    /// The number of availability zones you want to assign per cluster. This can be one of the following
+    ///
+    /// * SINGLE – Assigns one availability zone per cluster.
+    ///
+    /// * MULTI – Assigns all the availability zones per cluster.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
+    public var cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
+    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+    public var capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
+    /// A description of the cluster.
+    public var clusterDescription: Swift.String?
+    /// A unique name for the cluster.
+    public var clusterName: Swift.String?
+    /// Specifies the type of KDB database that is being created. The following types are available:
+    ///
+    /// * HDB – A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb databases mounted to the cluster.
+    ///
+    /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
+    ///
+    /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+    public var clusterType: FinspaceClientTypes.KxClusterType?
+    /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
+    public var code: FinspaceClientTypes.CodeConfiguration?
+    /// Defines key-value pairs to make them available inside the cluster.
+    public var commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
+    /// The timestamp at which the cluster was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// A list of databases mounted on the cluster.
+    public var databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    /// An IAM role that defines a set of permissions associated with a cluster. These permissions are assumed when a cluster attempts to access another cluster.
+    public var executionRole: Swift.String?
+    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
+    public var initializationScript: Swift.String?
+    /// The last time that the cluster was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// The version of FinSpace managed kdb to run.
+    public var releaseLabel: Swift.String?
+    /// The size and type of the temporary storage that is used to hold data during the savedown process. This parameter is required when you choose clusterType as RDB. All the data written to this storage space is lost when the cluster node is restarted.
+    public var savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    /// The status of cluster creation.
+    ///
+    /// * PENDING – The cluster is pending creation.
+    ///
+    /// * CREATING – The cluster creation process is in progress.
+    ///
+    /// * CREATE_FAILED – The cluster creation process has failed.
+    ///
+    /// * RUNNING – The cluster creation process is running.
+    ///
+    /// * UPDATING – The cluster is in the process of being updated.
+    ///
+    /// * DELETING – The cluster is in the process of being deleted.
+    ///
+    /// * DELETED – The cluster has been deleted.
+    ///
+    /// * DELETE_FAILED – The cluster failed to delete.
+    public var status: FinspaceClientTypes.KxClusterStatus?
+    /// The error message when a failed state occurs.
+    public var statusReason: Swift.String?
+    /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
+    public var vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
+
+    public init(
+        autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration? = nil,
+        availabilityZoneId: Swift.String? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]? = nil,
+        capacityConfiguration: FinspaceClientTypes.CapacityConfiguration? = nil,
+        clusterDescription: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        clusterType: FinspaceClientTypes.KxClusterType? = nil,
+        code: FinspaceClientTypes.CodeConfiguration? = nil,
+        commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databases: [FinspaceClientTypes.KxDatabaseConfiguration]? = nil,
+        executionRole: Swift.String? = nil,
+        initializationScript: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        releaseLabel: Swift.String? = nil,
+        savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration? = nil,
+        status: FinspaceClientTypes.KxClusterStatus? = nil,
+        statusReason: Swift.String? = nil,
+        vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
+    )
+    {
+        self.autoScalingConfiguration = autoScalingConfiguration
+        self.availabilityZoneId = availabilityZoneId
+        self.azMode = azMode
+        self.cacheStorageConfigurations = cacheStorageConfigurations
+        self.capacityConfiguration = capacityConfiguration
+        self.clusterDescription = clusterDescription
+        self.clusterName = clusterName
+        self.clusterType = clusterType
+        self.code = code
+        self.commandLineArguments = commandLineArguments
+        self.createdTimestamp = createdTimestamp
+        self.databases = databases
+        self.executionRole = executionRole
+        self.initializationScript = initializationScript
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.releaseLabel = releaseLabel
+        self.savedownStorageConfiguration = savedownStorageConfiguration
+        self.status = status
+        self.statusReason = statusReason
+        self.vpcConfiguration = vpcConfiguration
+    }
+}
+
+struct GetKxClusterOutputResponseBody: Swift.Equatable {
+    let status: FinspaceClientTypes.KxClusterStatus?
+    let statusReason: Swift.String?
+    let clusterName: Swift.String?
+    let clusterType: FinspaceClientTypes.KxClusterType?
+    let databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    let cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
+    let autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
+    let clusterDescription: Swift.String?
+    let capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
+    let releaseLabel: Swift.String?
+    let vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
+    let initializationScript: Swift.String?
+    let commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
+    let code: FinspaceClientTypes.CodeConfiguration?
+    let executionRole: Swift.String?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneId: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension GetKxClusterOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfiguration
+        case availabilityZoneId
+        case azMode
+        case cacheStorageConfigurations
+        case capacityConfiguration
+        case clusterDescription
+        case clusterName
+        case clusterType
+        case code
+        case commandLineArguments
+        case createdTimestamp
+        case databases
+        case executionRole
+        case initializationScript
+        case lastModifiedTimestamp
+        case releaseLabel
+        case savedownStorageConfiguration
+        case status
+        case statusReason
+        case vpcConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let clusterTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterType.self, forKey: .clusterType)
+        clusterType = clusterTypeDecoded
+        let databasesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseConfiguration?].self, forKey: .databases)
+        var databasesDecoded0:[FinspaceClientTypes.KxDatabaseConfiguration]? = nil
+        if let databasesContainer = databasesContainer {
+            databasesDecoded0 = [FinspaceClientTypes.KxDatabaseConfiguration]()
+            for structure0 in databasesContainer {
+                if let structure0 = structure0 {
+                    databasesDecoded0?.append(structure0)
+                }
+            }
+        }
+        databases = databasesDecoded0
+        let cacheStorageConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxCacheStorageConfiguration?].self, forKey: .cacheStorageConfigurations)
+        var cacheStorageConfigurationsDecoded0:[FinspaceClientTypes.KxCacheStorageConfiguration]? = nil
+        if let cacheStorageConfigurationsContainer = cacheStorageConfigurationsContainer {
+            cacheStorageConfigurationsDecoded0 = [FinspaceClientTypes.KxCacheStorageConfiguration]()
+            for structure0 in cacheStorageConfigurationsContainer {
+                if let structure0 = structure0 {
+                    cacheStorageConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cacheStorageConfigurations = cacheStorageConfigurationsDecoded0
+        let autoScalingConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.AutoScalingConfiguration.self, forKey: .autoScalingConfiguration)
+        autoScalingConfiguration = autoScalingConfigurationDecoded
+        let clusterDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterDescription)
+        clusterDescription = clusterDescriptionDecoded
+        let capacityConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.CapacityConfiguration.self, forKey: .capacityConfiguration)
+        capacityConfiguration = capacityConfigurationDecoded
+        let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
+        releaseLabel = releaseLabelDecoded
+        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
+        vpcConfiguration = vpcConfigurationDecoded
+        let initializationScriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initializationScript)
+        initializationScript = initializationScriptDecoded
+        let commandLineArgumentsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxCommandLineArgument?].self, forKey: .commandLineArguments)
+        var commandLineArgumentsDecoded0:[FinspaceClientTypes.KxCommandLineArgument]? = nil
+        if let commandLineArgumentsContainer = commandLineArgumentsContainer {
+            commandLineArgumentsDecoded0 = [FinspaceClientTypes.KxCommandLineArgument]()
+            for structure0 in commandLineArgumentsContainer {
+                if let structure0 = structure0 {
+                    commandLineArgumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        commandLineArguments = commandLineArgumentsDecoded0
+        let codeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.CodeConfiguration.self, forKey: .code)
+        code = codeDecoded
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let savedownStorageConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxSavedownStorageConfiguration.self, forKey: .savedownStorageConfiguration)
+        savedownStorageConfiguration = savedownStorageConfigurationDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+extension GetKxConnectionStringInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clusterName = clusterName else {
+                let message = "Creating a URL Query Item failed. clusterName is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let clusterNameQueryItem = ClientRuntime.URLQueryItem(name: "clusterName".urlPercentEncoding(), value: Swift.String(clusterName).urlPercentEncoding())
+            items.append(clusterNameQueryItem)
+            guard let userArn = userArn else {
+                let message = "Creating a URL Query Item failed. userArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let userArnQueryItem = ClientRuntime.URLQueryItem(name: "userArn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
+            items.append(userArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetKxConnectionStringInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/connectionString"
+    }
+}
+
+public struct GetKxConnectionStringInput: Swift.Equatable {
+    /// A name of the kdb cluster.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+    /// This member is required.
+    public var userArn: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        userArn: Swift.String? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.environmentId = environmentId
+        self.userArn = userArn
+    }
+}
+
+struct GetKxConnectionStringInputBody: Swift.Equatable {
+}
+
+extension GetKxConnectionStringInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetKxConnectionStringOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetKxConnectionStringOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetKxConnectionStringOutputResponse(signedConnectionString: \"CONTENT_REDACTED\")"}
+}
+
+extension GetKxConnectionStringOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxConnectionStringOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.signedConnectionString = output.signedConnectionString
+        } else {
+            self.signedConnectionString = nil
+        }
+    }
+}
+
+public struct GetKxConnectionStringOutputResponse: Swift.Equatable {
+    /// The signed connection string that you can use to connect to clusters.
+    public var signedConnectionString: Swift.String?
+
+    public init(
+        signedConnectionString: Swift.String? = nil
+    )
+    {
+        self.signedConnectionString = signedConnectionString
+    }
+}
+
+struct GetKxConnectionStringOutputResponseBody: Swift.Equatable {
+    let signedConnectionString: Swift.String?
+}
+
+extension GetKxConnectionStringOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case signedConnectionString
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let signedConnectionStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .signedConnectionString)
+        signedConnectionString = signedConnectionStringDecoded
+    }
+}
+
+extension GetKxDatabaseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())"
+    }
+}
+
+public struct GetKxDatabaseInput: Swift.Equatable {
+    /// The name of the kdb database.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.environmentId = environmentId
+    }
+}
+
+struct GetKxDatabaseInputBody: Swift.Equatable {
+}
+
+extension GetKxDatabaseInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetKxDatabaseOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxDatabaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createdTimestamp = output.createdTimestamp
+            self.databaseArn = output.databaseArn
+            self.databaseName = output.databaseName
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.lastCompletedChangesetId = output.lastCompletedChangesetId
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.numBytes = output.numBytes
+            self.numChangesets = output.numChangesets
+            self.numFiles = output.numFiles
+        } else {
+            self.createdTimestamp = nil
+            self.databaseArn = nil
+            self.databaseName = nil
+            self.description = nil
+            self.environmentId = nil
+            self.lastCompletedChangesetId = nil
+            self.lastModifiedTimestamp = nil
+            self.numBytes = 0
+            self.numChangesets = 0
+            self.numFiles = 0
+        }
+    }
+}
+
+public struct GetKxDatabaseOutputResponse: Swift.Equatable {
+    /// The timestamp at which the database is created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The ARN identifier of the database.
+    public var databaseArn: Swift.String?
+    /// The name of the kdb database for which the information is retrieved.
+    public var databaseName: Swift.String?
+    /// A description of the database.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// A unique identifier for the changeset.
+    public var lastCompletedChangesetId: Swift.String?
+    /// The last time that the database was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// The total number of bytes in the database.
+    public var numBytes: Swift.Int
+    /// The total number of changesets in the database.
+    public var numChangesets: Swift.Int
+    /// The total number of files in the database.
+    public var numFiles: Swift.Int
+
+    public init(
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databaseArn: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        lastCompletedChangesetId: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        numBytes: Swift.Int = 0,
+        numChangesets: Swift.Int = 0,
+        numFiles: Swift.Int = 0
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.databaseArn = databaseArn
+        self.databaseName = databaseName
+        self.description = description
+        self.environmentId = environmentId
+        self.lastCompletedChangesetId = lastCompletedChangesetId
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.numBytes = numBytes
+        self.numChangesets = numChangesets
+        self.numFiles = numFiles
+    }
+}
+
+struct GetKxDatabaseOutputResponseBody: Swift.Equatable {
+    let databaseName: Swift.String?
+    let databaseArn: Swift.String?
+    let environmentId: Swift.String?
+    let description: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let lastCompletedChangesetId: Swift.String?
+    let numBytes: Swift.Int
+    let numChangesets: Swift.Int
+    let numFiles: Swift.Int
+}
+
+extension GetKxDatabaseOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp
+        case databaseArn
+        case databaseName
+        case description
+        case environmentId
+        case lastCompletedChangesetId
+        case lastModifiedTimestamp
+        case numBytes
+        case numChangesets
+        case numFiles
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let databaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseArn)
+        databaseArn = databaseArnDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let lastCompletedChangesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastCompletedChangesetId)
+        lastCompletedChangesetId = lastCompletedChangesetIdDecoded
+        let numBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numBytes) ?? 0
+        numBytes = numBytesDecoded
+        let numChangesetsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numChangesets) ?? 0
+        numChangesets = numChangesetsDecoded
+        let numFilesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numFiles) ?? 0
+        numFiles = numFilesDecoded
+    }
+}
+
+extension GetKxEnvironmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())"
+    }
+}
+
+public struct GetKxEnvironmentInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+    }
+}
+
+struct GetKxEnvironmentInputBody: Swift.Equatable {
+}
+
+extension GetKxEnvironmentInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetKxEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.availabilityZoneIds = output.availabilityZoneIds
+            self.awsAccountId = output.awsAccountId
+            self.certificateAuthorityArn = output.certificateAuthorityArn
+            self.creationTimestamp = output.creationTimestamp
+            self.customDNSConfiguration = output.customDNSConfiguration
+            self.dedicatedServiceAccountId = output.dedicatedServiceAccountId
+            self.description = output.description
+            self.dnsStatus = output.dnsStatus
+            self.environmentArn = output.environmentArn
+            self.environmentId = output.environmentId
+            self.errorMessage = output.errorMessage
+            self.kmsKeyId = output.kmsKeyId
+            self.name = output.name
+            self.status = output.status
+            self.tgwStatus = output.tgwStatus
+            self.transitGatewayConfiguration = output.transitGatewayConfiguration
+            self.updateTimestamp = output.updateTimestamp
+        } else {
+            self.availabilityZoneIds = nil
+            self.awsAccountId = nil
+            self.certificateAuthorityArn = nil
+            self.creationTimestamp = nil
+            self.customDNSConfiguration = nil
+            self.dedicatedServiceAccountId = nil
+            self.description = nil
+            self.dnsStatus = nil
+            self.environmentArn = nil
+            self.environmentId = nil
+            self.errorMessage = nil
+            self.kmsKeyId = nil
+            self.name = nil
+            self.status = nil
+            self.tgwStatus = nil
+            self.transitGatewayConfiguration = nil
+            self.updateTimestamp = nil
+        }
+    }
+}
+
+public struct GetKxEnvironmentOutputResponse: Swift.Equatable {
+    /// The identifier of the availability zones where subnets for the environment are created.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The unique identifier of the AWS account that is used to create the kdb environment.
+    public var awsAccountId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the certificate authority of the kdb environment.
+    public var certificateAuthorityArn: Swift.String?
+    /// The timestamp at which the kdb environment was created in FinSpace.
+    public var creationTimestamp: ClientRuntime.Date?
+    /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
+    public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+    /// A unique identifier for the AWS environment infrastructure account.
+    public var dedicatedServiceAccountId: Swift.String?
+    /// A description for the kdb environment.
+    public var description: Swift.String?
+    /// The status of DNS configuration.
+    public var dnsStatus: FinspaceClientTypes.DnsStatus?
+    /// The ARN identifier of the environment.
+    public var environmentArn: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// Specifies the error message that appears if a flow fails.
+    public var errorMessage: Swift.String?
+    /// The KMS key ID to encrypt your data in the FinSpace environment.
+    public var kmsKeyId: Swift.String?
+    /// The name of the kdb environment.
+    public var name: Swift.String?
+    /// The status of the kdb environment.
+    public var status: FinspaceClientTypes.EnvironmentStatus?
+    /// The status of the network configuration.
+    public var tgwStatus: FinspaceClientTypes.TgwStatus?
+    /// The structure of the transit gateway and network configuration that is used to connect the kdb environment to an internal network.
+    public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+    /// The timestamp at which the kdb environment was updated.
+    public var updateTimestamp: ClientRuntime.Date?
+
+    public init(
+        availabilityZoneIds: [Swift.String]? = nil,
+        awsAccountId: Swift.String? = nil,
+        certificateAuthorityArn: Swift.String? = nil,
+        creationTimestamp: ClientRuntime.Date? = nil,
+        customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
+        dedicatedServiceAccountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dnsStatus: FinspaceClientTypes.DnsStatus? = nil,
+        environmentArn: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: FinspaceClientTypes.EnvironmentStatus? = nil,
+        tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
+        transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
+        updateTimestamp: ClientRuntime.Date? = nil
+    )
+    {
+        self.availabilityZoneIds = availabilityZoneIds
+        self.awsAccountId = awsAccountId
+        self.certificateAuthorityArn = certificateAuthorityArn
+        self.creationTimestamp = creationTimestamp
+        self.customDNSConfiguration = customDNSConfiguration
+        self.dedicatedServiceAccountId = dedicatedServiceAccountId
+        self.description = description
+        self.dnsStatus = dnsStatus
+        self.environmentArn = environmentArn
+        self.environmentId = environmentId
+        self.errorMessage = errorMessage
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.status = status
+        self.tgwStatus = tgwStatus
+        self.transitGatewayConfiguration = transitGatewayConfiguration
+        self.updateTimestamp = updateTimestamp
+    }
+}
+
+struct GetKxEnvironmentOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+    let environmentId: Swift.String?
+    let awsAccountId: Swift.String?
+    let status: FinspaceClientTypes.EnvironmentStatus?
+    let tgwStatus: FinspaceClientTypes.TgwStatus?
+    let dnsStatus: FinspaceClientTypes.DnsStatus?
+    let errorMessage: Swift.String?
+    let description: Swift.String?
+    let environmentArn: Swift.String?
+    let kmsKeyId: Swift.String?
+    let dedicatedServiceAccountId: Swift.String?
+    let transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+    let customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+    let creationTimestamp: ClientRuntime.Date?
+    let updateTimestamp: ClientRuntime.Date?
+    let availabilityZoneIds: [Swift.String]?
+    let certificateAuthorityArn: Swift.String?
+}
+
+extension GetKxEnvironmentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneIds
+        case awsAccountId
+        case certificateAuthorityArn
+        case creationTimestamp
+        case customDNSConfiguration
+        case dedicatedServiceAccountId
+        case description
+        case dnsStatus
+        case environmentArn
+        case environmentId
+        case errorMessage
+        case kmsKeyId
+        case name
+        case status
+        case tgwStatus
+        case transitGatewayConfiguration
+        case updateTimestamp
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.EnvironmentStatus.self, forKey: .status)
+        status = statusDecoded
+        let tgwStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TgwStatus.self, forKey: .tgwStatus)
+        tgwStatus = tgwStatusDecoded
+        let dnsStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.DnsStatus.self, forKey: .dnsStatus)
+        dnsStatus = dnsStatusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let environmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentArn)
+        environmentArn = environmentArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let dedicatedServiceAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dedicatedServiceAccountId)
+        dedicatedServiceAccountId = dedicatedServiceAccountIdDecoded
+        let transitGatewayConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TransitGatewayConfiguration.self, forKey: .transitGatewayConfiguration)
+        transitGatewayConfiguration = transitGatewayConfigurationDecoded
+        let customDNSConfigurationContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.CustomDNSServer?].self, forKey: .customDNSConfiguration)
+        var customDNSConfigurationDecoded0:[FinspaceClientTypes.CustomDNSServer]? = nil
+        if let customDNSConfigurationContainer = customDNSConfigurationContainer {
+            customDNSConfigurationDecoded0 = [FinspaceClientTypes.CustomDNSServer]()
+            for structure0 in customDNSConfigurationContainer {
+                if let structure0 = structure0 {
+                    customDNSConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        customDNSConfiguration = customDNSConfigurationDecoded0
+        let creationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+        let updateTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTimestamp)
+        updateTimestamp = updateTimestampDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+        let certificateAuthorityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateAuthorityArn)
+        certificateAuthorityArn = certificateAuthorityArnDecoded
+    }
+}
+
+extension GetKxUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let userName = userName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
+    }
+}
+
+public struct GetKxUserInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// A unique identifier for the user.
+    /// This member is required.
+    public var userName: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.userName = userName
+    }
+}
+
+struct GetKxUserInputBody: Swift.Equatable {
+}
+
+extension GetKxUserInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetKxUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.environmentId = output.environmentId
+            self.iamRole = output.iamRole
+            self.userArn = output.userArn
+            self.userName = output.userName
+        } else {
+            self.environmentId = nil
+            self.iamRole = nil
+            self.userArn = nil
+            self.userName = nil
+        }
+    }
+}
+
+public struct GetKxUserOutputResponse: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// The IAM role ARN that is associated with the user.
+    public var iamRole: Swift.String?
+    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+    public var userArn: Swift.String?
+    /// A unique identifier for the user.
+    public var userName: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        iamRole: Swift.String? = nil,
+        userArn: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.iamRole = iamRole
+        self.userArn = userArn
+        self.userName = userName
+    }
+}
+
+struct GetKxUserOutputResponseBody: Swift.Equatable {
+    let userName: Swift.String?
+    let userArn: Swift.String?
+    let environmentId: Swift.String?
+    let iamRole: Swift.String?
+}
+
+extension GetKxUserOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentId
+        case iamRole
+        case userArn
+        case userName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
+        userName = userNameDecoded
+        let userArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userArn)
+        userArn = userArnDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let iamRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    public enum IPAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ipV4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IPAddressType] {
+            return [
+                .ipV4,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipV4: return "IP_V4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IPAddressType(rawValue: rawValue) ?? IPAddressType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -824,7 +4450,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -832,37 +4458,41 @@ extension InternalServerExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request is invalid. Something is wrong with the input to the request.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -875,45 +4505,1143 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
 }
 
+extension FinspaceClientTypes {
+    public enum KxAzMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case multi
+        case single
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxAzMode] {
+            return [
+                .multi,
+                .single,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .multi: return "MULTI"
+            case .single: return "SINGLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxAzMode(rawValue: rawValue) ?? KxAzMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes.KxCacheStorageConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case size
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let size = self.size {
+            try encodeContainer.encode(size, forKey: .size)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
+        size = sizeDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The configuration for read only disk cache associated with a cluster.
+    public struct KxCacheStorageConfiguration: Swift.Equatable {
+        /// The size of cache in Gigabytes.
+        /// This member is required.
+        public var size: Swift.Int?
+        /// The type of cache storage . The valid values are:
+        ///
+        /// * CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            size: Swift.Int? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.size = size
+            self.type = type
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxChangesetListEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeFromTimestamp
+        case changesetId
+        case createdTimestamp
+        case lastModifiedTimestamp
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeFromTimestamp = self.activeFromTimestamp {
+            try encodeContainer.encodeTimestamp(activeFromTimestamp, format: .epochSeconds, forKey: .activeFromTimestamp)
+        }
+        if let changesetId = self.changesetId {
+            try encodeContainer.encode(changesetId, forKey: .changesetId)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let lastModifiedTimestamp = self.lastModifiedTimestamp {
+            try encodeContainer.encodeTimestamp(lastModifiedTimestamp, format: .epochSeconds, forKey: .lastModifiedTimestamp)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let activeFromTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .activeFromTimestamp)
+        activeFromTimestamp = activeFromTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.ChangesetStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// Details of changeset.
+    public struct KxChangesetListEntry: Swift.Equatable {
+        /// Beginning time from which the changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var activeFromTimestamp: ClientRuntime.Date?
+        /// A unique identifier for the changeset.
+        public var changesetId: Swift.String?
+        /// The timestamp at which the changeset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The timestamp at which the changeset was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var lastModifiedTimestamp: ClientRuntime.Date?
+        /// Status of the changeset.
+        ///
+        /// * Pending – Changeset creation is pending.
+        ///
+        /// * Processing – Changeset creation is running.
+        ///
+        /// * Failed – Changeset creation has failed.
+        ///
+        /// * Complete – Changeset creation has succeeded.
+        public var status: FinspaceClientTypes.ChangesetStatus?
+
+        public init(
+            activeFromTimestamp: ClientRuntime.Date? = nil,
+            changesetId: Swift.String? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            status: FinspaceClientTypes.ChangesetStatus? = nil
+        )
+        {
+            self.activeFromTimestamp = activeFromTimestamp
+            self.changesetId = changesetId
+            self.createdTimestamp = createdTimestamp
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.status = status
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxCluster: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneId
+        case azMode
+        case clusterDescription
+        case clusterName
+        case clusterType
+        case createdTimestamp
+        case executionRole
+        case initializationScript
+        case lastModifiedTimestamp
+        case releaseLabel
+        case status
+        case statusReason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneId = self.availabilityZoneId {
+            try encodeContainer.encode(availabilityZoneId, forKey: .availabilityZoneId)
+        }
+        if let azMode = self.azMode {
+            try encodeContainer.encode(azMode.rawValue, forKey: .azMode)
+        }
+        if let clusterDescription = self.clusterDescription {
+            try encodeContainer.encode(clusterDescription, forKey: .clusterDescription)
+        }
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let clusterType = self.clusterType {
+            try encodeContainer.encode(clusterType.rawValue, forKey: .clusterType)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
+        }
+        if let initializationScript = self.initializationScript {
+            try encodeContainer.encode(initializationScript, forKey: .initializationScript)
+        }
+        if let lastModifiedTimestamp = self.lastModifiedTimestamp {
+            try encodeContainer.encodeTimestamp(lastModifiedTimestamp, format: .epochSeconds, forKey: .lastModifiedTimestamp)
+        }
+        if let releaseLabel = self.releaseLabel {
+            try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let clusterTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterType.self, forKey: .clusterType)
+        clusterType = clusterTypeDecoded
+        let clusterDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterDescription)
+        clusterDescription = clusterDescriptionDecoded
+        let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
+        releaseLabel = releaseLabelDecoded
+        let initializationScriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initializationScript)
+        initializationScript = initializationScriptDecoded
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The details of a kdb cluster.
+    public struct KxCluster: Swift.Equatable {
+        /// The availability zone identifiers for the requested regions.
+        public var availabilityZoneId: Swift.String?
+        /// The number of availability zones assigned per cluster. This can be one of the following
+        ///
+        /// * SINGLE – Assigns one availability zone per cluster.
+        ///
+        /// * MULTI – Assigns all the availability zones per cluster.
+        public var azMode: FinspaceClientTypes.KxAzMode?
+        /// A description of the cluster.
+        public var clusterDescription: Swift.String?
+        /// A unique name for the cluster.
+        public var clusterName: Swift.String?
+        /// Specifies the type of KDB database that is being created. The following types are available:
+        ///
+        /// * HDB – A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb databases mounted to the cluster.
+        ///
+        /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
+        ///
+        /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+        public var clusterType: FinspaceClientTypes.KxClusterType?
+        /// The timestamp at which the cluster was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// An IAM role that defines a set of permissions associated with a cluster. These permissions are assumed when a cluster attempts to access another cluster.
+        public var executionRole: Swift.String?
+        /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
+        public var initializationScript: Swift.String?
+        /// The last time that the cluster was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var lastModifiedTimestamp: ClientRuntime.Date?
+        /// A version of the FinSpace managed kdb to run.
+        public var releaseLabel: Swift.String?
+        /// The status of a cluster.
+        ///
+        /// * PENDING – The cluster is pending creation.
+        ///
+        /// * CREATING –The cluster creation process is in progress.
+        ///
+        /// * CREATE_FAILED– The cluster creation process has failed.
+        ///
+        /// * RUNNING – The cluster creation process is running.
+        ///
+        /// * UPDATING – The cluster is in the process of being updated.
+        ///
+        /// * DELETING – The cluster is in the process of being deleted.
+        ///
+        /// * DELETED – The cluster has been deleted.
+        ///
+        /// * DELETE_FAILED – The cluster failed to delete.
+        public var status: FinspaceClientTypes.KxClusterStatus?
+        /// The error message when a failed state occurs.
+        public var statusReason: Swift.String?
+
+        public init(
+            availabilityZoneId: Swift.String? = nil,
+            azMode: FinspaceClientTypes.KxAzMode? = nil,
+            clusterDescription: Swift.String? = nil,
+            clusterName: Swift.String? = nil,
+            clusterType: FinspaceClientTypes.KxClusterType? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            executionRole: Swift.String? = nil,
+            initializationScript: Swift.String? = nil,
+            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            releaseLabel: Swift.String? = nil,
+            status: FinspaceClientTypes.KxClusterStatus? = nil,
+            statusReason: Swift.String? = nil
+        )
+        {
+            self.availabilityZoneId = availabilityZoneId
+            self.azMode = azMode
+            self.clusterDescription = clusterDescription
+            self.clusterName = clusterName
+            self.clusterType = clusterType
+            self.createdTimestamp = createdTimestamp
+            self.executionRole = executionRole
+            self.initializationScript = initializationScript
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.releaseLabel = releaseLabel
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum KxClusterStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleting
+        case pending
+        case running
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxClusterStatus] {
+            return [
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleting,
+                .pending,
+                .running,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxClusterStatus(rawValue: rawValue) ?? KxClusterStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes {
+    public enum KxClusterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case gateway
+        case hdb
+        case rdb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxClusterType] {
+            return [
+                .gateway,
+                .hdb,
+                .rdb,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .gateway: return "GATEWAY"
+            case .hdb: return "HDB"
+            case .rdb: return "RDB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxClusterType(rawValue: rawValue) ?? KxClusterType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes.KxCommandLineArgument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// Defines the key-value pairs to make them available inside the cluster.
+    public struct KxCommandLineArgument: Swift.Equatable {
+        /// The name of the key.
+        public var key: Swift.String?
+        /// The value of the key.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxDatabaseCacheConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cacheType
+        case dbPaths
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cacheType = self.cacheType {
+            try encodeContainer.encode(cacheType, forKey: .cacheType)
+        }
+        if let dbPaths = dbPaths {
+            var dbPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dbPaths)
+            for dbpath0 in dbPaths {
+                try dbPathsContainer.encode(dbpath0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cacheTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheType)
+        cacheType = cacheTypeDecoded
+        let dbPathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dbPaths)
+        var dbPathsDecoded0:[Swift.String]? = nil
+        if let dbPathsContainer = dbPathsContainer {
+            dbPathsDecoded0 = [Swift.String]()
+            for string0 in dbPathsContainer {
+                if let string0 = string0 {
+                    dbPathsDecoded0?.append(string0)
+                }
+            }
+        }
+        dbPaths = dbPathsDecoded0
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure of database cache configuration that is used for mapping database paths to cache types in clusters.
+    public struct KxDatabaseCacheConfiguration: Swift.Equatable {
+        /// The type of disk cache. This parameter is used to map the database path to cache storage. The valid values are:
+        ///
+        /// * CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.
+        /// This member is required.
+        public var cacheType: Swift.String?
+        /// Specifies the portions of database that will be loaded into the cache for access.
+        /// This member is required.
+        public var dbPaths: [Swift.String]?
+
+        public init(
+            cacheType: Swift.String? = nil,
+            dbPaths: [Swift.String]? = nil
+        )
+        {
+            self.cacheType = cacheType
+            self.dbPaths = dbPaths
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxDatabaseConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cacheConfigurations
+        case changesetId
+        case databaseName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cacheConfigurations = cacheConfigurations {
+            var cacheConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cacheConfigurations)
+            for kxdatabasecacheconfiguration0 in cacheConfigurations {
+                try cacheConfigurationsContainer.encode(kxdatabasecacheconfiguration0)
+            }
+        }
+        if let changesetId = self.changesetId {
+            try encodeContainer.encode(changesetId, forKey: .changesetId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let cacheConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseCacheConfiguration?].self, forKey: .cacheConfigurations)
+        var cacheConfigurationsDecoded0:[FinspaceClientTypes.KxDatabaseCacheConfiguration]? = nil
+        if let cacheConfigurationsContainer = cacheConfigurationsContainer {
+            cacheConfigurationsDecoded0 = [FinspaceClientTypes.KxDatabaseCacheConfiguration]()
+            for structure0 in cacheConfigurationsContainer {
+                if let structure0 = structure0 {
+                    cacheConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cacheConfigurations = cacheConfigurationsDecoded0
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The configuration of data that is available for querying from this database.
+    public struct KxDatabaseConfiguration: Swift.Equatable {
+        /// Configuration details for the disk cache used to increase performance reading from a kdb database mounted to the cluster.
+        public var cacheConfigurations: [FinspaceClientTypes.KxDatabaseCacheConfiguration]?
+        /// A unique identifier of the changeset that is associated with the cluster.
+        public var changesetId: Swift.String?
+        /// The name of the kdb database. When this parameter is specified in the structure, S3 with the whole database is included by default.
+        /// This member is required.
+        public var databaseName: Swift.String?
+
+        public init(
+            cacheConfigurations: [FinspaceClientTypes.KxDatabaseCacheConfiguration]? = nil,
+            changesetId: Swift.String? = nil,
+            databaseName: Swift.String? = nil
+        )
+        {
+            self.cacheConfigurations = cacheConfigurations
+            self.changesetId = changesetId
+            self.databaseName = databaseName
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxDatabaseListEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp
+        case databaseName
+        case lastModifiedTimestamp
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let lastModifiedTimestamp = self.lastModifiedTimestamp {
+            try encodeContainer.encodeTimestamp(lastModifiedTimestamp, format: .epochSeconds, forKey: .lastModifiedTimestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// Details about a FinSpace managed kdb database
+    public struct KxDatabaseListEntry: Swift.Equatable {
+        /// The timestamp at which the database was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The name of the kdb database.
+        public var databaseName: Swift.String?
+        /// The last time that the database was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var lastModifiedTimestamp: ClientRuntime.Date?
+
+        public init(
+            createdTimestamp: ClientRuntime.Date? = nil,
+            databaseName: Swift.String? = nil,
+            lastModifiedTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.databaseName = databaseName
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxEnvironment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneIds
+        case awsAccountId
+        case certificateAuthorityArn
+        case creationTimestamp
+        case customDNSConfiguration
+        case dedicatedServiceAccountId
+        case description
+        case dnsStatus
+        case environmentArn
+        case environmentId
+        case errorMessage
+        case kmsKeyId
+        case name
+        case status
+        case tgwStatus
+        case transitGatewayConfiguration
+        case updateTimestamp
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneIds = availabilityZoneIds {
+            var availabilityZoneIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZoneIds)
+            for availabilityzoneid0 in availabilityZoneIds {
+                try availabilityZoneIdsContainer.encode(availabilityzoneid0)
+            }
+        }
+        if let awsAccountId = self.awsAccountId {
+            try encodeContainer.encode(awsAccountId, forKey: .awsAccountId)
+        }
+        if let certificateAuthorityArn = self.certificateAuthorityArn {
+            try encodeContainer.encode(certificateAuthorityArn, forKey: .certificateAuthorityArn)
+        }
+        if let creationTimestamp = self.creationTimestamp {
+            try encodeContainer.encodeTimestamp(creationTimestamp, format: .epochSeconds, forKey: .creationTimestamp)
+        }
+        if let customDNSConfiguration = customDNSConfiguration {
+            var customDNSConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDNSConfiguration)
+            for customdnsserver0 in customDNSConfiguration {
+                try customDNSConfigurationContainer.encode(customdnsserver0)
+            }
+        }
+        if let dedicatedServiceAccountId = self.dedicatedServiceAccountId {
+            try encodeContainer.encode(dedicatedServiceAccountId, forKey: .dedicatedServiceAccountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let dnsStatus = self.dnsStatus {
+            try encodeContainer.encode(dnsStatus.rawValue, forKey: .dnsStatus)
+        }
+        if let environmentArn = self.environmentArn {
+            try encodeContainer.encode(environmentArn, forKey: .environmentArn)
+        }
+        if let environmentId = self.environmentId {
+            try encodeContainer.encode(environmentId, forKey: .environmentId)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tgwStatus = self.tgwStatus {
+            try encodeContainer.encode(tgwStatus.rawValue, forKey: .tgwStatus)
+        }
+        if let transitGatewayConfiguration = self.transitGatewayConfiguration {
+            try encodeContainer.encode(transitGatewayConfiguration, forKey: .transitGatewayConfiguration)
+        }
+        if let updateTimestamp = self.updateTimestamp {
+            try encodeContainer.encodeTimestamp(updateTimestamp, format: .epochSeconds, forKey: .updateTimestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.EnvironmentStatus.self, forKey: .status)
+        status = statusDecoded
+        let tgwStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TgwStatus.self, forKey: .tgwStatus)
+        tgwStatus = tgwStatusDecoded
+        let dnsStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.DnsStatus.self, forKey: .dnsStatus)
+        dnsStatus = dnsStatusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let environmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentArn)
+        environmentArn = environmentArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let dedicatedServiceAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dedicatedServiceAccountId)
+        dedicatedServiceAccountId = dedicatedServiceAccountIdDecoded
+        let transitGatewayConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TransitGatewayConfiguration.self, forKey: .transitGatewayConfiguration)
+        transitGatewayConfiguration = transitGatewayConfigurationDecoded
+        let customDNSConfigurationContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.CustomDNSServer?].self, forKey: .customDNSConfiguration)
+        var customDNSConfigurationDecoded0:[FinspaceClientTypes.CustomDNSServer]? = nil
+        if let customDNSConfigurationContainer = customDNSConfigurationContainer {
+            customDNSConfigurationDecoded0 = [FinspaceClientTypes.CustomDNSServer]()
+            for structure0 in customDNSConfigurationContainer {
+                if let structure0 = structure0 {
+                    customDNSConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        customDNSConfiguration = customDNSConfigurationDecoded0
+        let creationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+        let updateTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTimestamp)
+        updateTimestamp = updateTimestampDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+        let certificateAuthorityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateAuthorityArn)
+        certificateAuthorityArn = certificateAuthorityArnDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The details of a kdb environment.
+    public struct KxEnvironment: Swift.Equatable {
+        /// The identifier of the availability zones where subnets for the environment are created.
+        public var availabilityZoneIds: [Swift.String]?
+        /// The unique identifier of the AWS account in which you create the kdb environment.
+        public var awsAccountId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the certificate authority:
+        public var certificateAuthorityArn: Swift.String?
+        /// The timestamp at which the kdb environment was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var creationTimestamp: ClientRuntime.Date?
+        /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
+        public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+        /// A unique identifier for the AWS environment infrastructure account.
+        public var dedicatedServiceAccountId: Swift.String?
+        /// A description of the kdb environment.
+        public var description: Swift.String?
+        /// The status of DNS configuration.
+        public var dnsStatus: FinspaceClientTypes.DnsStatus?
+        /// The Amazon Resource Name (ARN) of your kdb environment.
+        public var environmentArn: Swift.String?
+        /// A unique identifier for the kdb environment.
+        public var environmentId: Swift.String?
+        /// Specifies the error message that appears if a flow fails.
+        public var errorMessage: Swift.String?
+        /// The unique identifier of the KMS key.
+        public var kmsKeyId: Swift.String?
+        /// The name of the kdb environment.
+        public var name: Swift.String?
+        /// The status of the environment creation.
+        ///
+        /// * CREATE_REQUESTED – Environment creation has been requested.
+        ///
+        /// * CREATING – Environment is in the process of being created.
+        ///
+        /// * FAILED_CREATION – Environment creation has failed.
+        ///
+        /// * CREATED – Environment is successfully created and is currently active.
+        ///
+        /// * DELETE REQUESTED – Environment deletion has been requested.
+        ///
+        /// * DELETING – Environment is in the process of being deleted.
+        ///
+        /// * RETRY_DELETION – Initial environment deletion failed, system is reattempting delete.
+        ///
+        /// * DELETED – Environment has been deleted.
+        ///
+        /// * FAILED_DELETION – Environment deletion has failed.
+        public var status: FinspaceClientTypes.EnvironmentStatus?
+        /// The status of the network configuration.
+        public var tgwStatus: FinspaceClientTypes.TgwStatus?
+        /// Specifies the transit gateway and network configuration to connect the kdb environment to an internal network.
+        public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+        /// The timestamp at which the kdb environment was modified in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var updateTimestamp: ClientRuntime.Date?
+
+        public init(
+            availabilityZoneIds: [Swift.String]? = nil,
+            awsAccountId: Swift.String? = nil,
+            certificateAuthorityArn: Swift.String? = nil,
+            creationTimestamp: ClientRuntime.Date? = nil,
+            customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
+            dedicatedServiceAccountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            dnsStatus: FinspaceClientTypes.DnsStatus? = nil,
+            environmentArn: Swift.String? = nil,
+            environmentId: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: FinspaceClientTypes.EnvironmentStatus? = nil,
+            tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
+            transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
+            updateTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.availabilityZoneIds = availabilityZoneIds
+            self.awsAccountId = awsAccountId
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.creationTimestamp = creationTimestamp
+            self.customDNSConfiguration = customDNSConfiguration
+            self.dedicatedServiceAccountId = dedicatedServiceAccountId
+            self.description = description
+            self.dnsStatus = dnsStatus
+            self.environmentArn = environmentArn
+            self.environmentId = environmentId
+            self.errorMessage = errorMessage
+            self.kmsKeyId = kmsKeyId
+            self.name = name
+            self.status = status
+            self.tgwStatus = tgwStatus
+            self.transitGatewayConfiguration = transitGatewayConfiguration
+            self.updateTimestamp = updateTimestamp
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxNode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneId
+        case launchTime
+        case nodeId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneId = self.availabilityZoneId {
+            try encodeContainer.encode(availabilityZoneId, forKey: .availabilityZoneId)
+        }
+        if let launchTime = self.launchTime {
+            try encodeContainer.encodeTimestamp(launchTime, format: .epochSeconds, forKey: .launchTime)
+        }
+        if let nodeId = self.nodeId {
+            try encodeContainer.encode(nodeId, forKey: .nodeId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeId)
+        nodeId = nodeIdDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let launchTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .launchTime)
+        launchTime = launchTimeDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// A structure that stores metadata for a kdb node.
+    public struct KxNode: Swift.Equatable {
+        /// The identifier of the availability zones where subnets for the environment are created.
+        public var availabilityZoneId: Swift.String?
+        /// The time when a particular node is started. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var launchTime: ClientRuntime.Date?
+        /// A unique identifier for the node.
+        public var nodeId: Swift.String?
+
+        public init(
+            availabilityZoneId: Swift.String? = nil,
+            launchTime: ClientRuntime.Date? = nil,
+            nodeId: Swift.String? = nil
+        )
+        {
+            self.availabilityZoneId = availabilityZoneId
+            self.launchTime = launchTime
+            self.nodeId = nodeId
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxSavedownStorageConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case size
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if size != 0 {
+            try encodeContainer.encode(size, forKey: .size)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxSavedownStorageType.self, forKey: .type)
+        type = typeDecoded
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        size = sizeDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The size and type of temporary storage that is used to hold data during the savedown process. All the data written to this storage space is lost when the cluster node is restarted.
+    public struct KxSavedownStorageConfiguration: Swift.Equatable {
+        /// The size of temporary storage in bytes.
+        /// This member is required.
+        public var size: Swift.Int
+        /// The type of writeable storage space for temporarily storing your savedown data. The valid values are:
+        ///
+        /// * SDS01 – This type represents 3000 IOPS and io2 ebs volume type.
+        /// This member is required.
+        public var type: FinspaceClientTypes.KxSavedownStorageType?
+
+        public init(
+            size: Swift.Int = 0,
+            type: FinspaceClientTypes.KxSavedownStorageType? = nil
+        )
+        {
+            self.size = size
+            self.type = type
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum KxSavedownStorageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case sds01
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxSavedownStorageType] {
+            return [
+                .sds01,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .sds01: return "SDS01"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxSavedownStorageType(rawValue: rawValue) ?? KxSavedownStorageType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes.KxUser: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTimestamp
+        case iamRole
+        case updateTimestamp
+        case userArn
+        case userName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createTimestamp = self.createTimestamp {
+            try encodeContainer.encodeTimestamp(createTimestamp, format: .epochSeconds, forKey: .createTimestamp)
+        }
+        if let iamRole = self.iamRole {
+            try encodeContainer.encode(iamRole, forKey: .iamRole)
+        }
+        if let updateTimestamp = self.updateTimestamp {
+            try encodeContainer.encodeTimestamp(updateTimestamp, format: .epochSeconds, forKey: .updateTimestamp)
+        }
+        if let userArn = self.userArn {
+            try encodeContainer.encode(userArn, forKey: .userArn)
+        }
+        if let userName = self.userName {
+            try encodeContainer.encode(userName, forKey: .userName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userArn)
+        userArn = userArnDecoded
+        let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
+        userName = userNameDecoded
+        let iamRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+        let createTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTimestamp)
+        createTimestamp = createTimestampDecoded
+        let updateTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTimestamp)
+        updateTimestamp = updateTimestampDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// A structure that stores metadata for a kdb user.
+    public struct KxUser: Swift.Equatable {
+        /// The timestamp at which the kdb user was created.
+        public var createTimestamp: ClientRuntime.Date?
+        /// The IAM role ARN that is associated with the user.
+        public var iamRole: Swift.String?
+        /// The timestamp at which the kdb user was updated.
+        public var updateTimestamp: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+        public var userArn: Swift.String?
+        /// A unique identifier for the user.
+        public var userName: Swift.String?
+
+        public init(
+            createTimestamp: ClientRuntime.Date? = nil,
+            iamRole: Swift.String? = nil,
+            updateTimestamp: ClientRuntime.Date? = nil,
+            userArn: Swift.String? = nil,
+            userName: Swift.String? = nil
+        )
+        {
+            self.createTimestamp = createTimestamp
+            self.iamRole = iamRole
+            self.updateTimestamp = updateTimestamp
+            self.userArn = userArn
+            self.userName = userName
+        }
+    }
+
+}
+
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A service limit or quota is exceeded.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -926,7 +5654,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -941,7 +5669,7 @@ extension ListEnvironmentsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -958,12 +5686,12 @@ extension ListEnvironmentsInput: ClientRuntime.URLPathProvider {
 
 public struct ListEnvironmentsInput: Swift.Equatable {
     /// The maximum number of results to return in this request.
-    public var maxResults: Swift.Int
-    /// A token generated by FinSpace that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the nextToken value from the response object of the previous page call.
+    public var maxResults: Swift.Int?
+    /// A token generated by FinSpace that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the nextTokennextToken value from the response object of the previous page call.
     public var nextToken: Swift.String?
 
-    public init (
-        maxResults: Swift.Int = 0,
+    public init(
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -977,37 +5705,25 @@ struct ListEnvironmentsInputBody: Swift.Equatable {
 
 extension ListEnvironmentsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListEnvironmentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListEnvironmentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListEnvironmentsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environments = output.environments
@@ -1025,7 +5741,7 @@ public struct ListEnvironmentsOutputResponse: Swift.Equatable {
     /// A token that you can use in a subsequent call to retrieve the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         environments: [FinspaceClientTypes.Environment]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -1046,7 +5762,7 @@ extension ListEnvironmentsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.Environment?].self, forKey: .environments)
         var environmentsDecoded0:[FinspaceClientTypes.Environment]? = nil
@@ -1059,6 +5775,808 @@ extension ListEnvironmentsOutputResponseBody: Swift.Decodable {
             }
         }
         environments = environmentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListKxChangesetsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxChangesetsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/changesets"
+    }
+}
+
+public struct ListKxChangesetsInput: Swift.Equatable {
+    /// The name of the kdb database.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxChangesetsInputBody: Swift.Equatable {
+}
+
+extension ListKxChangesetsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListKxChangesetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKxChangesetsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxChangesetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.kxChangesets = output.kxChangesets
+            self.nextToken = output.nextToken
+        } else {
+            self.kxChangesets = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListKxChangesetsOutputResponse: Swift.Equatable {
+    /// A list of changesets for a database.
+    public var kxChangesets: [FinspaceClientTypes.KxChangesetListEntry]?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        kxChangesets: [FinspaceClientTypes.KxChangesetListEntry]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.kxChangesets = kxChangesets
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxChangesetsOutputResponseBody: Swift.Equatable {
+    let kxChangesets: [FinspaceClientTypes.KxChangesetListEntry]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxChangesetsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kxChangesets
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kxChangesetsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxChangesetListEntry?].self, forKey: .kxChangesets)
+        var kxChangesetsDecoded0:[FinspaceClientTypes.KxChangesetListEntry]? = nil
+        if let kxChangesetsContainer = kxChangesetsContainer {
+            kxChangesetsDecoded0 = [FinspaceClientTypes.KxChangesetListEntry]()
+            for structure0 in kxChangesetsContainer {
+                if let structure0 = structure0 {
+                    kxChangesetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        kxChangesets = kxChangesetsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListKxClusterNodesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxClusterNodesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())/nodes"
+    }
+}
+
+public struct ListKxClusterNodesInput: Swift.Equatable {
+    /// A unique name for the cluster.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxClusterNodesInputBody: Swift.Equatable {
+}
+
+extension ListKxClusterNodesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListKxClusterNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKxClusterNodesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxClusterNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.nodes = output.nodes
+        } else {
+            self.nextToken = nil
+            self.nodes = nil
+        }
+    }
+}
+
+public struct ListKxClusterNodesOutputResponse: Swift.Equatable {
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+    /// A list of nodes associated with the cluster.
+    public var nodes: [FinspaceClientTypes.KxNode]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        nodes: [FinspaceClientTypes.KxNode]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.nodes = nodes
+    }
+}
+
+struct ListKxClusterNodesOutputResponseBody: Swift.Equatable {
+    let nodes: [FinspaceClientTypes.KxNode]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxClusterNodesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case nodes
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nodesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxNode?].self, forKey: .nodes)
+        var nodesDecoded0:[FinspaceClientTypes.KxNode]? = nil
+        if let nodesContainer = nodesContainer {
+            nodesDecoded0 = [FinspaceClientTypes.KxNode]()
+            for structure0 in nodesContainer {
+                if let structure0 = structure0 {
+                    nodesDecoded0?.append(structure0)
+                }
+            }
+        }
+        nodes = nodesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListKxClustersInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clusterType = clusterType {
+                let clusterTypeQueryItem = ClientRuntime.URLQueryItem(name: "clusterType".urlPercentEncoding(), value: Swift.String(clusterType.rawValue).urlPercentEncoding())
+                items.append(clusterTypeQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxClustersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters"
+    }
+}
+
+public struct ListKxClustersInput: Swift.Equatable {
+    /// Specifies the type of KDB database that is being created. The following types are available:
+    ///
+    /// * HDB – A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb databases mounted to the cluster.
+    ///
+    /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
+    ///
+    /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+    public var clusterType: FinspaceClientTypes.KxClusterType?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterType: FinspaceClientTypes.KxClusterType? = nil,
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterType = clusterType
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxClustersInputBody: Swift.Equatable {
+}
+
+extension ListKxClustersInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListKxClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKxClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.kxClusterSummaries = output.kxClusterSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.kxClusterSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListKxClustersOutputResponse: Swift.Equatable {
+    /// Lists the cluster details.
+    public var kxClusterSummaries: [FinspaceClientTypes.KxCluster]?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        kxClusterSummaries: [FinspaceClientTypes.KxCluster]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.kxClusterSummaries = kxClusterSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxClustersOutputResponseBody: Swift.Equatable {
+    let kxClusterSummaries: [FinspaceClientTypes.KxCluster]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxClustersOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kxClusterSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kxClusterSummariesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxCluster?].self, forKey: .kxClusterSummaries)
+        var kxClusterSummariesDecoded0:[FinspaceClientTypes.KxCluster]? = nil
+        if let kxClusterSummariesContainer = kxClusterSummariesContainer {
+            kxClusterSummariesDecoded0 = [FinspaceClientTypes.KxCluster]()
+            for structure0 in kxClusterSummariesContainer {
+                if let structure0 = structure0 {
+                    kxClusterSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        kxClusterSummaries = kxClusterSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListKxDatabasesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxDatabasesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases"
+    }
+}
+
+public struct ListKxDatabasesInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxDatabasesInputBody: Swift.Equatable {
+}
+
+extension ListKxDatabasesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListKxDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKxDatabasesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxDatabasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.kxDatabases = output.kxDatabases
+            self.nextToken = output.nextToken
+        } else {
+            self.kxDatabases = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListKxDatabasesOutputResponse: Swift.Equatable {
+    /// A list of databases in the kdb environment.
+    public var kxDatabases: [FinspaceClientTypes.KxDatabaseListEntry]?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        kxDatabases: [FinspaceClientTypes.KxDatabaseListEntry]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.kxDatabases = kxDatabases
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxDatabasesOutputResponseBody: Swift.Equatable {
+    let kxDatabases: [FinspaceClientTypes.KxDatabaseListEntry]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxDatabasesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kxDatabases
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kxDatabasesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseListEntry?].self, forKey: .kxDatabases)
+        var kxDatabasesDecoded0:[FinspaceClientTypes.KxDatabaseListEntry]? = nil
+        if let kxDatabasesContainer = kxDatabasesContainer {
+            kxDatabasesDecoded0 = [FinspaceClientTypes.KxDatabaseListEntry]()
+            for structure0 in kxDatabasesContainer {
+                if let structure0 = structure0 {
+                    kxDatabasesDecoded0?.append(structure0)
+                }
+            }
+        }
+        kxDatabases = kxDatabasesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListKxEnvironmentsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxEnvironmentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/kx/environments"
+    }
+}
+
+public struct ListKxEnvironmentsInput: Swift.Equatable {
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxEnvironmentsInputBody: Swift.Equatable {
+}
+
+extension ListKxEnvironmentsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListKxEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKxEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.environments = output.environments
+            self.nextToken = output.nextToken
+        } else {
+            self.environments = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListKxEnvironmentsOutputResponse: Swift.Equatable {
+    /// A list of environments in an account.
+    public var environments: [FinspaceClientTypes.KxEnvironment]?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        environments: [FinspaceClientTypes.KxEnvironment]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.environments = environments
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxEnvironmentsOutputResponseBody: Swift.Equatable {
+    let environments: [FinspaceClientTypes.KxEnvironment]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxEnvironmentsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environments
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxEnvironment?].self, forKey: .environments)
+        var environmentsDecoded0:[FinspaceClientTypes.KxEnvironment]? = nil
+        if let environmentsContainer = environmentsContainer {
+            environmentsDecoded0 = [FinspaceClientTypes.KxEnvironment]()
+            for structure0 in environmentsContainer {
+                if let structure0 = structure0 {
+                    environmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        environments = environmentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListKxUsersInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxUsersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/users"
+    }
+}
+
+public struct ListKxUsersInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxUsersInputBody: Swift.Equatable {
+}
+
+extension ListKxUsersInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListKxUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKxUsersOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.users = output.users
+        } else {
+            self.nextToken = nil
+            self.users = nil
+        }
+    }
+}
+
+public struct ListKxUsersOutputResponse: Swift.Equatable {
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+    /// A list of users in a kdb environment.
+    public var users: [FinspaceClientTypes.KxUser]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        users: [FinspaceClientTypes.KxUser]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.users = users
+    }
+}
+
+struct ListKxUsersOutputResponseBody: Swift.Equatable {
+    let users: [FinspaceClientTypes.KxUser]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxUsersOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case users
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usersContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxUser?].self, forKey: .users)
+        var usersDecoded0:[FinspaceClientTypes.KxUser]? = nil
+        if let usersContainer = usersContainer {
+            usersDecoded0 = [FinspaceClientTypes.KxUser]()
+            for structure0 in usersContainer {
+                if let structure0 = structure0 {
+                    usersDecoded0?.append(structure0)
+                }
+            }
+        }
+        users = usersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -1078,7 +6596,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -1091,39 +6609,26 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -1137,7 +6642,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// A list of all tags for a resource.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1154,7 +6659,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -1170,38 +6675,97 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ResourceAlreadyExistsException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified resource group already exists.
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more resources can't be found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1214,7 +6778,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1222,37 +6786,41 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension ServiceQuotaExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1265,7 +6833,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1292,7 +6860,7 @@ extension FinspaceClientTypes.SuperuserParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
         emailAddress = emailAddressDecoded
@@ -1321,7 +6889,7 @@ extension FinspaceClientTypes {
         /// This member is required.
         public var lastName: Swift.String?
 
-        public init (
+        public init(
             emailAddress: Swift.String? = nil,
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil
@@ -1368,7 +6936,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -1387,7 +6955,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -1403,62 +6971,136 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension FinspaceClientTypes {
+    public enum TgwStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failedUpdate
+        case `none`
+        case successfullyUpdated
+        case updateRequested
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TgwStatus] {
+            return [
+                .failedUpdate,
+                .none,
+                .successfullyUpdated,
+                .updateRequested,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedUpdate: return "FAILED_UPDATE"
+            case .none: return "NONE"
+            case .successfullyUpdated: return "SUCCESSFULLY_UPDATED"
+            case .updateRequested: return "UPDATE_REQUESTED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TgwStatus(rawValue: rawValue) ?? TgwStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ThrottlingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
+}
+
+extension FinspaceClientTypes.TransitGatewayConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case routableCIDRSpace
+        case transitGatewayID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let routableCIDRSpace = self.routableCIDRSpace {
+            try encodeContainer.encode(routableCIDRSpace, forKey: .routableCIDRSpace)
+        }
+        if let transitGatewayID = self.transitGatewayID {
+            try encodeContainer.encode(transitGatewayID, forKey: .transitGatewayID)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transitGatewayIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transitGatewayID)
+        transitGatewayID = transitGatewayIDDecoded
+        let routableCIDRSpaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .routableCIDRSpace)
+        routableCIDRSpace = routableCIDRSpaceDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure of the transit gateway and network configuration that is used to connect the kdb environment to an internal network.
+    public struct TransitGatewayConfiguration: Swift.Equatable {
+        /// The routing CIDR on behalf of kdb environment. It could be any "/26 range in the 100.64.0.0 CIDR space. After providing, it will be added to the customer's transit gateway routing table so that the traffics could be routed to kdb network.
+        /// This member is required.
+        public var routableCIDRSpace: Swift.String?
+        /// The identifier of the transit gateway created by the customer to connect outbound traffics from kdb network to your internal network.
+        /// This member is required.
+        public var transitGatewayID: Swift.String?
+
+        public init(
+            routableCIDRSpace: Swift.String? = nil,
+            transitGatewayID: Swift.String? = nil
+        )
+        {
+            self.routableCIDRSpace = routableCIDRSpace
+            self.transitGatewayID = transitGatewayID
+        }
+    }
+
 }
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
@@ -1467,7 +7109,7 @@ extension UntagResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let tagKeys = tagKeys else {
                 let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -1495,7 +7137,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -1510,44 +7152,31 @@ struct UntagResourceInputBody: Swift.Equatable {
 
 extension UntagResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateEnvironmentInput: Swift.Encodable {
@@ -1601,7 +7230,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     /// The name of the environment.
     public var name: Swift.String?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         federationMode: FinspaceClientTypes.FederationMode? = nil,
@@ -1632,7 +7261,7 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
         case name
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1645,39 +7274,24 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environment = output.environment
@@ -1691,7 +7305,7 @@ public struct UpdateEnvironmentOutputResponse: Swift.Equatable {
     /// Returns the FinSpace environment object.
     public var environment: FinspaceClientTypes.Environment?
 
-    public init (
+    public init(
         environment: FinspaceClientTypes.Environment? = nil
     )
     {
@@ -1708,45 +7322,1106 @@ extension UpdateEnvironmentOutputResponseBody: Swift.Decodable {
         case environment
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
     }
 }
 
+extension UpdateKxClusterDatabasesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case databases
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let databases = databases {
+            var databasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databases)
+            for kxdatabaseconfiguration0 in databases {
+                try databasesContainer.encode(kxdatabaseconfiguration0)
+            }
+        }
+    }
+}
+
+extension UpdateKxClusterDatabasesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())/configuration/databases"
+    }
+}
+
+public struct UpdateKxClusterDatabasesInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A unique name for the cluster that you want to modify.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The structure of databases mounted on the cluster.
+    /// This member is required.
+    public var databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    /// The unique identifier of a kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        databases: [FinspaceClientTypes.KxDatabaseConfiguration]? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.clusterName = clusterName
+        self.databases = databases
+        self.environmentId = environmentId
+    }
+}
+
+struct UpdateKxClusterDatabasesInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+}
+
+extension UpdateKxClusterDatabasesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case databases
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let databasesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseConfiguration?].self, forKey: .databases)
+        var databasesDecoded0:[FinspaceClientTypes.KxDatabaseConfiguration]? = nil
+        if let databasesContainer = databasesContainer {
+            databasesDecoded0 = [FinspaceClientTypes.KxDatabaseConfiguration]()
+            for structure0 in databasesContainer {
+                if let structure0 = structure0 {
+                    databasesDecoded0?.append(structure0)
+                }
+            }
+        }
+        databases = databasesDecoded0
+    }
+}
+
+public enum UpdateKxClusterDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateKxClusterDatabasesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateKxClusterDatabasesOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension UpdateKxDatabaseInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateKxDatabaseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateKxDatabaseInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the kdb database.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A description of the database.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.databaseName = databaseName
+        self.description = description
+        self.environmentId = environmentId
+    }
+}
+
+struct UpdateKxDatabaseInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension UpdateKxDatabaseInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum UpdateKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateKxDatabaseOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateKxDatabaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.databaseName = output.databaseName
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+        } else {
+            self.databaseName = nil
+            self.description = nil
+            self.environmentId = nil
+            self.lastModifiedTimestamp = nil
+        }
+    }
+}
+
+public struct UpdateKxDatabaseOutputResponse: Swift.Equatable {
+    /// The name of the kdb database.
+    public var databaseName: Swift.String?
+    /// A description of the database.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// The last time that the database was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.description = description
+        self.environmentId = environmentId
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+    }
+}
+
+struct UpdateKxDatabaseOutputResponseBody: Swift.Equatable {
+    let databaseName: Swift.String?
+    let environmentId: Swift.String?
+    let description: Swift.String?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+}
+
+extension UpdateKxDatabaseOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName
+        case description
+        case environmentId
+        case lastModifiedTimestamp
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+    }
+}
+
+extension UpdateKxEnvironmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateKxEnvironmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateKxEnvironmentInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A description of the kdb environment.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The name of the kdb environment.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.environmentId = environmentId
+        self.name = name
+    }
+}
+
+struct UpdateKxEnvironmentInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension UpdateKxEnvironmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension UpdateKxEnvironmentNetworkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case customDNSConfiguration
+        case transitGatewayConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let customDNSConfiguration = customDNSConfiguration {
+            var customDNSConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDNSConfiguration)
+            for customdnsserver0 in customDNSConfiguration {
+                try customDNSConfigurationContainer.encode(customdnsserver0)
+            }
+        }
+        if let transitGatewayConfiguration = self.transitGatewayConfiguration {
+            try encodeContainer.encode(transitGatewayConfiguration, forKey: .transitGatewayConfiguration)
+        }
+    }
+}
+
+extension UpdateKxEnvironmentNetworkInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/network"
+    }
+}
+
+public struct UpdateKxEnvironmentNetworkInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
+    public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// Specifies the transit gateway and network configuration to connect the kdb environment to an internal network.
+    public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
+        environmentId: Swift.String? = nil,
+        transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.customDNSConfiguration = customDNSConfiguration
+        self.environmentId = environmentId
+        self.transitGatewayConfiguration = transitGatewayConfiguration
+    }
+}
+
+struct UpdateKxEnvironmentNetworkInputBody: Swift.Equatable {
+    let transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+    let customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+    let clientToken: Swift.String?
+}
+
+extension UpdateKxEnvironmentNetworkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case customDNSConfiguration
+        case transitGatewayConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transitGatewayConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TransitGatewayConfiguration.self, forKey: .transitGatewayConfiguration)
+        transitGatewayConfiguration = transitGatewayConfigurationDecoded
+        let customDNSConfigurationContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.CustomDNSServer?].self, forKey: .customDNSConfiguration)
+        var customDNSConfigurationDecoded0:[FinspaceClientTypes.CustomDNSServer]? = nil
+        if let customDNSConfigurationContainer = customDNSConfigurationContainer {
+            customDNSConfigurationDecoded0 = [FinspaceClientTypes.CustomDNSServer]()
+            for structure0 in customDNSConfigurationContainer {
+                if let structure0 = structure0 {
+                    customDNSConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        customDNSConfiguration = customDNSConfigurationDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum UpdateKxEnvironmentNetworkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateKxEnvironmentNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateKxEnvironmentNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.availabilityZoneIds = output.availabilityZoneIds
+            self.awsAccountId = output.awsAccountId
+            self.creationTimestamp = output.creationTimestamp
+            self.customDNSConfiguration = output.customDNSConfiguration
+            self.dedicatedServiceAccountId = output.dedicatedServiceAccountId
+            self.description = output.description
+            self.dnsStatus = output.dnsStatus
+            self.environmentArn = output.environmentArn
+            self.environmentId = output.environmentId
+            self.errorMessage = output.errorMessage
+            self.kmsKeyId = output.kmsKeyId
+            self.name = output.name
+            self.status = output.status
+            self.tgwStatus = output.tgwStatus
+            self.transitGatewayConfiguration = output.transitGatewayConfiguration
+            self.updateTimestamp = output.updateTimestamp
+        } else {
+            self.availabilityZoneIds = nil
+            self.awsAccountId = nil
+            self.creationTimestamp = nil
+            self.customDNSConfiguration = nil
+            self.dedicatedServiceAccountId = nil
+            self.description = nil
+            self.dnsStatus = nil
+            self.environmentArn = nil
+            self.environmentId = nil
+            self.errorMessage = nil
+            self.kmsKeyId = nil
+            self.name = nil
+            self.status = nil
+            self.tgwStatus = nil
+            self.transitGatewayConfiguration = nil
+            self.updateTimestamp = nil
+        }
+    }
+}
+
+public struct UpdateKxEnvironmentNetworkOutputResponse: Swift.Equatable {
+    /// The identifier of the availability zones where subnets for the environment are created.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The unique identifier of the AWS account that is used to create the kdb environment.
+    public var awsAccountId: Swift.String?
+    /// The timestamp at which the kdb environment was created in FinSpace.
+    public var creationTimestamp: ClientRuntime.Date?
+    /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
+    public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+    /// A unique identifier for the AWS environment infrastructure account.
+    public var dedicatedServiceAccountId: Swift.String?
+    /// The description of the environment.
+    public var description: Swift.String?
+    /// The status of DNS configuration.
+    public var dnsStatus: FinspaceClientTypes.DnsStatus?
+    /// The ARN identifier of the environment.
+    public var environmentArn: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// Specifies the error message that appears if a flow fails.
+    public var errorMessage: Swift.String?
+    /// The KMS key ID to encrypt your data in the FinSpace environment.
+    public var kmsKeyId: Swift.String?
+    /// The name of the kdb environment.
+    public var name: Swift.String?
+    /// The status of the kdb environment.
+    public var status: FinspaceClientTypes.EnvironmentStatus?
+    /// The status of the network configuration.
+    public var tgwStatus: FinspaceClientTypes.TgwStatus?
+    /// The structure of the transit gateway and network configuration that is used to connect the kdb environment to an internal network.
+    public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+    /// The timestamp at which the kdb environment was updated.
+    public var updateTimestamp: ClientRuntime.Date?
+
+    public init(
+        availabilityZoneIds: [Swift.String]? = nil,
+        awsAccountId: Swift.String? = nil,
+        creationTimestamp: ClientRuntime.Date? = nil,
+        customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
+        dedicatedServiceAccountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dnsStatus: FinspaceClientTypes.DnsStatus? = nil,
+        environmentArn: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: FinspaceClientTypes.EnvironmentStatus? = nil,
+        tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
+        transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
+        updateTimestamp: ClientRuntime.Date? = nil
+    )
+    {
+        self.availabilityZoneIds = availabilityZoneIds
+        self.awsAccountId = awsAccountId
+        self.creationTimestamp = creationTimestamp
+        self.customDNSConfiguration = customDNSConfiguration
+        self.dedicatedServiceAccountId = dedicatedServiceAccountId
+        self.description = description
+        self.dnsStatus = dnsStatus
+        self.environmentArn = environmentArn
+        self.environmentId = environmentId
+        self.errorMessage = errorMessage
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.status = status
+        self.tgwStatus = tgwStatus
+        self.transitGatewayConfiguration = transitGatewayConfiguration
+        self.updateTimestamp = updateTimestamp
+    }
+}
+
+struct UpdateKxEnvironmentNetworkOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+    let environmentId: Swift.String?
+    let awsAccountId: Swift.String?
+    let status: FinspaceClientTypes.EnvironmentStatus?
+    let tgwStatus: FinspaceClientTypes.TgwStatus?
+    let dnsStatus: FinspaceClientTypes.DnsStatus?
+    let errorMessage: Swift.String?
+    let description: Swift.String?
+    let environmentArn: Swift.String?
+    let kmsKeyId: Swift.String?
+    let dedicatedServiceAccountId: Swift.String?
+    let transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+    let customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+    let creationTimestamp: ClientRuntime.Date?
+    let updateTimestamp: ClientRuntime.Date?
+    let availabilityZoneIds: [Swift.String]?
+}
+
+extension UpdateKxEnvironmentNetworkOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneIds
+        case awsAccountId
+        case creationTimestamp
+        case customDNSConfiguration
+        case dedicatedServiceAccountId
+        case description
+        case dnsStatus
+        case environmentArn
+        case environmentId
+        case errorMessage
+        case kmsKeyId
+        case name
+        case status
+        case tgwStatus
+        case transitGatewayConfiguration
+        case updateTimestamp
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.EnvironmentStatus.self, forKey: .status)
+        status = statusDecoded
+        let tgwStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TgwStatus.self, forKey: .tgwStatus)
+        tgwStatus = tgwStatusDecoded
+        let dnsStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.DnsStatus.self, forKey: .dnsStatus)
+        dnsStatus = dnsStatusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let environmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentArn)
+        environmentArn = environmentArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let dedicatedServiceAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dedicatedServiceAccountId)
+        dedicatedServiceAccountId = dedicatedServiceAccountIdDecoded
+        let transitGatewayConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TransitGatewayConfiguration.self, forKey: .transitGatewayConfiguration)
+        transitGatewayConfiguration = transitGatewayConfigurationDecoded
+        let customDNSConfigurationContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.CustomDNSServer?].self, forKey: .customDNSConfiguration)
+        var customDNSConfigurationDecoded0:[FinspaceClientTypes.CustomDNSServer]? = nil
+        if let customDNSConfigurationContainer = customDNSConfigurationContainer {
+            customDNSConfigurationDecoded0 = [FinspaceClientTypes.CustomDNSServer]()
+            for structure0 in customDNSConfigurationContainer {
+                if let structure0 = structure0 {
+                    customDNSConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        customDNSConfiguration = customDNSConfigurationDecoded0
+        let creationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+        let updateTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTimestamp)
+        updateTimestamp = updateTimestampDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+    }
+}
+
+public enum UpdateKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateKxEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateKxEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.availabilityZoneIds = output.availabilityZoneIds
+            self.awsAccountId = output.awsAccountId
+            self.creationTimestamp = output.creationTimestamp
+            self.customDNSConfiguration = output.customDNSConfiguration
+            self.dedicatedServiceAccountId = output.dedicatedServiceAccountId
+            self.description = output.description
+            self.dnsStatus = output.dnsStatus
+            self.environmentArn = output.environmentArn
+            self.environmentId = output.environmentId
+            self.errorMessage = output.errorMessage
+            self.kmsKeyId = output.kmsKeyId
+            self.name = output.name
+            self.status = output.status
+            self.tgwStatus = output.tgwStatus
+            self.transitGatewayConfiguration = output.transitGatewayConfiguration
+            self.updateTimestamp = output.updateTimestamp
+        } else {
+            self.availabilityZoneIds = nil
+            self.awsAccountId = nil
+            self.creationTimestamp = nil
+            self.customDNSConfiguration = nil
+            self.dedicatedServiceAccountId = nil
+            self.description = nil
+            self.dnsStatus = nil
+            self.environmentArn = nil
+            self.environmentId = nil
+            self.errorMessage = nil
+            self.kmsKeyId = nil
+            self.name = nil
+            self.status = nil
+            self.tgwStatus = nil
+            self.transitGatewayConfiguration = nil
+            self.updateTimestamp = nil
+        }
+    }
+}
+
+public struct UpdateKxEnvironmentOutputResponse: Swift.Equatable {
+    /// The identifier of the availability zones where subnets for the environment are created.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The unique identifier of the AWS account that is used to create the kdb environment.
+    public var awsAccountId: Swift.String?
+    /// The timestamp at which the kdb environment was created in FinSpace.
+    public var creationTimestamp: ClientRuntime.Date?
+    /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
+    public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+    /// A unique identifier for the AWS environment infrastructure account.
+    public var dedicatedServiceAccountId: Swift.String?
+    /// The description of the environment.
+    public var description: Swift.String?
+    /// The status of DNS configuration.
+    public var dnsStatus: FinspaceClientTypes.DnsStatus?
+    /// The ARN identifier of the environment.
+    public var environmentArn: Swift.String?
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// Specifies the error message that appears if a flow fails.
+    public var errorMessage: Swift.String?
+    /// The KMS key ID to encrypt your data in the FinSpace environment.
+    public var kmsKeyId: Swift.String?
+    /// The name of the kdb environment.
+    public var name: Swift.String?
+    /// The status of the kdb environment.
+    public var status: FinspaceClientTypes.EnvironmentStatus?
+    /// The status of the network configuration.
+    public var tgwStatus: FinspaceClientTypes.TgwStatus?
+    /// The structure of the transit gateway and network configuration that is used to connect the kdb environment to an internal network.
+    public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+    /// The timestamp at which the kdb environment was updated.
+    public var updateTimestamp: ClientRuntime.Date?
+
+    public init(
+        availabilityZoneIds: [Swift.String]? = nil,
+        awsAccountId: Swift.String? = nil,
+        creationTimestamp: ClientRuntime.Date? = nil,
+        customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
+        dedicatedServiceAccountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dnsStatus: FinspaceClientTypes.DnsStatus? = nil,
+        environmentArn: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: FinspaceClientTypes.EnvironmentStatus? = nil,
+        tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
+        transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
+        updateTimestamp: ClientRuntime.Date? = nil
+    )
+    {
+        self.availabilityZoneIds = availabilityZoneIds
+        self.awsAccountId = awsAccountId
+        self.creationTimestamp = creationTimestamp
+        self.customDNSConfiguration = customDNSConfiguration
+        self.dedicatedServiceAccountId = dedicatedServiceAccountId
+        self.description = description
+        self.dnsStatus = dnsStatus
+        self.environmentArn = environmentArn
+        self.environmentId = environmentId
+        self.errorMessage = errorMessage
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.status = status
+        self.tgwStatus = tgwStatus
+        self.transitGatewayConfiguration = transitGatewayConfiguration
+        self.updateTimestamp = updateTimestamp
+    }
+}
+
+struct UpdateKxEnvironmentOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+    let environmentId: Swift.String?
+    let awsAccountId: Swift.String?
+    let status: FinspaceClientTypes.EnvironmentStatus?
+    let tgwStatus: FinspaceClientTypes.TgwStatus?
+    let dnsStatus: FinspaceClientTypes.DnsStatus?
+    let errorMessage: Swift.String?
+    let description: Swift.String?
+    let environmentArn: Swift.String?
+    let kmsKeyId: Swift.String?
+    let dedicatedServiceAccountId: Swift.String?
+    let transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
+    let customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
+    let creationTimestamp: ClientRuntime.Date?
+    let updateTimestamp: ClientRuntime.Date?
+    let availabilityZoneIds: [Swift.String]?
+}
+
+extension UpdateKxEnvironmentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneIds
+        case awsAccountId
+        case creationTimestamp
+        case customDNSConfiguration
+        case dedicatedServiceAccountId
+        case description
+        case dnsStatus
+        case environmentArn
+        case environmentId
+        case errorMessage
+        case kmsKeyId
+        case name
+        case status
+        case tgwStatus
+        case transitGatewayConfiguration
+        case updateTimestamp
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.EnvironmentStatus.self, forKey: .status)
+        status = statusDecoded
+        let tgwStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TgwStatus.self, forKey: .tgwStatus)
+        tgwStatus = tgwStatusDecoded
+        let dnsStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.DnsStatus.self, forKey: .dnsStatus)
+        dnsStatus = dnsStatusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let environmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentArn)
+        environmentArn = environmentArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let dedicatedServiceAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dedicatedServiceAccountId)
+        dedicatedServiceAccountId = dedicatedServiceAccountIdDecoded
+        let transitGatewayConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TransitGatewayConfiguration.self, forKey: .transitGatewayConfiguration)
+        transitGatewayConfiguration = transitGatewayConfigurationDecoded
+        let customDNSConfigurationContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.CustomDNSServer?].self, forKey: .customDNSConfiguration)
+        var customDNSConfigurationDecoded0:[FinspaceClientTypes.CustomDNSServer]? = nil
+        if let customDNSConfigurationContainer = customDNSConfigurationContainer {
+            customDNSConfigurationDecoded0 = [FinspaceClientTypes.CustomDNSServer]()
+            for structure0 in customDNSConfigurationContainer {
+                if let structure0 = structure0 {
+                    customDNSConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        customDNSConfiguration = customDNSConfigurationDecoded0
+        let creationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+        let updateTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTimestamp)
+        updateTimestamp = updateTimestampDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+    }
+}
+
+extension UpdateKxUserInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case iamRole
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let iamRole = self.iamRole {
+            try encodeContainer.encode(iamRole, forKey: .iamRole)
+        }
+    }
+}
+
+extension UpdateKxUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let userName = userName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateKxUserInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The IAM role ARN that is associated with the user.
+    /// This member is required.
+    public var iamRole: Swift.String?
+    /// A unique identifier for the user.
+    /// This member is required.
+    public var userName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        iamRole: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.environmentId = environmentId
+        self.iamRole = iamRole
+        self.userName = userName
+    }
+}
+
+struct UpdateKxUserInputBody: Swift.Equatable {
+    let iamRole: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension UpdateKxUserInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case iamRole
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iamRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum UpdateKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateKxUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateKxUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.environmentId = output.environmentId
+            self.iamRole = output.iamRole
+            self.userArn = output.userArn
+            self.userName = output.userName
+        } else {
+            self.environmentId = nil
+            self.iamRole = nil
+            self.userArn = nil
+            self.userName = nil
+        }
+    }
+}
+
+public struct UpdateKxUserOutputResponse: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    public var environmentId: Swift.String?
+    /// The IAM role ARN that is associated with the user.
+    public var iamRole: Swift.String?
+    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+    public var userArn: Swift.String?
+    /// A unique identifier for the user.
+    public var userName: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        iamRole: Swift.String? = nil,
+        userArn: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.iamRole = iamRole
+        self.userArn = userArn
+        self.userName = userName
+    }
+}
+
+struct UpdateKxUserOutputResponseBody: Swift.Equatable {
+    let userName: Swift.String?
+    let userArn: Swift.String?
+    let environmentId: Swift.String?
+    let iamRole: Swift.String?
+}
+
+extension UpdateKxUserOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentId
+        case iamRole
+        case userArn
+        case userName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
+        userName = userNameDecoded
+        let userArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userArn)
+        userArn = userArnDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let iamRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+    }
+}
+
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1759,9 +8434,100 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension FinspaceClientTypes.VpcConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddressType
+        case securityGroupIds
+        case subnetIds
+        case vpcId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddressType = self.ipAddressType {
+            try encodeContainer.encode(ipAddressType.rawValue, forKey: .ipAddressType)
+        }
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupidstring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupidstring0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for subnetidstring0 in subnetIds {
+                try subnetIdsContainer.encode(subnetidstring0)
+            }
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.IPAddressType.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
+    public struct VpcConfiguration: Swift.Equatable {
+        /// The IP address type for cluster network configuration parameters. The following type is available:
+        ///
+        /// * IP_V4 – IP address version 4
+        public var ipAddressType: FinspaceClientTypes.IPAddressType?
+        /// The unique identifier of the VPC security group applied to the VPC endpoint ENI for the cluster.
+        public var securityGroupIds: [Swift.String]?
+        /// The identifier of the subnet that the Privatelink VPC endpoint uses to connect to the cluster.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC endpoint.
+        public var vpcId: Swift.String?
+
+        public init(
+            ipAddressType: FinspaceClientTypes.IPAddressType? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.ipAddressType = ipAddressType
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+
 }

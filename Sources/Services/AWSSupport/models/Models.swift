@@ -35,7 +35,7 @@ public struct AddAttachmentsToSetInput: Swift.Equatable {
     /// This member is required.
     public var attachments: [SupportClientTypes.Attachment]?
 
-    public init (
+    public init(
         attachmentSetId: Swift.String? = nil,
         attachments: [SupportClientTypes.Attachment]? = nil
     )
@@ -56,7 +56,7 @@ extension AddAttachmentsToSetInputBody: Swift.Decodable {
         case attachments
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attachmentSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentSetId)
         attachmentSetId = attachmentSetIdDecoded
@@ -74,39 +74,24 @@ extension AddAttachmentsToSetInputBody: Swift.Decodable {
     }
 }
 
-extension AddAttachmentsToSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddAttachmentsToSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AttachmentLimitExceeded" : self = .attachmentLimitExceeded(try AttachmentLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AttachmentSetExpired" : self = .attachmentSetExpired(try AttachmentSetExpired(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AttachmentSetIdNotFound" : self = .attachmentSetIdNotFound(try AttachmentSetIdNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AttachmentSetSizeLimitExceeded" : self = .attachmentSetSizeLimitExceeded(try AttachmentSetSizeLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddAttachmentsToSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AttachmentLimitExceeded": return try await AttachmentLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentSetExpired": return try await AttachmentSetExpired(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentSetIdNotFound": return try await AttachmentSetIdNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentSetSizeLimitExceeded": return try await AttachmentSetSizeLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddAttachmentsToSetOutputError: Swift.Error, Swift.Equatable {
-    case attachmentLimitExceeded(AttachmentLimitExceeded)
-    case attachmentSetExpired(AttachmentSetExpired)
-    case attachmentSetIdNotFound(AttachmentSetIdNotFound)
-    case attachmentSetSizeLimitExceeded(AttachmentSetSizeLimitExceeded)
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddAttachmentsToSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddAttachmentsToSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachmentSetId = output.attachmentSetId
@@ -125,7 +110,7 @@ public struct AddAttachmentsToSetOutputResponse: Swift.Equatable {
     /// The time and date when the attachment set expires.
     public var expiryTime: Swift.String?
 
-    public init (
+    public init(
         attachmentSetId: Swift.String? = nil,
         expiryTime: Swift.String? = nil
     )
@@ -146,7 +131,7 @@ extension AddAttachmentsToSetOutputResponseBody: Swift.Decodable {
         case expiryTime
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attachmentSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentSetId)
         attachmentSetId = attachmentSetIdDecoded
@@ -200,7 +185,7 @@ public struct AddCommunicationToCaseInput: Swift.Equatable {
     /// This member is required.
     public var communicationBody: Swift.String?
 
-    public init (
+    public init(
         attachmentSetId: Swift.String? = nil,
         caseId: Swift.String? = nil,
         ccEmailAddresses: [Swift.String]? = nil,
@@ -229,7 +214,7 @@ extension AddCommunicationToCaseInputBody: Swift.Decodable {
         case communicationBody
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let caseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caseId)
         caseId = caseIdDecoded
@@ -251,37 +236,23 @@ extension AddCommunicationToCaseInputBody: Swift.Decodable {
     }
 }
 
-extension AddCommunicationToCaseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddCommunicationToCaseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AttachmentSetExpired" : self = .attachmentSetExpired(try AttachmentSetExpired(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AttachmentSetIdNotFound" : self = .attachmentSetIdNotFound(try AttachmentSetIdNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CaseIdNotFound" : self = .caseIdNotFound(try CaseIdNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddCommunicationToCaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AttachmentSetExpired": return try await AttachmentSetExpired(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentSetIdNotFound": return try await AttachmentSetIdNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CaseIdNotFound": return try await CaseIdNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddCommunicationToCaseOutputError: Swift.Error, Swift.Equatable {
-    case attachmentSetExpired(AttachmentSetExpired)
-    case attachmentSetIdNotFound(AttachmentSetIdNotFound)
-    case caseIdNotFound(CaseIdNotFound)
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddCommunicationToCaseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddCommunicationToCaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.result = output.result
@@ -296,7 +267,7 @@ public struct AddCommunicationToCaseOutputResponse: Swift.Equatable {
     /// True if [AddCommunicationToCase] succeeds. Otherwise, returns an error.
     public var result: Swift.Bool
 
-    public init (
+    public init(
         result: Swift.Bool = false
     )
     {
@@ -313,7 +284,7 @@ extension AddCommunicationToCaseOutputResponseBody: Swift.Decodable {
         case result
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .result) ?? false
         result = resultDecoded
@@ -336,7 +307,7 @@ extension SupportClientTypes.Attachment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
         fileName = fileNameDecoded
@@ -353,7 +324,7 @@ extension SupportClientTypes {
         /// The name of the attachment file.
         public var fileName: Swift.String?
 
-        public init (
+        public init(
             data: ClientRuntime.Data? = nil,
             fileName: Swift.String? = nil
         )
@@ -381,7 +352,7 @@ extension SupportClientTypes.AttachmentDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentId)
         attachmentId = attachmentIdDecoded
@@ -398,7 +369,7 @@ extension SupportClientTypes {
         /// The file name of the attachment.
         public var fileName: Swift.String?
 
-        public init (
+        public init(
             attachmentId: Swift.String? = nil,
             fileName: Swift.String? = nil
         )
@@ -411,38 +382,42 @@ extension SupportClientTypes {
 }
 
 extension AttachmentIdNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AttachmentIdNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An attachment with the specified ID could not be found.
-public struct AttachmentIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// An attachment with the specified ID could not be found.
-    public var message: Swift.String?
+public struct AttachmentIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// An attachment with the specified ID could not be found.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AttachmentIdNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -455,7 +430,7 @@ extension AttachmentIdNotFoundBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -463,38 +438,42 @@ extension AttachmentIdNotFoundBody: Swift.Decodable {
 }
 
 extension AttachmentLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AttachmentLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The limit for the number of attachment sets created in a short period of time has been exceeded.
-public struct AttachmentLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The limit for the number of attachment sets created in a short period of time has been exceeded.
-    public var message: Swift.String?
+public struct AttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The limit for the number of attachment sets created in a short period of time has been exceeded.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AttachmentLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -507,7 +486,7 @@ extension AttachmentLimitExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -515,38 +494,42 @@ extension AttachmentLimitExceededBody: Swift.Decodable {
 }
 
 extension AttachmentSetExpired {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AttachmentSetExpiredBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
-public struct AttachmentSetExpired: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The expiration time of the attachment set has passed. The set expires one hour after it is created.
-    public var message: Swift.String?
+public struct AttachmentSetExpired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The expiration time of the attachment set has passed. The set expires one hour after it is created.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AttachmentSetExpired" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -559,7 +542,7 @@ extension AttachmentSetExpiredBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -567,38 +550,42 @@ extension AttachmentSetExpiredBody: Swift.Decodable {
 }
 
 extension AttachmentSetIdNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AttachmentSetIdNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An attachment set with the specified ID could not be found.
-public struct AttachmentSetIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// An attachment set with the specified ID could not be found.
-    public var message: Swift.String?
+public struct AttachmentSetIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// An attachment set with the specified ID could not be found.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AttachmentSetIdNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -611,7 +598,7 @@ extension AttachmentSetIdNotFoundBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -619,38 +606,42 @@ extension AttachmentSetIdNotFoundBody: Swift.Decodable {
 }
 
 extension AttachmentSetSizeLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AttachmentSetSizeLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
-public struct AttachmentSetSizeLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
-    public var message: Swift.String?
+public struct AttachmentSetSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AttachmentSetSizeLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -663,7 +654,7 @@ extension AttachmentSetSizeLimitExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -671,38 +662,42 @@ extension AttachmentSetSizeLimitExceededBody: Swift.Decodable {
 }
 
 extension CaseCreationLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CaseCreationLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The case creation limit for the account has been exceeded.
-public struct CaseCreationLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// An error message that indicates that you have exceeded the number of cases you can have open.
-    public var message: Swift.String?
+public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// An error message that indicates that you have exceeded the number of cases you can have open.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CaseCreationLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -715,7 +710,7 @@ extension CaseCreationLimitExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -781,7 +776,7 @@ extension SupportClientTypes.CaseDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let caseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caseId)
         caseId = caseIdDecoded
@@ -828,7 +823,7 @@ extension SupportClientTypes {
     ///
     /// * displayId - The identifier for the case on pages in the Amazon Web Services Support Center.
     ///
-    /// * language - The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// * language - The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     ///
     /// * nextToken - A resumption point for pagination.
     ///
@@ -869,7 +864,7 @@ extension SupportClientTypes {
         public var ccEmailAddresses: [Swift.String]?
         /// The ID displayed for the case in the Amazon Web Services Support Center. This is a numeric string.
         public var displayId: Swift.String?
-        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public var language: Swift.String?
         /// The five most recent communications between you and Amazon Web Services Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
         public var recentCommunications: SupportClientTypes.RecentCaseCommunications?
@@ -898,7 +893,7 @@ extension SupportClientTypes {
         /// The time that the case was created in the Amazon Web Services Support Center.
         public var timeCreated: Swift.String?
 
-        public init (
+        public init(
             caseId: Swift.String? = nil,
             categoryCode: Swift.String? = nil,
             ccEmailAddresses: [Swift.String]? = nil,
@@ -931,38 +926,42 @@ extension SupportClientTypes {
 }
 
 extension CaseIdNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CaseIdNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested caseId couldn't be located.
-public struct CaseIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The requested CaseId could not be located.
-    public var message: Swift.String?
+public struct CaseIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The requested CaseId could not be located.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CaseIdNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -975,7 +974,7 @@ extension CaseIdNotFoundBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -998,7 +997,7 @@ extension SupportClientTypes.Category: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
@@ -1015,7 +1014,7 @@ extension SupportClientTypes {
         /// The category name for the support case.
         public var name: Swift.String?
 
-        public init (
+        public init(
             code: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -1058,7 +1057,7 @@ extension SupportClientTypes.Communication: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let caseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caseId)
         caseId = caseIdDecoded
@@ -1091,12 +1090,12 @@ extension SupportClientTypes {
         public var body: Swift.String?
         /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public var caseId: Swift.String?
-        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the role or IAM user as well as the email address. For example, "AdminRole (Role) . Entries from the Amazon Web Services Support team display "Amazon Web Services," and don't show an email address.
+        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the IAM role as well as the email address (for example, "AdminRole (Role) ). Entries from the Amazon Web Services Support team display "Amazon Web Services," and don't show an email address.
         public var submittedBy: Swift.String?
         /// The time the communication was created.
         public var timeCreated: Swift.String?
 
-        public init (
+        public init(
             attachmentSet: [SupportClientTypes.AttachmentDetails]? = nil,
             body: Swift.String? = nil,
             caseId: Swift.String? = nil,
@@ -1109,6 +1108,91 @@ extension SupportClientTypes {
             self.caseId = caseId
             self.submittedBy = submittedBy
             self.timeCreated = timeCreated
+        }
+    }
+
+}
+
+extension SupportClientTypes.CommunicationTypeOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datesWithoutSupport
+        case supportedHours
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datesWithoutSupport = datesWithoutSupport {
+            var datesWithoutSupportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datesWithoutSupport)
+            for dateinterval0 in datesWithoutSupport {
+                try datesWithoutSupportContainer.encode(dateinterval0)
+            }
+        }
+        if let supportedHours = supportedHours {
+            var supportedHoursContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedHours)
+            for supportedhour0 in supportedHours {
+                try supportedHoursContainer.encode(supportedhour0)
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let supportedHoursContainer = try containerValues.decodeIfPresent([SupportClientTypes.SupportedHour?].self, forKey: .supportedHours)
+        var supportedHoursDecoded0:[SupportClientTypes.SupportedHour]? = nil
+        if let supportedHoursContainer = supportedHoursContainer {
+            supportedHoursDecoded0 = [SupportClientTypes.SupportedHour]()
+            for structure0 in supportedHoursContainer {
+                if let structure0 = structure0 {
+                    supportedHoursDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportedHours = supportedHoursDecoded0
+        let datesWithoutSupportContainer = try containerValues.decodeIfPresent([SupportClientTypes.DateInterval?].self, forKey: .datesWithoutSupport)
+        var datesWithoutSupportDecoded0:[SupportClientTypes.DateInterval]? = nil
+        if let datesWithoutSupportContainer = datesWithoutSupportContainer {
+            datesWithoutSupportDecoded0 = [SupportClientTypes.DateInterval]()
+            for structure0 in datesWithoutSupportContainer {
+                if let structure0 = structure0 {
+                    datesWithoutSupportDecoded0?.append(structure0)
+                }
+            }
+        }
+        datesWithoutSupport = datesWithoutSupportDecoded0
+    }
+}
+
+extension SupportClientTypes {
+    /// A JSON-formatted object that contains the CommunicationTypeOptions for creating a case for a certain communication channel. It is contained in the response from a [DescribeCreateCaseOptions] request. CommunicationTypeOptions contains the following fields:
+    ///
+    /// * datesWithoutSupport - A JSON-formatted list containing date and time ranges for periods without support in UTC time. Date and time format is RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+    ///
+    /// * supportedHours - A JSON-formatted list containing time ranges when support are available. Time format is RFC 3339 : 'HH:mm:ss.SSS'.
+    ///
+    /// * type - A string value indicating the communication type that the aforementioned rules apply to. At the moment the type value can assume one of 3 values at the moment chat, web and call.
+    public struct CommunicationTypeOptions: Swift.Equatable {
+        /// A JSON-formatted list containing date and time ranges for periods without support
+        public var datesWithoutSupport: [SupportClientTypes.DateInterval]?
+        /// A JSON-formatted list containing time ranges when support is available.
+        public var supportedHours: [SupportClientTypes.SupportedHour]?
+        /// A string value indicating the communication type. At the moment the type value can assume one of 3 values at the moment chat, web and call.
+        public var type: Swift.String?
+
+        public init(
+            datesWithoutSupport: [SupportClientTypes.DateInterval]? = nil,
+            supportedHours: [SupportClientTypes.SupportedHour]? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.datesWithoutSupport = datesWithoutSupport
+            self.supportedHours = supportedHours
+            self.type = type
         }
     }
 
@@ -1180,7 +1264,7 @@ public struct CreateCaseInput: Swift.Equatable {
     public var communicationBody: Swift.String?
     /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
     public var issueType: Swift.String?
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
     public var serviceCode: Swift.String?
@@ -1190,7 +1274,7 @@ public struct CreateCaseInput: Swift.Equatable {
     /// This member is required.
     public var subject: Swift.String?
 
-    public init (
+    public init(
         attachmentSetId: Swift.String? = nil,
         categoryCode: Swift.String? = nil,
         ccEmailAddresses: [Swift.String]? = nil,
@@ -1239,7 +1323,7 @@ extension CreateCaseInputBody: Swift.Decodable {
         case subject
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subjectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subject)
         subject = subjectDecoded
@@ -1271,37 +1355,23 @@ extension CreateCaseInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCaseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateCaseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AttachmentSetExpired" : self = .attachmentSetExpired(try AttachmentSetExpired(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AttachmentSetIdNotFound" : self = .attachmentSetIdNotFound(try AttachmentSetIdNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CaseCreationLimitExceeded" : self = .caseCreationLimitExceeded(try CaseCreationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AttachmentSetExpired": return try await AttachmentSetExpired(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentSetIdNotFound": return try await AttachmentSetIdNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CaseCreationLimitExceeded": return try await CaseCreationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateCaseOutputError: Swift.Error, Swift.Equatable {
-    case attachmentSetExpired(AttachmentSetExpired)
-    case attachmentSetIdNotFound(AttachmentSetIdNotFound)
-    case caseCreationLimitExceeded(CaseCreationLimitExceeded)
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCaseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.caseId = output.caseId
@@ -1316,7 +1386,7 @@ public struct CreateCaseOutputResponse: Swift.Equatable {
     /// The support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-2013-c4c1d2bf33c5cf47
     public var caseId: Swift.String?
 
-    public init (
+    public init(
         caseId: Swift.String? = nil
     )
     {
@@ -1333,11 +1403,56 @@ extension CreateCaseOutputResponseBody: Swift.Decodable {
         case caseId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let caseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caseId)
         caseId = caseIdDecoded
     }
+}
+
+extension SupportClientTypes.DateInterval: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encode(endDateTime, forKey: .endDateTime)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encode(startDateTime, forKey: .startDateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+    }
+}
+
+extension SupportClientTypes {
+    /// Date and time (UTC) format in RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+    public struct DateInterval: Swift.Equatable {
+        /// End Date Time (UTC). RFC 3339 format : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+        public var endDateTime: Swift.String?
+        /// A JSON object containing start and date time (UTC). Date and time format is RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+        public var startDateTime: Swift.String?
+
+        public init(
+            endDateTime: Swift.String? = nil,
+            startDateTime: Swift.String? = nil
+        )
+        {
+            self.endDateTime = endDateTime
+            self.startDateTime = startDateTime
+        }
+    }
+
 }
 
 extension DescribeAttachmentInput: Swift.Encodable {
@@ -1364,7 +1479,7 @@ public struct DescribeAttachmentInput: Swift.Equatable {
     /// This member is required.
     public var attachmentId: Swift.String?
 
-    public init (
+    public init(
         attachmentId: Swift.String? = nil
     )
     {
@@ -1381,7 +1496,7 @@ extension DescribeAttachmentInputBody: Swift.Decodable {
         case attachmentId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentId)
         attachmentId = attachmentIdDecoded
@@ -1389,38 +1504,42 @@ extension DescribeAttachmentInputBody: Swift.Decodable {
 }
 
 extension DescribeAttachmentLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAttachmentLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
-public struct DescribeAttachmentLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
-    public var message: Swift.String?
+public struct DescribeAttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DescribeAttachmentLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1433,42 +1552,29 @@ extension DescribeAttachmentLimitExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
 }
 
-extension DescribeAttachmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAttachmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AttachmentIdNotFound" : self = .attachmentIdNotFound(try AttachmentIdNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DescribeAttachmentLimitExceeded" : self = .describeAttachmentLimitExceeded(try DescribeAttachmentLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AttachmentIdNotFound": return try await AttachmentIdNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DescribeAttachmentLimitExceeded": return try await DescribeAttachmentLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAttachmentOutputError: Swift.Error, Swift.Equatable {
-    case attachmentIdNotFound(AttachmentIdNotFound)
-    case describeAttachmentLimitExceeded(DescribeAttachmentLimitExceeded)
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachment = output.attachment
@@ -1483,7 +1589,7 @@ public struct DescribeAttachmentOutputResponse: Swift.Equatable {
     /// This object includes the attachment content and file name. In the previous response syntax, the value for the data parameter appears as blob, which is represented as a base64-encoded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png.
     public var attachment: SupportClientTypes.Attachment?
 
-    public init (
+    public init(
         attachment: SupportClientTypes.Attachment? = nil
     )
     {
@@ -1500,7 +1606,7 @@ extension DescribeAttachmentOutputResponseBody: Swift.Decodable {
         case attachment
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attachmentDecoded = try containerValues.decodeIfPresent(SupportClientTypes.Attachment.self, forKey: .attachment)
         attachment = attachmentDecoded
@@ -1574,14 +1680,14 @@ public struct DescribeCasesInput: Swift.Equatable {
     public var includeCommunications: Swift.Bool?
     /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
     public var includeResolvedCases: Swift.Bool?
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The maximum number of results to return before paginating.
     public var maxResults: Swift.Int?
     /// A resumption point for pagination.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         afterTime: Swift.String? = nil,
         beforeTime: Swift.String? = nil,
         caseIdList: [Swift.String]? = nil,
@@ -1630,7 +1736,7 @@ extension DescribeCasesInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let caseIdListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .caseIdList)
         var caseIdListDecoded0:[Swift.String]? = nil
@@ -1662,33 +1768,21 @@ extension DescribeCasesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCasesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeCasesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CaseIdNotFound" : self = .caseIdNotFound(try CaseIdNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CaseIdNotFound": return try await CaseIdNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeCasesOutputError: Swift.Error, Swift.Equatable {
-    case caseIdNotFound(CaseIdNotFound)
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCasesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cases = output.cases
@@ -1707,7 +1801,7 @@ public struct DescribeCasesOutputResponse: Swift.Equatable {
     /// A resumption point for pagination.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         cases: [SupportClientTypes.CaseDetails]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -1728,7 +1822,7 @@ extension DescribeCasesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let casesContainer = try containerValues.decodeIfPresent([SupportClientTypes.CaseDetails?].self, forKey: .cases)
         var casesDecoded0:[SupportClientTypes.CaseDetails]? = nil
@@ -1794,7 +1888,7 @@ public struct DescribeCommunicationsInput: Swift.Equatable {
     /// A resumption point for pagination.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         afterTime: Swift.String? = nil,
         beforeTime: Swift.String? = nil,
         caseId: Swift.String? = nil,
@@ -1827,7 +1921,7 @@ extension DescribeCommunicationsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let caseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caseId)
         caseId = caseIdDecoded
@@ -1842,33 +1936,21 @@ extension DescribeCommunicationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCommunicationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeCommunicationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CaseIdNotFound" : self = .caseIdNotFound(try CaseIdNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCommunicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CaseIdNotFound": return try await CaseIdNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeCommunicationsOutputError: Swift.Error, Swift.Equatable {
-    case caseIdNotFound(CaseIdNotFound)
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCommunicationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCommunicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.communications = output.communications
@@ -1887,7 +1969,7 @@ public struct DescribeCommunicationsOutputResponse: Swift.Equatable {
     /// A resumption point for pagination.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         communications: [SupportClientTypes.Communication]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -1908,7 +1990,7 @@ extension DescribeCommunicationsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let communicationsContainer = try containerValues.decodeIfPresent([SupportClientTypes.Communication?].self, forKey: .communications)
         var communicationsDecoded0:[SupportClientTypes.Communication]? = nil
@@ -1923,6 +2005,170 @@ extension DescribeCommunicationsOutputResponseBody: Swift.Decodable {
         communications = communicationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeCreateCaseOptionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryCode
+        case issueType
+        case language
+        case serviceCode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categoryCode = self.categoryCode {
+            try encodeContainer.encode(categoryCode, forKey: .categoryCode)
+        }
+        if let issueType = self.issueType {
+            try encodeContainer.encode(issueType, forKey: .issueType)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language, forKey: .language)
+        }
+        if let serviceCode = self.serviceCode {
+            try encodeContainer.encode(serviceCode, forKey: .serviceCode)
+        }
+    }
+}
+
+extension DescribeCreateCaseOptionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeCreateCaseOptionsInput: Swift.Equatable {
+    /// The category of problem for the support case. You also use the [DescribeServices] operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
+    /// This member is required.
+    public var categoryCode: Swift.String?
+    /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
+    /// This member is required.
+    public var issueType: Swift.String?
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// This member is required.
+    public var language: Swift.String?
+    /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
+    /// This member is required.
+    public var serviceCode: Swift.String?
+
+    public init(
+        categoryCode: Swift.String? = nil,
+        issueType: Swift.String? = nil,
+        language: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    )
+    {
+        self.categoryCode = categoryCode
+        self.issueType = issueType
+        self.language = language
+        self.serviceCode = serviceCode
+    }
+}
+
+struct DescribeCreateCaseOptionsInputBody: Swift.Equatable {
+    let issueType: Swift.String?
+    let serviceCode: Swift.String?
+    let language: Swift.String?
+    let categoryCode: Swift.String?
+}
+
+extension DescribeCreateCaseOptionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryCode
+        case issueType
+        case language
+        case serviceCode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issueTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issueType)
+        issueType = issueTypeDecoded
+        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
+        serviceCode = serviceCodeDecoded
+        let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
+        language = languageDecoded
+        let categoryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .categoryCode)
+        categoryCode = categoryCodeDecoded
+    }
+}
+
+public enum DescribeCreateCaseOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Throttling": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeCreateCaseOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeCreateCaseOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.communicationTypes = output.communicationTypes
+            self.languageAvailability = output.languageAvailability
+        } else {
+            self.communicationTypes = nil
+            self.languageAvailability = nil
+        }
+    }
+}
+
+public struct DescribeCreateCaseOptionsOutputResponse: Swift.Equatable {
+    /// A JSON-formatted array that contains the available communication type options, along with the available support timeframes for the given inputs.
+    public var communicationTypes: [SupportClientTypes.CommunicationTypeOptions]?
+    /// Language availability can be any of the following:
+    ///
+    /// * available
+    ///
+    /// * best_effort
+    ///
+    /// * unavailable
+    public var languageAvailability: Swift.String?
+
+    public init(
+        communicationTypes: [SupportClientTypes.CommunicationTypeOptions]? = nil,
+        languageAvailability: Swift.String? = nil
+    )
+    {
+        self.communicationTypes = communicationTypes
+        self.languageAvailability = languageAvailability
+    }
+}
+
+struct DescribeCreateCaseOptionsOutputResponseBody: Swift.Equatable {
+    let languageAvailability: Swift.String?
+    let communicationTypes: [SupportClientTypes.CommunicationTypeOptions]?
+}
+
+extension DescribeCreateCaseOptionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case communicationTypes
+        case languageAvailability
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let languageAvailabilityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .languageAvailability)
+        languageAvailability = languageAvailabilityDecoded
+        let communicationTypesContainer = try containerValues.decodeIfPresent([SupportClientTypes.CommunicationTypeOptions?].self, forKey: .communicationTypes)
+        var communicationTypesDecoded0:[SupportClientTypes.CommunicationTypeOptions]? = nil
+        if let communicationTypesContainer = communicationTypesContainer {
+            communicationTypesDecoded0 = [SupportClientTypes.CommunicationTypeOptions]()
+            for structure0 in communicationTypesContainer {
+                if let structure0 = structure0 {
+                    communicationTypesDecoded0?.append(structure0)
+                }
+            }
+        }
+        communicationTypes = communicationTypesDecoded0
     }
 }
 
@@ -1953,12 +2199,12 @@ extension DescribeServicesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeServicesInput: Swift.Equatable {
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// A JSON-formatted list of service codes available for Amazon Web Services services.
     public var serviceCodeList: [Swift.String]?
 
-    public init (
+    public init(
         language: Swift.String? = nil,
         serviceCodeList: [Swift.String]? = nil
     )
@@ -1979,7 +2225,7 @@ extension DescribeServicesInputBody: Swift.Decodable {
         case serviceCodeList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceCodeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .serviceCodeList)
         var serviceCodeListDecoded0:[Swift.String]? = nil
@@ -1997,31 +2243,20 @@ extension DescribeServicesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeServicesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeServicesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeServicesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeServicesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.services = output.services
@@ -2036,7 +2271,7 @@ public struct DescribeServicesOutputResponse: Swift.Equatable {
     /// A JSON-formatted list of Amazon Web Services services.
     public var services: [SupportClientTypes.Service]?
 
-    public init (
+    public init(
         services: [SupportClientTypes.Service]? = nil
     )
     {
@@ -2053,7 +2288,7 @@ extension DescribeServicesOutputResponseBody: Swift.Decodable {
         case services
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let servicesContainer = try containerValues.decodeIfPresent([SupportClientTypes.Service?].self, forKey: .services)
         var servicesDecoded0:[SupportClientTypes.Service]? = nil
@@ -2089,10 +2324,10 @@ extension DescribeSeverityLevelsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeSeverityLevelsInput: Swift.Equatable {
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
 
-    public init (
+    public init(
         language: Swift.String? = nil
     )
     {
@@ -2109,38 +2344,27 @@ extension DescribeSeverityLevelsInputBody: Swift.Decodable {
         case language
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
         language = languageDecoded
     }
 }
 
-extension DescribeSeverityLevelsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSeverityLevelsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSeverityLevelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSeverityLevelsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSeverityLevelsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSeverityLevelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.severityLevels = output.severityLevels
@@ -2155,7 +2379,7 @@ public struct DescribeSeverityLevelsOutputResponse: Swift.Equatable {
     /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with Amazon Web Services.
     public var severityLevels: [SupportClientTypes.SeverityLevel]?
 
-    public init (
+    public init(
         severityLevels: [SupportClientTypes.SeverityLevel]? = nil
     )
     {
@@ -2172,7 +2396,7 @@ extension DescribeSeverityLevelsOutputResponseBody: Swift.Decodable {
         case severityLevels
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let severityLevelsContainer = try containerValues.decodeIfPresent([SupportClientTypes.SeverityLevel?].self, forKey: .severityLevels)
         var severityLevelsDecoded0:[SupportClientTypes.SeverityLevel]? = nil
@@ -2185,6 +2409,141 @@ extension DescribeSeverityLevelsOutputResponseBody: Swift.Decodable {
             }
         }
         severityLevels = severityLevelsDecoded0
+    }
+}
+
+extension DescribeSupportedLanguagesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryCode
+        case issueType
+        case serviceCode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categoryCode = self.categoryCode {
+            try encodeContainer.encode(categoryCode, forKey: .categoryCode)
+        }
+        if let issueType = self.issueType {
+            try encodeContainer.encode(issueType, forKey: .issueType)
+        }
+        if let serviceCode = self.serviceCode {
+            try encodeContainer.encode(serviceCode, forKey: .serviceCode)
+        }
+    }
+}
+
+extension DescribeSupportedLanguagesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeSupportedLanguagesInput: Swift.Equatable {
+    /// The category of problem for the support case. You also use the [DescribeServices] operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
+    /// This member is required.
+    public var categoryCode: Swift.String?
+    /// The type of issue for the case. You can specify customer-service or technical.
+    /// This member is required.
+    public var issueType: Swift.String?
+    /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
+    /// This member is required.
+    public var serviceCode: Swift.String?
+
+    public init(
+        categoryCode: Swift.String? = nil,
+        issueType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    )
+    {
+        self.categoryCode = categoryCode
+        self.issueType = issueType
+        self.serviceCode = serviceCode
+    }
+}
+
+struct DescribeSupportedLanguagesInputBody: Swift.Equatable {
+    let issueType: Swift.String?
+    let serviceCode: Swift.String?
+    let categoryCode: Swift.String?
+}
+
+extension DescribeSupportedLanguagesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryCode
+        case issueType
+        case serviceCode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issueTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issueType)
+        issueType = issueTypeDecoded
+        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
+        serviceCode = serviceCodeDecoded
+        let categoryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .categoryCode)
+        categoryCode = categoryCodeDecoded
+    }
+}
+
+public enum DescribeSupportedLanguagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Throttling": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeSupportedLanguagesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeSupportedLanguagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.supportedLanguages = output.supportedLanguages
+        } else {
+            self.supportedLanguages = nil
+        }
+    }
+}
+
+public struct DescribeSupportedLanguagesOutputResponse: Swift.Equatable {
+    /// A JSON-formatted array that contains the available ISO 639-1 language codes.
+    public var supportedLanguages: [SupportClientTypes.SupportedLanguage]?
+
+    public init(
+        supportedLanguages: [SupportClientTypes.SupportedLanguage]? = nil
+    )
+    {
+        self.supportedLanguages = supportedLanguages
+    }
+}
+
+struct DescribeSupportedLanguagesOutputResponseBody: Swift.Equatable {
+    let supportedLanguages: [SupportClientTypes.SupportedLanguage]?
+}
+
+extension DescribeSupportedLanguagesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case supportedLanguages
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let supportedLanguagesContainer = try containerValues.decodeIfPresent([SupportClientTypes.SupportedLanguage?].self, forKey: .supportedLanguages)
+        var supportedLanguagesDecoded0:[SupportClientTypes.SupportedLanguage]? = nil
+        if let supportedLanguagesContainer = supportedLanguagesContainer {
+            supportedLanguagesDecoded0 = [SupportClientTypes.SupportedLanguage]()
+            for structure0 in supportedLanguagesContainer {
+                if let structure0 = structure0 {
+                    supportedLanguagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportedLanguages = supportedLanguagesDecoded0
     }
 }
 
@@ -2219,7 +2578,7 @@ public struct DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Equatable {
     /// This member is required.
     public var checkIds: [Swift.String?]?
 
-    public init (
+    public init(
         checkIds: [Swift.String?]? = nil
     )
     {
@@ -2236,7 +2595,7 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInputBody: Swift.Decodable {
         case checkIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .checkIds)
         var checkIdsDecoded0:[Swift.String?]? = nil
@@ -2250,31 +2609,21 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTrustedAdvisorCheckRefreshStatusesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTrustedAdvisorCheckRefreshStatusesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTrustedAdvisorCheckRefreshStatusesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Throttling": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTrustedAdvisorCheckRefreshStatusesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTrustedAdvisorCheckRefreshStatusesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.statuses = output.statuses
@@ -2290,7 +2639,7 @@ public struct DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse: Swift.Eq
     /// This member is required.
     public var statuses: [SupportClientTypes.TrustedAdvisorCheckRefreshStatus]?
 
-    public init (
+    public init(
         statuses: [SupportClientTypes.TrustedAdvisorCheckRefreshStatus]? = nil
     )
     {
@@ -2307,7 +2656,7 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesOutputResponseBody: Swift.De
         case statuses
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusesContainer = try containerValues.decodeIfPresent([SupportClientTypes.TrustedAdvisorCheckRefreshStatus?].self, forKey: .statuses)
         var statusesDecoded0:[SupportClientTypes.TrustedAdvisorCheckRefreshStatus]? = nil
@@ -2376,7 +2725,7 @@ public struct DescribeTrustedAdvisorCheckResultInput: Swift.Equatable {
     /// * Spanish - es
     public var language: Swift.String?
 
-    public init (
+    public init(
         checkId: Swift.String? = nil,
         language: Swift.String? = nil
     )
@@ -2397,7 +2746,7 @@ extension DescribeTrustedAdvisorCheckResultInputBody: Swift.Decodable {
         case language
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkId)
         checkId = checkIdDecoded
@@ -2406,31 +2755,21 @@ extension DescribeTrustedAdvisorCheckResultInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTrustedAdvisorCheckResultOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTrustedAdvisorCheckResultOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTrustedAdvisorCheckResultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Throttling": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTrustedAdvisorCheckResultOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTrustedAdvisorCheckResultOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTrustedAdvisorCheckResultOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.result = output.result
@@ -2445,7 +2784,7 @@ public struct DescribeTrustedAdvisorCheckResultOutputResponse: Swift.Equatable {
     /// The detailed results of the Trusted Advisor check.
     public var result: SupportClientTypes.TrustedAdvisorCheckResult?
 
-    public init (
+    public init(
         result: SupportClientTypes.TrustedAdvisorCheckResult? = nil
     )
     {
@@ -2462,7 +2801,7 @@ extension DescribeTrustedAdvisorCheckResultOutputResponseBody: Swift.Decodable {
         case result
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultDecoded = try containerValues.decodeIfPresent(SupportClientTypes.TrustedAdvisorCheckResult.self, forKey: .result)
         result = resultDecoded
@@ -2500,7 +2839,7 @@ public struct DescribeTrustedAdvisorCheckSummariesInput: Swift.Equatable {
     /// This member is required.
     public var checkIds: [Swift.String?]?
 
-    public init (
+    public init(
         checkIds: [Swift.String?]? = nil
     )
     {
@@ -2517,7 +2856,7 @@ extension DescribeTrustedAdvisorCheckSummariesInputBody: Swift.Decodable {
         case checkIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .checkIds)
         var checkIdsDecoded0:[Swift.String?]? = nil
@@ -2531,31 +2870,21 @@ extension DescribeTrustedAdvisorCheckSummariesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTrustedAdvisorCheckSummariesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTrustedAdvisorCheckSummariesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTrustedAdvisorCheckSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Throttling": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTrustedAdvisorCheckSummariesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTrustedAdvisorCheckSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTrustedAdvisorCheckSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summaries = output.summaries
@@ -2571,7 +2900,7 @@ public struct DescribeTrustedAdvisorCheckSummariesOutputResponse: Swift.Equatabl
     /// This member is required.
     public var summaries: [SupportClientTypes.TrustedAdvisorCheckSummary]?
 
-    public init (
+    public init(
         summaries: [SupportClientTypes.TrustedAdvisorCheckSummary]? = nil
     )
     {
@@ -2588,7 +2917,7 @@ extension DescribeTrustedAdvisorCheckSummariesOutputResponseBody: Swift.Decodabl
         case summaries
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summariesContainer = try containerValues.decodeIfPresent([SupportClientTypes.TrustedAdvisorCheckSummary?].self, forKey: .summaries)
         var summariesDecoded0:[SupportClientTypes.TrustedAdvisorCheckSummary]? = nil
@@ -2650,7 +2979,7 @@ public struct DescribeTrustedAdvisorChecksInput: Swift.Equatable {
     /// This member is required.
     public var language: Swift.String?
 
-    public init (
+    public init(
         language: Swift.String? = nil
     )
     {
@@ -2667,38 +2996,28 @@ extension DescribeTrustedAdvisorChecksInputBody: Swift.Decodable {
         case language
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
         language = languageDecoded
     }
 }
 
-extension DescribeTrustedAdvisorChecksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTrustedAdvisorChecksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTrustedAdvisorChecksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Throttling": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTrustedAdvisorChecksOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTrustedAdvisorChecksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTrustedAdvisorChecksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checks = output.checks
@@ -2714,7 +3033,7 @@ public struct DescribeTrustedAdvisorChecksOutputResponse: Swift.Equatable {
     /// This member is required.
     public var checks: [SupportClientTypes.TrustedAdvisorCheckDescription]?
 
-    public init (
+    public init(
         checks: [SupportClientTypes.TrustedAdvisorCheckDescription]? = nil
     )
     {
@@ -2731,7 +3050,7 @@ extension DescribeTrustedAdvisorChecksOutputResponseBody: Swift.Decodable {
         case checks
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checksContainer = try containerValues.decodeIfPresent([SupportClientTypes.TrustedAdvisorCheckDescription?].self, forKey: .checks)
         var checksDecoded0:[SupportClientTypes.TrustedAdvisorCheckDescription]? = nil
@@ -2748,38 +3067,42 @@ extension DescribeTrustedAdvisorChecksOutputResponseBody: Swift.Decodable {
 }
 
 extension InternalServerError {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal server error occurred.
-public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// An internal server error occurred.
-    public var message: Swift.String?
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// An internal server error occurred.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2792,7 +3115,7 @@ extension InternalServerErrorBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2818,7 +3141,7 @@ extension SupportClientTypes.RecentCaseCommunications: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let communicationsContainer = try containerValues.decodeIfPresent([SupportClientTypes.Communication?].self, forKey: .communications)
         var communicationsDecoded0:[SupportClientTypes.Communication]? = nil
@@ -2844,7 +3167,7 @@ extension SupportClientTypes {
         /// A resumption point for pagination.
         public var nextToken: Swift.String?
 
-        public init (
+        public init(
             communications: [SupportClientTypes.Communication]? = nil,
             nextToken: Swift.String? = nil
         )
@@ -2881,7 +3204,7 @@ public struct RefreshTrustedAdvisorCheckInput: Swift.Equatable {
     /// This member is required.
     public var checkId: Swift.String?
 
-    public init (
+    public init(
         checkId: Swift.String? = nil
     )
     {
@@ -2898,38 +3221,27 @@ extension RefreshTrustedAdvisorCheckInputBody: Swift.Decodable {
         case checkId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkId)
         checkId = checkIdDecoded
     }
 }
 
-extension RefreshTrustedAdvisorCheckOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RefreshTrustedAdvisorCheckOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RefreshTrustedAdvisorCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RefreshTrustedAdvisorCheckOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RefreshTrustedAdvisorCheckOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RefreshTrustedAdvisorCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -2945,7 +3257,7 @@ public struct RefreshTrustedAdvisorCheckOutputResponse: Swift.Equatable {
     /// This member is required.
     public var status: SupportClientTypes.TrustedAdvisorCheckRefreshStatus?
 
-    public init (
+    public init(
         status: SupportClientTypes.TrustedAdvisorCheckRefreshStatus? = nil
     )
     {
@@ -2962,7 +3274,7 @@ extension RefreshTrustedAdvisorCheckOutputResponseBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(SupportClientTypes.TrustedAdvisorCheckRefreshStatus.self, forKey: .status)
         status = statusDecoded
@@ -2992,7 +3304,7 @@ public struct ResolveCaseInput: Swift.Equatable {
     /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
     public var caseId: Swift.String?
 
-    public init (
+    public init(
         caseId: Swift.String? = nil
     )
     {
@@ -3009,40 +3321,28 @@ extension ResolveCaseInputBody: Swift.Decodable {
         case caseId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let caseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caseId)
         caseId = caseIdDecoded
     }
 }
 
-extension ResolveCaseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ResolveCaseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CaseIdNotFound" : self = .caseIdNotFound(try CaseIdNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ResolveCaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CaseIdNotFound": return try await CaseIdNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ResolveCaseOutputError: Swift.Error, Swift.Equatable {
-    case caseIdNotFound(CaseIdNotFound)
-    case internalServerError(InternalServerError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ResolveCaseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResolveCaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.finalCaseStatus = output.finalCaseStatus
@@ -3061,7 +3361,7 @@ public struct ResolveCaseOutputResponse: Swift.Equatable {
     /// The status of the case when the [ResolveCase] request was sent.
     public var initialCaseStatus: Swift.String?
 
-    public init (
+    public init(
         finalCaseStatus: Swift.String? = nil,
         initialCaseStatus: Swift.String? = nil
     )
@@ -3082,7 +3382,7 @@ extension ResolveCaseOutputResponseBody: Swift.Decodable {
         case initialCaseStatus
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let initialCaseStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initialCaseStatus)
         initialCaseStatus = initialCaseStatusDecoded
@@ -3114,7 +3414,7 @@ extension SupportClientTypes.Service: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
@@ -3144,7 +3444,7 @@ extension SupportClientTypes {
         /// The friendly name for an Amazon Web Services service. The code element contains the corresponding code.
         public var name: Swift.String?
 
-        public init (
+        public init(
             categories: [SupportClientTypes.Category]? = nil,
             code: Swift.String? = nil,
             name: Swift.String? = nil
@@ -3174,7 +3474,7 @@ extension SupportClientTypes.SeverityLevel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
@@ -3204,7 +3504,7 @@ extension SupportClientTypes {
         /// For more information, see [Choosing a severity](https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity) in the Amazon Web Services Support User Guide.
         public var name: Swift.String?
 
-        public init (
+        public init(
             code: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -3214,6 +3514,161 @@ extension SupportClientTypes {
         }
     }
 
+}
+
+extension SupportClientTypes.SupportedHour: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encode(endTime, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension SupportClientTypes {
+    /// Time range object with startTime and endTime range in RFC 3339 format. 'HH:mm:ss.SSS'.
+    public struct SupportedHour: Swift.Equatable {
+        /// End Time. RFC 3339 format 'HH:mm:ss.SSS'.
+        public var endTime: Swift.String?
+        /// Start Time. RFC 3339 format 'HH:mm:ss.SSS'.
+        public var startTime: Swift.String?
+
+        public init(
+            endTime: Swift.String? = nil,
+            startTime: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+
+}
+
+extension SupportClientTypes.SupportedLanguage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case display
+        case language
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let display = self.display {
+            try encodeContainer.encode(display, forKey: .display)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language, forKey: .language)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
+        language = languageDecoded
+        let displayDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .display)
+        display = displayDecoded
+    }
+}
+
+extension SupportClientTypes {
+    /// A JSON-formatted object that contains the available ISO 639-1 language code, language name and langauge display value. The language code is what should be used in the [CreateCase] call.
+    public struct SupportedLanguage: Swift.Equatable {
+        /// 2 digit ISO 639-1 code. e.g. en
+        public var code: Swift.String?
+        /// Language display value e.g. ENGLISH
+        public var display: Swift.String?
+        /// Full language description e.g. ENGLISH
+        public var language: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            display: Swift.String? = nil,
+            language: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.display = display
+            self.language = language
+        }
+    }
+
+}
+
+extension ThrottlingException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Throttling" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension SupportClientTypes.TrustedAdvisorCategorySpecificSummary: Swift.Codable {
@@ -3228,7 +3683,7 @@ extension SupportClientTypes.TrustedAdvisorCategorySpecificSummary: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costOptimizingDecoded = try containerValues.decodeIfPresent(SupportClientTypes.TrustedAdvisorCostOptimizingSummary.self, forKey: .costOptimizing)
         costOptimizing = costOptimizingDecoded
@@ -3241,7 +3696,7 @@ extension SupportClientTypes {
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
         public var costOptimizing: SupportClientTypes.TrustedAdvisorCostOptimizingSummary?
 
-        public init (
+        public init(
             costOptimizing: SupportClientTypes.TrustedAdvisorCostOptimizingSummary? = nil
         )
         {
@@ -3286,7 +3741,7 @@ extension SupportClientTypes.TrustedAdvisorCheckDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -3327,7 +3782,7 @@ extension SupportClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             category: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -3365,7 +3820,7 @@ extension SupportClientTypes.TrustedAdvisorCheckRefreshStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkId)
         checkId = checkIdDecoded
@@ -3399,7 +3854,7 @@ extension SupportClientTypes {
         /// This member is required.
         public var status: Swift.String?
 
-        public init (
+        public init(
             checkId: Swift.String? = nil,
             millisUntilNextRefreshable: Swift.Int = 0,
             status: Swift.String? = nil
@@ -3448,7 +3903,7 @@ extension SupportClientTypes.TrustedAdvisorCheckResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkId)
         checkId = checkIdDecoded
@@ -3496,7 +3951,7 @@ extension SupportClientTypes {
         /// This member is required.
         public var timestamp: Swift.String?
 
-        public init (
+        public init(
             categorySpecificSummary: SupportClientTypes.TrustedAdvisorCategorySpecificSummary? = nil,
             checkId: Swift.String? = nil,
             flaggedResources: [SupportClientTypes.TrustedAdvisorResourceDetail]? = nil,
@@ -3548,7 +4003,7 @@ extension SupportClientTypes.TrustedAdvisorCheckSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkId)
         checkId = checkIdDecoded
@@ -3586,7 +4041,7 @@ extension SupportClientTypes {
         /// This member is required.
         public var timestamp: Swift.String?
 
-        public init (
+        public init(
             categorySpecificSummary: SupportClientTypes.TrustedAdvisorCategorySpecificSummary? = nil,
             checkId: Swift.String? = nil,
             hasFlaggedResources: Swift.Bool = false,
@@ -3622,7 +4077,7 @@ extension SupportClientTypes.TrustedAdvisorCostOptimizingSummary: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .estimatedMonthlySavings) ?? 0.0
         estimatedMonthlySavings = estimatedMonthlySavingsDecoded
@@ -3641,7 +4096,7 @@ extension SupportClientTypes {
         /// This member is required.
         public var estimatedPercentMonthlySavings: Swift.Double
 
-        public init (
+        public init(
             estimatedMonthlySavings: Swift.Double = 0.0,
             estimatedPercentMonthlySavings: Swift.Double = 0.0
         )
@@ -3688,7 +4143,7 @@ extension SupportClientTypes.TrustedAdvisorResourceDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -3727,7 +4182,7 @@ extension SupportClientTypes {
         /// This member is required.
         public var status: Swift.String?
 
-        public init (
+        public init(
             isSuppressed: Swift.Bool = false,
             metadata: [Swift.String?]? = nil,
             region: Swift.String? = nil,
@@ -3769,7 +4224,7 @@ extension SupportClientTypes.TrustedAdvisorResourcesSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourcesProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resourcesProcessed) ?? 0
         resourcesProcessed = resourcesProcessedDecoded
@@ -3798,7 +4253,7 @@ extension SupportClientTypes {
         /// This member is required.
         public var resourcesSuppressed: Swift.Int
 
-        public init (
+        public init(
             resourcesFlagged: Swift.Int = 0,
             resourcesIgnored: Swift.Int = 0,
             resourcesProcessed: Swift.Int = 0,

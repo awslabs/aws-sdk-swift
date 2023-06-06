@@ -18,7 +18,7 @@ extension CloudSearchDomainClientTypes.Bucket: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
@@ -35,7 +35,7 @@ extension CloudSearchDomainClientTypes {
         /// The facet value being counted.
         public var value: Swift.String?
 
-        public init (
+        public init(
             count: Swift.Int = 0,
             value: Swift.String? = nil
         )
@@ -62,7 +62,7 @@ extension CloudSearchDomainClientTypes.BucketInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketsContainer = try containerValues.decodeIfPresent([CloudSearchDomainClientTypes.Bucket?].self, forKey: .buckets)
         var bucketsDecoded0:[CloudSearchDomainClientTypes.Bucket]? = nil
@@ -84,7 +84,7 @@ extension CloudSearchDomainClientTypes {
         /// A list of the calculated facet values and counts.
         public var buckets: [CloudSearchDomainClientTypes.Bucket]?
 
-        public init (
+        public init(
             buckets: [CloudSearchDomainClientTypes.Bucket]? = nil
         )
         {
@@ -127,44 +127,48 @@ extension CloudSearchDomainClientTypes {
 }
 
 extension DocumentServiceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DocumentServiceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.status = output.status
+            self.properties.message = output.message
+            self.properties.status = output.status
         } else {
-            self.message = nil
-            self.status = nil
+            self.properties.message = nil
+            self.properties.status = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Information about any problems encountered while processing an upload request.
-public struct DocumentServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The description of the errors returned by the document service.
-    public var message: Swift.String?
-    /// The return status of a document upload request, error or success.
-    public var status: Swift.String?
+public struct DocumentServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The description of the errors returned by the document service.
+        public internal(set) var message: Swift.String? = nil
+        /// The return status of a document upload request, error or success.
+        public internal(set) var status: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DocumentServiceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         status: Swift.String? = nil
     )
     {
-        self.message = message
-        self.status = status
+        self.properties.message = message
+        self.properties.status = status
     }
 }
 
@@ -179,7 +183,7 @@ extension DocumentServiceExceptionBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -200,7 +204,7 @@ extension CloudSearchDomainClientTypes.DocumentServiceWarning: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -213,7 +217,7 @@ extension CloudSearchDomainClientTypes {
         /// The description for a warning returned by the document service.
         public var message: Swift.String?
 
-        public init (
+        public init(
             message: Swift.String? = nil
         )
         {
@@ -263,7 +267,7 @@ extension CloudSearchDomainClientTypes.FieldStats: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .min)
         min = minDecoded
@@ -304,7 +308,7 @@ extension CloudSearchDomainClientTypes {
         /// The sum of all field values in the result set squared.
         public var sumOfSquares: Swift.Double
 
-        public init (
+        public init(
             count: Swift.Int = 0,
             max: Swift.String? = nil,
             mean: Swift.String? = nil,
@@ -364,7 +368,7 @@ extension CloudSearchDomainClientTypes.Hit: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -423,7 +427,7 @@ extension CloudSearchDomainClientTypes {
         /// The document ID of a document that matches the search request.
         public var id: Swift.String?
 
-        public init (
+        public init(
             exprs: [Swift.String:Swift.String]? = nil,
             fields: [Swift.String:[Swift.String]]? = nil,
             highlights: [Swift.String:Swift.String]? = nil,
@@ -466,7 +470,7 @@ extension CloudSearchDomainClientTypes.Hits: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let foundDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .found) ?? 0
         found = foundDecoded
@@ -500,7 +504,7 @@ extension CloudSearchDomainClientTypes {
         /// The index of the first matching document.
         public var start: Swift.Int
 
-        public init (
+        public init(
             cursor: Swift.String? = nil,
             found: Swift.Int = 0,
             hit: [CloudSearchDomainClientTypes.Hit]? = nil,
@@ -555,38 +559,42 @@ extension CloudSearchDomainClientTypes {
 }
 
 extension SearchException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SearchExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Information about any problems encountered while processing a search request.
-public struct SearchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description of the error returned by the search service.
-    public var message: Swift.String?
+public struct SearchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description of the error returned by the search service.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SearchException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -599,7 +607,7 @@ extension SearchExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -622,7 +630,7 @@ extension SearchInput: ClientRuntime.QueryItemProvider {
             }
             guard let query = query else {
                 let message = "Creating a URL Query Item failed. query is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let queryQueryItem = ClientRuntime.URLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
             items.append(queryQueryItem)
@@ -755,7 +763,7 @@ public struct SearchInput: Swift.Equatable {
     /// Specifies one or more fields for which to get statistics information. Each specified field must be facet-enabled in the domain configuration. The fields are specified in JSON using the form: {"FIELD-A":{},"FIELD-B":{}} There are currently no options supported for statistics.
     public var stats: Swift.String?
 
-    public init (
+    public init(
         cursor: Swift.String? = nil,
         expr: Swift.String? = nil,
         facet: Swift.String? = nil,
@@ -794,35 +802,24 @@ struct SearchInputBody: Swift.Equatable {
 
 extension SearchInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension SearchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SearchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "SearchException" : self = .searchException(try SearchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SearchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SearchOutputError: Swift.Error, Swift.Equatable {
-    case searchException(SearchException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SearchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SearchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.facets = output.facets
@@ -849,7 +846,7 @@ public struct SearchOutputResponse: Swift.Equatable {
     /// The status information returned for the search request.
     public var status: CloudSearchDomainClientTypes.SearchStatus?
 
-    public init (
+    public init(
         facets: [Swift.String:CloudSearchDomainClientTypes.BucketInfo]? = nil,
         hits: CloudSearchDomainClientTypes.Hits? = nil,
         stats: [Swift.String:CloudSearchDomainClientTypes.FieldStats]? = nil,
@@ -878,7 +875,7 @@ extension SearchOutputResponseBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CloudSearchDomainClientTypes.SearchStatus.self, forKey: .status)
         status = statusDecoded
@@ -925,7 +922,7 @@ extension CloudSearchDomainClientTypes.SearchStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timems) ?? 0
         timems = timemsDecoded
@@ -942,7 +939,7 @@ extension CloudSearchDomainClientTypes {
         /// How long it took to process the request, in milliseconds.
         public var timems: Swift.Int
 
-        public init (
+        public init(
             rid: Swift.String? = nil,
             timems: Swift.Int = 0
         )
@@ -962,7 +959,7 @@ extension SuggestInput: ClientRuntime.QueryItemProvider {
             items.append(ClientRuntime.URLQueryItem(name: "pretty", value: "true"))
             guard let suggester = suggester else {
                 let message = "Creating a URL Query Item failed. suggester is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let suggesterQueryItem = ClientRuntime.URLQueryItem(name: "suggester".urlPercentEncoding(), value: Swift.String(suggester).urlPercentEncoding())
             items.append(suggesterQueryItem)
@@ -972,7 +969,7 @@ extension SuggestInput: ClientRuntime.QueryItemProvider {
             }
             guard let query = query else {
                 let message = "Creating a URL Query Item failed. query is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let queryQueryItem = ClientRuntime.URLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
             items.append(queryQueryItem)
@@ -998,7 +995,7 @@ public struct SuggestInput: Swift.Equatable {
     /// This member is required.
     public var suggester: Swift.String?
 
-    public init (
+    public init(
         query: Swift.String? = nil,
         size: Swift.Int = 0,
         suggester: Swift.String? = nil
@@ -1015,7 +1012,7 @@ struct SuggestInputBody: Swift.Equatable {
 
 extension SuggestInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -1042,7 +1039,7 @@ extension CloudSearchDomainClientTypes.SuggestModel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .query)
         query = queryDecoded
@@ -1072,7 +1069,7 @@ extension CloudSearchDomainClientTypes {
         /// The documents that match the query string.
         public var suggestions: [CloudSearchDomainClientTypes.SuggestionMatch]?
 
-        public init (
+        public init(
             found: Swift.Int = 0,
             query: Swift.String? = nil,
             suggestions: [CloudSearchDomainClientTypes.SuggestionMatch]? = nil
@@ -1086,31 +1083,20 @@ extension CloudSearchDomainClientTypes {
 
 }
 
-extension SuggestOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SuggestOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "SearchException" : self = .searchException(try SearchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SuggestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SuggestOutputError: Swift.Error, Swift.Equatable {
-    case searchException(SearchException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SuggestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SuggestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -1129,7 +1115,7 @@ public struct SuggestOutputResponse: Swift.Equatable {
     /// Container for the matching search suggestion information.
     public var suggest: CloudSearchDomainClientTypes.SuggestModel?
 
-    public init (
+    public init(
         status: CloudSearchDomainClientTypes.SuggestStatus? = nil,
         suggest: CloudSearchDomainClientTypes.SuggestModel? = nil
     )
@@ -1150,7 +1136,7 @@ extension SuggestOutputResponseBody: Swift.Decodable {
         case suggest
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CloudSearchDomainClientTypes.SuggestStatus.self, forKey: .status)
         status = statusDecoded
@@ -1175,7 +1161,7 @@ extension CloudSearchDomainClientTypes.SuggestStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timems) ?? 0
         timems = timemsDecoded
@@ -1192,7 +1178,7 @@ extension CloudSearchDomainClientTypes {
         /// How long it took to process the request, in milliseconds.
         public var timems: Swift.Int
 
-        public init (
+        public init(
             rid: Swift.String? = nil,
             timems: Swift.Int = 0
         )
@@ -1224,7 +1210,7 @@ extension CloudSearchDomainClientTypes.SuggestionMatch: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suggestionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .suggestion)
         suggestion = suggestionDecoded
@@ -1245,7 +1231,7 @@ extension CloudSearchDomainClientTypes {
         /// The string that matches the query string specified in the SuggestRequest.
         public var suggestion: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             score: Swift.Int = 0,
             suggestion: Swift.String? = nil
@@ -1336,7 +1322,7 @@ public struct UploadDocumentsInput: Swift.Equatable {
     /// This member is required.
     public var documents: ClientRuntime.ByteStream?
 
-    public init (
+    public init(
         contentType: CloudSearchDomainClientTypes.ContentType? = nil,
         documents: ClientRuntime.ByteStream? = nil
     )
@@ -1355,38 +1341,27 @@ extension UploadDocumentsInputBody: Swift.Decodable {
         case documents
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentsDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .documents)
         documents = documentsDecoded
     }
 }
 
-extension UploadDocumentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UploadDocumentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DocumentServiceException" : self = .documentServiceException(try DocumentServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UploadDocumentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DocumentServiceException": return try await DocumentServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UploadDocumentsOutputError: Swift.Error, Swift.Equatable {
-    case documentServiceException(DocumentServiceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UploadDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UploadDocumentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.adds = output.adds
@@ -1413,7 +1388,7 @@ public struct UploadDocumentsOutputResponse: Swift.Equatable {
     /// Any warnings returned by the document service about the documents being uploaded.
     public var warnings: [CloudSearchDomainClientTypes.DocumentServiceWarning]?
 
-    public init (
+    public init(
         adds: Swift.Int = 0,
         deletes: Swift.Int = 0,
         status: Swift.String? = nil,
@@ -1442,7 +1417,7 @@ extension UploadDocumentsOutputResponseBody: Swift.Decodable {
         case warnings
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded

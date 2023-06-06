@@ -3,6 +3,37 @@
 import ClientRuntime
 
 extension KafkaClient {
+    /// Paginate over `[ListClientVpcConnectionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListClientVpcConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClientVpcConnectionsOutputResponse`
+    public func listClientVpcConnectionsPaginated(input: ListClientVpcConnectionsInput) -> ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutputResponse>(input: input, inputKey: \ListClientVpcConnectionsInput.nextToken, outputKey: \ListClientVpcConnectionsOutputResponse.nextToken, paginationFunction: self.listClientVpcConnections(input:))
+    }
+}
+
+extension ListClientVpcConnectionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListClientVpcConnectionsInput {
+        return ListClientVpcConnectionsInput(
+            clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListClientVpcConnectionsInput, Output == ListClientVpcConnectionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listClientVpcConnectionsPaginated`
+    /// to access the nested member `[KafkaClientTypes.ClientVpcConnection]`
+    /// - Returns: `[KafkaClientTypes.ClientVpcConnection]`
+    public func clientVpcConnections() async throws -> [KafkaClientTypes.ClientVpcConnection] {
+        return try await self.asyncCompactMap { item in item.clientVpcConnections }
+    }
+}
+extension KafkaClient {
     /// Paginate over `[ListClusterOperationsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -247,5 +278,35 @@ extension PaginatorSequence where Input == ListScramSecretsInput, Output == List
     /// - Returns: `[Swift.String]`
     public func secretArnList() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.secretArnList }
+    }
+}
+extension KafkaClient {
+    /// Paginate over `[ListVpcConnectionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListVpcConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVpcConnectionsOutputResponse`
+    public func listVpcConnectionsPaginated(input: ListVpcConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutputResponse>(input: input, inputKey: \ListVpcConnectionsInput.nextToken, outputKey: \ListVpcConnectionsOutputResponse.nextToken, paginationFunction: self.listVpcConnections(input:))
+    }
+}
+
+extension ListVpcConnectionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListVpcConnectionsInput {
+        return ListVpcConnectionsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListVpcConnectionsInput, Output == ListVpcConnectionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listVpcConnectionsPaginated`
+    /// to access the nested member `[KafkaClientTypes.VpcConnection]`
+    /// - Returns: `[KafkaClientTypes.VpcConnection]`
+    public func vpcConnections() async throws -> [KafkaClientTypes.VpcConnection] {
+        return try await self.asyncCompactMap { item in item.vpcConnections }
     }
 }

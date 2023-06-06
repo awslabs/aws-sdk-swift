@@ -14,7 +14,7 @@ extension IAMClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: GetInstanceProfileInput, result: Result<GetInstanceProfileOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NoSuchEntityException"
+                return (error as? ServiceError)?.typeName == "NoSuchEntityException"
             }),
         ]
         return try WaiterConfiguration<GetInstanceProfileInput, GetInstanceProfileOutputResponse>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)
@@ -46,7 +46,7 @@ extension IAMClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: GetPolicyInput, result: Result<GetPolicyOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NoSuchEntity"
+                return (error as? ServiceError)?.typeName == "NoSuchEntity"
             }),
         ]
         return try WaiterConfiguration<GetPolicyInput, GetPolicyOutputResponse>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)
@@ -78,7 +78,7 @@ extension IAMClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: GetRoleInput, result: Result<GetRoleOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NoSuchEntity"
+                return (error as? ServiceError)?.typeName == "NoSuchEntity"
             }),
         ]
         return try WaiterConfiguration<GetRoleInput, GetRoleOutputResponse>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)
@@ -110,7 +110,7 @@ extension IAMClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: GetUserInput, result: Result<GetUserOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NoSuchEntity"
+                return (error as? ServiceError)?.typeName == "NoSuchEntity"
             }),
         ]
         return try WaiterConfiguration<GetUserInput, GetUserOutputResponse>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)

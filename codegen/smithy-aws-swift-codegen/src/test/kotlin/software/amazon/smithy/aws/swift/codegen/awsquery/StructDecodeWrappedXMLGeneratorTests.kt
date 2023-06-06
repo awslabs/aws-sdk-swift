@@ -28,7 +28,7 @@ class StructDecodeWrappedXMLGeneratorTests {
                 case myMap
             }
         
-            public init (from decoder: Swift.Decoder) throws {
+            public init(from decoder: Swift.Decoder) throws {
                 let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
                 let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FlattenedXmlMapResult"))
                 if containerValues.contains(.myMap) {

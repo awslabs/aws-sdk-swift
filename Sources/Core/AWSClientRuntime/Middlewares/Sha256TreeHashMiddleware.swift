@@ -6,7 +6,7 @@ import ClientRuntime
 import AwsCCal
 
 public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding,
-                                       OperationStackError: HttpResponseBinding>: Middleware {
+                                       OperationStackError: HttpResponseErrorBinding>: Middleware {
     public let id: String = "Sha256TreeHash"
 
     private let X_AMZ_SHA256_TREE_HASH_HEADER_NAME = "X-Amz-Sha256-Tree-Hash"
@@ -37,16 +37,14 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                   let streamBytes: Data?
                   let currentPosition = stream.position
                   if stream.isSeekable {
-                      streamBytes = try stream.readToEnd()
+                      streamBytes = try await stream.readToEndAsync()
                       try stream.seek(toOffset: currentPosition)
                   } else {
                       // If the stream is not seekable, we need to cache the stream in memory
                       // so we can compute the hash and still be able to send the stream to the service.
                       // This is not ideal, but it is the best we can do.
-                      let cachingStream = CachingStream(base: stream)
-                      streamBytes = try cachingStream.readToEnd()
-                      try cachingStream.seek(toOffset: currentPosition)
-                      input.withBody(.stream(cachingStream))
+                      streamBytes = try await stream.readToEndAsync()
+                      input.withBody(.data(streamBytes))
                   }
                   guard let streamBytes = streamBytes, !streamBytes.isEmpty else {
                       return try await next.handle(context: context, input: input)
@@ -106,5 +104,5 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
     public typealias Context = HttpContext
-    public typealias MError = SdkError<OperationStackError>
+    public typealias MError = OperationStackError
 }

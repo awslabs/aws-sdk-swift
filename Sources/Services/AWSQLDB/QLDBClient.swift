@@ -261,7 +261,7 @@ extension QLDBClient: QLDBClientProtocol {
         return result
     }
 
-    /// Deletes a ledger and all of its contents. This action is irreversible. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
+    /// Deletes a ledger and all of its contents. This action is irreversible. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public func deleteLedger(input: DeleteLedgerInput) async throws -> DeleteLedgerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -393,7 +393,7 @@ extension QLDBClient: QLDBClientProtocol {
         return result
     }
 
-    /// Exports journal contents within a date and time range from a ledger into a specified Amazon Simple Storage Service (Amazon S3) bucket. A journal export job can write the data objects in either the text or binary representation of Amazon Ion format, or in JSON Lines text format. In JSON Lines format, each journal block in the exported data object is a valid JSON object that is delimited by a newline. You can use this format to easily integrate JSON exports with analytics tools such as Glue and Amazon Athena because these services can parse newline-delimited JSON automatically. For more information about the format, see [JSON Lines](https://jsonlines.org/). If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name is in CREATING status, then throws ResourcePreconditionNotMetException. You can initiate up to two concurrent journal export requests for each ledger. Beyond this limit, journal export requests throw LimitExceededException.
+    /// Exports journal contents within a date and time range from a ledger into a specified Amazon Simple Storage Service (Amazon S3) bucket. A journal export job can write the data objects in either the text or binary representation of Amazon Ion format, or in JSON Lines text format. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name is in CREATING status, then throws ResourcePreconditionNotMetException. You can initiate up to two concurrent journal export requests for each ledger. Beyond this limit, journal export requests throw LimitExceededException.
     public func exportJournalToS3(input: ExportJournalToS3Input) async throws -> ExportJournalToS3OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -534,7 +534,7 @@ extension QLDBClient: QLDBClientProtocol {
         return result
     }
 
-    /// Returns an array of all Amazon QLDB journal stream descriptors for a given ledger. The output of each stream descriptor includes the same details that are returned by DescribeJournalKinesisStream. This action does not return any expired journal streams. For more information, see [Expiration for terminal streams](https://docs.aws.amazon.com/qldb/latest/developerguide/streams.create.html#streams.create.states.expiration) in the Amazon QLDB Developer Guide. This action returns a maximum of MaxResults items. It is paginated so that you can retrieve all the items by calling ListJournalKinesisStreamsForLedger multiple times.
+    /// Returns all Amazon QLDB journal streams for a given ledger. This action does not return any expired journal streams. For more information, see [Expiration for terminal streams](https://docs.aws.amazon.com/qldb/latest/developerguide/streams.create.html#streams.create.states.expiration) in the Amazon QLDB Developer Guide. This action returns a maximum of MaxResults items. It is paginated so that you can retrieve all the items by calling ListJournalKinesisStreamsForLedger multiple times.
     public func listJournalKinesisStreamsForLedger(input: ListJournalKinesisStreamsForLedgerInput) async throws -> ListJournalKinesisStreamsForLedgerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -568,7 +568,7 @@ extension QLDBClient: QLDBClientProtocol {
         return result
     }
 
-    /// Returns an array of journal export job descriptions for all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide.
+    /// Returns all journal export jobs for all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide.
     public func listJournalS3Exports(input: ListJournalS3ExportsInput) async throws -> ListJournalS3ExportsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -602,7 +602,7 @@ extension QLDBClient: QLDBClientProtocol {
         return result
     }
 
-    /// Returns an array of journal export job descriptions for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide.
+    /// Returns all journal export jobs for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide.
     public func listJournalS3ExportsForLedger(input: ListJournalS3ExportsForLedgerInput) async throws -> ListJournalS3ExportsForLedgerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -636,7 +636,7 @@ extension QLDBClient: QLDBClientProtocol {
         return result
     }
 
-    /// Returns an array of ledger summaries that are associated with the current Amazon Web Services account and Region. This action returns a maximum of 100 items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
+    /// Returns all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
     public func listLedgers(input: ListLedgersInput) async throws -> ListLedgersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

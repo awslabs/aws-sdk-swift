@@ -23,7 +23,7 @@ public struct RestJSONError {
     // error message header returned by event stream errors
     let X_AMZN_EVENT_ERROR_MESSAGE_HEADER_NAME = ":error-message"
 
-    public init(httpResponse: HttpResponse) throws {
+    public init(httpResponse: HttpResponse) async throws {
         var message = httpResponse.headers.value(for: X_AMZN_ERROR_MESSAGE_HEADER_NAME)
         if message == nil {
             message = httpResponse.headers.value(for: X_AMZN_EVENT_ERROR_MESSAGE_HEADER_NAME)
@@ -35,7 +35,7 @@ public struct RestJSONError {
 
         var type = httpResponse.headers.value(for: X_AMZN_ERROR_TYPE_HEADER_NAME)
 
-        if let data = try httpResponse.body.toData() {
+        if let data = try await httpResponse.body.readData() {
             let output: RestJSONErrorPayload = try JSONDecoder().decode(responseBody: data)
             if message == nil {
                 message = output.resolvedErrorMessage

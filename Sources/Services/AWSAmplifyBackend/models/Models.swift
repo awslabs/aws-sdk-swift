@@ -147,7 +147,7 @@ extension AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cognitoUserPoolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cognitoUserPoolId)
         cognitoUserPoolId = cognitoUserPoolIdDecoded
@@ -188,7 +188,7 @@ extension AmplifyBackendClientTypes {
         /// The OpenID provider name, if OpenID was used as an authentication mechanism to access your data models.
         public var openIDProviderName: Swift.String?
 
-        public init (
+        public init(
             cognitoUserPoolId: Swift.String? = nil,
             description: Swift.String? = nil,
             expirationTime: Swift.Double? = nil,
@@ -228,7 +228,7 @@ extension AmplifyBackendClientTypes.BackendAPIAuthType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modeDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.Mode.self, forKey: .mode)
         mode = modeDecoded
@@ -245,7 +245,7 @@ extension AmplifyBackendClientTypes {
         /// Describes settings for the authentication mode.
         public var settings: AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings?
 
-        public init (
+        public init(
             mode: AmplifyBackendClientTypes.Mode? = nil,
             settings: AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings? = nil
         )
@@ -269,7 +269,7 @@ extension AmplifyBackendClientTypes.BackendAPIConflictResolution: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resolutionStrategyDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.ResolutionStrategy.self, forKey: .resolutionStrategy)
         resolutionStrategy = resolutionStrategyDecoded
@@ -282,7 +282,7 @@ extension AmplifyBackendClientTypes {
         /// The strategy for conflict resolution.
         public var resolutionStrategy: AmplifyBackendClientTypes.ResolutionStrategy?
 
-        public init (
+        public init(
             resolutionStrategy: AmplifyBackendClientTypes.ResolutionStrategy? = nil
         )
         {
@@ -327,7 +327,7 @@ extension AmplifyBackendClientTypes.BackendAPIResourceConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let additionalAuthTypesContainer = try containerValues.decodeIfPresent([AmplifyBackendClientTypes.BackendAPIAuthType?].self, forKey: .additionalAuthTypes)
         var additionalAuthTypesDecoded0:[AmplifyBackendClientTypes.BackendAPIAuthType]? = nil
@@ -369,7 +369,7 @@ extension AmplifyBackendClientTypes {
         /// The definition of the data model in the annotated transform of the GraphQL schema.
         public var transformSchema: Swift.String?
 
-        public init (
+        public init(
             additionalAuthTypes: [AmplifyBackendClientTypes.BackendAPIAuthType]? = nil,
             apiName: Swift.String? = nil,
             conflictResolution: AmplifyBackendClientTypes.BackendAPIConflictResolution? = nil,
@@ -413,7 +413,7 @@ extension AmplifyBackendClientTypes.BackendAuthAppleProviderConfig: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
@@ -438,7 +438,7 @@ extension AmplifyBackendClientTypes {
         /// Describes the team_id that comes from Apple.
         public var teamId: Swift.String?
 
-        public init (
+        public init(
             clientId: Swift.String? = nil,
             keyId: Swift.String? = nil,
             privateKey: Swift.String? = nil,
@@ -470,7 +470,7 @@ extension AmplifyBackendClientTypes.BackendAuthSocialProviderConfig: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
@@ -487,7 +487,7 @@ extension AmplifyBackendClientTypes {
         /// Describes the client_secret, which can be obtained from third-party social federation providers.
         public var clientSecret: Swift.String?
 
-        public init (
+        public init(
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil
         )
@@ -539,7 +539,7 @@ extension AmplifyBackendClientTypes.BackendJobRespObj: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -582,7 +582,7 @@ extension AmplifyBackendClientTypes {
         /// The time when the job was last updated.
         public var updateTime: Swift.String?
 
-        public init (
+        public init(
             appId: Swift.String? = nil,
             backendEnvironmentName: Swift.String? = nil,
             createTime: Swift.String? = nil,
@@ -628,7 +628,7 @@ extension AmplifyBackendClientTypes.BackendStoragePermissions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authenticatedContainer = try containerValues.decodeIfPresent([AmplifyBackendClientTypes.AuthenticatedElement?].self, forKey: .authenticated)
         var authenticatedDecoded0:[AmplifyBackendClientTypes.AuthenticatedElement]? = nil
@@ -664,7 +664,7 @@ extension AmplifyBackendClientTypes {
         /// Lists all unauthenticated user read, write, and delete permissions for your S3 bucket.
         public var unAuthenticated: [AmplifyBackendClientTypes.UnAuthenticatedElement]?
 
-        public init (
+        public init(
             authenticated: [AmplifyBackendClientTypes.AuthenticatedElement]? = nil,
             unAuthenticated: [AmplifyBackendClientTypes.UnAuthenticatedElement]? = nil
         )
@@ -677,38 +677,42 @@ extension AmplifyBackendClientTypes {
 }
 
 extension BadRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error returned if a request is not formed properly.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// An error message to inform that the request failed.
-    public var message: Swift.String?
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// An error message to inform that the request failed.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -721,7 +725,7 @@ extension BadRequestExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -765,7 +769,7 @@ public struct CloneBackendInput: Swift.Equatable {
     /// This member is required.
     public var targetEnvironmentName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         targetEnvironmentName: Swift.String? = nil
@@ -786,44 +790,30 @@ extension CloneBackendInputBody: Swift.Decodable {
         case targetEnvironmentName = "targetEnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetEnvironmentName)
         targetEnvironmentName = targetEnvironmentNameDecoded
     }
 }
 
-extension CloneBackendOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CloneBackendOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CloneBackendOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CloneBackendOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CloneBackendOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CloneBackendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -857,7 +847,7 @@ public struct CloneBackendOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -894,7 +884,7 @@ extension CloneBackendOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -956,7 +946,7 @@ public struct CreateBackendAPIInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
@@ -983,7 +973,7 @@ extension CreateBackendAPIInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backendEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentName)
         backendEnvironmentName = backendEnvironmentNameDecoded
@@ -994,37 +984,23 @@ extension CreateBackendAPIInputBody: Swift.Decodable {
     }
 }
 
-extension CreateBackendAPIOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateBackendAPIOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateBackendAPIOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateBackendAPIOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateBackendAPIOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateBackendAPIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -1058,7 +1034,7 @@ public struct CreateBackendAPIOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -1095,7 +1071,7 @@ extension CreateBackendAPIOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -1132,7 +1108,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryMethodDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.DeliveryMethod.self, forKey: .deliveryMethod)
         deliveryMethod = deliveryMethodDecoded
@@ -1154,7 +1130,7 @@ extension AmplifyBackendClientTypes {
         /// (DEPRECATED) The configuration for the SMS message sent when an app user forgets their password.
         public var smsSettings: AmplifyBackendClientTypes.SmsSettings?
 
-        public init (
+        public init(
             deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod? = nil,
             emailSettings: AmplifyBackendClientTypes.EmailSettings? = nil,
             smsSettings: AmplifyBackendClientTypes.SmsSettings? = nil
@@ -1184,7 +1160,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityPoolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityPoolName)
         identityPoolName = identityPoolNameDecoded
@@ -1203,7 +1179,7 @@ extension AmplifyBackendClientTypes {
         /// This member is required.
         public var unauthenticatedLogin: Swift.Bool?
 
-        public init (
+        public init(
             identityPoolName: Swift.String? = nil,
             unauthenticatedLogin: Swift.Bool? = nil
         )
@@ -1260,7 +1236,7 @@ public struct CreateBackendAuthInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.CreateBackendAuthResourceConfig? = nil,
@@ -1287,7 +1263,7 @@ extension CreateBackendAuthInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backendEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentName)
         backendEnvironmentName = backendEnvironmentNameDecoded
@@ -1314,7 +1290,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthMFAConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mfaModeDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.MFAMode.self, forKey: .mfaMode)
         mfaMode = mfaModeDecoded
@@ -1332,7 +1308,7 @@ extension AmplifyBackendClientTypes {
         /// Describes the configuration settings and methods for your Amplify app users to use MFA.
         public var settings: AmplifyBackendClientTypes.Settings?
 
-        public init (
+        public init(
             mfaMode: AmplifyBackendClientTypes.MFAMode? = nil,
             settings: AmplifyBackendClientTypes.Settings? = nil
         )
@@ -1385,7 +1361,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainPrefix)
         domainPrefix = domainPrefixDecoded
@@ -1449,7 +1425,7 @@ extension AmplifyBackendClientTypes {
         /// The settings for using social providers to access your Amplify app.
         public var socialProviderSettings: AmplifyBackendClientTypes.SocialProviderSettings?
 
-        public init (
+        public init(
             domainPrefix: Swift.String? = nil,
             oAuthGrantType: AmplifyBackendClientTypes.OAuthGrantType? = nil,
             oAuthScopes: [AmplifyBackendClientTypes.OAuthScopesElement]? = nil,
@@ -1469,37 +1445,23 @@ extension AmplifyBackendClientTypes {
 
 }
 
-extension CreateBackendAuthOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateBackendAuthOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateBackendAuthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateBackendAuthOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -1533,7 +1495,7 @@ public struct CreateBackendAuthOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -1570,7 +1532,7 @@ extension CreateBackendAuthOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -1606,7 +1568,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let additionalConstraintsContainer = try containerValues.decodeIfPresent([AmplifyBackendClientTypes.AdditionalConstraintsElement?].self, forKey: .additionalConstraints)
         var additionalConstraintsDecoded0:[AmplifyBackendClientTypes.AdditionalConstraintsElement]? = nil
@@ -1633,7 +1595,7 @@ extension AmplifyBackendClientTypes {
         /// This member is required.
         public var minimumLength: Swift.Double?
 
-        public init (
+        public init(
             additionalConstraints: [AmplifyBackendClientTypes.AdditionalConstraintsElement]? = nil,
             minimumLength: Swift.Double? = nil
         )
@@ -1669,7 +1631,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthResourceConfig: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authResourcesDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.AuthResources.self, forKey: .authResources)
         authResources = authResourcesDecoded
@@ -1697,7 +1659,7 @@ extension AmplifyBackendClientTypes {
         /// This member is required.
         public var userPoolConfigs: AmplifyBackendClientTypes.CreateBackendAuthUserPoolConfig?
 
-        public init (
+        public init(
             authResources: AmplifyBackendClientTypes.AuthResources? = nil,
             identityPoolConfigs: AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig? = nil,
             service: AmplifyBackendClientTypes.Service? = nil,
@@ -1756,7 +1718,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthUserPoolConfig: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let forgotPasswordDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig.self, forKey: .forgotPassword)
         forgotPassword = forgotPasswordDecoded
@@ -1809,7 +1771,7 @@ extension AmplifyBackendClientTypes {
         /// Describes the email or SMS verification message for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public var verificationMessage: AmplifyBackendClientTypes.CreateBackendAuthVerificationMessageConfig?
 
-        public init (
+        public init(
             forgotPassword: AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig? = nil,
             mfa: AmplifyBackendClientTypes.CreateBackendAuthMFAConfig? = nil,
             oAuth: AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig? = nil,
@@ -1853,7 +1815,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthVerificationMessageConfig: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryMethodDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.DeliveryMethod.self, forKey: .deliveryMethod)
         deliveryMethod = deliveryMethodDecoded
@@ -1875,7 +1837,7 @@ extension AmplifyBackendClientTypes {
         /// The settings for the SMS message.
         public var smsSettings: AmplifyBackendClientTypes.SmsSettings?
 
-        public init (
+        public init(
             deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod? = nil,
             emailSettings: AmplifyBackendClientTypes.EmailSettings? = nil,
             smsSettings: AmplifyBackendClientTypes.SmsSettings? = nil
@@ -1919,7 +1881,7 @@ public struct CreateBackendConfigInput: Swift.Equatable {
     /// The app ID for the backend manager.
     public var backendManagerAppId: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendManagerAppId: Swift.String? = nil
     )
@@ -1938,44 +1900,30 @@ extension CreateBackendConfigInputBody: Swift.Decodable {
         case backendManagerAppId = "backendManagerAppId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backendManagerAppIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendManagerAppId)
         backendManagerAppId = backendManagerAppIdDecoded
     }
 }
 
-extension CreateBackendConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateBackendConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateBackendConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateBackendConfigOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateBackendConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateBackendConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -2001,7 +1949,7 @@ public struct CreateBackendConfigOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
@@ -2030,7 +1978,7 @@ extension CreateBackendConfigOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -2094,7 +2042,7 @@ public struct CreateBackendInput: Swift.Equatable {
     /// The name of the resource.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         appName: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
@@ -2127,7 +2075,7 @@ extension CreateBackendInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -2142,37 +2090,23 @@ extension CreateBackendInputBody: Swift.Decodable {
     }
 }
 
-extension CreateBackendOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateBackendOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateBackendOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateBackendOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateBackendOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateBackendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -2206,7 +2140,7 @@ public struct CreateBackendOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -2243,7 +2177,7 @@ extension CreateBackendOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -2305,7 +2239,7 @@ public struct CreateBackendStorageInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.CreateBackendStorageResourceConfig? = nil,
@@ -2332,7 +2266,7 @@ extension CreateBackendStorageInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backendEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentName)
         backendEnvironmentName = backendEnvironmentNameDecoded
@@ -2343,37 +2277,23 @@ extension CreateBackendStorageInputBody: Swift.Decodable {
     }
 }
 
-extension CreateBackendStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateBackendStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateBackendStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateBackendStorageOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -2399,7 +2319,7 @@ public struct CreateBackendStorageOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
@@ -2428,7 +2348,7 @@ extension CreateBackendStorageOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -2461,7 +2381,7 @@ extension AmplifyBackendClientTypes.CreateBackendStorageResourceConfig: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -2484,7 +2404,7 @@ extension AmplifyBackendClientTypes {
         /// This member is required.
         public var serviceName: AmplifyBackendClientTypes.ServiceName?
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             permissions: AmplifyBackendClientTypes.BackendStoragePermissions? = nil,
             serviceName: AmplifyBackendClientTypes.ServiceName? = nil
@@ -2512,7 +2432,7 @@ public struct CreateTokenInput: Swift.Equatable {
     /// This member is required.
     public var appId: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil
     )
     {
@@ -2525,41 +2445,27 @@ struct CreateTokenInputBody: Swift.Equatable {
 
 extension CreateTokenInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension CreateTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTokenOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTokenOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -2585,7 +2491,7 @@ public struct CreateTokenOutputResponse: Swift.Equatable {
     /// The expiry time for the one-time generated token code.
     public var ttl: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         challengeCode: Swift.String? = nil,
         sessionId: Swift.String? = nil,
@@ -2614,7 +2520,7 @@ extension CreateTokenOutputResponseBody: Swift.Decodable {
         case ttl = "ttl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -2670,7 +2576,7 @@ public struct DeleteBackendAPIInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
@@ -2695,7 +2601,7 @@ extension DeleteBackendAPIInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceConfigDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.BackendAPIResourceConfig.self, forKey: .resourceConfig)
         resourceConfig = resourceConfigDecoded
@@ -2704,37 +2610,23 @@ extension DeleteBackendAPIInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteBackendAPIOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteBackendAPIOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteBackendAPIOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteBackendAPIOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteBackendAPIOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteBackendAPIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -2768,7 +2660,7 @@ public struct DeleteBackendAPIOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -2805,7 +2697,7 @@ extension DeleteBackendAPIOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -2859,7 +2751,7 @@ public struct DeleteBackendAuthInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
@@ -2880,44 +2772,30 @@ extension DeleteBackendAuthInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
 }
 
-extension DeleteBackendAuthOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteBackendAuthOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteBackendAuthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteBackendAuthOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -2951,7 +2829,7 @@ public struct DeleteBackendAuthOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -2988,7 +2866,7 @@ extension DeleteBackendAuthOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -3025,7 +2903,7 @@ public struct DeleteBackendInput: Swift.Equatable {
     /// This member is required.
     public var backendEnvironmentName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil
     )
@@ -3040,41 +2918,27 @@ struct DeleteBackendInputBody: Swift.Equatable {
 
 extension DeleteBackendInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteBackendOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteBackendOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteBackendOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteBackendOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteBackendOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteBackendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -3108,7 +2972,7 @@ public struct DeleteBackendOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -3145,7 +3009,7 @@ extension DeleteBackendOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -3206,7 +3070,7 @@ public struct DeleteBackendStorageInput: Swift.Equatable {
     /// This member is required.
     public var serviceName: AmplifyBackendClientTypes.ServiceName?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil,
@@ -3231,7 +3095,7 @@ extension DeleteBackendStorageInputBody: Swift.Decodable {
         case serviceName = "serviceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
@@ -3240,37 +3104,23 @@ extension DeleteBackendStorageInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteBackendStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteBackendStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteBackendStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteBackendStorageOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -3296,7 +3146,7 @@ public struct DeleteBackendStorageOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
@@ -3325,7 +3175,7 @@ extension DeleteBackendStorageOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -3358,7 +3208,7 @@ public struct DeleteTokenInput: Swift.Equatable {
     /// This member is required.
     public var sessionId: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         sessionId: Swift.String? = nil
     )
@@ -3373,41 +3223,27 @@ struct DeleteTokenInputBody: Swift.Equatable {
 
 extension DeleteTokenInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTokenOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTokenOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isSuccess = output.isSuccess
@@ -3421,7 +3257,7 @@ public struct DeleteTokenOutputResponse: Swift.Equatable {
     /// Indicates whether the request succeeded or failed.
     public var isSuccess: Swift.Bool?
 
-    public init (
+    public init(
         isSuccess: Swift.Bool? = nil
     )
     {
@@ -3438,7 +3274,7 @@ extension DeleteTokenOutputResponseBody: Swift.Decodable {
         case isSuccess = "isSuccess"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let isSuccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isSuccess)
         isSuccess = isSuccessDecoded
@@ -3494,7 +3330,7 @@ extension AmplifyBackendClientTypes.EmailSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let emailMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailMessage)
         emailMessage = emailMessageDecoded
@@ -3511,7 +3347,7 @@ extension AmplifyBackendClientTypes {
         /// The contents of the subject line of the email message.
         public var emailSubject: Swift.String?
 
-        public init (
+        public init(
             emailMessage: Swift.String? = nil,
             emailSubject: Swift.String? = nil
         )
@@ -3524,38 +3360,42 @@ extension AmplifyBackendClientTypes {
 }
 
 extension GatewayTimeoutException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GatewayTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error returned if there's a temporary issue with the service.
-public struct GatewayTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// An error message to inform that the request failed.
-    public var message: Swift.String?
+public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// An error message to inform that the request failed.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GatewayTimeoutException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3568,7 +3408,7 @@ extension GatewayTimeoutExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3612,7 +3452,7 @@ public struct GenerateBackendAPIModelsInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
@@ -3633,44 +3473,30 @@ extension GenerateBackendAPIModelsInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
 }
 
-extension GenerateBackendAPIModelsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GenerateBackendAPIModelsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GenerateBackendAPIModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GenerateBackendAPIModelsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GenerateBackendAPIModelsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GenerateBackendAPIModelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -3704,7 +3530,7 @@ public struct GenerateBackendAPIModelsOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -3741,7 +3567,7 @@ extension GenerateBackendAPIModelsOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -3801,7 +3627,7 @@ public struct GetBackendAPIInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
@@ -3826,7 +3652,7 @@ extension GetBackendAPIInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceConfigDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.BackendAPIResourceConfig.self, forKey: .resourceConfig)
         resourceConfig = resourceConfigDecoded
@@ -3872,7 +3698,7 @@ public struct GetBackendAPIModelsInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
@@ -3893,44 +3719,30 @@ extension GetBackendAPIModelsInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
 }
 
-extension GetBackendAPIModelsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetBackendAPIModelsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetBackendAPIModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetBackendAPIModelsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetBackendAPIModelsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetBackendAPIModelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.modelIntrospectionSchema = output.modelIntrospectionSchema
@@ -3952,7 +3764,7 @@ public struct GetBackendAPIModelsOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: AmplifyBackendClientTypes.Status?
 
-    public init (
+    public init(
         modelIntrospectionSchema: Swift.String? = nil,
         models: Swift.String? = nil,
         status: AmplifyBackendClientTypes.Status? = nil
@@ -3977,7 +3789,7 @@ extension GetBackendAPIModelsOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modelsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .models)
         models = modelsDecoded
@@ -3988,37 +3800,23 @@ extension GetBackendAPIModelsOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension GetBackendAPIOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetBackendAPIOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetBackendAPIOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetBackendAPIOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetBackendAPIOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetBackendAPIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -4048,7 +3846,7 @@ public struct GetBackendAPIOutputResponse: Swift.Equatable {
     /// The name of this resource.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -4081,7 +3879,7 @@ extension GetBackendAPIOutputResponseBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -4133,7 +3931,7 @@ public struct GetBackendAuthInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
@@ -4154,44 +3952,30 @@ extension GetBackendAuthInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
 }
 
-extension GetBackendAuthOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetBackendAuthOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetBackendAuthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetBackendAuthOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -4221,7 +4005,7 @@ public struct GetBackendAuthOutputResponse: Swift.Equatable {
     /// The name of this resource.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -4254,7 +4038,7 @@ extension GetBackendAuthOutputResponseBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -4299,7 +4083,7 @@ public struct GetBackendInput: Swift.Equatable {
     /// The name of the backend environment.
     public var backendEnvironmentName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil
     )
@@ -4318,7 +4102,7 @@ extension GetBackendInputBody: Swift.Decodable {
         case backendEnvironmentName = "backendEnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backendEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentName)
         backendEnvironmentName = backendEnvironmentNameDecoded
@@ -4351,7 +4135,7 @@ public struct GetBackendJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil
@@ -4368,41 +4152,27 @@ struct GetBackendJobInputBody: Swift.Equatable {
 
 extension GetBackendJobInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetBackendJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetBackendJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetBackendJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetBackendJobOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetBackendJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetBackendJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -4444,7 +4214,7 @@ public struct GetBackendJobOutputResponse: Swift.Equatable {
     /// The time when the job was last updated.
     public var updateTime: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         createTime: Swift.String? = nil,
@@ -4489,7 +4259,7 @@ extension GetBackendJobOutputResponseBody: Swift.Decodable {
         case updateTime = "updateTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -4510,37 +4280,23 @@ extension GetBackendJobOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension GetBackendOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetBackendOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetBackendOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetBackendOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetBackendOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetBackendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.amplifyFeatureFlags = output.amplifyFeatureFlags
@@ -4578,7 +4334,7 @@ public struct GetBackendOutputResponse: Swift.Equatable {
     /// If the request failed, this is the returned error.
     public var error: Swift.String?
 
-    public init (
+    public init(
         amplifyFeatureFlags: Swift.String? = nil,
         amplifyMetaConfig: Swift.String? = nil,
         appId: Swift.String? = nil,
@@ -4619,7 +4375,7 @@ extension GetBackendOutputResponseBody: Swift.Decodable {
         case error = "error"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amplifyFeatureFlagsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .amplifyFeatureFlags)
         amplifyFeatureFlags = amplifyFeatureFlagsDecoded
@@ -4684,7 +4440,7 @@ public struct GetBackendStorageInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
@@ -4705,44 +4461,30 @@ extension GetBackendStorageInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
 }
 
-extension GetBackendStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetBackendStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetBackendStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetBackendStorageOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -4768,7 +4510,7 @@ public struct GetBackendStorageOutputResponse: Swift.Equatable {
     /// The name of the storage resource.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.GetBackendStorageResourceConfig? = nil,
@@ -4797,7 +4539,7 @@ extension GetBackendStorageOutputResponseBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -4834,7 +4576,7 @@ extension AmplifyBackendClientTypes.GetBackendStorageResourceConfig: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -4861,7 +4603,7 @@ extension AmplifyBackendClientTypes {
         /// This member is required.
         public var serviceName: AmplifyBackendClientTypes.ServiceName?
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             imported: Swift.Bool? = nil,
             permissions: AmplifyBackendClientTypes.BackendStoragePermissions? = nil,
@@ -4897,7 +4639,7 @@ public struct GetTokenInput: Swift.Equatable {
     /// This member is required.
     public var sessionId: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         sessionId: Swift.String? = nil
     )
@@ -4912,41 +4654,27 @@ struct GetTokenInputBody: Swift.Equatable {
 
 extension GetTokenInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetTokenOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetTokenOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -4972,7 +4700,7 @@ public struct GetTokenOutputResponse: Swift.Equatable {
     /// The expiry time for the one-time generated token code.
     public var ttl: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         challengeCode: Swift.String? = nil,
         sessionId: Swift.String? = nil,
@@ -5001,7 +4729,7 @@ extension GetTokenOutputResponseBody: Swift.Decodable {
         case ttl = "ttl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -5071,7 +4799,7 @@ public struct ImportBackendAuthInput: Swift.Equatable {
     /// This member is required.
     public var webClientId: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         identityPoolId: Swift.String? = nil,
@@ -5104,7 +4832,7 @@ extension ImportBackendAuthInputBody: Swift.Decodable {
         case webClientId = "webClientId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityPoolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityPoolId)
         identityPoolId = identityPoolIdDecoded
@@ -5117,37 +4845,23 @@ extension ImportBackendAuthInputBody: Swift.Decodable {
     }
 }
 
-extension ImportBackendAuthOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ImportBackendAuthOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ImportBackendAuthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ImportBackendAuthOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ImportBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -5181,7 +4895,7 @@ public struct ImportBackendAuthOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -5218,7 +4932,7 @@ extension ImportBackendAuthOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -5278,7 +4992,7 @@ public struct ImportBackendStorageInput: Swift.Equatable {
     /// This member is required.
     public var serviceName: AmplifyBackendClientTypes.ServiceName?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         bucketName: Swift.String? = nil,
@@ -5303,7 +5017,7 @@ extension ImportBackendStorageInputBody: Swift.Decodable {
         case serviceName = "serviceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -5312,37 +5026,23 @@ extension ImportBackendStorageInputBody: Swift.Decodable {
     }
 }
 
-extension ImportBackendStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ImportBackendStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ImportBackendStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ImportBackendStorageOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ImportBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -5368,7 +5068,7 @@ public struct ImportBackendStorageOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
@@ -5397,7 +5097,7 @@ extension ImportBackendStorageOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -5470,7 +5170,7 @@ public struct ListBackendJobsInput: Swift.Equatable {
     /// Filters the list of response objects to include only those with the specified status.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
@@ -5507,7 +5207,7 @@ extension ListBackendJobsInputBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -5522,37 +5222,23 @@ extension ListBackendJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListBackendJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListBackendJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListBackendJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListBackendJobsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListBackendJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListBackendJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
@@ -5570,7 +5256,7 @@ public struct ListBackendJobsOutputResponse: Swift.Equatable {
     /// The token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         jobs: [AmplifyBackendClientTypes.BackendJobRespObj]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5591,7 +5277,7 @@ extension ListBackendJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobsContainer = try containerValues.decodeIfPresent([AmplifyBackendClientTypes.BackendJobRespObj?].self, forKey: .jobs)
         var jobsDecoded0:[AmplifyBackendClientTypes.BackendJobRespObj]? = nil
@@ -5633,7 +5319,7 @@ public struct ListS3BucketsInput: Swift.Equatable {
     /// Reserved for future use.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -5650,44 +5336,30 @@ extension ListS3BucketsInputBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListS3BucketsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListS3BucketsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListS3BucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListS3BucketsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListS3BucketsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListS3BucketsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buckets = output.buckets
@@ -5705,7 +5377,7 @@ public struct ListS3BucketsOutputResponse: Swift.Equatable {
     /// Reserved for future use.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         buckets: [AmplifyBackendClientTypes.S3BucketInfo]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5726,7 +5398,7 @@ extension ListS3BucketsOutputResponseBody: Swift.Decodable {
         case nextToken = "nextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketsContainer = try containerValues.decodeIfPresent([AmplifyBackendClientTypes.S3BucketInfo?].self, forKey: .buckets)
         var bucketsDecoded0:[AmplifyBackendClientTypes.S3BucketInfo]? = nil
@@ -5768,7 +5440,7 @@ extension AmplifyBackendClientTypes.LoginAuthConfigReqObj: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let awsCognitoIdentityPoolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsCognitoIdentityPoolId)
         awsCognitoIdentityPoolId = awsCognitoIdentityPoolIdDecoded
@@ -5793,7 +5465,7 @@ extension AmplifyBackendClientTypes {
         /// The web client ID for the Amazon Cognito user pools.
         public var awsUserPoolsWebClientId: Swift.String?
 
-        public init (
+        public init(
             awsCognitoIdentityPoolId: Swift.String? = nil,
             awsCognitoRegion: Swift.String? = nil,
             awsUserPoolsId: Swift.String? = nil,
@@ -5915,44 +5587,48 @@ extension AmplifyBackendClientTypes {
 }
 
 extension NotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceType = output.resourceType
+            self.properties.message = output.message
+            self.properties.resourceType = output.resourceType
         } else {
-            self.message = nil
-            self.resourceType = nil
+            self.properties.message = nil
+            self.properties.resourceType = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error returned when a specific resource type is not found.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// An error message to inform that the request has failed.
-    public var message: Swift.String?
-    /// The type of resource that is not found.
-    public var resourceType: Swift.String?
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// An error message to inform that the request has failed.
+        public internal(set) var message: Swift.String? = nil
+        /// The type of resource that is not found.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceType = resourceType
+        self.properties.message = message
+        self.properties.resourceType = resourceType
     }
 }
 
@@ -5967,7 +5643,7 @@ extension NotFoundExceptionBody: Swift.Decodable {
         case resourceType = "resourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6079,7 +5755,7 @@ public struct RemoveAllBackendsInput: Swift.Equatable {
     /// Cleans up the Amplify Console app if this value is set to true.
     public var cleanAmplifyApp: Swift.Bool?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         cleanAmplifyApp: Swift.Bool? = nil
     )
@@ -6098,44 +5774,30 @@ extension RemoveAllBackendsInputBody: Swift.Decodable {
         case cleanAmplifyApp = "cleanAmplifyApp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cleanAmplifyAppDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cleanAmplifyApp)
         cleanAmplifyApp = cleanAmplifyAppDecoded
     }
 }
 
-extension RemoveAllBackendsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RemoveAllBackendsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveAllBackendsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RemoveAllBackendsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveAllBackendsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RemoveAllBackendsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -6165,7 +5827,7 @@ public struct RemoveAllBackendsOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         error: Swift.String? = nil,
         jobId: Swift.String? = nil,
@@ -6198,7 +5860,7 @@ extension RemoveAllBackendsOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -6227,7 +5889,7 @@ public struct RemoveBackendConfigInput: Swift.Equatable {
     /// This member is required.
     public var appId: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil
     )
     {
@@ -6240,41 +5902,27 @@ struct RemoveBackendConfigInputBody: Swift.Equatable {
 
 extension RemoveBackendConfigInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension RemoveBackendConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RemoveBackendConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveBackendConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RemoveBackendConfigOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveBackendConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RemoveBackendConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
@@ -6288,7 +5936,7 @@ public struct RemoveBackendConfigOutputResponse: Swift.Equatable {
     /// If the request fails, this error is returned.
     public var error: Swift.String?
 
-    public init (
+    public init(
         error: Swift.String? = nil
     )
     {
@@ -6305,7 +5953,7 @@ extension RemoveBackendConfigOutputResponseBody: Swift.Decodable {
         case error = "error"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
         error = errorDecoded
@@ -6434,7 +6082,7 @@ extension AmplifyBackendClientTypes.ResourceConfig: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -6442,7 +6090,7 @@ extension AmplifyBackendClientTypes {
     /// Defines the resource configuration for the data model in your Amplify project.
     public struct ResourceConfig: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -6463,7 +6111,7 @@ extension AmplifyBackendClientTypes.S3BucketInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let creationDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationDate)
         creationDate = creationDateDecoded
@@ -6480,7 +6128,7 @@ extension AmplifyBackendClientTypes {
         /// The name of the S3 bucket.
         public var name: Swift.String?
 
-        public init (
+        public init(
             creationDate: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -6569,7 +6217,7 @@ extension AmplifyBackendClientTypes.Settings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mfaTypesContainer = try containerValues.decodeIfPresent([AmplifyBackendClientTypes.MfaTypesElement?].self, forKey: .mfaTypes)
         var mfaTypesDecoded0:[AmplifyBackendClientTypes.MfaTypesElement]? = nil
@@ -6595,7 +6243,7 @@ extension AmplifyBackendClientTypes {
         /// The body of the SMS message.
         public var smsMessage: Swift.String?
 
-        public init (
+        public init(
             mfaTypes: [AmplifyBackendClientTypes.MfaTypesElement]? = nil,
             smsMessage: Swift.String? = nil
         )
@@ -6657,7 +6305,7 @@ extension AmplifyBackendClientTypes.SmsSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let smsMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .smsMessage)
         smsMessage = smsMessageDecoded
@@ -6670,7 +6318,7 @@ extension AmplifyBackendClientTypes {
         /// The contents of the SMS message.
         public var smsMessage: Swift.String?
 
-        public init (
+        public init(
             smsMessage: Swift.String? = nil
         )
         {
@@ -6704,7 +6352,7 @@ extension AmplifyBackendClientTypes.SocialProviderSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let facebookDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.self, forKey: .facebook)
         facebook = facebookDecoded
@@ -6729,7 +6377,7 @@ extension AmplifyBackendClientTypes {
         /// Describes Apple social federation configurations for allowing your app users to sign in using OAuth.
         public var signInWithApple: AmplifyBackendClientTypes.BackendAuthAppleProviderConfig?
 
-        public init (
+        public init(
             facebook: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig? = nil,
             google: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig? = nil,
             loginWithAmazon: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig? = nil,
@@ -6778,44 +6426,48 @@ extension AmplifyBackendClientTypes {
 }
 
 extension TooManyRequestsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.limitType = output.limitType
-            self.message = output.message
+            self.properties.limitType = output.limitType
+            self.properties.message = output.message
         } else {
-            self.limitType = nil
-            self.message = nil
+            self.properties.limitType = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error that is returned when a limit of a specific type has been exceeded.
-public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The type of limit that was exceeded.
-    public var limitType: Swift.String?
-    /// An error message to inform that the request has failed.
-    public var message: Swift.String?
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The type of limit that was exceeded.
+        public internal(set) var limitType: Swift.String? = nil
+        /// An error message to inform that the request has failed.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         limitType: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.limitType = limitType
-        self.message = message
+        self.properties.limitType = limitType
+        self.properties.message = message
     }
 }
 
@@ -6830,7 +6482,7 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
         case message = "message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .limitType)
         limitType = limitTypeDecoded
@@ -6917,7 +6569,7 @@ public struct UpdateBackendAPIInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
@@ -6942,7 +6594,7 @@ extension UpdateBackendAPIInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceConfigDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.BackendAPIResourceConfig.self, forKey: .resourceConfig)
         resourceConfig = resourceConfigDecoded
@@ -6951,37 +6603,23 @@ extension UpdateBackendAPIInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateBackendAPIOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateBackendAPIOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateBackendAPIOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateBackendAPIOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateBackendAPIOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateBackendAPIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -7015,7 +6653,7 @@ public struct UpdateBackendAPIOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -7052,7 +6690,7 @@ extension UpdateBackendAPIOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -7089,7 +6727,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryMethodDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.DeliveryMethod.self, forKey: .deliveryMethod)
         deliveryMethod = deliveryMethodDecoded
@@ -7110,7 +6748,7 @@ extension AmplifyBackendClientTypes {
         /// (DEPRECATED) The configuration for the SMS message sent when an Amplify app user forgets their password.
         public var smsSettings: AmplifyBackendClientTypes.SmsSettings?
 
-        public init (
+        public init(
             deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod? = nil,
             emailSettings: AmplifyBackendClientTypes.EmailSettings? = nil,
             smsSettings: AmplifyBackendClientTypes.SmsSettings? = nil
@@ -7136,7 +6774,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthIdentityPoolConfig: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let unauthenticatedLoginDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unauthenticatedLogin)
         unauthenticatedLogin = unauthenticatedLoginDecoded
@@ -7149,7 +6787,7 @@ extension AmplifyBackendClientTypes {
         /// A boolean value that can be set to allow or disallow guest-level authorization into your Amplify app.
         public var unauthenticatedLogin: Swift.Bool?
 
-        public init (
+        public init(
             unauthenticatedLogin: Swift.Bool? = nil
         )
         {
@@ -7203,7 +6841,7 @@ public struct UpdateBackendAuthInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.UpdateBackendAuthResourceConfig? = nil,
@@ -7228,7 +6866,7 @@ extension UpdateBackendAuthInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceConfigDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.UpdateBackendAuthResourceConfig.self, forKey: .resourceConfig)
         resourceConfig = resourceConfigDecoded
@@ -7253,7 +6891,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthMFAConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mfaModeDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.MFAMode.self, forKey: .mfaMode)
         mfaMode = mfaModeDecoded
@@ -7270,7 +6908,7 @@ extension AmplifyBackendClientTypes {
         /// The settings of your MFA configuration for the backend of your Amplify project.
         public var settings: AmplifyBackendClientTypes.Settings?
 
-        public init (
+        public init(
             mfaMode: AmplifyBackendClientTypes.MFAMode? = nil,
             settings: AmplifyBackendClientTypes.Settings? = nil
         )
@@ -7323,7 +6961,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainPrefix)
         domainPrefix = domainPrefixDecoded
@@ -7383,7 +7021,7 @@ extension AmplifyBackendClientTypes {
         /// Describes third-party social federation configurations for allowing your users to sign in with OAuth.
         public var socialProviderSettings: AmplifyBackendClientTypes.SocialProviderSettings?
 
-        public init (
+        public init(
             domainPrefix: Swift.String? = nil,
             oAuthGrantType: AmplifyBackendClientTypes.OAuthGrantType? = nil,
             oAuthScopes: [AmplifyBackendClientTypes.OAuthScopesElement]? = nil,
@@ -7403,37 +7041,23 @@ extension AmplifyBackendClientTypes {
 
 }
 
-extension UpdateBackendAuthOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateBackendAuthOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateBackendAuthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateBackendAuthOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -7467,7 +7091,7 @@ public struct UpdateBackendAuthOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -7504,7 +7128,7 @@ extension UpdateBackendAuthOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -7540,7 +7164,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let additionalConstraintsContainer = try containerValues.decodeIfPresent([AmplifyBackendClientTypes.AdditionalConstraintsElement?].self, forKey: .additionalConstraints)
         var additionalConstraintsDecoded0:[AmplifyBackendClientTypes.AdditionalConstraintsElement]? = nil
@@ -7566,7 +7190,7 @@ extension AmplifyBackendClientTypes {
         /// Describes the minimum length of the password required to sign in to the auth resource, configured as a part of your Amplify project.
         public var minimumLength: Swift.Double?
 
-        public init (
+        public init(
             additionalConstraints: [AmplifyBackendClientTypes.AdditionalConstraintsElement]? = nil,
             minimumLength: Swift.Double? = nil
         )
@@ -7602,7 +7226,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthResourceConfig: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authResourcesDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.AuthResources.self, forKey: .authResources)
         authResources = authResourcesDecoded
@@ -7630,7 +7254,7 @@ extension AmplifyBackendClientTypes {
         /// This member is required.
         public var userPoolConfigs: AmplifyBackendClientTypes.UpdateBackendAuthUserPoolConfig?
 
-        public init (
+        public init(
             authResources: AmplifyBackendClientTypes.AuthResources? = nil,
             identityPoolConfigs: AmplifyBackendClientTypes.UpdateBackendAuthIdentityPoolConfig? = nil,
             service: AmplifyBackendClientTypes.Service? = nil,
@@ -7674,7 +7298,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthUserPoolConfig: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let forgotPasswordDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig.self, forKey: .forgotPassword)
         forgotPassword = forgotPasswordDecoded
@@ -7703,7 +7327,7 @@ extension AmplifyBackendClientTypes {
         /// Describes the email or SMS verification message for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public var verificationMessage: AmplifyBackendClientTypes.UpdateBackendAuthVerificationMessageConfig?
 
-        public init (
+        public init(
             forgotPassword: AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig? = nil,
             mfa: AmplifyBackendClientTypes.UpdateBackendAuthMFAConfig? = nil,
             oAuth: AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig? = nil,
@@ -7741,7 +7365,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthVerificationMessageConfig: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryMethodDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.DeliveryMethod.self, forKey: .deliveryMethod)
         deliveryMethod = deliveryMethodDecoded
@@ -7763,7 +7387,7 @@ extension AmplifyBackendClientTypes {
         /// The settings for the SMS message.
         public var smsSettings: AmplifyBackendClientTypes.SmsSettings?
 
-        public init (
+        public init(
             deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod? = nil,
             emailSettings: AmplifyBackendClientTypes.EmailSettings? = nil,
             smsSettings: AmplifyBackendClientTypes.SmsSettings? = nil
@@ -7807,7 +7431,7 @@ public struct UpdateBackendConfigInput: Swift.Equatable {
     /// Describes the Amazon Cognito configuration for Admin UI access.
     public var loginAuthConfig: AmplifyBackendClientTypes.LoginAuthConfigReqObj?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         loginAuthConfig: AmplifyBackendClientTypes.LoginAuthConfigReqObj? = nil
     )
@@ -7826,44 +7450,30 @@ extension UpdateBackendConfigInputBody: Swift.Decodable {
         case loginAuthConfig = "loginAuthConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loginAuthConfigDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.LoginAuthConfigReqObj.self, forKey: .loginAuthConfig)
         loginAuthConfig = loginAuthConfigDecoded
     }
 }
 
-extension UpdateBackendConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateBackendConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateBackendConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateBackendConfigOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateBackendConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateBackendConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -7889,7 +7499,7 @@ public struct UpdateBackendConfigOutputResponse: Swift.Equatable {
     /// Describes the Amazon Cognito configurations for the Admin UI auth resource to log in with.
     public var loginAuthConfig: AmplifyBackendClientTypes.LoginAuthConfigReqObj?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendManagerAppId: Swift.String? = nil,
         error: Swift.String? = nil,
@@ -7918,7 +7528,7 @@ extension UpdateBackendConfigOutputResponseBody: Swift.Decodable {
         case loginAuthConfig = "loginAuthConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -7979,7 +7589,7 @@ public struct UpdateBackendJobInput: Swift.Equatable {
     /// Filters the list of response objects to include only those with the specified status.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
@@ -8006,7 +7616,7 @@ extension UpdateBackendJobInputBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operation)
         operation = operationDecoded
@@ -8015,37 +7625,23 @@ extension UpdateBackendJobInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateBackendJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateBackendJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateBackendJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateBackendJobOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateBackendJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateBackendJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -8087,7 +7683,7 @@ public struct UpdateBackendJobOutputResponse: Swift.Equatable {
     /// The time when the job was last updated.
     public var updateTime: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         createTime: Swift.String? = nil,
@@ -8132,7 +7728,7 @@ extension UpdateBackendJobOutputResponseBody: Swift.Decodable {
         case updateTime = "updateTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -8197,7 +7793,7 @@ public struct UpdateBackendStorageInput: Swift.Equatable {
     /// This member is required.
     public var resourceName: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.UpdateBackendStorageResourceConfig? = nil,
@@ -8222,7 +7818,7 @@ extension UpdateBackendStorageInputBody: Swift.Decodable {
         case resourceName = "resourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceConfigDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.UpdateBackendStorageResourceConfig.self, forKey: .resourceConfig)
         resourceConfig = resourceConfigDecoded
@@ -8231,37 +7827,23 @@ extension UpdateBackendStorageInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateBackendStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateBackendStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateBackendStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateBackendStorageOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case gatewayTimeoutException(GatewayTimeoutException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
@@ -8287,7 +7869,7 @@ public struct UpdateBackendStorageOutputResponse: Swift.Equatable {
     /// The current status of the request.
     public var status: Swift.String?
 
-    public init (
+    public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
@@ -8316,7 +7898,7 @@ extension UpdateBackendStorageOutputResponseBody: Swift.Decodable {
         case status = "status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
         appId = appIdDecoded
@@ -8345,7 +7927,7 @@ extension AmplifyBackendClientTypes.UpdateBackendStorageResourceConfig: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let permissionsDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.BackendStoragePermissions.self, forKey: .permissions)
         permissions = permissionsDecoded
@@ -8364,7 +7946,7 @@ extension AmplifyBackendClientTypes {
         /// This member is required.
         public var serviceName: AmplifyBackendClientTypes.ServiceName?
 
-        public init (
+        public init(
             permissions: AmplifyBackendClientTypes.BackendStoragePermissions? = nil,
             serviceName: AmplifyBackendClientTypes.ServiceName? = nil
         )

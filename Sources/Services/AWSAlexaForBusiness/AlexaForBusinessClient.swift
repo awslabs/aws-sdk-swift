@@ -193,6 +193,7 @@ public struct AlexaForBusinessClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 
 extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// Associates a skill with the organization under the customer's AWS account. If a skill is private, the user implicitly accepts access to this skill during enablement.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func approveSkill(input: ApproveSkillInput) async throws -> ApproveSkillOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -230,6 +231,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Associates a contact with a given address book.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateContactWithAddressBook(input: AssociateContactWithAddressBookInput) async throws -> AssociateContactWithAddressBookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -267,6 +269,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Associates a device with the specified network profile.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateDeviceWithNetworkProfile(input: AssociateDeviceWithNetworkProfileInput) async throws -> AssociateDeviceWithNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -304,6 +307,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Associates a device with a given room. This applies all the settings from the room profile to the device, and all the skills in any skill groups added to that room. This operation requires the device to be online, or else a manual sync is required.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput) async throws -> AssociateDeviceWithRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -341,6 +345,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Associates a skill group with a given room. This enables all skills in the associated skill group on all devices in the room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateSkillGroupWithRoom(input: AssociateSkillGroupWithRoomInput) async throws -> AssociateSkillGroupWithRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -378,6 +383,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Associates a skill with a skill group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateSkillWithSkillGroup(input: AssociateSkillWithSkillGroupInput) async throws -> AssociateSkillWithSkillGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -415,6 +421,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Makes a private skill available for enrolled users to enable on their devices.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateSkillWithUsers(input: AssociateSkillWithUsersInput) async throws -> AssociateSkillWithUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -452,6 +459,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates an address book with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createAddressBook(input: CreateAddressBookInput) async throws -> CreateAddressBookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -497,6 +505,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates a recurring schedule for usage reports to deliver to the specified S3 location with a specified daily or weekly interval.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createBusinessReportSchedule(input: CreateBusinessReportScheduleInput) async throws -> CreateBusinessReportScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -542,6 +551,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Adds a new conference provider under the user's AWS account.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createConferenceProvider(input: CreateConferenceProviderInput) async throws -> CreateConferenceProviderOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -587,6 +597,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates a contact with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createContact(input: CreateContactInput) async throws -> CreateContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -632,6 +643,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates a gateway group with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createGatewayGroup(input: CreateGatewayGroupInput) async throws -> CreateGatewayGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -677,6 +689,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates a network profile with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -722,6 +735,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates a new room profile with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -767,6 +781,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates a room with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -812,6 +827,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates a skill group with a specified name and description.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createSkillGroup(input: CreateSkillGroupInput) async throws -> CreateSkillGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -857,6 +873,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Creates a user.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -902,6 +919,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes an address book by the address book ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteAddressBook(input: DeleteAddressBookInput) async throws -> DeleteAddressBookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -939,6 +957,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes the recurring report delivery schedule with the specified schedule ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteBusinessReportSchedule(input: DeleteBusinessReportScheduleInput) async throws -> DeleteBusinessReportScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -976,6 +995,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes a conference provider.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteConferenceProvider(input: DeleteConferenceProviderInput) async throws -> DeleteConferenceProviderOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1013,6 +1033,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes a contact by the contact ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1050,6 +1071,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Removes a device from Alexa For Business.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1087,6 +1109,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteDeviceUsageData(input: DeleteDeviceUsageDataInput) async throws -> DeleteDeviceUsageDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1124,6 +1147,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes a gateway group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteGatewayGroup(input: DeleteGatewayGroupInput) async throws -> DeleteGatewayGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1161,6 +1185,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes a network profile by the network profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1198,6 +1223,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes a room profile by the profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1235,6 +1261,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes a room by the room ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1272,6 +1299,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes room skill parameter details by room, skill, and parameter key ID.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteRoomSkillParameter(input: DeleteRoomSkillParameterInput) async throws -> DeleteRoomSkillParameterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1309,6 +1337,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Unlinks a third-party account from a skill.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteSkillAuthorization(input: DeleteSkillAuthorizationInput) async throws -> DeleteSkillAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1346,6 +1375,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes a skill group by skill group ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteSkillGroup(input: DeleteSkillGroupInput) async throws -> DeleteSkillGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1383,6 +1413,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Deletes a specified user by user ARN and enrollment ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1420,6 +1451,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Disassociates a contact from a given address book.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateContactFromAddressBook(input: DisassociateContactFromAddressBookInput) async throws -> DisassociateContactFromAddressBookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1457,6 +1489,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Disassociates a device from its current room. The device continues to be connected to the Wi-Fi network and is still registered to the account. The device settings and skills are removed from the room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateDeviceFromRoom(input: DisassociateDeviceFromRoomInput) async throws -> DisassociateDeviceFromRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1494,6 +1527,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Disassociates a skill from a skill group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateSkillFromSkillGroup(input: DisassociateSkillFromSkillGroupInput) async throws -> DisassociateSkillFromSkillGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1531,6 +1565,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Makes a private skill unavailable for enrolled users and prevents them from enabling it on their devices.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput) async throws -> DisassociateSkillFromUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1568,6 +1603,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Disassociates a skill group from a specified room. This disables all skills in the skill group on all devices in the room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateSkillGroupFromRoom(input: DisassociateSkillGroupFromRoomInput) async throws -> DisassociateSkillGroupFromRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1605,6 +1641,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Forgets smart home appliances associated to a room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func forgetSmartHomeAppliances(input: ForgetSmartHomeAppliancesInput) async throws -> ForgetSmartHomeAppliancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1642,6 +1679,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets address the book details by the address book ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getAddressBook(input: GetAddressBookInput) async throws -> GetAddressBookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1679,6 +1717,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Retrieves the existing conference preferences.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getConferencePreference(input: GetConferencePreferenceInput) async throws -> GetConferencePreferenceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1716,6 +1755,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets details about a specific conference provider.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getConferenceProvider(input: GetConferenceProviderInput) async throws -> GetConferenceProviderOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1753,6 +1793,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets the contact details by the contact ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getContact(input: GetContactInput) async throws -> GetContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1790,6 +1831,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets the details of a device by device ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1827,6 +1869,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Retrieves the details of a gateway.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1864,6 +1907,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Retrieves the details of a gateway group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getGatewayGroup(input: GetGatewayGroupInput) async throws -> GetGatewayGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1901,6 +1945,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Retrieves the configured values for the user enrollment invitation email template.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getInvitationConfiguration(input: GetInvitationConfigurationInput) async throws -> GetInvitationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1938,6 +1983,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets the network profile details by the network profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1975,6 +2021,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets the details of a room profile by profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getProfile(input: GetProfileInput) async throws -> GetProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2012,6 +2059,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets room details by room ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getRoom(input: GetRoomInput) async throws -> GetRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2049,6 +2097,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets room skill parameter details by room, skill, and parameter key ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getRoomSkillParameter(input: GetRoomSkillParameterInput) async throws -> GetRoomSkillParameterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2086,6 +2135,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Gets skill group details by skill group ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getSkillGroup(input: GetSkillGroupInput) async throws -> GetSkillGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2123,6 +2173,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listBusinessReportSchedules(input: ListBusinessReportSchedulesInput) async throws -> ListBusinessReportSchedulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2160,6 +2211,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Lists conference providers under a specific AWS account.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listConferenceProviders(input: ListConferenceProvidersInput) async throws -> ListConferenceProvidersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2197,6 +2249,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Lists the device event history, including device connection status, for up to 30 days.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2234,6 +2287,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listGatewayGroups(input: ListGatewayGroupsInput) async throws -> ListGatewayGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2271,6 +2325,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2308,6 +2363,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Lists all enabled skills in a specific skill group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkills(input: ListSkillsInput) async throws -> ListSkillsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2345,6 +2401,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Lists all categories in the Alexa skill store.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsStoreCategories(input: ListSkillsStoreCategoriesInput) async throws -> ListSkillsStoreCategoriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2382,6 +2439,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Lists all skills in the Alexa skill store by category.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsStoreSkillsByCategory(input: ListSkillsStoreSkillsByCategoryInput) async throws -> ListSkillsStoreSkillsByCategoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2419,6 +2477,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Lists all of the smart home appliances associated with a room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSmartHomeAppliances(input: ListSmartHomeAppliancesInput) async throws -> ListSmartHomeAppliancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2456,6 +2515,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Lists all tags for the specified resource.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2493,6 +2553,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Sets the conference preferences on a specific conference provider at the account level.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func putConferencePreference(input: PutConferencePreferenceInput) async throws -> PutConferencePreferenceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2530,6 +2591,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Configures the email template for the user enrollment invitation with the specified attributes.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func putInvitationConfiguration(input: PutInvitationConfigurationInput) async throws -> PutInvitationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2567,6 +2629,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates room skill parameter details by room, skill, and parameter key ID. Not all skills have a room skill parameter.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func putRoomSkillParameter(input: PutRoomSkillParameterInput) async throws -> PutRoomSkillParameterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2604,6 +2667,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Links a user's account to a third-party skill provider. If this API operation is called by an assumed IAM role, the skill being linked must be a private skill. Also, the skill must be owned by the AWS account that assumed the IAM role.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func putSkillAuthorization(input: PutSkillAuthorizationInput) async throws -> PutSkillAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2641,6 +2705,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Registers an Alexa-enabled device built by an Original Equipment Manufacturer (OEM) using Alexa Voice Service (AVS).
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func registerAVSDevice(input: RegisterAVSDeviceInput) async throws -> RegisterAVSDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2678,6 +2743,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Disassociates a skill from the organization under a user's AWS account. If the skill is a private skill, it moves to an AcceptStatus of PENDING. Any private or public skill that is rejected can be added later by calling the ApproveSkill API.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func rejectSkill(input: RejectSkillInput) async throws -> RejectSkillOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2715,6 +2781,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Determines the details for the room from which a skill request was invoked. This operation is used by skill developers. To query ResolveRoom from an Alexa skill, the skill ID needs to be authorized. When the skill is using an AWS Lambda function, the skill is automatically authorized when you publish your skill as a private skill to your AWS account. Skills that are hosted using a custom web service must be manually authorized. To get your skill authorized, contact AWS Support with your AWS account ID that queries the ResolveRoom API and skill ID.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func resolveRoom(input: ResolveRoomInput) async throws -> ResolveRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2752,6 +2819,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Revokes an invitation and invalidates the enrollment URL.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func revokeInvitation(input: RevokeInvitationInput) async throws -> RevokeInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2789,6 +2857,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Searches address books and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchAddressBooks(input: SearchAddressBooksInput) async throws -> SearchAddressBooksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2826,6 +2895,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Searches contacts and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2863,6 +2933,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Searches devices and lists the ones that meet a set of filter criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2900,6 +2971,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Searches network profiles and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchNetworkProfiles(input: SearchNetworkProfilesInput) async throws -> SearchNetworkProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2937,6 +3009,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Searches room profiles and lists the ones that meet a set of filter criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2974,6 +3047,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Searches rooms and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchRooms(input: SearchRoomsInput) async throws -> SearchRoomsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3011,6 +3085,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Searches skill groups and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchSkillGroups(input: SearchSkillGroupsInput) async throws -> SearchSkillGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3048,6 +3123,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Searches users and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3130,6 +3206,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Sends an enrollment invitation email with a URL to a user. The URL is valid for 30 days or until you call this operation again, whichever comes first.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func sendInvitation(input: SendInvitationInput) async throws -> SendInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3177,6 +3254,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// * Lists - This clears all to-do items from your echo device.
     ///
     /// * Settings - This internally syncs the room's profile (if the device is assigned to a room), contacts, address books, delegation access for account linking, and communications (if enabled on the room profile).
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func startDeviceSync(input: StartDeviceSyncInput) async throws -> StartDeviceSyncOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3214,6 +3292,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Initiates the discovery of any smart home appliances associated with the room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func startSmartHomeApplianceDiscovery(input: StartSmartHomeApplianceDiscoveryInput) async throws -> StartSmartHomeApplianceDiscoveryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3251,6 +3330,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Adds metadata tags to a specified resource.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3288,6 +3368,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Removes metadata tags from a specified resource.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3325,6 +3406,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates address book details by the address book ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateAddressBook(input: UpdateAddressBookInput) async throws -> UpdateAddressBookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3362,6 +3444,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates the configuration of the report delivery schedule with the specified schedule ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateBusinessReportSchedule(input: UpdateBusinessReportScheduleInput) async throws -> UpdateBusinessReportScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3399,6 +3482,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates an existing conference provider's settings.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateConferenceProvider(input: UpdateConferenceProviderInput) async throws -> UpdateConferenceProviderOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3436,6 +3520,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates the contact details by the contact ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3473,6 +3558,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates the device name by device ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3510,6 +3596,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates the details of a gateway. If any optional field is not provided, the existing corresponding value is left unmodified.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateGateway(input: UpdateGatewayInput) async throws -> UpdateGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3547,6 +3634,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates the details of a gateway group. If any optional field is not provided, the existing corresponding value is left unmodified.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateGatewayGroup(input: UpdateGatewayGroupInput) async throws -> UpdateGatewayGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3584,6 +3672,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates a network profile by the network profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3621,6 +3710,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates an existing room profile by room profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3658,6 +3748,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates room details by room ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3695,6 +3786,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     }
 
     /// Updates skill group details by skill group ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateSkillGroup(input: UpdateSkillGroupInput) async throws -> UpdateSkillGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

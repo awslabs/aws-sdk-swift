@@ -29,7 +29,7 @@ public struct AbortMultipartUploadInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         uploadId: Swift.String? = nil,
         vaultName: Swift.String? = nil
@@ -46,46 +46,32 @@ struct AbortMultipartUploadInputBody: Swift.Equatable {
 
 extension AbortMultipartUploadInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension AbortMultipartUploadOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AbortMultipartUploadOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AbortMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AbortMultipartUploadOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AbortMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AbortMultipartUploadOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AbortVaultLockInput: ClientRuntime.URLPathProvider {
@@ -109,7 +95,7 @@ public struct AbortVaultLockInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -124,46 +110,32 @@ struct AbortVaultLockInputBody: Swift.Equatable {
 
 extension AbortVaultLockInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension AbortVaultLockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AbortVaultLockOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AbortVaultLockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AbortVaultLockOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AbortVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AbortVaultLockOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension GlacierClientTypes {
@@ -250,7 +222,7 @@ public struct AddTagsToVaultInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         vaultName: Swift.String? = nil
@@ -271,7 +243,7 @@ extension AddTagsToVaultInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -287,44 +259,29 @@ extension AddTagsToVaultInputBody: Swift.Decodable {
     }
 }
 
-extension AddTagsToVaultOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddTagsToVaultOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddTagsToVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddTagsToVaultOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case limitExceededException(LimitExceededException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddTagsToVaultOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AddTagsToVaultOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension GlacierClientTypes.CSVInput: Swift.Codable {
@@ -359,7 +316,7 @@ extension GlacierClientTypes.CSVInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileHeaderInfoDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.FileHeaderInfo.self, forKey: .fileHeaderInfo)
         fileHeaderInfo = fileHeaderInfoDecoded
@@ -392,7 +349,7 @@ extension GlacierClientTypes {
         /// A value used to separate individual records from each other.
         public var recordDelimiter: Swift.String?
 
-        public init (
+        public init(
             comments: Swift.String? = nil,
             fieldDelimiter: Swift.String? = nil,
             fileHeaderInfo: GlacierClientTypes.FileHeaderInfo? = nil,
@@ -440,7 +397,7 @@ extension GlacierClientTypes.CSVOutput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let quoteFieldsDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.QuoteFields.self, forKey: .quoteFields)
         quoteFields = quoteFieldsDecoded
@@ -469,7 +426,7 @@ extension GlacierClientTypes {
         /// A value used to separate individual records from each other.
         public var recordDelimiter: Swift.String?
 
-        public init (
+        public init(
             fieldDelimiter: Swift.String? = nil,
             quoteCharacter: Swift.String? = nil,
             quoteEscapeCharacter: Swift.String? = nil,
@@ -578,7 +535,7 @@ public struct CompleteMultipartUploadInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         archiveSize: Swift.String? = nil,
         checksum: Swift.String? = nil,
@@ -599,40 +556,26 @@ struct CompleteMultipartUploadInputBody: Swift.Equatable {
 
 extension CompleteMultipartUploadInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension CompleteMultipartUploadOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CompleteMultipartUploadOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CompleteMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CompleteMultipartUploadOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CompleteMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let archiveIdHeaderValue = httpResponse.headers.value(for: "x-amz-archive-id") {
             self.archiveId = archiveIdHeaderValue
         } else {
@@ -660,7 +603,7 @@ public struct CompleteMultipartUploadOutputResponse: Swift.Equatable {
     /// The relative URI path of the newly added archive resource.
     public var location: Swift.String?
 
-    public init (
+    public init(
         archiveId: Swift.String? = nil,
         checksum: Swift.String? = nil,
         location: Swift.String? = nil
@@ -699,7 +642,7 @@ public struct CompleteVaultLockInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         lockId: Swift.String? = nil,
         vaultName: Swift.String? = nil
@@ -716,46 +659,32 @@ struct CompleteVaultLockInputBody: Swift.Equatable {
 
 extension CompleteVaultLockInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension CompleteVaultLockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CompleteVaultLockOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CompleteVaultLockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CompleteVaultLockOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CompleteVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CompleteVaultLockOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateVaultInput: ClientRuntime.URLPathProvider {
@@ -779,7 +708,7 @@ public struct CreateVaultInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -794,40 +723,26 @@ struct CreateVaultInputBody: Swift.Equatable {
 
 extension CreateVaultInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension CreateVaultOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateVaultOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateVaultOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case limitExceededException(LimitExceededException)
-    case missingParameterValueException(MissingParameterValueException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateVaultOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             self.location = locationHeaderValue
         } else {
@@ -841,7 +756,7 @@ public struct CreateVaultOutputResponse: Swift.Equatable {
     /// The URI of the vault that was created.
     public var location: Swift.String?
 
-    public init (
+    public init(
         location: Swift.String? = nil
     )
     {
@@ -864,7 +779,7 @@ extension GlacierClientTypes.DataRetrievalPolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rulesContainer = try containerValues.decodeIfPresent([GlacierClientTypes.DataRetrievalRule?].self, forKey: .rules)
         var rulesDecoded0:[GlacierClientTypes.DataRetrievalRule]? = nil
@@ -886,7 +801,7 @@ extension GlacierClientTypes {
         /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
         public var rules: [GlacierClientTypes.DataRetrievalRule]?
 
-        public init (
+        public init(
             rules: [GlacierClientTypes.DataRetrievalRule]? = nil
         )
         {
@@ -912,7 +827,7 @@ extension GlacierClientTypes.DataRetrievalRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let strategyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .strategy)
         strategy = strategyDecoded
@@ -929,7 +844,7 @@ extension GlacierClientTypes {
         /// The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None
         public var strategy: Swift.String?
 
-        public init (
+        public init(
             bytesPerHour: Swift.Int? = nil,
             strategy: Swift.String? = nil
         )
@@ -968,7 +883,7 @@ public struct DeleteArchiveInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         archiveId: Swift.String? = nil,
         vaultName: Swift.String? = nil
@@ -985,46 +900,32 @@ struct DeleteArchiveInputBody: Swift.Equatable {
 
 extension DeleteArchiveInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteArchiveOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteArchiveOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteArchiveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteArchiveOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteArchiveOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteVaultAccessPolicyInput: ClientRuntime.URLPathProvider {
@@ -1048,7 +949,7 @@ public struct DeleteVaultAccessPolicyInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -1063,46 +964,32 @@ struct DeleteVaultAccessPolicyInputBody: Swift.Equatable {
 
 extension DeleteVaultAccessPolicyInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteVaultAccessPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteVaultAccessPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteVaultAccessPolicyOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteVaultAccessPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteVaultInput: ClientRuntime.URLPathProvider {
@@ -1126,7 +1013,7 @@ public struct DeleteVaultInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -1141,7 +1028,7 @@ struct DeleteVaultInputBody: Swift.Equatable {
 
 extension DeleteVaultInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -1166,7 +1053,7 @@ public struct DeleteVaultNotificationsInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -1181,84 +1068,56 @@ struct DeleteVaultNotificationsInputBody: Swift.Equatable {
 
 extension DeleteVaultNotificationsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteVaultNotificationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteVaultNotificationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteVaultNotificationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteVaultNotificationsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DeleteVaultOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteVaultOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteVaultOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteVaultOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteVaultOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeJobInput: ClientRuntime.URLPathProvider {
@@ -1288,7 +1147,7 @@ public struct DescribeJobInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         vaultName: Swift.String? = nil
@@ -1305,41 +1164,27 @@ struct DescribeJobInputBody: Swift.Equatable {
 
 extension DescribeJobInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeJobOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.action = output.action
@@ -1448,7 +1293,7 @@ public struct DescribeJobOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the vault from which an archive retrieval was requested.
     public var vaultARN: Swift.String?
 
-    public init (
+    public init(
         action: GlacierClientTypes.ActionCode? = nil,
         archiveId: Swift.String? = nil,
         archiveSHA256TreeHash: Swift.String? = nil,
@@ -1545,7 +1390,7 @@ extension DescribeJobOutputResponseBody: Swift.Decodable {
         case vaultARN = "VaultARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -1613,7 +1458,7 @@ public struct DescribeVaultInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -1628,7 +1473,7 @@ struct DescribeVaultInputBody: Swift.Equatable {
 
 extension DescribeVaultInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -1664,7 +1509,7 @@ extension GlacierClientTypes.DescribeVaultOutput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vaultARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vaultARN)
         vaultARN = vaultARNDecoded
@@ -1697,7 +1542,7 @@ extension GlacierClientTypes {
         /// The name of the vault.
         public var vaultName: Swift.String?
 
-        public init (
+        public init(
             creationDate: Swift.String? = nil,
             lastInventoryDate: Swift.String? = nil,
             numberOfArchives: Swift.Int = 0,
@@ -1717,52 +1562,23 @@ extension GlacierClientTypes {
 
 }
 
-extension DescribeVaultOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeVaultOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DescribeVaultOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .invalidParameterValueException: return "InvalidParameterValueException"
-        case .missingParameterValueException: return "MissingParameterValueException"
-        case .resourceNotFoundException: return "ResourceNotFoundException"
-        case .serviceUnavailableException: return "ServiceUnavailableException"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeVaultOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeVaultOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
@@ -1797,7 +1613,7 @@ public struct DescribeVaultOutputResponse: Swift.Equatable {
     /// The name of the vault.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         creationDate: Swift.String? = nil,
         lastInventoryDate: Swift.String? = nil,
         numberOfArchives: Swift.Int = 0,
@@ -1834,7 +1650,7 @@ extension DescribeVaultOutputResponseBody: Swift.Decodable {
         case vaultName = "VaultName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vaultARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vaultARN)
         vaultARN = vaultARNDecoded
@@ -1871,7 +1687,7 @@ extension GlacierClientTypes.Encryption: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let encryptionTypeDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.EncryptionType.self, forKey: .encryptionType)
         encryptionType = encryptionTypeDecoded
@@ -1892,7 +1708,7 @@ extension GlacierClientTypes {
         /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4.
         public var kmsKeyId: Swift.String?
 
-        public init (
+        public init(
             encryptionType: GlacierClientTypes.EncryptionType? = nil,
             kmsContext: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil
@@ -2017,7 +1833,7 @@ public struct GetDataRetrievalPolicyInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil
     )
     {
@@ -2030,39 +1846,26 @@ struct GetDataRetrievalPolicyInputBody: Swift.Equatable {
 
 extension GetDataRetrievalPolicyInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDataRetrievalPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDataRetrievalPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDataRetrievalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDataRetrievalPolicyOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDataRetrievalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDataRetrievalPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
@@ -2077,7 +1880,7 @@ public struct GetDataRetrievalPolicyOutputResponse: Swift.Equatable {
     /// Contains the returned data retrieval policy in JSON format.
     public var policy: GlacierClientTypes.DataRetrievalPolicy?
 
-    public init (
+    public init(
         policy: GlacierClientTypes.DataRetrievalPolicy? = nil
     )
     {
@@ -2094,7 +1897,7 @@ extension GetDataRetrievalPolicyOutputResponseBody: Swift.Decodable {
         case policy = "Policy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.DataRetrievalPolicy.self, forKey: .policy)
         policy = policyDecoded
@@ -2148,7 +1951,7 @@ public struct GetJobOutputInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         range: Swift.String? = nil,
@@ -2167,40 +1970,26 @@ struct GetJobOutputInputBody: Swift.Equatable {
 
 extension GetJobOutputInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetJobOutputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetJobOutputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetJobOutputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetJobOutputOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetJobOutputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let acceptRangesHeaderValue = httpResponse.headers.value(for: "Accept-Ranges") {
             self.acceptRanges = acceptRangesHeaderValue
         } else {
@@ -2261,7 +2050,7 @@ public struct GetJobOutputOutputResponse: Swift.Equatable {
     /// The HTTP response code for a job output request. The value depends on whether a range was specified in the request.
     public var status: Swift.Int
 
-    public init (
+    public init(
         acceptRanges: Swift.String? = nil,
         archiveDescription: Swift.String? = nil,
         body: ClientRuntime.ByteStream? = nil,
@@ -2292,7 +2081,7 @@ extension GetJobOutputOutputResponseBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
         body = bodyDecoded
@@ -2322,7 +2111,7 @@ public struct GetVaultAccessPolicyInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -2337,41 +2126,27 @@ struct GetVaultAccessPolicyInputBody: Swift.Equatable {
 
 extension GetVaultAccessPolicyInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetVaultAccessPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetVaultAccessPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetVaultAccessPolicyOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: GlacierClientTypes.VaultAccessPolicy = try responseDecoder.decode(responseBody: data)
             self.policy = output
         } else {
@@ -2385,7 +2160,7 @@ public struct GetVaultAccessPolicyOutputResponse: Swift.Equatable {
     /// Contains the returned vault access policy as a JSON string.
     public var policy: GlacierClientTypes.VaultAccessPolicy?
 
-    public init (
+    public init(
         policy: GlacierClientTypes.VaultAccessPolicy? = nil
     )
     {
@@ -2402,7 +2177,7 @@ extension GetVaultAccessPolicyOutputResponseBody: Swift.Decodable {
         case policy
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.VaultAccessPolicy.self, forKey: .policy)
         policy = policyDecoded
@@ -2430,7 +2205,7 @@ public struct GetVaultLockInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -2445,41 +2220,27 @@ struct GetVaultLockInputBody: Swift.Equatable {
 
 extension GetVaultLockInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetVaultLockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetVaultLockOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetVaultLockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetVaultLockOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetVaultLockOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
@@ -2506,7 +2267,7 @@ public struct GetVaultLockOutputResponse: Swift.Equatable {
     /// The state of the vault lock. InProgress or Locked.
     public var state: Swift.String?
 
-    public init (
+    public init(
         creationDate: Swift.String? = nil,
         expirationDate: Swift.String? = nil,
         policy: Swift.String? = nil,
@@ -2535,7 +2296,7 @@ extension GetVaultLockOutputResponseBody: Swift.Decodable {
         case state = "State"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
@@ -2569,7 +2330,7 @@ public struct GetVaultNotificationsInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -2584,41 +2345,27 @@ struct GetVaultNotificationsInputBody: Swift.Equatable {
 
 extension GetVaultNotificationsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetVaultNotificationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetVaultNotificationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetVaultNotificationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: GlacierClientTypes.VaultNotificationConfig = try responseDecoder.decode(responseBody: data)
             self.vaultNotificationConfig = output
         } else {
@@ -2632,7 +2379,7 @@ public struct GetVaultNotificationsOutputResponse: Swift.Equatable {
     /// Returns the notification configuration set on the vault.
     public var vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig?
 
-    public init (
+    public init(
         vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig? = nil
     )
     {
@@ -2649,7 +2396,7 @@ extension GetVaultNotificationsOutputResponseBody: Swift.Decodable {
         case vaultNotificationConfig
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vaultNotificationConfigDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.VaultNotificationConfig.self, forKey: .vaultNotificationConfig)
         vaultNotificationConfig = vaultNotificationConfigDecoded
@@ -2748,7 +2495,7 @@ extension GlacierClientTypes.GlacierJobDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -2855,7 +2602,7 @@ extension GlacierClientTypes {
         /// The Amazon Resource Name (ARN) of the vault from which an archive retrieval was requested.
         public var vaultARN: Swift.String?
 
-        public init (
+        public init(
             action: GlacierClientTypes.ActionCode? = nil,
             archiveId: Swift.String? = nil,
             archiveSHA256TreeHash: Swift.String? = nil,
@@ -2921,7 +2668,7 @@ extension GlacierClientTypes.Grant: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let granteeDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.Grantee.self, forKey: .grantee)
         grantee = granteeDecoded
@@ -2938,7 +2685,7 @@ extension GlacierClientTypes {
         /// Specifies the permission given to the grantee.
         public var permission: GlacierClientTypes.Permission?
 
-        public init (
+        public init(
             grantee: GlacierClientTypes.Grantee? = nil,
             permission: GlacierClientTypes.Permission? = nil
         )
@@ -2978,7 +2725,7 @@ extension GlacierClientTypes.Grantee: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.ModelType.self, forKey: .type)
         type = typeDecoded
@@ -3008,7 +2755,7 @@ extension GlacierClientTypes {
         /// URI of the grantee group.
         public var uri: Swift.String?
 
-        public init (
+        public init(
             displayName: Swift.String? = nil,
             emailAddress: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -3054,7 +2801,7 @@ public struct InitiateJobInputBodyMiddleware: ClientRuntime.Middleware {
                 }
             }
         } catch let err {
-            throw SdkError<InitiateJobOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -3100,7 +2847,7 @@ public struct InitiateJobInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         jobParameters: GlacierClientTypes.JobParameters? = nil,
         vaultName: Swift.String? = nil
@@ -3121,47 +2868,31 @@ extension InitiateJobInputBody: Swift.Decodable {
         case jobParameters
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobParametersDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.JobParameters.self, forKey: .jobParameters)
         jobParameters = jobParametersDecoded
     }
 }
 
-extension InitiateJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension InitiateJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientCapacityException" : self = .insufficientCapacityException(try InsufficientCapacityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PolicyEnforcedException" : self = .policyEnforcedException(try PolicyEnforcedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum InitiateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InsufficientCapacityException": return try await InsufficientCapacityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PolicyEnforcedException": return try await PolicyEnforcedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum InitiateJobOutputError: Swift.Error, Swift.Equatable {
-    case insufficientCapacityException(InsufficientCapacityException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case policyEnforcedException(PolicyEnforcedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension InitiateJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let jobIdHeaderValue = httpResponse.headers.value(for: "x-amz-job-id") {
             self.jobId = jobIdHeaderValue
         } else {
@@ -3189,7 +2920,7 @@ public struct InitiateJobOutputResponse: Swift.Equatable {
     /// The relative URI path of the job.
     public var location: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil,
         jobOutputPath: Swift.String? = nil,
         location: Swift.String? = nil
@@ -3239,7 +2970,7 @@ public struct InitiateMultipartUploadInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         archiveDescription: Swift.String? = nil,
         partSize: Swift.String? = nil,
@@ -3258,40 +2989,26 @@ struct InitiateMultipartUploadInputBody: Swift.Equatable {
 
 extension InitiateMultipartUploadInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension InitiateMultipartUploadOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension InitiateMultipartUploadOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum InitiateMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum InitiateMultipartUploadOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension InitiateMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             self.location = locationHeaderValue
         } else {
@@ -3312,7 +3029,7 @@ public struct InitiateMultipartUploadOutputResponse: Swift.Equatable {
     /// The ID of the multipart upload. This value is also included as part of the location.
     public var uploadId: Swift.String?
 
-    public init (
+    public init(
         location: Swift.String? = nil,
         uploadId: Swift.String? = nil
     )
@@ -3350,7 +3067,7 @@ public struct InitiateVaultLockInputBodyMiddleware: ClientRuntime.Middleware {
                 }
             }
         } catch let err {
-            throw SdkError<InitiateVaultLockOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -3396,7 +3113,7 @@ public struct InitiateVaultLockInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         policy: GlacierClientTypes.VaultLockPolicy? = nil,
         vaultName: Swift.String? = nil
@@ -3417,43 +3134,29 @@ extension InitiateVaultLockInputBody: Swift.Decodable {
         case policy
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.VaultLockPolicy.self, forKey: .policy)
         policy = policyDecoded
     }
 }
 
-extension InitiateVaultLockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension InitiateVaultLockOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum InitiateVaultLockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum InitiateVaultLockOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension InitiateVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let lockIdHeaderValue = httpResponse.headers.value(for: "x-amz-lock-id") {
             self.lockId = lockIdHeaderValue
         } else {
@@ -3467,7 +3170,7 @@ public struct InitiateVaultLockOutputResponse: Swift.Equatable {
     /// The lock ID, which is used to complete the vault locking process.
     public var lockId: Swift.String?
 
-    public init (
+    public init(
         lockId: Swift.String? = nil
     )
     {
@@ -3487,7 +3190,7 @@ extension GlacierClientTypes.InputSerialization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let csvDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.CSVInput.self, forKey: .csv)
         csv = csvDecoded
@@ -3500,7 +3203,7 @@ extension GlacierClientTypes {
         /// Describes the serialization of a CSV-encoded object.
         public var csv: GlacierClientTypes.CSVInput?
 
-        public init (
+        public init(
             csv: GlacierClientTypes.CSVInput? = nil
         )
         {
@@ -3511,47 +3214,51 @@ extension GlacierClientTypes {
 }
 
 extension InsufficientCapacityException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InsufficientCapacityExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.type = output.type
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.type = output.type
         } else {
-            self.code = nil
-            self.message = nil
-            self.type = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.type = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if there is insufficient capacity to process this expedited request. This error only applies to expedited retrievals and not to standard or bulk retrievals.
-public struct InsufficientCapacityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: Swift.String?
-    public var message: Swift.String?
-    public var type: Swift.String?
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientCapacityException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.type = type
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -3568,7 +3275,7 @@ extension InsufficientCapacityExceptionBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -3580,50 +3287,54 @@ extension InsufficientCapacityExceptionBody: Swift.Decodable {
 }
 
 extension InvalidParameterValueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.type = output.type
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.type = output.type
         } else {
-            self.code = nil
-            self.message = nil
-            self.type = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.type = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if a parameter of the request is incorrectly specified.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// 400 Bad Request
-    public var code: Swift.String?
-    /// Returned if a parameter of the request is incorrectly specified.
-    public var message: Swift.String?
-    /// Client
-    public var type: Swift.String?
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// 400 Bad Request
+        public internal(set) var code: Swift.String? = nil
+        /// Returned if a parameter of the request is incorrectly specified.
+        public internal(set) var message: Swift.String? = nil
+        /// Client
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterValueException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.type = type
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -3640,7 +3351,7 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -3679,7 +3390,7 @@ extension GlacierClientTypes.InventoryRetrievalJobDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
         format = formatDecoded
@@ -3708,7 +3419,7 @@ extension GlacierClientTypes {
         /// The start of the date range in Universal Coordinated Time (UTC) for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public var startDate: Swift.String?
 
-        public init (
+        public init(
             endDate: Swift.String? = nil,
             format: Swift.String? = nil,
             limit: Swift.String? = nil,
@@ -3750,7 +3461,7 @@ extension GlacierClientTypes.InventoryRetrievalJobInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startDate)
         startDate = startDateDecoded
@@ -3775,7 +3486,7 @@ extension GlacierClientTypes {
         /// The start of the date range in UTC for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public var startDate: Swift.String?
 
-        public init (
+        public init(
             endDate: Swift.String? = nil,
             limit: Swift.String? = nil,
             marker: Swift.String? = nil,
@@ -3839,7 +3550,7 @@ extension GlacierClientTypes.JobParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
         format = formatDecoded
@@ -3888,7 +3599,7 @@ extension GlacierClientTypes {
         /// The job type. You can initiate a job to perform a select query on an archive, retrieve an archive, or get an inventory of a vault. Valid values are "select", "archive-retrieval" and "inventory-retrieval".
         public var type: Swift.String?
 
-        public init (
+        public init(
             archiveId: Swift.String? = nil,
             description: Swift.String? = nil,
             format: Swift.String? = nil,
@@ -3917,50 +3628,54 @@ extension GlacierClientTypes {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.type = output.type
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.type = output.type
         } else {
-            self.code = nil
-            self.message = nil
-            self.type = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.type = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if the request results in a vault or account limit being exceeded.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// 400 Bad Request
-    public var code: Swift.String?
-    /// Returned if the request results in a vault limit or tags limit being exceeded.
-    public var message: Swift.String?
-    /// Client
-    public var type: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// 400 Bad Request
+        public internal(set) var code: Swift.String? = nil
+        /// Returned if the request results in a vault limit or tags limit being exceeded.
+        public internal(set) var message: Swift.String? = nil
+        /// Client
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.type = type
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -3977,7 +3692,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -4042,7 +3757,7 @@ public struct ListJobsInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         completed: Swift.String? = nil,
         limit: Swift.Int? = nil,
@@ -4065,41 +3780,27 @@ struct ListJobsInputBody: Swift.Equatable {
 
 extension ListJobsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListJobsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobList = output.jobList
@@ -4118,7 +3819,7 @@ public struct ListJobsOutputResponse: Swift.Equatable {
     /// An opaque string used for pagination that specifies the job at which the listing of jobs should begin. You get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of the results started in a previous List Jobs request.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         jobList: [GlacierClientTypes.GlacierJobDescription]? = nil,
         marker: Swift.String? = nil
     )
@@ -4139,7 +3840,7 @@ extension ListJobsOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobListContainer = try containerValues.decodeIfPresent([GlacierClientTypes.GlacierJobDescription?].self, forKey: .jobList)
         var jobListDecoded0:[GlacierClientTypes.GlacierJobDescription]? = nil
@@ -4199,7 +3900,7 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
@@ -4218,41 +3919,27 @@ struct ListMultipartUploadsInputBody: Swift.Equatable {
 
 extension ListMultipartUploadsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListMultipartUploadsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListMultipartUploadsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListMultipartUploadsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListMultipartUploadsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListMultipartUploadsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMultipartUploadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -4271,7 +3958,7 @@ public struct ListMultipartUploadsOutputResponse: Swift.Equatable {
     /// A list of in-progress multipart uploads.
     public var uploadsList: [GlacierClientTypes.UploadListElement]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         uploadsList: [GlacierClientTypes.UploadListElement]? = nil
     )
@@ -4292,7 +3979,7 @@ extension ListMultipartUploadsOutputResponseBody: Swift.Decodable {
         case uploadsList = "UploadsList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let uploadsListContainer = try containerValues.decodeIfPresent([GlacierClientTypes.UploadListElement?].self, forKey: .uploadsList)
         var uploadsListDecoded0:[GlacierClientTypes.UploadListElement]? = nil
@@ -4358,7 +4045,7 @@ public struct ListPartsInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
@@ -4379,41 +4066,27 @@ struct ListPartsInputBody: Swift.Equatable {
 
 extension ListPartsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListPartsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListPartsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListPartsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListPartsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListPartsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListPartsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.archiveDescription = output.archiveDescription
@@ -4452,7 +4125,7 @@ public struct ListPartsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the vault to which the multipart upload was initiated.
     public var vaultARN: Swift.String?
 
-    public init (
+    public init(
         archiveDescription: Swift.String? = nil,
         creationDate: Swift.String? = nil,
         marker: Swift.String? = nil,
@@ -4493,7 +4166,7 @@ extension ListPartsOutputResponseBody: Swift.Decodable {
         case vaultARN = "VaultARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multipartUploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .multipartUploadId)
         multipartUploadId = multipartUploadIdDecoded
@@ -4535,7 +4208,7 @@ public struct ListProvisionedCapacityInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil
     )
     {
@@ -4548,39 +4221,26 @@ struct ListProvisionedCapacityInputBody: Swift.Equatable {
 
 extension ListProvisionedCapacityInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListProvisionedCapacityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListProvisionedCapacityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListProvisionedCapacityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListProvisionedCapacityOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListProvisionedCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListProvisionedCapacityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.provisionedCapacityList = output.provisionedCapacityList
@@ -4594,7 +4254,7 @@ public struct ListProvisionedCapacityOutputResponse: Swift.Equatable {
     /// The response body contains the following JSON fields.
     public var provisionedCapacityList: [GlacierClientTypes.ProvisionedCapacityDescription]?
 
-    public init (
+    public init(
         provisionedCapacityList: [GlacierClientTypes.ProvisionedCapacityDescription]? = nil
     )
     {
@@ -4611,7 +4271,7 @@ extension ListProvisionedCapacityOutputResponseBody: Swift.Decodable {
         case provisionedCapacityList = "ProvisionedCapacityList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let provisionedCapacityListContainer = try containerValues.decodeIfPresent([GlacierClientTypes.ProvisionedCapacityDescription?].self, forKey: .provisionedCapacityList)
         var provisionedCapacityListDecoded0:[GlacierClientTypes.ProvisionedCapacityDescription]? = nil
@@ -4648,7 +4308,7 @@ public struct ListTagsForVaultInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -4663,41 +4323,27 @@ struct ListTagsForVaultInputBody: Swift.Equatable {
 
 extension ListTagsForVaultInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForVaultOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForVaultOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForVaultOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForVaultOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -4712,7 +4358,7 @@ public struct ListTagsForVaultOutputResponse: Swift.Equatable {
     /// The tags attached to the vault. Each tag is composed of a key and a value.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -4729,7 +4375,7 @@ extension ListTagsForVaultOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -4781,7 +4427,7 @@ public struct ListVaultsInput: Swift.Equatable {
     /// A string used for pagination. The marker specifies the vault ARN after which the listing of vaults should begin.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
@@ -4798,41 +4444,27 @@ struct ListVaultsInputBody: Swift.Equatable {
 
 extension ListVaultsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListVaultsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListVaultsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListVaultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListVaultsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListVaultsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListVaultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -4851,7 +4483,7 @@ public struct ListVaultsOutputResponse: Swift.Equatable {
     /// List of vaults.
     public var vaultList: [GlacierClientTypes.DescribeVaultOutput]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         vaultList: [GlacierClientTypes.DescribeVaultOutput]? = nil
     )
@@ -4872,7 +4504,7 @@ extension ListVaultsOutputResponseBody: Swift.Decodable {
         case vaultList = "VaultList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vaultListContainer = try containerValues.decodeIfPresent([GlacierClientTypes.DescribeVaultOutput?].self, forKey: .vaultList)
         var vaultListDecoded0:[GlacierClientTypes.DescribeVaultOutput]? = nil
@@ -4891,50 +4523,54 @@ extension ListVaultsOutputResponseBody: Swift.Decodable {
 }
 
 extension MissingParameterValueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MissingParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.type = output.type
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.type = output.type
         } else {
-            self.code = nil
-            self.message = nil
-            self.type = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.type = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if a required header or parameter is missing from the request.
-public struct MissingParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// 400 Bad Request
-    public var code: Swift.String?
-    /// Returned if no authentication data is found for the request.
-    public var message: Swift.String?
-    /// Client.
-    public var type: Swift.String?
+public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// 400 Bad Request
+        public internal(set) var code: Swift.String? = nil
+        /// Returned if no authentication data is found for the request.
+        public internal(set) var message: Swift.String? = nil
+        /// Client.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MissingParameterValueException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.type = type
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -4951,7 +4587,7 @@ extension MissingParameterValueExceptionBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -4974,7 +4610,7 @@ extension GlacierClientTypes.OutputLocation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3Decoded = try containerValues.decodeIfPresent(GlacierClientTypes.S3Location.self, forKey: .s3)
         s3 = s3Decoded
@@ -4987,7 +4623,7 @@ extension GlacierClientTypes {
         /// Describes an S3 location that will receive the results of the job request.
         public var s3: GlacierClientTypes.S3Location?
 
-        public init (
+        public init(
             s3: GlacierClientTypes.S3Location? = nil
         )
         {
@@ -5009,7 +4645,7 @@ extension GlacierClientTypes.OutputSerialization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let csvDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.CSVOutput.self, forKey: .csv)
         csv = csvDecoded
@@ -5022,7 +4658,7 @@ extension GlacierClientTypes {
         /// Describes the serialization of CSV-encoded query results.
         public var csv: GlacierClientTypes.CSVOutput?
 
-        public init (
+        public init(
             csv: GlacierClientTypes.CSVOutput? = nil
         )
         {
@@ -5048,7 +4684,7 @@ extension GlacierClientTypes.PartListElement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rangeInBytesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rangeInBytes)
         rangeInBytes = rangeInBytesDecoded
@@ -5065,7 +4701,7 @@ extension GlacierClientTypes {
         /// The SHA256 tree hash value that Amazon S3 Glacier calculated for the part. This field is never null.
         public var sha256TreeHash: Swift.String?
 
-        public init (
+        public init(
             rangeInBytes: Swift.String? = nil,
             sha256TreeHash: Swift.String? = nil
         )
@@ -5119,50 +4755,54 @@ extension GlacierClientTypes {
 }
 
 extension PolicyEnforcedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PolicyEnforcedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.type = output.type
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.type = output.type
         } else {
-            self.code = nil
-            self.message = nil
-            self.type = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.type = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
-public struct PolicyEnforcedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// PolicyEnforcedException
-    public var code: Swift.String?
-    /// InitiateJob request denied by current data retrieval policy.
-    public var message: Swift.String?
-    /// Client
-    public var type: Swift.String?
+public struct PolicyEnforcedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// PolicyEnforcedException
+        public internal(set) var code: Swift.String? = nil
+        /// InitiateJob request denied by current data retrieval policy.
+        public internal(set) var message: Swift.String? = nil
+        /// Client
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PolicyEnforcedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.type = type
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -5179,7 +4819,7 @@ extension PolicyEnforcedExceptionBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -5210,7 +4850,7 @@ extension GlacierClientTypes.ProvisionedCapacityDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let capacityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityId)
         capacityId = capacityIdDecoded
@@ -5231,7 +4871,7 @@ extension GlacierClientTypes {
         /// The date that the provisioned capacity unit was purchased, in Universal Coordinated Time (UTC).
         public var startDate: Swift.String?
 
-        public init (
+        public init(
             capacityId: Swift.String? = nil,
             expirationDate: Swift.String? = nil,
             startDate: Swift.String? = nil
@@ -5259,7 +4899,7 @@ public struct PurchaseProvisionedCapacityInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil
     )
     {
@@ -5272,40 +4912,26 @@ struct PurchaseProvisionedCapacityInputBody: Swift.Equatable {
 
 extension PurchaseProvisionedCapacityInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension PurchaseProvisionedCapacityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PurchaseProvisionedCapacityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PurchaseProvisionedCapacityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PurchaseProvisionedCapacityOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case limitExceededException(LimitExceededException)
-    case missingParameterValueException(MissingParameterValueException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PurchaseProvisionedCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let capacityIdHeaderValue = httpResponse.headers.value(for: "x-amz-capacity-id") {
             self.capacityId = capacityIdHeaderValue
         } else {
@@ -5318,7 +4944,7 @@ public struct PurchaseProvisionedCapacityOutputResponse: Swift.Equatable {
     /// The ID that identifies the provisioned capacity unit.
     public var capacityId: Swift.String?
 
-    public init (
+    public init(
         capacityId: Swift.String? = nil
     )
     {
@@ -5407,7 +5033,7 @@ public struct RemoveTagsFromVaultInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil,
         vaultName: Swift.String? = nil
@@ -5428,7 +5054,7 @@ extension RemoveTagsFromVaultInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagKeys)
         var tagKeysDecoded0:[Swift.String]? = nil
@@ -5444,89 +5070,79 @@ extension RemoveTagsFromVaultInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveTagsFromVaultOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RemoveTagsFromVaultOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveTagsFromVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RemoveTagsFromVaultOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveTagsFromVaultOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RemoveTagsFromVaultOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RequestTimeoutException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RequestTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.type = output.type
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.type = output.type
         } else {
-            self.code = nil
-            self.message = nil
-            self.type = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.type = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
-public struct RequestTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// 408 Request Timeout
-    public var code: Swift.String?
-    /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
-    public var message: Swift.String?
-    /// Client
-    public var type: Swift.String?
+public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// 408 Request Timeout
+        public internal(set) var code: Swift.String? = nil
+        /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
+        public internal(set) var message: Swift.String? = nil
+        /// Client
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RequestTimeoutException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.type = type
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -5543,7 +5159,7 @@ extension RequestTimeoutExceptionBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -5555,50 +5171,54 @@ extension RequestTimeoutExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.type = output.type
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.type = output.type
         } else {
-            self.code = nil
-            self.message = nil
-            self.type = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.type = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// 404 Not Found
-    public var code: Swift.String?
-    /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
-    public var message: Swift.String?
-    /// Client
-    public var type: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// 404 Not Found
+        public internal(set) var code: Swift.String? = nil
+        /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
+        public internal(set) var message: Swift.String? = nil
+        /// Client
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.type = type
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -5615,7 +5235,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -5675,7 +5295,7 @@ extension GlacierClientTypes.S3Location: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -5743,7 +5363,7 @@ extension GlacierClientTypes {
         /// A map of metadata to store with the job results in Amazon S3.
         public var userMetadata: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             accessControlList: [GlacierClientTypes.Grant]? = nil,
             bucketName: Swift.String? = nil,
             cannedACL: GlacierClientTypes.CannedACL? = nil,
@@ -5791,7 +5411,7 @@ extension GlacierClientTypes.SelectParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputSerializationDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.InputSerialization.self, forKey: .inputSerialization)
         inputSerialization = inputSerializationDecoded
@@ -5816,7 +5436,7 @@ extension GlacierClientTypes {
         /// Describes how the results of the select job are serialized.
         public var outputSerialization: GlacierClientTypes.OutputSerialization?
 
-        public init (
+        public init(
             expression: Swift.String? = nil,
             expressionType: GlacierClientTypes.ExpressionType? = nil,
             inputSerialization: GlacierClientTypes.InputSerialization? = nil,
@@ -5833,50 +5453,54 @@ extension GlacierClientTypes {
 }
 
 extension ServiceUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.type = output.type
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.type = output.type
         } else {
-            self.code = nil
-            self.message = nil
-            self.type = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.type = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if the service cannot complete the request.
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// 500 Internal Server Error
-    public var code: Swift.String?
-    /// Returned if the service cannot complete the request.
-    public var message: Swift.String?
-    /// Server
-    public var type: Swift.String?
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// 500 Internal Server Error
+        public internal(set) var code: Swift.String? = nil
+        /// Returned if the service cannot complete the request.
+        public internal(set) var message: Swift.String? = nil
+        /// Server
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.type = type
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -5893,7 +5517,7 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -5934,7 +5558,7 @@ public struct SetDataRetrievalPolicyInput: Swift.Equatable {
     /// The data retrieval policy in JSON format.
     public var policy: GlacierClientTypes.DataRetrievalPolicy?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         policy: GlacierClientTypes.DataRetrievalPolicy? = nil
     )
@@ -5953,47 +5577,34 @@ extension SetDataRetrievalPolicyInputBody: Swift.Decodable {
         case policy = "Policy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.DataRetrievalPolicy.self, forKey: .policy)
         policy = policyDecoded
     }
 }
 
-extension SetDataRetrievalPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SetDataRetrievalPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetDataRetrievalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SetDataRetrievalPolicyOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetDataRetrievalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetDataRetrievalPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 public struct SetVaultAccessPolicyInputBodyMiddleware: ClientRuntime.Middleware {
@@ -6024,7 +5635,7 @@ public struct SetVaultAccessPolicyInputBodyMiddleware: ClientRuntime.Middleware 
                 }
             }
         } catch let err {
-            throw SdkError<SetVaultAccessPolicyOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -6070,7 +5681,7 @@ public struct SetVaultAccessPolicyInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         policy: GlacierClientTypes.VaultAccessPolicy? = nil,
         vaultName: Swift.String? = nil
@@ -6091,49 +5702,35 @@ extension SetVaultAccessPolicyInputBody: Swift.Decodable {
         case policy
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.VaultAccessPolicy.self, forKey: .policy)
         policy = policyDecoded
     }
 }
 
-extension SetVaultAccessPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SetVaultAccessPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SetVaultAccessPolicyOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetVaultAccessPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 public struct SetVaultNotificationsInputBodyMiddleware: ClientRuntime.Middleware {
@@ -6164,7 +5761,7 @@ public struct SetVaultNotificationsInputBodyMiddleware: ClientRuntime.Middleware
                 }
             }
         } catch let err {
-            throw SdkError<SetVaultNotificationsOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -6210,7 +5807,7 @@ public struct SetVaultNotificationsInput: Swift.Equatable {
     /// Provides options for specifying notification configuration.
     public var vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil,
         vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig? = nil
@@ -6231,49 +5828,35 @@ extension SetVaultNotificationsInputBody: Swift.Decodable {
         case vaultNotificationConfig
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vaultNotificationConfigDecoded = try containerValues.decodeIfPresent(GlacierClientTypes.VaultNotificationConfig.self, forKey: .vaultNotificationConfig)
         vaultNotificationConfig = vaultNotificationConfigDecoded
     }
 }
 
-extension SetVaultNotificationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SetVaultNotificationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SetVaultNotificationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetVaultNotificationsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension GlacierClientTypes {
@@ -6459,7 +6042,7 @@ public struct UploadArchiveInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         archiveDescription: Swift.String? = nil,
         body: ClientRuntime.ByteStream? = nil,
@@ -6484,45 +6067,30 @@ extension UploadArchiveInputBody: Swift.Decodable {
         case body
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
         body = bodyDecoded
     }
 }
 
-extension UploadArchiveOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UploadArchiveOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestTimeoutException" : self = .requestTimeoutException(try RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UploadArchiveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestTimeoutException": return try await RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UploadArchiveOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case requestTimeoutException(RequestTimeoutException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UploadArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let archiveIdHeaderValue = httpResponse.headers.value(for: "x-amz-archive-id") {
             self.archiveId = archiveIdHeaderValue
         } else {
@@ -6550,7 +6118,7 @@ public struct UploadArchiveOutputResponse: Swift.Equatable {
     /// The relative URI path of the newly added archive resource.
     public var location: Swift.String?
 
-    public init (
+    public init(
         archiveId: Swift.String? = nil,
         checksum: Swift.String? = nil,
         location: Swift.String? = nil
@@ -6590,7 +6158,7 @@ extension GlacierClientTypes.UploadListElement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let multipartUploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .multipartUploadId)
         multipartUploadId = multipartUploadIdDecoded
@@ -6619,7 +6187,7 @@ extension GlacierClientTypes {
         /// The Amazon Resource Name (ARN) of the vault that contains the archive.
         public var vaultARN: Swift.String?
 
-        public init (
+        public init(
             archiveDescription: Swift.String? = nil,
             creationDate: Swift.String? = nil,
             multipartUploadId: Swift.String? = nil,
@@ -6721,7 +6289,7 @@ public struct UploadMultipartPartInput: Swift.Equatable {
     /// This member is required.
     public var vaultName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         body: ClientRuntime.ByteStream? = nil,
         checksum: Swift.String? = nil,
@@ -6748,45 +6316,30 @@ extension UploadMultipartPartInputBody: Swift.Decodable {
         case body
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
         body = bodyDecoded
     }
 }
 
-extension UploadMultipartPartOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UploadMultipartPartOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestTimeoutException" : self = .requestTimeoutException(try RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UploadMultipartPartOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestTimeoutException": return try await RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UploadMultipartPartOutputError: Swift.Error, Swift.Equatable {
-    case invalidParameterValueException(InvalidParameterValueException)
-    case missingParameterValueException(MissingParameterValueException)
-    case requestTimeoutException(RequestTimeoutException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UploadMultipartPartOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let checksumHeaderValue = httpResponse.headers.value(for: "x-amz-sha256-tree-hash") {
             self.checksum = checksumHeaderValue
         } else {
@@ -6800,7 +6353,7 @@ public struct UploadMultipartPartOutputResponse: Swift.Equatable {
     /// The SHA256 tree hash that Amazon S3 Glacier computed for the uploaded part.
     public var checksum: Swift.String?
 
-    public init (
+    public init(
         checksum: Swift.String? = nil
     )
     {
@@ -6820,7 +6373,7 @@ extension GlacierClientTypes.VaultAccessPolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
@@ -6833,7 +6386,7 @@ extension GlacierClientTypes {
         /// The vault access policy.
         public var policy: Swift.String?
 
-        public init (
+        public init(
             policy: Swift.String? = nil
         )
         {
@@ -6855,7 +6408,7 @@ extension GlacierClientTypes.VaultLockPolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
@@ -6868,7 +6421,7 @@ extension GlacierClientTypes {
         /// The vault lock policy.
         public var policy: Swift.String?
 
-        public init (
+        public init(
             policy: Swift.String? = nil
         )
         {
@@ -6897,7 +6450,7 @@ extension GlacierClientTypes.VaultNotificationConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snsTopicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snsTopic)
         snsTopic = snsTopicDecoded
@@ -6923,7 +6476,7 @@ extension GlacierClientTypes {
         /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).
         public var snsTopic: Swift.String?
 
-        public init (
+        public init(
             events: [Swift.String]? = nil,
             snsTopic: Swift.String? = nil
         )

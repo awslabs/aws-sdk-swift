@@ -69,6 +69,27 @@ extension ListCalculationExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
+    /// Paginate over `[ListCapacityReservationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCapacityReservationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCapacityReservationsOutputResponse`
+    public func listCapacityReservationsPaginated(input: ListCapacityReservationsInput) -> ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse>(input: input, inputKey: \ListCapacityReservationsInput.nextToken, outputKey: \ListCapacityReservationsOutputResponse.nextToken, paginationFunction: self.listCapacityReservations(input:))
+    }
+}
+
+extension ListCapacityReservationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCapacityReservationsInput {
+        return ListCapacityReservationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension AthenaClient {
     /// Paginate over `[ListDatabasesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

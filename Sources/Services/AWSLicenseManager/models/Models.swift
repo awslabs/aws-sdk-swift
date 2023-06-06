@@ -26,7 +26,7 @@ public struct AcceptGrantInput: Swift.Equatable {
     /// This member is required.
     public var grantArn: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil
     )
     {
@@ -43,50 +43,33 @@ extension AcceptGrantInputBody: Swift.Decodable {
         case grantArn = "GrantArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
     }
 }
 
-extension AcceptGrantOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AcceptGrantOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AcceptGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AcceptGrantOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AcceptGrantOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AcceptGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
@@ -108,7 +91,7 @@ public struct AcceptGrantOutputResponse: Swift.Equatable {
     /// Grant version.
     public var version: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
@@ -133,7 +116,7 @@ extension AcceptGrantOutputResponseBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
@@ -145,37 +128,41 @@ extension AcceptGrantOutputResponseBody: Swift.Decodable {
 }
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Access to resource denied.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceAccessDenied" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -188,7 +175,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -275,37 +262,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension AuthorizationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AuthorizationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
-public struct AuthorizationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AuthorizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AuthorizationFailure" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -318,7 +309,7 @@ extension AuthorizationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -337,7 +328,7 @@ extension LicenseManagerClientTypes.AutomatedDiscoveryInformation: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lastRunTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRunTime)
         lastRunTime = lastRunTimeDecoded
@@ -350,7 +341,7 @@ extension LicenseManagerClientTypes {
         /// Time that automated discovery last ran.
         public var lastRunTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             lastRunTime: ClientRuntime.Date? = nil
         )
         {
@@ -376,7 +367,7 @@ extension LicenseManagerClientTypes.BorrowConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let allowEarlyCheckInDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowEarlyCheckIn)
         allowEarlyCheckIn = allowEarlyCheckInDecoded
@@ -395,7 +386,7 @@ extension LicenseManagerClientTypes {
         /// This member is required.
         public var maxTimeToLiveInMinutes: Swift.Int?
 
-        public init (
+        public init(
             allowEarlyCheckIn: Swift.Bool? = nil,
             maxTimeToLiveInMinutes: Swift.Int? = nil
         )
@@ -437,7 +428,7 @@ public struct CheckInLicenseInput: Swift.Equatable {
     /// This member is required.
     public var licenseConsumptionToken: Swift.String?
 
-    public init (
+    public init(
         beneficiary: Swift.String? = nil,
         licenseConsumptionToken: Swift.String? = nil
     )
@@ -458,7 +449,7 @@ extension CheckInLicenseInputBody: Swift.Decodable {
         case licenseConsumptionToken = "LicenseConsumptionToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConsumptionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConsumptionToken)
         licenseConsumptionToken = licenseConsumptionTokenDecoded
@@ -467,50 +458,32 @@ extension CheckInLicenseInputBody: Swift.Decodable {
     }
 }
 
-extension CheckInLicenseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CheckInLicenseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CheckInLicenseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CheckInLicenseOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case conflictException(ConflictException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CheckInLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CheckInLicenseOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CheckoutBorrowLicenseInput: Swift.Encodable {
@@ -576,7 +549,7 @@ public struct CheckoutBorrowLicenseInput: Swift.Equatable {
     /// Node ID.
     public var nodeId: Swift.String?
 
-    public init (
+    public init(
         checkoutMetadata: [LicenseManagerClientTypes.Metadata]? = nil,
         clientToken: Swift.String? = nil,
         digitalSignatureMethod: LicenseManagerClientTypes.DigitalSignatureMethod? = nil,
@@ -613,7 +586,7 @@ extension CheckoutBorrowLicenseInputBody: Swift.Decodable {
         case nodeId = "NodeId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -648,51 +621,30 @@ extension CheckoutBorrowLicenseInputBody: Swift.Decodable {
     }
 }
 
-extension CheckoutBorrowLicenseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CheckoutBorrowLicenseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EntitlementNotAllowedException" : self = .entitlementNotAllowedException(try EntitlementNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoEntitlementsAllowedException" : self = .noEntitlementsAllowedException(try NoEntitlementsAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedDigitalSignatureMethodException" : self = .unsupportedDigitalSignatureMethodException(try UnsupportedDigitalSignatureMethodException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CheckoutBorrowLicenseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntitlementNotAllowedException": return try await EntitlementNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoEntitlementsAllowedException": return try await NoEntitlementsAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RedirectException": return try await RedirectException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedDigitalSignatureMethodException": return try await UnsupportedDigitalSignatureMethodException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CheckoutBorrowLicenseOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case entitlementNotAllowedException(EntitlementNotAllowedException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noEntitlementsAllowedException(NoEntitlementsAllowedException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case redirectException(RedirectException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case unsupportedDigitalSignatureMethodException(UnsupportedDigitalSignatureMethodException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CheckoutBorrowLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CheckoutBorrowLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checkoutMetadata = output.checkoutMetadata
@@ -734,7 +686,7 @@ public struct CheckoutBorrowLicenseOutputResponse: Swift.Equatable {
     /// Signed token.
     public var signedToken: Swift.String?
 
-    public init (
+    public init(
         checkoutMetadata: [LicenseManagerClientTypes.Metadata]? = nil,
         entitlementsAllowed: [LicenseManagerClientTypes.EntitlementData]? = nil,
         expiration: Swift.String? = nil,
@@ -779,7 +731,7 @@ extension CheckoutBorrowLicenseOutputResponseBody: Swift.Decodable {
         case signedToken = "SignedToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -885,7 +837,7 @@ public struct CheckoutLicenseInput: Swift.Equatable {
     /// This member is required.
     public var productSKU: Swift.String?
 
-    public init (
+    public init(
         beneficiary: Swift.String? = nil,
         checkoutType: LicenseManagerClientTypes.CheckoutType? = nil,
         clientToken: Swift.String? = nil,
@@ -926,7 +878,7 @@ extension CheckoutLicenseInputBody: Swift.Decodable {
         case productSKU = "ProductSKU"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let productSKUDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productSKU)
         productSKU = productSKUDecoded
@@ -954,49 +906,29 @@ extension CheckoutLicenseInputBody: Swift.Decodable {
     }
 }
 
-extension CheckoutLicenseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CheckoutLicenseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoEntitlementsAllowedException" : self = .noEntitlementsAllowedException(try NoEntitlementsAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedDigitalSignatureMethodException" : self = .unsupportedDigitalSignatureMethodException(try UnsupportedDigitalSignatureMethodException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CheckoutLicenseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoEntitlementsAllowedException": return try await NoEntitlementsAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RedirectException": return try await RedirectException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedDigitalSignatureMethodException": return try await UnsupportedDigitalSignatureMethodException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CheckoutLicenseOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case noEntitlementsAllowedException(NoEntitlementsAllowedException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case redirectException(RedirectException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case unsupportedDigitalSignatureMethodException(UnsupportedDigitalSignatureMethodException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CheckoutLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CheckoutLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checkoutType = output.checkoutType
@@ -1038,7 +970,7 @@ public struct CheckoutLicenseOutputResponse: Swift.Equatable {
     /// Signed token.
     public var signedToken: Swift.String?
 
-    public init (
+    public init(
         checkoutType: LicenseManagerClientTypes.CheckoutType? = nil,
         entitlementsAllowed: [LicenseManagerClientTypes.EntitlementData]? = nil,
         expiration: Swift.String? = nil,
@@ -1083,7 +1015,7 @@ extension CheckoutLicenseOutputResponseBody: Swift.Decodable {
         case signedToken = "SignedToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkoutTypeDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.CheckoutType.self, forKey: .checkoutType)
         checkoutType = checkoutTypeDecoded
@@ -1146,37 +1078,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There was a conflict processing the request. Try your request again.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1189,7 +1125,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1212,7 +1148,7 @@ extension LicenseManagerClientTypes.ConsumedLicenseSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -1229,7 +1165,7 @@ extension LicenseManagerClientTypes {
         /// Resource type of the resource consuming a license.
         public var resourceType: LicenseManagerClientTypes.ResourceType?
 
-        public init (
+        public init(
             consumedLicenses: Swift.Int? = nil,
             resourceType: LicenseManagerClientTypes.ResourceType? = nil
         )
@@ -1261,7 +1197,7 @@ extension LicenseManagerClientTypes.ConsumptionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let renewTypeDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.RenewType.self, forKey: .renewType)
         renewType = renewTypeDecoded
@@ -1282,7 +1218,7 @@ extension LicenseManagerClientTypes {
         /// Renewal frequency.
         public var renewType: LicenseManagerClientTypes.RenewType?
 
-        public init (
+        public init(
             borrowConfiguration: LicenseManagerClientTypes.BorrowConfiguration? = nil,
             provisionalConfiguration: LicenseManagerClientTypes.ProvisionalConfiguration? = nil,
             renewType: LicenseManagerClientTypes.RenewType? = nil
@@ -1373,7 +1309,7 @@ public struct CreateGrantInput: Swift.Equatable {
     /// This member is required.
     public var principals: [Swift.String]?
 
-    public init (
+    public init(
         allowedOperations: [LicenseManagerClientTypes.AllowedOperation]? = nil,
         clientToken: Swift.String? = nil,
         grantName: Swift.String? = nil,
@@ -1410,7 +1346,7 @@ extension CreateGrantInputBody: Swift.Decodable {
         case principals = "Principals"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -1445,43 +1381,26 @@ extension CreateGrantInputBody: Swift.Decodable {
     }
 }
 
-extension CreateGrantOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateGrantOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateGrantOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateGrantOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
@@ -1503,7 +1422,7 @@ public struct CreateGrantOutputResponse: Swift.Equatable {
     /// Grant version.
     public var version: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
@@ -1528,7 +1447,7 @@ extension CreateGrantOutputResponseBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
@@ -1609,7 +1528,7 @@ public struct CreateGrantVersionInput: Swift.Equatable {
     /// Grant status reason.
     public var statusReason: Swift.String?
 
-    public init (
+    public init(
         allowedOperations: [LicenseManagerClientTypes.AllowedOperation]? = nil,
         clientToken: Swift.String? = nil,
         grantArn: Swift.String? = nil,
@@ -1654,7 +1573,7 @@ extension CreateGrantVersionInputBody: Swift.Decodable {
         case statusReason = "StatusReason"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -1684,43 +1603,26 @@ extension CreateGrantVersionInputBody: Swift.Decodable {
     }
 }
 
-extension CreateGrantVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateGrantVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateGrantVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateGrantVersionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateGrantVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateGrantVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
@@ -1742,7 +1644,7 @@ public struct CreateGrantVersionOutputResponse: Swift.Equatable {
     /// New version of the grant.
     public var version: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
@@ -1767,7 +1669,7 @@ extension CreateGrantVersionOutputResponseBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
@@ -1871,7 +1773,7 @@ public struct CreateLicenseConfigurationInput: Swift.Equatable {
     /// Tags to add to the license configuration.
     public var tags: [LicenseManagerClientTypes.Tag]?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         disassociateWhenNotFound: Swift.Bool? = nil,
         licenseCount: Swift.Int? = nil,
@@ -1920,7 +1822,7 @@ extension CreateLicenseConfigurationInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1970,41 +1872,25 @@ extension CreateLicenseConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLicenseConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLicenseConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLicenseConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLicenseConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLicenseConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConfigurationArn = output.licenseConfigurationArn
@@ -2018,7 +1904,7 @@ public struct CreateLicenseConfigurationOutputResponse: Swift.Equatable {
     /// Amazon Resource Name (ARN) of the license configuration.
     public var licenseConfigurationArn: Swift.String?
 
-    public init (
+    public init(
         licenseConfigurationArn: Swift.String? = nil
     )
     {
@@ -2035,7 +1921,7 @@ extension CreateLicenseConfigurationOutputResponseBody: Swift.Decodable {
         case licenseConfigurationArn = "LicenseConfigurationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
         licenseConfigurationArn = licenseConfigurationArnDecoded
@@ -2080,7 +1966,7 @@ public struct CreateLicenseConversionTaskForResourceInput: Swift.Equatable {
     /// This member is required.
     public var sourceLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
 
-    public init (
+    public init(
         destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext? = nil,
         resourceArn: Swift.String? = nil,
         sourceLicenseContext: LicenseManagerClientTypes.LicenseConversionContext? = nil
@@ -2105,7 +1991,7 @@ extension CreateLicenseConversionTaskForResourceInputBody: Swift.Decodable {
         case sourceLicenseContext = "SourceLicenseContext"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -2116,41 +2002,25 @@ extension CreateLicenseConversionTaskForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLicenseConversionTaskForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLicenseConversionTaskForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLicenseConversionTaskForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLicenseConversionTaskForResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLicenseConversionTaskForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLicenseConversionTaskForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConversionTaskId = output.licenseConversionTaskId
@@ -2164,7 +2034,7 @@ public struct CreateLicenseConversionTaskForResourceOutputResponse: Swift.Equata
     /// The ID of the created license type conversion task.
     public var licenseConversionTaskId: Swift.String?
 
-    public init (
+    public init(
         licenseConversionTaskId: Swift.String? = nil
     )
     {
@@ -2181,7 +2051,7 @@ extension CreateLicenseConversionTaskForResourceOutputResponseBody: Swift.Decoda
         case licenseConversionTaskId = "LicenseConversionTaskId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConversionTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConversionTaskId)
         licenseConversionTaskId = licenseConversionTaskIdDecoded
@@ -2287,7 +2157,7 @@ public struct CreateLicenseInput: Swift.Equatable {
     /// This member is required.
     public var validity: LicenseManagerClientTypes.DatetimeRange?
 
-    public init (
+    public init(
         beneficiary: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         consumptionConfiguration: LicenseManagerClientTypes.ConsumptionConfiguration? = nil,
@@ -2344,7 +2214,7 @@ extension CreateLicenseInputBody: Swift.Decodable {
         case validity = "Validity"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseName)
         licenseName = licenseNameDecoded
@@ -2463,7 +2333,7 @@ public struct CreateLicenseManagerReportGeneratorInput: Swift.Equatable {
     /// This member is required.
     public var type: [LicenseManagerClientTypes.ReportType]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         reportContext: LicenseManagerClientTypes.ReportContext? = nil,
@@ -2504,7 +2374,7 @@ extension CreateLicenseManagerReportGeneratorInputBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGeneratorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportGeneratorName)
         reportGeneratorName = reportGeneratorNameDecoded
@@ -2541,45 +2411,27 @@ extension CreateLicenseManagerReportGeneratorInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLicenseManagerReportGeneratorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLicenseManagerReportGeneratorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLicenseManagerReportGeneratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLicenseManagerReportGeneratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseManagerReportGeneratorArn = output.licenseManagerReportGeneratorArn
@@ -2593,7 +2445,7 @@ public struct CreateLicenseManagerReportGeneratorOutputResponse: Swift.Equatable
     /// The Amazon Resource Name (ARN) of the new report generator.
     public var licenseManagerReportGeneratorArn: Swift.String?
 
-    public init (
+    public init(
         licenseManagerReportGeneratorArn: Swift.String? = nil
     )
     {
@@ -2610,50 +2462,33 @@ extension CreateLicenseManagerReportGeneratorOutputResponseBody: Swift.Decodable
         case licenseManagerReportGeneratorArn = "LicenseManagerReportGeneratorArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseManagerReportGeneratorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseManagerReportGeneratorArn)
         licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArnDecoded
     }
 }
 
-extension CreateLicenseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLicenseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLicenseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RedirectException": return try await RedirectException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLicenseOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case redirectException(RedirectException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseArn = output.licenseArn
@@ -2675,7 +2510,7 @@ public struct CreateLicenseOutputResponse: Swift.Equatable {
     /// License version.
     public var version: Swift.String?
 
-    public init (
+    public init(
         licenseArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.LicenseStatus? = nil,
         version: Swift.String? = nil
@@ -2700,7 +2535,7 @@ extension CreateLicenseOutputResponseBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -2816,7 +2651,7 @@ public struct CreateLicenseVersionInput: Swift.Equatable {
     /// This member is required.
     public var validity: LicenseManagerClientTypes.DatetimeRange?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         consumptionConfiguration: LicenseManagerClientTypes.ConsumptionConfiguration? = nil,
         entitlements: [LicenseManagerClientTypes.Entitlement]? = nil,
@@ -2877,7 +2712,7 @@ extension CreateLicenseVersionInputBody: Swift.Decodable {
         case validity = "Validity"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -2924,45 +2759,27 @@ extension CreateLicenseVersionInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLicenseVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLicenseVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLicenseVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RedirectException": return try await RedirectException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLicenseVersionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case conflictException(ConflictException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case redirectException(RedirectException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLicenseVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLicenseVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseArn = output.licenseArn
@@ -2984,7 +2801,7 @@ public struct CreateLicenseVersionOutputResponse: Swift.Equatable {
     /// New version of the license.
     public var version: Swift.String?
 
-    public init (
+    public init(
         licenseArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.LicenseStatus? = nil,
         version: Swift.String? = nil
@@ -3009,7 +2826,7 @@ extension CreateLicenseVersionOutputResponseBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -3075,7 +2892,7 @@ public struct CreateTokenInput: Swift.Equatable {
     /// Data specified by the caller to be included in the JWT token. The data is mapped to the amr claim of the JWT token.
     public var tokenProperties: [Swift.String]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         expirationInDays: Swift.Int? = nil,
         licenseArn: Swift.String? = nil,
@@ -3108,7 +2925,7 @@ extension CreateTokenInputBody: Swift.Decodable {
         case tokenProperties = "TokenProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -3141,45 +2958,27 @@ extension CreateTokenInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTokenOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RedirectException": return try await RedirectException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTokenOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case redirectException(RedirectException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.token = output.token
@@ -3201,7 +3000,7 @@ public struct CreateTokenOutputResponse: Swift.Equatable {
     /// Token type.
     public var tokenType: LicenseManagerClientTypes.TokenType?
 
-    public init (
+    public init(
         token: Swift.String? = nil,
         tokenId: Swift.String? = nil,
         tokenType: LicenseManagerClientTypes.TokenType? = nil
@@ -3226,7 +3025,7 @@ extension CreateTokenOutputResponseBody: Swift.Decodable {
         case tokenType = "TokenType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenId)
         tokenId = tokenIdDecoded
@@ -3253,7 +3052,7 @@ extension LicenseManagerClientTypes.DatetimeRange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let beginDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .begin)
         begin = beginDecoded
@@ -3271,7 +3070,7 @@ extension LicenseManagerClientTypes {
         /// End of the time range.
         public var end: Swift.String?
 
-        public init (
+        public init(
             begin: Swift.String? = nil,
             end: Swift.String? = nil
         )
@@ -3320,7 +3119,7 @@ public struct DeleteGrantInput: Swift.Equatable {
     /// This member is required.
     public var version: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil,
         statusReason: Swift.String? = nil,
         version: Swift.String? = nil
@@ -3345,7 +3144,7 @@ extension DeleteGrantInputBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
@@ -3356,43 +3155,26 @@ extension DeleteGrantInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteGrantOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteGrantOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteGrantOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteGrantOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
@@ -3414,7 +3196,7 @@ public struct DeleteGrantOutputResponse: Swift.Equatable {
     /// Grant version.
     public var version: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
@@ -3439,7 +3221,7 @@ extension DeleteGrantOutputResponseBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
@@ -3474,7 +3256,7 @@ public struct DeleteLicenseConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var licenseConfigurationArn: Swift.String?
 
-    public init (
+    public init(
         licenseConfigurationArn: Swift.String? = nil
     )
     {
@@ -3491,51 +3273,36 @@ extension DeleteLicenseConfigurationInputBody: Swift.Decodable {
         case licenseConfigurationArn = "LicenseConfigurationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
         licenseConfigurationArn = licenseConfigurationArnDecoded
     }
 }
 
-extension DeleteLicenseConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteLicenseConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLicenseConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteLicenseConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteLicenseConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteLicenseInput: Swift.Encodable {
@@ -3569,7 +3336,7 @@ public struct DeleteLicenseInput: Swift.Equatable {
     /// This member is required.
     public var sourceVersion: Swift.String?
 
-    public init (
+    public init(
         licenseArn: Swift.String? = nil,
         sourceVersion: Swift.String? = nil
     )
@@ -3590,7 +3357,7 @@ extension DeleteLicenseInputBody: Swift.Decodable {
         case sourceVersion = "SourceVersion"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -3623,7 +3390,7 @@ public struct DeleteLicenseManagerReportGeneratorInput: Swift.Equatable {
     /// This member is required.
     public var licenseManagerReportGeneratorArn: Swift.String?
 
-    public init (
+    public init(
         licenseManagerReportGeneratorArn: Swift.String? = nil
     )
     {
@@ -3640,98 +3407,62 @@ extension DeleteLicenseManagerReportGeneratorInputBody: Swift.Decodable {
         case licenseManagerReportGeneratorArn = "LicenseManagerReportGeneratorArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseManagerReportGeneratorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseManagerReportGeneratorArn)
         licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArnDecoded
     }
 }
 
-extension DeleteLicenseManagerReportGeneratorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteLicenseManagerReportGeneratorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLicenseManagerReportGeneratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteLicenseManagerReportGeneratorOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DeleteLicenseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteLicenseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLicenseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RedirectException": return try await RedirectException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteLicenseOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case conflictException(ConflictException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case redirectException(RedirectException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deletionDate = output.deletionDate
@@ -3749,7 +3480,7 @@ public struct DeleteLicenseOutputResponse: Swift.Equatable {
     /// License status.
     public var status: LicenseManagerClientTypes.LicenseDeletionStatus?
 
-    public init (
+    public init(
         deletionDate: Swift.String? = nil,
         status: LicenseManagerClientTypes.LicenseDeletionStatus? = nil
     )
@@ -3770,7 +3501,7 @@ extension DeleteLicenseOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.LicenseDeletionStatus.self, forKey: .status)
         status = statusDecoded
@@ -3803,7 +3534,7 @@ public struct DeleteTokenInput: Swift.Equatable {
     /// This member is required.
     public var tokenId: Swift.String?
 
-    public init (
+    public init(
         tokenId: Swift.String? = nil
     )
     {
@@ -3820,55 +3551,38 @@ extension DeleteTokenInputBody: Swift.Decodable {
         case tokenId = "TokenId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenId)
         tokenId = tokenIdDecoded
     }
 }
 
-extension DeleteTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTokenOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RedirectException": return try await RedirectException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTokenOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case redirectException(RedirectException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteTokenOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension LicenseManagerClientTypes {
@@ -3932,7 +3646,7 @@ extension LicenseManagerClientTypes.Entitlement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -3967,7 +3681,7 @@ extension LicenseManagerClientTypes {
         /// Entitlement resource. Use only if the unit is None.
         public var value: Swift.String?
 
-        public init (
+        public init(
             allowCheckIn: Swift.Bool? = nil,
             maxCount: Swift.Int? = nil,
             name: Swift.String? = nil,
@@ -4007,7 +3721,7 @@ extension LicenseManagerClientTypes.EntitlementData: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4030,7 +3744,7 @@ extension LicenseManagerClientTypes {
         /// Entitlement data value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             unit: LicenseManagerClientTypes.EntitlementDataUnit? = nil,
             value: Swift.String? = nil
@@ -4152,37 +3866,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension EntitlementNotAllowedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EntitlementNotAllowedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The entitlement is not allowed.
-public struct EntitlementNotAllowedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct EntitlementNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntitlementNotAllowedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4195,7 +3913,7 @@ extension EntitlementNotAllowedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4333,7 +4051,7 @@ extension LicenseManagerClientTypes.EntitlementUsage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4361,7 +4079,7 @@ extension LicenseManagerClientTypes {
         /// This member is required.
         public var unit: LicenseManagerClientTypes.EntitlementDataUnit?
 
-        public init (
+        public init(
             consumedValue: Swift.String? = nil,
             maxCount: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -4407,7 +4125,7 @@ public struct ExtendLicenseConsumptionInput: Swift.Equatable {
     /// This member is required.
     public var licenseConsumptionToken: Swift.String?
 
-    public init (
+    public init(
         dryRun: Swift.Bool? = nil,
         licenseConsumptionToken: Swift.String? = nil
     )
@@ -4428,7 +4146,7 @@ extension ExtendLicenseConsumptionInputBody: Swift.Decodable {
         case licenseConsumptionToken = "LicenseConsumptionToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConsumptionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConsumptionToken)
         licenseConsumptionToken = licenseConsumptionTokenDecoded
@@ -4437,43 +4155,26 @@ extension ExtendLicenseConsumptionInputBody: Swift.Decodable {
     }
 }
 
-extension ExtendLicenseConsumptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ExtendLicenseConsumptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExtendLicenseConsumptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ExtendLicenseConsumptionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExtendLicenseConsumptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExtendLicenseConsumptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expiration = output.expiration
@@ -4491,7 +4192,7 @@ public struct ExtendLicenseConsumptionOutputResponse: Swift.Equatable {
     /// License consumption token.
     public var licenseConsumptionToken: Swift.String?
 
-    public init (
+    public init(
         expiration: Swift.String? = nil,
         licenseConsumptionToken: Swift.String? = nil
     )
@@ -4512,7 +4213,7 @@ extension ExtendLicenseConsumptionOutputResponseBody: Swift.Decodable {
         case licenseConsumptionToken = "LicenseConsumptionToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConsumptionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConsumptionToken)
         licenseConsumptionToken = licenseConsumptionTokenDecoded
@@ -4522,42 +4223,46 @@ extension ExtendLicenseConsumptionOutputResponseBody: Swift.Decodable {
 }
 
 extension FailedDependencyException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: FailedDependencyExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.errorCode = output.errorCode
-            self.message = output.message
+            self.properties.errorCode = output.errorCode
+            self.properties.message = output.message
         } else {
-            self.errorCode = nil
-            self.message = nil
+            self.properties.errorCode = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A dependency required to run the API is missing.
-public struct FailedDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var errorCode: Swift.String?
-    public var message: Swift.String?
+public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var errorCode: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FailedDependency" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.errorCode = errorCode
-        self.message = message
+        self.properties.errorCode = errorCode
+        self.properties.message = message
     }
 }
 
@@ -4572,7 +4277,7 @@ extension FailedDependencyExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4600,7 +4305,7 @@ extension LicenseManagerClientTypes.Filter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4626,7 +4331,7 @@ extension LicenseManagerClientTypes {
         /// The value of the filter, which is case-sensitive. You can only specify one value for the filter.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
         )
@@ -4639,37 +4344,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension FilterLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: FilterLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request uses too many filters or too many filter values.
-public struct FilterLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct FilterLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FilterLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4682,7 +4391,7 @@ extension FilterLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4722,7 +4431,7 @@ public struct GetAccessTokenInput: Swift.Equatable {
     /// Token properties to validate against those present in the JWT token.
     public var tokenProperties: [Swift.String]?
 
-    public init (
+    public init(
         token: Swift.String? = nil,
         tokenProperties: [Swift.String]? = nil
     )
@@ -4743,7 +4452,7 @@ extension GetAccessTokenInputBody: Swift.Decodable {
         case tokenProperties = "TokenProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .token)
         token = tokenDecoded
@@ -4761,39 +4470,24 @@ extension GetAccessTokenInputBody: Swift.Decodable {
     }
 }
 
-extension GetAccessTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAccessTokenOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAccessTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAccessTokenOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAccessTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessToken = output.accessToken
@@ -4807,7 +4501,7 @@ public struct GetAccessTokenOutputResponse: Swift.Equatable {
     /// Temporary access token.
     public var accessToken: Swift.String?
 
-    public init (
+    public init(
         accessToken: Swift.String? = nil
     )
     {
@@ -4824,7 +4518,7 @@ extension GetAccessTokenOutputResponseBody: Swift.Decodable {
         case accessToken = "AccessToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessToken)
         accessToken = accessTokenDecoded
@@ -4861,7 +4555,7 @@ public struct GetGrantInput: Swift.Equatable {
     /// Grant version.
     public var version: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil,
         version: Swift.String? = nil
     )
@@ -4882,7 +4576,7 @@ extension GetGrantInputBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
@@ -4891,43 +4585,26 @@ extension GetGrantInputBody: Swift.Decodable {
     }
 }
 
-extension GetGrantOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetGrantOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetGrantOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetGrantOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grant = output.grant
@@ -4941,7 +4618,7 @@ public struct GetGrantOutputResponse: Swift.Equatable {
     /// Grant details.
     public var grant: LicenseManagerClientTypes.Grant?
 
-    public init (
+    public init(
         grant: LicenseManagerClientTypes.Grant? = nil
     )
     {
@@ -4958,7 +4635,7 @@ extension GetGrantOutputResponseBody: Swift.Decodable {
         case grant = "Grant"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.Grant.self, forKey: .grant)
         grant = grantDecoded
@@ -4989,7 +4666,7 @@ public struct GetLicenseConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var licenseConfigurationArn: Swift.String?
 
-    public init (
+    public init(
         licenseConfigurationArn: Swift.String? = nil
     )
     {
@@ -5006,46 +4683,31 @@ extension GetLicenseConfigurationInputBody: Swift.Decodable {
         case licenseConfigurationArn = "LicenseConfigurationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
         licenseConfigurationArn = licenseConfigurationArnDecoded
     }
 }
 
-extension GetLicenseConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetLicenseConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetLicenseConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetLicenseConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetLicenseConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.automatedDiscoveryInformation = output.automatedDiscoveryInformation
@@ -5123,7 +4785,7 @@ public struct GetLicenseConfigurationOutputResponse: Swift.Equatable {
     /// Tags for the license configuration.
     public var tags: [LicenseManagerClientTypes.Tag]?
 
-    public init (
+    public init(
         automatedDiscoveryInformation: LicenseManagerClientTypes.AutomatedDiscoveryInformation? = nil,
         consumedLicenseSummaryList: [LicenseManagerClientTypes.ConsumedLicenseSummary]? = nil,
         consumedLicenses: Swift.Int? = nil,
@@ -5204,7 +4866,7 @@ extension GetLicenseConfigurationOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationId)
         licenseConfigurationId = licenseConfigurationIdDecoded
@@ -5312,7 +4974,7 @@ public struct GetLicenseConversionTaskInput: Swift.Equatable {
     /// This member is required.
     public var licenseConversionTaskId: Swift.String?
 
-    public init (
+    public init(
         licenseConversionTaskId: Swift.String? = nil
     )
     {
@@ -5329,46 +4991,31 @@ extension GetLicenseConversionTaskInputBody: Swift.Decodable {
         case licenseConversionTaskId = "LicenseConversionTaskId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConversionTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConversionTaskId)
         licenseConversionTaskId = licenseConversionTaskIdDecoded
     }
 }
 
-extension GetLicenseConversionTaskOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetLicenseConversionTaskOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetLicenseConversionTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetLicenseConversionTaskOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetLicenseConversionTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetLicenseConversionTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destinationLicenseContext = output.destinationLicenseContext
@@ -5414,7 +5061,7 @@ public struct GetLicenseConversionTaskOutputResponse: Swift.Equatable {
     /// The status message for the conversion task.
     public var statusMessage: Swift.String?
 
-    public init (
+    public init(
         destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext? = nil,
         endTime: ClientRuntime.Date? = nil,
         licenseConversionTaskId: Swift.String? = nil,
@@ -5463,7 +5110,7 @@ extension GetLicenseConversionTaskOutputResponseBody: Swift.Decodable {
         case statusMessage = "StatusMessage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConversionTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConversionTaskId)
         licenseConversionTaskId = licenseConversionTaskIdDecoded
@@ -5516,7 +5163,7 @@ public struct GetLicenseInput: Swift.Equatable {
     /// License version.
     public var version: Swift.String?
 
-    public init (
+    public init(
         licenseArn: Swift.String? = nil,
         version: Swift.String? = nil
     )
@@ -5537,7 +5184,7 @@ extension GetLicenseInputBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -5570,7 +5217,7 @@ public struct GetLicenseManagerReportGeneratorInput: Swift.Equatable {
     /// This member is required.
     public var licenseManagerReportGeneratorArn: Swift.String?
 
-    public init (
+    public init(
         licenseManagerReportGeneratorArn: Swift.String? = nil
     )
     {
@@ -5587,52 +5234,34 @@ extension GetLicenseManagerReportGeneratorInputBody: Swift.Decodable {
         case licenseManagerReportGeneratorArn = "LicenseManagerReportGeneratorArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseManagerReportGeneratorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseManagerReportGeneratorArn)
         licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArnDecoded
     }
 }
 
-extension GetLicenseManagerReportGeneratorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetLicenseManagerReportGeneratorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetLicenseManagerReportGeneratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetLicenseManagerReportGeneratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportGenerator = output.reportGenerator
@@ -5646,7 +5275,7 @@ public struct GetLicenseManagerReportGeneratorOutputResponse: Swift.Equatable {
     /// A report generator that creates periodic reports about your license configurations.
     public var reportGenerator: LicenseManagerClientTypes.ReportGenerator?
 
-    public init (
+    public init(
         reportGenerator: LicenseManagerClientTypes.ReportGenerator? = nil
     )
     {
@@ -5663,48 +5292,32 @@ extension GetLicenseManagerReportGeneratorOutputResponseBody: Swift.Decodable {
         case reportGenerator = "ReportGenerator"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGeneratorDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.ReportGenerator.self, forKey: .reportGenerator)
         reportGenerator = reportGeneratorDecoded
     }
 }
 
-extension GetLicenseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetLicenseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetLicenseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetLicenseOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.license = output.license
@@ -5718,7 +5331,7 @@ public struct GetLicenseOutputResponse: Swift.Equatable {
     /// License details.
     public var license: LicenseManagerClientTypes.License?
 
-    public init (
+    public init(
         license: LicenseManagerClientTypes.License? = nil
     )
     {
@@ -5735,7 +5348,7 @@ extension GetLicenseOutputResponseBody: Swift.Decodable {
         case license = "License"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.License.self, forKey: .license)
         license = licenseDecoded
@@ -5766,7 +5379,7 @@ public struct GetLicenseUsageInput: Swift.Equatable {
     /// This member is required.
     public var licenseArn: Swift.String?
 
-    public init (
+    public init(
         licenseArn: Swift.String? = nil
     )
     {
@@ -5783,48 +5396,32 @@ extension GetLicenseUsageInputBody: Swift.Decodable {
         case licenseArn = "LicenseArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
     }
 }
 
-extension GetLicenseUsageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetLicenseUsageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetLicenseUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetLicenseUsageOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetLicenseUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetLicenseUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseUsage = output.licenseUsage
@@ -5838,7 +5435,7 @@ public struct GetLicenseUsageOutputResponse: Swift.Equatable {
     /// License usage details.
     public var licenseUsage: LicenseManagerClientTypes.LicenseUsage?
 
-    public init (
+    public init(
         licenseUsage: LicenseManagerClientTypes.LicenseUsage? = nil
     )
     {
@@ -5855,7 +5452,7 @@ extension GetLicenseUsageOutputResponseBody: Swift.Decodable {
         case licenseUsage = "LicenseUsage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseUsageDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.LicenseUsage.self, forKey: .licenseUsage)
         licenseUsage = licenseUsageDecoded
@@ -5878,7 +5475,7 @@ extension GetServiceSettingsInput: ClientRuntime.URLPathProvider {
 
 public struct GetServiceSettingsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetServiceSettingsInputBody: Swift.Equatable {
@@ -5886,41 +5483,27 @@ struct GetServiceSettingsInputBody: Swift.Equatable {
 
 extension GetServiceSettingsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetServiceSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetServiceSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetServiceSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetServiceSettingsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetServiceSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.enableCrossAccountsDiscovery = output.enableCrossAccountsDiscovery
@@ -5950,7 +5533,7 @@ public struct GetServiceSettingsOutputResponse: Swift.Equatable {
     /// SNS topic configured to receive notifications from License Manager.
     public var snsTopicArn: Swift.String?
 
-    public init (
+    public init(
         enableCrossAccountsDiscovery: Swift.Bool? = nil,
         licenseManagerResourceShareArn: Swift.String? = nil,
         organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration? = nil,
@@ -5983,7 +5566,7 @@ extension GetServiceSettingsOutputResponseBody: Swift.Decodable {
         case snsTopicArn = "SnsTopicArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
         s3BucketArn = s3BucketArnDecoded
@@ -6053,7 +5636,7 @@ extension LicenseManagerClientTypes.Grant: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
@@ -6124,7 +5707,7 @@ extension LicenseManagerClientTypes {
         /// This member is required.
         public var version: Swift.String?
 
-        public init (
+        public init(
             grantArn: Swift.String? = nil,
             grantName: Swift.String? = nil,
             grantStatus: LicenseManagerClientTypes.GrantStatus? = nil,
@@ -6281,7 +5864,7 @@ extension LicenseManagerClientTypes.GrantedLicense: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -6368,7 +5951,7 @@ extension LicenseManagerClientTypes {
         /// Version of the granted license.
         public var version: Swift.String?
 
-        public init (
+        public init(
             beneficiary: Swift.String? = nil,
             consumptionConfiguration: LicenseManagerClientTypes.ConsumptionConfiguration? = nil,
             createTime: Swift.String? = nil,
@@ -6407,37 +5990,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension InvalidParameterValueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more parameter values are not valid.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterValueProvided" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6450,7 +6037,7 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6458,37 +6045,41 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
 }
 
 extension InvalidResourceStateException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidResourceStateExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// License Manager cannot allocate a license to a resource because of its state. For example, you cannot allocate a license to an instance in the process of shutting down.
-public struct InvalidResourceStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6501,7 +6092,7 @@ extension InvalidResourceStateExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6528,7 +6119,7 @@ extension LicenseManagerClientTypes.InventoryFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6551,7 +6142,7 @@ extension LicenseManagerClientTypes {
         /// Value of the filter.
         public var value: Swift.String?
 
-        public init (
+        public init(
             condition: LicenseManagerClientTypes.InventoryFilterCondition? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
@@ -6619,7 +6210,7 @@ extension LicenseManagerClientTypes.Issuer: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6637,7 +6228,7 @@ extension LicenseManagerClientTypes {
         /// Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm.
         public var signKey: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             signKey: Swift.String? = nil
         )
@@ -6669,7 +6260,7 @@ extension LicenseManagerClientTypes.IssuerDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6690,7 +6281,7 @@ extension LicenseManagerClientTypes {
         /// Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm.
         public var signKey: Swift.String?
 
-        public init (
+        public init(
             keyFingerprint: Swift.String? = nil,
             name: Swift.String? = nil,
             signKey: Swift.String? = nil
@@ -6774,7 +6365,7 @@ extension LicenseManagerClientTypes.License: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -6857,7 +6448,7 @@ extension LicenseManagerClientTypes {
         /// License version.
         public var version: Swift.String?
 
-        public init (
+        public init(
             beneficiary: Swift.String? = nil,
             consumptionConfiguration: LicenseManagerClientTypes.ConsumptionConfiguration? = nil,
             createTime: Swift.String? = nil,
@@ -6977,7 +6568,7 @@ extension LicenseManagerClientTypes.LicenseConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationId)
         licenseConfigurationId = licenseConfigurationIdDecoded
@@ -7086,7 +6677,7 @@ extension LicenseManagerClientTypes {
         /// Status of the license configuration.
         public var status: Swift.String?
 
-        public init (
+        public init(
             automatedDiscoveryInformation: LicenseManagerClientTypes.AutomatedDiscoveryInformation? = nil,
             consumedLicenseSummaryList: [LicenseManagerClientTypes.ConsumedLicenseSummary]? = nil,
             consumedLicenses: Swift.Int? = nil,
@@ -7154,7 +6745,7 @@ extension LicenseManagerClientTypes.LicenseConfigurationAssociation: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -7183,7 +6774,7 @@ extension LicenseManagerClientTypes {
         /// Type of server resource.
         public var resourceType: LicenseManagerClientTypes.ResourceType?
 
-        public init (
+        public init(
             amiAssociationScope: Swift.String? = nil,
             associationTime: ClientRuntime.Date? = nil,
             resourceArn: Swift.String? = nil,
@@ -7265,7 +6856,7 @@ extension LicenseManagerClientTypes.LicenseConfigurationUsage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -7298,7 +6889,7 @@ extension LicenseManagerClientTypes {
         /// Type of resource.
         public var resourceType: LicenseManagerClientTypes.ResourceType?
 
-        public init (
+        public init(
             associationTime: ClientRuntime.Date? = nil,
             consumedLicenses: Swift.Int? = nil,
             resourceArn: Swift.String? = nil,
@@ -7330,7 +6921,7 @@ extension LicenseManagerClientTypes.LicenseConversionContext: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let usageOperationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .usageOperation)
         usageOperation = usageOperationDecoded
@@ -7343,7 +6934,7 @@ extension LicenseManagerClientTypes {
         /// The Usage operation value that corresponds to the license type you are converting your resource from. For more information about which platforms correspond to which usage operation values see [Sample data: usage operation by platform ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html#billing-info)
         public var usageOperation: Swift.String?
 
-        public init (
+        public init(
             usageOperation: Swift.String? = nil
         )
         {
@@ -7397,7 +6988,7 @@ extension LicenseManagerClientTypes.LicenseConversionTask: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConversionTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConversionTaskId)
         licenseConversionTaskId = licenseConversionTaskIdDecoded
@@ -7442,7 +7033,7 @@ extension LicenseManagerClientTypes {
         /// The status message for the conversion task.
         public var statusMessage: Swift.String?
 
-        public init (
+        public init(
             destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext? = nil,
             endTime: ClientRuntime.Date? = nil,
             licenseConversionTaskId: Swift.String? = nil,
@@ -7616,7 +7207,7 @@ extension LicenseManagerClientTypes.LicenseOperationFailure: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -7666,7 +7257,7 @@ extension LicenseManagerClientTypes {
         /// Resource type.
         public var resourceType: LicenseManagerClientTypes.ResourceType?
 
-        public init (
+        public init(
             errorMessage: Swift.String? = nil,
             failureTime: ClientRuntime.Date? = nil,
             metadataList: [LicenseManagerClientTypes.Metadata]? = nil,
@@ -7706,7 +7297,7 @@ extension LicenseManagerClientTypes.LicenseSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
         licenseConfigurationArn = licenseConfigurationArnDecoded
@@ -7724,7 +7315,7 @@ extension LicenseManagerClientTypes {
         /// This member is required.
         public var licenseConfigurationArn: Swift.String?
 
-        public init (
+        public init(
             amiAssociationScope: Swift.String? = nil,
             licenseConfigurationArn: Swift.String? = nil
         )
@@ -7798,7 +7389,7 @@ extension LicenseManagerClientTypes.LicenseUsage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entitlementUsagesContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.EntitlementUsage?].self, forKey: .entitlementUsages)
         var entitlementUsagesDecoded0:[LicenseManagerClientTypes.EntitlementUsage]? = nil
@@ -7820,7 +7411,7 @@ extension LicenseManagerClientTypes {
         /// License entitlement usages.
         public var entitlementUsages: [LicenseManagerClientTypes.EntitlementUsage]?
 
-        public init (
+        public init(
             entitlementUsages: [LicenseManagerClientTypes.EntitlementUsage]? = nil
         )
         {
@@ -7831,37 +7422,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension LicenseUsageException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LicenseUsageExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You do not have enough licenses available to support a new resource launch.
-public struct LicenseUsageException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct LicenseUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LicenseUsageFailure" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7874,7 +7469,7 @@ extension LicenseUsageExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7917,7 +7512,7 @@ public struct ListAssociationsForLicenseConfigurationInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7942,7 +7537,7 @@ extension ListAssociationsForLicenseConfigurationInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
         licenseConfigurationArn = licenseConfigurationArnDecoded
@@ -7953,41 +7548,25 @@ extension ListAssociationsForLicenseConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension ListAssociationsForLicenseConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAssociationsForLicenseConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "FilterLimitExceeded" : self = .filterLimitExceededException(try FilterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAssociationsForLicenseConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FilterLimitExceeded": return try await FilterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAssociationsForLicenseConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case filterLimitExceededException(FilterLimitExceededException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAssociationsForLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAssociationsForLicenseConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConfigurationAssociations = output.licenseConfigurationAssociations
@@ -8005,7 +7584,7 @@ public struct ListAssociationsForLicenseConfigurationOutputResponse: Swift.Equat
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseConfigurationAssociations: [LicenseManagerClientTypes.LicenseConfigurationAssociation]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8026,7 +7605,7 @@ extension ListAssociationsForLicenseConfigurationOutputResponseBody: Swift.Decod
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationAssociationsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.LicenseConfigurationAssociation?].self, forKey: .licenseConfigurationAssociations)
         var licenseConfigurationAssociationsDecoded0:[LicenseManagerClientTypes.LicenseConfigurationAssociation]? = nil
@@ -8101,7 +7680,7 @@ public struct ListDistributedGrantsInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         grantArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
@@ -8130,7 +7709,7 @@ extension ListDistributedGrantsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .grantArns)
         var grantArnsDecoded0:[Swift.String]? = nil
@@ -8161,43 +7740,26 @@ extension ListDistributedGrantsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDistributedGrantsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDistributedGrantsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDistributedGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDistributedGrantsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDistributedGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDistributedGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
@@ -8215,7 +7777,7 @@ public struct ListDistributedGrantsOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         grants: [LicenseManagerClientTypes.Grant]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8236,7 +7798,7 @@ extension ListDistributedGrantsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Grant?].self, forKey: .grants)
         var grantsDecoded0:[LicenseManagerClientTypes.Grant]? = nil
@@ -8290,7 +7852,7 @@ public struct ListFailuresForLicenseConfigurationOperationsInput: Swift.Equatabl
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -8315,7 +7877,7 @@ extension ListFailuresForLicenseConfigurationOperationsInputBody: Swift.Decodabl
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
         licenseConfigurationArn = licenseConfigurationArnDecoded
@@ -8326,39 +7888,24 @@ extension ListFailuresForLicenseConfigurationOperationsInputBody: Swift.Decodabl
     }
 }
 
-extension ListFailuresForLicenseConfigurationOperationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFailuresForLicenseConfigurationOperationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFailuresForLicenseConfigurationOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFailuresForLicenseConfigurationOperationsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFailuresForLicenseConfigurationOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFailuresForLicenseConfigurationOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseOperationFailureList = output.licenseOperationFailureList
@@ -8376,7 +7923,7 @@ public struct ListFailuresForLicenseConfigurationOperationsOutputResponse: Swift
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseOperationFailureList: [LicenseManagerClientTypes.LicenseOperationFailure]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8397,7 +7944,7 @@ extension ListFailuresForLicenseConfigurationOperationsOutputResponseBody: Swift
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseOperationFailureListContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.LicenseOperationFailure?].self, forKey: .licenseOperationFailureList)
         var licenseOperationFailureListDecoded0:[LicenseManagerClientTypes.LicenseOperationFailure]? = nil
@@ -8468,7 +8015,7 @@ public struct ListLicenseConfigurationsInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         licenseConfigurationArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
@@ -8497,7 +8044,7 @@ extension ListLicenseConfigurationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .licenseConfigurationArns)
         var licenseConfigurationArnsDecoded0:[Swift.String]? = nil
@@ -8528,41 +8075,25 @@ extension ListLicenseConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListLicenseConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLicenseConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "FilterLimitExceeded" : self = .filterLimitExceededException(try FilterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLicenseConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FilterLimitExceeded": return try await FilterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLicenseConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case filterLimitExceededException(FilterLimitExceededException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLicenseConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLicenseConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConfigurations = output.licenseConfigurations
@@ -8580,7 +8111,7 @@ public struct ListLicenseConfigurationsOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseConfigurations: [LicenseManagerClientTypes.LicenseConfiguration]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8601,7 +8132,7 @@ extension ListLicenseConfigurationsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.LicenseConfiguration?].self, forKey: .licenseConfigurations)
         var licenseConfigurationsDecoded0:[LicenseManagerClientTypes.LicenseConfiguration]? = nil
@@ -8657,7 +8188,7 @@ public struct ListLicenseConversionTasksInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -8682,7 +8213,7 @@ extension ListLicenseConversionTasksInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -8702,39 +8233,24 @@ extension ListLicenseConversionTasksInputBody: Swift.Decodable {
     }
 }
 
-extension ListLicenseConversionTasksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLicenseConversionTasksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLicenseConversionTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLicenseConversionTasksOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLicenseConversionTasksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLicenseConversionTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConversionTasks = output.licenseConversionTasks
@@ -8752,7 +8268,7 @@ public struct ListLicenseConversionTasksOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseConversionTasks: [LicenseManagerClientTypes.LicenseConversionTask]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8773,7 +8289,7 @@ extension ListLicenseConversionTasksOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConversionTasksContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.LicenseConversionTask?].self, forKey: .licenseConversionTasks)
         var licenseConversionTasksDecoded0:[LicenseManagerClientTypes.LicenseConversionTask]? = nil
@@ -8831,7 +8347,7 @@ public struct ListLicenseManagerReportGeneratorsInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -8856,7 +8372,7 @@ extension ListLicenseManagerReportGeneratorsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Filter?].self, forKey: .filters)
         var filtersDecoded0:[LicenseManagerClientTypes.Filter]? = nil
@@ -8876,45 +8392,27 @@ extension ListLicenseManagerReportGeneratorsInputBody: Swift.Decodable {
     }
 }
 
-extension ListLicenseManagerReportGeneratorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLicenseManagerReportGeneratorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLicenseManagerReportGeneratorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLicenseManagerReportGeneratorsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLicenseManagerReportGeneratorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLicenseManagerReportGeneratorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8932,7 +8430,7 @@ public struct ListLicenseManagerReportGeneratorsOutputResponse: Swift.Equatable 
     /// A report generator that creates periodic reports about your license configurations.
     public var reportGenerators: [LicenseManagerClientTypes.ReportGenerator]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         reportGenerators: [LicenseManagerClientTypes.ReportGenerator]? = nil
     )
@@ -8953,7 +8451,7 @@ extension ListLicenseManagerReportGeneratorsOutputResponseBody: Swift.Decodable 
         case reportGenerators = "ReportGenerators"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGeneratorsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.ReportGenerator?].self, forKey: .reportGenerators)
         var reportGeneratorsDecoded0:[LicenseManagerClientTypes.ReportGenerator]? = nil
@@ -9007,7 +8505,7 @@ public struct ListLicenseSpecificationsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
@@ -9032,7 +8530,7 @@ extension ListLicenseSpecificationsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -9043,39 +8541,24 @@ extension ListLicenseSpecificationsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListLicenseSpecificationsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLicenseSpecificationsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLicenseSpecificationsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLicenseSpecificationsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLicenseSpecificationsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLicenseSpecificationsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseSpecifications = output.licenseSpecifications
@@ -9093,7 +8576,7 @@ public struct ListLicenseSpecificationsForResourceOutputResponse: Swift.Equatabl
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9114,7 +8597,7 @@ extension ListLicenseSpecificationsForResourceOutputResponseBody: Swift.Decodabl
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseSpecificationsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.LicenseSpecification?].self, forKey: .licenseSpecifications)
         var licenseSpecificationsDecoded0:[LicenseManagerClientTypes.LicenseSpecification]? = nil
@@ -9168,7 +8651,7 @@ public struct ListLicenseVersionsInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -9193,7 +8676,7 @@ extension ListLicenseVersionsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -9204,39 +8687,24 @@ extension ListLicenseVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListLicenseVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLicenseVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLicenseVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLicenseVersionsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLicenseVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLicenseVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenses = output.licenses
@@ -9254,7 +8722,7 @@ public struct ListLicenseVersionsOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenses: [LicenseManagerClientTypes.License]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9275,7 +8743,7 @@ extension ListLicenseVersionsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licensesContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.License?].self, forKey: .licenses)
         var licensesDecoded0:[LicenseManagerClientTypes.License]? = nil
@@ -9348,7 +8816,7 @@ public struct ListLicensesInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         licenseArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
@@ -9377,7 +8845,7 @@ extension ListLicensesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .licenseArns)
         var licenseArnsDecoded0:[Swift.String]? = nil
@@ -9408,41 +8876,25 @@ extension ListLicensesInputBody: Swift.Decodable {
     }
 }
 
-extension ListLicensesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLicensesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLicensesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLicensesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLicensesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLicensesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenses = output.licenses
@@ -9460,7 +8912,7 @@ public struct ListLicensesOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenses: [LicenseManagerClientTypes.License]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9481,7 +8933,7 @@ extension ListLicensesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licensesContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.License?].self, forKey: .licenses)
         var licensesDecoded0:[LicenseManagerClientTypes.License]? = nil
@@ -9548,7 +9000,7 @@ public struct ListReceivedGrantsForOrganizationInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         licenseArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -9577,7 +9029,7 @@ extension ListReceivedGrantsForOrganizationInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseArn)
         licenseArn = licenseArnDecoded
@@ -9599,43 +9051,26 @@ extension ListReceivedGrantsForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-extension ListReceivedGrantsForOrganizationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListReceivedGrantsForOrganizationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListReceivedGrantsForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListReceivedGrantsForOrganizationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListReceivedGrantsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListReceivedGrantsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
@@ -9653,7 +9088,7 @@ public struct ListReceivedGrantsForOrganizationOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         grants: [LicenseManagerClientTypes.Grant]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9674,7 +9109,7 @@ extension ListReceivedGrantsForOrganizationOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Grant?].self, forKey: .grants)
         var grantsDecoded0:[LicenseManagerClientTypes.Grant]? = nil
@@ -9749,7 +9184,7 @@ public struct ListReceivedGrantsInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         grantArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
@@ -9778,7 +9213,7 @@ extension ListReceivedGrantsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .grantArns)
         var grantArnsDecoded0:[Swift.String]? = nil
@@ -9809,43 +9244,26 @@ extension ListReceivedGrantsInputBody: Swift.Decodable {
     }
 }
 
-extension ListReceivedGrantsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListReceivedGrantsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListReceivedGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListReceivedGrantsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListReceivedGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListReceivedGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
@@ -9863,7 +9281,7 @@ public struct ListReceivedGrantsOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         grants: [LicenseManagerClientTypes.Grant]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9884,7 +9302,7 @@ extension ListReceivedGrantsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Grant?].self, forKey: .grants)
         var grantsDecoded0:[LicenseManagerClientTypes.Grant]? = nil
@@ -9944,7 +9362,7 @@ public struct ListReceivedLicensesForOrganizationInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -9969,7 +9387,7 @@ extension ListReceivedLicensesForOrganizationInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Filter?].self, forKey: .filters)
         var filtersDecoded0:[LicenseManagerClientTypes.Filter]? = nil
@@ -9989,43 +9407,26 @@ extension ListReceivedLicensesForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-extension ListReceivedLicensesForOrganizationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListReceivedLicensesForOrganizationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListReceivedLicensesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListReceivedLicensesForOrganizationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListReceivedLicensesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListReceivedLicensesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenses = output.licenses
@@ -10043,7 +9444,7 @@ public struct ListReceivedLicensesForOrganizationOutputResponse: Swift.Equatable
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenses: [LicenseManagerClientTypes.GrantedLicense]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10064,7 +9465,7 @@ extension ListReceivedLicensesForOrganizationOutputResponseBody: Swift.Decodable
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licensesContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.GrantedLicense?].self, forKey: .licenses)
         var licensesDecoded0:[LicenseManagerClientTypes.GrantedLicense]? = nil
@@ -10139,7 +9540,7 @@ public struct ListReceivedLicensesInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         licenseArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
@@ -10168,7 +9569,7 @@ extension ListReceivedLicensesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .licenseArns)
         var licenseArnsDecoded0:[Swift.String]? = nil
@@ -10199,43 +9600,26 @@ extension ListReceivedLicensesInputBody: Swift.Decodable {
     }
 }
 
-extension ListReceivedLicensesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListReceivedLicensesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListReceivedLicensesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListReceivedLicensesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListReceivedLicensesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListReceivedLicensesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenses = output.licenses
@@ -10253,7 +9637,7 @@ public struct ListReceivedLicensesOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenses: [LicenseManagerClientTypes.GrantedLicense]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10274,7 +9658,7 @@ extension ListReceivedLicensesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licensesContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.GrantedLicense?].self, forKey: .licenses)
         var licensesDecoded0:[LicenseManagerClientTypes.GrantedLicense]? = nil
@@ -10342,7 +9726,7 @@ public struct ListResourceInventoryInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.InventoryFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -10367,7 +9751,7 @@ extension ListResourceInventoryInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -10387,43 +9771,26 @@ extension ListResourceInventoryInputBody: Swift.Decodable {
     }
 }
 
-extension ListResourceInventoryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListResourceInventoryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "FailedDependency" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "FilterLimitExceeded" : self = .filterLimitExceededException(try FilterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListResourceInventoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FailedDependency": return try await FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FilterLimitExceeded": return try await FilterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListResourceInventoryOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case failedDependencyException(FailedDependencyException)
-    case filterLimitExceededException(FilterLimitExceededException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListResourceInventoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListResourceInventoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10441,7 +9808,7 @@ public struct ListResourceInventoryOutputResponse: Swift.Equatable {
     /// Information about the resources.
     public var resourceInventoryList: [LicenseManagerClientTypes.ResourceInventory]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceInventoryList: [LicenseManagerClientTypes.ResourceInventory]? = nil
     )
@@ -10462,7 +9829,7 @@ extension ListResourceInventoryOutputResponseBody: Swift.Decodable {
         case resourceInventoryList = "ResourceInventoryList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceInventoryListContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.ResourceInventory?].self, forKey: .resourceInventoryList)
         var resourceInventoryListDecoded0:[LicenseManagerClientTypes.ResourceInventory]? = nil
@@ -10504,7 +9871,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -10521,46 +9888,31 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -10574,7 +9926,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// Information about the tags.
     public var tags: [LicenseManagerClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [LicenseManagerClientTypes.Tag]? = nil
     )
     {
@@ -10591,7 +9943,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[LicenseManagerClientTypes.Tag]? = nil
@@ -10656,7 +10008,7 @@ public struct ListTokensInput: Swift.Equatable {
     /// Token IDs.
     public var tokenIds: [Swift.String]?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -10685,7 +10037,7 @@ extension ListTokensInputBody: Swift.Decodable {
         case tokenIds = "TokenIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tokenIds)
         var tokenIdsDecoded0:[Swift.String]? = nil
@@ -10716,39 +10068,24 @@ extension ListTokensInputBody: Swift.Decodable {
     }
 }
 
-extension ListTokensOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTokensOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTokensOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTokensOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTokensOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTokensOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10766,7 +10103,7 @@ public struct ListTokensOutputResponse: Swift.Equatable {
     /// Received token details.
     public var tokens: [LicenseManagerClientTypes.TokenData]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         tokens: [LicenseManagerClientTypes.TokenData]? = nil
     )
@@ -10787,7 +10124,7 @@ extension ListTokensOutputResponseBody: Swift.Decodable {
         case tokens = "Tokens"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokensContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.TokenData?].self, forKey: .tokens)
         var tokensDecoded0:[LicenseManagerClientTypes.TokenData]? = nil
@@ -10856,7 +10193,7 @@ public struct ListUsageForLicenseConfigurationInput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         licenseConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -10885,7 +10222,7 @@ extension ListUsageForLicenseConfigurationInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
         licenseConfigurationArn = licenseConfigurationArnDecoded
@@ -10907,41 +10244,25 @@ extension ListUsageForLicenseConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension ListUsageForLicenseConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListUsageForLicenseConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "FilterLimitExceeded" : self = .filterLimitExceededException(try FilterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListUsageForLicenseConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FilterLimitExceeded": return try await FilterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListUsageForLicenseConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case filterLimitExceededException(FilterLimitExceededException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListUsageForLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListUsageForLicenseConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConfigurationUsageList = output.licenseConfigurationUsageList
@@ -10959,7 +10280,7 @@ public struct ListUsageForLicenseConfigurationOutputResponse: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         licenseConfigurationUsageList: [LicenseManagerClientTypes.LicenseConfigurationUsage]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10980,7 +10301,7 @@ extension ListUsageForLicenseConfigurationOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationUsageListContainer = try containerValues.decodeIfPresent([LicenseManagerClientTypes.LicenseConfigurationUsage?].self, forKey: .licenseConfigurationUsageList)
         var licenseConfigurationUsageListDecoded0:[LicenseManagerClientTypes.LicenseConfigurationUsage]? = nil
@@ -11014,7 +10335,7 @@ extension LicenseManagerClientTypes.ManagedResourceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -11031,7 +10352,7 @@ extension LicenseManagerClientTypes {
         /// Type of resource associated with a license.
         public var resourceType: LicenseManagerClientTypes.ResourceType?
 
-        public init (
+        public init(
             associationCount: Swift.Int? = nil,
             resourceType: LicenseManagerClientTypes.ResourceType? = nil
         )
@@ -11059,7 +10380,7 @@ extension LicenseManagerClientTypes.Metadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -11076,7 +10397,7 @@ extension LicenseManagerClientTypes {
         /// The value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -11089,37 +10410,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension NoEntitlementsAllowedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoEntitlementsAllowedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There are no entitlements found for this license, or the entitlement maximum count is reached.
-public struct NoEntitlementsAllowedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NoEntitlementsAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoEntitlementsAllowedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11132,7 +10457,7 @@ extension NoEntitlementsAllowedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11151,7 +10476,7 @@ extension LicenseManagerClientTypes.Options: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activationOverrideBehaviorDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.ActivationOverrideBehavior.self, forKey: .activationOverrideBehavior)
         activationOverrideBehavior = activationOverrideBehaviorDecoded
@@ -11173,7 +10498,7 @@ extension LicenseManagerClientTypes {
         /// DISTRIBUTED_GRANTS_ONLY Use this value to activate a grant without replacing any member account’s active grants for the same product. ALL_GRANTS_PERMITTED_BY_ISSUER Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant.
         public var activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior?
 
-        public init (
+        public init(
             activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior? = nil
         )
         {
@@ -11195,7 +10520,7 @@ extension LicenseManagerClientTypes.OrganizationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enableIntegrationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableIntegration) ?? false
         enableIntegration = enableIntegrationDecoded
@@ -11209,7 +10534,7 @@ extension LicenseManagerClientTypes {
         /// This member is required.
         public var enableIntegration: Swift.Bool
 
-        public init (
+        public init(
             enableIntegration: Swift.Bool = false
         )
         {
@@ -11238,7 +10563,7 @@ extension LicenseManagerClientTypes.ProductInformation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -11289,7 +10614,7 @@ extension LicenseManagerClientTypes {
         /// This member is required.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             productInformationFilterList: [LicenseManagerClientTypes.ProductInformationFilter]? = nil,
             resourceType: Swift.String? = nil
         )
@@ -11324,7 +10649,7 @@ extension LicenseManagerClientTypes.ProductInformationFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let productInformationFilterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productInformationFilterName)
         productInformationFilterName = productInformationFilterNameDecoded
@@ -11356,7 +10681,7 @@ extension LicenseManagerClientTypes {
         /// Filter value.
         public var productInformationFilterValue: [Swift.String]?
 
-        public init (
+        public init(
             productInformationFilterComparator: Swift.String? = nil,
             productInformationFilterName: Swift.String? = nil,
             productInformationFilterValue: [Swift.String]? = nil
@@ -11382,7 +10707,7 @@ extension LicenseManagerClientTypes.ProvisionalConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxTimeToLiveInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxTimeToLiveInMinutes)
         maxTimeToLiveInMinutes = maxTimeToLiveInMinutesDecoded
@@ -11396,7 +10721,7 @@ extension LicenseManagerClientTypes {
         /// This member is required.
         public var maxTimeToLiveInMinutes: Swift.Int?
 
-        public init (
+        public init(
             maxTimeToLiveInMinutes: Swift.Int? = nil
         )
         {
@@ -11407,37 +10732,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension RateLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RateLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Too many requests have been submitted. Try again after a brief wait.
-public struct RateLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct RateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RateLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11450,7 +10779,7 @@ extension RateLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11480,7 +10809,7 @@ extension LicenseManagerClientTypes.ReceivedMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let receivedStatusDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.ReceivedStatus.self, forKey: .receivedStatus)
         receivedStatus = receivedStatusDecoded
@@ -11510,7 +10839,7 @@ extension LicenseManagerClientTypes {
         /// Received status reason.
         public var receivedStatusReason: Swift.String?
 
-        public init (
+        public init(
             allowedOperations: [LicenseManagerClientTypes.AllowedOperation]? = nil,
             receivedStatus: LicenseManagerClientTypes.ReceivedStatus? = nil,
             receivedStatusReason: Swift.String? = nil
@@ -11575,45 +10904,49 @@ extension LicenseManagerClientTypes {
 }
 
 extension RedirectException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-            self.location = locationHeaderValue
+            self.properties.location = locationHeaderValue
         } else {
-            self.location = nil
+            self.properties.location = nil
         }
-        if let data = try httpResponse.body.toData(),
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RedirectExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This is not the correct Region for the resource. Try again.
-public struct RedirectException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var location: Swift.String?
-    public var message: Swift.String?
+public struct RedirectException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var location: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RedirectException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         location: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.location = location
-        self.message = message
+        self.properties.location = location
+        self.properties.message = message
     }
 }
 
@@ -11626,7 +10959,7 @@ extension RedirectExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11657,7 +10990,7 @@ public struct RejectGrantInput: Swift.Equatable {
     /// This member is required.
     public var grantArn: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil
     )
     {
@@ -11674,50 +11007,33 @@ extension RejectGrantInputBody: Swift.Decodable {
         case grantArn = "GrantArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
     }
 }
 
-extension RejectGrantOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RejectGrantOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RejectGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RejectGrantOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RejectGrantOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RejectGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
@@ -11739,7 +11055,7 @@ public struct RejectGrantOutputResponse: Swift.Equatable {
     /// Grant version.
     public var version: Swift.String?
 
-    public init (
+    public init(
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
@@ -11764,7 +11080,7 @@ extension RejectGrantOutputResponseBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let grantArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantArn)
         grantArn = grantArnDecoded
@@ -11825,7 +11141,7 @@ extension LicenseManagerClientTypes.ReportContext: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .licenseConfigurationArns)
         var licenseConfigurationArnsDecoded0:[Swift.String]? = nil
@@ -11848,7 +11164,7 @@ extension LicenseManagerClientTypes {
         /// This member is required.
         public var licenseConfigurationArns: [Swift.String]?
 
-        public init (
+        public init(
             licenseConfigurationArns: [Swift.String]? = nil
         )
         {
@@ -11874,7 +11190,7 @@ extension LicenseManagerClientTypes.ReportFrequency: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
         value = valueDecoded
@@ -11891,7 +11207,7 @@ extension LicenseManagerClientTypes {
         /// Number of times within the frequency period that a report is generated. The only supported value is 1.
         public var value: Swift.Int?
 
-        public init (
+        public init(
             period: LicenseManagerClientTypes.ReportFrequencyType? = nil,
             value: Swift.Int? = nil
         )
@@ -12004,7 +11320,7 @@ extension LicenseManagerClientTypes.ReportGenerator: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGeneratorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportGeneratorName)
         reportGeneratorName = reportGeneratorNameDecoded
@@ -12083,7 +11399,7 @@ extension LicenseManagerClientTypes {
         /// Tags associated with the report generator.
         public var tags: [LicenseManagerClientTypes.Tag]?
 
-        public init (
+        public init(
             createTime: Swift.String? = nil,
             description: Swift.String? = nil,
             lastReportGenerationTime: Swift.String? = nil,
@@ -12181,7 +11497,7 @@ extension LicenseManagerClientTypes.ResourceInventory: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -12214,7 +11530,7 @@ extension LicenseManagerClientTypes {
         /// Type of resource.
         public var resourceType: LicenseManagerClientTypes.ResourceType?
 
-        public init (
+        public init(
             platform: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
@@ -12235,37 +11551,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension ResourceLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Your resource limits have been exceeded.
-public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12278,7 +11598,7 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12286,37 +11606,41 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource cannot be found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResource.NotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12329,7 +11653,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12393,7 +11717,7 @@ extension LicenseManagerClientTypes.S3Location: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
         bucket = bucketDecoded
@@ -12410,7 +11734,7 @@ extension LicenseManagerClientTypes {
         /// Prefix of the S3 bucket reports are published to.
         public var keyPrefix: Swift.String?
 
-        public init (
+        public init(
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil
         )
@@ -12423,37 +11747,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension ServerInternalException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServerInternalExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The server experienced an internal error. Try again.
-public struct ServerInternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12466,7 +11794,7 @@ extension ServerInternalExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12489,7 +11817,7 @@ extension LicenseManagerClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -12506,7 +11834,7 @@ extension LicenseManagerClientTypes {
         /// Tag value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -12552,7 +11880,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [LicenseManagerClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [LicenseManagerClientTypes.Tag]? = nil
     )
@@ -12573,7 +11901,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -12591,44 +11919,29 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension LicenseManagerClientTypes.TokenData: Swift.Codable {
@@ -12673,7 +11986,7 @@ extension LicenseManagerClientTypes.TokenData: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenId)
         tokenId = tokenIdDecoded
@@ -12728,7 +12041,7 @@ extension LicenseManagerClientTypes {
         /// Type of token generated. The supported value is REFRESH_TOKEN.
         public var tokenType: Swift.String?
 
-        public init (
+        public init(
             expirationTime: Swift.String? = nil,
             licenseArn: Swift.String? = nil,
             roleArns: [Swift.String]? = nil,
@@ -12780,37 +12093,41 @@ extension LicenseManagerClientTypes {
 }
 
 extension UnsupportedDigitalSignatureMethodException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedDigitalSignatureMethodExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The digital signature method is unsupported. Try your request again.
-public struct UnsupportedDigitalSignatureMethodException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnsupportedDigitalSignatureMethodException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedDigitalSignatureMethodException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12823,7 +12140,7 @@ extension UnsupportedDigitalSignatureMethodExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12864,7 +12181,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -12885,7 +12202,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -12903,44 +12220,29 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateLicenseConfigurationInput: Swift.Encodable {
@@ -13021,7 +12323,7 @@ public struct UpdateLicenseConfigurationInput: Swift.Equatable {
     /// New product information.
     public var productInformationList: [LicenseManagerClientTypes.ProductInformation]?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         disassociateWhenNotFound: Swift.Bool? = nil,
         licenseConfigurationArn: Swift.String? = nil,
@@ -13070,7 +12372,7 @@ extension UpdateLicenseConfigurationInputBody: Swift.Decodable {
         case productInformationList = "ProductInformationList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
         licenseConfigurationArn = licenseConfigurationArnDecoded
@@ -13111,46 +12413,30 @@ extension UpdateLicenseConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLicenseConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLicenseConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLicenseConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLicenseConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLicenseConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateLicenseManagerReportGeneratorInput: Swift.Encodable {
@@ -13225,7 +12511,7 @@ public struct UpdateLicenseManagerReportGeneratorInput: Swift.Equatable {
     /// This member is required.
     public var type: [LicenseManagerClientTypes.ReportType]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         licenseManagerReportGeneratorArn: Swift.String? = nil,
@@ -13266,7 +12552,7 @@ extension UpdateLicenseManagerReportGeneratorInputBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseManagerReportGeneratorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseManagerReportGeneratorArn)
         licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArnDecoded
@@ -13294,50 +12580,32 @@ extension UpdateLicenseManagerReportGeneratorInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLicenseManagerReportGeneratorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLicenseManagerReportGeneratorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLicenseManagerReportGeneratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResource.NotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case resourceLimitExceededException(ResourceLimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serverInternalException(ServerInternalException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLicenseManagerReportGeneratorOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateLicenseSpecificationsForResourceInput: Swift.Encodable {
@@ -13382,7 +12650,7 @@ public struct UpdateLicenseSpecificationsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         addLicenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]? = nil,
         removeLicenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]? = nil,
         resourceArn: Swift.String? = nil
@@ -13407,7 +12675,7 @@ extension UpdateLicenseSpecificationsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -13436,48 +12704,31 @@ extension UpdateLicenseSpecificationsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLicenseSpecificationsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLicenseSpecificationsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceState" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LicenseUsageFailure" : self = .licenseUsageException(try LicenseUsageException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLicenseSpecificationsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceState": return try await InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LicenseUsageFailure": return try await LicenseUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLicenseSpecificationsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case invalidResourceStateException(InvalidResourceStateException)
-    case licenseUsageException(LicenseUsageException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLicenseSpecificationsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLicenseSpecificationsForResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateServiceSettingsInput: Swift.Encodable {
@@ -13521,7 +12772,7 @@ public struct UpdateServiceSettingsInput: Swift.Equatable {
     /// Amazon Resource Name (ARN) of the Amazon SNS topic used for License Manager alerts.
     public var snsTopicArn: Swift.String?
 
-    public init (
+    public init(
         enableCrossAccountsDiscovery: Swift.Bool? = nil,
         organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration? = nil,
         s3BucketArn: Swift.String? = nil,
@@ -13550,7 +12801,7 @@ extension UpdateServiceSettingsInputBody: Swift.Decodable {
         case snsTopicArn = "SnsTopicArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
         s3BucketArn = s3BucketArnDecoded
@@ -13563,78 +12814,67 @@ extension UpdateServiceSettingsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateServiceSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateServiceSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ServiceAccessDenied" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateServiceSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationFailure": return try await AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueProvided": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateLimitExceeded": return try await RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateServiceSettingsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case authorizationException(AuthorizationException)
-    case invalidParameterValueException(InvalidParameterValueException)
-    case rateLimitExceededException(RateLimitExceededException)
-    case serverInternalException(ServerInternalException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateServiceSettingsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The provided input is not valid. Try your request again.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13647,7 +12887,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded

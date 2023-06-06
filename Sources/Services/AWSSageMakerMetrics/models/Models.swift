@@ -18,7 +18,7 @@ extension SageMakerMetricsClientTypes.BatchPutMetricsError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(SageMakerMetricsClientTypes.PutMetricsErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -43,7 +43,7 @@ extension SageMakerMetricsClientTypes {
         /// An index that corresponds to the metric in the request.
         public var metricIndex: Swift.Int
 
-        public init (
+        public init(
             code: SageMakerMetricsClientTypes.PutMetricsErrorCode? = nil,
             metricIndex: Swift.Int = 0
         )
@@ -89,7 +89,7 @@ public struct BatchPutMetricsInput: Swift.Equatable {
     /// This member is required.
     public var trialComponentName: Swift.String?
 
-    public init (
+    public init(
         metricData: [SageMakerMetricsClientTypes.RawMetricData]? = nil,
         trialComponentName: Swift.String? = nil
     )
@@ -110,7 +110,7 @@ extension BatchPutMetricsInputBody: Swift.Decodable {
         case trialComponentName = "TrialComponentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trialComponentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trialComponentName)
         trialComponentName = trialComponentNameDecoded
@@ -128,29 +128,19 @@ extension BatchPutMetricsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchPutMetricsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchPutMetricsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchPutMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchPutMetricsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchPutMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchPutMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
@@ -164,7 +154,7 @@ public struct BatchPutMetricsOutputResponse: Swift.Equatable {
     /// Lists any errors that occur when inserting metric data.
     public var errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]?
 
-    public init (
+    public init(
         errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]? = nil
     )
     {
@@ -181,7 +171,7 @@ extension BatchPutMetricsOutputResponseBody: Swift.Decodable {
         case errors = "Errors"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorsContainer = try containerValues.decodeIfPresent([SageMakerMetricsClientTypes.BatchPutMetricsError?].self, forKey: .errors)
         var errorsDecoded0:[SageMakerMetricsClientTypes.BatchPutMetricsError]? = nil
@@ -259,7 +249,7 @@ extension SageMakerMetricsClientTypes.RawMetricData: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
         metricName = metricNameDecoded
@@ -287,7 +277,7 @@ extension SageMakerMetricsClientTypes {
         /// This member is required.
         public var value: Swift.Double
 
-        public init (
+        public init(
             metricName: Swift.String? = nil,
             step: Swift.Int? = nil,
             timestamp: ClientRuntime.Date? = nil,

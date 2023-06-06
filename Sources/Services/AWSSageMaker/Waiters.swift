@@ -8,7 +8,7 @@ extension SageMakerClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
             .init(state: .failure, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "EndpointStatus"
@@ -58,7 +58,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeEndpointInput, result: Result<DescribeEndpointOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
@@ -100,7 +100,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
@@ -126,7 +126,7 @@ extension SageMakerClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
             .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "ImageStatus"
@@ -138,7 +138,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
@@ -180,7 +180,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeImageInput, result: Result<DescribeImageOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeImageInput, DescribeImageOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
@@ -222,7 +222,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
@@ -248,7 +248,7 @@ extension SageMakerClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
             .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "ImageVersionStatus"
@@ -260,7 +260,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Result<DescribeImageVersionOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
@@ -286,7 +286,7 @@ extension SageMakerClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
             .init(state: .failure, matcher: { (input: DescribeNotebookInstanceInput, result: Result<DescribeNotebookInstanceOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "NotebookInstanceStatus"
@@ -420,7 +420,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeProcessingJobInput, result: Result<DescribeProcessingJobOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
@@ -470,7 +470,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeTrainingJobInput, result: Result<DescribeTrainingJobOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutputResponse>(acceptors: acceptors, minDelay: 120.0, maxDelay: 120.0)
@@ -520,7 +520,7 @@ extension SageMakerClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeTransformJobInput, result: Result<DescribeTransformJobOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationException"
+                return (error as? ServiceError)?.typeName == "ValidationException"
             }),
         ]
         return try WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)

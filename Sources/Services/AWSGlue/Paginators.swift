@@ -576,7 +576,8 @@ extension ListCustomEntityTypesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListCustomEntityTypesInput {
         return ListCustomEntityTypesInput(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            tags: self.tags
         )}
 }
 extension GlueClient {
