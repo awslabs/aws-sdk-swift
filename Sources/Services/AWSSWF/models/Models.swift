@@ -18,7 +18,7 @@ extension SWFClientTypes.ActivityTaskCancelRequestedEventAttributes: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let decisionTaskCompletedEventIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .decisionTaskCompletedEventId) ?? 0
         decisionTaskCompletedEventId = decisionTaskCompletedEventIdDecoded
@@ -37,7 +37,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
 
-        public init (
+        public init(
             activityId: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
         )
@@ -73,7 +73,7 @@ extension SWFClientTypes.ActivityTaskCanceledEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let detailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .details)
         details = detailsDecoded
@@ -100,7 +100,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var startedEventId: Swift.Int
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             latestCancelRequestedEventId: Swift.Int = 0,
             scheduledEventId: Swift.Int = 0,
@@ -136,7 +136,7 @@ extension SWFClientTypes.ActivityTaskCompletedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .result)
         result = resultDecoded
@@ -159,7 +159,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var startedEventId: Swift.Int
 
-        public init (
+        public init(
             result: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0
@@ -197,7 +197,7 @@ extension SWFClientTypes.ActivityTaskFailedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
         reason = reasonDecoded
@@ -224,7 +224,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var startedEventId: Swift.Int
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             reason: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
@@ -292,7 +292,7 @@ extension SWFClientTypes.ActivityTaskScheduledEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activityTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.ActivityType.self, forKey: .activityType)
         activityType = activityTypeDecoded
@@ -349,7 +349,7 @@ extension SWFClientTypes {
         /// The priority to assign to the scheduled activity task. If set, this overrides any default priority value that was assigned when the activity type was registered. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see [Setting Task Priority](https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html) in the Amazon SWF Developer Guide.
         public var taskPriority: Swift.String?
 
-        public init (
+        public init(
             activityId: Swift.String? = nil,
             activityType: SWFClientTypes.ActivityType? = nil,
             control: Swift.String? = nil,
@@ -395,7 +395,7 @@ extension SWFClientTypes.ActivityTaskStartedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identity)
         identity = identityDecoded
@@ -413,7 +413,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var scheduledEventId: Swift.Int
 
-        public init (
+        public init(
             identity: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0
         )
@@ -449,7 +449,7 @@ extension SWFClientTypes.ActivityTaskTimedOutEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeoutTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.ActivityTaskTimeoutType.self, forKey: .timeoutType)
         timeoutType = timeoutTypeDecoded
@@ -477,7 +477,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timeoutType: SWFClientTypes.ActivityTaskTimeoutType?
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
@@ -547,7 +547,7 @@ extension SWFClientTypes.ActivityType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -566,7 +566,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var version: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -610,7 +610,7 @@ extension SWFClientTypes.ActivityTypeConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let defaultTaskStartToCloseTimeoutDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultTaskStartToCloseTimeout)
         defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeoutDecoded
@@ -643,7 +643,7 @@ extension SWFClientTypes {
         /// The default maximum duration for tasks of an activity type specified when registering the activity type. You can override this default when scheduling a task through the ScheduleActivityTask[Decision]. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public var defaultTaskStartToCloseTimeout: Swift.String?
 
-        public init (
+        public init(
             defaultTaskHeartbeatTimeout: Swift.String? = nil,
             defaultTaskList: SWFClientTypes.TaskList? = nil,
             defaultTaskPriority: Swift.String? = nil,
@@ -691,7 +691,7 @@ extension SWFClientTypes.ActivityTypeInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activityTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.ActivityType.self, forKey: .activityType)
         activityType = activityTypeDecoded
@@ -723,7 +723,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var status: SWFClientTypes.RegistrationStatus?
 
-        public init (
+        public init(
             activityType: SWFClientTypes.ActivityType? = nil,
             creationDate: ClientRuntime.Date? = nil,
             deprecationDate: ClientRuntime.Date? = nil,
@@ -753,7 +753,7 @@ extension SWFClientTypes.CancelTimerDecisionAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timerId)
         timerId = timerIdDecoded
@@ -776,7 +776,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timerId: Swift.String?
 
-        public init (
+        public init(
             timerId: Swift.String? = nil
         )
         {
@@ -838,7 +838,7 @@ extension SWFClientTypes.CancelTimerFailedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timerId)
         timerId = timerIdDecoded
@@ -862,7 +862,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timerId: Swift.String?
 
-        public init (
+        public init(
             cause: SWFClientTypes.CancelTimerFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             timerId: Swift.String? = nil
@@ -888,7 +888,7 @@ extension SWFClientTypes.CancelWorkflowExecutionDecisionAttributes: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let detailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .details)
         details = detailsDecoded
@@ -910,7 +910,7 @@ extension SWFClientTypes {
         /// Details of the cancellation.
         public var details: Swift.String?
 
-        public init (
+        public init(
             details: Swift.String? = nil
         )
         {
@@ -968,7 +968,7 @@ extension SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let causeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.CancelWorkflowExecutionFailedCause.self, forKey: .cause)
         cause = causeDecoded
@@ -987,7 +987,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
 
-        public init (
+        public init(
             cause: SWFClientTypes.CancelWorkflowExecutionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
         )
@@ -1062,7 +1062,7 @@ extension SWFClientTypes.ChildWorkflowExecutionCanceledEventAttributes: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .workflowExecution)
         workflowExecution = workflowExecutionDecoded
@@ -1095,7 +1095,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             initiatedEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
@@ -1141,7 +1141,7 @@ extension SWFClientTypes.ChildWorkflowExecutionCompletedEventAttributes: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .workflowExecution)
         workflowExecution = workflowExecutionDecoded
@@ -1174,7 +1174,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             initiatedEventId: Swift.Int = 0,
             result: Swift.String? = nil,
             startedEventId: Swift.Int = 0,
@@ -1224,7 +1224,7 @@ extension SWFClientTypes.ChildWorkflowExecutionFailedEventAttributes: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .workflowExecution)
         workflowExecution = workflowExecutionDecoded
@@ -1261,7 +1261,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             initiatedEventId: Swift.Int = 0,
             reason: Swift.String? = nil,
@@ -1301,7 +1301,7 @@ extension SWFClientTypes.ChildWorkflowExecutionStartedEventAttributes: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .workflowExecution)
         workflowExecution = workflowExecutionDecoded
@@ -1325,7 +1325,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             initiatedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
@@ -1363,7 +1363,7 @@ extension SWFClientTypes.ChildWorkflowExecutionTerminatedEventAttributes: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .workflowExecution)
         workflowExecution = workflowExecutionDecoded
@@ -1392,7 +1392,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             initiatedEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
@@ -1436,7 +1436,7 @@ extension SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .workflowExecution)
         workflowExecution = workflowExecutionDecoded
@@ -1470,7 +1470,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             initiatedEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             timeoutType: SWFClientTypes.WorkflowExecutionTimeoutType? = nil,
@@ -1544,7 +1544,7 @@ extension SWFClientTypes.CloseStatusFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(SWFClientTypes.CloseStatus.self, forKey: .status)
         status = statusDecoded
@@ -1558,7 +1558,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var status: SWFClientTypes.CloseStatus?
 
-        public init (
+        public init(
             status: SWFClientTypes.CloseStatus? = nil
         )
         {
@@ -1580,7 +1580,7 @@ extension SWFClientTypes.CompleteWorkflowExecutionDecisionAttributes: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .result)
         result = resultDecoded
@@ -1602,7 +1602,7 @@ extension SWFClientTypes {
         /// The result of the workflow execution. The form of the result is implementation defined.
         public var result: Swift.String?
 
-        public init (
+        public init(
             result: Swift.String? = nil
         )
         {
@@ -1660,7 +1660,7 @@ extension SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let causeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.CompleteWorkflowExecutionFailedCause.self, forKey: .cause)
         cause = causeDecoded
@@ -1679,7 +1679,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
 
-        public init (
+        public init(
             cause: SWFClientTypes.CompleteWorkflowExecutionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
         )
@@ -1738,7 +1738,7 @@ extension SWFClientTypes.ContinueAsNewWorkflowExecutionDecisionAttributes: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .input)
         input = inputDecoded
@@ -1819,7 +1819,7 @@ extension SWFClientTypes {
         /// The version of the workflow to start.
         public var workflowTypeVersion: Swift.String?
 
-        public init (
+        public init(
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             executionStartToCloseTimeout: Swift.String? = nil,
             input: Swift.String? = nil,
@@ -1914,7 +1914,7 @@ extension SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let causeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.ContinueAsNewWorkflowExecutionFailedCause.self, forKey: .cause)
         cause = causeDecoded
@@ -1933,7 +1933,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
 
-        public init (
+        public init(
             cause: SWFClientTypes.ContinueAsNewWorkflowExecutionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
         )
@@ -2005,7 +2005,7 @@ public struct CountClosedWorkflowExecutionsInput: Swift.Equatable {
     /// If specified, indicates the type of the workflow executions to be counted. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
     public var typeFilter: SWFClientTypes.WorkflowTypeFilter?
 
-    public init (
+    public init(
         closeStatusFilter: SWFClientTypes.CloseStatusFilter? = nil,
         closeTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         domain: Swift.String? = nil,
@@ -2046,7 +2046,7 @@ extension CountClosedWorkflowExecutionsInputBody: Swift.Decodable {
         case typeFilter
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -2065,33 +2065,21 @@ extension CountClosedWorkflowExecutionsInputBody: Swift.Decodable {
     }
 }
 
-extension CountClosedWorkflowExecutionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CountClosedWorkflowExecutionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CountClosedWorkflowExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CountClosedWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CountClosedWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CountClosedWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
@@ -2111,7 +2099,7 @@ public struct CountClosedWorkflowExecutionsOutputResponse: Swift.Equatable {
     /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
     public var truncated: Swift.Bool
 
-    public init (
+    public init(
         count: Swift.Int = 0,
         truncated: Swift.Bool = false
     )
@@ -2132,7 +2120,7 @@ extension CountClosedWorkflowExecutionsOutputResponseBody: Swift.Decodable {
         case truncated
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -2190,7 +2178,7 @@ public struct CountOpenWorkflowExecutionsInput: Swift.Equatable {
     /// Specifies the type of the workflow executions to be counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
     public var typeFilter: SWFClientTypes.WorkflowTypeFilter?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         executionFilter: SWFClientTypes.WorkflowExecutionFilter? = nil,
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
@@ -2223,7 +2211,7 @@ extension CountOpenWorkflowExecutionsInputBody: Swift.Decodable {
         case typeFilter
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -2238,33 +2226,21 @@ extension CountOpenWorkflowExecutionsInputBody: Swift.Decodable {
     }
 }
 
-extension CountOpenWorkflowExecutionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CountOpenWorkflowExecutionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CountOpenWorkflowExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CountOpenWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CountOpenWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CountOpenWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
@@ -2284,7 +2260,7 @@ public struct CountOpenWorkflowExecutionsOutputResponse: Swift.Equatable {
     /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
     public var truncated: Swift.Bool
 
-    public init (
+    public init(
         count: Swift.Int = 0,
         truncated: Swift.Bool = false
     )
@@ -2305,7 +2281,7 @@ extension CountOpenWorkflowExecutionsOutputResponseBody: Swift.Decodable {
         case truncated
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -2345,7 +2321,7 @@ public struct CountPendingActivityTasksInput: Swift.Equatable {
     /// This member is required.
     public var taskList: SWFClientTypes.TaskList?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         taskList: SWFClientTypes.TaskList? = nil
     )
@@ -2366,7 +2342,7 @@ extension CountPendingActivityTasksInputBody: Swift.Decodable {
         case taskList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -2375,33 +2351,21 @@ extension CountPendingActivityTasksInputBody: Swift.Decodable {
     }
 }
 
-extension CountPendingActivityTasksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CountPendingActivityTasksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CountPendingActivityTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CountPendingActivityTasksOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CountPendingActivityTasksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CountPendingActivityTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
@@ -2421,7 +2385,7 @@ public struct CountPendingActivityTasksOutputResponse: Swift.Equatable {
     /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
     public var truncated: Swift.Bool
 
-    public init (
+    public init(
         count: Swift.Int = 0,
         truncated: Swift.Bool = false
     )
@@ -2442,7 +2406,7 @@ extension CountPendingActivityTasksOutputResponseBody: Swift.Decodable {
         case truncated
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -2482,7 +2446,7 @@ public struct CountPendingDecisionTasksInput: Swift.Equatable {
     /// This member is required.
     public var taskList: SWFClientTypes.TaskList?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         taskList: SWFClientTypes.TaskList? = nil
     )
@@ -2503,7 +2467,7 @@ extension CountPendingDecisionTasksInputBody: Swift.Decodable {
         case taskList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -2512,33 +2476,21 @@ extension CountPendingDecisionTasksInputBody: Swift.Decodable {
     }
 }
 
-extension CountPendingDecisionTasksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CountPendingDecisionTasksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CountPendingDecisionTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CountPendingDecisionTasksOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CountPendingDecisionTasksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CountPendingDecisionTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
@@ -2558,7 +2510,7 @@ public struct CountPendingDecisionTasksOutputResponse: Swift.Equatable {
     /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
     public var truncated: Swift.Bool
 
-    public init (
+    public init(
         count: Swift.Int = 0,
         truncated: Swift.Bool = false
     )
@@ -2579,7 +2531,7 @@ extension CountPendingDecisionTasksOutputResponseBody: Swift.Decodable {
         case truncated
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -2652,7 +2604,7 @@ extension SWFClientTypes.Decision: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let decisionTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.DecisionType.self, forKey: .decisionType)
         decisionType = decisionTypeDecoded
@@ -2803,7 +2755,7 @@ extension SWFClientTypes {
         /// Provides the details of the StartTimer decision. It isn't set for other decision types.
         public var startTimerDecisionAttributes: SWFClientTypes.StartTimerDecisionAttributes?
 
-        public init (
+        public init(
             cancelTimerDecisionAttributes: SWFClientTypes.CancelTimerDecisionAttributes? = nil,
             cancelWorkflowExecutionDecisionAttributes: SWFClientTypes.CancelWorkflowExecutionDecisionAttributes? = nil,
             completeWorkflowExecutionDecisionAttributes: SWFClientTypes.CompleteWorkflowExecutionDecisionAttributes? = nil,
@@ -2859,7 +2811,7 @@ extension SWFClientTypes.DecisionTaskCompletedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionContextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionContext)
         executionContext = executionContextDecoded
@@ -2882,7 +2834,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var startedEventId: Swift.Int
 
-        public init (
+        public init(
             executionContext: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0
@@ -2916,7 +2868,7 @@ extension SWFClientTypes.DecisionTaskScheduledEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskListDecoded = try containerValues.decodeIfPresent(SWFClientTypes.TaskList.self, forKey: .taskList)
         taskList = taskListDecoded
@@ -2938,7 +2890,7 @@ extension SWFClientTypes {
         /// A task priority that, if set, specifies the priority for this decision task. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see [Setting Task Priority](https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html) in the Amazon SWF Developer Guide.
         public var taskPriority: Swift.String?
 
-        public init (
+        public init(
             startToCloseTimeout: Swift.String? = nil,
             taskList: SWFClientTypes.TaskList? = nil,
             taskPriority: Swift.String? = nil
@@ -2968,7 +2920,7 @@ extension SWFClientTypes.DecisionTaskStartedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identity)
         identity = identityDecoded
@@ -2986,7 +2938,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var scheduledEventId: Swift.Int
 
-        public init (
+        public init(
             identity: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0
         )
@@ -3018,7 +2970,7 @@ extension SWFClientTypes.DecisionTaskTimedOutEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeoutTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.DecisionTaskTimeoutType.self, forKey: .timeoutType)
         timeoutType = timeoutTypeDecoded
@@ -3042,7 +2994,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timeoutType: SWFClientTypes.DecisionTaskTimeoutType?
 
-        public init (
+        public init(
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             timeoutType: SWFClientTypes.DecisionTaskTimeoutType? = nil
@@ -3151,37 +3103,41 @@ extension SWFClientTypes {
 }
 
 extension DefaultUndefinedFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DefaultUndefinedFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The StartWorkflowExecution API action was called without the required parameters set. Some workflow execution parameters, such as the decision taskList, must be set to start the execution. However, these parameters might have been set as defaults when the workflow type was registered. In this case, you can omit these parameters from the StartWorkflowExecution call and Amazon SWF uses the values defined in the workflow type. If these parameters aren't set and no default parameters were defined in the workflow type, this error is displayed.
-public struct DefaultUndefinedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DefaultUndefinedFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3194,7 +3150,7 @@ extension DefaultUndefinedFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3232,7 +3188,7 @@ public struct DeprecateActivityTypeInput: Swift.Equatable {
     /// This member is required.
     public var domain: Swift.String?
 
-    public init (
+    public init(
         activityType: SWFClientTypes.ActivityType? = nil,
         domain: Swift.String? = nil
     )
@@ -3253,7 +3209,7 @@ extension DeprecateActivityTypeInputBody: Swift.Decodable {
         case domain
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -3262,40 +3218,27 @@ extension DeprecateActivityTypeInputBody: Swift.Decodable {
     }
 }
 
-extension DeprecateActivityTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeprecateActivityTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeDeprecatedFault" : self = .typeDeprecatedFault(try TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeprecateActivityTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TypeDeprecatedFault": return try await TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeprecateActivityTypeOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case typeDeprecatedFault(TypeDeprecatedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeprecateActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeprecateActivityTypeOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeprecateDomainInput: Swift.Encodable {
@@ -3322,7 +3265,7 @@ public struct DeprecateDomainInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -3339,47 +3282,34 @@ extension DeprecateDomainInputBody: Swift.Decodable {
         case name
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension DeprecateDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeprecateDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DomainDeprecatedFault" : self = .domainDeprecatedFault(try DomainDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeprecateDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DomainDeprecatedFault": return try await DomainDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeprecateDomainOutputError: Swift.Error, Swift.Equatable {
-    case domainDeprecatedFault(DomainDeprecatedFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeprecateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeprecateDomainOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeprecateWorkflowTypeInput: Swift.Encodable {
@@ -3413,7 +3343,7 @@ public struct DeprecateWorkflowTypeInput: Swift.Equatable {
     /// This member is required.
     public var workflowType: SWFClientTypes.WorkflowType?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
     )
@@ -3434,7 +3364,7 @@ extension DeprecateWorkflowTypeInputBody: Swift.Decodable {
         case workflowType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -3443,40 +3373,27 @@ extension DeprecateWorkflowTypeInputBody: Swift.Decodable {
     }
 }
 
-extension DeprecateWorkflowTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeprecateWorkflowTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeDeprecatedFault" : self = .typeDeprecatedFault(try TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeprecateWorkflowTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TypeDeprecatedFault": return try await TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeprecateWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case typeDeprecatedFault(TypeDeprecatedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeprecateWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeprecateWorkflowTypeOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeActivityTypeInput: Swift.Encodable {
@@ -3510,7 +3427,7 @@ public struct DescribeActivityTypeInput: Swift.Equatable {
     /// This member is required.
     public var domain: Swift.String?
 
-    public init (
+    public init(
         activityType: SWFClientTypes.ActivityType? = nil,
         domain: Swift.String? = nil
     )
@@ -3531,7 +3448,7 @@ extension DescribeActivityTypeInputBody: Swift.Decodable {
         case domain
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -3540,33 +3457,21 @@ extension DescribeActivityTypeInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeActivityTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeActivityTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeActivityTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeActivityTypeOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeActivityTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
@@ -3591,7 +3496,7 @@ public struct DescribeActivityTypeOutputResponse: Swift.Equatable {
     /// This member is required.
     public var typeInfo: SWFClientTypes.ActivityTypeInfo?
 
-    public init (
+    public init(
         configuration: SWFClientTypes.ActivityTypeConfiguration? = nil,
         typeInfo: SWFClientTypes.ActivityTypeInfo? = nil
     )
@@ -3612,7 +3517,7 @@ extension DescribeActivityTypeOutputResponseBody: Swift.Decodable {
         case typeInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeInfoDecoded = try containerValues.decodeIfPresent(SWFClientTypes.ActivityTypeInfo.self, forKey: .typeInfo)
         typeInfo = typeInfoDecoded
@@ -3645,7 +3550,7 @@ public struct DescribeDomainInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -3662,40 +3567,28 @@ extension DescribeDomainInputBody: Swift.Decodable {
         case name
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension DescribeDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDomainOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
@@ -3716,7 +3609,7 @@ public struct DescribeDomainOutputResponse: Swift.Equatable {
     /// This member is required.
     public var domainInfo: SWFClientTypes.DomainInfo?
 
-    public init (
+    public init(
         configuration: SWFClientTypes.DomainConfiguration? = nil,
         domainInfo: SWFClientTypes.DomainInfo? = nil
     )
@@ -3737,7 +3630,7 @@ extension DescribeDomainOutputResponseBody: Swift.Decodable {
         case domainInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainInfoDecoded = try containerValues.decodeIfPresent(SWFClientTypes.DomainInfo.self, forKey: .domainInfo)
         domainInfo = domainInfoDecoded
@@ -3777,7 +3670,7 @@ public struct DescribeWorkflowExecutionInput: Swift.Equatable {
     /// This member is required.
     public var execution: SWFClientTypes.WorkflowExecution?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         execution: SWFClientTypes.WorkflowExecution? = nil
     )
@@ -3798,7 +3691,7 @@ extension DescribeWorkflowExecutionInputBody: Swift.Decodable {
         case execution
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -3807,33 +3700,21 @@ extension DescribeWorkflowExecutionInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWorkflowExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkflowExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkflowExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkflowExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionConfiguration = output.executionConfiguration
@@ -3867,7 +3748,7 @@ public struct DescribeWorkflowExecutionOutputResponse: Swift.Equatable {
     /// This member is required.
     public var openCounts: SWFClientTypes.WorkflowExecutionOpenCounts?
 
-    public init (
+    public init(
         executionConfiguration: SWFClientTypes.WorkflowExecutionConfiguration? = nil,
         executionInfo: SWFClientTypes.WorkflowExecutionInfo? = nil,
         latestActivityTaskTimestamp: ClientRuntime.Date? = nil,
@@ -3900,7 +3781,7 @@ extension DescribeWorkflowExecutionOutputResponseBody: Swift.Decodable {
         case openCounts
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionInfoDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecutionInfo.self, forKey: .executionInfo)
         executionInfo = executionInfoDecoded
@@ -3946,7 +3827,7 @@ public struct DescribeWorkflowTypeInput: Swift.Equatable {
     /// This member is required.
     public var workflowType: SWFClientTypes.WorkflowType?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
     )
@@ -3967,7 +3848,7 @@ extension DescribeWorkflowTypeInputBody: Swift.Decodable {
         case workflowType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -3976,33 +3857,21 @@ extension DescribeWorkflowTypeInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWorkflowTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkflowTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkflowTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkflowTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
@@ -4027,7 +3896,7 @@ public struct DescribeWorkflowTypeOutputResponse: Swift.Equatable {
     /// This member is required.
     public var typeInfo: SWFClientTypes.WorkflowTypeInfo?
 
-    public init (
+    public init(
         configuration: SWFClientTypes.WorkflowTypeConfiguration? = nil,
         typeInfo: SWFClientTypes.WorkflowTypeInfo? = nil
     )
@@ -4048,7 +3917,7 @@ extension DescribeWorkflowTypeOutputResponseBody: Swift.Decodable {
         case typeInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeInfoDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowTypeInfo.self, forKey: .typeInfo)
         typeInfo = typeInfoDecoded
@@ -4058,38 +3927,42 @@ extension DescribeWorkflowTypeOutputResponseBody: Swift.Decodable {
 }
 
 extension DomainAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DomainAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if the domain already exists. You may get this fault if you are registering a domain that is either already registered or deprecated, or if you undeprecate a domain that is currently registered.
-public struct DomainAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description that may help with diagnosing the cause of the fault.
-    public var message: Swift.String?
+public struct DomainAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description that may help with diagnosing the cause of the fault.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DomainAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4102,7 +3975,7 @@ extension DomainAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4121,7 +3994,7 @@ extension SWFClientTypes.DomainConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionRetentionPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowExecutionRetentionPeriodInDays)
         workflowExecutionRetentionPeriodInDays = workflowExecutionRetentionPeriodInDaysDecoded
@@ -4135,7 +4008,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowExecutionRetentionPeriodInDays: Swift.String?
 
-        public init (
+        public init(
             workflowExecutionRetentionPeriodInDays: Swift.String? = nil
         )
         {
@@ -4146,38 +4019,42 @@ extension SWFClientTypes {
 }
 
 extension DomainDeprecatedFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DomainDeprecatedFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned when the specified domain has been deprecated.
-public struct DomainDeprecatedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description that may help with diagnosing the cause of the fault.
-    public var message: Swift.String?
+public struct DomainDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description that may help with diagnosing the cause of the fault.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DomainDeprecatedFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4190,7 +4067,7 @@ extension DomainDeprecatedFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4221,7 +4098,7 @@ extension SWFClientTypes.DomainInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4252,7 +4129,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var status: SWFClientTypes.RegistrationStatus?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -4504,7 +4381,7 @@ extension SWFClientTypes.ExecutionTimeFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oldestDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .oldestDate)
         oldestDate = oldestDateDecoded
@@ -4522,7 +4399,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var oldestDate: ClientRuntime.Date?
 
-        public init (
+        public init(
             latestDate: ClientRuntime.Date? = nil,
             oldestDate: ClientRuntime.Date? = nil
         )
@@ -4550,7 +4427,7 @@ extension SWFClientTypes.ExternalWorkflowExecutionCancelRequestedEventAttributes
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .workflowExecution)
         workflowExecution = workflowExecutionDecoded
@@ -4569,7 +4446,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowExecution: SWFClientTypes.WorkflowExecution?
 
-        public init (
+        public init(
             initiatedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil
         )
@@ -4597,7 +4474,7 @@ extension SWFClientTypes.ExternalWorkflowExecutionSignaledEventAttributes: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .workflowExecution)
         workflowExecution = workflowExecutionDecoded
@@ -4616,7 +4493,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowExecution: SWFClientTypes.WorkflowExecution?
 
-        public init (
+        public init(
             initiatedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil
         )
@@ -4644,7 +4521,7 @@ extension SWFClientTypes.FailWorkflowExecutionDecisionAttributes: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
         reason = reasonDecoded
@@ -4670,7 +4547,7 @@ extension SWFClientTypes {
         /// A descriptive reason for the failure that may help in diagnostics.
         public var reason: Swift.String?
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             reason: Swift.String? = nil
         )
@@ -4730,7 +4607,7 @@ extension SWFClientTypes.FailWorkflowExecutionFailedEventAttributes: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let causeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.FailWorkflowExecutionFailedCause.self, forKey: .cause)
         cause = causeDecoded
@@ -4749,7 +4626,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
 
-        public init (
+        public init(
             cause: SWFClientTypes.FailWorkflowExecutionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
         )
@@ -4810,7 +4687,7 @@ public struct GetWorkflowExecutionHistoryInput: Swift.Equatable {
     /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
     public var reverseOrder: Swift.Bool?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         execution: SWFClientTypes.WorkflowExecution? = nil,
         maximumPageSize: Swift.Int? = nil,
@@ -4843,7 +4720,7 @@ extension GetWorkflowExecutionHistoryInputBody: Swift.Decodable {
         case reverseOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -4858,33 +4735,21 @@ extension GetWorkflowExecutionHistoryInputBody: Swift.Decodable {
     }
 }
 
-extension GetWorkflowExecutionHistoryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetWorkflowExecutionHistoryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetWorkflowExecutionHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetWorkflowExecutionHistoryOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetWorkflowExecutionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetWorkflowExecutionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
@@ -4904,7 +4769,7 @@ public struct GetWorkflowExecutionHistoryOutputResponse: Swift.Equatable {
     /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         events: [SWFClientTypes.HistoryEvent]? = nil,
         nextPageToken: Swift.String? = nil
     )
@@ -4925,7 +4790,7 @@ extension GetWorkflowExecutionHistoryOutputResponseBody: Swift.Decodable {
         case nextPageToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventsContainer = try containerValues.decodeIfPresent([SWFClientTypes.HistoryEvent?].self, forKey: .events)
         var eventsDecoded0:[SWFClientTypes.HistoryEvent]? = nil
@@ -5179,7 +5044,7 @@ extension SWFClientTypes.HistoryEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .eventTimestamp)
         eventTimestamp = eventTimestampDecoded
@@ -5515,7 +5380,7 @@ extension SWFClientTypes {
         /// If the event is of type WorkflowExecutionTimedOut then this member is set and provides detailed information about the event. It isn't set for other event types.
         public var workflowExecutionTimedOutEventAttributes: SWFClientTypes.WorkflowExecutionTimedOutEventAttributes?
 
-        public init (
+        public init(
             activityTaskCancelRequestedEventAttributes: SWFClientTypes.ActivityTaskCancelRequestedEventAttributes? = nil,
             activityTaskCanceledEventAttributes: SWFClientTypes.ActivityTaskCanceledEventAttributes? = nil,
             activityTaskCompletedEventAttributes: SWFClientTypes.ActivityTaskCompletedEventAttributes? = nil,
@@ -5657,7 +5522,7 @@ extension SWFClientTypes.LambdaFunctionCompletedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduledEventIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduledEventId) ?? 0
         scheduledEventId = scheduledEventIdDecoded
@@ -5680,7 +5545,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var startedEventId: Swift.Int
 
-        public init (
+        public init(
             result: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0
@@ -5718,7 +5583,7 @@ extension SWFClientTypes.LambdaFunctionFailedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduledEventIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduledEventId) ?? 0
         scheduledEventId = scheduledEventIdDecoded
@@ -5745,7 +5610,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var startedEventId: Swift.Int
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             reason: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
@@ -5793,7 +5658,7 @@ extension SWFClientTypes.LambdaFunctionScheduledEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -5829,7 +5694,7 @@ extension SWFClientTypes {
         /// The maximum amount of time a worker can take to process the Lambda task.
         public var startToCloseTimeout: Swift.String?
 
-        public init (
+        public init(
             control: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             id: Swift.String? = nil,
@@ -5861,7 +5726,7 @@ extension SWFClientTypes.LambdaFunctionStartedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduledEventIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduledEventId) ?? 0
         scheduledEventId = scheduledEventIdDecoded
@@ -5875,7 +5740,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var scheduledEventId: Swift.Int
 
-        public init (
+        public init(
             scheduledEventId: Swift.Int = 0
         )
         {
@@ -5905,7 +5770,7 @@ extension SWFClientTypes.LambdaFunctionTimedOutEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduledEventIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduledEventId) ?? 0
         scheduledEventId = scheduledEventIdDecoded
@@ -5928,7 +5793,7 @@ extension SWFClientTypes {
         /// The type of the timeout that caused this event.
         public var timeoutType: SWFClientTypes.LambdaFunctionTimeoutType?
 
-        public init (
+        public init(
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             timeoutType: SWFClientTypes.LambdaFunctionTimeoutType? = nil
@@ -5972,38 +5837,42 @@ extension SWFClientTypes {
 }
 
 extension LimitExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
-public struct LimitExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description that may help with diagnosing the cause of the fault.
-    public var message: Swift.String?
+public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description that may help with diagnosing the cause of the fault.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6016,7 +5885,7 @@ extension LimitExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6078,7 +5947,7 @@ public struct ListActivityTypesInput: Swift.Equatable {
     /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the activity types.
     public var reverseOrder: Swift.Bool?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         maximumPageSize: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -6115,7 +5984,7 @@ extension ListActivityTypesInputBody: Swift.Decodable {
         case reverseOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -6132,33 +6001,21 @@ extension ListActivityTypesInputBody: Swift.Decodable {
     }
 }
 
-extension ListActivityTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListActivityTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListActivityTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListActivityTypesOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListActivityTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListActivityTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
@@ -6178,7 +6035,7 @@ public struct ListActivityTypesOutputResponse: Swift.Equatable {
     /// This member is required.
     public var typeInfos: [SWFClientTypes.ActivityTypeInfo]?
 
-    public init (
+    public init(
         nextPageToken: Swift.String? = nil,
         typeInfos: [SWFClientTypes.ActivityTypeInfo]? = nil
     )
@@ -6199,7 +6056,7 @@ extension ListActivityTypesOutputResponseBody: Swift.Decodable {
         case typeInfos
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeInfosContainer = try containerValues.decodeIfPresent([SWFClientTypes.ActivityTypeInfo?].self, forKey: .typeInfos)
         var typeInfosDecoded0:[SWFClientTypes.ActivityTypeInfo]? = nil
@@ -6295,7 +6152,7 @@ public struct ListClosedWorkflowExecutionsInput: Swift.Equatable {
     /// If specified, only executions of the type specified in the filter are returned. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
     public var typeFilter: SWFClientTypes.WorkflowTypeFilter?
 
-    public init (
+    public init(
         closeStatusFilter: SWFClientTypes.CloseStatusFilter? = nil,
         closeTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         domain: Swift.String? = nil,
@@ -6348,7 +6205,7 @@ extension ListClosedWorkflowExecutionsInputBody: Swift.Decodable {
         case typeFilter
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -6373,33 +6230,21 @@ extension ListClosedWorkflowExecutionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListClosedWorkflowExecutionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListClosedWorkflowExecutionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListClosedWorkflowExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListClosedWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListClosedWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListClosedWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionInfos = output.executionInfos
@@ -6419,7 +6264,7 @@ public struct ListClosedWorkflowExecutionsOutputResponse: Swift.Equatable {
     /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         executionInfos: [SWFClientTypes.WorkflowExecutionInfo]? = nil,
         nextPageToken: Swift.String? = nil
     )
@@ -6440,7 +6285,7 @@ extension ListClosedWorkflowExecutionsOutputResponseBody: Swift.Decodable {
         case nextPageToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionInfosContainer = try containerValues.decodeIfPresent([SWFClientTypes.WorkflowExecutionInfo?].self, forKey: .executionInfos)
         var executionInfosDecoded0:[SWFClientTypes.WorkflowExecutionInfo]? = nil
@@ -6500,7 +6345,7 @@ public struct ListDomainsInput: Swift.Equatable {
     /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
     public var reverseOrder: Swift.Bool?
 
-    public init (
+    public init(
         maximumPageSize: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
@@ -6529,7 +6374,7 @@ extension ListDomainsInputBody: Swift.Decodable {
         case reverseOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -6542,31 +6387,20 @@ extension ListDomainsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDomainsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDomainsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDomainsOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainInfos = output.domainInfos
@@ -6586,7 +6420,7 @@ public struct ListDomainsOutputResponse: Swift.Equatable {
     /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         domainInfos: [SWFClientTypes.DomainInfo]? = nil,
         nextPageToken: Swift.String? = nil
     )
@@ -6607,7 +6441,7 @@ extension ListDomainsOutputResponseBody: Swift.Decodable {
         case nextPageToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainInfosContainer = try containerValues.decodeIfPresent([SWFClientTypes.DomainInfo?].self, forKey: .domainInfos)
         var domainInfosDecoded0:[SWFClientTypes.DomainInfo]? = nil
@@ -6692,7 +6526,7 @@ public struct ListOpenWorkflowExecutionsInput: Swift.Equatable {
     /// If specified, only executions of the type specified in the filter are returned. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
     public var typeFilter: SWFClientTypes.WorkflowTypeFilter?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         executionFilter: SWFClientTypes.WorkflowExecutionFilter? = nil,
         maximumPageSize: Swift.Int? = nil,
@@ -6737,7 +6571,7 @@ extension ListOpenWorkflowExecutionsInputBody: Swift.Decodable {
         case typeFilter
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -6758,33 +6592,21 @@ extension ListOpenWorkflowExecutionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListOpenWorkflowExecutionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListOpenWorkflowExecutionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListOpenWorkflowExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListOpenWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListOpenWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListOpenWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionInfos = output.executionInfos
@@ -6804,7 +6626,7 @@ public struct ListOpenWorkflowExecutionsOutputResponse: Swift.Equatable {
     /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         executionInfos: [SWFClientTypes.WorkflowExecutionInfo]? = nil,
         nextPageToken: Swift.String? = nil
     )
@@ -6825,7 +6647,7 @@ extension ListOpenWorkflowExecutionsOutputResponseBody: Swift.Decodable {
         case nextPageToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionInfosContainer = try containerValues.decodeIfPresent([SWFClientTypes.WorkflowExecutionInfo?].self, forKey: .executionInfos)
         var executionInfosDecoded0:[SWFClientTypes.WorkflowExecutionInfo]? = nil
@@ -6867,7 +6689,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -6884,42 +6706,29 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -6933,7 +6742,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// An array of tags associated with the domain.
     public var tags: [SWFClientTypes.ResourceTag]?
 
-    public init (
+    public init(
         tags: [SWFClientTypes.ResourceTag]? = nil
     )
     {
@@ -6950,7 +6759,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([SWFClientTypes.ResourceTag?].self, forKey: .tags)
         var tagsDecoded0:[SWFClientTypes.ResourceTag]? = nil
@@ -7021,7 +6830,7 @@ public struct ListWorkflowTypesInput: Swift.Equatable {
     /// When set to true, returns the results in reverse order. By default the results are returned in ascending alphabetical order of the name of the workflow types.
     public var reverseOrder: Swift.Bool?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         maximumPageSize: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -7058,7 +6867,7 @@ extension ListWorkflowTypesInputBody: Swift.Decodable {
         case reverseOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -7075,33 +6884,21 @@ extension ListWorkflowTypesInputBody: Swift.Decodable {
     }
 }
 
-extension ListWorkflowTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListWorkflowTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListWorkflowTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListWorkflowTypesOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListWorkflowTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListWorkflowTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
@@ -7121,7 +6918,7 @@ public struct ListWorkflowTypesOutputResponse: Swift.Equatable {
     /// This member is required.
     public var typeInfos: [SWFClientTypes.WorkflowTypeInfo]?
 
-    public init (
+    public init(
         nextPageToken: Swift.String? = nil,
         typeInfos: [SWFClientTypes.WorkflowTypeInfo]? = nil
     )
@@ -7142,7 +6939,7 @@ extension ListWorkflowTypesOutputResponseBody: Swift.Decodable {
         case typeInfos
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeInfosContainer = try containerValues.decodeIfPresent([SWFClientTypes.WorkflowTypeInfo?].self, forKey: .typeInfos)
         var typeInfosDecoded0:[SWFClientTypes.WorkflowTypeInfo]? = nil
@@ -7180,7 +6977,7 @@ extension SWFClientTypes.MarkerRecordedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let markerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .markerName)
         markerName = markerNameDecoded
@@ -7203,7 +7000,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var markerName: Swift.String?
 
-        public init (
+        public init(
             decisionTaskCompletedEventId: Swift.Int = 0,
             details: Swift.String? = nil,
             markerName: Swift.String? = nil
@@ -7218,38 +7015,42 @@ extension SWFClientTypes {
 }
 
 extension OperationNotPermittedFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OperationNotPermittedFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned when the caller doesn't have sufficient permissions to invoke the action.
-public struct OperationNotPermittedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description that may help with diagnosing the cause of the fault.
-    public var message: Swift.String?
+public struct OperationNotPermittedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description that may help with diagnosing the cause of the fault.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotPermittedFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7262,7 +7063,7 @@ extension OperationNotPermittedFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7306,7 +7107,7 @@ public struct PollForActivityTaskInput: Swift.Equatable {
     /// This member is required.
     public var taskList: SWFClientTypes.TaskList?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         identity: Swift.String? = nil,
         taskList: SWFClientTypes.TaskList? = nil
@@ -7331,7 +7132,7 @@ extension PollForActivityTaskInputBody: Swift.Decodable {
         case taskList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -7342,35 +7143,22 @@ extension PollForActivityTaskInputBody: Swift.Decodable {
     }
 }
 
-extension PollForActivityTaskOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PollForActivityTaskOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PollForActivityTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PollForActivityTaskOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PollForActivityTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PollForActivityTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activityId = output.activityId
@@ -7410,7 +7198,7 @@ public struct PollForActivityTaskOutputResponse: Swift.Equatable {
     /// This member is required.
     public var workflowExecution: SWFClientTypes.WorkflowExecution?
 
-    public init (
+    public init(
         activityId: Swift.String? = nil,
         activityType: SWFClientTypes.ActivityType? = nil,
         input: Swift.String? = nil,
@@ -7447,7 +7235,7 @@ extension PollForActivityTaskOutputResponseBody: Swift.Decodable {
         case workflowExecution
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskToken)
         taskToken = taskTokenDecoded
@@ -7525,7 +7313,7 @@ public struct PollForDecisionTaskInput: Swift.Equatable {
     /// This member is required.
     public var taskList: SWFClientTypes.TaskList?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         identity: Swift.String? = nil,
         maximumPageSize: Swift.Int? = nil,
@@ -7566,7 +7354,7 @@ extension PollForDecisionTaskInputBody: Swift.Decodable {
         case taskList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -7585,35 +7373,22 @@ extension PollForDecisionTaskInputBody: Swift.Decodable {
     }
 }
 
-extension PollForDecisionTaskOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PollForDecisionTaskOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PollForDecisionTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PollForDecisionTaskOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PollForDecisionTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PollForDecisionTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
@@ -7657,7 +7432,7 @@ public struct PollForDecisionTaskOutputResponse: Swift.Equatable {
     /// This member is required.
     public var workflowType: SWFClientTypes.WorkflowType?
 
-    public init (
+    public init(
         events: [SWFClientTypes.HistoryEvent]? = nil,
         nextPageToken: Swift.String? = nil,
         previousStartedEventId: Swift.Int = 0,
@@ -7698,7 +7473,7 @@ extension PollForDecisionTaskOutputResponseBody: Swift.Decodable {
         case workflowType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskToken)
         taskToken = taskTokenDecoded
@@ -7756,7 +7531,7 @@ public struct RecordActivityTaskHeartbeatInput: Swift.Equatable {
     /// This member is required.
     public var taskToken: Swift.String?
 
-    public init (
+    public init(
         details: Swift.String? = nil,
         taskToken: Swift.String? = nil
     )
@@ -7777,7 +7552,7 @@ extension RecordActivityTaskHeartbeatInputBody: Swift.Decodable {
         case taskToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskToken)
         taskToken = taskTokenDecoded
@@ -7786,33 +7561,21 @@ extension RecordActivityTaskHeartbeatInputBody: Swift.Decodable {
     }
 }
 
-extension RecordActivityTaskHeartbeatOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RecordActivityTaskHeartbeatOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RecordActivityTaskHeartbeatOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RecordActivityTaskHeartbeatOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RecordActivityTaskHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RecordActivityTaskHeartbeatOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cancelRequested = output.cancelRequested
@@ -7828,7 +7591,7 @@ public struct RecordActivityTaskHeartbeatOutputResponse: Swift.Equatable {
     /// This member is required.
     public var cancelRequested: Swift.Bool
 
-    public init (
+    public init(
         cancelRequested: Swift.Bool = false
     )
     {
@@ -7845,7 +7608,7 @@ extension RecordActivityTaskHeartbeatOutputResponseBody: Swift.Decodable {
         case cancelRequested
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cancelRequestedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cancelRequested) ?? false
         cancelRequested = cancelRequestedDecoded
@@ -7868,7 +7631,7 @@ extension SWFClientTypes.RecordMarkerDecisionAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let markerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .markerName)
         markerName = markerNameDecoded
@@ -7895,7 +7658,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var markerName: Swift.String?
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             markerName: Swift.String? = nil
         )
@@ -7956,7 +7719,7 @@ extension SWFClientTypes.RecordMarkerFailedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let markerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .markerName)
         markerName = markerNameDecoded
@@ -7980,7 +7743,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var markerName: Swift.String?
 
-        public init (
+        public init(
             cause: SWFClientTypes.RecordMarkerFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             markerName: Swift.String? = nil
@@ -8074,7 +7837,7 @@ public struct RegisterActivityTypeInput: Swift.Equatable {
     /// This member is required.
     public var version: Swift.String?
 
-    public init (
+    public init(
         defaultTaskHeartbeatTimeout: Swift.String? = nil,
         defaultTaskList: SWFClientTypes.TaskList? = nil,
         defaultTaskPriority: Swift.String? = nil,
@@ -8127,7 +7890,7 @@ extension RegisterActivityTypeInputBody: Swift.Decodable {
         case version
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -8152,42 +7915,28 @@ extension RegisterActivityTypeInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterActivityTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterActivityTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeAlreadyExistsFault" : self = .typeAlreadyExistsFault(try TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterActivityTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TypeAlreadyExistsFault": return try await TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterActivityTypeOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case typeAlreadyExistsFault(TypeAlreadyExistsFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RegisterActivityTypeOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RegisterDomainInput: Swift.Encodable {
@@ -8236,7 +7985,7 @@ public struct RegisterDomainInput: Swift.Equatable {
     /// This member is required.
     public var workflowExecutionRetentionPeriodInDays: Swift.String?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [SWFClientTypes.ResourceTag]? = nil,
@@ -8265,7 +8014,7 @@ extension RegisterDomainInputBody: Swift.Decodable {
         case workflowExecutionRetentionPeriodInDays
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -8287,42 +8036,28 @@ extension RegisterDomainInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DomainAlreadyExistsFault" : self = .domainAlreadyExistsFault(try DomainAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsFault" : self = .tooManyTagsFault(try TooManyTagsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DomainAlreadyExistsFault": return try await DomainAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsFault": return try await TooManyTagsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterDomainOutputError: Swift.Error, Swift.Equatable {
-    case domainAlreadyExistsFault(DomainAlreadyExistsFault)
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case tooManyTagsFault(TooManyTagsFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RegisterDomainOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RegisterWorkflowTypeInput: Swift.Encodable {
@@ -8411,7 +8146,7 @@ public struct RegisterWorkflowTypeInput: Swift.Equatable {
     /// This member is required.
     public var version: Swift.String?
 
-    public init (
+    public init(
         defaultChildPolicy: SWFClientTypes.ChildPolicy? = nil,
         defaultExecutionStartToCloseTimeout: Swift.String? = nil,
         defaultLambdaRole: Swift.String? = nil,
@@ -8464,7 +8199,7 @@ extension RegisterWorkflowTypeInputBody: Swift.Decodable {
         case version
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -8489,42 +8224,28 @@ extension RegisterWorkflowTypeInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterWorkflowTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterWorkflowTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeAlreadyExistsFault" : self = .typeAlreadyExistsFault(try TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterWorkflowTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TypeAlreadyExistsFault": return try await TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case typeAlreadyExistsFault(TypeAlreadyExistsFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RegisterWorkflowTypeOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SWFClientTypes {
@@ -8571,7 +8292,7 @@ extension SWFClientTypes.RequestCancelActivityTaskDecisionAttributes: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activityId)
         activityId = activityIdDecoded
@@ -8594,7 +8315,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var activityId: Swift.String?
 
-        public init (
+        public init(
             activityId: Swift.String? = nil
         )
         {
@@ -8656,7 +8377,7 @@ extension SWFClientTypes.RequestCancelActivityTaskFailedEventAttributes: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activityId)
         activityId = activityIdDecoded
@@ -8680,7 +8401,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
 
-        public init (
+        public init(
             activityId: Swift.String? = nil,
             cause: SWFClientTypes.RequestCancelActivityTaskFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
@@ -8714,7 +8435,7 @@ extension SWFClientTypes.RequestCancelExternalWorkflowExecutionDecisionAttribute
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -8745,7 +8466,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowId: Swift.String?
 
-        public init (
+        public init(
             control: Swift.String? = nil,
             runId: Swift.String? = nil,
             workflowId: Swift.String? = nil
@@ -8826,7 +8547,7 @@ extension SWFClientTypes.RequestCancelExternalWorkflowExecutionFailedEventAttrib
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -8863,7 +8584,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowId: Swift.String?
 
-        public init (
+        public init(
             cause: SWFClientTypes.RequestCancelExternalWorkflowExecutionFailedCause? = nil,
             control: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
@@ -8907,7 +8628,7 @@ extension SWFClientTypes.RequestCancelExternalWorkflowExecutionInitiatedEventAtt
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -8934,7 +8655,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowId: Swift.String?
 
-        public init (
+        public init(
             control: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             runId: Swift.String? = nil,
@@ -8987,7 +8708,7 @@ public struct RequestCancelWorkflowExecutionInput: Swift.Equatable {
     /// This member is required.
     public var workflowId: Swift.String?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         runId: Swift.String? = nil,
         workflowId: Swift.String? = nil
@@ -9012,7 +8733,7 @@ extension RequestCancelWorkflowExecutionInputBody: Swift.Decodable {
         case workflowId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -9023,38 +8744,26 @@ extension RequestCancelWorkflowExecutionInputBody: Swift.Decodable {
     }
 }
 
-extension RequestCancelWorkflowExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RequestCancelWorkflowExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RequestCancelWorkflowExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RequestCancelWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RequestCancelWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RequestCancelWorkflowExecutionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SWFClientTypes.ResourceTag: Swift.Codable {
@@ -9073,7 +8782,7 @@ extension SWFClientTypes.ResourceTag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -9091,7 +8800,7 @@ extension SWFClientTypes {
         /// The value of a tag.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -9133,7 +8842,7 @@ public struct RespondActivityTaskCanceledInput: Swift.Equatable {
     /// This member is required.
     public var taskToken: Swift.String?
 
-    public init (
+    public init(
         details: Swift.String? = nil,
         taskToken: Swift.String? = nil
     )
@@ -9154,7 +8863,7 @@ extension RespondActivityTaskCanceledInputBody: Swift.Decodable {
         case taskToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskToken)
         taskToken = taskTokenDecoded
@@ -9163,38 +8872,26 @@ extension RespondActivityTaskCanceledInputBody: Swift.Decodable {
     }
 }
 
-extension RespondActivityTaskCanceledOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RespondActivityTaskCanceledOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RespondActivityTaskCanceledOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RespondActivityTaskCanceledOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RespondActivityTaskCanceledOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RespondActivityTaskCanceledOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RespondActivityTaskCompletedInput: Swift.Encodable {
@@ -9227,7 +8924,7 @@ public struct RespondActivityTaskCompletedInput: Swift.Equatable {
     /// This member is required.
     public var taskToken: Swift.String?
 
-    public init (
+    public init(
         result: Swift.String? = nil,
         taskToken: Swift.String? = nil
     )
@@ -9248,7 +8945,7 @@ extension RespondActivityTaskCompletedInputBody: Swift.Decodable {
         case taskToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskToken)
         taskToken = taskTokenDecoded
@@ -9257,38 +8954,26 @@ extension RespondActivityTaskCompletedInputBody: Swift.Decodable {
     }
 }
 
-extension RespondActivityTaskCompletedOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RespondActivityTaskCompletedOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RespondActivityTaskCompletedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RespondActivityTaskCompletedOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RespondActivityTaskCompletedOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RespondActivityTaskCompletedOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RespondActivityTaskFailedInput: Swift.Encodable {
@@ -9327,7 +9012,7 @@ public struct RespondActivityTaskFailedInput: Swift.Equatable {
     /// This member is required.
     public var taskToken: Swift.String?
 
-    public init (
+    public init(
         details: Swift.String? = nil,
         reason: Swift.String? = nil,
         taskToken: Swift.String? = nil
@@ -9352,7 +9037,7 @@ extension RespondActivityTaskFailedInputBody: Swift.Decodable {
         case taskToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskToken)
         taskToken = taskTokenDecoded
@@ -9363,38 +9048,26 @@ extension RespondActivityTaskFailedInputBody: Swift.Decodable {
     }
 }
 
-extension RespondActivityTaskFailedOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RespondActivityTaskFailedOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RespondActivityTaskFailedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RespondActivityTaskFailedOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RespondActivityTaskFailedOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RespondActivityTaskFailedOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RespondDecisionTaskCompletedInput: Swift.Encodable {
@@ -9437,7 +9110,7 @@ public struct RespondDecisionTaskCompletedInput: Swift.Equatable {
     /// This member is required.
     public var taskToken: Swift.String?
 
-    public init (
+    public init(
         decisions: [SWFClientTypes.Decision]? = nil,
         executionContext: Swift.String? = nil,
         taskToken: Swift.String? = nil
@@ -9462,7 +9135,7 @@ extension RespondDecisionTaskCompletedInputBody: Swift.Decodable {
         case taskToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskToken)
         taskToken = taskTokenDecoded
@@ -9482,38 +9155,26 @@ extension RespondDecisionTaskCompletedInputBody: Swift.Decodable {
     }
 }
 
-extension RespondDecisionTaskCompletedOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RespondDecisionTaskCompletedOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RespondDecisionTaskCompletedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RespondDecisionTaskCompletedOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RespondDecisionTaskCompletedOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RespondDecisionTaskCompletedOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SWFClientTypes.ScheduleActivityTaskDecisionAttributes: Swift.Codable {
@@ -9564,7 +9225,7 @@ extension SWFClientTypes.ScheduleActivityTaskDecisionAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activityTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.ActivityType.self, forKey: .activityType)
         activityType = activityTypeDecoded
@@ -9633,7 +9294,7 @@ extension SWFClientTypes {
         /// If set, specifies the priority with which the activity task is to be assigned to a worker. This overrides the defaultTaskPriority specified when registering the activity type using [RegisterActivityType]. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see [Setting Task Priority](https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html) in the Amazon SWF Developer Guide.
         public var taskPriority: Swift.String?
 
-        public init (
+        public init(
             activityId: Swift.String? = nil,
             activityType: SWFClientTypes.ActivityType? = nil,
             control: Swift.String? = nil,
@@ -9744,7 +9405,7 @@ extension SWFClientTypes.ScheduleActivityTaskFailedEventAttributes: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activityTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.ActivityType.self, forKey: .activityType)
         activityType = activityTypeDecoded
@@ -9773,7 +9434,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
 
-        public init (
+        public init(
             activityId: Swift.String? = nil,
             activityType: SWFClientTypes.ActivityType? = nil,
             cause: SWFClientTypes.ScheduleActivityTaskFailedCause? = nil,
@@ -9817,7 +9478,7 @@ extension SWFClientTypes.ScheduleLambdaFunctionDecisionAttributes: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -9848,7 +9509,7 @@ extension SWFClientTypes {
         /// The timeout value, in seconds, after which the Lambda function is considered to be failed once it has started. This can be any integer from 1-900 (1s-15m). If no value is supplied, then a default value of 900s is assumed.
         public var startToCloseTimeout: Swift.String?
 
-        public init (
+        public init(
             control: Swift.String? = nil,
             id: Swift.String? = nil,
             input: Swift.String? = nil,
@@ -9928,7 +9589,7 @@ extension SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -9957,7 +9618,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             cause: SWFClientTypes.ScheduleLambdaFunctionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             id: Swift.String? = nil,
@@ -10001,7 +9662,7 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionDecisionAttributes: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -10041,7 +9702,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowId: Swift.String?
 
-        public init (
+        public init(
             control: Swift.String? = nil,
             input: Swift.String? = nil,
             runId: Swift.String? = nil,
@@ -10126,7 +9787,7 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionFailedEventAttributes: S
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -10163,7 +9824,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowId: Swift.String?
 
-        public init (
+        public init(
             cause: SWFClientTypes.SignalExternalWorkflowExecutionFailedCause? = nil,
             control: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
@@ -10215,7 +9876,7 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionInitiatedEventAttributes
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -10251,7 +9912,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowId: Swift.String?
 
-        public init (
+        public init(
             control: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             input: Swift.String? = nil,
@@ -10321,7 +9982,7 @@ public struct SignalWorkflowExecutionInput: Swift.Equatable {
     /// This member is required.
     public var workflowId: Swift.String?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         input: Swift.String? = nil,
         runId: Swift.String? = nil,
@@ -10354,7 +10015,7 @@ extension SignalWorkflowExecutionInputBody: Swift.Decodable {
         case workflowId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -10369,38 +10030,26 @@ extension SignalWorkflowExecutionInputBody: Swift.Decodable {
     }
 }
 
-extension SignalWorkflowExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SignalWorkflowExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SignalWorkflowExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SignalWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SignalWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SignalWorkflowExecutionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes: Swift.Codable {
@@ -10458,7 +10107,7 @@ extension SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowType.self, forKey: .workflowType)
         workflowType = workflowTypeDecoded
@@ -10551,7 +10200,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             control: Swift.String? = nil,
             executionStartToCloseTimeout: Swift.String? = nil,
@@ -10672,7 +10321,7 @@ extension SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowType.self, forKey: .workflowType)
         workflowType = workflowTypeDecoded
@@ -10710,7 +10359,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             cause: SWFClientTypes.StartChildWorkflowExecutionFailedCause? = nil,
             control: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
@@ -10789,7 +10438,7 @@ extension SWFClientTypes.StartChildWorkflowExecutionInitiatedEventAttributes: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -10866,7 +10515,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             control: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
@@ -10947,7 +10596,7 @@ extension SWFClientTypes.StartLambdaFunctionFailedEventAttributes: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduledEventIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduledEventId) ?? 0
         scheduledEventId = scheduledEventIdDecoded
@@ -10968,7 +10617,7 @@ extension SWFClientTypes {
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public var scheduledEventId: Swift.Int
 
-        public init (
+        public init(
             cause: SWFClientTypes.StartLambdaFunctionFailedCause? = nil,
             message: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0
@@ -11002,7 +10651,7 @@ extension SWFClientTypes.StartTimerDecisionAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timerId)
         timerId = timerIdDecoded
@@ -11034,7 +10683,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timerId: Swift.String?
 
-        public init (
+        public init(
             control: Swift.String? = nil,
             startToFireTimeout: Swift.String? = nil,
             timerId: Swift.String? = nil
@@ -11106,7 +10755,7 @@ extension SWFClientTypes.StartTimerFailedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timerId)
         timerId = timerIdDecoded
@@ -11130,7 +10779,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timerId: Swift.String?
 
-        public init (
+        public init(
             cause: SWFClientTypes.StartTimerFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             timerId: Swift.String? = nil
@@ -11242,7 +10891,7 @@ public struct StartWorkflowExecutionInput: Swift.Equatable {
     /// This member is required.
     public var workflowType: SWFClientTypes.WorkflowType?
 
-    public init (
+    public init(
         childPolicy: SWFClientTypes.ChildPolicy? = nil,
         domain: Swift.String? = nil,
         executionStartToCloseTimeout: Swift.String? = nil,
@@ -11299,7 +10948,7 @@ extension StartWorkflowExecutionInputBody: Swift.Decodable {
         case workflowType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -11335,41 +10984,25 @@ extension StartWorkflowExecutionInputBody: Swift.Decodable {
     }
 }
 
-extension StartWorkflowExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartWorkflowExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DefaultUndefinedFault" : self = .defaultUndefinedFault(try DefaultUndefinedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeDeprecatedFault" : self = .typeDeprecatedFault(try TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WorkflowExecutionAlreadyStartedFault" : self = .workflowExecutionAlreadyStartedFault(try WorkflowExecutionAlreadyStartedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartWorkflowExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DefaultUndefinedFault": return try await DefaultUndefinedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TypeDeprecatedFault": return try await TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WorkflowExecutionAlreadyStartedFault": return try await WorkflowExecutionAlreadyStartedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
-    case defaultUndefinedFault(DefaultUndefinedFault)
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case typeDeprecatedFault(TypeDeprecatedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case workflowExecutionAlreadyStartedFault(WorkflowExecutionAlreadyStartedFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartWorkflowExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.runId = output.runId
@@ -11384,7 +11017,7 @@ public struct StartWorkflowExecutionOutputResponse: Swift.Equatable {
     /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
     public var runId: Swift.String?
 
-    public init (
+    public init(
         runId: Swift.String? = nil
     )
     {
@@ -11401,7 +11034,7 @@ extension StartWorkflowExecutionOutputResponseBody: Swift.Decodable {
         case runId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
         runId = runIdDecoded
@@ -11420,7 +11053,7 @@ extension SWFClientTypes.TagFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tag)
         tag = tagDecoded
@@ -11434,7 +11067,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var tag: Swift.String?
 
-        public init (
+        public init(
             tag: Swift.String? = nil
         )
         {
@@ -11478,7 +11111,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [SWFClientTypes.ResourceTag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [SWFClientTypes.ResourceTag]? = nil
     )
@@ -11499,7 +11132,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -11517,42 +11150,28 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsFault" : self = .tooManyTagsFault(try TooManyTagsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsFault": return try await TooManyTagsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case tooManyTagsFault(TooManyTagsFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SWFClientTypes.TaskList: Swift.Codable {
@@ -11567,7 +11186,7 @@ extension SWFClientTypes.TaskList: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -11581,7 +11200,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -11655,7 +11274,7 @@ public struct TerminateWorkflowExecutionInput: Swift.Equatable {
     /// This member is required.
     public var workflowId: Swift.String?
 
-    public init (
+    public init(
         childPolicy: SWFClientTypes.ChildPolicy? = nil,
         details: Swift.String? = nil,
         domain: Swift.String? = nil,
@@ -11692,7 +11311,7 @@ extension TerminateWorkflowExecutionInputBody: Swift.Decodable {
         case workflowId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -11709,38 +11328,26 @@ extension TerminateWorkflowExecutionInputBody: Swift.Decodable {
     }
 }
 
-extension TerminateWorkflowExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TerminateWorkflowExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TerminateWorkflowExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TerminateWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TerminateWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TerminateWorkflowExecutionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SWFClientTypes.TimerCanceledEventAttributes: Swift.Codable {
@@ -11763,7 +11370,7 @@ extension SWFClientTypes.TimerCanceledEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timerId)
         timerId = timerIdDecoded
@@ -11787,7 +11394,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timerId: Swift.String?
 
-        public init (
+        public init(
             decisionTaskCompletedEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             timerId: Swift.String? = nil
@@ -11817,7 +11424,7 @@ extension SWFClientTypes.TimerFiredEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timerId)
         timerId = timerIdDecoded
@@ -11836,7 +11443,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timerId: Swift.String?
 
-        public init (
+        public init(
             startedEventId: Swift.Int = 0,
             timerId: Swift.String? = nil
         )
@@ -11872,7 +11479,7 @@ extension SWFClientTypes.TimerStartedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timerId)
         timerId = timerIdDecoded
@@ -11900,7 +11507,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timerId: Swift.String?
 
-        public init (
+        public init(
             control: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             startToFireTimeout: Swift.String? = nil,
@@ -11917,37 +11524,41 @@ extension SWFClientTypes {
 }
 
 extension TooManyTagsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyTagsFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You've exceeded the number of tags allowed for a domain.
-public struct TooManyTagsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TooManyTagsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11960,7 +11571,7 @@ extension TooManyTagsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11968,38 +11579,42 @@ extension TooManyTagsFaultBody: Swift.Decodable {
 }
 
 extension TypeAlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TypeAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
-public struct TypeAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description that may help with diagnosing the cause of the fault.
-    public var message: Swift.String?
+public struct TypeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description that may help with diagnosing the cause of the fault.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TypeAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12012,7 +11627,7 @@ extension TypeAlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12020,38 +11635,42 @@ extension TypeAlreadyExistsFaultBody: Swift.Decodable {
 }
 
 extension TypeDeprecatedFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TypeDeprecatedFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned when the specified activity or workflow type was already deprecated.
-public struct TypeDeprecatedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description that may help with diagnosing the cause of the fault.
-    public var message: Swift.String?
+public struct TypeDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description that may help with diagnosing the cause of the fault.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TypeDeprecatedFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12064,7 +11683,7 @@ extension TypeDeprecatedFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12102,7 +11721,7 @@ public struct UndeprecateActivityTypeInput: Swift.Equatable {
     /// This member is required.
     public var domain: Swift.String?
 
-    public init (
+    public init(
         activityType: SWFClientTypes.ActivityType? = nil,
         domain: Swift.String? = nil
     )
@@ -12123,7 +11742,7 @@ extension UndeprecateActivityTypeInputBody: Swift.Decodable {
         case domain
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -12132,40 +11751,27 @@ extension UndeprecateActivityTypeInputBody: Swift.Decodable {
     }
 }
 
-extension UndeprecateActivityTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UndeprecateActivityTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeAlreadyExistsFault" : self = .typeAlreadyExistsFault(try TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UndeprecateActivityTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TypeAlreadyExistsFault": return try await TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UndeprecateActivityTypeOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case typeAlreadyExistsFault(TypeAlreadyExistsFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UndeprecateActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UndeprecateActivityTypeOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UndeprecateDomainInput: Swift.Encodable {
@@ -12192,7 +11798,7 @@ public struct UndeprecateDomainInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -12209,47 +11815,34 @@ extension UndeprecateDomainInputBody: Swift.Decodable {
         case name
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension UndeprecateDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UndeprecateDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DomainAlreadyExistsFault" : self = .domainAlreadyExistsFault(try DomainAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UndeprecateDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DomainAlreadyExistsFault": return try await DomainAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UndeprecateDomainOutputError: Swift.Error, Swift.Equatable {
-    case domainAlreadyExistsFault(DomainAlreadyExistsFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UndeprecateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UndeprecateDomainOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UndeprecateWorkflowTypeInput: Swift.Encodable {
@@ -12283,7 +11876,7 @@ public struct UndeprecateWorkflowTypeInput: Swift.Equatable {
     /// This member is required.
     public var workflowType: SWFClientTypes.WorkflowType?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
     )
@@ -12304,7 +11897,7 @@ extension UndeprecateWorkflowTypeInputBody: Swift.Decodable {
         case workflowType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -12313,75 +11906,66 @@ extension UndeprecateWorkflowTypeInputBody: Swift.Decodable {
     }
 }
 
-extension UndeprecateWorkflowTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UndeprecateWorkflowTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeAlreadyExistsFault" : self = .typeAlreadyExistsFault(try TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UndeprecateWorkflowTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TypeAlreadyExistsFault": return try await TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UndeprecateWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case typeAlreadyExistsFault(TypeAlreadyExistsFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UndeprecateWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UndeprecateWorkflowTypeOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UnknownResourceFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnknownResourceFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-public struct UnknownResourceFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description that may help with diagnosing the cause of the fault.
-    public var message: Swift.String?
+public struct UnknownResourceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description that may help with diagnosing the cause of the fault.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnknownResourceFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12394,7 +11978,7 @@ extension UnknownResourceFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12435,7 +12019,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -12456,7 +12040,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -12474,40 +12058,27 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedFault": return try await OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownResourceFault": return try await UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case operationNotPermittedFault(OperationNotPermittedFault)
-    case unknownResourceFault(UnknownResourceFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SWFClientTypes.WorkflowExecution: Swift.Codable {
@@ -12526,7 +12097,7 @@ extension SWFClientTypes.WorkflowExecution: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -12545,7 +12116,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowId: Swift.String?
 
-        public init (
+        public init(
             runId: Swift.String? = nil,
             workflowId: Swift.String? = nil
         )
@@ -12558,38 +12129,42 @@ extension SWFClientTypes {
 }
 
 extension WorkflowExecutionAlreadyStartedFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WorkflowExecutionAlreadyStartedFaultBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Returned by [StartWorkflowExecution] when an open execution with the same workflowId is already running in the specified domain.
-public struct WorkflowExecutionAlreadyStartedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A description that may help with diagnosing the cause of the fault.
-    public var message: Swift.String?
+public struct WorkflowExecutionAlreadyStartedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A description that may help with diagnosing the cause of the fault.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WorkflowExecutionAlreadyStartedFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12602,7 +12177,7 @@ extension WorkflowExecutionAlreadyStartedFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12658,7 +12233,7 @@ extension SWFClientTypes.WorkflowExecutionCancelRequestedEventAttributes: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let externalWorkflowExecutionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .externalWorkflowExecution)
         externalWorkflowExecution = externalWorkflowExecutionDecoded
@@ -12679,7 +12254,7 @@ extension SWFClientTypes {
         /// The external workflow execution for which the cancellation was requested.
         public var externalWorkflowExecution: SWFClientTypes.WorkflowExecution?
 
-        public init (
+        public init(
             cause: SWFClientTypes.WorkflowExecutionCancelRequestedCause? = nil,
             externalInitiatedEventId: Swift.Int = 0,
             externalWorkflowExecution: SWFClientTypes.WorkflowExecution? = nil
@@ -12709,7 +12284,7 @@ extension SWFClientTypes.WorkflowExecutionCanceledEventAttributes: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let detailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .details)
         details = detailsDecoded
@@ -12727,7 +12302,7 @@ extension SWFClientTypes {
         /// The details of the cancellation.
         public var details: Swift.String?
 
-        public init (
+        public init(
             decisionTaskCompletedEventId: Swift.Int = 0,
             details: Swift.String? = nil
         )
@@ -12755,7 +12330,7 @@ extension SWFClientTypes.WorkflowExecutionCompletedEventAttributes: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .result)
         result = resultDecoded
@@ -12773,7 +12348,7 @@ extension SWFClientTypes {
         /// The result produced by the workflow execution upon successful completion.
         public var result: Swift.String?
 
-        public init (
+        public init(
             decisionTaskCompletedEventId: Swift.Int = 0,
             result: Swift.String? = nil
         )
@@ -12817,7 +12392,7 @@ extension SWFClientTypes.WorkflowExecutionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskStartToCloseTimeoutDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskStartToCloseTimeout)
         taskStartToCloseTimeout = taskStartToCloseTimeoutDecoded
@@ -12860,7 +12435,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var taskStartToCloseTimeout: Swift.String?
 
-        public init (
+        public init(
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             executionStartToCloseTimeout: Swift.String? = nil,
             lambdaRole: Swift.String? = nil,
@@ -12935,7 +12510,7 @@ extension SWFClientTypes.WorkflowExecutionContinuedAsNewEventAttributes: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .input)
         input = inputDecoded
@@ -13008,7 +12583,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             executionStartToCloseTimeout: Swift.String? = nil,
@@ -13058,7 +12633,7 @@ extension SWFClientTypes.WorkflowExecutionFailedEventAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
         reason = reasonDecoded
@@ -13080,7 +12655,7 @@ extension SWFClientTypes {
         /// The descriptive reason provided for the failure.
         public var reason: Swift.String?
 
-        public init (
+        public init(
             decisionTaskCompletedEventId: Swift.Int = 0,
             details: Swift.String? = nil,
             reason: Swift.String? = nil
@@ -13106,7 +12681,7 @@ extension SWFClientTypes.WorkflowExecutionFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowId)
         workflowId = workflowIdDecoded
@@ -13120,7 +12695,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowId: Swift.String?
 
-        public init (
+        public init(
             workflowId: Swift.String? = nil
         )
         {
@@ -13177,7 +12752,7 @@ extension SWFClientTypes.WorkflowExecutionInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecution.self, forKey: .execution)
         execution = executionDecoded
@@ -13247,7 +12822,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             cancelRequested: Swift.Bool = false,
             closeStatus: SWFClientTypes.CloseStatus? = nil,
             closeTimestamp: ClientRuntime.Date? = nil,
@@ -13301,7 +12876,7 @@ extension SWFClientTypes.WorkflowExecutionOpenCounts: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let openActivityTasksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .openActivityTasks) ?? 0
         openActivityTasks = openActivityTasksDecoded
@@ -13334,7 +12909,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var openTimers: Swift.Int
 
-        public init (
+        public init(
             openActivityTasks: Swift.Int = 0,
             openChildWorkflowExecutions: Swift.Int = 0,
             openDecisionTasks: Swift.Int = 0,
@@ -13376,7 +12951,7 @@ extension SWFClientTypes.WorkflowExecutionSignaledEventAttributes: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let signalNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .signalName)
         signalName = signalNameDecoded
@@ -13402,7 +12977,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var signalName: Swift.String?
 
-        public init (
+        public init(
             externalInitiatedEventId: Swift.Int = 0,
             externalWorkflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             input: Swift.String? = nil,
@@ -13477,7 +13052,7 @@ extension SWFClientTypes.WorkflowExecutionStartedEventAttributes: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .input)
         input = inputDecoded
@@ -13552,7 +13127,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             continuedExecutionRunId: Swift.String? = nil,
             executionStartToCloseTimeout: Swift.String? = nil,
@@ -13643,7 +13218,7 @@ extension SWFClientTypes.WorkflowExecutionTerminatedEventAttributes: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
         reason = reasonDecoded
@@ -13675,7 +13250,7 @@ extension SWFClientTypes {
         /// The reason provided for the termination.
         public var reason: Swift.String?
 
-        public init (
+        public init(
             cause: SWFClientTypes.WorkflowExecutionTerminatedCause? = nil,
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             details: Swift.String? = nil,
@@ -13707,7 +13282,7 @@ extension SWFClientTypes.WorkflowExecutionTimedOutEventAttributes: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeoutTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecutionTimeoutType.self, forKey: .timeoutType)
         timeoutType = timeoutTypeDecoded
@@ -13732,7 +13307,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var timeoutType: SWFClientTypes.WorkflowExecutionTimeoutType?
 
-        public init (
+        public init(
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             timeoutType: SWFClientTypes.WorkflowExecutionTimeoutType? = nil
         )
@@ -13789,7 +13364,7 @@ extension SWFClientTypes.WorkflowType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13808,7 +13383,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var version: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -13852,7 +13427,7 @@ extension SWFClientTypes.WorkflowTypeConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let defaultTaskStartToCloseTimeoutDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultTaskStartToCloseTimeout)
         defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeoutDecoded
@@ -13891,7 +13466,7 @@ extension SWFClientTypes {
         /// The default maximum duration, specified when registering the workflow type, that a decision task for executions of this workflow type might take before returning completion or failure. If the task doesn'tdo close in the specified time then the task is automatically timed out and rescheduled. If the decider eventually reports a completion or failure, it is ignored. This default can be overridden when starting a workflow execution using the [StartWorkflowExecution] action or the StartChildWorkflowExecution[Decision]. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public var defaultTaskStartToCloseTimeout: Swift.String?
 
-        public init (
+        public init(
             defaultChildPolicy: SWFClientTypes.ChildPolicy? = nil,
             defaultExecutionStartToCloseTimeout: Swift.String? = nil,
             defaultLambdaRole: Swift.String? = nil,
@@ -13927,7 +13502,7 @@ extension SWFClientTypes.WorkflowTypeFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13945,7 +13520,7 @@ extension SWFClientTypes {
         /// Version of the workflow type.
         public var version: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -13985,7 +13560,7 @@ extension SWFClientTypes.WorkflowTypeInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workflowTypeDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowType.self, forKey: .workflowType)
         workflowType = workflowTypeDecoded
@@ -14017,7 +13592,7 @@ extension SWFClientTypes {
         /// This member is required.
         public var workflowType: SWFClientTypes.WorkflowType?
 
-        public init (
+        public init(
             creationDate: ClientRuntime.Date? = nil,
             deprecationDate: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,

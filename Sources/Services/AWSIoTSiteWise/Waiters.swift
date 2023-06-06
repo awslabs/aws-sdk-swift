@@ -48,7 +48,7 @@ extension IoTSiteWiseClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeAssetInput, DescribeAssetOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeAssetInput, result: Result<DescribeAssetOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeAssetInput, DescribeAssetOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
@@ -114,7 +114,7 @@ extension IoTSiteWiseClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeAssetModelInput, result: Result<DescribeAssetModelOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeAssetModelInput, DescribeAssetModelOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
@@ -171,7 +171,7 @@ extension IoTSiteWiseClientProtocol {
         let acceptors: [WaiterConfiguration<DescribePortalInput, DescribePortalOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribePortalInput, result: Result<DescribePortalOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribePortalInput, DescribePortalOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)

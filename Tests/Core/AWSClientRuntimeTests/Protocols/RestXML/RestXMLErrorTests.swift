@@ -14,7 +14,7 @@ import XCTest
 class RestXMLErrorTests: HttpResponseTestBase {
     let host = "my-api.us-east-2.amazonaws.com"
 
-    func testInvalidGreetingError() {
+    func testInvalidGreetingError() async {
         do {
             guard let httpResponse = buildHttpResponse(
                 code: 400,
@@ -39,16 +39,16 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
-            if case .invalidGreeting(let actual) = greetingWithErrorsOutputError {
+            if let actual = greetingWithErrorsOutputError as? InvalidGreeting {
 
                 let expected = InvalidGreeting(
                     message: "Hi"
                 )
-                XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.message, actual.message)
-                XCTAssertEqual("foo-id", actual._requestID)
+                XCTAssertEqual("foo-id", actual.requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
@@ -58,7 +58,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
         }
     }
 
-    func testComplexError() {
+    func testComplexError() async {
         do {
             guard let httpResponse = buildHttpResponse(
                 code: 400,
@@ -87,9 +87,9 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
-            if case .complexXMLError(let actual) = greetingWithErrorsOutputError {
+            if let actual = greetingWithErrorsOutputError as? ComplexXMLError {
 
                 let expected = ComplexXMLError(
                     header: "Header",
@@ -98,12 +98,12 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     ),
                     topLevel: "Top level"
                 )
-                XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.header, actual.header)
                 XCTAssertEqual(expected.topLevel, actual.topLevel)
                 XCTAssertEqual(expected.nested, actual.nested)
-                XCTAssertEqual("Hi", actual._message)
-                XCTAssertEqual("foo-id", actual._requestID)
+                XCTAssertEqual("Hi", actual.message)
+                XCTAssertEqual("foo-id", actual.requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
@@ -113,7 +113,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
         }
     }
 
-    func testComplexErrorWithNoErrorWrapping() {
+    func testComplexErrorWithNoErrorWrapping() async {
         do {
             guard let httpResponse = buildHttpResponse(
                 code: 400,
@@ -139,23 +139,23 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsNoErrorWrappingOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try await GreetingWithErrorsNoErrorWrappingOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
-            if case .complexXMLErrorNoErrorWrapping(let actual) = greetingWithErrorsOutputError {
+            if let actual = greetingWithErrorsOutputError as? ComplexXMLErrorNoErrorWrapping {
 
-                let expected = ComplexXMLError(
+                let expected = ComplexXMLErrorNoErrorWrapping(
                     header: "Header",
                     nested: ComplexXMLNestedErrorData(
                         foo: "bar"
                     ),
                     topLevel: "Top level"
                 )
-                XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.header, actual.header)
                 XCTAssertEqual(expected.topLevel, actual.topLevel)
                 XCTAssertEqual(expected.nested, actual.nested)
-                XCTAssertEqual("Hi", actual._message)
-                XCTAssertEqual("foo-id", actual._requestID)
+                XCTAssertEqual("Hi", actual.message)
+                XCTAssertEqual("foo-id", actual.requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
@@ -165,7 +165,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
         }
     }
 
-    func testUnhandledAccessDeniedErrors() {
+    func testUnhandledAccessDeniedErrors() async {
         do {
             guard let httpResponse = buildHttpResponse(
                 code: 403,
@@ -188,10 +188,10 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
-            if case .unknown(let actual) = greetingWithErrorsOutputError {
-                XCTAssertEqual("Access Denied", actual._message)
-                XCTAssertEqual("abcdefg123456", actual._requestID)
+            let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
+            if let actual = greetingWithErrorsOutputError as? UnknownAWSHTTPServiceError {
+                XCTAssertEqual("Access Denied", actual.message)
+                XCTAssertEqual("abcdefg123456", actual.requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }

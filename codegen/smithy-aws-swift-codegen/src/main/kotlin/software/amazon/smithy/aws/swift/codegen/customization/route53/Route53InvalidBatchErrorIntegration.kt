@@ -27,14 +27,11 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
     private val httpResponseBindingErrorGenerator = SectionWriter { writer, previousCode ->
         val operationErrorName = writer.getContext("operationErrorName") as String
         if (operationErrorName == "ChangeResourceRecordSetsOutputError") {
-            writer.openBlock("if let customBatchError = CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {", "}") {
-                writer.openBlock("let invalidChangeBatchError = InvalidChangeBatch(", ")") {
+            writer.openBlock("if let customBatchError = try await CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {", "}") {
+                writer.openBlock("return InvalidChangeBatch(", ")") {
                     writer.write("customError: customBatchError,")
-                    writer.write("headers: httpResponse.headers,")
-                    writer.write("statusCode: httpResponse.statusCode")
+                    writer.write("httpResponse: httpResponse")
                 }
-                writer.write("self = .invalidChangeBatch(invalidChangeBatchError)")
-                writer.write("return")
             }
         }
         writer.write(previousCode)
@@ -50,26 +47,34 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
 
     private fun renderCustomInvalidBatchError(writer: SwiftWriter) {
         writer.openBlock("struct CustomInvalidBatchError: Decodable {", "}") {
+            writer.write("")
             writer.openBlock("struct Message: Decodable {", "}") {
                 writer.write("let message: String")
                 writer.openBlock("enum CodingKeys: String, CodingKey {", "}") {
                     writer.write("case message = \"Message\"")
                 }
             }
-            writer.write("let requestId: String")
+            writer.write("")
+            writer.write("let requestID: String?")
+            writer.write("let message: String?")
             writer.write("let messages: [String]?")
+            writer.write("")
             writer.openBlock("enum CodingKeys: String, CodingKey {", "}") {
+                writer.write("case message = \"Message\"")
                 writer.write("case messages = \"Messages\"")
-                writer.write("case requestId = \"RequestId\"")
+                writer.write("case requestID = \"RequestId\"")
             }
+            writer.write("")
             writer.openBlock("init(from decoder: Decoder) throws {", "}") {
                 writer.write("let container = try decoder.container(keyedBy: CodingKeys.self)")
-                writer.write("self.requestId = try container.decode(String.self, forKey: .requestId)")
+                writer.write("self.requestID = try container.decode(String.self, forKey: .requestID)")
+                writer.write("self.message = try container.decodeIfPresent(String.self, forKey: .message)")
                 writer.write("let messages = try container.decodeIfPresent([Message].self, forKey: .messages)")
                 writer.write("self.messages = messages?.map(\\.message)")
             }
-            writer.openBlock("static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) -> CustomInvalidBatchError? {", "}") {
-                writer.openBlock("guard let data = try httpResponse.body.toData() else {", "}") {
+            writer.write("")
+            writer.openBlock("static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) async throws -> CustomInvalidBatchError? {", "}") {
+                writer.openBlock("guard let data = try await httpResponse.body.readData() else {", "}") {
                     writer.write("return nil")
                 }
                 writer.write("return try? XMLDecoder().decode(CustomInvalidBatchError.self, from: data)")
@@ -78,12 +83,13 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
     }
 
     private fun renderInvalidChangeBatch(writer: SwiftWriter) {
+        writer.write("")
         writer.openBlock("extension InvalidChangeBatch {", "}") {
-            writer.openBlock("init(customError: CustomInvalidBatchError, headers: Headers?, statusCode: HttpStatusCode?) {", "}") {
+            writer.openBlock("init(customError: CustomInvalidBatchError, httpResponse: ClientRuntime.HttpResponse) {", "}") {
                 writer.write("self.init(messages: customError.messages)")
-                writer.write("self._requestID = customError.requestId")
-                writer.write("self._headers = headers")
-                writer.write("self._statusCode = statusCode")
+                writer.write("self.message = customError.message")
+                writer.write("self.requestID = customError.requestID")
+                writer.write("self.httpResponse = httpResponse")
             }
         }
     }

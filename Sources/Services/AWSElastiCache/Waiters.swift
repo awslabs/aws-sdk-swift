@@ -102,7 +102,7 @@ extension ElastiCacheClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "CacheClusterNotFound"
+                return (error as? ServiceError)?.typeName == "CacheClusterNotFound"
             }),
             .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Result<DescribeCacheClustersOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
@@ -270,7 +270,7 @@ extension ElastiCacheClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeReplicationGroupsInput, result: Result<DescribeReplicationGroupsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ReplicationGroupNotFoundFault"
+                return (error as? ServiceError)?.typeName == "ReplicationGroupNotFoundFault"
             }),
         ]
         return try WaiterConfiguration<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)

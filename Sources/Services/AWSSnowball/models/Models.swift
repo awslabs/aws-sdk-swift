@@ -66,7 +66,7 @@ extension SnowballClientTypes.Address: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addressId)
         addressId = addressIdDecoded
@@ -131,7 +131,7 @@ extension SnowballClientTypes {
         /// The third line in a street address that a Snow device is to be delivered to.
         public var street3: Swift.String?
 
-        public init (
+        public init(
             addressId: Swift.String? = nil,
             city: Swift.String? = nil,
             company: Swift.String? = nil,
@@ -191,7 +191,7 @@ public struct CancelClusterInput: Swift.Equatable {
     /// This member is required.
     public var clusterId: Swift.String?
 
-    public init (
+    public init(
         clusterId: Swift.String? = nil
     )
     {
@@ -208,47 +208,34 @@ extension CancelClusterInputBody: Swift.Decodable {
         case clusterId = "ClusterId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
         clusterId = clusterIdDecoded
     }
 }
 
-extension CancelClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSRequestFailedException": return try await KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelClusterOutputError: Swift.Error, Swift.Equatable {
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case kMSRequestFailedException(KMSRequestFailedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CancelClusterOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CancelJobInput: Swift.Encodable {
@@ -275,7 +262,7 @@ public struct CancelJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -292,81 +279,72 @@ extension CancelJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension CancelJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSRequestFailedException": return try await KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelJobOutputError: Swift.Error, Swift.Equatable {
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case kMSRequestFailedException(KMSRequestFailedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CancelJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ClusterLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ClusterLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Job creation failed. Currently, clusters support five nodes. If you have fewer than five nodes for your cluster and you have more nodes to create for this cluster, try again and create jobs until your cluster has exactly five nodes.
-public struct ClusterLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ClusterLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -379,7 +357,7 @@ extension ClusterLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -410,7 +388,7 @@ extension SnowballClientTypes.ClusterListEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
         clusterId = clusterIdDecoded
@@ -435,7 +413,7 @@ extension SnowballClientTypes {
         /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
         public var description: Swift.String?
 
-        public init (
+        public init(
             clusterId: Swift.String? = nil,
             clusterState: SnowballClientTypes.ClusterState? = nil,
             creationDate: ClientRuntime.Date? = nil,
@@ -519,7 +497,7 @@ extension SnowballClientTypes.ClusterMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
         clusterId = clusterIdDecoded
@@ -596,7 +574,7 @@ extension SnowballClientTypes {
         /// The tax documents required in your Amazon Web Services Region.
         public var taxDocuments: SnowballClientTypes.TaxDocuments?
 
-        public init (
+        public init(
             addressId: Swift.String? = nil,
             clusterId: Swift.String? = nil,
             clusterState: SnowballClientTypes.ClusterState? = nil,
@@ -691,7 +669,7 @@ extension SnowballClientTypes.CompatibleImage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amiIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .amiId)
         amiId = amiIdDecoded
@@ -708,7 +686,7 @@ extension SnowballClientTypes {
         /// The optional name of a compatible image.
         public var name: Swift.String?
 
-        public init (
+        public init(
             amiId: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -721,43 +699,47 @@ extension SnowballClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.conflictResource = output.conflictResource
-            self.message = output.message
+            self.properties.conflictResource = output.conflictResource
+            self.properties.message = output.message
         } else {
-            self.conflictResource = nil
-            self.message = nil
+            self.properties.conflictResource = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You get this exception when you call CreateReturnShippingLabel more than once when other requests are not completed.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// You get this resource when you call CreateReturnShippingLabel more than once when other requests are not completed. .
-    public var conflictResource: Swift.String?
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// You get this resource when you call CreateReturnShippingLabel more than once when other requests are not completed. .
+        public internal(set) var conflictResource: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         conflictResource: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.conflictResource = conflictResource
-        self.message = message
+        self.properties.conflictResource = conflictResource
+        self.properties.message = message
     }
 }
 
@@ -772,7 +754,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conflictResourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conflictResource)
         conflictResource = conflictResourceDecoded
@@ -805,7 +787,7 @@ public struct CreateAddressInput: Swift.Equatable {
     /// This member is required.
     public var address: SnowballClientTypes.Address?
 
-    public init (
+    public init(
         address: SnowballClientTypes.Address? = nil
     )
     {
@@ -822,40 +804,28 @@ extension CreateAddressInputBody: Swift.Decodable {
         case address = "Address"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.Address.self, forKey: .address)
         address = addressDecoded
     }
 }
 
-extension CreateAddressOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAddressOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidAddressException" : self = .invalidAddressException(try InvalidAddressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedAddressException" : self = .unsupportedAddressException(try UnsupportedAddressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAddressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddressException": return try await InvalidAddressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedAddressException": return try await UnsupportedAddressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAddressOutputError: Swift.Error, Swift.Equatable {
-    case invalidAddressException(InvalidAddressException)
-    case unsupportedAddressException(UnsupportedAddressException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAddressOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAddressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressId = output.addressId
@@ -869,7 +839,7 @@ public struct CreateAddressOutputResponse: Swift.Equatable {
     /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snow device for that job shipped to.
     public var addressId: Swift.String?
 
-    public init (
+    public init(
         addressId: Swift.String? = nil
     )
     {
@@ -886,7 +856,7 @@ extension CreateAddressOutputResponseBody: Swift.Decodable {
         case addressId = "AddressId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addressId)
         addressId = addressIdDecoded
@@ -1038,7 +1008,7 @@ public struct CreateClusterInput: Swift.Equatable {
     /// The tax documents required in your Amazon Web Services Region.
     public var taxDocuments: SnowballClientTypes.TaxDocuments?
 
-    public init (
+    public init(
         addressId: Swift.String? = nil,
         description: Swift.String? = nil,
         forceCreateJobs: Swift.Bool? = nil,
@@ -1119,7 +1089,7 @@ extension CreateClusterInputBody: Swift.Decodable {
         case taxDocuments = "TaxDocuments"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobTypeDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.JobType.self, forKey: .jobType)
         jobType = jobTypeDecoded
@@ -1167,37 +1137,23 @@ extension CreateClusterInputBody: Swift.Decodable {
     }
 }
 
-extension CreateClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "Ec2RequestFailedException" : self = .ec2RequestFailedException(try Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputCombinationException" : self = .invalidInputCombinationException(try InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "Ec2RequestFailedException": return try await Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputCombinationException": return try await InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSRequestFailedException": return try await KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateClusterOutputError: Swift.Error, Swift.Equatable {
-    case ec2RequestFailedException(Ec2RequestFailedException)
-    case invalidInputCombinationException(InvalidInputCombinationException)
-    case invalidResourceException(InvalidResourceException)
-    case kMSRequestFailedException(KMSRequestFailedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterId = output.clusterId
@@ -1215,7 +1171,7 @@ public struct CreateClusterOutputResponse: Swift.Equatable {
     /// List of jobs created for this cluster. For syntax, see [ListJobsResult$JobListEntries](https://docs.aws.amazon.com/snowball/latest/api-reference/API_ListJobs.html#API_ListJobs_ResponseSyntax) in this guide.
     public var jobListEntries: [SnowballClientTypes.JobListEntry]?
 
-    public init (
+    public init(
         clusterId: Swift.String? = nil,
         jobListEntries: [SnowballClientTypes.JobListEntry]? = nil
     )
@@ -1236,7 +1192,7 @@ extension CreateClusterOutputResponseBody: Swift.Decodable {
         case jobListEntries = "JobListEntries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
         clusterId = clusterIdDecoded
@@ -1381,7 +1337,7 @@ public struct CreateJobInput: Swift.Equatable {
     /// The tax documents required in your Amazon Web Services Region.
     public var taxDocuments: SnowballClientTypes.TaxDocuments?
 
-    public init (
+    public init(
         addressId: Swift.String? = nil,
         clusterId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -1462,7 +1418,7 @@ extension CreateJobInputBody: Swift.Decodable {
         case taxDocuments = "TaxDocuments"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobTypeDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.JobType.self, forKey: .jobType)
         jobType = jobTypeDecoded
@@ -1501,39 +1457,24 @@ extension CreateJobInputBody: Swift.Decodable {
     }
 }
 
-extension CreateJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClusterLimitExceededException" : self = .clusterLimitExceededException(try ClusterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "Ec2RequestFailedException" : self = .ec2RequestFailedException(try Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputCombinationException" : self = .invalidInputCombinationException(try InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClusterLimitExceededException": return try await ClusterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Ec2RequestFailedException": return try await Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputCombinationException": return try await InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSRequestFailedException": return try await KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateJobOutputError: Swift.Error, Swift.Equatable {
-    case clusterLimitExceededException(ClusterLimitExceededException)
-    case ec2RequestFailedException(Ec2RequestFailedException)
-    case invalidInputCombinationException(InvalidInputCombinationException)
-    case invalidResourceException(InvalidResourceException)
-    case kMSRequestFailedException(KMSRequestFailedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
@@ -1547,7 +1488,7 @@ public struct CreateJobOutputResponse: Swift.Equatable {
     /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -1564,7 +1505,7 @@ extension CreateJobOutputResponseBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -1607,7 +1548,7 @@ public struct CreateLongTermPricingInput: Swift.Equatable {
     /// The type of Snow Family devices to use for the long-term pricing job.
     public var snowballType: SnowballClientTypes.SnowballType?
 
-    public init (
+    public init(
         isLongTermPricingAutoRenew: Swift.Bool? = nil,
         longTermPricingType: SnowballClientTypes.LongTermPricingType? = nil,
         snowballType: SnowballClientTypes.SnowballType? = nil
@@ -1632,7 +1573,7 @@ extension CreateLongTermPricingInputBody: Swift.Decodable {
         case snowballType = "SnowballType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let longTermPricingTypeDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.LongTermPricingType.self, forKey: .longTermPricingType)
         longTermPricingType = longTermPricingTypeDecoded
@@ -1643,31 +1584,20 @@ extension CreateLongTermPricingInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLongTermPricingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLongTermPricingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLongTermPricingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLongTermPricingOutputError: Swift.Error, Swift.Equatable {
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLongTermPricingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLongTermPricingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.longTermPricingId = output.longTermPricingId
@@ -1681,7 +1611,7 @@ public struct CreateLongTermPricingOutputResponse: Swift.Equatable {
     /// The ID of the long-term pricing type for the device.
     public var longTermPricingId: Swift.String?
 
-    public init (
+    public init(
         longTermPricingId: Swift.String? = nil
     )
     {
@@ -1698,7 +1628,7 @@ extension CreateLongTermPricingOutputResponseBody: Swift.Decodable {
         case longTermPricingId = "LongTermPricingId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let longTermPricingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longTermPricingId)
         longTermPricingId = longTermPricingIdDecoded
@@ -1735,7 +1665,7 @@ public struct CreateReturnShippingLabelInput: Swift.Equatable {
     /// The shipping speed for a particular job. This speed doesn't dictate how soon the device is returned to Amazon Web Services. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:
     public var shippingOption: SnowballClientTypes.ShippingOption?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil,
         shippingOption: SnowballClientTypes.ShippingOption? = nil
     )
@@ -1756,7 +1686,7 @@ extension CreateReturnShippingLabelInputBody: Swift.Decodable {
         case shippingOption = "ShippingOption"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -1765,39 +1695,24 @@ extension CreateReturnShippingLabelInputBody: Swift.Decodable {
     }
 }
 
-extension CreateReturnShippingLabelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateReturnShippingLabelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputCombinationException" : self = .invalidInputCombinationException(try InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReturnShippingLabelAlreadyExistsException" : self = .returnShippingLabelAlreadyExistsException(try ReturnShippingLabelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateReturnShippingLabelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputCombinationException": return try await InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReturnShippingLabelAlreadyExistsException": return try await ReturnShippingLabelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateReturnShippingLabelOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case invalidInputCombinationException(InvalidInputCombinationException)
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case returnShippingLabelAlreadyExistsException(ReturnShippingLabelAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateReturnShippingLabelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateReturnShippingLabelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -1811,7 +1726,7 @@ public struct CreateReturnShippingLabelOutputResponse: Swift.Equatable {
     /// The status information of the task on a Snow device that is being returned to Amazon Web Services.
     public var status: SnowballClientTypes.ShippingLabelStatus?
 
-    public init (
+    public init(
         status: SnowballClientTypes.ShippingLabelStatus? = nil
     )
     {
@@ -1828,7 +1743,7 @@ extension CreateReturnShippingLabelOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ShippingLabelStatus.self, forKey: .status)
         status = statusDecoded
@@ -1859,7 +1774,7 @@ extension SnowballClientTypes.DataTransfer: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bytesTransferredDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesTransferred) ?? 0
         bytesTransferred = bytesTransferredDecoded
@@ -1884,7 +1799,7 @@ extension SnowballClientTypes {
         /// The total number of objects for a transfer between a Snow device and Amazon S3. This value is set to 0 (zero) until all the keys that will be transferred have been listed.
         public var totalObjects: Swift.Int
 
-        public init (
+        public init(
             bytesTransferred: Swift.Int = 0,
             objectsTransferred: Swift.Int = 0,
             totalBytes: Swift.Int = 0,
@@ -1916,7 +1831,7 @@ extension SnowballClientTypes.DependentService: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceNameDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ServiceName.self, forKey: .serviceName)
         serviceName = serviceNameDecoded
@@ -1933,7 +1848,7 @@ extension SnowballClientTypes {
         /// The version of the dependent service.
         public var serviceVersion: SnowballClientTypes.ServiceVersion?
 
-        public init (
+        public init(
             serviceName: SnowballClientTypes.ServiceName? = nil,
             serviceVersion: SnowballClientTypes.ServiceVersion? = nil
         )
@@ -1969,7 +1884,7 @@ public struct DescribeAddressInput: Swift.Equatable {
     /// This member is required.
     public var addressId: Swift.String?
 
-    public init (
+    public init(
         addressId: Swift.String? = nil
     )
     {
@@ -1986,38 +1901,27 @@ extension DescribeAddressInputBody: Swift.Decodable {
         case addressId = "AddressId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addressId)
         addressId = addressIdDecoded
     }
 }
 
-extension DescribeAddressOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAddressOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAddressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAddressOutputError: Swift.Error, Swift.Equatable {
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAddressOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAddressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.address = output.address
@@ -2031,7 +1935,7 @@ public struct DescribeAddressOutputResponse: Swift.Equatable {
     /// The address that you want the Snow device(s) associated with a specific job to be shipped to.
     public var address: SnowballClientTypes.Address?
 
-    public init (
+    public init(
         address: SnowballClientTypes.Address? = nil
     )
     {
@@ -2048,7 +1952,7 @@ extension DescribeAddressOutputResponseBody: Swift.Decodable {
         case address = "Address"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.Address.self, forKey: .address)
         address = addressDecoded
@@ -2084,7 +1988,7 @@ public struct DescribeAddressesInput: Swift.Equatable {
     /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2105,7 +2009,7 @@ extension DescribeAddressesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -2114,33 +2018,21 @@ extension DescribeAddressesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeAddressesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAddressesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAddressesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAddressesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAddressesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAddressesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addresses = output.addresses
@@ -2158,7 +2050,7 @@ public struct DescribeAddressesOutputResponse: Swift.Equatable {
     /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next DescribeAddresses call, your list of returned addresses will start from this point in the array.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         addresses: [SnowballClientTypes.Address]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2179,7 +2071,7 @@ extension DescribeAddressesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.Address?].self, forKey: .addresses)
         var addressesDecoded0:[SnowballClientTypes.Address]? = nil
@@ -2221,7 +2113,7 @@ public struct DescribeClusterInput: Swift.Equatable {
     /// This member is required.
     public var clusterId: Swift.String?
 
-    public init (
+    public init(
         clusterId: Swift.String? = nil
     )
     {
@@ -2238,38 +2130,27 @@ extension DescribeClusterInputBody: Swift.Decodable {
         case clusterId = "ClusterId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
         clusterId = clusterIdDecoded
     }
 }
 
-extension DescribeClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeClusterOutputError: Swift.Error, Swift.Equatable {
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterMetadata = output.clusterMetadata
@@ -2283,7 +2164,7 @@ public struct DescribeClusterOutputResponse: Swift.Equatable {
     /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
     public var clusterMetadata: SnowballClientTypes.ClusterMetadata?
 
-    public init (
+    public init(
         clusterMetadata: SnowballClientTypes.ClusterMetadata? = nil
     )
     {
@@ -2300,7 +2181,7 @@ extension DescribeClusterOutputResponseBody: Swift.Decodable {
         case clusterMetadata = "ClusterMetadata"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterMetadataDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ClusterMetadata.self, forKey: .clusterMetadata)
         clusterMetadata = clusterMetadataDecoded
@@ -2331,7 +2212,7 @@ public struct DescribeJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -2348,38 +2229,27 @@ extension DescribeJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension DescribeJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeJobOutputError: Swift.Error, Swift.Equatable {
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobMetadata = output.jobMetadata
@@ -2397,7 +2267,7 @@ public struct DescribeJobOutputResponse: Swift.Equatable {
     /// Information about a specific job part (in the case of an export job), including shipping information, job status, and other important metadata.
     public var subJobMetadata: [SnowballClientTypes.JobMetadata]?
 
-    public init (
+    public init(
         jobMetadata: SnowballClientTypes.JobMetadata? = nil,
         subJobMetadata: [SnowballClientTypes.JobMetadata]? = nil
     )
@@ -2418,7 +2288,7 @@ extension DescribeJobOutputResponseBody: Swift.Decodable {
         case subJobMetadata = "SubJobMetadata"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobMetadataDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.JobMetadata.self, forKey: .jobMetadata)
         jobMetadata = jobMetadataDecoded
@@ -2460,7 +2330,7 @@ public struct DescribeReturnShippingLabelInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -2477,42 +2347,29 @@ extension DescribeReturnShippingLabelInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension DescribeReturnShippingLabelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeReturnShippingLabelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeReturnShippingLabelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeReturnShippingLabelOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeReturnShippingLabelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeReturnShippingLabelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expirationDate = output.expirationDate
@@ -2534,7 +2391,7 @@ public struct DescribeReturnShippingLabelOutputResponse: Swift.Equatable {
     /// The status information of the task on a Snow device that is being returned to Amazon Web Services.
     public var status: SnowballClientTypes.ShippingLabelStatus?
 
-    public init (
+    public init(
         expirationDate: ClientRuntime.Date? = nil,
         returnShippingLabelURI: Swift.String? = nil,
         status: SnowballClientTypes.ShippingLabelStatus? = nil
@@ -2559,7 +2416,7 @@ extension DescribeReturnShippingLabelOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ShippingLabelStatus.self, forKey: .status)
         status = statusDecoded
@@ -2582,7 +2439,7 @@ extension SnowballClientTypes.DeviceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snowconeDeviceConfigurationDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.SnowconeDeviceConfiguration.self, forKey: .snowconeDeviceConfiguration)
         snowconeDeviceConfiguration = snowconeDeviceConfigurationDecoded
@@ -2595,7 +2452,7 @@ extension SnowballClientTypes {
         /// Returns information about the device configuration for an Snowcone job.
         public var snowconeDeviceConfiguration: SnowballClientTypes.SnowconeDeviceConfiguration?
 
-        public init (
+        public init(
             snowconeDeviceConfiguration: SnowballClientTypes.SnowconeDeviceConfiguration? = nil
         )
         {
@@ -2653,7 +2510,7 @@ extension SnowballClientTypes.EKSOnDeviceServiceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let kubernetesVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kubernetesVersion)
         kubernetesVersion = kubernetesVersionDecoded
@@ -2670,7 +2527,7 @@ extension SnowballClientTypes {
         /// The Kubernetes version for EKS Anywhere on the Snow Family device.
         public var kubernetesVersion: Swift.String?
 
-        public init (
+        public init(
             eksAnywhereVersion: Swift.String? = nil,
             kubernetesVersion: Swift.String? = nil
         )
@@ -2698,7 +2555,7 @@ extension SnowballClientTypes.Ec2AmiResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amiIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .amiId)
         amiId = amiIdDecoded
@@ -2716,7 +2573,7 @@ extension SnowballClientTypes {
         /// The ID of the AMI on the Snow device.
         public var snowballAmiId: Swift.String?
 
-        public init (
+        public init(
             amiId: Swift.String? = nil,
             snowballAmiId: Swift.String? = nil
         )
@@ -2729,37 +2586,41 @@ extension SnowballClientTypes {
 }
 
 extension Ec2RequestFailedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: Ec2RequestFailedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Your user lacks the necessary Amazon EC2 permissions to perform the attempted action.
-public struct Ec2RequestFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct Ec2RequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Ec2RequestFailedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2772,7 +2633,7 @@ extension Ec2RequestFailedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2791,7 +2652,7 @@ extension SnowballClientTypes.EventTriggerDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventResourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventResourceARN)
         eventResourceARN = eventResourceARNDecoded
@@ -2804,7 +2665,7 @@ extension SnowballClientTypes {
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an Lambda function's event trigger associated with this job.
         public var eventResourceARN: Swift.String?
 
-        public init (
+        public init(
             eventResourceARN: Swift.String? = nil
         )
         {
@@ -2838,7 +2699,7 @@ public struct GetJobManifestInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -2855,40 +2716,28 @@ extension GetJobManifestInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension GetJobManifestOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetJobManifestOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetJobManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetJobManifestOutputError: Swift.Error, Swift.Equatable {
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetJobManifestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetJobManifestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.manifestURI = output.manifestURI
@@ -2902,7 +2751,7 @@ public struct GetJobManifestOutputResponse: Swift.Equatable {
     /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
     public var manifestURI: Swift.String?
 
-    public init (
+    public init(
         manifestURI: Swift.String? = nil
     )
     {
@@ -2919,7 +2768,7 @@ extension GetJobManifestOutputResponseBody: Swift.Decodable {
         case manifestURI = "ManifestURI"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let manifestURIDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .manifestURI)
         manifestURI = manifestURIDecoded
@@ -2950,7 +2799,7 @@ public struct GetJobUnlockCodeInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -2967,40 +2816,28 @@ extension GetJobUnlockCodeInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension GetJobUnlockCodeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetJobUnlockCodeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetJobUnlockCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetJobUnlockCodeOutputError: Swift.Error, Swift.Equatable {
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetJobUnlockCodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetJobUnlockCodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.unlockCode = output.unlockCode
@@ -3014,7 +2851,7 @@ public struct GetJobUnlockCodeOutputResponse: Swift.Equatable {
     /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 360 days after the job has been created.
     public var unlockCode: Swift.String?
 
-    public init (
+    public init(
         unlockCode: Swift.String? = nil
     )
     {
@@ -3031,7 +2868,7 @@ extension GetJobUnlockCodeOutputResponseBody: Swift.Decodable {
         case unlockCode = "UnlockCode"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let unlockCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unlockCode)
         unlockCode = unlockCodeDecoded
@@ -3054,7 +2891,7 @@ extension GetSnowballUsageInput: ClientRuntime.URLPathProvider {
 
 public struct GetSnowballUsageInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetSnowballUsageInputBody: Swift.Equatable {
@@ -3062,33 +2899,23 @@ struct GetSnowballUsageInputBody: Swift.Equatable {
 
 extension GetSnowballUsageInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetSnowballUsageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSnowballUsageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSnowballUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSnowballUsageOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSnowballUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSnowballUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snowballLimit = output.snowballLimit
@@ -3106,7 +2933,7 @@ public struct GetSnowballUsageOutputResponse: Swift.Equatable {
     /// The number of Snow devices that this account is currently using.
     public var snowballsInUse: Swift.Int?
 
-    public init (
+    public init(
         snowballLimit: Swift.Int? = nil,
         snowballsInUse: Swift.Int? = nil
     )
@@ -3127,7 +2954,7 @@ extension GetSnowballUsageOutputResponseBody: Swift.Decodable {
         case snowballsInUse = "SnowballsInUse"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snowballLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snowballLimit)
         snowballLimit = snowballLimitDecoded
@@ -3160,7 +2987,7 @@ public struct GetSoftwareUpdatesInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil
     )
     {
@@ -3177,40 +3004,28 @@ extension GetSoftwareUpdatesInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
     }
 }
 
-extension GetSoftwareUpdatesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSoftwareUpdatesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSoftwareUpdatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSoftwareUpdatesOutputError: Swift.Error, Swift.Equatable {
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSoftwareUpdatesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSoftwareUpdatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.updatesURI = output.updatesURI
@@ -3224,7 +3039,7 @@ public struct GetSoftwareUpdatesOutputResponse: Swift.Equatable {
     /// The Amazon S3 presigned URL for the update file associated with the specified JobId value. The software update will be available for 2 days after this request is made. To access an update after the 2 days have passed, you'll have to make another call to GetSoftwareUpdates.
     public var updatesURI: Swift.String?
 
-    public init (
+    public init(
         updatesURI: Swift.String? = nil
     )
     {
@@ -3241,7 +3056,7 @@ extension GetSoftwareUpdatesOutputResponseBody: Swift.Decodable {
         case updatesURI = "UpdatesURI"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let updatesURIDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatesURI)
         updatesURI = updatesURIDecoded
@@ -3260,7 +3075,7 @@ extension SnowballClientTypes.INDTaxDocuments: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gstinDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gstin)
         gstin = gstinDecoded
@@ -3273,7 +3088,7 @@ extension SnowballClientTypes {
         /// The Goods and Services Tax (GST) documents required in Amazon Web Services Region in India.
         public var gstin: Swift.String?
 
-        public init (
+        public init(
             gstin: Swift.String? = nil
         )
         {
@@ -3284,37 +3099,41 @@ extension SnowballClientTypes {
 }
 
 extension InvalidAddressException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidAddressExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The address provided was invalid. Check the address with your region's carrier, and try again.
-public struct InvalidAddressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidAddressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidAddressException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3327,7 +3146,7 @@ extension InvalidAddressExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3335,37 +3154,41 @@ extension InvalidAddressExceptionBody: Swift.Decodable {
 }
 
 extension InvalidInputCombinationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInputCombinationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Job or cluster creation failed. One or more inputs were invalid. Confirm that the [CreateClusterRequest$SnowballType] value supports your [CreateJobRequest$JobType], and try again.
-public struct InvalidInputCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidInputCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInputCombinationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3378,7 +3201,7 @@ extension InvalidInputCombinationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3386,37 +3209,41 @@ extension InvalidInputCombinationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidJobStateException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidJobStateExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The action can't be performed because the job's current state doesn't allow that action to be performed.
-public struct InvalidJobStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidJobStateException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3429,7 +3256,7 @@ extension InvalidJobStateExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3437,37 +3264,41 @@ extension InvalidJobStateExceptionBody: Swift.Decodable {
 }
 
 extension InvalidNextTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextTokenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3480,7 +3311,7 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3488,43 +3319,47 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 }
 
 extension InvalidResourceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidResourceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceType = output.resourceType
+            self.properties.message = output.message
+            self.properties.resourceType = output.resourceType
         } else {
-            self.message = nil
-            self.resourceType = nil
+            self.properties.message = nil
+            self.properties.resourceType = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource can't be found. Check the information you provided in your last request, and try again.
-public struct InvalidResourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
-    /// The provided resource value is invalid.
-    public var resourceType: Swift.String?
+public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The provided resource value is invalid.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceType = resourceType
+        self.properties.message = message
+        self.properties.resourceType = resourceType
     }
 }
 
@@ -3539,7 +3374,7 @@ extension InvalidResourceExceptionBody: Swift.Decodable {
         case resourceType = "ResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3584,7 +3419,7 @@ extension SnowballClientTypes.JobListEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -3621,7 +3456,7 @@ extension SnowballClientTypes {
         /// The type of device used with this job.
         public var snowballType: SnowballClientTypes.SnowballType?
 
-        public init (
+        public init(
             creationDate: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             isMaster: Swift.Bool = false,
@@ -3663,7 +3498,7 @@ extension SnowballClientTypes.JobLogs: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobCompletionReportURIDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobCompletionReportURI)
         jobCompletionReportURI = jobCompletionReportURIDecoded
@@ -3684,7 +3519,7 @@ extension SnowballClientTypes {
         /// A link to an Amazon S3 presigned URL where the job success log is located.
         public var jobSuccessLogURI: Swift.String?
 
-        public init (
+        public init(
             jobCompletionReportURI: Swift.String? = nil,
             jobFailureLogURI: Swift.String? = nil,
             jobSuccessLogURI: Swift.String? = nil
@@ -3794,7 +3629,7 @@ extension SnowballClientTypes.JobMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -3891,7 +3726,7 @@ extension SnowballClientTypes {
         /// The metadata associated with the tax documents required in your Amazon Web Services Region.
         public var taxDocuments: SnowballClientTypes.TaxDocuments?
 
-        public init (
+        public init(
             addressId: Swift.String? = nil,
             clusterId: Swift.String? = nil,
             creationDate: ClientRuntime.Date? = nil,
@@ -3972,7 +3807,7 @@ extension SnowballClientTypes.JobResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3ResourcesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.S3Resource?].self, forKey: .s3Resources)
         var s3ResourcesDecoded0:[SnowballClientTypes.S3Resource]? = nil
@@ -4020,7 +3855,7 @@ extension SnowballClientTypes {
         /// An array of S3Resource objects.
         public var s3Resources: [SnowballClientTypes.S3Resource]?
 
-        public init (
+        public init(
             ec2AmiResources: [SnowballClientTypes.Ec2AmiResource]? = nil,
             lambdaResources: [SnowballClientTypes.LambdaResource]? = nil,
             s3Resources: [SnowballClientTypes.S3Resource]? = nil
@@ -4135,37 +3970,41 @@ extension SnowballClientTypes {
 }
 
 extension KMSRequestFailedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: KMSRequestFailedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-public struct KMSRequestFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct KMSRequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSRequestFailedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4178,7 +4017,7 @@ extension KMSRequestFailedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4201,7 +4040,7 @@ extension SnowballClientTypes.KeyRange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let beginMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .beginMarker)
         beginMarker = beginMarkerDecoded
@@ -4218,7 +4057,7 @@ extension SnowballClientTypes {
         /// The key that ends an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
         public var endMarker: Swift.String?
 
-        public init (
+        public init(
             beginMarker: Swift.String? = nil,
             endMarker: Swift.String? = nil
         )
@@ -4249,7 +4088,7 @@ extension SnowballClientTypes.LambdaResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lambdaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaArn)
         lambdaArn = lambdaArnDecoded
@@ -4275,7 +4114,7 @@ extension SnowballClientTypes {
         /// An Amazon Resource Name (ARN) that represents an Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
         public var lambdaArn: Swift.String?
 
-        public init (
+        public init(
             eventTriggers: [SnowballClientTypes.EventTriggerDefinition]? = nil,
             lambdaArn: Swift.String? = nil
         )
@@ -4323,7 +4162,7 @@ public struct ListClusterJobsInput: Swift.Equatable {
     /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         clusterId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -4348,7 +4187,7 @@ extension ListClusterJobsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
         clusterId = clusterIdDecoded
@@ -4359,33 +4198,21 @@ extension ListClusterJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListClusterJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListClusterJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListClusterJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListClusterJobsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListClusterJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListClusterJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobListEntries = output.jobListEntries
@@ -4403,7 +4230,7 @@ public struct ListClusterJobsOutputResponse: Swift.Equatable {
     /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ListClusterJobsResult call, your list of returned jobs will start from this point in the array.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         jobListEntries: [SnowballClientTypes.JobListEntry]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4424,7 +4251,7 @@ extension ListClusterJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobListEntriesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.JobListEntry?].self, forKey: .jobListEntries)
         var jobListEntriesDecoded0:[SnowballClientTypes.JobListEntry]? = nil
@@ -4471,7 +4298,7 @@ public struct ListClustersInput: Swift.Equatable {
     /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4492,7 +4319,7 @@ extension ListClustersInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -4501,31 +4328,20 @@ extension ListClustersInputBody: Swift.Decodable {
     }
 }
 
-extension ListClustersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListClustersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListClustersOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterListEntries = output.clusterListEntries
@@ -4543,7 +4359,7 @@ public struct ListClustersOutputResponse: Swift.Equatable {
     /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ClusterListEntry call, your list of returned clusters will start from this point in the array.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         clusterListEntries: [SnowballClientTypes.ClusterListEntry]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4564,7 +4380,7 @@ extension ListClustersOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterListEntriesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.ClusterListEntry?].self, forKey: .clusterListEntries)
         var clusterListEntriesDecoded0:[SnowballClientTypes.ClusterListEntry]? = nil
@@ -4611,7 +4427,7 @@ public struct ListCompatibleImagesInput: Swift.Equatable {
     /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4632,7 +4448,7 @@ extension ListCompatibleImagesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -4641,33 +4457,21 @@ extension ListCompatibleImagesInputBody: Swift.Decodable {
     }
 }
 
-extension ListCompatibleImagesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListCompatibleImagesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "Ec2RequestFailedException" : self = .ec2RequestFailedException(try Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListCompatibleImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "Ec2RequestFailedException": return try await Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListCompatibleImagesOutputError: Swift.Error, Swift.Equatable {
-    case ec2RequestFailedException(Ec2RequestFailedException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListCompatibleImagesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListCompatibleImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compatibleImages = output.compatibleImages
@@ -4685,7 +4489,7 @@ public struct ListCompatibleImagesOutputResponse: Swift.Equatable {
     /// Because HTTP requests are stateless, this is the starting point for your next list of returned images.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         compatibleImages: [SnowballClientTypes.CompatibleImage]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4706,7 +4510,7 @@ extension ListCompatibleImagesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let compatibleImagesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.CompatibleImage?].self, forKey: .compatibleImages)
         var compatibleImagesDecoded0:[SnowballClientTypes.CompatibleImage]? = nil
@@ -4753,7 +4557,7 @@ public struct ListJobsInput: Swift.Equatable {
     /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4774,7 +4578,7 @@ extension ListJobsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -4783,31 +4587,20 @@ extension ListJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListJobsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobListEntries = output.jobListEntries
@@ -4825,7 +4618,7 @@ public struct ListJobsOutputResponse: Swift.Equatable {
     /// HTTP requests are stateless. If you use this automatically generated NextToken value in your next ListJobs call, your returned JobListEntry objects will start from this point in the array.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         jobListEntries: [SnowballClientTypes.JobListEntry]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4846,7 +4639,7 @@ extension ListJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobListEntriesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.JobListEntry?].self, forKey: .jobListEntries)
         var jobListEntriesDecoded0:[SnowballClientTypes.JobListEntry]? = nil
@@ -4893,7 +4686,7 @@ public struct ListLongTermPricingInput: Swift.Equatable {
     /// Because HTTP requests are stateless, this is the starting point for your next list of ListLongTermPricing to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4914,7 +4707,7 @@ extension ListLongTermPricingInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -4923,33 +4716,21 @@ extension ListLongTermPricingInputBody: Swift.Decodable {
     }
 }
 
-extension ListLongTermPricingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLongTermPricingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLongTermPricingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLongTermPricingOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLongTermPricingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLongTermPricingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.longTermPricingEntries = output.longTermPricingEntries
@@ -4967,7 +4748,7 @@ public struct ListLongTermPricingOutputResponse: Swift.Equatable {
     /// Because HTTP requests are stateless, this is the starting point for your next list of returned ListLongTermPricing list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         longTermPricingEntries: [SnowballClientTypes.LongTermPricingListEntry]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4988,7 +4769,7 @@ extension ListLongTermPricingOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let longTermPricingEntriesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.LongTermPricingListEntry?].self, forKey: .longTermPricingEntries)
         var longTermPricingEntriesDecoded0:[SnowballClientTypes.LongTermPricingListEntry]? = nil
@@ -5051,7 +4832,7 @@ public struct ListServiceVersionsInput: Swift.Equatable {
     /// This member is required.
     public var serviceName: SnowballClientTypes.ServiceName?
 
-    public init (
+    public init(
         dependentServices: [SnowballClientTypes.DependentService]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -5080,7 +4861,7 @@ extension ListServiceVersionsInputBody: Swift.Decodable {
         case serviceName = "ServiceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceNameDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ServiceName.self, forKey: .serviceName)
         serviceName = serviceNameDecoded
@@ -5102,33 +4883,21 @@ extension ListServiceVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListServiceVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListServiceVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListServiceVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListServiceVersionsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListServiceVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListServiceVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dependentServices = output.dependentServices
@@ -5156,7 +4925,7 @@ public struct ListServiceVersionsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var serviceVersions: [SnowballClientTypes.ServiceVersion]?
 
-    public init (
+    public init(
         dependentServices: [SnowballClientTypes.DependentService]? = nil,
         nextToken: Swift.String? = nil,
         serviceName: SnowballClientTypes.ServiceName? = nil,
@@ -5185,7 +4954,7 @@ extension ListServiceVersionsOutputResponseBody: Swift.Decodable {
         case serviceVersions = "ServiceVersions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceVersionsContainer = try containerValues.decodeIfPresent([SnowballClientTypes.ServiceVersion?].self, forKey: .serviceVersions)
         var serviceVersionsDecoded0:[SnowballClientTypes.ServiceVersion]? = nil
@@ -5267,7 +5036,7 @@ extension SnowballClientTypes.LongTermPricingListEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let longTermPricingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longTermPricingId)
         longTermPricingId = longTermPricingIdDecoded
@@ -5325,7 +5094,7 @@ extension SnowballClientTypes {
         /// The type of Snow Family devices associated with this long-term pricing job.
         public var snowballType: SnowballClientTypes.SnowballType?
 
-        public init (
+        public init(
             currentActiveJob: Swift.String? = nil,
             isLongTermPricingAutoRenew: Swift.Bool? = nil,
             jobIds: [Swift.String]? = nil,
@@ -5404,7 +5173,7 @@ extension SnowballClientTypes.NFSOnDeviceServiceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storageLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageLimit) ?? 0
         storageLimit = storageLimitDecoded
@@ -5421,7 +5190,7 @@ extension SnowballClientTypes {
         /// The scale unit of the NFS storage on the device. Valid values: TB.
         public var storageUnit: SnowballClientTypes.StorageUnit?
 
-        public init (
+        public init(
             storageLimit: Swift.Int = 0,
             storageUnit: SnowballClientTypes.StorageUnit? = nil
         )
@@ -5456,7 +5225,7 @@ extension SnowballClientTypes.Notification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snsTopicARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snsTopicARN)
         snsTopicARN = snsTopicARNDecoded
@@ -5486,7 +5255,7 @@ extension SnowballClientTypes {
         /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the [CreateTopic](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html) Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the Amazon Web Services Management Console, or by using the [Subscribe](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html) Amazon Simple Notification Service (Amazon SNS) API action.
         public var snsTopicARN: Swift.String?
 
-        public init (
+        public init(
             jobStatesToNotify: [SnowballClientTypes.JobState]? = nil,
             notifyAll: Swift.Bool = false,
             snsTopicARN: Swift.String? = nil
@@ -5524,7 +5293,7 @@ extension SnowballClientTypes.OnDeviceServiceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nfsOnDeviceServiceDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.NFSOnDeviceServiceConfiguration.self, forKey: .nfsOnDeviceService)
         nfsOnDeviceService = nfsOnDeviceServiceDecoded
@@ -5549,7 +5318,7 @@ extension SnowballClientTypes {
         /// Represents the Storage Gateway service Tape Gateway type on a Snow Family device.
         public var tgwOnDeviceService: SnowballClientTypes.TGWOnDeviceServiceConfiguration?
 
-        public init (
+        public init(
             eksOnDeviceService: SnowballClientTypes.EKSOnDeviceServiceConfiguration? = nil,
             nfsOnDeviceService: SnowballClientTypes.NFSOnDeviceServiceConfiguration? = nil,
             s3OnDeviceService: SnowballClientTypes.S3OnDeviceServiceConfiguration? = nil,
@@ -5598,37 +5367,41 @@ extension SnowballClientTypes {
 }
 
 extension ReturnShippingLabelAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ReturnShippingLabelAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You get this exception if you call CreateReturnShippingLabel and a valid return shipping label already exists. In this case, use DescribeReturnShippingLabel to get the URL.
-public struct ReturnShippingLabelAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReturnShippingLabelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReturnShippingLabelAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5641,7 +5414,7 @@ extension ReturnShippingLabelAlreadyExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5672,7 +5445,7 @@ extension SnowballClientTypes.S3OnDeviceServiceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storageLimitDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .storageLimit)
         storageLimit = storageLimitDecoded
@@ -5697,7 +5470,7 @@ extension SnowballClientTypes {
         /// Storage unit. Currently the only supported unit is TB.
         public var storageUnit: SnowballClientTypes.StorageUnit?
 
-        public init (
+        public init(
             faultTolerance: Swift.Int? = nil,
             serviceSize: Swift.Int? = nil,
             storageLimit: Swift.Double? = nil,
@@ -5736,7 +5509,7 @@ extension SnowballClientTypes.S3Resource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketArn)
         bucketArn = bucketArnDecoded
@@ -5766,7 +5539,7 @@ extension SnowballClientTypes {
         /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System).
         public var targetOnDeviceServices: [SnowballClientTypes.TargetOnDeviceService]?
 
-        public init (
+        public init(
             bucketArn: Swift.String? = nil,
             keyRange: SnowballClientTypes.KeyRange? = nil,
             targetOnDeviceServices: [SnowballClientTypes.TargetOnDeviceService]? = nil
@@ -5824,7 +5597,7 @@ extension SnowballClientTypes.ServiceVersion: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
@@ -5837,7 +5610,7 @@ extension SnowballClientTypes {
         /// The version number of the requested service.
         public var version: Swift.String?
 
-        public init (
+        public init(
             version: Swift.String? = nil
         )
         {
@@ -5863,7 +5636,7 @@ extension SnowballClientTypes.Shipment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -5880,7 +5653,7 @@ extension SnowballClientTypes {
         /// The tracking number for this job. Using this tracking number with your region's carrier's website, you can track a Snow device as the carrier transports it. For India, the carrier is Amazon Logistics. For all other regions, UPS is the carrier.
         public var trackingNumber: Swift.String?
 
-        public init (
+        public init(
             status: Swift.String? = nil,
             trackingNumber: Swift.String? = nil
         )
@@ -5944,7 +5717,7 @@ extension SnowballClientTypes.ShippingDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let shippingOptionDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ShippingOption.self, forKey: .shippingOption)
         shippingOption = shippingOptionDecoded
@@ -5973,7 +5746,7 @@ extension SnowballClientTypes {
         /// * In the United States of America (US), you have access to one-day shipping and two-day shipping.
         public var shippingOption: SnowballClientTypes.ShippingOption?
 
-        public init (
+        public init(
             inboundShipment: SnowballClientTypes.Shipment? = nil,
             outboundShipment: SnowballClientTypes.Shipment? = nil,
             shippingOption: SnowballClientTypes.ShippingOption? = nil
@@ -6184,7 +5957,7 @@ extension SnowballClientTypes.SnowconeDeviceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let wirelessConnectionDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.WirelessConnection.self, forKey: .wirelessConnection)
         wirelessConnection = wirelessConnectionDecoded
@@ -6197,7 +5970,7 @@ extension SnowballClientTypes {
         /// Configures the wireless connection for the Snowcone device.
         public var wirelessConnection: SnowballClientTypes.WirelessConnection?
 
-        public init (
+        public init(
             wirelessConnection: SnowballClientTypes.WirelessConnection? = nil
         )
         {
@@ -6252,7 +6025,7 @@ extension SnowballClientTypes.TGWOnDeviceServiceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storageLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageLimit) ?? 0
         storageLimit = storageLimitDecoded
@@ -6269,7 +6042,7 @@ extension SnowballClientTypes {
         /// The scale unit of the virtual tapes on the device.
         public var storageUnit: SnowballClientTypes.StorageUnit?
 
-        public init (
+        public init(
             storageLimit: Swift.Int = 0,
             storageUnit: SnowballClientTypes.StorageUnit? = nil
         )
@@ -6297,7 +6070,7 @@ extension SnowballClientTypes.TargetOnDeviceService: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceNameDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.DeviceServiceName.self, forKey: .serviceName)
         serviceName = serviceNameDecoded
@@ -6314,7 +6087,7 @@ extension SnowballClientTypes {
         /// Specifies whether the data is being imported or exported. You can import or export the data, or use it locally on the device.
         public var transferOption: SnowballClientTypes.TransferOption?
 
-        public init (
+        public init(
             serviceName: SnowballClientTypes.DeviceServiceName? = nil,
             transferOption: SnowballClientTypes.TransferOption? = nil
         )
@@ -6338,7 +6111,7 @@ extension SnowballClientTypes.TaxDocuments: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.INDTaxDocuments.self, forKey: .ind)
         ind = indDecoded
@@ -6351,7 +6124,7 @@ extension SnowballClientTypes {
         /// The tax documents required in Amazon Web Services Region in India.
         public var ind: SnowballClientTypes.INDTaxDocuments?
 
-        public init (
+        public init(
             ind: SnowballClientTypes.INDTaxDocuments? = nil
         )
         {
@@ -6397,37 +6170,41 @@ extension SnowballClientTypes {
 }
 
 extension UnsupportedAddressException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedAddressExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact Amazon Web Services Support.
-public struct UnsupportedAddressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnsupportedAddressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedAddressException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6440,7 +6217,7 @@ extension UnsupportedAddressExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6519,7 +6296,7 @@ public struct UpdateClusterInput: Swift.Equatable {
     /// The updated shipping option value of this cluster's [ShippingDetails] object.
     public var shippingOption: SnowballClientTypes.ShippingOption?
 
-    public init (
+    public init(
         addressId: Swift.String? = nil,
         clusterId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -6568,7 +6345,7 @@ extension UpdateClusterInputBody: Swift.Decodable {
         case shippingOption = "ShippingOption"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
         clusterId = clusterIdDecoded
@@ -6591,44 +6368,29 @@ extension UpdateClusterInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateClusterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateClusterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "Ec2RequestFailedException" : self = .ec2RequestFailedException(try Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputCombinationException" : self = .invalidInputCombinationException(try InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "Ec2RequestFailedException": return try await Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputCombinationException": return try await InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSRequestFailedException": return try await KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateClusterOutputError: Swift.Error, Swift.Equatable {
-    case ec2RequestFailedException(Ec2RequestFailedException)
-    case invalidInputCombinationException(InvalidInputCombinationException)
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case kMSRequestFailedException(KMSRequestFailedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateClusterOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateJobInput: Swift.Encodable {
@@ -6709,7 +6471,7 @@ public struct UpdateJobInput: Swift.Equatable {
     /// The updated SnowballCapacityPreference of this job's [JobMetadata] object. The 50 TB Snowballs are only available in the US regions. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
     public var snowballCapacityPreference: SnowballClientTypes.SnowballCapacity?
 
-    public init (
+    public init(
         addressId: Swift.String? = nil,
         description: Swift.String? = nil,
         forwardingAddressId: Swift.String? = nil,
@@ -6762,7 +6524,7 @@ extension UpdateJobInputBody: Swift.Decodable {
         case snowballCapacityPreference = "SnowballCapacityPreference"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6787,46 +6549,30 @@ extension UpdateJobInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClusterLimitExceededException" : self = .clusterLimitExceededException(try ClusterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "Ec2RequestFailedException" : self = .ec2RequestFailedException(try Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputCombinationException" : self = .invalidInputCombinationException(try InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClusterLimitExceededException": return try await ClusterLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Ec2RequestFailedException": return try await Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputCombinationException": return try await InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSRequestFailedException": return try await KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateJobOutputError: Swift.Error, Swift.Equatable {
-    case clusterLimitExceededException(ClusterLimitExceededException)
-    case ec2RequestFailedException(Ec2RequestFailedException)
-    case invalidInputCombinationException(InvalidInputCombinationException)
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case kMSRequestFailedException(KMSRequestFailedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateJobShipmentStateInput: Swift.Encodable {
@@ -6860,7 +6606,7 @@ public struct UpdateJobShipmentStateInput: Swift.Equatable {
     /// This member is required.
     public var shipmentState: SnowballClientTypes.ShipmentState?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil,
         shipmentState: SnowballClientTypes.ShipmentState? = nil
     )
@@ -6881,7 +6627,7 @@ extension UpdateJobShipmentStateInputBody: Swift.Decodable {
         case shipmentState = "ShipmentState"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6890,38 +6636,26 @@ extension UpdateJobShipmentStateInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateJobShipmentStateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateJobShipmentStateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateJobShipmentStateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidJobStateException": return try await InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateJobShipmentStateOutputError: Swift.Error, Swift.Equatable {
-    case invalidJobStateException(InvalidJobStateException)
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateJobShipmentStateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateJobShipmentStateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateLongTermPricingInput: Swift.Encodable {
@@ -6960,7 +6694,7 @@ public struct UpdateLongTermPricingInput: Swift.Equatable {
     /// Specifies that a device that is ordered with long-term pricing should be replaced with a new device.
     public var replacementJob: Swift.String?
 
-    public init (
+    public init(
         isLongTermPricingAutoRenew: Swift.Bool? = nil,
         longTermPricingId: Swift.String? = nil,
         replacementJob: Swift.String? = nil
@@ -6985,7 +6719,7 @@ extension UpdateLongTermPricingInputBody: Swift.Decodable {
         case replacementJob = "ReplacementJob"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let longTermPricingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longTermPricingId)
         longTermPricingId = longTermPricingIdDecoded
@@ -6996,36 +6730,25 @@ extension UpdateLongTermPricingInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLongTermPricingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLongTermPricingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLongTermPricingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLongTermPricingOutputError: Swift.Error, Swift.Equatable {
-    case invalidResourceException(InvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLongTermPricingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLongTermPricingOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SnowballClientTypes.WirelessConnection: Swift.Codable {
@@ -7040,7 +6763,7 @@ extension SnowballClientTypes.WirelessConnection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let isWifiEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWifiEnabled) ?? false
         isWifiEnabled = isWifiEnabledDecoded
@@ -7053,7 +6776,7 @@ extension SnowballClientTypes {
         /// Enables the Wi-Fi adapter on an Snowcone device.
         public var isWifiEnabled: Swift.Bool
 
-        public init (
+        public init(
             isWifiEnabled: Swift.Bool = false
         )
         {

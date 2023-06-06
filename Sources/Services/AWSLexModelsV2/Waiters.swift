@@ -310,7 +310,7 @@ extension LexModelsV2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeBotVersionInput, result: Result<DescribeBotVersionOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeBotVersionInput, DescribeBotVersionOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)

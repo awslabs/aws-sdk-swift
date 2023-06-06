@@ -17,7 +17,7 @@ extension DynamoDBClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeTableInput, result: Result<DescribeTableOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
@@ -43,7 +43,7 @@ extension DynamoDBClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeTableInput, result: Result<DescribeTableOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)

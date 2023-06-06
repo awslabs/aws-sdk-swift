@@ -66,7 +66,7 @@ extension EKSClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeAddonInput, DescribeAddonOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
@@ -168,7 +168,7 @@ extension EKSClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
@@ -243,7 +243,7 @@ extension EKSClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
@@ -318,7 +318,7 @@ extension EKSClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
