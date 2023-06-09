@@ -1,11 +1,14 @@
-/*
- * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0.
- */
+//
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
 
 import ClientRuntime
 
-public class AWSClientConfiguration<ClientRetryStrategy: RetryStrategy, ClientRetryErrorInfoProvider: RetryErrorInfoProvider, ServiceSpecificConfiguration: AWSServiceSpecificConfiguration> {
+public class AWSClientConfiguration<ClientRetryStrategy: RetryStrategy, ClientRetryErrorInfoProvider: RetryErrorInfoProvider,
+    ServiceSpecificConfiguration: AWSServiceSpecificConfiguration> {
     public typealias SDKRetryStrategy = ClientRetryStrategy
     public typealias SDKRetryErrorInfoProvider = ClientRetryErrorInfoProvider
 
@@ -51,8 +54,6 @@ public class AWSClientConfiguration<ClientRetryStrategy: RetryStrategy, ClientRe
         self.useDualStack = useDualStack
         self.useFIPS = useFIPS
         self.clientLogMode = RuntimeConfigType.defaultClientLogMode
-        self.decoder = nil
-        self.encoder = nil
         self.httpClientConfiguration = RuntimeConfigType.defaultHttpClientConfiguration
         self.httpClientEngine = RuntimeConfigType.defaultHttpClientEngine
         self.idempotencyTokenGenerator = RuntimeConfigType.defaultIdempotencyTokenGenerator
@@ -69,7 +70,7 @@ extension AWSClientConfiguration {
     }
 
     public convenience init() async throws {
-        try await self.init(serviceSpecific: try ServiceSpecificConfiguration(endpointResolver: nil), regionResolver: nil)
+        try await self.init(serviceSpecific: try ServiceSpecificConfiguration(endpointResolver: nil))
     }
 
     /// Creates a configuration asynchronously

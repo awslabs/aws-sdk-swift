@@ -6,6 +6,7 @@
 //
 
 import ClientRuntime
+import struct Foundation.Date
 
 extension HttpContext {
     static let credentialsProvider = AttributeKey<CredentialsProviding>(name: "CredentialsProvider")
