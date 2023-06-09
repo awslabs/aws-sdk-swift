@@ -42,7 +42,8 @@ public class AWSClientConfiguration<ClientRetryStrategy: RetryStrategy, ClientRe
         _ region: Swift.String?,
         _ signingRegion: Swift.String?,
         _ useDualStack: Swift.Bool?,
-        _ useFIPS: Swift.Bool?
+        _ useFIPS: Swift.Bool?,
+        _ retryStrategyOptions: RetryStrategyOptions?
     ) throws {
         typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<ClientRetryStrategy, ClientRetryErrorInfoProvider>
 
@@ -58,9 +59,8 @@ public class AWSClientConfiguration<ClientRetryStrategy: RetryStrategy, ClientRe
         self.httpClientEngine = RuntimeConfigType.defaultHttpClientEngine
         self.idempotencyTokenGenerator = RuntimeConfigType.defaultIdempotencyTokenGenerator
         self.logger = RuntimeConfigType.defaultLogger(clientName: self.serviceSpecific.clientName)
-        self.retryStrategyOptions = RuntimeConfigType.defaultRetryStrategyOptions
+        self.retryStrategyOptions = retryStrategyOptions ?? RuntimeConfigType.defaultRetryStrategyOptions
     }
-
 }
 
 extension AWSClientConfiguration {
@@ -83,26 +83,23 @@ extension AWSClientConfiguration {
         regionResolver: AWSClientRuntime.RegionResolver? = nil,
         signingRegion: Swift.String? = nil,
         useDualStack: Swift.Bool? = nil,
-        useFIPS: Swift.Bool? = nil
+        useFIPS: Swift.Bool? = nil,
+        retryStrategyOptions: RetryStrategyOptions? = nil
     ) async throws {
         let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
-
         let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
-
         let resolvedRegion: String?
         if let region = region {
             resolvedRegion = region
         } else {
             resolvedRegion = await resolvedRegionResolver.resolveRegion()
         }
-
         let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
         if let credentialsProvider = credentialsProvider {
             resolvedCredentialsProvider = credentialsProvider
         } else {
             resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
         }
-
         try self.init(
             resolvedCredentialsProvider,
             endpoint,
@@ -111,7 +108,8 @@ extension AWSClientConfiguration {
             resolvedRegion,
             signingRegion,
             useDualStack,
-            useFIPS
+            useFIPS,
+            retryStrategyOptions
         )
     }
 
@@ -123,7 +121,8 @@ extension AWSClientConfiguration {
         frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
         signingRegion: Swift.String? = nil,
         useDualStack: Swift.Bool? = nil,
-        useFIPS: Swift.Bool? = nil
+        useFIPS: Swift.Bool? = nil,
+        retryStrategyOptions: RetryStrategyOptions? = nil
     ) throws {
         let resolvedCredentialsProvider: CredentialsProviding
         if let credentialsProvider = credentialsProvider {
@@ -132,7 +131,6 @@ extension AWSClientConfiguration {
             let fileBasedConfig = try CRTFileBasedConfiguration.make()
             resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
         }
-
         try self.init(
             resolvedCredentialsProvider,
             endpoint,
@@ -141,7 +139,8 @@ extension AWSClientConfiguration {
             region,
             signingRegion,
             useDualStack,
-            useFIPS
+            useFIPS,
+            retryStrategyOptions
         )
     }
 
