@@ -70,7 +70,7 @@ class OperationEndpointResolverMiddleware(
                 }
         }
         writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
-        val middlewareParamsString = "endpointResolver: config.endpointResolver, endpointParams: endpointParams"
+        val middlewareParamsString = "endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams"
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
     }
 
@@ -108,10 +108,10 @@ class OperationEndpointResolverMiddleware(
             clientContextParam != null -> {
                 when {
                     param.defaultValue.isPresent -> {
-                        "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
+                        "config.serviceSpecific.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
                     else -> {
-                        return "config.${param.name.toString().toLowerCamelCase()}"
+                        return "config.serviceSpecific.${param.name.toString().toLowerCamelCase()}"
                     }
                 }
             }

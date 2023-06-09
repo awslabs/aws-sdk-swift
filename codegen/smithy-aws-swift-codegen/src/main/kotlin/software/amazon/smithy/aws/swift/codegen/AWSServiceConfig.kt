@@ -33,36 +33,27 @@ const val ENDPOINT_CONFIG_NAME = "endpoint"
 
 const val FILE_BASED_CONFIG_LOCAL_NAME = "fileBasedConfig"
 
-val runtimeConfig = ConfigField(
-    RUNTIME_CONFIG_NAME,
-    type = ClientRuntimeTypes.Core.SDKRuntimeConfiguration,
-    propFormatter = "\$T"
-)
-
 class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.GenerationContext) :
-    ServiceConfig(writer, ctx.symbolProvider.toSymbol(ctx.service).name) {
-
-    override val typesToConformConfigTo: List<Symbol>
-        get() = listOf(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
+    ServiceConfig(writer, ctx.symbolProvider.toSymbol(ctx.service).name, ctx.service.sdkId) {
 
     override fun renderInitializers(serviceSymbol: Symbol) {
-        val runtimeConfigs = sdkRuntimeConfigProperties()
-        var otherConfigs = otherRuntimeConfigProperties()
         val serviceConfigs = serviceConfigProperties()
-
-        // aws configs including service specific configs
-        var awsConfigs = (otherConfigs + serviceConfigs + runtimeConfig).sortedBy { it.memberName }
-
-        renderAsyncInitializer(awsConfigs)
-        writer.write("")
-        renderSyncInitializer(awsConfigs)
-        writer.write("")
-        renderDesignatedInitializer(runtimeConfigs, awsConfigs)
-        writer.write("")
-
-        // partitionID computed var
-        writer.openBlock("public var partitionID: String? {", "}") {
-            writer.write("return \"\$L - \\(region ?? \"\")\"", serviceName)
+        writer.openBlock("extension \$L {", "}", clientName) {
+            writer.write("public typealias \$LConfiguration = AWSClientConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider, ServiceSpecificConfiguration>", clientName)
+            writer.write("")
+            writer.openBlock("public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {", "}") {
+                writer.write("public typealias AWSServiceEndpointResolver = EndpointResolver")
+                writer.write("")
+                writer.write("public var serviceName: String { \$S }", serviceName)
+                writer.write("public var clientName: String { \$S }", clientName)
+                serviceConfigs.forEach { config ->
+                    writer.write("public var \$L: ${config.propFormatter}", config.memberName, config.type)
+                }
+                writer.write("")
+                writer.openBlock("public init(endpointResolver: EndpointResolver? = nil) throws {", "}") {
+                    writer.write("self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()")
+                }
+            }
         }
     }
 
@@ -91,13 +82,13 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 }
             }
 
-            writer.write("\$L: \$T", RUNTIME_CONFIG_NAME, ClientRuntimeTypes.Core.SDKRuntimeConfiguration)
+            writer.write("\$L: \$T", RUNTIME_CONFIG_NAME, ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration)
         }
         writer.indent()
 
         // Resolve the runtime config
         // let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("S3Client")
-        writer.write("let \$L = try \$L ?? \$N(\"\$L\")", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME, ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration, serviceName)
+        writer.write("let \$L = try \$L ?? \$N(\"\$L\")", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME, ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration, clientName)
         writer.write("")
 
         // Resolve the signing region

@@ -95,8 +95,8 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
 
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock(
-                "public func presignURL(config: \$N, expiration: \$N) async throws -> \$T {", "}",
-                serviceConfig.typeProtocol,
+                "public func presignURL(config: \$L, expiration: \$N) async throws -> \$T {", "}",
+                serviceConfig.typeName,
                 FoundationTypes.TimeInterval,
                 ClientRuntimeTypes.Core.URL
             ) {

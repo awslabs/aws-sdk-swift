@@ -7,6 +7,7 @@ package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
+import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.ServiceGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
@@ -18,23 +19,23 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 class ServiceGeneratorIntegration : SwiftIntegration {
     override val sectionWriters: List<SectionWriterBinding> =
         listOf(
-            SectionWriterBinding(ServiceGenerator.ConfigurationProtocolSectionId) { writer, _ ->
-                writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration, "FileBasedConfig")
-                val protocolGenerationContext =
-                    writer.getContext("protocolGenerationContext") as? ProtocolGenerator.GenerationContext
-                protocolGenerationContext?.let {
-                    val serviceConfig = AWSServiceConfig(writer, protocolGenerationContext)
-                    val serviceConfigs = serviceConfig.serviceConfigProperties()
-                    writer.openBlock(
-                        "public protocol \$L : \$L {", "}", serviceConfig.typeProtocol, serviceConfig.getTypeInheritance()
-                    ) {
-                        serviceConfigs?.let { fields ->
-                            fields.forEach {
-                                writer.write("var ${it.memberName}: ${it.propFormatter} { get }", it.type)
-                            }
-                        }
-                    }
-                }
-            }
+//            SectionWriterBinding(ServiceGenerator.ConfigurationProtocolSectionId) { writer, _ ->
+//                writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration, "FileBasedConfig")
+//                val protocolGenerationContext =
+//                    writer.getContext("protocolGenerationContext") as? ProtocolGenerator.GenerationContext
+//                protocolGenerationContext?.let {
+//                    val serviceConfig = AWSServiceConfig(writer, protocolGenerationContext)
+//                    val serviceConfigs = serviceConfig.serviceConfigProperties()
+//                    writer.openBlock(
+//                        "public protocol \$L : \$L {", "}", serviceConfig.typeProtocol, serviceConfig.getTypeInheritance()
+//                    ) {
+//                        serviceConfigs?.let { fields ->
+//                            fields.forEach {
+//                                writer.write("var ${it.memberName}: ${it.propFormatter} { get }", it.type)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         )
 }
