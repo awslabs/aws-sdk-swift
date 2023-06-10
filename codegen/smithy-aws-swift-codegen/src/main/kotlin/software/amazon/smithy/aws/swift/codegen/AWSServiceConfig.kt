@@ -35,7 +35,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
     override fun renderInitializers(serviceSymbol: Symbol) {
         val serviceConfigs = serviceConfigProperties()
         writer.openBlock("extension \$L {", "}", clientName) {
-            writer.write("public typealias \$LConfiguration = AWSClientConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider, ServiceSpecificConfiguration>", clientName)
+            writer.write("public typealias \$LConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>", clientName)
             writer.write("")
             writer.openBlock("public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {", "}") {
                 writer.write("public typealias AWSServiceEndpointResolver = EndpointResolver")

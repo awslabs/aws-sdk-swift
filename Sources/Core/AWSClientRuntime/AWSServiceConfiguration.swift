@@ -12,7 +12,7 @@ import Foundation
 public protocol AWSServiceSpecificConfiguration {
     /// The type for the service's endpoint resolver.
     associatedtype AWSServiceEndpointResolver
-    
+
     var serviceName: String { get }
     var clientName: String { get }
     var endpointResolver: AWSServiceEndpointResolver { get }

@@ -114,7 +114,7 @@ class RestJsonProtocolGeneratorTests {
             }
             
             extension ExampleClient {
-                public typealias ExampleClientConfiguration = AWSClientConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider, ServiceSpecificConfiguration>
+                public typealias ExampleClientConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>
             
                 public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
                     public typealias AWSServiceEndpointResolver = EndpointResolver

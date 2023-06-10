@@ -7,11 +7,7 @@
 
 import ClientRuntime
 
-public class AWSClientConfiguration<ClientRetryStrategy: RetryStrategy, ClientRetryErrorInfoProvider: RetryErrorInfoProvider,
-    ServiceSpecificConfiguration: AWSServiceSpecificConfiguration> {
-    public typealias SDKRetryStrategy = ClientRetryStrategy
-    public typealias SDKRetryErrorInfoProvider = ClientRetryErrorInfoProvider
-
+public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpecificConfiguration> {
     public var encoder: RequestEncoder?
     public var decoder: ResponseDecoder?
     public var httpClientEngine: HttpClientEngine
@@ -45,7 +41,8 @@ public class AWSClientConfiguration<ClientRetryStrategy: RetryStrategy, ClientRe
         _ useFIPS: Swift.Bool?,
         _ retryStrategyOptions: RetryStrategyOptions?
     ) throws {
-        typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<ClientRetryStrategy, ClientRetryErrorInfoProvider>
+        typealias RuntimeConfigType =
+            DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
 
         self.credentialsProvider = credentialsProvider
         self.serviceSpecific = try serviceSpecific ?? ServiceSpecificConfiguration(endpointResolver: nil)
