@@ -5,10 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
-
+/// Contains config properties specific to one AWS service
+///
 /// A custom service-specific configuration that conforms to this protocol will be code-generated
-/// for every AWS service.
+/// for every AWS service, and an instance of it will be exposed by `AWSClientConfiguration`'s
+/// `serviceSpecific` property.
 public protocol AWSServiceSpecificConfiguration {
     /// The type for the service's endpoint resolver.
     associatedtype AWSServiceEndpointResolver

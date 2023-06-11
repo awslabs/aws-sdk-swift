@@ -7,30 +7,93 @@
 
 import ClientRuntime
 
+/// Provides configuration properties for AWS services.
+///
+/// This type is used to configure every AWS client.  It is specialized with a `AWSServiceSpecificConfiguration` that contains
+/// service-specific configuration properties.
+///
+/// The service-specific configuration is code-generated for each AWS service; see the generated client code for implementation.
+///
+/// A custom `typealias` of this type is code-generated for each AWS service; i.e.
+/// ```
+/// public typealias S3Client.S3ClientConfiguration = AWSClientConfiguration<S3Client.ServiceSpecificConfiguration>
+/// ```
 public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpecificConfiguration> {
+
+    /// The custom encoder to be used for encoding models for transmission.
+    ///
+    /// If no encoder is provided, one will be provided by the SDK.
     public var encoder: RequestEncoder?
+
+    /// The custom decoder to be used for decoding models from a response.
+    ///
+    /// If no decoder is provided, one will be provided by the SDK.
     public var decoder: ResponseDecoder?
+
+    /// The HTTP client engine to be used for HTTP requests.
+    ///
+    /// If none is provided, AWS provides its own HTTP engine for use.
     public var httpClientEngine: HttpClientEngine
+
+    /// Configuration for the HTTP client.
     public var httpClientConfiguration: HttpClientConfiguration
+
+    /// A token generator to ensure idempotency of requests.
     public var idempotencyTokenGenerator: IdempotencyTokenGenerator
+
+    /// A logger to be used by the SDK for logging events.
     public var logger: LogAgent
+
+    /// The log level to be used when logging.
     public var clientLogMode: ClientLogMode
+
+    /// The configuation for retry of failed network requests.
+    ///
+    /// Default options are provided if none are set.
     public var retryStrategyOptions: RetryStrategyOptions
+
+    /// The network host to use.
+    ///
+    /// If none is provided, the SDK selects the most appropriate host for the AWS service in use
+    ///
+    /// Note: non-secure HTTP is not supported at this time.
     public var endpoint: String?
 
+    /// The credentials provider to be used for AWS credentials.
+    ///
+    /// If no credentials provider is supplied, the SDK will look for credentials in the environment, then in the `~/.aws/credentials` file.
     public var credentialsProvider: CredentialsProviding
+
+    /// The AWS region to use, i.e. `us-east-1` or `us-west-2`, etc.
+    ///
+    /// If no region is specified here, one must be specified in the `~/.aws/configuration` file.
     public var region: String?
+
+    /// The signing region to be used for signing AWS requests.
+    ///
+    /// If none is specified, it is supplied by the SDK.
     public var signingRegion: String?
+
+    /// Framework Metadata for the client.
+    ///
+    /// If none is supplied, the SDK will supply default metadata.
     public var frameworkMetadata: FrameworkMetadata?
+
+    /// Specifies whether FIPS endpoints should be used.
     public var useFIPS: Bool?
+
+    /// Specifies whether dual-stack endpoints should be used.
     public var useDualStack: Bool?
 
+    /// A structure containing AWS service-specific properties.
+    ///
+    /// This structure is custom code-generated for each AWS service.
     public var serviceSpecific: ServiceSpecificConfiguration
 
     /// Internal designated init
     /// All convenience inits should call this.
     init(
-        // these params have no label to distinguish this init from the similar convenience inits below
+        // these params have no labels to distinguish this init from the similar convenience inits below
         _ credentialsProvider: AWSClientRuntime.CredentialsProviding,
         _ endpoint: Swift.String?,
         _ serviceSpecific: ServiceSpecificConfiguration?,
@@ -59,6 +122,8 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
         self.retryStrategyOptions = retryStrategyOptions ?? RuntimeConfigType.defaultRetryStrategyOptions
     }
 }
+
+// MARK: - Convenience initializers
 
 extension AWSClientConfiguration {
 

@@ -9,5 +9,8 @@ import struct AwsCommonRuntimeKit.CommonRuntimeKit
 
 public enum Utils {
 
+    /// Sets up CRT-related shared resources such as the global allocator, event loops, etc.
+    ///
+    /// Calls to CRT functions may crash the SDK if `CommonRuntimeKit.initialize()` is not called first.
     public static func setupCRT() { CommonRuntimeKit.initialize() }
 }
