@@ -9,7 +9,7 @@ import ClientRuntime
 
 /// Provides configuration properties for AWS services.
 ///
-/// This type is used to configure every AWS client.  It is specialized with a `AWSServiceSpecificConfiguration` that contains
+/// This type is used to configure every AWS service client.  It is specialized with a `AWSServiceSpecificConfiguration` that contains
 /// service-specific configuration properties.
 ///
 /// The service-specific configuration is code-generated for each AWS service; see the generated client code for implementation.
