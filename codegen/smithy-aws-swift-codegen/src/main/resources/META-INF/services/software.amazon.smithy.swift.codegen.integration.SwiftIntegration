@@ -14,7 +14,6 @@ software.amazon.smithy.aws.swift.codegen.customization.presignable.PresignableUr
 software.amazon.smithy.aws.swift.codegen.customization.DisabledAuth
 software.amazon.smithy.aws.swift.codegen.PresignerGenerator
 software.amazon.smithy.aws.swift.codegen.model.AWSClientContextParamsTransformer
-software.amazon.smithy.aws.swift.codegen.customization.ServiceGeneratorIntegration
 software.amazon.smithy.aws.swift.codegen.model.AWSHttpTraitTransformer
 software.amazon.smithy.aws.swift.codegen.model.AWSEndpointTraitTransformer
 software.amazon.smithy.aws.swift.codegen.customization.MessageEncoderIntegration

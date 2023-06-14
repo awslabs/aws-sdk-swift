@@ -69,7 +69,12 @@ extension UnknownAWSHTTPServiceError {
             InvalidAccessKeyId.self
         ]
         if let Candidate = candidates.first(where: { $0.errorCode == typeName }) {
-            return Candidate.init(httpResponse: httpResponse, message: message, requestID: requestID, requestID2: requestID2)
+            return Candidate.init(
+                httpResponse: httpResponse,
+                message: message,
+                requestID: requestID,
+                requestID2: requestID2
+            )
         }
         return UnknownAWSHTTPServiceError(
             httpResponse: httpResponse,
