@@ -220,7 +220,7 @@ extension EventStreamTestClient: EventStreamTestClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestStreamOpInput, TestStreamOpOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: TestStreamOpInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, ClientRuntime.DefaultRetryErrorInfoProvider, TestStreamOpOutputResponse, TestStreamOpOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestStreamOpOutputResponse, TestStreamOpOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestStreamOpOutputResponse, TestStreamOpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestStreamOpOutputResponse, TestStreamOpOutputError>())
