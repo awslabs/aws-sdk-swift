@@ -53,6 +53,7 @@ object AWSClientRuntimeTypes {
         val AWSEndpointsRequestContext = runtimeSymbol("AWSEndpointsRequestContext")
         val AuthSchemeResolver = runtimeSymbol("AuthSchemeResolver")
         val DefaultAuthSchemeResolver = runtimeSymbol("DefaultAuthSchemeResolver")
+        val AWSRetryErrorInfoProvider = runtimeSymbol("AWSRetryErrorInfoProvider")
     }
 
     object CRT {
