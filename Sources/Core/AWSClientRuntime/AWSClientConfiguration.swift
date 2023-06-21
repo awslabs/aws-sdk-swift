@@ -108,6 +108,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
             DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
 
         self.credentialsProvider = credentialsProvider
+        self.endpoint = endpoint
         self.serviceSpecific = try serviceSpecific ?? ServiceSpecificConfiguration(endpointResolver: nil)
         self.frameworkMetadata = frameworkMetadata
         self.region = region
