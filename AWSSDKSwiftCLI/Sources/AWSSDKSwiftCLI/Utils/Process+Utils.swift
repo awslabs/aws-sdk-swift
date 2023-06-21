@@ -74,7 +74,6 @@ struct ProcessRunner {
         log("Running process: \(process.commandString)")
         try process.run()
         process.waitUntilExit()
-        print("term reason: \(process.terminationReason)")
         let exitCode = ExitCode(process.terminationStatus)
         if !exitCode.isSuccess {
             throw exitCode
