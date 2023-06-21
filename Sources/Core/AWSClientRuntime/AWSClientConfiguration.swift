@@ -109,6 +109,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
 
         self.endpoint = endpoint
         self.credentialsProvider = credentialsProvider
+        self.endpoint = endpoint
         self.serviceSpecific = try serviceSpecific ?? ServiceSpecificConfiguration(endpointResolver: nil)
         self.frameworkMetadata = frameworkMetadata
         self.region = region
